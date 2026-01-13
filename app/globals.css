@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Performance Optimizations - Requirements 13.1, 13.5 */
+@layer base {
+  /* Optimize font rendering */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Prevent layout shift from scrollbar */
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  /* Optimize images for performance */
+  img {
+    content-visibility: auto;
+  }
+
+  /* GPU acceleration for animations */
+  .animate-pulse,
+  .transition-all,
+  .transition-colors,
+  .transition-transform {
+    will-change: auto;
+    transform: translateZ(0);
+  }
+}
+
+/* Content Visibility for Performance - Requirements 13.1 */
+@layer utilities {
+  /* Lazy render off-screen content */
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
+
+  /* For FAQ sections that are below the fold */
+  .content-auto-faq {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+  }
+
+  /* For calculator sections */
+  .content-auto-calculator {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
+  }
+}
+
+/* Accessibility Enhancements - Requirements 11.2, 11.3, 11.5, 11.7 */
+@layer utilities {
+  /* Enhanced focus indicators for keyboard navigation (min 2px outline) */
+  .focus-visible-enhanced:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* High contrast focus indicator for better visibility */
+  .focus-high-contrast:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Skip link styles - visible only on focus */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4;
+    @apply focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+}
+
+/* Ensure minimum color contrast ratios - Requirements 11.2 */
+@layer base {
+  /* Text colors with sufficient contrast (4.5:1 for normal, 3:1 for large) */
+  .text-accessible {
+    color: hsl(var(--foreground));
+  }
+
+  .text-accessible-muted {
+    /* Adjusted muted color for better contrast */
+    color: hsl(215.4 16.3% 36.9%);
+  }
+
+  /* Focus visible styles for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Ensure disabled states don't rely solely on color */
+  [disabled],
+  .disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+/* Reduced motion preferences - Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styles for better accessibility */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+}
