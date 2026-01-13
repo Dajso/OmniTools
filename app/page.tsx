@@ -12,6 +12,7 @@ import {
 import { Logo } from '@/components/ui/logo';
 import { toolRegistry, getFeaturedTools, getToolsByCategory } from '@/lib/constants/tool-registry';
 import { getToolIcon } from '@/lib/constants/tool-icons';
+import { FavoritesSection } from '@/components/layout/favorites-section';
 
 // 动态获取工具总数
 const totalTools = Object.keys(toolRegistry).length;
@@ -142,6 +143,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Favorites Section - 用户收藏的工具 */}
+      <FavoritesSection />
 
       {/* Categories Section - 优化卡片设计 */}
       <section id="categories" className="bg-gray-50/50 py-12 sm:py-16">

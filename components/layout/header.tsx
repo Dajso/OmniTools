@@ -2,10 +2,12 @@
 
 import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
 import { SearchDialog } from './search-dialog';
+import { FavoritesDialog } from './favorites-dialog';
+import { useFavorites } from '@/lib/hooks/use-favorites';
 
 interface NavCategory {
   name: string;
@@ -75,7 +77,9 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { favorites, isLoaded } = useFavorites();
 
   const handleMouseEnter = useCallback((categoryName: string) => {
     if (closeTimeoutRef.current) {
@@ -164,8 +168,22 @@ export function Header() {
           ))}
         </div>
 
-        {/* Search button */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        {/* Search and Favorites buttons */}
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="relative text-gray-500 hover:text-red-500"
+            aria-label="View favorites"
+            onClick={() => setFavoritesOpen(true)}
+          >
+            <Heart className={`h-5 w-5 ${favorites.length > 0 ? 'fill-red-500 text-red-500' : ''}`} aria-hidden="true" />
+            {isLoaded && favorites.length > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                {favorites.length > 9 ? '9+' : favorites.length}
+              </span>
+            )}
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -176,7 +194,7 @@ export function Header() {
             <Search className="h-5 w-5" aria-hidden="true" />
             <span className="hidden xl:inline">Search</span>
             <kbd className="hidden xl:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-              <span className="text-xs">⌘</span>K
+              <span className="text-xs">Ctrl+</span>K
             </kbd>
           </Button>
         </div>
@@ -185,15 +203,18 @@ export function Header() {
       {/* Search Dialog */}
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
 
+      {/* Favorites Dialog */}
+      <FavoritesDialog open={favoritesOpen} onOpenChange={setFavoritesOpen} />
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden" id="mobile-menu">
           <div className="space-y-1 px-4 pb-4 pt-2">
             {/* Mobile search */}
-            <div className="mb-4">
+            <div className="mb-4 flex gap-2">
               <Button
                 variant="outline"
-                className="w-full justify-start gap-2 text-gray-500"
+                className="flex-1 justify-start gap-2 text-gray-500"
                 aria-label="Search tools"
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -202,6 +223,22 @@ export function Header() {
               >
                 <Search className="h-5 w-5" aria-hidden="true" />
                 <span>Search tools...</span>
+              </Button>
+              <Button
+                variant="outline"
+                className="relative text-gray-500"
+                aria-label="View favorites"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setFavoritesOpen(true);
+                }}
+              >
+                <Heart className={`h-5 w-5 ${favorites.length > 0 ? 'fill-red-500 text-red-500' : ''}`} aria-hidden="true" />
+                {isLoaded && favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                    {favorites.length > 9 ? '9+' : favorites.length}
+                  </span>
+                )}
               </Button>
             </div>
 

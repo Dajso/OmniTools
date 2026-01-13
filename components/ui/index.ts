@@ -9,6 +9,7 @@ export { UnitToggle, type UnitToggleProps } from './unit-toggle';
 export { ResultDisplay, type ResultDisplayProps } from './result-display';
 export { SelectInput, type SelectInputProps } from './select-input';
 export { Logo } from './logo';
+export { FavoriteButton } from './favorite-button';
 
 // Accessibility components - Requirements 11.1-11.7
 export { SkipLink, type SkipLinkProps } from './skip-link';
