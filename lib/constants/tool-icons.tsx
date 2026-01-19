@@ -87,6 +87,59 @@ import {
   Calculator,
   Heart,
   LucideIcon,
+  Flower2,
+  CloudRain,
+  MapPin,
+
+  Carrot,
+  FlaskConical,
+  Hammer,
+  Scissors,
+  Crown,
+  Building2,
+  Frame,
+  Cpu,
+  CircuitBoard,
+  Lightbulb as LedIcon,
+  Wifi,
+  Gamepad2,
+  MousePointer,
+  Target,
+  Crosshair,
+  Trophy,
+  Music,
+  Headphones,
+  Guitar,
+  Camera,
+  Aperture,
+  SunMedium,
+  Video,
+  Film,
+  Atom,
+  Rocket,
+  Volume2,
+  BarChart3,
+  Plane,
+  Compass,
+  Smile,
+  Sparkles,
+  Star,
+  Users,
+  Swords,
+  Map,
+  Scroll,
+  Wand2,
+  Pen,
+  FileCheck,
+  Youtube,
+  Instagram,
+  Wallet,
+  Cog,
+  Eraser,
+  Wheat,
+  Recycle,
+  ThermometerSun,
+  Shrub,
 } from 'lucide-react';
 
 // Map tool IDs to their icons
@@ -200,6 +253,159 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'illuminance-converter': Lightbulb,
   'currency-converter': DollarSign,
   'number-base-converter': Hash,
+
+  // Garden Tools
+  'mulch-soil-calculator': Leaf,
+  'plant-spacing-calculator': Grid3x3,
+  'fertilizer-calculator': FlaskConical,
+  'potting-soil-calculator': Flower2,
+  'watering-schedule-generator': CloudRain,
+  'sun-shade-mapper': Sun,
+  'seed-germination-tracker': Sprout,
+  'vegetable-yield-calculator': Carrot,
+  'hardiness-zone-finder': MapPin,
+  'compost-calculator': Recycle,
+
+  // Construction Tools
+  'board-foot-calculator': TreePine,
+  'crown-molding-calculator': Crown,
+  'baluster-calculator': Fence,
+  'concrete-slab-calculator': Box,
+  'roof-framing-calculator': Home,
+
+  // Electronics Tools
+  'resistor-calculator': Cog,
+  'ohms-law-calculator': Zap,
+  'led-resistor': LedIcon,
+  'voltage-divider': CircuitBoard,
+  'capacitor-code': Cpu,
+  '555-timer': Timer,
+  'battery-life': Gauge,
+  'awg-converter': Ruler,
+  'heat-sink': Thermometer,
+  'pcb-trace': CircuitBoard,
+
+  // Crafts & Sewing Tools
+  'fabric-yardage-calculator': Scissors,
+  'knitting-gauge-calculator': Ruler,
+  'quilt-binding-calculator': Square,
+  'yarn-substitution-calculator': Ruler,
+  'crochet-sizing-calculator': Circle,
+
+  // Creator Tools
+  'signature-generator': Pen,
+  'wifi-qr-generator': Wifi,
+  'youtube-money-calculator': Youtube,
+  'invoice-generator': FileText,
+  'business-name-generator': Building2,
+  'instagram-engagement-calculator': Instagram,
+  'cpm-calculator': BarChart3,
+  'paycheck-calculator': Wallet,
+  'privacy-policy-generator': Shield,
+  'terms-conditions-generator': FileCheck,
+
+  // Crypto Tools
+  'gas-fee-calculator': Fuel,
+  'eth-unit-converter': Bitcoin,
+  'impermanent-loss-calculator': TrendingDown,
+  'staking-rewards-calculator': PiggyBank,
+  'hash-generator': Hash,
+  'address-shortener': Eraser,
+
+  // Gaming Tools
+  'mouse-sensitivity-calculator': MousePointer,
+  'edpi-calculator': Target,
+  'reaction-time-tester': Crosshair,
+  'kd-ratio-calculator': Trophy,
+  'aim-trainer': Target,
+
+  // RPG & Tabletop Tools
+  'dice-roller': Dice5,
+  'character-name-generator': Users,
+  'encounter-generator': Swords,
+  'dungeon-map-generator': Map,
+  'loot-table-generator': Scroll,
+  'spell-slot-tracker': Wand2,
+
+  // Audio & Music Tools
+  'bpm-calculator': Music,
+  'tap-bpm': Timer,
+  'guitar-tuner': Guitar,
+  'note-frequency': Radio,
+  'delay-calculator': Headphones,
+  'sample-rate-converter': Volume2,
+
+  // Photo & Video Tools
+  'dof-calculator': Aperture,
+  'golden-hour-calculator': SunMedium,
+
+  'timelapse-calculator': Video,
+  'nd-filter-calculator': Camera,
+  'focal-length-equivalent': Camera,
+
+  // Physics Tools
+  'projectile-motion-calculator': Rocket,
+  'kinetic-energy-calculator': Zap,
+  'density-calculator': Box,
+  'sound-speed-calculator': Volume2,
+  'pressure-calculator': Gauge,
+  'torque-calculator': Settings,
+
+  // Statistics Tools
+  'standard-deviation-calculator': BarChart3,
+  'p-value-calculator': BarChart3,
+  'sample-size-calculator': Users,
+  'correlation-calculator': LineChart,
+  'ab-test-calculator': BarChart3,
+  'chi-square-calculator': BarChart3,
+
+  // Time & Date Tools
+  'business-days-calculator': CalendarDays,
+  'age-calculator-precise': Cake,
+  'week-number-calculator': Calendar,
+  'timezone-difference': Globe,
+  'calendar-generator': Calendar,
+  'countdown-timer': Timer,
+
+  // Travel Tools
+  'schengen-calculator': Plane,
+  'timezone-planner': Globe,
+
+  'flight-duration-calculator': Plane,
+  'packing-list-generator': Briefcase,
+  'jet-lag-calculator': Moon,
+
+  // Fun & Lifestyle Tools
+  'love-compatibility': Heart,
+  'moon-phase-calculator': Moon,
+  'zodiac-sign': Star,
+  'biorhythm': Waves,
+  'numerology': Sparkles,
+  'lucky-number-generator': Dice5,
+
+  // Betting Tools
+  'odds-converter': RotateCw,
+  'parlay-calculator': LineChart,
+  'arbitrage-calculator': TrendingUp,
+  'kelly-criterion-calculator': BarChart3,
+  'expected-value-calculator': TrendingUp,
+
+  // Auto Tools
+  'tire-size-calculator': Circle,
+  'wheel-offset-calculator': Cog,
+  'horsepower-kw-converter': Gauge,
+  'fuel-consumption-converter': Fuel,
+  'car-loan-payoff-calculator': Car,
+  'ev-charging-calculator': Plug,
+  'oil-change-tracker': Droplet,
+  'zero-sixty-estimator': Gauge,
+
+  // Academic Tools
+
+  'final-grade-calculator': BookOpen,
+  'fraction-calculator': Percent,
+  'scientific-notation-converter': Hash,
+  'study-timer': Timer,
 };
 
 // Default icon for tools without a specific icon
@@ -209,3 +415,4 @@ export const defaultToolIcon = Calculator;
 export function getToolIcon(toolId: string): LucideIcon {
   return toolIconMap[toolId] || defaultToolIcon;
 }
+

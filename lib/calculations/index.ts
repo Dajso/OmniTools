@@ -25,3 +25,9 @@ export * from './health/bmi-calculator';
 
 // Productivity calculations
 export * from './productivity';
+
+// Academic calculations
+export * from './academic';
+
+// Statistics calculations
+export * from './stats';

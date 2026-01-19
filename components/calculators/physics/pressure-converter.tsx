@@ -1,0 +1,169 @@
+'use client';
+
+import * as React from 'react';
+import { CalculatorBase } from '@/components/calculators/calculator-base';
+import { ResultDisplay } from '@/components/ui/result-display';
+import { NumberInput } from '@/components/ui/number-input';
+import { SelectInput } from '@/components/ui/select-input';
+import {
+  convertToAllUnits,
+  PressureUnit,
+  PRESSURE_UNIT_NAMES,
+  PRESSURE_UNIT_SYMBOLS,
+} from '@/lib/calculations/physics/pressure-converter';
+
+const unitOptions = (Object.keys(PRESSURE_UNIT_NAMES) as PressureUnit[]).map((unit) => ({
+  value: unit,
+  label: `${PRESSURE_UNIT_NAMES[unit]} (${PRESSURE_UNIT_SYMBOLS[unit]})`,
+}));
+
+// Group units for organized display
+const primaryUnits: PressureUnit[] = ['pa', 'kpa', 'mpa', 'bar', 'psi', 'atm'];
+const secondaryUnits: PressureUnit[] = ['mbar', 'torr', 'mmhg', 'inhg', 'cmh2o', 'inh2o'];
+
+function formatValue(value: number): string {
+  if (value === 0) return '0';
+  if (Math.abs(value) >= 1000000) {
+    return value.toExponential(4);
+  }
+  if (Math.abs(value) >= 1000) {
+    return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+  if (Math.abs(value) >= 1) {
+    return value.toLocaleString(undefined, { maximumFractionDigits: 4 });
+  }
+  if (Math.abs(value) >= 0.0001) {
+    return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+  }
+  return value.toExponential(4);
+}
+
+export function PressureConverter() {
+  const [value, setValue] = React.useState<number>(1);
+  const [sourceUnit, setSourceUnit] = React.useState<PressureUnit>('bar');
+  const [conversions, setConversions] = React.useState<Record<PressureUnit, number> | null>(null);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const calculate = React.useCallback(() => {
+    try {
+      setError(undefined);
+
+      if (value < 0) {
+        setError('Pressure cannot be negative (absolute pressure)');
+        setConversions(null);
+        return;
+      }
+
+      const result = convertToAllUnits(value, sourceUnit);
+      setConversions(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Conversion error');
+      setConversions(null);
+    }
+  }, [value, sourceUnit]);
+
+  const reset = () => {
+    setValue(1);
+    setSourceUnit('bar');
+    setConversions(null);
+    setError(undefined);
+  };
+
+  React.useEffect(() => {
+    calculate();
+  }, [calculate]);
+
+  return (
+    <CalculatorBase
+      title="Pressure Converter"
+      description="Convert pressure between different units including Bar, PSI, Pascal, Atmosphere, and more"
+      formula="Conversion via Pascal (SI base unit)"
+      formulaExplanation="All pressure values are converted through Pascal (Pa) as the base unit. Enter a value and select the source unit to see conversions to all other units."
+      onCalculate={calculate}
+      onReset={reset}
+      error={error}
+      results={conversions && (
+        <div className="space-y-6">
+          {/* Primary Units */}
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Common Units</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {primaryUnits.map((unit) => (
+                <ResultDisplay
+                  key={unit}
+                  label={PRESSURE_UNIT_NAMES[unit]}
+                  value={`${formatValue(conversions[unit])} ${PRESSURE_UNIT_SYMBOLS[unit]}`}
+                  highlight={unit === sourceUnit}
+                  copyable
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Secondary Units */}
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Additional Units</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {secondaryUnits.map((unit) => (
+                <ResultDisplay
+                  key={unit}
+                  label={PRESSURE_UNIT_NAMES[unit]}
+                  value={`${formatValue(conversions[unit])} ${PRESSURE_UNIT_SYMBOLS[unit]}`}
+                  highlight={unit === sourceUnit}
+                  copyable
+                />
+              ))}
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground text-center">
+            Highlighted value is your input unit
+          </p>
+        </div>
+      )}
+    >
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <NumberInput
+            id="pressure-value"
+            label="Pressure Value"
+            value={value}
+            onChange={setValue}
+            placeholder="Enter pressure value"
+            min={0}
+            step={0.01}
+          />
+          <SelectInput
+            id="source-unit"
+            label="Source Unit"
+            value={sourceUnit}
+            onChange={(val) => setSourceUnit(val as PressureUnit)}
+            options={unitOptions}
+          />
+        </div>
+
+        <div className="bg-muted/50 p-3 rounded-md">
+          <p className="text-sm font-medium mb-2">Common Pressure References</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
+            <div>• Standard atmosphere: 101,325 Pa = 1 atm</div>
+            <div>• Car tire pressure: ~32 psi = 2.2 bar</div>
+            <div>• Blood pressure (systolic): ~120 mmHg</div>
+            <div>• Deep sea (1000m): ~100 atm</div>
+          </div>
+        </div>
+
+        <div className="bg-muted/50 p-3 rounded-md">
+          <p className="text-sm font-medium mb-2">Unit Relationships</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div>1 bar = 100,000 Pa</div>
+            <div>1 atm = 101,325 Pa</div>
+            <div>1 psi ≈ 6,894.76 Pa</div>
+            <div>1 torr ≈ 133.32 Pa</div>
+          </div>
+        </div>
+      </div>
+    </CalculatorBase>
+  );
+}
+
+export default PressureConverter;

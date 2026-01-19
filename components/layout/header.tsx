@@ -15,7 +15,8 @@ interface NavCategory {
   items: { name: string; href: string }[];
 }
 
-const categories: NavCategory[] = [
+// Primary categories shown directly in the navbar
+const primaryCategories: NavCategory[] = [
   {
     name: 'Finance',
     href: '/calculators/finance',
@@ -50,17 +51,6 @@ const categories: NavCategory[] = [
     ],
   },
   {
-    name: 'Converters',
-    href: '/convert',
-    items: [
-      { name: 'Length Converter', href: '/convert/meter-to-foot' },
-      { name: 'Weight Converter', href: '/convert/kilogram-to-pound' },
-      { name: 'Temperature Converter', href: '/convert/celsius-to-fahrenheit' },
-      { name: 'Volume Converter', href: '/convert/liter-to-gallon' },
-      { name: 'View All Converters', href: '/convert' },
-    ],
-  },
-  {
     name: 'Productivity',
     href: '/calculators/productivity',
     items: [
@@ -71,7 +61,206 @@ const categories: NavCategory[] = [
       { name: 'View All Productivity Tools', href: '/calculators/productivity' },
     ],
   },
+  {
+    name: 'Converters',
+    href: '/convert',
+    items: [
+      { name: 'Length Converter', href: '/convert/meter-to-foot' },
+      { name: 'Weight Converter', href: '/convert/kilogram-to-pound' },
+      { name: 'Temperature Converter', href: '/convert/celsius-to-fahrenheit' },
+      { name: 'Volume Converter', href: '/convert/liter-to-gallon' },
+      { name: 'View All Converters', href: '/convert' },
+    ],
+  },
 ];
+
+// Secondary categories shown in "More Tools" dropdown
+const moreCategories: NavCategory[] = [
+  {
+    name: 'Academic',
+    href: '/calculators/academic',
+    items: [
+      { name: 'GPA Calculator', href: '/calculators/academic/gpa-calculator' },
+      { name: 'Final Grade Calculator', href: '/calculators/academic/final-grade-calculator' },
+      { name: 'Fraction Calculator', href: '/calculators/academic/fraction-calculator' },
+      { name: 'View All Academic Tools', href: '/calculators/academic' },
+    ],
+  },
+  {
+    name: 'Travel',
+    href: '/calculators/travel',
+    items: [
+      { name: 'Schengen Visa Calculator', href: '/calculators/travel/schengen-calculator' },
+      { name: 'Time Zone Meeting Planner', href: '/calculators/travel/timezone-planner' },
+      { name: 'Currency Converter', href: '/calculators/travel/currency-converter' },
+      { name: 'View All Travel Tools', href: '/calculators/travel' },
+    ],
+  },
+  {
+    name: 'Gaming',
+    href: '/calculators/gaming',
+    items: [
+      { name: 'Mouse Sensitivity Converter', href: '/calculators/gaming/mouse-sensitivity-converter' },
+      { name: 'Reaction Time Test', href: '/calculators/gaming/reaction-time-test' },
+      { name: 'Pokemon Type Calculator', href: '/calculators/gaming/pokemon-type-calculator' },
+      { name: 'View All Gaming Tools', href: '/calculators/gaming' },
+    ],
+  },
+  {
+    name: 'Audio & Music',
+    href: '/calculators/audio',
+    items: [
+      { name: 'BPM Tapper', href: '/calculators/audio/bpm-tapper' },
+      { name: 'Guitar Tuner', href: '/calculators/audio/guitar-tuner' },
+      { name: 'Note to Frequency Converter', href: '/calculators/audio/note-frequency' },
+      { name: 'View All Audio Tools', href: '/calculators/audio' },
+    ],
+  },
+  {
+    name: 'Photo & Video',
+    href: '/calculators/photo',
+    items: [
+      { name: 'Depth of Field Calculator', href: '/calculators/photo/depth-of-field-calculator' },
+      { name: 'Golden Hour Calculator', href: '/calculators/photo/golden-hour-calculator' },
+      { name: 'Aspect Ratio Calculator', href: '/calculators/photo/aspect-ratio-calculator' },
+      { name: 'View All Photo Tools', href: '/calculators/photo' },
+    ],
+  },
+  {
+    name: 'Electronics',
+    href: '/calculators/electronics',
+    items: [
+      { name: 'Resistor Color Code Calculator', href: '/calculators/electronics/resistor-calculator' },
+      { name: "Ohm's Law Calculator", href: '/calculators/electronics/ohms-law-calculator' },
+      { name: 'LED Resistor Calculator', href: '/calculators/electronics/led-resistor' },
+      { name: 'View All Electronics Tools', href: '/calculators/electronics' },
+    ],
+  },
+  {
+    name: 'Stats',
+    href: '/calculators/stats',
+    items: [
+      { name: 'Standard Deviation Calculator', href: '/calculators/stats/standard-deviation-calculator' },
+      { name: 'A/B Test Significance Calculator', href: '/calculators/stats/ab-test-calculator' },
+      { name: 'Sample Size Calculator', href: '/calculators/stats/sample-size-calculator' },
+      { name: 'View All Stats Tools', href: '/calculators/stats' },
+    ],
+  },
+  {
+    name: 'Time & Date',
+    href: '/calculators/time',
+    items: [
+      { name: 'Business Days Calculator', href: '/calculators/time/business-days-calculator' },
+      { name: 'Precise Age Calculator', href: '/calculators/time/precise-age-calculator' },
+      { name: 'Week Number Calculator', href: '/calculators/time/week-number-calculator' },
+      { name: 'View All Time Tools', href: '/calculators/time' },
+    ],
+  },
+  {
+    name: 'Physics',
+    href: '/calculators/physics',
+    items: [
+      { name: 'Projectile Motion Calculator', href: '/calculators/physics/projectile-motion-calculator' },
+      { name: 'Kinetic Energy Calculator', href: '/calculators/physics/kinetic-energy-calculator' },
+      { name: 'Density Calculator', href: '/calculators/physics/density-calculator' },
+      { name: 'View All Physics Tools', href: '/calculators/physics' },
+    ],
+  },
+  {
+    name: 'Construction',
+    href: '/calculators/construction',
+    items: [
+      { name: 'Board Foot Calculator', href: '/calculators/construction/board-foot-calculator' },
+      { name: 'Crown Molding Angle Calculator', href: '/calculators/construction/crown-molding-calculator' },
+      { name: 'Concrete Slab Calculator', href: '/calculators/construction/concrete-slab-calculator' },
+      { name: 'View All Construction Tools', href: '/calculators/construction' },
+    ],
+  },
+  {
+    name: 'Auto',
+    href: '/calculators/auto',
+    items: [
+      { name: 'Tire Size Calculator', href: '/calculators/auto/tire-size-calculator' },
+      { name: 'EV Charging Time Calculator', href: '/calculators/auto/ev-charging-calculator' },
+      { name: 'Fuel Consumption Converter', href: '/calculators/auto/fuel-consumption-converter' },
+      { name: 'View All Auto Tools', href: '/calculators/auto' },
+    ],
+  },
+  {
+    name: 'Crypto',
+    href: '/calculators/crypto',
+    items: [
+      { name: 'Gas Fee Converter', href: '/calculators/crypto/gas-fee-converter' },
+      { name: 'Ethereum Unit Converter', href: '/calculators/crypto/ethereum-unit-converter' },
+      { name: 'Hash Generator', href: '/calculators/crypto/hash-generator' },
+      { name: 'View All Crypto Tools', href: '/calculators/crypto' },
+    ],
+  },
+  {
+    name: 'Fun & Lifestyle',
+    href: '/calculators/fun',
+    items: [
+      { name: 'Love Compatibility Test', href: '/calculators/fun/love-compatibility' },
+      { name: 'Moon Phase Calculator', href: '/calculators/fun/moon-phase-calculator' },
+      { name: 'Biorhythm Calculator', href: '/calculators/fun/biorhythm' },
+      { name: 'View All Fun Tools', href: '/calculators/fun' },
+    ],
+  },
+  {
+    name: 'Crafts & Sewing',
+    href: '/calculators/crafts',
+    items: [
+      { name: 'Circle Skirt Calculator', href: '/calculators/crafts/circle-skirt-calculator' },
+      { name: 'Knitting Stitch Converter', href: '/calculators/crafts/knitting-stitch-converter' },
+      { name: 'Fabric Yardage Calculator', href: '/calculators/crafts/fabric-yardage-calculator' },
+      { name: 'View All Crafts Tools', href: '/calculators/crafts' },
+    ],
+  },
+  {
+    name: 'Garden',
+    href: '/calculators/garden',
+    items: [
+      { name: 'Mulch & Soil Calculator', href: '/calculators/garden/mulch-soil-calculator' },
+      { name: 'Plant Spacing Calculator', href: '/calculators/garden/plant-spacing-calculator' },
+      { name: 'Hardiness Zone Finder', href: '/calculators/garden/hardiness-zone-finder' },
+      { name: 'View All Garden Tools', href: '/calculators/garden' },
+    ],
+  },
+  {
+    name: 'RPG & Tabletop',
+    href: '/calculators/rpg',
+    items: [
+      { name: 'Dice Roller', href: '/calculators/rpg/dice-roller' },
+      { name: 'Fantasy Name Generator', href: '/calculators/rpg/fantasy-name-generator' },
+      { name: 'Character Sheet Helper', href: '/calculators/rpg/character-sheet-helper' },
+      { name: 'View All RPG Tools', href: '/calculators/rpg' },
+    ],
+  },
+  {
+    name: 'Betting',
+    href: '/calculators/betting',
+    items: [
+      { name: 'Odds Converter', href: '/calculators/betting/odds-converter' },
+      { name: 'Parlay Calculator', href: '/calculators/betting/parlay-calculator' },
+      { name: 'Arbitrage Calculator', href: '/calculators/betting/arbitrage-calculator' },
+      { name: 'View All Betting Tools', href: '/calculators/betting' },
+    ],
+  },
+  {
+    name: 'Creator',
+    href: '/calculators/creator',
+    items: [
+      { name: 'Signature Generator', href: '/calculators/creator/signature-generator' },
+      { name: 'WiFi QR Code Generator', href: '/calculators/creator/wifi-qr-generator' },
+      { name: 'YouTube Money Calculator', href: '/calculators/creator/youtube-money-calculator' },
+      { name: 'View All Creator Tools', href: '/calculators/creator' },
+    ],
+  },
+];
+
+// All categories combined for mobile menu
+const allCategories = [...primaryCategories, ...moreCategories];
+
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -126,7 +315,8 @@ export function Header() {
 
         {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-1">
-          {categories.map((category) => (
+          {/* Primary categories */}
+          {primaryCategories.map((category) => (
             <div
               key={category.name}
               className="relative"
@@ -139,16 +329,15 @@ export function Header() {
               >
                 {category.name}
                 <ChevronDown
-                  className={`h-4 w-4 transition-transform ${
-                    openDropdown === category.name ? 'rotate-180' : ''
-                  }`}
+                  className={`h-4 w-4 transition-transform ${openDropdown === category.name ? 'rotate-180' : ''
+                    }`}
                   aria-hidden="true"
                 />
               </Link>
 
               {/* Dropdown menu */}
               {openDropdown === category.name && (
-                <div 
+                <div
                   className="absolute left-0 top-full z-10 w-56 rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5"
                   onMouseEnter={() => handleMouseEnter(category.name)}
                   onMouseLeave={handleMouseLeave}
@@ -166,6 +355,57 @@ export function Header() {
               )}
             </div>
           ))}
+
+          {/* More Tools dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('more')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button
+              className="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            >
+              More Tools
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${openDropdown === 'more' ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {/* Mega dropdown menu */}
+            {openDropdown === 'more' && (
+              <div
+                className="absolute right-0 top-full z-10 w-[600px] rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5"
+                onMouseEnter={() => handleMouseEnter('more')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <div className="grid grid-cols-3 gap-4">
+                  {moreCategories.map((category) => (
+                    <div key={category.name}>
+                      <Link
+                        href={category.href}
+                        className="font-medium text-gray-900 hover:text-blue-600 text-sm"
+                      >
+                        {category.name}
+                      </Link>
+                      <ul className="mt-1 space-y-1">
+                        {category.items.slice(0, 3).map((item) => (
+                          <li key={item.name}>
+                            <Link
+                              href={item.href}
+                              className="block text-xs text-gray-500 hover:text-gray-900"
+                            >
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Search and Favorites buttons */}
@@ -243,7 +483,7 @@ export function Header() {
             </div>
 
             {/* Mobile category links */}
-            {categories.map((category) => (
+            {allCategories.map((category) => (
               <div key={category.name} className="border-b border-gray-100 pb-2">
                 <Link
                   href={category.href}

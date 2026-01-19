@@ -1,13 +1,31 @@
 import Link from 'next/link';
-import { 
-  Heart, 
-  Home as HomeIcon, 
-  ArrowRightLeft, 
+import {
+  Heart,
+  Home as HomeIcon,
+  ArrowRightLeft,
   Zap,
   TrendingUp,
   ChevronRight,
   Sparkles,
-  Search
+  Search,
+  GraduationCap,
+  Music,
+  Car,
+  Trophy,
+  Hammer,
+  Scissors,
+  Briefcase,
+  Bitcoin,
+  Cpu,
+  Gamepad2,
+  Flower2,
+  Camera,
+  Atom,
+  Dice5,
+  BarChart3,
+  Clock,
+  Plane,
+  Smile
 } from 'lucide-react';
 import { Logo } from '@/components/ui/logo';
 import { toolRegistry, getFeaturedTools, getToolsByCategory } from '@/lib/constants/tool-registry';
@@ -25,7 +43,6 @@ const categories = [
     href: '/calculators/finance',
     color: 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200',
     hoverColor: 'hover:bg-emerald-50',
-    tools: ['mortgage-calculator', 'compound-interest-calculator', 'tip-calculator', 'roi-calculator'],
   },
   {
     name: 'Health & Fitness',
@@ -34,7 +51,6 @@ const categories = [
     href: '/calculators/health',
     color: 'bg-rose-50 text-rose-600 ring-1 ring-rose-200',
     hoverColor: 'hover:bg-rose-50',
-    tools: ['bmi-calculator', 'tdee-calculator', 'macro-calculator', 'water-intake-calculator'],
   },
   {
     name: 'Home & DIY',
@@ -43,16 +59,14 @@ const categories = [
     href: '/calculators/home',
     color: 'bg-amber-50 text-amber-600 ring-1 ring-amber-200',
     hoverColor: 'hover:bg-amber-50',
-    tools: ['paint-calculator', 'concrete-calculator', 'tile-calculator', 'square-footage-calculator'],
   },
   {
     name: 'Unit Converters',
     description: 'Length, weight, temperature & more',
     icon: ArrowRightLeft,
-    href: '/convert/meters-to-feet',
+    href: '/convert',
     color: 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
     hoverColor: 'hover:bg-sky-50',
-    tools: ['length-converter', 'weight-converter', 'temperature-converter', 'volume-converter'],
   },
   {
     name: 'Productivity',
@@ -61,22 +75,173 @@ const categories = [
     href: '/calculators/productivity',
     color: 'bg-violet-50 text-violet-600 ring-1 ring-violet-200',
     hoverColor: 'hover:bg-violet-50',
-    tools: ['word-counter', 'password-generator', 'json-formatter', 'uuid-generator'],
+  },
+  {
+    name: 'Academic',
+    description: 'GPA, grades, fractions & study tools',
+    icon: GraduationCap,
+    href: '/calculators/academic',
+    color: 'bg-blue-50 text-blue-600 ring-1 ring-blue-200',
+    hoverColor: 'hover:bg-blue-50',
+  },
+  {
+    name: 'Audio & Music',
+    description: 'BPM, tuner, frequency & audio',
+    icon: Music,
+    href: '/calculators/audio',
+    color: 'bg-pink-50 text-pink-600 ring-1 ring-pink-200',
+    hoverColor: 'hover:bg-pink-50',
+  },
+  {
+    name: 'Auto',
+    description: 'Tire, fuel, EV charging & more',
+    icon: Car,
+    href: '/calculators/auto',
+    color: 'bg-slate-50 text-slate-600 ring-1 ring-slate-200',
+    hoverColor: 'hover:bg-slate-50',
+  },
+  {
+    name: 'Betting',
+    description: 'Odds, parlay & arbitrage',
+    icon: Trophy,
+    href: '/calculators/betting',
+    color: 'bg-yellow-50 text-yellow-600 ring-1 ring-yellow-200',
+    hoverColor: 'hover:bg-yellow-50',
+  },
+  {
+    name: 'Construction',
+    description: 'Board foot, crown molding & more',
+    icon: Hammer,
+    href: '/calculators/construction',
+    color: 'bg-orange-50 text-orange-600 ring-1 ring-orange-200',
+    hoverColor: 'hover:bg-orange-50',
+  },
+  {
+    name: 'Crafts & Sewing',
+    description: 'Fabric, knitting & quilting',
+    icon: Scissors,
+    href: '/calculators/crafts',
+    color: 'bg-fuchsia-50 text-fuchsia-600 ring-1 ring-fuchsia-200',
+    hoverColor: 'hover:bg-fuchsia-50',
+  },
+  {
+    name: 'Creator',
+    description: 'Invoices, signatures & social media',
+    icon: Briefcase,
+    href: '/calculators/creator',
+    color: 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200',
+    hoverColor: 'hover:bg-indigo-50',
+  },
+  {
+    name: 'Crypto',
+    description: 'Gas fees, ETH units & hashing',
+    icon: Bitcoin,
+    href: '/calculators/crypto',
+    color: 'bg-orange-50 text-orange-600 ring-1 ring-orange-200',
+    hoverColor: 'hover:bg-orange-50',
+  },
+  {
+    name: 'Electronics',
+    description: 'Resistors, Ohm\'s law & circuits',
+    icon: Cpu,
+    href: '/calculators/electronics',
+    color: 'bg-cyan-50 text-cyan-600 ring-1 ring-cyan-200',
+    hoverColor: 'hover:bg-cyan-50',
+  },
+  {
+    name: 'Fun & Lifestyle',
+    description: 'Love test, moon phase & more',
+    icon: Smile,
+    href: '/calculators/fun',
+    color: 'bg-pink-50 text-pink-600 ring-1 ring-pink-200',
+    hoverColor: 'hover:bg-pink-50',
+  },
+  {
+    name: 'Gaming',
+    description: 'Mouse sensitivity & reaction time',
+    icon: Gamepad2,
+    href: '/calculators/gaming',
+    color: 'bg-purple-50 text-purple-600 ring-1 ring-purple-200',
+    hoverColor: 'hover:bg-purple-50',
+  },
+  {
+    name: 'Garden',
+    description: 'Mulch, spacing & hardiness zones',
+    icon: Flower2,
+    href: '/calculators/garden',
+    color: 'bg-green-50 text-green-600 ring-1 ring-green-200',
+    hoverColor: 'hover:bg-green-50',
+  },
+  {
+    name: 'Photo & Video',
+    description: 'DOF, golden hour & aspect ratio',
+    icon: Camera,
+    href: '/calculators/photo',
+    color: 'bg-gray-50 text-gray-600 ring-1 ring-gray-200',
+    hoverColor: 'hover:bg-gray-50',
+  },
+  {
+    name: 'Physics',
+    description: 'Projectile motion, energy & density',
+    icon: Atom,
+    href: '/calculators/physics',
+    color: 'bg-teal-50 text-teal-600 ring-1 ring-teal-200',
+    hoverColor: 'hover:bg-teal-50',
+  },
+  {
+    name: 'RPG & Tabletop',
+    description: 'Dice roller, names & encounters',
+    icon: Dice5,
+    href: '/calculators/rpg',
+    color: 'bg-red-50 text-red-600 ring-1 ring-red-200',
+    hoverColor: 'hover:bg-red-50',
+  },
+  {
+    name: 'Statistics',
+    description: 'Standard deviation, A/B test & more',
+    icon: BarChart3,
+    href: '/calculators/stats',
+    color: 'bg-blue-50 text-blue-600 ring-1 ring-blue-200',
+    hoverColor: 'hover:bg-blue-50',
+  },
+  {
+    name: 'Time & Date',
+    description: 'Business days, age & calendars',
+    icon: Clock,
+    href: '/calculators/time',
+    color: 'bg-lime-50 text-lime-600 ring-1 ring-lime-200',
+    hoverColor: 'hover:bg-lime-50',
+  },
+  {
+    name: 'Travel',
+    description: 'Schengen, timezone & currency',
+    icon: Plane,
+    href: '/calculators/travel',
+    color: 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
+    hoverColor: 'hover:bg-sky-50',
   },
 ];
+
 
 // 热门工具 - 使用动态图标
 const popularToolIds = [
   'mortgage-calculator',
-  'bmi-calculator', 
+  'bmi-calculator',
   'paint-calculator',
   'word-counter',
   'compound-interest-calculator',
   'tdee-calculator',
+  'tip-calculator',
+  'password-generator',
+  'square-footage-calculator',
+  'concrete-calculator',
+  'love-compatibility',
+  'dice-roller',
 ];
 
 export default function Home() {
-  const featuredTools = getFeaturedTools().slice(0, 8);
+  const featuredTools = getFeaturedTools().slice(0, 16);
+
 
   return (
     <main className="flex flex-col">
@@ -129,7 +294,7 @@ export default function Home() {
               <div className="mt-0.5 text-xs text-gray-500 sm:text-sm">Free Tools</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 sm:text-3xl">5</div>
+              <div className="text-2xl font-bold text-blue-600 sm:text-3xl">{categories.length}</div>
               <div className="mt-0.5 text-xs text-gray-500 sm:text-sm">Categories</div>
             </div>
             <div className="text-center">
@@ -154,8 +319,8 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Browse by Category</h2>
             <p className="mt-2 text-gray-600 text-sm sm:text-base">Find the perfect tool for your needs</p>
           </div>
-          
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {categories.map((category) => (
               <Link
                 key={category.name}
@@ -188,7 +353,7 @@ export default function Home() {
             <p className="mt-2 text-gray-600 text-sm">The tools our users love the most</p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {popularToolIds.map((id) => {
               const tool = toolRegistry[id];
               if (!tool) return null;
