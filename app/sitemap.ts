@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/privacy`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.3,
+      priority: 0.4,
     },
     {
       url: `${BASE_URL}/terms`,
