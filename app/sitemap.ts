@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/terms`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.3,
+      priority: 0.2,
     },
     {
       url: `${BASE_URL}/privacy/clear-data`,
