@@ -46,7 +46,7 @@ export interface GeneratedName {
 /**
  * Pick a random element from an array
  */
-function randomElement<T>(array: T[]): T {
+function randomElement<T>(array: readonly T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -67,15 +67,15 @@ export function generateFantasyName(race: FantasyRace, gender: Gender = 'neutral
   if (!isValidRace(race)) {
     throw new Error(`Invalid race: ${race}. Valid races are: ${FANTASY_RACES.join(', ')}`);
   }
-  
+
   if (!isValidGender(gender)) {
     throw new Error(`Invalid gender: ${gender}. Valid genders are: ${GENDERS.join(', ')}`);
   }
-  
+
   const pool = getNamePool(race, gender);
   const prefix = randomElement(pool.prefixes);
   const suffix = randomElement(pool.suffixes);
-  
+
   return {
     name: prefix + suffix,
     race,
@@ -98,16 +98,16 @@ export function generateFantasyName(race: FantasyRace, gender: Gender = 'neutral
  */
 export function generateFantasyNames(config: NameGeneratorConfig): GeneratedName[] {
   const { race, gender = 'neutral', count = 1 } = config;
-  
+
   if (count < 1 || count > 100) {
     throw new Error('Count must be between 1 and 100');
   }
-  
+
   const names: GeneratedName[] = [];
   for (let i = 0; i < count; i++) {
     names.push(generateFantasyName(race, gender));
   }
-  
+
   return names;
 }
 
@@ -121,7 +121,7 @@ export function generateFantasyNames(config: NameGeneratorConfig): GeneratedName
  */
 export function isNameFromPool(name: string, race: FantasyRace, gender: Gender): boolean {
   const pool = getNamePool(race, gender);
-  
+
   // Check if the name starts with any prefix and ends with any suffix
   for (const prefix of pool.prefixes) {
     if (name.startsWith(prefix)) {
@@ -131,7 +131,7 @@ export function isNameFromPool(name: string, race: FantasyRace, gender: Gender):
       }
     }
   }
-  
+
   return false;
 }
 
@@ -149,7 +149,7 @@ export function decomposeNameFromPool(
   gender: Gender
 ): { prefix: string; suffix: string } | null {
   const pool = getNamePool(race, gender);
-  
+
   for (const prefix of pool.prefixes) {
     if (name.startsWith(prefix)) {
       const remainder = name.slice(prefix.length);
@@ -158,7 +158,7 @@ export function decomposeNameFromPool(
       }
     }
   }
-  
+
   return null;
 }
 
@@ -201,7 +201,7 @@ export function generateTavernName(): string {
   const adjective = randomElement(TAVERN_ADJECTIVES);
   const noun = randomElement(TAVERN_NOUNS);
   const suffix = randomElement(TAVERN_SUFFIXES);
-  
+
   return `The ${adjective} ${noun} ${suffix}`;
 }
 
@@ -275,7 +275,7 @@ export function generateQuestHook(): string {
   const object = randomElement(QUEST_OBJECTS);
   const location = randomElement(QUEST_LOCATIONS);
   const reward = randomElement(QUEST_REWARDS);
-  
+
   return `${verb} ${object} ${location} ${reward}`;
 }
 

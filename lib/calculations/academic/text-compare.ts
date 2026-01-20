@@ -55,7 +55,7 @@ function getNGrams(words: string[], n: number): Set<string> {
 function jaccardSimilarity(set1: Set<string>, set2: Set<string>): number {
   const intersection = new Set([...set1].filter(x => set2.has(x)));
   const union = new Set([...set1, ...set2]);
-  
+
   if (union.size === 0) return 0;
   return intersection.size / union.size;
 }
@@ -69,37 +69,37 @@ function jaccardSimilarity(set1: Set<string>, set2: Set<string>): number {
  * @returns TextCompareResult with similarity metrics
  */
 export function compareTexts(
-  text1: string, 
-  text2: string, 
+  text1: string,
+  text2: string,
   phraseLength: number = 3
 ): TextCompareResult {
   const words1 = getWords(text1);
   const words2 = getWords(text2);
-  
+
   const wordSet1 = new Set(words1);
   const wordSet2 = new Set(words2);
-  
+
   // Find matching words
   const matchingWordSet = new Set([...wordSet1].filter(x => wordSet2.has(x)));
-  
+
   // Find unique words
   const uniqueToText1 = [...wordSet1].filter(x => !wordSet2.has(x));
   const uniqueToText2 = [...wordSet2].filter(x => !wordSet1.has(x));
-  
+
   // Find matching phrases (n-grams)
   const phrases1 = getNGrams(words1, phraseLength);
   const phrases2 = getNGrams(words2, phraseLength);
   const matchingPhrases = [...phrases1].filter(x => phrases2.has(x));
-  
+
   // Calculate similarity using multiple metrics
   const wordSimilarity = jaccardSimilarity(wordSet1, wordSet2);
   const phraseSimilarity = jaccardSimilarity(phrases1, phrases2);
-  
+
   // Weighted average (phrases are more indicative of copying)
   const similarityPercentage = Math.round(
     (wordSimilarity * 0.4 + phraseSimilarity * 0.6) * 100
   );
-  
+
   return {
     similarityPercentage,
     matchingWords: matchingWordSet.size,
@@ -136,11 +136,11 @@ export function getSimilarityRating(percentage: number): {
  */
 export function highlightMatches(text: string, matchingPhrases: string[]): string {
   let result = text;
-  
+
   for (const phrase of matchingPhrases) {
     const regex = new RegExp(`\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     result = result.replace(regex, `**$&**`);
   }
-  
+
   return result;
 }

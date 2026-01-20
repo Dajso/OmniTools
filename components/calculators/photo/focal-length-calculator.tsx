@@ -12,7 +12,7 @@ import {
   getLensCategory,
   SENSOR_FORMATS,
   LENS_CATEGORY_DESCRIPTIONS,
-  COMMON_FOCAL_LENGTHS,
+  COMMON_FOCAL_LENGTH_USES,
   formatFocalLength,
   formatFieldOfView,
   type FocalLengthResult,
@@ -155,11 +155,10 @@ export function FocalLengthCalculator() {
               key={fl}
               type="button"
               onClick={() => setFocalLength(fl)}
-              className={`px-3 py-1 text-xs rounded-md border transition-colors ${
-                focalLength === fl
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-background hover:bg-muted border-input'
-              }`}
+              className={`px-3 py-1 text-xs rounded-md border transition-colors ${focalLength === fl
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'bg-background hover:bg-muted border-input'
+                }`}
             >
               {fl}mm
             </button>
@@ -185,7 +184,7 @@ export function FocalLengthCalculator() {
         <div className="border-t pt-4">
           <p className="text-sm font-medium mb-3">Common Focal Lengths</p>
           <div className="space-y-2">
-            {COMMON_FOCAL_LENGTHS.slice(0, 6).map((item) => (
+            {COMMON_FOCAL_LENGTH_USES.slice(0, 6).map((item) => (
               <Card
                 key={item.focalLength}
                 className="p-2 cursor-pointer hover:bg-muted/50 transition-colors"

@@ -26,7 +26,7 @@ export const COMMON_SHUTTER_ANGLES = [
 /**
  * Common frame rates
  */
-export const COMMON_FRAME_RATES = [
+export const CINEMA_FRAME_RATES = [
   { fps: 23.976, description: 'Film (NTSC)' },
   { fps: 24, description: 'Cinema standard' },
   { fps: 25, description: 'PAL video' },
@@ -97,28 +97,28 @@ export interface ShutterConversionResult {
  */
 export function shutterAngleToSpeed(input: ShutterAngleInput): ShutterConversionResult {
   const { shutterAngle, frameRate } = input;
-  
+
   if (shutterAngle <= 0 || shutterAngle > 360) {
     throw new Error('Shutter angle must be between 0 and 360 degrees');
   }
   if (frameRate <= 0) {
     throw new Error('Frame rate must be positive');
   }
-  
+
   // Calculate frame duration
   const frameDuration = 1 / frameRate;
-  
+
   // Calculate shutter speed
   // Shutter Speed = (Angle / 360) × Frame Duration
   const shutterSpeed = (shutterAngle / 360) * frameDuration;
-  
+
   // Calculate exposure percentage
   const exposurePercent = (shutterAngle / 360) * 100;
-  
+
   return {
     shutterAngle,
     shutterSpeed,
-    shutterSpeedFormatted: formatShutterSpeed(shutterSpeed),
+    shutterSpeedFormatted: formatCinemaShutterSpeed(shutterSpeed),
     frameRate,
     frameDuration,
     exposurePercent: Math.round(exposurePercent * 100) / 100,
@@ -143,33 +143,33 @@ export function shutterAngleToSpeed(input: ShutterAngleInput): ShutterConversion
  */
 export function shutterSpeedToAngle(input: ShutterSpeedInput): ShutterConversionResult {
   const { shutterSpeed, frameRate } = input;
-  
+
   if (shutterSpeed <= 0) {
     throw new Error('Shutter speed must be positive');
   }
   if (frameRate <= 0) {
     throw new Error('Frame rate must be positive');
   }
-  
+
   // Calculate frame duration
   const frameDuration = 1 / frameRate;
-  
+
   // Shutter speed cannot exceed frame duration
   if (shutterSpeed > frameDuration) {
-    throw new Error(`Shutter speed cannot exceed frame duration (${formatShutterSpeed(frameDuration)})`);
+    throw new Error(`Shutter speed cannot exceed frame duration (${formatCinemaShutterSpeed(frameDuration)})`);
   }
-  
+
   // Calculate shutter angle
   // Angle = (Shutter Speed / Frame Duration) × 360
   const shutterAngle = (shutterSpeed / frameDuration) * 360;
-  
+
   // Calculate exposure percentage
   const exposurePercent = (shutterAngle / 360) * 100;
-  
+
   return {
     shutterAngle: Math.round(shutterAngle * 100) / 100,
     shutterSpeed,
-    shutterSpeedFormatted: formatShutterSpeed(shutterSpeed),
+    shutterSpeedFormatted: formatCinemaShutterSpeed(shutterSpeed),
     frameRate,
     frameDuration,
     exposurePercent: Math.round(exposurePercent * 100) / 100,
@@ -199,11 +199,11 @@ export function getMotionBlurDescription(shutterAngle: number): string {
  * @param seconds - Shutter speed in seconds
  * @returns Formatted shutter speed string
  */
-export function formatShutterSpeed(seconds: number): string {
+export function formatCinemaShutterSpeed(seconds: number): string {
   if (seconds >= 1) {
     return `${seconds.toFixed(2)}s`;
   }
-  
+
   const denominator = Math.round(1 / seconds);
   return `1/${denominator}`;
 }
@@ -236,7 +236,7 @@ export function getShutterSpeedsForFrameRate(
     return {
       angle,
       speed,
-      speedFormatted: formatShutterSpeed(speed),
+      speedFormatted: formatCinemaShutterSpeed(speed),
       description,
     };
   });
@@ -257,10 +257,10 @@ export function calculateEquivalentAngle(
 ): number {
   // To maintain the same motion blur, we need the same exposure time
   const exposureTime = (originalAngle / 360) * (1 / originalFps);
-  
+
   // Calculate new angle for same exposure time at new fps
   const newAngle = (exposureTime * newFps) * 360;
-  
+
   // Clamp to valid range
   return Math.min(360, Math.max(0, newAngle));
 }
@@ -364,13 +364,13 @@ export function generateShutterTable(frameRate: number): Array<{
   exposurePercent: number;
 }> {
   const angles = [360, 270, 180, 172.8, 144, 90, 45, 22.5, 11.25];
-  
+
   return angles.map(angle => {
     const speed = (angle / 360) * (1 / frameRate);
     return {
       angle,
       speed,
-      speedFormatted: formatShutterSpeed(speed),
+      speedFormatted: formatCinemaShutterSpeed(speed),
       exposurePercent: Math.round((angle / 360) * 100 * 100) / 100,
     };
   });

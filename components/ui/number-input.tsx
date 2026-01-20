@@ -6,10 +6,10 @@ import { Input } from './input';
 import { Label } from './label';
 
 export interface NumberInputProps {
-  id: string;
-  label: string;
+  id?: string;
+  label?: React.ReactNode;
   value: number | string;
-  onChange: (value: number) => void;
+  onChange: (value: any) => void;
   min?: number;
   max?: number;
   step?: number;
@@ -24,7 +24,7 @@ export interface NumberInputProps {
 const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
-      id,
+      id: providedId,
       label,
       value,
       onChange,
@@ -40,6 +40,8 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     },
     ref
   ) => {
+    const generatedId = React.useId();
+    const id = providedId || generatedId;
     const errorId = error ? `${id}-error` : undefined;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,20 +58,22 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
 
     return (
       <div className={cn('space-y-2', className)}>
-        <Label
-          htmlFor={id}
-          className={cn(
-            'block text-sm font-medium',
-            error && 'text-destructive'
-          )}
-        >
-          {label}
-          {required && (
-            <span className="text-destructive ml-1" aria-hidden="true">
-              *
-            </span>
-          )}
-        </Label>
+        {label && (
+          <Label
+            htmlFor={id}
+            className={cn(
+              'block text-sm font-medium',
+              error && 'text-destructive'
+            )}
+          >
+            {label}
+            {required && (
+              <span className="text-destructive ml-1" aria-hidden="true">
+                *
+              </span>
+            )}
+          </Label>
+        )}
         <div className="relative">
           <Input
             ref={ref}

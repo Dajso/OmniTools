@@ -225,11 +225,11 @@ const SPECIAL_ITEMS: MenuItem[] = [
 // Helper Functions
 // ============================================
 
-function randomElement<T>(array: T[]): T {
+function randomElement<T>(array: readonly T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function randomElements<T>(array: T[], count: number): T[] {
+function randomElements<T>(array: readonly T[], count: number): T[] {
   const shuffled = [...array].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
@@ -255,7 +255,7 @@ export function generateNPC(role: NPCRole): TavernNPC {
   const name = randomElement(names);
   const description = randomElement(NPC_DESCRIPTIONS[role]);
   const quirk = Math.random() < 0.5 ? randomElement(NPC_QUIRKS) : undefined;
-  
+
   return {
     name,
     role,
@@ -273,19 +273,19 @@ export function generateNPC(role: NPCRole): TavernNPC {
  */
 export function generateMenu(quality: TavernQuality): MenuItem[] {
   const menu: MenuItem[] = [];
-  
+
   // Number of items based on quality
   const foodCount = quality === 'squalid' ? 2 : quality === 'aristocratic' ? 6 : 4;
   const drinkCount = quality === 'squalid' ? 2 : quality === 'aristocratic' ? 6 : 4;
   const specialCount = quality === 'wealthy' || quality === 'aristocratic' ? 2 : 1;
-  
+
   menu.push(...randomElements(FOOD_ITEMS, foodCount));
   menu.push(...randomElements(DRINK_ITEMS, drinkCount));
-  
+
   if (quality !== 'squalid' && quality !== 'poor') {
     menu.push(...randomElements(SPECIAL_ITEMS, specialCount));
   }
-  
+
   // Adjust prices based on quality
   const priceMultiplier: Record<TavernQuality, number> = {
     squalid: 0.5,
@@ -295,7 +295,7 @@ export function generateMenu(quality: TavernQuality): MenuItem[] {
     wealthy: 1.5,
     aristocratic: 2,
   };
-  
+
   return menu.map(item => ({
     ...item,
     price: Math.round(item.price * priceMultiplier[quality]),
@@ -341,7 +341,7 @@ export function generateDescription(quality: TavernQuality): string {
       'A destination in itself, known throughout the land.',
     ],
   };
-  
+
   return randomElement(descriptions[quality]);
 }
 
@@ -360,14 +360,14 @@ export function generateDescription(quality: TavernQuality): string {
 export function generateTavern(quality?: TavernQuality): Tavern {
   const qualities: TavernQuality[] = ['squalid', 'poor', 'modest', 'comfortable', 'wealthy', 'aristocratic'];
   const selectedQuality = quality || randomElement(qualities);
-  
+
   // Generate NPCs based on quality
   const npcCount = selectedQuality === 'squalid' ? 2 : selectedQuality === 'aristocratic' ? 6 : 4;
   const npcs: TavernNPC[] = [
     generateNPC('owner'),
     generateNPC('bartender'),
   ];
-  
+
   if (npcCount > 2) {
     npcs.push(generateNPC(Math.random() < 0.5 ? 'barmaid' : 'cook'));
   }
@@ -380,14 +380,14 @@ export function generateTavern(quality?: TavernQuality): Tavern {
   if (npcCount > 5) {
     npcs.push(generateNPC('patron'));
   }
-  
+
   // Generate rumors (2-4)
   const rumorCount = randomInt(2, 4);
   const rumors = randomElements(RUMORS, rumorCount);
-  
+
   // Maybe add a special feature
   const specialFeature = Math.random() < 0.3 ? randomElement(SPECIAL_FEATURES) : undefined;
-  
+
   return {
     name: generateTavernName(),
     quality: selectedQuality,
@@ -417,26 +417,26 @@ export function formatTavern(tavern: Tavern): string {
     '',
     '## Staff & Patrons',
   ];
-  
+
   for (const npc of tavern.npcs) {
     const quirkStr = npc.quirk ? ` (${npc.quirk})` : '';
     lines.push(`- **${npc.name}** (${npc.race} ${npc.role}): ${npc.description}${quirkStr}`);
   }
-  
+
   lines.push('', '## Menu');
   for (const item of tavern.menu) {
     lines.push(`- ${item.name} (${item.price} cp): ${item.description}`);
   }
-  
+
   lines.push('', '## Rumors');
   for (const rumor of tavern.rumors) {
     lines.push(`- "${rumor}"`);
   }
-  
+
   if (tavern.specialFeature) {
     lines.push('', `**Special Feature:** ${tavern.specialFeature}`);
   }
-  
+
   return lines.join('\n');
 }
 

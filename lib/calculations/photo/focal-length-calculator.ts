@@ -158,28 +158,28 @@ export function calculateEquivalentFocalLength(
   if (focalLength <= 0) {
     throw new Error('Focal length must be positive');
   }
-  
+
   const source = SENSOR_FORMATS[sourceFormat];
   const target = SENSOR_FORMATS[targetFormat];
-  
+
   if (!source) {
     throw new Error(`Invalid source format: ${sourceFormat}`);
   }
   if (!target) {
     throw new Error(`Invalid target format: ${targetFormat}`);
   }
-  
+
   // Calculate 35mm equivalent
   const equivalentFocalLength = focalLength * source.cropFactor;
-  
+
   // Calculate converted focal length for target sensor
   const convertedFocalLength = equivalentFocalLength / target.cropFactor;
-  
+
   // Calculate field of view using the source sensor
   const horizontalFoV = calculateFieldOfView(focalLength, source.width);
   const verticalFoV = calculateFieldOfView(focalLength, source.height);
   const diagonalFoV = calculateFieldOfView(focalLength, source.diagonal);
-  
+
   return {
     originalFocalLength: focalLength,
     sourceFormat: source,
@@ -233,22 +233,22 @@ export function getAllEquivalentFocalLengths(
   if (!source) {
     throw new Error(`Invalid source format: ${sourceFormat}`);
   }
-  
+
   const equivalentIn35mm = focalLength * source.cropFactor;
-  
+
   const result: Record<string, number> = {};
-  
+
   for (const [key, format] of Object.entries(SENSOR_FORMATS)) {
     result[key] = Math.round((equivalentIn35mm / format.cropFactor) * 10) / 10;
   }
-  
+
   return result;
 }
 
 /**
  * Lens category based on 35mm equivalent focal length
  */
-export type LensCategory = 
+export type LensCategory =
   | 'ultra-wide'
   | 'wide'
   | 'standard'
@@ -286,7 +286,7 @@ export const LENS_CATEGORY_DESCRIPTIONS: Record<LensCategory, string> = {
 /**
  * Common focal lengths with their typical uses
  */
-export const COMMON_FOCAL_LENGTHS: Array<{ focalLength: number; use: string }> = [
+export const COMMON_FOCAL_LENGTH_USES: Array<{ focalLength: number; use: string }> = [
   { focalLength: 14, use: 'Ultra-wide landscapes, architecture' },
   { focalLength: 16, use: 'Wide landscapes, real estate' },
   { focalLength: 20, use: 'Wide landscapes, environmental portraits' },
@@ -316,11 +316,11 @@ export function getRelativeCropFactor(
 ): number {
   const source = SENSOR_FORMATS[sourceFormat];
   const target = SENSOR_FORMATS[targetFormat];
-  
+
   if (!source || !target) {
     throw new Error('Invalid sensor format');
   }
-  
+
   return source.cropFactor / target.cropFactor;
 }
 

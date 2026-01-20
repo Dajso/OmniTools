@@ -69,21 +69,21 @@ export function ABTestCalculator() {
 
   // Chart data
   const chartData = result ? [
-    { 
-      name: 'Control', 
+    {
+      name: 'Control',
       rate: result.controlRate,
       fill: '#6b7280',
     },
-    { 
-      name: 'Treatment', 
+    {
+      name: 'Treatment',
       rate: result.treatmentRate,
       fill: result.isSignificant && result.relativeLift > 0 ? '#22c55e' : result.isSignificant ? '#ef4444' : '#6366f1',
     },
   ] : [];
 
   // Calculate minimum sample size for planning
-  const minSampleSize = result && result.controlRate > 0 
-    ? calculateMinimumSampleSize(result.controlRate / 100, 0.1) 
+  const minSampleSize = result && result.controlRate > 0
+    ? calculateMinimumSampleSize(result.controlRate / 100, 0.1)
     : null;
 
   return (
@@ -100,26 +100,26 @@ export function ABTestCalculator() {
           {/* Main Result */}
           <div className={cn(
             'text-center p-6 rounded-lg border-2',
-            result.isSignificant 
-              ? result.relativeLift > 0 
-                ? 'bg-green-50 border-green-300' 
+            result.isSignificant
+              ? result.relativeLift > 0
+                ? 'bg-green-50 border-green-300'
                 : 'bg-red-50 border-red-300'
               : 'bg-yellow-50 border-yellow-300'
           )}>
             <p className={cn(
               'text-2xl font-bold',
-              result.isSignificant 
+              result.isSignificant
                 ? result.relativeLift > 0 ? 'text-green-700' : 'text-red-700'
                 : 'text-yellow-700'
             )}>
-              {result.isSignificant 
-                ? result.relativeLift > 0 
+              {result.isSignificant
+                ? result.relativeLift > 0
                   ? '🎉 Winner! Treatment is better'
                   : '📉 Control is better'
                 : '⏳ Not yet significant'}
             </p>
             <p className="text-sm text-muted-foreground mt-2">
-              {result.isSignificant 
+              {result.isSignificant
                 ? `${result.confidenceLevel.toFixed(1)}% confidence`
                 : 'Need more data or larger effect'}
             </p>
@@ -169,11 +169,11 @@ export function ABTestCalculator() {
                 <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                   <XAxis dataKey="name" />
-                  <YAxis 
+                  <YAxis
                     tickFormatter={(value) => `${value}%`}
                     domain={[0, 'auto']}
                   />
-                  <Tooltip formatter={(value: number) => [`${value.toFixed(2)}%`, 'Conversion Rate']} />
+                  <Tooltip formatter={(value) => [`${typeof value === 'number' ? value.toFixed(2) : value}%`, 'Conversion Rate']} />
                   <Bar dataKey="rate" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -232,8 +232,8 @@ export function ABTestCalculator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 A p-value below 0.05 indicates statistical significance at the 95% confidence level. 
-              {result.isSignificant 
+              💡 A p-value below 0.05 indicates statistical significance at the 95% confidence level.
+              {result.isSignificant
                 ? ' Your results are unlikely to be due to random chance.'
                 : ' Continue running the test to gather more data.'}
             </p>

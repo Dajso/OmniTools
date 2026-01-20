@@ -12,16 +12,16 @@ import { generateQuestHook } from './name-generator';
 /**
  * Quest type categories
  */
-export type QuestType = 
-  | 'fetch' 
-  | 'rescue' 
-  | 'escort' 
-  | 'eliminate' 
-  | 'investigate' 
-  | 'defend' 
-  | 'explore' 
-  | 'negotiate' 
-  | 'heist' 
+export type QuestType =
+  | 'fetch'
+  | 'rescue'
+  | 'escort'
+  | 'eliminate'
+  | 'investigate'
+  | 'defend'
+  | 'explore'
+  | 'negotiate'
+  | 'heist'
   | 'competition';
 
 /**
@@ -32,14 +32,14 @@ export type QuestDifficulty = 'easy' | 'medium' | 'hard' | 'deadly';
 /**
  * Quest giver types
  */
-export type QuestGiverType = 
-  | 'noble' 
-  | 'merchant' 
-  | 'priest' 
-  | 'wizard' 
-  | 'commoner' 
-  | 'guard' 
-  | 'mysterious-stranger' 
+export type QuestGiverType =
+  | 'noble'
+  | 'merchant'
+  | 'priest'
+  | 'wizard'
+  | 'commoner'
+  | 'guard'
+  | 'mysterious-stranger'
   | 'child';
 
 /**
@@ -353,11 +353,11 @@ const REWARD_ITEMS = [
 // Helper Functions
 // ============================================
 
-function randomElement<T>(array: T[]): T {
+function randomElement<T>(array: readonly T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function randomElements<T>(array: T[], count: number): T[] {
+function randomElements<T>(array: readonly T[], count: number): T[] {
   const shuffled = [...array].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
@@ -379,7 +379,7 @@ function randomInt(min: number, max: number): number {
 export function generateQuestGiver(type?: QuestGiverType): QuestGiver {
   const types: QuestGiverType[] = ['noble', 'merchant', 'priest', 'wizard', 'commoner', 'guard', 'mysterious-stranger', 'child'];
   const selectedType = type || randomElement(types);
-  
+
   return {
     type: selectedType,
     name: randomElement(QUEST_GIVER_NAMES[selectedType]),
@@ -401,17 +401,17 @@ export function generateReward(difficulty: QuestDifficulty): QuestReward {
     hard: { min: 500, max: 2000 },
     deadly: { min: 2000, max: 10000 },
   };
-  
+
   const range = goldRanges[difficulty];
   const gold = randomInt(range.min, range.max);
-  
+
   const reward: QuestReward = { gold };
-  
+
   // Add items based on difficulty
   if (difficulty === 'hard' || difficulty === 'deadly') {
     reward.items = randomElements(REWARD_ITEMS, difficulty === 'deadly' ? 2 : 1);
   }
-  
+
   // Maybe add reputation
   if (Math.random() < 0.5) {
     const reputations = [
@@ -423,7 +423,7 @@ export function generateReward(difficulty: QuestDifficulty): QuestReward {
     ];
     reward.reputation = randomElement(reputations);
   }
-  
+
   return reward;
 }
 
@@ -445,29 +445,29 @@ export function generateQuest(options: {
 } = {}): Quest {
   const types: QuestType[] = ['fetch', 'rescue', 'escort', 'eliminate', 'investigate', 'defend', 'explore', 'negotiate', 'heist', 'competition'];
   const difficulties: QuestDifficulty[] = ['easy', 'medium', 'hard', 'deadly'];
-  
+
   const type = options.type || randomElement(types);
   const difficulty = options.difficulty || randomElement(difficulties);
-  
+
   const title = randomElement(QUEST_TITLES[type]);
   const objective = randomElement(QUEST_OBJECTIVES[type]);
   const location = randomElement(LOCATIONS);
   const questGiver = generateQuestGiver(options.questGiverType);
-  
+
   // Generate complications based on difficulty
   const complicationCount = difficulty === 'easy' ? 1 : difficulty === 'deadly' ? 3 : 2;
   const complications = randomElements(COMPLICATIONS, complicationCount);
-  
+
   // Maybe add time limit
   const timeLimit = Math.random() < 0.4 ? randomElement(TIME_LIMITS) : undefined;
-  
+
   // Maybe add secret twist
   const secretTwist = Math.random() < 0.3 ? randomElement(SECRET_TWISTS) : undefined;
-  
+
   // Generate hook and description
   const hook = generateQuestHook();
   const description = `${questGiver.description}. They seek adventurers ${questGiver.motivation}. The task: ${objective.toLowerCase()} in ${location}.`;
-  
+
   return {
     title,
     type,
@@ -509,11 +509,11 @@ export function formatQuest(quest: Quest): string {
     '',
     '## Complications',
   ];
-  
+
   for (const comp of quest.complications) {
     lines.push(`- [${comp.severity}] ${comp.description}`);
   }
-  
+
   lines.push('', '## Reward');
   lines.push(`- ${quest.reward.gold} gold pieces`);
   if (quest.reward.items) {
@@ -524,15 +524,15 @@ export function formatQuest(quest: Quest): string {
   if (quest.reward.reputation) {
     lines.push(`- ${quest.reward.reputation}`);
   }
-  
+
   if (quest.timeLimit) {
     lines.push('', `**Time Limit:** ${quest.timeLimit}`);
   }
-  
+
   if (quest.secretTwist) {
     lines.push('', `**Secret Twist (GM Only):** ${quest.secretTwist}`);
   }
-  
+
   return lines.join('\n');
 }
 

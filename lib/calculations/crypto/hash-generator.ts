@@ -150,25 +150,25 @@ function rotl64(x: bigint, n: number): bigint {
 
 function keccakF(state: bigint[]): void {
   const mask = 0xffffffffffffffffn;
-  
+
   for (let round = 0; round < KECCAK_ROUNDS; round++) {
     // Theta
     const c: bigint[] = [];
     for (let x = 0; x < 5; x++) {
       c[x] = state[x] ^ state[x + 5] ^ state[x + 10] ^ state[x + 15] ^ state[x + 20];
     }
-    
+
     const d: bigint[] = [];
     for (let x = 0; x < 5; x++) {
       d[x] = c[(x + 4) % 5] ^ rotl64(c[(x + 1) % 5], 1);
     }
-    
+
     for (let x = 0; x < 5; x++) {
       for (let y = 0; y < 5; y++) {
         state[x + y * 5] ^= d[x];
       }
     }
-    
+
     // Rho and Pi
     let t = state[1];
     for (let i = 0; i < 24; i++) {
@@ -177,7 +177,7 @@ function keccakF(state: bigint[]): void {
       state[j] = rotl64(t, KECCAK_ROTC[i]);
       t = temp;
     }
-    
+
     // Chi
     for (let y = 0; y < 5; y++) {
       const row: bigint[] = [];
@@ -188,7 +188,7 @@ function keccakF(state: bigint[]): void {
         state[x + y * 5] = row[x] ^ ((~row[(x + 1) % 5] & mask) & row[(x + 2) % 5]);
       }
     }
-    
+
     // Iota
     state[0] ^= KECCAK_RC[round];
   }
@@ -198,17 +198,17 @@ function keccakF(state: bigint[]): void {
 function keccak256(data: Uint8Array): Uint8Array {
   const rate = 136; // (1600 - 256 * 2) / 8
   const capacity = 64; // 256 * 2 / 8
-  
+
   // Pad the message
   const padLen = rate - (data.length % rate);
   const padded = new Uint8Array(data.length + padLen);
   padded.set(data);
   padded[data.length] = 0x01;
   padded[padded.length - 1] |= 0x80;
-  
+
   // Initialize state
   const state: bigint[] = new Array(25).fill(0n);
-  
+
   // Absorb
   for (let i = 0; i < padded.length; i += rate) {
     for (let j = 0; j < rate / 8; j++) {
@@ -221,7 +221,7 @@ function keccak256(data: Uint8Array): Uint8Array {
     }
     keccakF(state);
   }
-  
+
   // Squeeze (only need 32 bytes for keccak256)
   const output = new Uint8Array(32);
   for (let i = 0; i < 4; i++) {
@@ -230,7 +230,7 @@ function keccak256(data: Uint8Array): Uint8Array {
       output[i * 8 + j] = Number((lane >> BigInt(j * 8)) & 0xffn);
     }
   }
-  
+
   return output;
 }
 
@@ -259,7 +259,7 @@ export async function generateHash(input: HashInput): Promise<HashResult> {
 
   // Convert input to bytes
   const bytes = stringToBytes(data, inputEncoding);
-  
+
   let hashBytes: Uint8Array;
   let bitLength: number;
 
@@ -284,7 +284,12 @@ export async function generateHash(input: HashInput): Promise<HashResult> {
       );
     }
 
-    const hashBuffer = await crypto.subtle.digest(webCryptoAlgorithm, bytes);
+    // Create a new Uint8Array with ArrayBuffer to satisfy TypeScript 5.7+ type requirements
+    const buffer = new ArrayBuffer(bytes.length);
+    const view = new Uint8Array(buffer);
+    view.set(bytes);
+
+    const hashBuffer = await crypto.subtle.digest(webCryptoAlgorithm, view as any as BufferSource);
     hashBytes = new Uint8Array(hashBuffer);
     bitLength = hashBytes.length * 8;
   }

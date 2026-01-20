@@ -10,13 +10,13 @@ import {
   shutterAngleToSpeed,
   shutterSpeedToAngle,
   COMMON_SHUTTER_ANGLES,
-  COMMON_FRAME_RATES,
+  CINEMA_FRAME_RATES,
   CINEMA_PRESETS,
   generateShutterTable,
   type ShutterConversionResult,
 } from '@/lib/calculations/photo/shutter-angle-converter';
 
-const FRAME_RATE_OPTIONS = COMMON_FRAME_RATES.map(fr => ({
+const FRAME_RATE_OPTIONS = CINEMA_FRAME_RATES.map(fr => ({
   value: fr.fps.toString(),
   label: `${fr.fps} fps - ${fr.description}`,
 }));
@@ -24,7 +24,7 @@ const FRAME_RATE_OPTIONS = COMMON_FRAME_RATES.map(fr => ({
 export function ShutterAngleConverter() {
   const [mode, setMode] = React.useState<'angleToSpeed' | 'speedToAngle'>('angleToSpeed');
   const [shutterAngle, setShutterAngle] = React.useState(180);
-  const [shutterSpeed, setShutterSpeed] = React.useState(1/48);
+  const [shutterSpeed, setShutterSpeed] = React.useState(1 / 48);
   const [frameRate, setFrameRate] = React.useState(24);
   const [result, setResult] = React.useState<ShutterConversionResult | null>(null);
   const [shutterTable, setShutterTable] = React.useState<ReturnType<typeof generateShutterTable>>([]);
@@ -33,15 +33,15 @@ export function ShutterAngleConverter() {
   const calculate = React.useCallback(() => {
     try {
       setError(undefined);
-      
+
       let conversionResult: ShutterConversionResult;
-      
+
       if (mode === 'angleToSpeed') {
         conversionResult = shutterAngleToSpeed({ shutterAngle, frameRate });
       } else {
         conversionResult = shutterSpeedToAngle({ shutterSpeed, frameRate });
       }
-      
+
       setResult(conversionResult);
       setShutterTable(generateShutterTable(frameRate));
     } catch (err) {
@@ -53,7 +53,7 @@ export function ShutterAngleConverter() {
   const reset = () => {
     setMode('angleToSpeed');
     setShutterAngle(180);
-    setShutterSpeed(1/48);
+    setShutterSpeed(1 / 48);
     setFrameRate(24);
     setResult(null);
     setError(undefined);
@@ -113,13 +113,12 @@ export function ShutterAngleConverter() {
             <p className="text-sm font-medium mb-3">Shutter Table @ {frameRate} fps</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
               {shutterTable.slice(0, 6).map((row) => (
-                <div 
-                  key={row.angle} 
-                  className={`flex justify-between p-2 rounded ${
-                    Math.abs(row.angle - result.shutterAngle) < 1 
-                      ? 'bg-primary/10 border border-primary' 
+                <div
+                  key={row.angle}
+                  className={`flex justify-between p-2 rounded ${Math.abs(row.angle - result.shutterAngle) < 1
+                      ? 'bg-primary/10 border border-primary'
                       : 'bg-muted/30'
-                  }`}
+                    }`}
                 >
                   <span>{row.angle}°</span>
                   <span className="font-mono">{row.speedFormatted}</span>
@@ -135,22 +134,20 @@ export function ShutterAngleConverter() {
           <button
             type="button"
             onClick={() => setMode('angleToSpeed')}
-            className={`flex-1 px-3 py-2 text-sm rounded-md border transition-colors ${
-              mode === 'angleToSpeed'
+            className={`flex-1 px-3 py-2 text-sm rounded-md border transition-colors ${mode === 'angleToSpeed'
                 ? 'bg-primary text-primary-foreground border-primary'
                 : 'bg-background hover:bg-muted border-input'
-            }`}
+              }`}
           >
             Angle → Speed
           </button>
           <button
             type="button"
             onClick={() => setMode('speedToAngle')}
-            className={`flex-1 px-3 py-2 text-sm rounded-md border transition-colors ${
-              mode === 'speedToAngle'
+            className={`flex-1 px-3 py-2 text-sm rounded-md border transition-colors ${mode === 'speedToAngle'
                 ? 'bg-primary text-primary-foreground border-primary'
                 : 'bg-background hover:bg-muted border-input'
-            }`}
+              }`}
           >
             Speed → Angle
           </button>
@@ -173,11 +170,10 @@ export function ShutterAngleConverter() {
                   key={angle}
                   type="button"
                   onClick={() => setShutterAngle(angle)}
-                  className={`px-3 py-1 text-xs rounded-md border transition-colors ${
-                    shutterAngle === angle
+                  className={`px-3 py-1 text-xs rounded-md border transition-colors ${shutterAngle === angle
                       ? 'bg-primary text-primary-foreground border-primary'
                       : 'bg-background hover:bg-muted border-input'
-                  }`}
+                    }`}
                 >
                   {angle}°
                 </button>
@@ -210,11 +206,10 @@ export function ShutterAngleConverter() {
             {CINEMA_PRESETS.slice(0, 4).map((preset) => (
               <Card
                 key={preset.name}
-                className={`p-2 cursor-pointer transition-colors ${
-                  shutterAngle === preset.shutterAngle && mode === 'angleToSpeed'
+                className={`p-2 cursor-pointer transition-colors ${shutterAngle === preset.shutterAngle && mode === 'angleToSpeed'
                     ? 'bg-primary/10 border-primary'
                     : 'hover:bg-muted/50'
-                }`}
+                  }`}
                 onClick={() => applyPreset(preset)}
               >
                 <div className="flex justify-between items-center">

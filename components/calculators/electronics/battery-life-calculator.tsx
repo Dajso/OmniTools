@@ -67,6 +67,12 @@ export function BatteryLifeCalculator() {
     setError(undefined);
   };
 
+  // Wrapper functions to convert number to string for state
+  const handleCapacityChange = (v: number) => setCapacity(String(v));
+  const handleCurrentChange = (v: number) => setCurrent(String(v));
+  const handleEfficiencyChange = (v: number) => setEfficiency(String(v));
+  const handleDutyCycleChange = (v: number) => setDutyCycle(String(v));
+
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
@@ -91,11 +97,11 @@ export function BatteryLifeCalculator() {
     >
       <div className="space-y-4">
         <SelectInput id="battery-type" label="Battery Type" value={batteryType} onChange={handleBatteryTypeChange} options={BATTERY_OPTIONS} />
-        <NumberInput id="capacity" label="Capacity (mAh)" value={capacity} onChange={setCapacity} min={1} step={100} />
-        <NumberInput id="current" label="Current Draw (mA)" value={current} onChange={setCurrent} min={0.1} step={10} />
+        <NumberInput id="capacity" label="Capacity (mAh)" value={capacity} onChange={handleCapacityChange} min={1} step={100} />
+        <NumberInput id="current" label="Current Draw (mA)" value={current} onChange={handleCurrentChange} min={0.1} step={10} />
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="efficiency" label="Efficiency (%)" value={efficiency} onChange={setEfficiency} min={1} max={100} step={5} />
-          <NumberInput id="duty-cycle" label="Duty Cycle (%)" value={dutyCycle} onChange={setDutyCycle} min={1} max={100} step={10} />
+          <NumberInput id="efficiency" label="Efficiency (%)" value={efficiency} onChange={handleEfficiencyChange} min={1} max={100} step={5} />
+          <NumberInput id="duty-cycle" label="Duty Cycle (%)" value={dutyCycle} onChange={handleDutyCycleChange} min={1} max={100} step={10} />
         </div>
       </div>
     </CalculatorBase>

@@ -13,7 +13,13 @@ export * from './percentage-calculator';
 export * from './age-calculator';
 export * from './date-difference';
 export * from './timezone-converter';
-export * from './gpa-calculator';
+// gpa-calculator is also in academic, so we rename exports here to avoid conflicts
+export {
+    calculateGPA as calculateProductivityGPA,
+    AVAILABLE_GRADES as PRODUCTIVITY_AVAILABLE_GRADES,
+    type GPAInputs as ProductivityGPAInputs,
+    type GPAResults as ProductivityGPAResults
+} from './gpa-calculator';
 export * from './grade-calculator';
 export * from './aspect-ratio-calculator';
 export * from './image-resolution-calculator';

@@ -45,7 +45,7 @@ export function CoinFlipSimulator() {
   const flipCoins = React.useCallback(() => {
     setIsFlipping(true);
     setCurrentFlip(null);
-    
+
     // Simulate flipping animation
     let flipCount = 0;
     const animationInterval = setInterval(() => {
@@ -59,7 +59,7 @@ export function CoinFlipSimulator() {
     // Perform actual simulation after animation
     setTimeout(() => {
       clearInterval(animationInterval);
-      
+
       let heads = 0;
       let tails = 0;
       const history: ('H' | 'T')[] = [];
@@ -142,17 +142,17 @@ export function CoinFlipSimulator() {
                   <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip 
-                    formatter={(value: number, name: string) => [
-                      `${value} (${((value / numFlips) * 100).toFixed(1)}%)`,
-                      name === 'count' ? 'Count' : name
+                  <Tooltip
+                    formatter={(value, name) => [
+                      typeof value === 'number' ? `${value} (${((value / numFlips) * 100).toFixed(1)}%)` : String(value),
+                      name === 'count' ? 'Count' : String(name)
                     ]}
                   />
                   <Bar dataKey="count" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.name === 'Heads' ? '#eab308' : '#6b7280'} 
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={entry.name === 'Heads' ? '#eab308' : '#6b7280'}
                       />
                     ))}
                   </Bar>
@@ -196,12 +196,12 @@ export function CoinFlipSimulator() {
           {/* Interpretation */}
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 With {numFlips} flips, you got {result.heads} heads ({((result.heads / numFlips) * 100).toFixed(1)}%). 
-              {deviationPercent < 10 
+              💡 With {numFlips} flips, you got {result.heads} heads ({((result.heads / numFlips) * 100).toFixed(1)}%).
+              {deviationPercent < 10
                 ? ' This is very close to the expected 50%!'
                 : deviationPercent < 20
-                ? ' This is within normal variation for this sample size.'
-                : ' This deviation is larger than typical, but still possible with random chance.'}
+                  ? ' This is within normal variation for this sample size.'
+                  : ' This deviation is larger than typical, but still possible with random chance.'}
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export function CoinFlipSimulator() {
           max={10000}
           step={10}
         />
-        
+
         <div className="flex gap-2">
           <Button
             variant="outline"

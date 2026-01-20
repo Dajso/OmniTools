@@ -137,7 +137,7 @@ export function LuggageSizeChecker() {
   const calculate = React.useCallback(() => {
     try {
       setError(undefined);
-      
+
       if (length <= 0 || width <= 0 || height <= 0) {
         setResults([]);
         return;
@@ -146,40 +146,36 @@ export function LuggageSizeChecker() {
       const linearTotal = length + width + height;
       const checkResults: CheckResult[] = [];
 
-      const airlinesToCheck = selectedAirline === 'all' 
-        ? AIRLINE_LIMITS 
+      const airlinesToCheck = selectedAirline === 'all'
+        ? AIRLINE_LIMITS
         : AIRLINE_LIMITS.filter(a => a.code === selectedAirline);
 
       airlinesToCheck.forEach(airline => {
-        const limits = bagType === 'personalItem' 
-          ? airline.personalItem 
-          : airline[bagType];
-        
-        if (!limits) {
-          if (bagType === 'personalItem') {
-            checkResults.push({
-              airline,
-              bagType,
-              fits: false,
-              issues: ['No personal item allowed or limits not specified'],
-              linearTotal,
-            });
-          }
-          return;
-        }
-
         const issues: string[] = [];
 
-        // Check dimensions
-        if (bagType === 'checked' && limits.linearTotal) {
-          if (linearTotal > limits.linearTotal) {
+        if (bagType === 'checked') {
+          const limits = airline.checked;
+          // Check linear total for checked bags
+          if (limits.linearTotal && linearTotal > limits.linearTotal) {
             issues.push(`Linear total ${linearTotal}cm exceeds ${limits.linearTotal}cm limit`);
           }
-        } else {
+          // Check weight
+          if (limits.weight && weight > limits.weight) {
+            issues.push(`Weight ${weight}kg exceeds ${limits.weight}kg limit`);
+          }
+          checkResults.push({
+            airline,
+            bagType,
+            fits: issues.length === 0,
+            issues,
+            linearTotal,
+          });
+        } else if (bagType === 'carryOn') {
+          const limits = airline.carryOn;
           // Sort dimensions to compare (bags can be oriented differently)
           const bagDims = [length, width, height].sort((a, b) => b - a);
           const limitDims = [limits.length, limits.width, limits.height].sort((a, b) => b - a);
-          
+
           if (bagDims[0] > limitDims[0]) {
             issues.push(`Length ${bagDims[0]}cm exceeds ${limitDims[0]}cm limit`);
           }
@@ -189,22 +185,50 @@ export function LuggageSizeChecker() {
           if (bagDims[2] > limitDims[2]) {
             issues.push(`Height ${bagDims[2]}cm exceeds ${limitDims[2]}cm limit`);
           }
-        }
-
-        // Check weight (only for carry-on and checked)
-        if (bagType !== 'personalItem' && 'weight' in limits && limits.weight) {
-          if (weight > limits.weight) {
+          // Check weight
+          if (limits.weight && weight > limits.weight) {
             issues.push(`Weight ${weight}kg exceeds ${limits.weight}kg limit`);
           }
-        }
+          checkResults.push({
+            airline,
+            bagType,
+            fits: issues.length === 0,
+            issues,
+            linearTotal,
+          });
+        } else if (bagType === 'personalItem') {
+          const limits = airline.personalItem;
+          if (!limits) {
+            checkResults.push({
+              airline,
+              bagType,
+              fits: false,
+              issues: ['No personal item allowed or limits not specified'],
+              linearTotal,
+            });
+            return;
+          }
+          // Sort dimensions to compare
+          const bagDims = [length, width, height].sort((a, b) => b - a);
+          const limitDims = [limits.length, limits.width, limits.height].sort((a, b) => b - a);
 
-        checkResults.push({
-          airline,
-          bagType,
-          fits: issues.length === 0,
-          issues,
-          linearTotal,
-        });
+          if (bagDims[0] > limitDims[0]) {
+            issues.push(`Length ${bagDims[0]}cm exceeds ${limitDims[0]}cm limit`);
+          }
+          if (bagDims[1] > limitDims[1]) {
+            issues.push(`Width ${bagDims[1]}cm exceeds ${limitDims[1]}cm limit`);
+          }
+          if (bagDims[2] > limitDims[2]) {
+            issues.push(`Height ${bagDims[2]}cm exceeds ${limitDims[2]}cm limit`);
+          }
+          checkResults.push({
+            airline,
+            bagType,
+            fits: issues.length === 0,
+            issues,
+            linearTotal,
+          });
+        }
       });
 
       // Sort: fits first, then by airline name
@@ -264,8 +288,8 @@ export function LuggageSizeChecker() {
           {/* Results */}
           <div className="space-y-2">
             {results.map((result, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className={`p-4 ${result.fits ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}
               >
                 <div className="flex items-start justify-between">

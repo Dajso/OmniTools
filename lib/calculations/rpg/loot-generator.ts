@@ -83,7 +83,7 @@ const GEMS: { name: string; value: number; tier: TreasureTier }[] = [
   { name: 'Jasper', value: 50, tier: 'minor' },
   { name: 'Moonstone', value: 50, tier: 'minor' },
   { name: 'Onyx', value: 50, tier: 'minor' },
-  
+
   // Moderate gems (100-500 gp)
   { name: 'Amber', value: 100, tier: 'moderate' },
   { name: 'Amethyst', value: 100, tier: 'moderate' },
@@ -101,7 +101,7 @@ const GEMS: { name: string; value: number; tier: TreasureTier }[] = [
   { name: 'Blue Spinel', value: 500, tier: 'moderate' },
   { name: 'Peridot', value: 500, tier: 'moderate' },
   { name: 'Topaz', value: 500, tier: 'moderate' },
-  
+
   // Major gems (1000-5000 gp)
   { name: 'Black Opal', value: 1000, tier: 'major' },
   { name: 'Blue Sapphire', value: 1000, tier: 'major' },
@@ -130,7 +130,7 @@ const ART_OBJECTS: { name: string; value: number; tier: TreasureTier }[] = [
   { name: 'Copper chalice with silver filigree', value: 25, tier: 'minor' },
   { name: 'Pair of engraved bone dice', value: 25, tier: 'minor' },
   { name: 'Small mirror in painted frame', value: 25, tier: 'minor' },
-  
+
   // Moderate art (250-750 gp)
   { name: 'Gold ring with bloodstones', value: 250, tier: 'moderate' },
   { name: 'Carved ivory statuette', value: 250, tier: 'moderate' },
@@ -145,7 +145,7 @@ const ART_OBJECTS: { name: string; value: number; tier: TreasureTier }[] = [
   { name: 'Silver chalice with moonstones', value: 750, tier: 'moderate' },
   { name: 'Silver-plated steel longsword', value: 750, tier: 'moderate' },
   { name: 'Carved harp of exotic wood', value: 750, tier: 'moderate' },
-  
+
   // Major art (2500-7500 gp)
   { name: 'Fine gold chain with fire opal', value: 2500, tier: 'major' },
   { name: 'Old masterpiece painting', value: 2500, tier: 'major' },
@@ -175,7 +175,7 @@ const MAGIC_ITEMS: { name: string; rarity: ItemRarity; description: string }[] =
   { name: 'Clockwork Amulet', rarity: 'common', description: 'Take 10 on attack roll once per day' },
   { name: 'Dread Helm', rarity: 'common', description: 'Eyes glow red while worn' },
   { name: 'Ear Horn of Hearing', rarity: 'common', description: 'Advantage on hearing checks' },
-  
+
   // Uncommon
   { name: 'Bag of Holding', rarity: 'uncommon', description: 'Holds up to 500 pounds' },
   { name: '+1 Weapon', rarity: 'uncommon', description: '+1 to attack and damage rolls' },
@@ -187,7 +187,7 @@ const MAGIC_ITEMS: { name: string; rarity: ItemRarity; description: string }[] =
   { name: 'Ring of Jumping', rarity: 'uncommon', description: 'Cast Jump at will' },
   { name: 'Rope of Climbing', rarity: 'uncommon', description: 'Animates on command' },
   { name: 'Wand of Magic Detection', rarity: 'uncommon', description: 'Cast Detect Magic' },
-  
+
   // Rare
   { name: '+2 Weapon', rarity: 'rare', description: '+2 to attack and damage rolls' },
   { name: '+2 Armor', rarity: 'rare', description: '+2 to AC' },
@@ -197,7 +197,7 @@ const MAGIC_ITEMS: { name: string; rarity: ItemRarity; description: string }[] =
   { name: 'Ring of Spell Storing', rarity: 'rare', description: 'Stores up to 5 spell levels' },
   { name: 'Staff of Healing', rarity: 'rare', description: 'Cast healing spells' },
   { name: 'Wings of Flying', rarity: 'rare', description: 'Grants flying speed' },
-  
+
   // Very Rare
   { name: '+3 Weapon', rarity: 'very-rare', description: '+3 to attack and damage rolls' },
   { name: '+3 Armor', rarity: 'very-rare', description: '+3 to AC' },
@@ -206,7 +206,7 @@ const MAGIC_ITEMS: { name: string; rarity: ItemRarity; description: string }[] =
   { name: 'Rod of Absorption', rarity: 'very-rare', description: 'Absorbs spell energy' },
   { name: 'Staff of Fire', rarity: 'very-rare', description: 'Cast fire spells' },
   { name: 'Staff of Power', rarity: 'very-rare', description: 'Powerful spellcasting staff' },
-  
+
   // Legendary
   { name: 'Holy Avenger', rarity: 'legendary', description: '+3 weapon, extra radiant damage' },
   { name: 'Ring of Three Wishes', rarity: 'legendary', description: 'Cast Wish three times' },
@@ -244,7 +244,7 @@ const MUNDANE_ITEMS: string[] = [
 /**
  * Pick a random element from an array
  */
-function randomElement<T>(array: T[]): T {
+function randomElement<T>(array: readonly T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -295,7 +295,7 @@ function getRarityOrder(rarity: ItemRarity): number {
 export function generateCoins(tier: TreasureTier): LootItem {
   const range = COIN_RANGES[tier];
   const amount = randomInt(range.min, range.max);
-  
+
   return {
     type: 'coins',
     name: `${amount} gold pieces`,
@@ -313,7 +313,7 @@ export function generateGem(tier: TreasureTier): LootItem {
   const tierOrder = getTierOrder(tier);
   const eligibleGems = GEMS.filter(g => getTierOrder(g.tier) <= tierOrder);
   const gem = randomElement(eligibleGems);
-  
+
   return {
     type: 'gems',
     name: gem.name,
@@ -331,7 +331,7 @@ export function generateArtObject(tier: TreasureTier): LootItem {
   const tierOrder = getTierOrder(tier);
   const eligibleArt = ART_OBJECTS.filter(a => getTierOrder(a.tier) <= tierOrder);
   const art = randomElement(eligibleArt);
-  
+
   return {
     type: 'art',
     name: art.name,
@@ -353,11 +353,11 @@ export function generateMagicItem(tier: TreasureTier): LootItem {
     major: 'rare',
     legendary: 'legendary',
   };
-  
+
   const maxRarityOrder = getRarityOrder(maxRarity[tier]);
   const eligibleItems = MAGIC_ITEMS.filter(i => getRarityOrder(i.rarity) <= maxRarityOrder);
   const item = randomElement(eligibleItems);
-  
+
   return {
     type: 'magic-item',
     name: item.name,
@@ -406,15 +406,15 @@ export function generateLoot(
     includeArt = Math.random() < 0.4,
     includeMundane = Math.random() < 0.6,
   } = options;
-  
+
   const items: LootItem[] = [];
   let totalValue = 0;
-  
+
   // Always include coins
   const coins = generateCoins(tier);
   items.push(coins);
   totalValue += coins.value || 0;
-  
+
   // Optionally include gems (1-3)
   if (includeGems) {
     const gemCount = randomInt(1, 3);
@@ -424,7 +424,7 @@ export function generateLoot(
       totalValue += gem.value || 0;
     }
   }
-  
+
   // Optionally include art (1-2)
   if (includeArt) {
     const artCount = randomInt(1, 2);
@@ -434,13 +434,13 @@ export function generateLoot(
       totalValue += art.value || 0;
     }
   }
-  
+
   // Optionally include magic item
   if (includeMagicItem) {
     const magicItem = generateMagicItem(tier);
     items.push(magicItem);
   }
-  
+
   // Optionally include mundane items (1-3)
   if (includeMundane) {
     const mundaneCount = randomInt(1, 3);
@@ -450,7 +450,7 @@ export function generateLoot(
       totalValue += mundane.value || 0;
     }
   }
-  
+
   // Generate summary
   const summary = items.map(item => {
     if (item.value) {
@@ -461,7 +461,7 @@ export function generateLoot(
     }
     return item.name;
   }).join(', ');
-  
+
   return {
     tier,
     items,

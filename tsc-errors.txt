@@ -1,0 +1,127 @@
+﻿components/calculators/travel/luggage-size-checker.tsx(174,45): error TS2339: Property 'linearTotal' does not exist on type '{ length: number; width: number; height: number; }'.
+components/calculators/travel/luggage-size-checker.tsx(175,36): error TS2339: Property 'linearTotal' does not exist on type '{ length: number; width: number; height: number; }'.
+components/calculators/travel/luggage-size-checker.tsx(176,73): error TS2339: Property 'linearTotal' does not exist on type '{ length: number; width: number; height: number; }'.
+components/calculators/travel/luggage-size-checker.tsx(196,15): error TS2365: Operator '>' cannot be applied to types 'number' and '{}'.
+lib/calculations/academic/text-compare.ts(56,36): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(57,29): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(57,38): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(83,39): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(86,29): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(87,29): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/academic/text-compare.ts(92,31): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/audio/key-scale-finder.ts(137,31): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/creator/index.ts(13,1): error TS2308: Module './instagram-calculator' has already exported a member named 'formatNumber'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/creator/index.ts(13,1): error TS2308: Module './invoice-generator' has already exported a member named 'formatCurrency'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/crypto/ethereum-units.ts(35,8): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(36,9): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(37,9): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(38,9): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(39,10): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(40,11): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(41,10): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(212,33): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(219,21): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(271,34): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/ethereum-units.ts(376,29): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(105,41): error TS2802: Type 'Uint8Array<ArrayBufferLike>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/crypto/hash-generator.ts(126,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(126,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(126,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(127,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(127,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(127,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(128,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(128,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(128,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(129,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(129,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(129,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(130,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(130,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(130,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(131,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(131,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(131,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(132,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(132,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(132,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(133,3): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(133,24): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(133,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(147,16): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(152,16): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(210,46): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(216,18): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(230,60): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+lib/calculations/crypto/hash-generator.ts(287,71): error TS2345: Argument of type 'Uint8Array<ArrayBufferLike>' is not assignable to parameter of type 'BufferSource'.
+  Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'ArrayBufferView<ArrayBuffer>'.
+    Types of property 'buffer' are incompatible.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+lib/calculations/fun/love-compatibility.ts(142,24): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/gaming/index.ts(8,1): error TS2308: Module './sensitivity-converter' has already exported a member named 'calculateEDPI'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/index.ts(30,1): error TS2308: Module './productivity' has already exported a member named 'AVAILABLE_GRADES'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/index.ts(30,1): error TS2308: Module './productivity' has already exported a member named 'Course'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/index.ts(30,1): error TS2308: Module './productivity' has already exported a member named 'calculateGPA'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/photo/golden-hour-calculator.ts(306,9): error TS2322: Type '{ phase: string; time: Date; }[]' is not assignable to type '{ phase: LightPhase; time: Date; }[]'.
+  Type '{ phase: string; time: Date; }' is not assignable to type '{ phase: LightPhase; time: Date; }'.
+    Types of property 'phase' are incompatible.
+      Type 'string' is not assignable to type 'LightPhase'.
+lib/calculations/photo/index.ts(10,1): error TS2308: Module './depth-of-field' has already exported a member named 'COMMON_FOCAL_LENGTHS'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/photo/index.ts(12,1): error TS2308: Module './nd-filter-calculator' has already exported a member named 'formatShutterSpeed'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/photo/index.ts(12,1): error TS2308: Module './timelapse-calculator' has already exported a member named 'COMMON_FRAME_RATES'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/physics/index.ts(11,1): error TS2308: Module './density-calculator' has already exported a member named 'formatMass'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'AbilityScore'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'CharacterStats'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'POINT_BUY_COSTS'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'STANDARD_ARRAY'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'calculatePointBuyCost'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/index.ts(16,1): error TS2308: Module './stat-roller' has already exported a member named 'formatModifier'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/calculations/rpg/tavern-generator.ts(252,30): error TS2345: Argument of type 'readonly ["human", "dwarf", "elf", "halfling"]' is not assignable to parameter of type 'unknown[]'.
+  The type 'readonly ["human", "dwarf", "elf", "halfling"]' is 'readonly' and cannot be assigned to the mutable type 'unknown[]'.
+lib/calculations/rpg/tavern-generator.ts(254,33): error TS2538: Type 'unknown' cannot be used as an index type.
+lib/calculations/rpg/tavern-generator.ts(260,5): error TS2322: Type 'unknown' is not assignable to type 'string'.
+lib/calculations/rpg/tavern-generator.ts(262,5): error TS2322: Type 'unknown' is not assignable to type 'string'.
+lib/calculations/stats/dice-probability-calculator.ts(56,32): error TS2802: Type 'Map<number, number>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/stats/statistics.ts(89,32): error TS2802: Type 'Map<number, number>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+lib/calculations/travel/packing-list-generator.ts(346,26): error TS2802: Type 'Set<PackingCategory>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+tests/property/crypto-calculations.test.ts(50,28): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(50,37): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(50,37): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(50,44): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(119,28): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(119,37): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(119,37): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(119,44): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(141,28): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(141,37): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(141,37): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(141,44): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(178,37): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(179,38): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(179,38): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(179,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(180,38): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(180,38): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(180,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(181,38): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(181,38): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(181,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(182,39): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(182,39): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(182,46): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(183,40): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(183,40): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(183,47): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(184,39): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(184,39): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(184,46): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(203,51): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(203,51): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(203,58): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(221,28): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(221,28): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(221,35): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(221,45): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/property/crypto-calculations.test.ts(221,45): error TS2791: Exponentiation cannot be performed on 'bigint' values unless the 'target' option is set to 'es2016' or later.
+tests/property/crypto-calculations.test.ts(221,52): error TS2737: BigInt literals are not available when targeting lower than ES2020.

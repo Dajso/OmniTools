@@ -84,7 +84,7 @@ export function formatEnergy(joules: number): string {
 /**
  * Format mass with appropriate unit
  */
-export function formatMass(mass: number): string {
+export function formatKineticMass(mass: number): string {
   if (mass >= 1000) {
     return `${(mass / 1000).toFixed(3)} tonnes`;
   }
@@ -146,17 +146,17 @@ export function joulesToBTU(joules: number): number {
  */
 export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergyResult {
   const { kineticEnergy, mass, velocity } = input;
-  
+
   // Count provided values
   const providedCount = [kineticEnergy, mass, velocity].filter(v => v !== undefined && !isNaN(v)).length;
-  
+
   if (providedCount < 2) {
     throw new KineticEnergyError(
       'At least two values must be provided',
       'insufficient_data'
     );
   }
-  
+
   // Validate inputs
   if (kineticEnergy !== undefined && kineticEnergy < 0) {
     throw new KineticEnergyError('Kinetic energy cannot be negative', 'invalid_input', 'kineticEnergy');
@@ -167,12 +167,12 @@ export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergy
   if (velocity !== undefined && velocity < 0) {
     throw new KineticEnergyError('Velocity cannot be negative', 'invalid_input', 'velocity');
   }
-  
+
   let resultEnergy: number;
   let resultMass: number;
   let resultVelocity: number;
   let calculated: 'kineticEnergy' | 'mass' | 'velocity';
-  
+
   if (mass !== undefined && velocity !== undefined) {
     // Calculate kinetic energy: KE = ½mv²
     resultMass = mass;
@@ -200,13 +200,13 @@ export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergy
       'insufficient_data'
     );
   }
-  
+
   return {
     kineticEnergy: resultEnergy,
     mass: resultMass,
     velocity: resultVelocity,
     formattedEnergy: formatEnergy(resultEnergy),
-    formattedMass: formatMass(resultMass),
+    formattedMass: formatKineticMass(resultMass),
     formattedVelocity: formatVelocity(resultVelocity),
     calculated,
     energyInKWh: joulesToKWh(resultEnergy),
@@ -273,10 +273,10 @@ export function compareKineticEnergies(
 ): number {
   const ke1 = kineticEnergyFromMassVelocity(mass1, velocity1);
   const ke2 = kineticEnergyFromMassVelocity(mass2, velocity2);
-  
+
   if (ke2 === 0) {
     return Infinity;
   }
-  
+
   return ke1 / ke2;
 }

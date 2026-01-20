@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Lazy Loading Utilities for Code Splitting
  * 
@@ -17,14 +19,14 @@ import { ComponentType } from 'react';
  */
 export function CalculatorSkeleton() {
   return (
-    <div 
+    <div
       className="animate-pulse space-y-4 p-6 border rounded-lg"
       role="status"
       aria-label="Loading calculator"
     >
       {/* Title skeleton */}
       <div className="h-6 bg-gray-200 rounded w-1/3" />
-      
+
       {/* Input fields skeleton */}
       <div className="space-y-3">
         <div className="h-4 bg-gray-200 rounded w-1/4" />
@@ -38,19 +40,19 @@ export function CalculatorSkeleton() {
         <div className="h-4 bg-gray-200 rounded w-1/4" />
         <div className="h-10 bg-gray-200 rounded" />
       </div>
-      
+
       {/* Button skeleton */}
       <div className="flex gap-2 pt-2">
         <div className="h-10 bg-gray-200 rounded w-24" />
         <div className="h-10 bg-gray-200 rounded w-20" />
       </div>
-      
+
       {/* Results skeleton */}
       <div className="mt-6 p-4 bg-gray-100 rounded-lg space-y-2">
         <div className="h-4 bg-gray-200 rounded w-1/3" />
         <div className="h-6 bg-gray-200 rounded w-1/2" />
       </div>
-      
+
       <span className="sr-only">Loading calculator, please wait...</span>
     </div>
   );
@@ -61,7 +63,7 @@ export function CalculatorSkeleton() {
  */
 export function ContentSkeleton() {
   return (
-    <div 
+    <div
       className="animate-pulse space-y-4"
       role="status"
       aria-label="Loading content"
@@ -88,7 +90,6 @@ export function ContentSkeleton() {
  *   () => import('@/components/calculators/finance/mortgage-calculator')
  * );
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lazyCalculator(
   importFn: () => Promise<{ default: ComponentType<any> }>
 ) {
@@ -104,7 +105,6 @@ export function lazyCalculator(
  * @param importFn - Dynamic import function for the content component
  * @returns Lazy-loaded component with content skeleton
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lazyContent(
   importFn: () => Promise<{ default: ComponentType<any> }>
 ) {
@@ -121,7 +121,6 @@ export function lazyContent(
  * @param importFn - Dynamic import function for the component
  * @returns Client-only lazy-loaded component
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lazyClientOnly(
   importFn: () => Promise<{ default: ComponentType<any> }>
 ) {

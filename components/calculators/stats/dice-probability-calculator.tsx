@@ -133,24 +133,24 @@ export function DiceProbabilityCalculator() {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                    <XAxis 
-                      dataKey="sum" 
+                    <XAxis
+                      dataKey="sum"
                       tick={{ fontSize: 10 }}
                       interval={chartData.length > 15 ? 1 : 0}
                     />
-                    <YAxis 
+                    <YAxis
                       tick={{ fontSize: 10 }}
-                      tickFormatter={(value) => `${value.toFixed(0)}%`}
+                      tickFormatter={(value) => `${typeof value === 'number' ? value.toFixed(0) : value}%`}
                     />
-                    <Tooltip 
-                      formatter={(value: number) => [`${value.toFixed(2)}%`, 'Probability']}
+                    <Tooltip
+                      formatter={(value) => [`${typeof value === 'number' ? value.toFixed(2) : value}%`, 'Probability']}
                       labelFormatter={(label) => `Sum: ${label}`}
                     />
                     <Bar dataKey="probability" radius={[2, 2, 0, 0]}>
                       {chartData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={entry.isTarget ? '#22c55e' : '#6b7280'} 
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={entry.isTarget ? '#22c55e' : '#6b7280'}
                         />
                       ))}
                     </Bar>
@@ -197,8 +197,8 @@ export function DiceProbabilityCalculator() {
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
               💡 Rolling {numDice}d{numSides} (
-              {numDice} {numDice === 1 ? 'die' : 'dice'} with {numSides} sides each) 
-              has {result.totalOutcomes.toLocaleString()} possible outcomes. 
+              {numDice} {numDice === 1 ? 'die' : 'dice'} with {numSides} sides each)
+              has {result.totalOutcomes.toLocaleString()} possible outcomes.
               The most likely sum is around {result.statistics.mean.toFixed(0)}.
             </p>
           </div>

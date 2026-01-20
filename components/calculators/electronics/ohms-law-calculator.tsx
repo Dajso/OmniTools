@@ -49,6 +49,12 @@ export function OhmsLawCalculator() {
     setError(undefined);
   };
 
+  // Wrapper functions to convert number to string for state
+  const handleVoltageChange = (v: number) => setVoltage(v === 0 ? '' : String(v));
+  const handleCurrentChange = (v: number) => setCurrent(v === 0 ? '' : String(v));
+  const handleResistanceChange = (v: number) => setResistance(v === 0 ? '' : String(v));
+  const handlePowerChange = (v: number) => setPower(v === 0 ? '' : String(v));
+
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
@@ -101,7 +107,7 @@ export function OhmsLawCalculator() {
             id="voltage"
             label="Voltage"
             value={voltage}
-            onChange={setVoltage}
+            onChange={handleVoltageChange}
             placeholder="Volts (V)"
             min={0}
             step={0.1}
@@ -110,7 +116,7 @@ export function OhmsLawCalculator() {
             id="current"
             label="Current"
             value={current}
-            onChange={setCurrent}
+            onChange={handleCurrentChange}
             placeholder="Amperes (A)"
             min={0}
             step={0.001}
@@ -119,7 +125,7 @@ export function OhmsLawCalculator() {
             id="resistance"
             label="Resistance"
             value={resistance}
-            onChange={setResistance}
+            onChange={handleResistanceChange}
             placeholder="Ohms (Ω)"
             min={0.001}
             step={1}
@@ -128,7 +134,7 @@ export function OhmsLawCalculator() {
             id="power"
             label="Power"
             value={power}
-            onChange={setPower}
+            onChange={handlePowerChange}
             placeholder="Watts (W)"
             min={0}
             step={0.1}

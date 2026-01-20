@@ -1,0 +1,344 @@
+﻿  鈻?Next.js 14.2.35
+
+   Creating an optimized production build ...
+ 鉁?Compiled successfully
+   Linting and checking validity of types ...
+
+./components/calculators/academic/final-grade-calculator.tsx
+49:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/academic/gpa-calculator.tsx
+111:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/audio/sample-rate-calculator.tsx
+57:6  Warning: React Hook React.useEffect has a missing dependency: 'format'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/audio/visual-metronome.tsx
+100:6  Warning: React Hook React.useEffect has missing dependencies: 'isPlaying', 'startMetronome', and 'stopMetronome'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/circle-skirt-calculator.tsx
+74:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/crochet-hat-calculator.tsx
+84:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+94:6  Warning: React Hook React.useEffect has a missing dependency: 'setInput'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/embroidery-floss-calculator.tsx
+87:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/fabric-yardage-calculator.tsx
+122:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/knitting-stitch-converter.tsx
+138:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/quilt-binding-calculator.tsx
+127:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/socks-size-calculator.tsx
+98:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/crafts/yarn-substitution-helper.tsx
+82:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/creator/cpm-calculator.tsx
+129:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/creator/paycheck-calculator.tsx
+85:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/401k-calculator.tsx
+76:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/car-lease-vs-buy-calculator.tsx
+70:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/compound-interest-calculator.tsx
+213:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/credit-card-payoff-calculator.tsx
+66:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/crypto-profit-loss-calculator.tsx
+65:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/debt-snowball-calculator.tsx
+90:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/discount-calculator.tsx
+37:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/emergency-fund-calculator.tsx
+57:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/fire-calculator.tsx
+66:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/freelance-rate-calculator.tsx
+60:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/fuel-cost-calculator.tsx
+63:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/hourly-salary-calculator.tsx
+44:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/inflation-calculator.tsx
+35:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/mortgage-calculator.tsx
+236:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/paypal-fee-calculator.tsx
+60:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/refinance-calculator.tsx
+69:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/roi-calculator.tsx
+39:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/sales-tax-calculator.tsx
+47:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/student-loan-payoff-calculator.tsx
+61:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/finance/tip-calculator.tsx
+37:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/gaming/twitch-emote-resizer.tsx
+222:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+286:25  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/calculators/garden/compost-calculator.tsx
+84:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/fertilizer-calculator.tsx
+104:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+114:6  Warning: React Hook React.useEffect has a missing dependency: 'setInput'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/mulch-soil-calculator.tsx
+133:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/plant-spacing-calculator.tsx
+91:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+101:6  Warning: React Hook React.useEffect has a missing dependency: 'setInput'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/potting-soil-calculator.tsx
+89:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/sun-shade-mapper.tsx
+160:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/vegetable-yield-calculator.tsx
+86:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/garden/watering-schedule-generator.tsx
+186:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/bac-calculator.tsx
+45:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/bmi-calculator.tsx
+196:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/body-fat-calculator.tsx
+37:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/bra-size-calculator.tsx
+21:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/cat-age-calculator.tsx
+19:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/cooking-converter.tsx
+56:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/dog-age-calculator.tsx
+28:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/due-date-calculator.tsx
+35:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/intermittent-fasting-calculator.tsx
+39:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/macro-calculator.tsx
+30:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/one-rep-max-calculator.tsx
+27:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/oven-temperature-converter.tsx
+26:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/ovulation-calculator.tsx
+40:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/pace-calculator.tsx
+52:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/ring-size-converter.tsx
+31:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/shoe-size-converter.tsx
+28:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/sleep-cycle-calculator.tsx
+33:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/smoking-cost-calculator.tsx
+27:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/tdee-calculator.tsx
+213:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/health/water-intake-calculator.tsx
+36:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/btu-calculator.tsx
+40:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/carpet-calculator.tsx
+29:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/concrete-calculator.tsx
+28:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/decking-calculator.tsx
+31:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/drywall-calculator.tsx
+41:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/electricity-cost-calculator.tsx
+29:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/fence-calculator.tsx
+31:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/grass-seed-calculator.tsx
+45:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/gravel-calculator.tsx
+29:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/lumber-calculator.tsx
+30:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/moving-cost-calculator.tsx
+50:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/mulch-calculator.tsx
+28:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/paint-calculator.tsx
+75:6  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/pool-volume-calculator.tsx
+38:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/roof-pitch-calculator.tsx
+26:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/solar-panel-calculator.tsx
+31:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/square-footage-calculator.tsx
+42:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/stair-calculator.tsx
+28:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/tile-calculator.tsx
+30:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/home/wallpaper-calculator.tsx
+33:43  Warning: React Hook React.useEffect has a missing dependency: 'calculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/aspect-ratio-calculator.tsx
+30:49  Warning: React Hook React.useEffect has a missing dependency: 'handleCalculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/base64-converter.tsx
+22:47  Warning: React Hook React.useEffect has a missing dependency: 'handleConvert'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/gpa-calculator.tsx
+41:49  Warning: React Hook React.useEffect has a missing dependency: 'handleCalculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/grade-calculator.tsx
+41:49  Warning: React Hook React.useEffect has a missing dependency: 'handleCalculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/hex-to-rgb.tsx
+27:47  Warning: React Hook React.useEffect has a missing dependency: 'handleConvert'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/image-resolution-calculator.tsx
+30:49  Warning: React Hook React.useEffect has a missing dependency: 'handleCalculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/json-formatter.tsx
+22:46  Warning: React Hook React.useEffect has a missing dependency: 'handleFormat'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/lorem-ipsum-generator.tsx
+22:48  Warning: React Hook React.useEffect has a missing dependency: 'handleGenerate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/password-generator.tsx
+50:6  Warning: React Hook React.useEffect has a missing dependency: 'handleGenerate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/percentage-calculator.tsx
+36:49  Warning: React Hook React.useEffect has a missing dependency: 'handleCalculate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/random-number-generator.tsx
+29:48  Warning: React Hook React.useEffect has a missing dependency: 'handleGenerate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/productivity/uuid-generator.tsx
+22:48  Warning: React Hook React.useEffect has a missing dependency: 'handleGenerate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/calculators/stats/random-number-generator.tsx
+145:6  Warning: React Hook React.useEffect has a missing dependency: 'generate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/templates/timer-template.tsx
+231:6  Warning: React Hook React.useEffect has a missing dependency: 'handleTimerComplete'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./lib/calculations/crafts/socks-size-calculator.ts
+163:1  Warning: Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+node.exe : Failed to compile.
+所在位置 行:1 字符: 1
++ & "D:\Program Files\nodejs/node.exe"
+ "D:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpec 
+   ified: (Failed to compile.:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId : NativeC 
+   ommandError
+ 
+
+./components/calculators/academic/fina
+l-grade-calculator.tsx:113:51
+Type error: Argument of type 'string' 
+is not assignable to parameter of type
+ 'number'.
+
+[0m [90m 111 |[39m         label[3
+3m=[39m[32m"Current Grade"[39m [0m
+[0m [90m 112 |[39m         value[3
+3m=[39m{inputs[33m.[39mcurrentGrade
+} [0m
+[0m[31m[1m>[22m[39m[90m 113 |[3
+9m         onChange[33m=[39m{(v) [3
+3m=>[39m setInput([32m'currentGrade'
+[39m[33m,[39m v)} [0m
+[0m [90m     |[39m                 
+                                  [31
+m[1m^[22m[39m[0m
+[0m [90m 114 |[39m         min[33m
+=[39m{[35m0[39m} [0m
+[0m [90m 115 |[39m         max[33m
+=[39m{[35m100[39m} [0m
+[0m [90m 116 |[39m         step[33
+m=[39m{[35m0.1[39m} [0m
+Next.js build worker exited with code:
+ 1 and signal: null

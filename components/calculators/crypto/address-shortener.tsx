@@ -142,7 +142,7 @@ export function AddressShortener() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Address Type"
-              value={<span className={getTypeColor(result.type)}>{result.type.charAt(0).toUpperCase() + result.type.slice(1)}</span>}
+              value={result.type.charAt(0).toUpperCase() + result.type.slice(1)}
             />
             <ResultDisplay
               label="Original Length"

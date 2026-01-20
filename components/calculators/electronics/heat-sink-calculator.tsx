@@ -89,6 +89,14 @@ export function HeatSinkCalculator() {
     setError(undefined);
   };
 
+  // Wrapper functions to convert number to string for state
+  const handlePowerChange = (v: number) => setPowerDissipation(String(v));
+  const handleTjMaxChange = (v: number) => setMaxJunctionTemp(String(v));
+  const handleAmbientChange = (v: number) => setAmbientTemp(String(v));
+  const handleRjcChange = (v: number) => setThermalResistanceJC(String(v));
+  const handleRcsChange = (v: number) => setThermalResistanceCS(String(v));
+  const handleRsaChange = (v: number) => setHeatSinkResistance(v === 0 ? '' : String(v));
+
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
@@ -127,20 +135,20 @@ export function HeatSinkCalculator() {
       )}
     >
       <div className="space-y-4">
-        <NumberInput id="power" label="Power Dissipation (W)" value={powerDissipation} onChange={setPowerDissipation} min={0.1} step={1} />
+        <NumberInput id="power" label="Power Dissipation (W)" value={powerDissipation} onChange={handlePowerChange} min={0.1} step={1} />
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="tj-max" label="Max Junction Temp (°C)" value={maxJunctionTemp} onChange={setMaxJunctionTemp} min={50} max={200} step={5} />
-          <NumberInput id="ambient" label="Ambient Temp (°C)" value={ambientTemp} onChange={setAmbientTemp} min={-40} max={85} step={5} />
+          <NumberInput id="tj-max" label="Max Junction Temp (°C)" value={maxJunctionTemp} onChange={handleTjMaxChange} min={50} max={200} step={5} />
+          <NumberInput id="ambient" label="Ambient Temp (°C)" value={ambientTemp} onChange={handleAmbientChange} min={-40} max={85} step={5} />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="rjc" label="Rjc - Junction to Case (°C/W)" value={thermalResistanceJC} onChange={setThermalResistanceJC} min={0} step={0.1} />
-          <NumberInput id="rcs" label="Rcs - Case to Sink (°C/W)" value={thermalResistanceCS} onChange={setThermalResistanceCS} min={0} step={0.1} />
+          <NumberInput id="rjc" label="Rjc - Junction to Case (°C/W)" value={thermalResistanceJC} onChange={handleRjcChange} min={0} step={0.1} />
+          <NumberInput id="rcs" label="Rcs - Case to Sink (°C/W)" value={thermalResistanceCS} onChange={handleRcsChange} min={0} step={0.1} />
         </div>
         <NumberInput
           id="rsa"
           label="Heat Sink Resistance (°C/W) - Optional"
           value={heatSinkResistance}
-          onChange={setHeatSinkResistance}
+          onChange={handleRsaChange}
           min={0}
           step={0.5}
         />

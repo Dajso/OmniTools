@@ -7,7 +7,7 @@ import { Label } from './label';
 
 export interface SelectInputProps {
   id: string;
-  label: string;
+  label?: string;
   value: string;
   onChange: (value: string) => void;
   options: Array<{ value: string; label: string }>;
@@ -47,20 +47,22 @@ const SelectInput = React.forwardRef<HTMLSelectElement, SelectInputProps>(
 
     return (
       <div className={cn('space-y-2', className)}>
-        <Label
-          htmlFor={id}
-          className={cn(
-            'block text-sm font-medium',
-            error && 'text-destructive'
-          )}
-        >
-          {label}
-          {required && (
-            <span className="text-destructive ml-1" aria-hidden="true">
-              *
-            </span>
-          )}
-        </Label>
+        {label && (
+          <Label
+            htmlFor={id}
+            className={cn(
+              'block text-sm font-medium',
+              error && 'text-destructive'
+            )}
+          >
+            {label}
+            {required && (
+              <span className="text-destructive ml-1" aria-hidden="true">
+                *
+              </span>
+            )}
+          </Label>
+        )}
         <Select
           ref={ref}
           id={id}
