@@ -140,6 +140,15 @@ import {
   Recycle,
   ThermometerSun,
   Shrub,
+  Contrast,
+  FileCode,
+  Eye,
+  Regex,
+  Code2,
+  Scaling,
+  Blend,
+  Link2,
+  Tags,
 } from 'lucide-react';
 
 // Map tool IDs to their icons
@@ -231,6 +240,12 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'image-resolution-calculator': Image,
   'json-formatter': Braces,
   'base64-encoder': Code,
+  'base64-converter': FileCode,
+  'contrast-checker': Contrast,
+  'regex-tester': Regex,
+  'px-rem-converter': Scaling,
+  'gradient-generator': Blend,
+  'box-shadow-generator': Square,
 
   // Converters
   'length-converter': Ruler,
@@ -303,6 +318,9 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'paycheck-calculator': Wallet,
   'privacy-policy-generator': Shield,
   'terms-conditions-generator': FileCheck,
+  'schema-markup-generator': Code2,
+  'utm-builder': Link2,
+  'meta-tag-generator': Tags,
 
   // Crypto Tools
   'gas-fee-calculator': Fuel,

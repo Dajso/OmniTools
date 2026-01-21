@@ -8,3 +8,7 @@ export { InstagramEngagementCalculator } from './instagram-engagement-calculator
 export { SignatureGenerator } from './signature-generator';
 export { BusinessNameGenerator } from './business-name-generator';
 export { CPMCalculator } from './cpm-calculator';
+export { SchemaMarkupGenerator } from './schema-markup-generator';
+export { UTMBuilder } from './utm-builder';
+export { MetaTagGenerator } from './meta-tag-generator';
+export { HashtagGenerator } from './hashtag-generator';
