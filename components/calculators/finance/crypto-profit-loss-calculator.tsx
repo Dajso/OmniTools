@@ -43,7 +43,7 @@ function calculateCrypto(inputs: FormInputs): Results {
   const totalReceived = grossSale - sellFeeAmount;
   const profitLoss = totalReceived - totalInvested - buyFeeAmount;
   const roi = ((profitLoss) / (totalInvested + buyFeeAmount)) * 100;
-  
+
   return {
     profitLoss,
     roi,
@@ -54,7 +54,7 @@ function calculateCrypto(inputs: FormInputs): Results {
 }
 
 export function CryptoProfitLossCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -62,7 +62,7 @@ export function CryptoProfitLossCalculator() {
       storageKey: 'crypto-profit-loss',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -76,11 +76,11 @@ export function CryptoProfitLossCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay 
-            label={results.profitLoss >= 0 ? 'Profit' : 'Loss'} 
-            value={formatCurrency(Math.abs(results.profitLoss))} 
-            highlight 
-            copyable 
+          <ResultDisplay
+            label={results.profitLoss >= 0 ? 'Profit' : 'Loss'}
+            value={formatCurrency(Math.abs(results.profitLoss))}
+            highlight
+            copyable
           />
           <div className="grid grid-cols-2 gap-3">
             <ResultDisplay label="ROI" value={`${results.roi.toFixed(2)}%`} copyable />
@@ -92,7 +92,7 @@ export function CryptoProfitLossCalculator() {
       )}
     >
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="buyPrice" label="Buy Price" value={inputs.buyPrice} 
+        <NumberInput id="buyPrice" label="Buy Price" value={inputs.buyPrice}
           onChange={(v) => setInput('buyPrice', v)} min={0.0001} step={100} unit="$" error={errors.buyPrice} required />
         <NumberInput id="sellPrice" label="Sell Price" value={inputs.sellPrice}
           onChange={(v) => setInput('sellPrice', v)} min={0.0001} step={100} unit="$" error={errors.sellPrice} required />

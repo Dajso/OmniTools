@@ -27,7 +27,7 @@ export function LumberCalculator() {
     storageKey: 'lumber-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

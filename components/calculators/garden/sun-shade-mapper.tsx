@@ -81,11 +81,11 @@ function calculateSunShade(inputs: SunShadeInputs): SunShadeResult {
 
   // Estimate sun hours based on direction and shadow
   let baseSunHours = 14 - Math.abs(month - 6); // Varies by season
-  
+
   // Adjust for obstacle direction
   let morningShade = 'None';
   let afternoonShade = 'None';
-  
+
   if (obstacleDirection === 'east') {
     morningShade = inShadow ? 'Heavy shade until mid-morning' : 'Light shade early morning';
     baseSunHours -= inShadow ? 3 : 1;
@@ -157,7 +157,7 @@ export function SunShadeMapper() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const categoryColors = {
     'full-sun': 'bg-yellow-100 text-yellow-800',

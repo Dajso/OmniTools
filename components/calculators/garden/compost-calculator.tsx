@@ -52,7 +52,7 @@ export function CompostCalculator() {
     );
   };
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       setError(null);
       const mixInputs: CompostMixInput[] = materials.map((m) => ({
@@ -68,7 +68,7 @@ export function CompostCalculator() {
       setError(err instanceof Error ? err.message : 'Calculation error');
       setResults(null);
     }
-  };
+  }, [materials]);
 
   const reset = () => {
     setMaterials([
@@ -81,7 +81,7 @@ export function CompostCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   return (
     <CalculatorBase
@@ -103,11 +103,10 @@ export function CompostCalculator() {
             />
 
             <div
-              className={`p-4 rounded-lg ${
-                results.isOptimal
-                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                  : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
-              }`}
+              className={`p-4 rounded-lg ${results.isOptimal
+                ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+                : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
+                }`}
             >
               <p className="text-sm font-medium">
                 {results.isOptimal ? '✓ Optimal Range!' : '⚠ Adjustment Needed'}

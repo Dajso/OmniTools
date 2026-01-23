@@ -28,7 +28,7 @@ export function FenceCalculator() {
     storageKey: 'fence-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

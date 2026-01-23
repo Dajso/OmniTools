@@ -14,7 +14,7 @@ export function SmokingCostCalculator() {
   const [yearsSmoked, setYearsSmoked] = React.useState(5);
   const [results, setResults] = React.useState<SmokingCostResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateSmokingCost({
       cigarettesPerDay,
       pricePerPack,
@@ -22,9 +22,9 @@ export function SmokingCostCalculator() {
       yearsSmoked,
     });
     setResults(result);
-  };
+  }, [cigarettesPerDay, pricePerPack, cigarettesPerPack, yearsSmoked]);
 
-  React.useEffect(() => { calculate(); }, [cigarettesPerDay, pricePerPack, cigarettesPerPack, yearsSmoked]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const healthBenefits = getHealthBenefitsTimeline();
 
@@ -37,7 +37,7 @@ export function SmokingCostCalculator() {
       results={results && (
         <div className="space-y-4">
           <ResultDisplay label="Yearly Cost" value={formatCurrency(results.yearly)} highlight copyable />
-          
+
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay label="Daily" value={formatCurrency(results.daily)} />
             <ResultDisplay label="Weekly" value={formatCurrency(results.weekly)} />

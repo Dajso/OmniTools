@@ -59,8 +59,8 @@ function ComplianceBadge({
 }) {
   return (
     <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${compliant
-        ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800'
-        : 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800'
+      ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800'
+      : 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800'
       }`}>
       {compliant ? (
         <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" aria-hidden="true" />
@@ -68,8 +68,8 @@ function ComplianceBadge({
         <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
       )}
       <span className={`text-sm font-medium ${compliant
-          ? 'text-green-800 dark:text-green-300'
-          : 'text-amber-800 dark:text-amber-300'
+        ? 'text-green-800 dark:text-green-300'
+        : 'text-amber-800 dark:text-amber-300'
         }`}>
         {label}: {compliant ? 'SCA Compliant' : 'Outside SCA Range'}
       </span>
@@ -118,7 +118,7 @@ export function WaterRecipeCalculator() {
     if (isValid) {
       calculate();
     }
-  }, [inputs, isValid]);
+  }, [inputs, isValid, calculate]);
 
   // Convert values for display based on unit system
   const displayWaterVolume = useImperial

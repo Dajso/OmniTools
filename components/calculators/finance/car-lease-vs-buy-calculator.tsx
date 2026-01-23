@@ -41,14 +41,14 @@ const INITIAL_INPUTS: FormInputs = {
 function calculateLeaseVsBuy(inputs: FormInputs): Results {
   const loanAmount = inputs.carPrice - inputs.downPayment;
   const monthlyRate = inputs.loanApr / 100 / 12;
-  const buyMonthlyPayment = monthlyRate > 0 
+  const buyMonthlyPayment = monthlyRate > 0
     ? (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, inputs.loanTerm)) / (Math.pow(1 + monthlyRate, inputs.loanTerm) - 1)
     : loanAmount / inputs.loanTerm;
-  
+
   const totalBuyCost = inputs.downPayment + (buyMonthlyPayment * inputs.loanTerm) - inputs.residualValue;
   const totalLeaseCost = inputs.leaseMonthly * inputs.leaseTerm;
   const savings = Math.abs(totalBuyCost - totalLeaseCost);
-  
+
   return {
     totalBuyCost,
     totalLeaseCost,
@@ -59,7 +59,7 @@ function calculateLeaseVsBuy(inputs: FormInputs): Results {
 }
 
 export function CarLeaseVsBuyCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -67,7 +67,7 @@ export function CarLeaseVsBuyCalculator() {
       storageKey: 'car-lease-vs-buy',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -91,7 +91,7 @@ export function CarLeaseVsBuyCalculator() {
         </div>
       )}
     >
-      <NumberInput id="carPrice" label="Car Price" value={inputs.carPrice} 
+      <NumberInput id="carPrice" label="Car Price" value={inputs.carPrice}
         onChange={(v) => setInput('carPrice', v)} min={1000} step={1000} unit="$" error={errors.carPrice} required />
       <div className="grid grid-cols-2 gap-4">
         <NumberInput id="downPayment" label="Down Payment" value={inputs.downPayment}

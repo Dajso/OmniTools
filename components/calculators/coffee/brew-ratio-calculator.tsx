@@ -102,7 +102,7 @@ export function BrewRatioCalculator() {
     if (isValid) {
       calculate();
     }
-  }, [inputs, isValid]);
+  }, [inputs, isValid, calculate]);
 
   // Convert values for display based on unit system
   const displayCoffeeDose = useImperial

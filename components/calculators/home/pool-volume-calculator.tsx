@@ -35,7 +35,7 @@ export function PoolVolumeCalculator() {
     storageKey: 'pool-volume-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

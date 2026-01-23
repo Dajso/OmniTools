@@ -30,7 +30,7 @@ export function WallpaperCalculator() {
     storageKey: 'wallpaper-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

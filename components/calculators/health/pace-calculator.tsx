@@ -30,7 +30,7 @@ export function PaceCalculator() {
   const [paceSec, setPaceSec] = React.useState(0);
   const [results, setResults] = React.useState<PaceResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       const result = calculatePace({
         calculationType: calcType,
@@ -47,9 +47,9 @@ export function PaceCalculator() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [calcType, distance, distanceUnit, hours, minutes, seconds, paceMin, paceSec]);
 
-  React.useEffect(() => { calculate(); }, [calcType, distance, distanceUnit, hours, minutes, seconds, paceMin, paceSec]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -82,14 +82,14 @@ export function PaceCalculator() {
       )}
     >
       <SelectInput id="calcType" label="Calculate" value={calcType} onChange={(v) => setCalcType(v as CalculationType)} options={CALC_TYPE_OPTIONS} required />
-      
+
       {(calcType === 'pace' || calcType === 'time') && (
         <div className="grid grid-cols-2 gap-4">
           <NumberInput id="distance" label="Distance" value={distance} onChange={setDistance} min={0.1} step={0.1} required />
           <SelectInput id="distanceUnit" label="Unit" value={distanceUnit} onChange={(v) => setDistanceUnit(v as 'miles' | 'km' | 'meters')} options={DISTANCE_UNIT_OPTIONS} />
         </div>
       )}
-      
+
       {(calcType === 'pace' || calcType === 'distance') && (
         <div className="grid grid-cols-3 gap-4">
           <NumberInput id="hours" label="Hours" value={hours} onChange={setHours} min={0} max={24} />
@@ -97,7 +97,7 @@ export function PaceCalculator() {
           <NumberInput id="seconds" label="Seconds" value={seconds} onChange={setSeconds} min={0} max={59} />
         </div>
       )}
-      
+
       {(calcType === 'time' || calcType === 'distance') && (
         <div className="grid grid-cols-2 gap-4">
           <NumberInput id="paceMin" label="Pace (min)" value={paceMin} onChange={setPaceMin} min={0} max={30} />

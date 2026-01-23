@@ -43,18 +43,18 @@ function calculate401k(inputs: FormInputs): Results {
   const monthlyReturn = inputs.annualReturn / 100 / 12;
   const monthlyContribution = inputs.annualContribution / 12;
   const employerMatchAmount = (inputs.annualContribution * Math.min(inputs.employerMatch / 100, inputs.matchLimit / 100 * inputs.annualContribution / inputs.annualContribution)) / 12;
-  
+
   let balance = inputs.currentBalance;
   let totalContributions = 0;
   let totalMatch = 0;
-  
+
   for (let month = 0; month < years * 12; month++) {
     balance += monthlyContribution + employerMatchAmount;
     balance *= (1 + monthlyReturn);
     totalContributions += monthlyContribution;
     totalMatch += employerMatchAmount;
   }
-  
+
   return {
     finalBalance: balance,
     totalContributions: totalContributions,
@@ -65,7 +65,7 @@ function calculate401k(inputs: FormInputs): Results {
 }
 
 export function Calculator401k() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -73,7 +73,7 @@ export function Calculator401k() {
       storageKey: '401k-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -98,7 +98,7 @@ export function Calculator401k() {
       )}
     >
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="currentAge" label="Current Age" value={inputs.currentAge} 
+        <NumberInput id="currentAge" label="Current Age" value={inputs.currentAge}
           onChange={(v) => setInput('currentAge', v)} min={18} max={70} step={1} unit="years" error={errors.currentAge} required />
         <NumberInput id="retirementAge" label="Retirement Age" value={inputs.retirementAge}
           onChange={(v) => setInput('retirementAge', v)} min={50} max={75} step={1} unit="years" error={errors.retirementAge} required />

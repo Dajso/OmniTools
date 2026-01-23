@@ -27,7 +27,7 @@ export function TileCalculator() {
     storageKey: 'tile-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

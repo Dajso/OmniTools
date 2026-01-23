@@ -33,7 +33,7 @@ function calculateStudentLoan(inputs: FormInputs): Results {
   let balance = inputs.loanBalance;
   let months = 0;
   let totalInterest = 0;
-  
+
   while (balance > 0 && months < 600) {
     const interest = balance * monthlyRate;
     totalInterest += interest;
@@ -41,7 +41,7 @@ function calculateStudentLoan(inputs: FormInputs): Results {
     months++;
     if (balance < 0) balance = 0;
   }
-  
+
   return {
     monthsToPayoff: months,
     totalInterest,
@@ -50,7 +50,7 @@ function calculateStudentLoan(inputs: FormInputs): Results {
 }
 
 export function StudentLoanPayoffCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -58,7 +58,7 @@ export function StudentLoanPayoffCalculator() {
       storageKey: 'student-loan-payoff',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const formatMonths = (months: number) => {
     const years = Math.floor(months / 12);
@@ -88,7 +88,7 @@ export function StudentLoanPayoffCalculator() {
         </div>
       )}
     >
-      <NumberInput id="loanBalance" label="Loan Balance" value={inputs.loanBalance} 
+      <NumberInput id="loanBalance" label="Loan Balance" value={inputs.loanBalance}
         onChange={(v) => setInput('loanBalance', v)} min={1} step={1000} unit="$" error={errors.loanBalance} required />
       <NumberInput id="interestRate" label="Interest Rate" value={inputs.interestRate}
         onChange={(v) => setInput('interestRate', v)} min={0} max={20} step={0.1} unit="%" error={errors.interestRate} required />

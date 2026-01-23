@@ -22,15 +22,15 @@ export function SleepCycleCalculator() {
   const [fallAsleep, setFallAsleep] = React.useState(15);
   const [results, setResults] = React.useState<SleepCycleResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const [hours, minutes] = timeStr.split(':').map(Number);
     const time = new Date();
     time.setHours(hours, minutes, 0, 0);
     const result = calculateSleepCycle({ mode, time, fallAsleepMinutes: fallAsleep });
     setResults(result);
-  };
+  }, [mode, timeStr, fallAsleep]);
 
-  React.useEffect(() => { calculate(); }, [mode, timeStr, fallAsleep]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const qualityColors = {
     optimal: 'bg-green-100 border-green-300 text-green-800',

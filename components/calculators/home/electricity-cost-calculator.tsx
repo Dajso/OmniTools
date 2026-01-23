@@ -26,7 +26,7 @@ export function ElectricityCostCalculator() {
     storageKey: 'electricity-cost-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

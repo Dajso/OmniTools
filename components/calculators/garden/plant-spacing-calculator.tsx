@@ -88,7 +88,7 @@ export function PlantSpacingCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   // Update spacing when plant type changes
   React.useEffect(() => {
@@ -100,9 +100,9 @@ export function PlantSpacingCalculator() {
     }
   }, [inputs.plantType]);
 
-  const unitLabel = inputs.unit === 'feet' ? 'ft' : 
-                    inputs.unit === 'inches' ? 'in' :
-                    inputs.unit === 'meters' ? 'm' : 'cm';
+  const unitLabel = inputs.unit === 'feet' ? 'ft' :
+    inputs.unit === 'inches' ? 'in' :
+      inputs.unit === 'meters' ? 'm' : 'cm';
 
   return (
     <CalculatorBase
@@ -163,7 +163,7 @@ export function PlantSpacingCalculator() {
             <div className="border-t pt-4">
               <p className="text-sm font-medium text-muted-foreground mb-3">Layout Preview</p>
               <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg overflow-auto">
-                <div 
+                <div
                   className="grid gap-1"
                   style={{
                     gridTemplateColumns: `repeat(${Math.min(results.plantsPerRow, 15)}, 1fr)`,

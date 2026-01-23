@@ -19,16 +19,16 @@ export function RingSizeConverter() {
   const [system, setSystem] = React.useState<RingSizeSystem>('us');
   const [results, setResults] = React.useState<RingSizeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       const result = convertRingSize({ size, fromSystem: system });
       setResults(result);
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [size, system]);
 
-  React.useEffect(() => { calculate(); }, [size, system]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

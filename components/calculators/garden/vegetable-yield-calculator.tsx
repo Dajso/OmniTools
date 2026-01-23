@@ -83,11 +83,11 @@ export function VegetableYieldCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const areaLabel = inputs.areaUnit === 'sqft' ? 'sq ft' :
-                    inputs.areaUnit === 'sqm' ? 'sq m' :
-                    inputs.areaUnit === 'row_feet' ? 'row ft' : 'row m';
+    inputs.areaUnit === 'sqm' ? 'sq m' :
+      inputs.areaUnit === 'row_feet' ? 'row ft' : 'row m';
 
   return (
     <CalculatorBase

@@ -115,7 +115,7 @@ function calculateCPMResults(inputs: CPMInputs): CPMResults {
 
 export function CPMCalculator() {
   const [platform, setPlatform] = React.useState('');
-  
+
   const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<CPMInputs, CPMResults>({
       initialInputs: INITIAL_INPUTS,
@@ -126,7 +126,7 @@ export function CPMCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const platformData = platform ? PLATFORM_CPM_AVERAGES[platform] : null;
 
@@ -316,13 +316,12 @@ export function CPMCalculator() {
                 <p className="text-sm text-muted-foreground">
                   Average CPM: ${platformData.low.toFixed(2)} - ${platformData.high.toFixed(2)}
                 </p>
-                <p className={`text-sm font-medium ${
-                  results.cpm < platformData.low ? 'text-green-600' :
-                  results.cpm > platformData.high ? 'text-red-600' : 'text-yellow-600'
-                }`}>
+                <p className={`text-sm font-medium ${results.cpm < platformData.low ? 'text-green-600' :
+                    results.cpm > platformData.high ? 'text-red-600' : 'text-yellow-600'
+                  }`}>
                   Your CPM is {
                     results.cpm < platformData.low ? 'below' :
-                    results.cpm > platformData.high ? 'above' : 'within'
+                      results.cpm > platformData.high ? 'above' : 'within'
                   } the typical range
                 </p>
               </div>

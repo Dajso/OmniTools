@@ -130,11 +130,11 @@ export function MulchSoilCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const unitLabel = inputs.unit === 'feet' ? 'ft' : 'm';
-  const materialName = inputs.calculationType === 'mulch' ? 'Mulch' : 
-                       inputs.calculationType === 'soil' ? 'Soil' : 'Gravel';
+  const materialName = inputs.calculationType === 'mulch' ? 'Mulch' :
+    inputs.calculationType === 'soil' ? 'Soil' : 'Gravel';
 
   return (
     <CalculatorBase

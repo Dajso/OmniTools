@@ -7,13 +7,13 @@ import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { 
-  calculateGPA, 
+import {
+  calculateGPA,
   AVAILABLE_GRADES,
   MAX_UNWEIGHTED_GPA,
   MAX_WEIGHTED_GPA,
   type Course,
-  type GPAResult 
+  type GPAResult
 } from '@/lib/calculations/academic/gpa-calculator';
 import { Plus, Trash2 } from 'lucide-react';
 
@@ -67,12 +67,12 @@ export function GPACalculator() {
   };
 
   const updateCourse = (id: string, field: keyof CourseInput, value: string | number | boolean) => {
-    setCourses(prev => prev.map(c => 
+    setCourses(prev => prev.map(c =>
       c.id === id ? { ...c, [field]: value } : c
     ));
   };
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       setError(undefined);
       const validCourses: Course[] = courses
@@ -97,7 +97,7 @@ export function GPACalculator() {
       setError(err instanceof Error ? err.message : 'Calculation error');
       setResults(null);
     }
-  };
+  }, [courses]);
 
   const reset = () => {
     setCourses(INITIAL_COURSES);
@@ -108,7 +108,7 @@ export function GPACalculator() {
   // Auto-calculate on changes
   React.useEffect(() => {
     calculate();
-  }, [courses]);
+  }, [courses, calculate]);
 
   return (
     <CalculatorBase
@@ -122,27 +122,27 @@ export function GPACalculator() {
       results={results && (
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay 
-              label="Unweighted GPA" 
-              value={results.unweightedGPA.toFixed(2)} 
-              highlight 
-              copyable 
+            <ResultDisplay
+              label="Unweighted GPA"
+              value={results.unweightedGPA.toFixed(2)}
+              highlight
+              copyable
             />
-            <ResultDisplay 
-              label="Weighted GPA" 
-              value={results.weightedGPA.toFixed(2)} 
-              highlight 
-              copyable 
+            <ResultDisplay
+              label="Weighted GPA"
+              value={results.weightedGPA.toFixed(2)}
+              highlight
+              copyable
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay 
-              label="Total Credits" 
-              value={results.totalCredits.toString()} 
+            <ResultDisplay
+              label="Total Credits"
+              value={results.totalCredits.toString()}
             />
-            <ResultDisplay 
-              label="Max Possible (Weighted)" 
-              value={MAX_WEIGHTED_GPA.toFixed(1)} 
+            <ResultDisplay
+              label="Max Possible (Weighted)"
+              value={MAX_WEIGHTED_GPA.toFixed(1)}
             />
           </div>
           {Object.keys(results.gradeDistribution).length > 0 && (
@@ -150,8 +150,8 @@ export function GPACalculator() {
               <p className="text-sm font-medium text-muted-foreground mb-2">Grade Distribution</p>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(results.gradeDistribution).map(([grade, count]) => (
-                  <span 
-                    key={grade} 
+                  <span
+                    key={grade}
                     className="px-2 py-1 bg-muted rounded text-sm"
                   >
                     {grade}: {count}
@@ -166,10 +166,10 @@ export function GPACalculator() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium">Courses</p>
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
             onClick={addCourse}
             className="gap-1"
           >

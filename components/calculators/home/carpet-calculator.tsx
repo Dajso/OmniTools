@@ -26,7 +26,7 @@ export function CarpetCalculator() {
     storageKey: 'carpet-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

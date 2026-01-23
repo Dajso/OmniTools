@@ -39,7 +39,7 @@ function calculatePaypalFee(inputs: FormInputs): Results {
   const netAmount = inputs.amount - feeAmount;
   const feePercentage = (feeAmount / inputs.amount) * 100;
   const amountToRequest = (inputs.amount + feeConfig.fixed) / (1 - feeConfig.rate);
-  
+
   return {
     feeAmount: Math.max(0, feeAmount),
     netAmount: Math.max(0, netAmount),
@@ -49,7 +49,7 @@ function calculatePaypalFee(inputs: FormInputs): Results {
 }
 
 export function PaypalFeeCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -57,7 +57,7 @@ export function PaypalFeeCalculator() {
       storageKey: 'paypal-fee-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -80,7 +80,7 @@ export function PaypalFeeCalculator() {
         </div>
       )}
     >
-      <NumberInput id="amount" label="Amount" value={inputs.amount} 
+      <NumberInput id="amount" label="Amount" value={inputs.amount}
         onChange={(v) => setInput('amount', v)} min={0.01} step={10} unit="$" error={errors.amount} required />
       <div className="space-y-2">
         <label className="text-sm font-medium">Transaction Type</label>
@@ -90,9 +90,8 @@ export function PaypalFeeCalculator() {
               key={index}
               type="button"
               onClick={() => setInput('transactionType', index)}
-              className={`px-4 py-2 text-sm rounded-md border transition-colors text-left ${
-                inputs.transactionType === index ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-              }`}
+              className={`px-4 py-2 text-sm rounded-md border transition-colors text-left ${inputs.transactionType === index ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                }`}
             >
               {fee.name}
             </button>

@@ -95,7 +95,7 @@ export function SocksSizeCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const unitLabel = inputs.unit === 'inches' ? 'in' : 'cm';
 
@@ -205,31 +205,31 @@ export function SocksSizeCalculator() {
             <div className="border-t pt-4">
               <p className="text-sm font-medium text-muted-foreground mb-3">Sock Structure</p>
               <div className="flex justify-center">
-                <svg 
-                  viewBox="0 0 200 300" 
+                <svg
+                  viewBox="0 0 200 300"
                   className="w-40 h-60"
                   aria-label="Sock dimensions diagram"
                 >
                   {/* Cuff */}
                   <rect x="50" y="10" width="100" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
                   <text x="100" y="25" textAnchor="middle" className="text-[8px] fill-current">Cuff</text>
-                  
+
                   {/* Leg */}
                   <rect x="50" y="30" width="100" height="80" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
                   <text x="100" y="75" textAnchor="middle" className="text-[8px] fill-current">{results.legLength}" Leg</text>
-                  
+
                   {/* Heel flap */}
                   <path d="M 50 110 L 50 150 Q 50 180 80 180 L 120 180 Q 150 180 150 150 L 150 110" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
                   <text x="100" y="145" textAnchor="middle" className="text-[8px] fill-current">Heel</text>
-                  
+
                   {/* Foot */}
                   <rect x="50" y="180" width="100" height="60" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
                   <text x="100" y="215" textAnchor="middle" className="text-[8px] fill-current">{results.footLengthToToe}" Foot</text>
-                  
+
                   {/* Toe */}
                   <path d="M 50 240 L 50 260 Q 50 290 100 290 Q 150 290 150 260 L 150 240" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
                   <text x="100" y="270" textAnchor="middle" className="text-[8px] fill-current">Toe</text>
-                  
+
                   {/* Stitch count labels */}
                   <text x="160" y="25" className="text-[7px] fill-current text-muted-foreground">{results.castOnStitches} sts</text>
                   <text x="160" y="165" className="text-[7px] fill-current text-muted-foreground">{results.heelStitches} sts</text>

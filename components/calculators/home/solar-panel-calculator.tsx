@@ -28,7 +28,7 @@ export function SolarPanelCalculator() {
     storageKey: 'solar-panel-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

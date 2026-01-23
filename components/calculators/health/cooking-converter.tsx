@@ -37,7 +37,7 @@ export function CookingConverter() {
   const [results, setResults] = React.useState<CookingConversionResults | null>(null);
   const [error, setError] = React.useState('');
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       setError('');
       const result = convertCookingUnit({
@@ -51,9 +51,9 @@ export function CookingConverter() {
       setError((e as Error).message);
       setResults(null);
     }
-  };
+  }, [value, fromUnit, toUnit, ingredient]);
 
-  React.useEffect(() => { calculate(); }, [value, fromUnit, toUnit, ingredient]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const needsIngredient = (
     (VOLUME_UNITS.some(u => u.value === fromUnit) && WEIGHT_UNITS.some(u => u.value === toUnit)) ||
@@ -69,14 +69,14 @@ export function CookingConverter() {
       error={error}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay 
-            label={`${value} ${fromUnit}`} 
-            value={results.formatted} 
-            unit={toUnit.replace('_', ' ')} 
-            highlight 
-            copyable 
+          <ResultDisplay
+            label={`${value} ${fromUnit}`}
+            value={results.formatted}
+            unit={toUnit.replace('_', ' ')}
+            highlight
+            copyable
           />
-          
+
           <div className="bg-muted/50 p-4 rounded-lg">
             <h4 className="text-sm font-medium mb-2">Quick Reference</h4>
             <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
@@ -94,19 +94,19 @@ export function CookingConverter() {
       )}
     >
       <NumberInput id="value" label="Amount" value={value} onChange={setValue} min={0.001} step={0.25} required />
-      
+
       <div className="grid grid-cols-2 gap-4">
         <SelectInput id="fromUnit" label="From" value={fromUnit} onChange={(v) => setFromUnit(v as CookingUnit)} options={ALL_UNITS} required />
         <SelectInput id="toUnit" label="To" value={toUnit} onChange={(v) => setToUnit(v as CookingUnit)} options={ALL_UNITS} required />
       </div>
 
       {needsIngredient && (
-        <SelectInput 
-          id="ingredient" 
-          label="Ingredient (required for volume↔weight)" 
-          value={ingredient} 
-          onChange={setIngredient} 
-          options={INGREDIENT_OPTIONS} 
+        <SelectInput
+          id="ingredient"
+          label="Ingredient (required for volume↔weight)"
+          value={ingredient}
+          onChange={setIngredient}
+          options={INGREDIENT_OPTIONS}
           error={needsIngredient && !ingredient ? 'Select an ingredient for volume to weight conversion' : undefined}
         />
       )}

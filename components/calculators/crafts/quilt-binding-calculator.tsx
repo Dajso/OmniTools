@@ -87,12 +87,12 @@ export function QuiltBindingCalculator() {
         fabricWidth: formInputs.fabricWidth,
         extraAllowance: formInputs.extraAllowance,
       });
-      
+
       const biasSquareSize = calculateBiasBindingFabric(
         result.totalBindingLength,
         formInputs.bindingStripWidth
       );
-      
+
       return {
         ...result,
         biasSquareSize,
@@ -124,7 +124,7 @@ export function QuiltBindingCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   return (
     <CalculatorBase
@@ -147,7 +147,7 @@ export function QuiltBindingCalculator() {
               highlight
               copyable
             />
-            
+
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
                 label="Total Binding Length"

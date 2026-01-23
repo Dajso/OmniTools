@@ -281,9 +281,7 @@ export function FrenchPressTimer() {
       description="Timer with bloom and stir reminders for consistent French press brewing with brew ratio calculation"
       formula="Brew Ratio = Water Amount ÷ Coffee Dose"
       formulaExplanation="The brew ratio determines strength. Classic French press uses 1:15 to 1:17 ratio (e.g., 30g coffee to 500g water = 1:16.7)."
-      onCalculate={() => { }}
       onReset={handleResetAll}
-      hideCalculateButton
       error={error}
       results={results && (
         <div className="space-y-6">

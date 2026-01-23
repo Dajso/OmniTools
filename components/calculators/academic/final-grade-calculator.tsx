@@ -6,10 +6,10 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { 
-  calculateRequiredFinalScore, 
+import {
+  calculateRequiredFinalScore,
   GRADE_THRESHOLDS,
-  type FinalGradeResult 
+  type FinalGradeResult
 } from '@/lib/calculations/academic/final-grade-calculator';
 
 const finalGradeSchema = z.object({
@@ -33,20 +33,25 @@ const TARGET_PRESETS = [
   { label: 'D (60%)', value: 60 },
 ];
 
+
+function calculateFinalGradeFn(values: FinalGradeInputs): FinalGradeResult {
+  return calculateRequiredFinalScore({
+    currentGrade: values.currentGrade,
+    targetGrade: values.targetGrade,
+    finalWeight: values.finalWeight / 100, // Convert percentage to decimal
+  });
+}
+
 export function FinalGradeCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FinalGradeInputs, FinalGradeResult>({
       initialInputs: INITIAL_INPUTS,
       schema: finalGradeSchema,
-      calculate: (values) => calculateRequiredFinalScore({
-        currentGrade: values.currentGrade,
-        targetGrade: values.targetGrade,
-        finalWeight: values.finalWeight / 100, // Convert percentage to decimal
-      }),
+      calculate: calculateFinalGradeFn,
       storageKey: 'final-grade-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const getScoreColor = (score: number, isAchievable: boolean) => {
     if (!isAchievable) return 'text-destructive';
@@ -69,30 +74,30 @@ export function FinalGradeCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay 
-            label="Required Final Exam Score" 
+          <ResultDisplay
+            label="Required Final Exam Score"
             value={
-              results.requiredScore < 0 
-                ? "Already achieved!" 
+              results.requiredScore < 0
+                ? "Already achieved!"
                 : `${results.requiredScore.toFixed(1)}%`
             }
-            highlight 
-            copyable 
+            highlight
+            copyable
             className={getScoreColor(results.requiredScore, results.isAchievable)}
           />
-          
+
           <div className="p-3 rounded-md bg-muted/50">
             <p className="text-sm">{results.message}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay 
-              label="Current Grade Weight" 
-              value={`${(results.currentWeight * 100).toFixed(0)}%`} 
+            <ResultDisplay
+              label="Current Grade Weight"
+              value={`${(results.currentWeight * 100).toFixed(0)}%`}
             />
-            <ResultDisplay 
-              label="Final Exam Weight" 
-              value={`${inputs.finalWeight}%`} 
+            <ResultDisplay
+              label="Final Exam Weight"
+              value={`${inputs.finalWeight}%`}
             />
           </div>
 
@@ -106,43 +111,42 @@ export function FinalGradeCalculator() {
         </div>
       )}
     >
-      <NumberInput 
-        id="currentGrade" 
-        label="Current Grade" 
-        value={inputs.currentGrade} 
-        onChange={(v) => setInput('currentGrade', v)} 
-        min={0} 
-        max={100} 
-        step={0.1} 
-        unit="%" 
-        error={errors.currentGrade} 
-        required 
+      <NumberInput
+        id="currentGrade"
+        label="Current Grade"
+        value={inputs.currentGrade}
+        onChange={(v) => setInput('currentGrade', v)}
+        min={0}
+        max={100}
+        step={0.1}
+        unit="%"
+        error={errors.currentGrade}
+        required
       />
-      
+
       <div className="space-y-2">
-        <NumberInput 
-          id="targetGrade" 
-          label="Target Grade" 
+        <NumberInput
+          id="targetGrade"
+          label="Target Grade"
           value={inputs.targetGrade}
-          onChange={(v) => setInput('targetGrade', v)} 
-          min={0} 
-          max={100} 
-          step={0.1} 
-          unit="%" 
+          onChange={(v) => setInput('targetGrade', v)}
+          min={0}
+          max={100}
+          step={0.1}
+          unit="%"
           error={errors.targetGrade}
           required
         />
         <div className="flex gap-2 flex-wrap">
           {TARGET_PRESETS.map((preset) => (
-            <button 
-              key={preset.value} 
-              type="button" 
+            <button
+              key={preset.value}
+              type="button"
               onClick={() => setInput('targetGrade', preset.value)}
-              className={`px-3 py-1 text-sm rounded-md border transition-colors ${
-                inputs.targetGrade === preset.value 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'hover:bg-muted'
-              }`}
+              className={`px-3 py-1 text-sm rounded-md border transition-colors ${inputs.targetGrade === preset.value
+                ? 'bg-primary text-primary-foreground'
+                : 'hover:bg-muted'
+                }`}
             >
               {preset.label}
             </button>
@@ -150,15 +154,15 @@ export function FinalGradeCalculator() {
         </div>
       </div>
 
-      <NumberInput 
-        id="finalWeight" 
-        label="Final Exam Weight" 
+      <NumberInput
+        id="finalWeight"
+        label="Final Exam Weight"
         value={inputs.finalWeight}
-        onChange={(v) => setInput('finalWeight', v)} 
-        min={1} 
-        max={100} 
-        step={1} 
-        unit="%" 
+        onChange={(v) => setInput('finalWeight', v)}
+        min={1}
+        max={100}
+        step={1}
+        unit="%"
         error={errors.finalWeight}
         required
       />

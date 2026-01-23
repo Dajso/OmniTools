@@ -13,12 +13,12 @@ export function BraSizeCalculator() {
   const [unit, setUnit] = React.useState<'imperial' | 'metric'>('imperial');
   const [results, setResults] = React.useState<BraSizeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateBraSize({ bandMeasurement: band, bustMeasurement: bust, unit });
     setResults(result);
-  };
+  }, [band, bust, unit]);
 
-  React.useEffect(() => { calculate(); }, [band, bust, unit]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     const factor = newUnit === 'metric' ? 2.54 : 1 / 2.54;
@@ -57,7 +57,7 @@ export function BraSizeCalculator() {
       )}
     >
       <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} labels={{ imperial: 'inches', metric: 'cm' }} />
+        <UnitToggle value={unit} onChange={handleUnitChange} />
       </div>
       <NumberInput id="band" label="Band Measurement (under bust)" value={band} onChange={setBand} min={20} max={60} unit={unit === 'imperial' ? 'in' : 'cm'} required />
       <NumberInput id="bust" label="Bust Measurement (fullest point)" value={bust} onChange={setBust} min={25} max={70} unit={unit === 'imperial' ? 'in' : 'cm'} required />

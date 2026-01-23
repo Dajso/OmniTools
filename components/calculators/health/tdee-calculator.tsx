@@ -77,7 +77,7 @@ function MacroBreakdown({ macros, tdee }: { macros: TDEEResults['macros']; tdee:
   return (
     <div className="space-y-4">
       <h4 className="text-sm font-medium text-muted-foreground">Daily Macro Breakdown (Maintenance)</h4>
-      
+
       {/* Visual bar */}
       <div className="h-4 rounded-full overflow-hidden flex">
         {items.map((item) => (
@@ -152,6 +152,27 @@ function CalorieGoals({ results }: { results: TDEEResults }) {
  * 
  * @see Requirements 6.2
  */
+
+function calculateTDEEFn(formInputs: TDEEFormInputs): TDEEResults {
+  let height: number;
+
+  if (formInputs.unit === 'imperial') {
+    height = feetInchesToInches(formInputs.heightFeet, formInputs.heightInches);
+  } else {
+    height = formInputs.heightCm;
+  }
+
+  const tdeeInputs: TDEEInputs = {
+    age: formInputs.age,
+    sex: formInputs.sex,
+    weight: formInputs.weight,
+    height,
+    unit: formInputs.unit,
+    activityLevel: formInputs.activityLevel,
+  };
+  return calculateTDEE(tdeeInputs);
+}
+
 export function TDEECalculator() {
   const {
     inputs,
@@ -165,32 +186,14 @@ export function TDEECalculator() {
   } = useCalculator<TDEEFormInputs, TDEEResults>({
     initialInputs: INITIAL_INPUTS,
     schema: tdeeSchema as unknown as z.ZodType<TDEEFormInputs>,
-    calculate: (formInputs) => {
-      let height: number;
-      
-      if (formInputs.unit === 'imperial') {
-        height = feetInchesToInches(formInputs.heightFeet, formInputs.heightInches);
-      } else {
-        height = formInputs.heightCm;
-      }
-
-      const tdeeInputs: TDEEInputs = {
-        age: formInputs.age,
-        sex: formInputs.sex,
-        weight: formInputs.weight,
-        height,
-        unit: formInputs.unit,
-        activityLevel: formInputs.activityLevel,
-      };
-      return calculateTDEE(tdeeInputs);
-    },
+    calculate: calculateTDEEFn,
     storageKey: 'tdee-calculator',
   });
 
   // Handle unit toggle
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     setInput('unit', newUnit);
-    
+
     if (newUnit === 'metric' && inputs.unit === 'imperial') {
       const weightKg = Math.round(inputs.weight * 0.453592 * 10) / 10;
       setInput('weight', weightKg);
@@ -210,7 +213,7 @@ export function TDEECalculator() {
   // Calculate on mount
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const activityOptions = getActivityLevelOptions().map(opt => ({
     value: opt.value,
@@ -251,12 +254,12 @@ export function TDEECalculator() {
             </div>
 
             <CalorieGoals results={results} />
-            
+
             <MacroBreakdown macros={results.macros} tdee={results.tdee} />
 
             <div className="bg-muted/50 p-4 rounded-lg">
               <p className="text-sm text-muted-foreground">
-                <strong>Note:</strong> These calculations are estimates based on the Mifflin-St Jeor equation. 
+                <strong>Note:</strong> These calculations are estimates based on the Mifflin-St Jeor equation.
                 Individual metabolism varies. Adjust your intake based on actual results over 2-4 weeks.
               </p>
             </div>
@@ -269,7 +272,6 @@ export function TDEECalculator() {
         <UnitToggle
           value={inputs.unit}
           onChange={handleUnitChange}
-          labels={{ imperial: 'Imperial (lbs/ft)', metric: 'Metric (kg/cm)' }}
         />
       </div>
 

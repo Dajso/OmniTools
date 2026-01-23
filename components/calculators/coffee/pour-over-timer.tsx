@@ -215,7 +215,6 @@ export function PourOverTimer() {
       description="Multi-stage pour timer with 4:6 method and custom pour schedules for consistent pour over brewing"
       formula="4:6 Method: First 40% (2 pours) + Remaining 60% (3 pours)"
       formulaExplanation="The 4:6 method divides water into 5 pours: first 2 pours (40%) control sweetness/acidity, last 3 pours (60%) control strength."
-      onCalculate={() => { }}
       onReset={handleResetAll}
       error={error || undefined}
       results={schedule && (

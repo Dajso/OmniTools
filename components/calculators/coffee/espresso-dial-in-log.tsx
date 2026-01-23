@@ -164,7 +164,7 @@ export function EspressoDialInLog() {
       }
       setCurrentMetrics(null);
     }
-  }, [inputs.dose, inputs.yield, inputs.time, inputs.grindSetting, inputs.tasteNotes]);
+  }, [inputs]);
 
   // Handle input changes
   const handleInputChange = <K extends keyof EspressoShotFormInputs>(

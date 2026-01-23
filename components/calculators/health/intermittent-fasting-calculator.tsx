@@ -23,20 +23,20 @@ export function IntermittentFastingCalculator() {
   const [customHours, setCustomHours] = React.useState(16);
   const [results, setResults] = React.useState<FastingResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const [hours, minutes] = startTimeStr.split(':').map(Number);
     const startTime = new Date();
     startTime.setHours(hours, minutes, 0, 0);
-    
+
     const result = calculateFasting({
       protocol,
       startTime,
       customFastHours: protocol === 'custom' ? customHours : undefined,
     });
     setResults(result);
-  };
+  }, [protocol, startTimeStr, customHours]);
 
-  React.useEffect(() => { calculate(); }, [protocol, startTimeStr, customHours]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const statusColors = {
     fasting: 'bg-orange-100 text-orange-800',
@@ -57,9 +57,9 @@ export function IntermittentFastingCalculator() {
               {results.hoursRemaining}h {results.minutesRemaining}m remaining
             </span>
           </div>
-          
+
           <div className="w-full bg-muted rounded-full h-4 overflow-hidden">
-            <div 
+            <div
               className={cn('h-full transition-all', results.currentStatus === 'fasting' ? 'bg-orange-500' : 'bg-green-500')}
               style={{ width: `${results.percentComplete}%` }}
             />
@@ -88,7 +88,7 @@ export function IntermittentFastingCalculator() {
       )}
     >
       <SelectInput id="protocol" label="Fasting Protocol" value={protocol} onChange={(v) => setProtocol(v as FastingProtocol)} options={PROTOCOL_OPTIONS} required />
-      
+
       <div className="space-y-2">
         <label htmlFor="startTime" className="text-sm font-medium">Fast Start Time (last meal)</label>
         <input

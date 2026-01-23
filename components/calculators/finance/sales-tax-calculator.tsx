@@ -31,20 +31,25 @@ const STATE_OPTIONS = Object.entries(US_STATE_TAX_RATES).map(([code, { name, rat
   label: `${name} (${rate}%)`,
 }));
 
+
+function calculateSalesTaxFn(formInputs: SalesTaxFormInputs): SalesTaxResults {
+  return calculateSalesTax({
+    amount: formInputs.amount,
+    taxRate: formInputs.taxRate,
+    isBeforeTax: formInputs.isBeforeTax,
+  });
+}
+
 export function SalesTaxCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<SalesTaxFormInputs, SalesTaxResults>({
       initialInputs: INITIAL_INPUTS,
       schema: salesTaxSchema,
-      calculate: (formInputs) => calculateSalesTax({
-        amount: formInputs.amount,
-        taxRate: formInputs.taxRate,
-        isBeforeTax: formInputs.isBeforeTax,
-      }),
+      calculate: calculateSalesTaxFn,
       storageKey: 'sales-tax-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleStateChange = (state: string) => {
     setInput('state', state);
@@ -76,13 +81,13 @@ export function SalesTaxCalculator() {
     >
       <NumberInput id="amount" label={inputs.isBeforeTax ? "Price Before Tax" : "Total Price (with tax)"}
         value={inputs.amount} onChange={(v) => setInput('amount', v)} min={0} step={1} unit="$" error={errors.amount} required />
-      
+
       <SelectInput id="state" label="State" value={inputs.state} onChange={handleStateChange}
         options={STATE_OPTIONS} error={errors.state} />
-      
+
       <NumberInput id="taxRate" label="Tax Rate" value={inputs.taxRate}
         onChange={(v) => setInput('taxRate', v)} min={0} max={30} step={0.01} unit="%" error={errors.taxRate} />
-      
+
       <div className="flex gap-4">
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="radio" checked={inputs.isBeforeTax} onChange={() => setInput('isBeforeTax', true)}

@@ -27,21 +27,26 @@ const INITIAL_INPUTS: HourlySalaryFormInputs = {
   mode: 'hourly',
 };
 
+
+function calculateHourlySalaryFn(formInputs: HourlySalaryFormInputs): HourlySalaryResults {
+  return convertHourlyToSalary({
+    hourlyRate: formInputs.mode === 'hourly' ? formInputs.hourlyRate : undefined,
+    annualSalary: formInputs.mode === 'salary' ? formInputs.annualSalary : undefined,
+    hoursPerWeek: formInputs.hoursPerWeek,
+    weeksPerYear: formInputs.weeksPerYear,
+  });
+}
+
 export function HourlySalaryCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<HourlySalaryFormInputs, HourlySalaryResults>({
       initialInputs: INITIAL_INPUTS,
       schema: hourlySalarySchema,
-      calculate: (formInputs) => convertHourlyToSalary({
-        hourlyRate: formInputs.mode === 'hourly' ? formInputs.hourlyRate : undefined,
-        annualSalary: formInputs.mode === 'salary' ? formInputs.annualSalary : undefined,
-        hoursPerWeek: formInputs.hoursPerWeek,
-        weeksPerYear: formInputs.weeksPerYear,
-      }),
+      calculate: calculateHourlySalaryFn,
       storageKey: 'hourly-salary-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

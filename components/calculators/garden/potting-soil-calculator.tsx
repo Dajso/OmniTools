@@ -86,11 +86,11 @@ export function PottingSoilCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const unitLabel = inputs.lengthUnit === 'inches' ? 'in' :
-                    inputs.lengthUnit === 'cm' ? 'cm' :
-                    inputs.lengthUnit === 'feet' ? 'ft' : 'm';
+    inputs.lengthUnit === 'cm' ? 'cm' :
+      inputs.lengthUnit === 'feet' ? 'ft' : 'm';
 
   return (
     <CalculatorBase

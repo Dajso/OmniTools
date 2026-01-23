@@ -71,7 +71,7 @@ export function CircleSkirtCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const getSkirtDescription = (type: SkirtType) => {
     switch (type) {
@@ -171,8 +171,8 @@ export function CircleSkirtCalculator() {
             <div className="border-t pt-4 mt-4">
               <p className="text-sm font-medium text-muted-foreground mb-3">Visual Guide</p>
               <div className="flex justify-center">
-                <svg 
-                  viewBox="0 0 200 200" 
+                <svg
+                  viewBox="0 0 200 200"
                   className="w-48 h-48"
                   aria-label="Circle skirt cutting diagram"
                 >

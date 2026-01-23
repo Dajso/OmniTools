@@ -28,7 +28,7 @@ export function DeckingCalculator() {
     storageKey: 'decking-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

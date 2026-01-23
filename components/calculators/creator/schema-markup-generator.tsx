@@ -171,7 +171,7 @@ export function SchemaMarkupGenerator() {
     const [copied, setCopied] = React.useState(false);
     const [showScriptTag, setShowScriptTag] = React.useState(false);
 
-    const handleGenerate = () => {
+    const handleGenerate = React.useCallback(() => {
         try {
             let result: string;
 
@@ -220,11 +220,11 @@ export function SchemaMarkupGenerator() {
         } catch (e) {
             setOutput(`Error: ${e instanceof Error ? e.message : 'Generation failed'}`);
         }
-    };
+    }, [formData, faqItems, schemaType, showScriptTag]);
 
     React.useEffect(() => {
         handleGenerate();
-    }, [formData, faqItems, schemaType, showScriptTag]);
+    }, [handleGenerate]);
 
     const copyOutput = async () => {
         if (output) {
@@ -267,8 +267,8 @@ export function SchemaMarkupGenerator() {
                                 key={st.type}
                                 onClick={() => { setSchemaType(st.type); setFormData({}); }}
                                 className={`p-2 border rounded-lg text-left transition-colors ${schemaType === st.type
-                                        ? 'border-primary bg-primary/5'
-                                        : 'hover:bg-muted'
+                                    ? 'border-primary bg-primary/5'
+                                    : 'hover:bg-muted'
                                     }`}
                             >
                                 <div className="font-medium text-sm">{st.name}</div>

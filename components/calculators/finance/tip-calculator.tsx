@@ -26,7 +26,7 @@ const INITIAL_INPUTS: TipFormInputs = {
 const TIP_PRESETS = [15, 18, 20, 25];
 
 export function TipCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<TipFormInputs, TipResults>({
       initialInputs: INITIAL_INPUTS,
       schema: tipSchema,
@@ -34,7 +34,7 @@ export function TipCalculator() {
       storageKey: 'tip-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -57,18 +57,17 @@ export function TipCalculator() {
         </div>
       )}
     >
-      <NumberInput id="billAmount" label="Bill Amount" value={inputs.billAmount} 
+      <NumberInput id="billAmount" label="Bill Amount" value={inputs.billAmount}
         onChange={(v) => setInput('billAmount', v)} min={0} step={1} unit="$" error={errors.billAmount} required />
-      
+
       <div className="space-y-2">
         <NumberInput id="tipPercent" label="Tip Percentage" value={inputs.tipPercent}
           onChange={(v) => setInput('tipPercent', v)} min={0} max={100} step={1} unit="%" error={errors.tipPercent} />
         <div className="flex gap-2">
           {TIP_PRESETS.map((preset) => (
             <button key={preset} type="button" onClick={() => setInput('tipPercent', preset)}
-              className={`px-3 py-1 text-sm rounded-md border transition-colors ${
-                inputs.tipPercent === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-              }`}>{preset}%</button>
+              className={`px-3 py-1 text-sm rounded-md border transition-colors ${inputs.tipPercent === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                }`}>{preset}%</button>
           ))}
         </div>
       </div>

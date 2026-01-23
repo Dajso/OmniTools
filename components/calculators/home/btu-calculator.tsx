@@ -37,7 +37,7 @@ export function BTUCalculator() {
     storageKey: 'btu-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

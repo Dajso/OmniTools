@@ -37,17 +37,17 @@ const INITIAL_INPUTS: FormInputs = {
 function calculateRefinance(inputs: FormInputs): Results {
   const currentMonthlyRate = inputs.currentRate / 100 / 12;
   const newMonthlyRate = inputs.newRate / 100 / 12;
-  
-  const currentPayment = (inputs.loanBalance * currentMonthlyRate * Math.pow(1 + currentMonthlyRate, inputs.remainingTerm)) / 
+
+  const currentPayment = (inputs.loanBalance * currentMonthlyRate * Math.pow(1 + currentMonthlyRate, inputs.remainingTerm)) /
     (Math.pow(1 + currentMonthlyRate, inputs.remainingTerm) - 1);
-  
-  const newPayment = (inputs.loanBalance * newMonthlyRate * Math.pow(1 + newMonthlyRate, inputs.remainingTerm)) / 
+
+  const newPayment = (inputs.loanBalance * newMonthlyRate * Math.pow(1 + newMonthlyRate, inputs.remainingTerm)) /
     (Math.pow(1 + newMonthlyRate, inputs.remainingTerm) - 1);
-  
+
   const monthlySavings = currentPayment - newPayment;
   const totalSavings = (monthlySavings * inputs.remainingTerm) - inputs.closingCosts;
   const breakEvenMonths = monthlySavings > 0 ? Math.ceil(inputs.closingCosts / monthlySavings) : 0;
-  
+
   return {
     currentPayment,
     newPayment,
@@ -58,7 +58,7 @@ function calculateRefinance(inputs: FormInputs): Results {
 }
 
 export function RefinanceCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -66,7 +66,7 @@ export function RefinanceCalculator() {
       storageKey: 'refinance-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -80,11 +80,11 @@ export function RefinanceCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay 
-            label={results.totalSavings > 0 ? "Total Savings" : "Total Cost"} 
-            value={formatCurrency(Math.abs(results.totalSavings))} 
-            highlight 
-            copyable 
+          <ResultDisplay
+            label={results.totalSavings > 0 ? "Total Savings" : "Total Cost"}
+            value={formatCurrency(Math.abs(results.totalSavings))}
+            highlight
+            copyable
           />
           <div className="grid grid-cols-2 gap-3">
             <ResultDisplay label="Current Payment" value={formatCurrency(results.currentPayment)} copyable />
@@ -95,7 +95,7 @@ export function RefinanceCalculator() {
         </div>
       )}
     >
-      <NumberInput id="loanBalance" label="Current Loan Balance" value={inputs.loanBalance} 
+      <NumberInput id="loanBalance" label="Current Loan Balance" value={inputs.loanBalance}
         onChange={(v) => setInput('loanBalance', v)} min={1000} step={5000} unit="$" error={errors.loanBalance} required />
       <div className="grid grid-cols-2 gap-4">
         <NumberInput id="currentRate" label="Current Interest Rate" value={inputs.currentRate}

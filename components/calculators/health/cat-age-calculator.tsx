@@ -11,12 +11,12 @@ export function CatAgeCalculator() {
   const [months, setMonths] = React.useState(0);
   const [results, setResults] = React.useState<PetAgeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateCatAge({ years, months });
     setResults(result);
-  };
+  }, [years, months]);
 
-  React.useEffect(() => { calculate(); }, [years, months]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

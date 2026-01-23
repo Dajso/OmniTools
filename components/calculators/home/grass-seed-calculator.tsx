@@ -42,7 +42,7 @@ export function GrassSeedCalculator() {
     storageKey: 'grass-seed-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

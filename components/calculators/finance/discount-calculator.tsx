@@ -26,7 +26,7 @@ const INITIAL_INPUTS: DiscountFormInputs = {
 const DISCOUNT_PRESETS = [10, 15, 20, 25, 30, 50];
 
 export function DiscountCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<DiscountFormInputs, DiscountResults>({
       initialInputs: INITIAL_INPUTS,
       schema: discountSchema,
@@ -34,7 +34,7 @@ export function DiscountCalculator() {
       storageKey: 'discount-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -60,16 +60,15 @@ export function DiscountCalculator() {
     >
       <NumberInput id="originalPrice" label="Original Price" value={inputs.originalPrice}
         onChange={(v) => setInput('originalPrice', v)} min={0} step={1} unit="$" error={errors.originalPrice} required />
-      
+
       <div className="space-y-2">
         <NumberInput id="discountPercent" label="Discount" value={inputs.discountPercent}
           onChange={(v) => setInput('discountPercent', v)} min={0} max={100} step={1} unit="%" error={errors.discountPercent} />
         <div className="flex flex-wrap gap-2">
           {DISCOUNT_PRESETS.map((preset) => (
             <button key={preset} type="button" onClick={() => setInput('discountPercent', preset)}
-              className={`px-3 py-1 text-sm rounded-md border transition-colors ${
-                inputs.discountPercent === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-              }`}>{preset}% off</button>
+              className={`px-3 py-1 text-sm rounded-md border transition-colors ${inputs.discountPercent === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                }`}>{preset}% off</button>
           ))}
         </div>
       </div>

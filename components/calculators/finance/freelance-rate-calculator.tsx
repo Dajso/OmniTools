@@ -39,7 +39,7 @@ function calculateFreelanceRate(inputs: FormInputs): Results {
   const hourlyRate = grossNeeded / totalBillableHours;
   const dailyRate = hourlyRate * 8;
   const monthlyRate = grossNeeded / 12;
-  
+
   return {
     hourlyRate,
     dailyRate,
@@ -49,7 +49,7 @@ function calculateFreelanceRate(inputs: FormInputs): Results {
 }
 
 export function FreelanceRateCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -57,7 +57,7 @@ export function FreelanceRateCalculator() {
       storageKey: 'freelance-rate-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -80,7 +80,7 @@ export function FreelanceRateCalculator() {
         </div>
       )}
     >
-      <NumberInput id="desiredIncome" label="Desired Annual Take-Home" value={inputs.desiredIncome} 
+      <NumberInput id="desiredIncome" label="Desired Annual Take-Home" value={inputs.desiredIncome}
         onChange={(v) => setInput('desiredIncome', v)} min={1000} step={5000} unit="$" error={errors.desiredIncome} required />
       <div className="grid grid-cols-2 gap-4">
         <NumberInput id="billableHoursPerWeek" label="Billable Hours/Week" value={inputs.billableHoursPerWeek}

@@ -42,6 +42,20 @@ const INITIAL_INPUTS: PaintFormInputs = {
 /**
  * Paint Calculator Component
  */
+
+function calculatePaintFn(formInputs: PaintFormInputs): PaintResults {
+  const paintInputs: PaintInputs = {
+    roomLength: formInputs.roomLength,
+    roomWidth: formInputs.roomWidth,
+    wallHeight: formInputs.wallHeight,
+    numberOfDoors: formInputs.numberOfDoors,
+    numberOfWindows: formInputs.numberOfWindows,
+    numberOfCoats: formInputs.numberOfCoats,
+    coveragePerGallon: formInputs.coveragePerGallon,
+  };
+  return calculatePaint(paintInputs);
+}
+
 export function PaintCalculator() {
   const {
     inputs,
@@ -55,24 +69,13 @@ export function PaintCalculator() {
   } = useCalculator<PaintFormInputs, PaintResults>({
     initialInputs: INITIAL_INPUTS,
     schema: paintSchema,
-    calculate: (formInputs) => {
-      const paintInputs: PaintInputs = {
-        roomLength: formInputs.roomLength,
-        roomWidth: formInputs.roomWidth,
-        wallHeight: formInputs.wallHeight,
-        numberOfDoors: formInputs.numberOfDoors,
-        numberOfWindows: formInputs.numberOfWindows,
-        numberOfCoats: formInputs.numberOfCoats,
-        coveragePerGallon: formInputs.coveragePerGallon,
-      };
-      return calculatePaint(paintInputs);
-    },
+    calculate: calculatePaintFn,
     storageKey: 'paint-calculator',
   });
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const formula = 'Paint Needed = (Wall Area - Doors - Windows) x Coats / Coverage';
   const formulaExplanation = 'Wall Area = 2 x (Length + Width) x Height. Standard door = 20 sq ft, window = 15 sq ft.';

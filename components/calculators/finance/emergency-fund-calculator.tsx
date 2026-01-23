@@ -36,7 +36,7 @@ function calculateEmergencyFund(inputs: FormInputs): Results {
   const amountNeeded = Math.max(0, targetAmount - inputs.currentSavings);
   const progress = Math.min(100, (inputs.currentSavings / targetAmount) * 100);
   const monthsToGoal = inputs.monthlySavingsRate > 0 ? Math.ceil(amountNeeded / inputs.monthlySavingsRate) : 0;
-  
+
   return {
     targetAmount,
     amountNeeded,
@@ -46,7 +46,7 @@ function calculateEmergencyFund(inputs: FormInputs): Results {
 }
 
 export function EmergencyFundCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -54,7 +54,7 @@ export function EmergencyFundCalculator() {
       storageKey: 'emergency-fund-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const COVERAGE_PRESETS = [3, 6, 9, 12];
 
@@ -79,17 +79,17 @@ export function EmergencyFundCalculator() {
             )}
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4">
-            <div 
-              className="bg-green-500 h-4 rounded-full transition-all duration-300" 
+            <div
+              className="bg-green-500 h-4 rounded-full transition-all duration-300"
               style={{ width: `${Math.min(100, results.progress)}%` }}
             />
           </div>
         </div>
       )}
     >
-      <NumberInput id="monthlyExpenses" label="Monthly Expenses" value={inputs.monthlyExpenses} 
+      <NumberInput id="monthlyExpenses" label="Monthly Expenses" value={inputs.monthlyExpenses}
         onChange={(v) => setInput('monthlyExpenses', v)} min={100} step={100} unit="$" error={errors.monthlyExpenses} required />
-      
+
       <div className="space-y-2">
         <NumberInput id="monthsOfCoverage" label="Months of Coverage" value={inputs.monthsOfCoverage}
           onChange={(v) => setInput('monthsOfCoverage', v)} min={3} max={12} step={1} unit="months" error={errors.monthsOfCoverage} />
@@ -99,9 +99,8 @@ export function EmergencyFundCalculator() {
               key={preset}
               type="button"
               onClick={() => setInput('monthsOfCoverage', preset)}
-              className={`px-3 py-1 text-sm rounded-md border transition-colors ${
-                inputs.monthsOfCoverage === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-              }`}
+              className={`px-3 py-1 text-sm rounded-md border transition-colors ${inputs.monthsOfCoverage === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                }`}
             >
               {preset} mo
             </button>

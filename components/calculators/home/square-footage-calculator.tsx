@@ -39,7 +39,7 @@ export function SquareFootageCalculator() {
     storageKey: 'square-footage-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -65,25 +65,25 @@ export function SquareFootageCalculator() {
       )}
     >
       <SelectInput id="shape" label="Shape" value={inputs.shape} onChange={(v) => setInput('shape', v as ShapeType)} options={SHAPE_OPTIONS} error={errors.shape} />
-      
+
       {inputs.shape === 'rectangle' && (
         <div className="grid grid-cols-2 gap-4">
           <NumberInput id="length" label="Length" value={inputs.length || 0} onChange={(v) => setInput('length', v)} min={0.1} step={1} unit="ft" error={errors.length} required />
           <NumberInput id="width" label="Width" value={inputs.width || 0} onChange={(v) => setInput('width', v)} min={0.1} step={1} unit="ft" error={errors.width} required />
         </div>
       )}
-      
+
       {inputs.shape === 'triangle' && (
         <div className="grid grid-cols-2 gap-4">
           <NumberInput id="length" label="Base" value={inputs.length || 0} onChange={(v) => setInput('length', v)} min={0.1} step={1} unit="ft" error={errors.length} required />
           <NumberInput id="height" label="Height" value={inputs.height || 0} onChange={(v) => setInput('height', v)} min={0.1} step={1} unit="ft" error={errors.height} required />
         </div>
       )}
-      
+
       {inputs.shape === 'circle' && (
         <NumberInput id="radius" label="Radius" value={inputs.radius || 0} onChange={(v) => setInput('radius', v)} min={0.1} step={1} unit="ft" error={errors.radius} required />
       )}
-      
+
       {inputs.shape === 'trapezoid' && (
         <div className="grid grid-cols-3 gap-4">
           <NumberInput id="topWidth" label="Top Width" value={inputs.topWidth || 0} onChange={(v) => setInput('topWidth', v)} min={0.1} step={1} unit="ft" error={errors.topWidth} required />

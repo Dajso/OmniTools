@@ -25,7 +25,7 @@ export function ConcreteCalculator() {
     storageKey: 'concrete-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

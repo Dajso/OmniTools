@@ -24,7 +24,7 @@ export function OvulationCalculator() {
   const [periodLength, setPeriodLength] = React.useState(5);
   const [results, setResults] = React.useState<OvulationResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       const result = calculateOvulation({
         lastPeriodDate: new Date(dateStr),
@@ -35,9 +35,9 @@ export function OvulationCalculator() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [dateStr, cycleLength, periodLength]);
 
-  React.useEffect(() => { calculate(); }, [dateStr, cycleLength, periodLength]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -48,7 +48,7 @@ export function OvulationCalculator() {
       results={results && (
         <div className="space-y-4">
           <ResultDisplay label="Ovulation Date" value={formatDate(results.ovulationDate)} highlight copyable />
-          
+
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay label="Fertile Window Start" value={formatDate(results.fertileWindowStart)} />
             <ResultDisplay label="Fertile Window End" value={formatDate(results.fertileWindowEnd)} />

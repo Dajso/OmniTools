@@ -28,12 +28,12 @@ export function WaterIntakeCalculator() {
   const [climate, setClimate] = React.useState<'normal' | 'hot'>('normal');
   const [results, setResults] = React.useState<WaterIntakeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateWaterIntake({ weight, unit, activityLevel: activity, climate });
     setResults(result);
-  };
+  }, [weight, unit, activity, climate]);
 
-  React.useEffect(() => { calculate(); }, [weight, unit, activity, climate]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     const converted = newUnit === 'metric' ? Math.round(weight * 0.453592) : Math.round(weight / 0.453592);
@@ -63,7 +63,7 @@ export function WaterIntakeCalculator() {
       )}
     >
       <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} labels={{ imperial: 'lbs', metric: 'kg' }} />
+        <UnitToggle value={unit} onChange={handleUnitChange} />
       </div>
       <NumberInput id="weight" label="Body Weight" value={weight} onChange={setWeight} min={50} max={500} unit={unit === 'imperial' ? 'lbs' : 'kg'} required />
       <SelectInput id="activity" label="Activity Level" value={activity} onChange={(v) => setActivity(v as ActivityLevel)} options={ACTIVITY_OPTIONS} required />

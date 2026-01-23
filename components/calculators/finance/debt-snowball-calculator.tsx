@@ -42,15 +42,15 @@ function calculateDebtSnowball(inputs: FormInputs): Results {
     { name: 'Debt 1', balance: inputs.debt1Balance, rate: inputs.debt1Rate, minPayment: inputs.debt1MinPayment },
     { name: 'Debt 2', balance: inputs.debt2Balance, rate: inputs.debt2Rate, minPayment: inputs.debt2MinPayment },
   ].filter(d => d.balance > 0).sort((a, b) => a.balance - b.balance);
-  
+
   const totalDebt = debts.reduce((sum, d) => sum + d.balance, 0);
   let totalInterest = 0;
   let months = 0;
   const payoffOrder: string[] = [];
   let extraPayment = inputs.extraPayment;
-  
+
   const balances = debts.map(d => d.balance);
-  
+
   while (balances.some(b => b > 0) && months < 600) {
     months++;
     for (let i = 0; i < debts.length; i++) {
@@ -69,7 +69,7 @@ function calculateDebtSnowball(inputs: FormInputs): Results {
       }
     }
   }
-  
+
   return {
     totalDebt,
     totalInterest,
@@ -79,7 +79,7 @@ function calculateDebtSnowball(inputs: FormInputs): Results {
 }
 
 export function DebtSnowballCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -87,7 +87,7 @@ export function DebtSnowballCalculator() {
       storageKey: 'debt-snowball-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const formatMonths = (months: number) => {
     const years = Math.floor(months / 12);
@@ -120,7 +120,7 @@ export function DebtSnowballCalculator() {
       <div className="p-4 border rounded-lg space-y-3">
         <h3 className="font-medium">Debt 1</h3>
         <div className="grid grid-cols-3 gap-3">
-          <NumberInput id="debt1Balance" label="Balance" value={inputs.debt1Balance} 
+          <NumberInput id="debt1Balance" label="Balance" value={inputs.debt1Balance}
             onChange={(v) => setInput('debt1Balance', v)} min={0} step={100} unit="$" error={errors.debt1Balance} />
           <NumberInput id="debt1Rate" label="APR" value={inputs.debt1Rate}
             onChange={(v) => setInput('debt1Rate', v)} min={0} max={50} step={0.5} unit="%" error={errors.debt1Rate} />
@@ -131,7 +131,7 @@ export function DebtSnowballCalculator() {
       <div className="p-4 border rounded-lg space-y-3">
         <h3 className="font-medium">Debt 2</h3>
         <div className="grid grid-cols-3 gap-3">
-          <NumberInput id="debt2Balance" label="Balance" value={inputs.debt2Balance} 
+          <NumberInput id="debt2Balance" label="Balance" value={inputs.debt2Balance}
             onChange={(v) => setInput('debt2Balance', v)} min={0} step={100} unit="$" error={errors.debt2Balance} />
           <NumberInput id="debt2Rate" label="APR" value={inputs.debt2Rate}
             onChange={(v) => setInput('debt2Rate', v)} min={0} max={50} step={0.5} unit="%" error={errors.debt2Rate} />

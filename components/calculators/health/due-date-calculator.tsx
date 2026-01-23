@@ -23,16 +23,16 @@ export function DueDateCalculator() {
   const [cycleLength, setCycleLength] = React.useState(28);
   const [results, setResults] = React.useState<DueDateResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       const result = calculateDueDate({ date: new Date(dateStr), method, cycleLength });
       setResults(result);
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [dateStr, method, cycleLength]);
 
-  React.useEffect(() => { calculate(); }, [dateStr, method, cycleLength]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

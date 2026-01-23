@@ -25,7 +25,7 @@ export function MulchCalculator() {
     storageKey: 'mulch-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

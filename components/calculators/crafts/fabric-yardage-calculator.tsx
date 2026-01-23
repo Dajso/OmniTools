@@ -104,10 +104,10 @@ export function FabricYardageCalculator() {
         hasNap: formInputs.hasNap,
         patternRepeat: formInputs.patternRepeat,
       });
-      
+
       const liningYards = calculateLiningYardage(result.yardsNeeded, formInputs.garmentType);
       const interfacingYards = calculateInterfacingYardage(formInputs.garmentType, formInputs.size);
-      
+
       return {
         ...result,
         liningYards,
@@ -119,7 +119,7 @@ export function FabricYardageCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   return (
     <CalculatorBase
@@ -142,7 +142,7 @@ export function FabricYardageCalculator() {
               highlight
               copyable
             />
-            
+
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
                 label="In Meters"

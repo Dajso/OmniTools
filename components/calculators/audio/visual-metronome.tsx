@@ -58,7 +58,7 @@ export function VisualMetronome() {
     oscillator.stop(ctx.currentTime + 0.1);
   }, [soundEnabled]);
 
-  const startMetronome = React.useCallback(() => {
+  const startTimer = React.useCallback(() => {
     const msPerBeat = 60000 / bpm;
     setCurrentBeat(1);
     playClick(accentFirst);
@@ -70,34 +70,43 @@ export function VisualMetronome() {
         return nextBeat;
       });
     }, msPerBeat);
-
-    setIsPlaying(true);
   }, [bpm, beats, accentFirst, playClick]);
 
-  const stopMetronome = React.useCallback(() => {
+  const stopTimer = React.useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    setIsPlaying(false);
     setCurrentBeat(0);
   }, []);
 
+  const handleStart = React.useCallback(() => {
+    startTimer();
+    setIsPlaying(true);
+  }, [startTimer]);
+
+  const handleStop = React.useCallback(() => {
+    stopTimer();
+    setIsPlaying(false);
+  }, [stopTimer]);
+
+
+
   const toggleMetronome = () => {
     if (isPlaying) {
-      stopMetronome();
+      handleStop();
     } else {
-      startMetronome();
+      handleStart();
     }
   };
 
   // Restart metronome when BPM or time signature changes while playing
   React.useEffect(() => {
     if (isPlaying) {
-      stopMetronome();
-      startMetronome();
+      stopTimer();
+      startTimer();
     }
-  }, [bpm, timeSignature]);
+  }, [bpm, timeSignature, isPlaying, stopTimer, startTimer]);
 
   // Cleanup on unmount
   React.useEffect(() => {
@@ -231,7 +240,7 @@ export function VisualMetronome() {
         </div>
 
         {/* Visual Beat Display */}
-        <div 
+        <div
           className={`
             rounded-lg p-8 transition-colors duration-100
             ${isPlaying && flashEnabled && currentBeat > 0

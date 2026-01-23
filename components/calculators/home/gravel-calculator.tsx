@@ -26,7 +26,7 @@ export function GravelCalculator() {
     storageKey: 'gravel-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

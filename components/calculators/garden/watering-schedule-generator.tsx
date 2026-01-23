@@ -76,7 +76,7 @@ function generateWateringSchedule(inputs: WateringInputs): WateringResult {
 
   // Base frequency (days between watering)
   let baseDays = 3;
-  
+
   // Adjust for plant type
   const plantAdjust: Record<string, number> = {
     'vegetables': -1,
@@ -183,7 +183,7 @@ export function WateringScheduleGenerator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   return (
     <CalculatorBase
@@ -221,9 +221,8 @@ export function WateringScheduleGenerator() {
                 {results.schedule.map((day) => (
                   <div
                     key={day.day}
-                    className={`flex flex-col items-center p-2 rounded ${
-                      day.water ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-muted/50'
-                    }`}
+                    className={`flex flex-col items-center p-2 rounded ${day.water ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-muted/50'
+                      }`}
                   >
                     <span className="text-xs font-medium">{day.day}</span>
                     <span className="text-lg">{day.water ? '💧' : '—'}</span>

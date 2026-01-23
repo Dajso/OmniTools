@@ -67,10 +67,10 @@ const INITIAL_INPUTS: CompoundInterestFormInputs = {
  */
 function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) {
   const maxBalance = Math.max(...data.map(d => d.balance));
-  
+
   // Show every year for small datasets, otherwise sample
-  const displayData = data.length <= 15 
-    ? data 
+  const displayData = data.length <= 15
+    ? data
     : data.filter((_, i) => i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 10) === 0);
 
   return (
@@ -81,7 +81,7 @@ function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) 
           const contributionPercent = (point.totalContributions / point.balance) * 100;
           const interestPercent = (point.totalInterest / point.balance) * 100;
           const widthPercent = (point.balance / maxBalance) * 100;
-          
+
           return (
             <div key={point.year} className="flex items-center gap-3">
               <span className="w-16 text-sm text-muted-foreground text-right">
@@ -89,13 +89,13 @@ function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) 
               </span>
               <div className="flex-1 h-6 bg-muted rounded overflow-hidden" style={{ width: `${widthPercent}%`, minWidth: '20%' }}>
                 <div className="h-full flex">
-                  <div 
-                    className="bg-blue-500 h-full" 
+                  <div
+                    className="bg-blue-500 h-full"
                     style={{ width: `${contributionPercent}%` }}
                     title={`Contributions: ${formatCurrency(point.totalContributions)}`}
                   />
-                  <div 
-                    className="bg-green-500 h-full" 
+                  <div
+                    className="bg-green-500 h-full"
                     style={{ width: `${interestPercent}%` }}
                     title={`Interest: ${formatCurrency(point.totalInterest)}`}
                   />
@@ -179,6 +179,20 @@ function GrowthTable({ data }: { data: CompoundInterestResults['growthData'] }) 
  * 
  * @see Requirements 5.10
  */
+
+function calculateCompoundInterestFn(formInputs: CompoundInterestFormInputs): CompoundInterestResults {
+  const calcInputs: CompoundInterestInputs = {
+    principal: formInputs.principal,
+    annualRate: formInputs.annualRate,
+    years: formInputs.years,
+    compoundingFrequency: formInputs.compoundingFrequency as CompoundingFrequency,
+    contribution: formInputs.contribution,
+    contributionFrequency: formInputs.contributionFrequency as ContributionFrequency,
+    contributionTiming: formInputs.contributionTiming as 'beginning' | 'end',
+  };
+  return calculateCompoundInterest(calcInputs);
+}
+
 export function CompoundInterestCalculator() {
   const {
     inputs,
@@ -192,25 +206,14 @@ export function CompoundInterestCalculator() {
   } = useCalculator<CompoundInterestFormInputs, CompoundInterestResults>({
     initialInputs: INITIAL_INPUTS,
     schema: compoundInterestSchema,
-    calculate: (formInputs) => {
-      const calcInputs: CompoundInterestInputs = {
-        principal: formInputs.principal,
-        annualRate: formInputs.annualRate,
-        years: formInputs.years,
-        compoundingFrequency: formInputs.compoundingFrequency as CompoundingFrequency,
-        contribution: formInputs.contribution,
-        contributionFrequency: formInputs.contributionFrequency as ContributionFrequency,
-        contributionTiming: formInputs.contributionTiming as 'beginning' | 'end',
-      };
-      return calculateCompoundInterest(calcInputs);
-    },
+    calculate: calculateCompoundInterestFn,
     storageKey: 'compound-interest-calculator',
   });
 
   // Calculate on mount
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const ruleOf72Years = calculateRuleOf72(inputs.annualRate);
 
@@ -259,7 +262,7 @@ export function CompoundInterestCalculator() {
                 copyable
               />
             </div>
-            
+
             <GrowthChart data={results.growthData} />
             <GrowthTable data={results.growthData} />
           </div>

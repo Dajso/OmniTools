@@ -82,7 +82,7 @@ export function PaycheckCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const getPaycheckAmount = () => {
     if (!results) return 0;

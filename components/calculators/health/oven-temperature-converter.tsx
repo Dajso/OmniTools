@@ -18,12 +18,12 @@ export function OvenTemperatureConverter() {
   const [fromUnit, setFromUnit] = React.useState<TemperatureUnit>('fahrenheit');
   const [results, setResults] = React.useState<OvenTempResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = convertOvenTemperature({ value, fromUnit });
     setResults(result);
-  };
+  }, [value, fromUnit]);
 
-  React.useEffect(() => { calculate(); }, [value, fromUnit]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const commonTemps = getCommonTemperatures();
 
@@ -40,15 +40,15 @@ export function OvenTemperatureConverter() {
             <ResultDisplay label="Celsius" value={results.celsius} unit="°C" highlight={fromUnit !== 'celsius'} copyable />
             <ResultDisplay label="Gas Mark" value={results.gasMark} highlight={fromUnit !== 'gas_mark'} />
           </div>
-          
+
           <ResultDisplay label="Heat Level" value={results.description} />
 
           <div className="mt-4">
             <h4 className="text-sm font-medium mb-2">Common Oven Temperatures</h4>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {commonTemps.map((temp, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="flex justify-between text-sm p-2 rounded bg-muted/50 cursor-pointer hover:bg-muted"
                   onClick={() => { setValue(temp.fahrenheit); setFromUnit('fahrenheit'); }}
                 >
@@ -62,16 +62,16 @@ export function OvenTemperatureConverter() {
       )}
     >
       <SelectInput id="fromUnit" label="Temperature Unit" value={fromUnit} onChange={(v) => setFromUnit(v as TemperatureUnit)} options={UNIT_OPTIONS} required />
-      <NumberInput 
-        id="value" 
-        label="Temperature" 
-        value={value} 
-        onChange={setValue} 
-        min={fromUnit === 'gas_mark' ? 0.25 : 100} 
-        max={fromUnit === 'gas_mark' ? 10 : 600} 
+      <NumberInput
+        id="value"
+        label="Temperature"
+        value={value}
+        onChange={setValue}
+        min={fromUnit === 'gas_mark' ? 0.25 : 100}
+        max={fromUnit === 'gas_mark' ? 10 : 600}
         step={fromUnit === 'gas_mark' ? 0.25 : 5}
         unit={fromUnit === 'fahrenheit' ? '°F' : fromUnit === 'celsius' ? '°C' : ''}
-        required 
+        required
       />
     </CalculatorBase>
   );

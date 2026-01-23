@@ -34,10 +34,10 @@ export function SampleRateCalculator() {
   const [fileSizeResult, setFileSizeResult] = React.useState<AudioFileSizeResult | null>(null);
   const [calculatedDuration, setCalculatedDuration] = React.useState<number | null>(null);
 
-  const format: AudioFormat = { sampleRate, bitDepth, channels };
   const totalSeconds = durationMinutes * 60 + durationSeconds;
 
   React.useEffect(() => {
+    const format: AudioFormat = { sampleRate, bitDepth, channels };
     if (mode === 'size' && totalSeconds > 0) {
       try {
         const result = calculateFileSize(format, totalSeconds);

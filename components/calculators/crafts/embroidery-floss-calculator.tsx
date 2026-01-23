@@ -84,7 +84,7 @@ export function EmbroideryFlossCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const stitchInfo = STITCH_TYPES[inputs.stitchType];
 

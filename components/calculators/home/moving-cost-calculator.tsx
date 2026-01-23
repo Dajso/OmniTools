@@ -47,7 +47,7 @@ export function MovingCostCalculator() {
     storageKey: 'moving-cost-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

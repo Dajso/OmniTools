@@ -80,11 +80,11 @@ function BMIScale({ bmi, category }: { bmi: number; category: BMICategory }) {
         <div className="w-[40%] bg-red-400" title="Obese" />
       </div>
       {/* Marker */}
-      <div 
+      <div
         className="relative h-0"
         style={{ left: `${position}%` }}
       >
-        <div 
+        <div
           className="absolute -top-1 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-foreground transform -translate-x-1/2"
           style={{ left: `${position}%` }}
         />
@@ -133,6 +133,24 @@ function CategoryBadge({ category }: { category: BMICategory }) {
  * 
  * @see Requirements 6.1
  */
+
+function calculateBMIFn(formInputs: BMIFormInputs): BMIResults {
+  let height: number;
+
+  if (formInputs.unit === 'imperial') {
+    height = feetInchesToInches(formInputs.heightFeet, formInputs.heightInches);
+  } else {
+    height = formInputs.heightCm;
+  }
+
+  const bmiInputs: BMIInputs = {
+    weight: formInputs.weight,
+    height,
+    unit: formInputs.unit,
+  };
+  return calculateBMI(bmiInputs);
+}
+
 export function BMICalculator() {
   const {
     inputs,
@@ -146,29 +164,14 @@ export function BMICalculator() {
   } = useCalculator<BMIFormInputs, BMIResults>({
     initialInputs: INITIAL_INPUTS,
     schema: bmiSchema as unknown as z.ZodType<BMIFormInputs>,
-    calculate: (formInputs) => {
-      let height: number;
-      
-      if (formInputs.unit === 'imperial') {
-        height = feetInchesToInches(formInputs.heightFeet, formInputs.heightInches);
-      } else {
-        height = formInputs.heightCm;
-      }
-
-      const bmiInputs: BMIInputs = {
-        weight: formInputs.weight,
-        height,
-        unit: formInputs.unit,
-      };
-      return calculateBMI(bmiInputs);
-    },
+    calculate: calculateBMIFn,
     storageKey: 'bmi-calculator',
   });
 
   // Handle unit toggle
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     setInput('unit', newUnit);
-    
+
     // Convert values when switching units
     if (newUnit === 'metric' && inputs.unit === 'imperial') {
       // Convert lbs to kg
@@ -193,12 +196,12 @@ export function BMICalculator() {
   // Calculate on mount
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
-  const formula = inputs.unit === 'imperial' 
+  const formula = inputs.unit === 'imperial'
     ? 'BMI = (weight × 703) / height²'
     : 'BMI = weight / height²';
-  
+
   const formulaExplanation = inputs.unit === 'imperial'
     ? 'Where weight is in pounds and height is in inches'
     : 'Where weight is in kg and height is in meters';
@@ -226,9 +229,9 @@ export function BMICalculator() {
               />
               <CategoryBadge category={results.category} />
             </div>
-            
+
             <BMIScale bmi={results.bmi} category={results.category} />
-            
+
             <div className="grid grid-cols-2 gap-3 mt-4">
               <ResultDisplay
                 label="Healthy Weight Range"
@@ -256,7 +259,6 @@ export function BMICalculator() {
         <UnitToggle
           value={inputs.unit}
           onChange={handleUnitChange}
-          labels={{ imperial: 'Imperial (lbs/ft)', metric: 'Metric (kg/cm)' }}
         />
       </div>
 

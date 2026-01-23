@@ -25,7 +25,7 @@ export function StairCalculator() {
     storageKey: 'stair-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

@@ -23,7 +23,7 @@ export function RoofPitchCalculator() {
     storageKey: 'roof-pitch-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

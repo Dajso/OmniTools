@@ -33,7 +33,7 @@ const INITIAL_INPUTS: FormInputs = {
 function calculateFuelCost(inputs: FormInputs): Results {
   let fuelNeeded: number;
   let costPerMile: number;
-  
+
   if (inputs.useMetric) {
     fuelNeeded = (inputs.distance / 100) * inputs.fuelEfficiency;
     costPerMile = (inputs.fuelEfficiency / 100) * inputs.fuelPrice;
@@ -41,9 +41,9 @@ function calculateFuelCost(inputs: FormInputs): Results {
     fuelNeeded = inputs.distance / inputs.fuelEfficiency;
     costPerMile = inputs.fuelPrice / inputs.fuelEfficiency;
   }
-  
+
   const totalCost = fuelNeeded * inputs.fuelPrice;
-  
+
   return {
     fuelNeeded,
     totalCost,
@@ -52,7 +52,7 @@ function calculateFuelCost(inputs: FormInputs): Results {
 }
 
 export function FuelCostCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -60,7 +60,7 @@ export function FuelCostCalculator() {
       storageKey: 'fuel-cost-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -76,15 +76,15 @@ export function FuelCostCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="Total Fuel Cost" value={formatCurrency(results.totalCost)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay 
-              label={inputs.useMetric ? "Fuel Needed (L)" : "Fuel Needed (gal)"} 
-              value={results.fuelNeeded.toFixed(2)} 
-              copyable 
+            <ResultDisplay
+              label={inputs.useMetric ? "Fuel Needed (L)" : "Fuel Needed (gal)"}
+              value={results.fuelNeeded.toFixed(2)}
+              copyable
             />
-            <ResultDisplay 
-              label={inputs.useMetric ? "Cost per km" : "Cost per mile"} 
-              value={formatCurrency(results.costPerMile)} 
-              copyable 
+            <ResultDisplay
+              label={inputs.useMetric ? "Cost per km" : "Cost per mile"}
+              value={formatCurrency(results.costPerMile)}
+              copyable
             />
           </div>
         </div>
@@ -94,52 +94,50 @@ export function FuelCostCalculator() {
         <button
           type="button"
           onClick={() => setInput('useMetric', false)}
-          className={`px-4 py-2 text-sm rounded-md border transition-colors ${
-            !inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-          }`}
+          className={`px-4 py-2 text-sm rounded-md border transition-colors ${!inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+            }`}
         >
           Imperial (MPG)
         </button>
         <button
           type="button"
           onClick={() => setInput('useMetric', true)}
-          className={`px-4 py-2 text-sm rounded-md border transition-colors ${
-            inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-          }`}
+          className={`px-4 py-2 text-sm rounded-md border transition-colors ${inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+            }`}
         >
           Metric (L/100km)
         </button>
       </div>
-      <NumberInput 
-        id="distance" 
-        label={inputs.useMetric ? "Distance (km)" : "Distance (miles)"} 
-        value={inputs.distance} 
-        onChange={(v) => setInput('distance', v)} 
-        min={1} 
-        step={10} 
-        error={errors.distance} 
-        required 
+      <NumberInput
+        id="distance"
+        label={inputs.useMetric ? "Distance (km)" : "Distance (miles)"}
+        value={inputs.distance}
+        onChange={(v) => setInput('distance', v)}
+        min={1}
+        step={10}
+        error={errors.distance}
+        required
       />
-      <NumberInput 
-        id="fuelEfficiency" 
-        label={inputs.useMetric ? "Fuel Consumption (L/100km)" : "Fuel Efficiency (MPG)"} 
+      <NumberInput
+        id="fuelEfficiency"
+        label={inputs.useMetric ? "Fuel Consumption (L/100km)" : "Fuel Efficiency (MPG)"}
         value={inputs.fuelEfficiency}
-        onChange={(v) => setInput('fuelEfficiency', v)} 
-        min={1} 
-        step={1} 
-        error={errors.fuelEfficiency} 
-        required 
+        onChange={(v) => setInput('fuelEfficiency', v)}
+        min={1}
+        step={1}
+        error={errors.fuelEfficiency}
+        required
       />
-      <NumberInput 
-        id="fuelPrice" 
-        label={inputs.useMetric ? "Fuel Price (per liter)" : "Fuel Price (per gallon)"} 
+      <NumberInput
+        id="fuelPrice"
+        label={inputs.useMetric ? "Fuel Price (per liter)" : "Fuel Price (per gallon)"}
         value={inputs.fuelPrice}
-        onChange={(v) => setInput('fuelPrice', v)} 
-        min={0.01} 
-        step={0.1} 
-        unit="$" 
-        error={errors.fuelPrice} 
-        required 
+        onChange={(v) => setInput('fuelPrice', v)}
+        min={0.01}
+        step={0.1}
+        unit="$"
+        error={errors.fuelPrice}
+        required
       />
     </CalculatorBase>
   );

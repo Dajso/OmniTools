@@ -20,12 +20,12 @@ export function DogAgeCalculator() {
   const [size, setSize] = React.useState<DogSize>('medium');
   const [results, setResults] = React.useState<PetAgeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateDogAge({ years, months, size });
     setResults(result);
-  };
+  }, [years, months, size]);
 
-  React.useEffect(() => { calculate(); }, [years, months, size]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

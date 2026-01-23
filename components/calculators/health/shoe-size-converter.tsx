@@ -20,12 +20,12 @@ export function ShoeSizeConverter() {
   const [system, setSystem] = React.useState<ShoeSizeSystem>('us_men');
   const [results, setResults] = React.useState<ShoeSizeResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = convertShoeSize({ size, fromSystem: system });
     setResults(result);
-  };
+  }, [size, system]);
 
-  React.useEffect(() => { calculate(); }, [size, system]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

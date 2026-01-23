@@ -24,7 +24,7 @@ export function BodyFatCalculator() {
   const [results, setResults] = React.useState<BodyFatResults | null>(null);
   const [error, setError] = React.useState('');
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       setError('');
       const result = calculateBodyFat({ sex, height, waist, neck, hip: sex === 'female' ? hip : undefined, unit });
@@ -32,9 +32,9 @@ export function BodyFatCalculator() {
     } catch (e) {
       setError((e as Error).message);
     }
-  };
+  }, [sex, height, waist, neck, hip, unit]);
 
-  React.useEffect(() => { calculate(); }, [sex, height, waist, neck, hip, unit]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     const factor = newUnit === 'metric' ? 2.54 : 1 / 2.54;
@@ -75,7 +75,7 @@ export function BodyFatCalculator() {
       )}
     >
       <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} labels={{ imperial: 'inches', metric: 'cm' }} />
+        <UnitToggle value={unit} onChange={handleUnitChange} />
       </div>
       <SelectInput id="sex" label="Biological Sex" value={sex} onChange={(v) => setSex(v as BiologicalSex)} options={SEX_OPTIONS} required />
       <NumberInput id="height" label="Height" value={height} onChange={setHeight} min={36} max={96} unit={unit === 'imperial' ? 'in' : 'cm'} required />

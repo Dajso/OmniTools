@@ -14,7 +14,7 @@ export function OneRepMaxCalculator() {
   const [results, setResults] = React.useState<OneRepMaxResults | null>(null);
   const [error, setError] = React.useState<string>('');
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     try {
       setError('');
       const result = calculateOneRepMax({ weight, reps, unit });
@@ -22,9 +22,9 @@ export function OneRepMaxCalculator() {
     } catch (e) {
       setError((e as Error).message);
     }
-  };
+  }, [weight, reps, unit]);
 
-  React.useEffect(() => { calculate(); }, [weight, reps, unit]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     const converted = newUnit === 'metric' ? Math.round(weight * 0.453592) : Math.round(weight / 0.453592);
@@ -63,7 +63,7 @@ export function OneRepMaxCalculator() {
       )}
     >
       <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} labels={{ imperial: 'lbs', metric: 'kg' }} />
+        <UnitToggle value={unit} onChange={handleUnitChange} />
       </div>
       <NumberInput id="weight" label="Weight Lifted" value={weight} onChange={setWeight} min={1} unit={unit === 'imperial' ? 'lbs' : 'kg'} required />
       <NumberInput id="reps" label="Repetitions" value={reps} onChange={setReps} min={1} max={30} required />

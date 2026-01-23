@@ -23,20 +23,25 @@ const INITIAL_INPUTS: ROIFormInputs = {
   investmentPeriodYears: 5,
 };
 
+
+function calculateROIFn(formInputs: ROIFormInputs): ROIResults {
+  return calculateROI({
+    initialInvestment: formInputs.initialInvestment,
+    finalValue: formInputs.finalValue,
+    investmentPeriodYears: formInputs.investmentPeriodYears,
+  });
+}
+
 export function ROICalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<ROIFormInputs, ROIResults>({
       initialInputs: INITIAL_INPUTS,
       schema: roiSchema,
-      calculate: (formInputs) => calculateROI({
-        initialInvestment: formInputs.initialInvestment,
-        finalValue: formInputs.finalValue,
-        investmentPeriodYears: formInputs.investmentPeriodYears,
-      }),
+      calculate: calculateROIFn,
       storageKey: 'roi-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -50,19 +55,19 @@ export function ROICalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay 
-            label="Return on Investment" 
-            value={formatPercent(results.roi / 100, { decimals: 2 })} 
-            highlight 
-            copyable 
+          <ResultDisplay
+            label="Return on Investment"
+            value={formatPercent(results.roi / 100, { decimals: 2 })}
+            highlight
+            copyable
           />
           <div className="grid grid-cols-2 gap-3">
             <ResultDisplay label="Total Gain/Loss" value={formatCurrency(results.gain)} copyable />
             {results.annualizedROI !== undefined && (
-              <ResultDisplay 
-                label="Annualized ROI" 
-                value={formatPercent(results.annualizedROI / 100, { decimals: 2 })} 
-                copyable 
+              <ResultDisplay
+                label="Annualized ROI"
+                value={formatPercent(results.annualizedROI / 100, { decimals: 2 })}
+                copyable
               />
             )}
           </div>
@@ -71,10 +76,10 @@ export function ROICalculator() {
     >
       <NumberInput id="initialInvestment" label="Initial Investment" value={inputs.initialInvestment}
         onChange={(v) => setInput('initialInvestment', v)} min={0.01} step={100} unit="$" error={errors.initialInvestment} required />
-      
+
       <NumberInput id="finalValue" label="Final Value" value={inputs.finalValue}
         onChange={(v) => setInput('finalValue', v)} min={0} step={100} unit="$" error={errors.finalValue} required />
-      
+
       <NumberInput id="investmentPeriodYears" label="Investment Period (optional)" value={inputs.investmentPeriodYears || 0}
         onChange={(v) => setInput('investmentPeriodYears', v || undefined)} min={0} step={1} unit="years" error={errors.investmentPeriodYears} />
     </CalculatorBase>

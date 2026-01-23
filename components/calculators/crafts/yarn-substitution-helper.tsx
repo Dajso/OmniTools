@@ -79,7 +79,7 @@ export function YarnSubstitutionHelper() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const originalInfo = YARN_WEIGHTS[inputs.originalWeight];
   const substituteInfo = YARN_WEIGHTS[inputs.substituteWeight];
@@ -105,7 +105,7 @@ export function YarnSubstitutionHelper() {
               highlight
               copyable
             />
-            
+
             <ResultDisplay
               label="Total Yards Needed"
               value={results.totalYardsNeeded}
@@ -182,7 +182,7 @@ export function YarnSubstitutionHelper() {
     >
       <div className="border-b pb-4 mb-4">
         <p className="text-sm font-medium mb-3">Original Yarn (Pattern Calls For)</p>
-        
+
         <SelectInput
           id="originalWeight"
           label="Yarn Weight"
@@ -224,7 +224,7 @@ export function YarnSubstitutionHelper() {
 
       <div>
         <p className="text-sm font-medium mb-3">Substitute Yarn (What You Have)</p>
-        
+
         <SelectInput
           id="substituteWeight"
           label="Yarn Weight"

@@ -162,6 +162,21 @@ function PaymentBreakdown({ results }: { results: MortgageResults }) {
  * 
  * @see Requirements 5.1
  */
+
+function calculateMortgageFn(formInputs: MortgageFormInputs): MortgageResults {
+  const mortgageInputs: MortgageInputs = {
+    homePrice: formInputs.homePrice,
+    downPayment: formInputs.downPayment,
+    loanTerm: formInputs.loanTerm,
+    interestRate: formInputs.interestRate,
+    propertyTax: formInputs.propertyTax,
+    homeInsurance: formInputs.homeInsurance,
+    pmi: formInputs.pmi,
+    hoaFees: formInputs.hoaFees,
+  };
+  return calculateMortgage(mortgageInputs);
+}
+
 export function MortgageCalculator() {
   const {
     inputs,
@@ -175,19 +190,7 @@ export function MortgageCalculator() {
   } = useCalculator<MortgageFormInputs, MortgageResults>({
     initialInputs: INITIAL_INPUTS,
     schema: mortgageSchema,
-    calculate: (formInputs) => {
-      const mortgageInputs: MortgageInputs = {
-        homePrice: formInputs.homePrice,
-        downPayment: formInputs.downPayment,
-        loanTerm: formInputs.loanTerm,
-        interestRate: formInputs.interestRate,
-        propertyTax: formInputs.propertyTax,
-        homeInsurance: formInputs.homeInsurance,
-        pmi: formInputs.pmi,
-        hoaFees: formInputs.hoaFees,
-      };
-      return calculateMortgage(mortgageInputs);
-    },
+    calculate: calculateMortgageFn,
     storageKey: 'mortgage-calculator',
   });
 
@@ -233,7 +236,7 @@ export function MortgageCalculator() {
   // Calculate on mount with initial values
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   const formula = 'M = P × [r(1+r)^n] / [(1+r)^n - 1]';
   const formulaExplanation = 'Where M = Monthly payment, P = Principal, r = Monthly interest rate, n = Number of payments';
@@ -401,7 +404,7 @@ export function MortgageCalculator() {
       {/* PMI Notice */}
       {isPMIRequired(inputs.downPaymentPercent) && (
         <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-          💡 PMI is typically required when down payment is less than 20%. 
+          💡 PMI is typically required when down payment is less than 20%.
           PMI can be removed once you reach 20% equity.
         </p>
       )}

@@ -101,7 +101,7 @@ export function FertilizerCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   // Update NPK when fertilizer type changes
   React.useEffect(() => {
@@ -120,8 +120,8 @@ export function FertilizerCalculator() {
   };
 
   const weightLabel = inputs.weightUnit;
-  const areaLabel = inputs.areaUnit === 'sqft' ? 'sq ft' : 
-                    inputs.areaUnit === 'sqm' ? 'sq m' : 'acres';
+  const areaLabel = inputs.areaUnit === 'sqft' ? 'sq ft' :
+    inputs.areaUnit === 'sqm' ? 'sq m' : 'acres';
 
   return (
     <CalculatorBase

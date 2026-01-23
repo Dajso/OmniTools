@@ -37,12 +37,12 @@ export function BACCalculator() {
   const [drinkType, setDrinkType] = React.useState<'beer' | 'wine' | 'spirits'>('beer');
   const [results, setResults] = React.useState<BACResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateBAC({ weight, unit, sex, drinks, hours, drinkType });
     setResults(result);
-  };
+  }, [weight, unit, sex, drinks, hours, drinkType]);
 
-  React.useEffect(() => { calculate(); }, [weight, unit, sex, drinks, hours, drinkType]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
     const converted = newUnit === 'metric' ? Math.round(weight * 0.453592) : Math.round(weight / 0.453592);
@@ -81,7 +81,7 @@ export function BACCalculator() {
       )}
     >
       <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} labels={{ imperial: 'lbs', metric: 'kg' }} />
+        <UnitToggle value={unit} onChange={handleUnitChange} />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <NumberInput id="weight" label="Body Weight" value={weight} onChange={setWeight} min={80} max={400} unit={unit === 'imperial' ? 'lbs' : 'kg'} required />

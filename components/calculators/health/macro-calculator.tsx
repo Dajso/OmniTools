@@ -22,12 +22,12 @@ export function MacroCalculator() {
   const [weight, setWeight] = React.useState(70);
   const [results, setResults] = React.useState<MacroResults | null>(null);
 
-  const calculate = () => {
+  const calculate = React.useCallback(() => {
     const result = calculateMacros({ calories, goal, weightKg: weight });
     setResults(result);
-  };
+  }, [calories, goal, weight]);
 
-  React.useEffect(() => { calculate(); }, [calories, goal, weight]);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

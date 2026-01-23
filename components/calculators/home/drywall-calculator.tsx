@@ -38,7 +38,7 @@ export function DrywallCalculator() {
     storageKey: 'drywall-calculator',
   });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase

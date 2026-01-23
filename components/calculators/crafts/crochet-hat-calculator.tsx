@@ -69,7 +69,7 @@ export function CrochetHatCalculator() {
       const circumference = formInputs.useStandardSize
         ? STANDARD_HEAD_SIZES[formInputs.ageGroup].circumference
         : formInputs.headCircumference;
-      
+
       return calculateCrochetHat({
         headCircumference: circumference,
         style: formInputs.style,
@@ -81,7 +81,7 @@ export function CrochetHatCalculator() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   // Update circumference when age group changes
   React.useEffect(() => {
@@ -91,9 +91,9 @@ export function CrochetHatCalculator() {
         setInput('headCircumference', size.circumference);
       }
     }
-  }, [inputs.ageGroup, inputs.useStandardSize]);
+  }, [inputs.ageGroup, inputs.useStandardSize, setInput]);
 
-  const yarnEstimate = inputs.useStandardSize 
+  const yarnEstimate = inputs.useStandardSize
     ? YARN_REQUIREMENTS[inputs.ageGroup]
     : null;
 
@@ -166,8 +166,8 @@ export function CrochetHatCalculator() {
             <div className="border-t pt-4 mt-4">
               <p className="text-sm font-medium text-muted-foreground mb-3">Hat Dimensions</p>
               <div className="flex justify-center">
-                <svg 
-                  viewBox="0 0 200 180" 
+                <svg
+                  viewBox="0 0 200 180"
                   className="w-48 h-44"
                   aria-label="Crochet hat dimensions diagram"
                 >

@@ -37,15 +37,15 @@ function calculateFire(inputs: FormInputs): Results {
   const fireNumber = inputs.annualExpenses / (inputs.withdrawalRate / 100);
   const monthlyReturn = inputs.expectedReturn / 100 / 12;
   const monthlySavings = inputs.annualSavings / 12;
-  
+
   let balance = inputs.currentSavings;
   let months = 0;
-  
+
   while (balance < fireNumber && months < 1200) {
     balance = balance * (1 + monthlyReturn) + monthlySavings;
     months++;
   }
-  
+
   return {
     fireNumber,
     yearsToFire: months / 12,
@@ -55,7 +55,7 @@ function calculateFire(inputs: FormInputs): Results {
 }
 
 export function FireCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = 
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
     useCalculator<FormInputs, Results>({
       initialInputs: INITIAL_INPUTS,
       schema,
@@ -63,7 +63,7 @@ export function FireCalculator() {
       storageKey: 'fire-calculator',
     });
 
-  React.useEffect(() => { calculate(); }, []);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
@@ -86,7 +86,7 @@ export function FireCalculator() {
         </div>
       )}
     >
-      <NumberInput id="annualExpenses" label="Annual Expenses" value={inputs.annualExpenses} 
+      <NumberInput id="annualExpenses" label="Annual Expenses" value={inputs.annualExpenses}
         onChange={(v) => setInput('annualExpenses', v)} min={1} step={1000} unit="$" error={errors.annualExpenses} required />
       <NumberInput id="currentSavings" label="Current Savings" value={inputs.currentSavings}
         onChange={(v) => setInput('currentSavings', v)} min={0} step={5000} unit="$" error={errors.currentSavings} />

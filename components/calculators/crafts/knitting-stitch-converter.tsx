@@ -135,7 +135,7 @@ export function KnittingStitchConverter() {
 
   React.useEffect(() => {
     calculate();
-  }, []);
+  }, [calculate]);
 
   return (
     <CalculatorBase
