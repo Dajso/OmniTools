@@ -21,6 +21,7 @@ const categoryConfig: Record<string, { label: string; href: string }> = {
   audio: { label: 'Audio', href: '/calculators/audio' },
   auto: { label: 'Auto', href: '/calculators/auto' },
   betting: { label: 'Betting', href: '/calculators/betting' },
+  coffee: { label: 'Coffee & Barista', href: '/calculators/coffee' },
   construction: { label: 'Construction', href: '/calculators/construction' },
   crafts: { label: 'Crafts', href: '/calculators/crafts' },
   creator: { label: 'Creator', href: '/calculators/creator' },

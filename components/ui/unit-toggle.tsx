@@ -1,93 +1,59 @@
-'use client';
+/**
+ * Unit Toggle Component
+ * 
+ * Reusable toggle button for switching between metric and imperial units
+ * 
+ * @module components/ui/unit-toggle
+ */
 
 import * as React from 'react';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { UnitSystem } from '@/lib/conversions/coffee-units';
 
 export interface UnitToggleProps {
-  value: 'imperial' | 'metric';
-  onChange: (value: 'imperial' | 'metric') => void;
-  labels?: { imperial: string; metric: string };
+  /**
+   * Current unit system
+   */
+  value: UnitSystem;
+  
+  /**
+   * Callback when unit system changes
+   */
+  onChange: (system: UnitSystem) => void;
+  
+  /**
+   * Optional className for styling
+   */
   className?: string;
-  disabled?: boolean;
-  id?: string;
 }
 
-const UnitToggle = React.forwardRef<HTMLDivElement, UnitToggleProps>(
-  (
-    {
-      value,
-      onChange,
-      labels = { imperial: 'Imperial', metric: 'Metric' },
-      className,
-      disabled = false,
-      id,
-    },
-    ref
-  ) => {
-    const toggleId = id || 'unit-toggle';
-
-    const handleToggle = () => {
-      if (disabled) return;
-      onChange(value === 'imperial' ? 'metric' : 'imperial');
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (disabled) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleToggle();
-      }
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn('inline-flex items-center gap-2', className)}
+/**
+ * Unit toggle component for switching between metric and imperial units
+ */
+export function UnitToggle({ value, onChange, className }: UnitToggleProps) {
+  return (
+    <div className={`flex items-center justify-end gap-2 ${className || ''}`}>
+      <span className="text-sm text-muted-foreground">Units:</span>
+      <Button
+        type="button"
+        variant={value === 'metric' ? 'default' : 'outline'}
+        size="sm"
+        onClick={() => onChange('metric')}
+        aria-pressed={value === 'metric'}
+        aria-label="Use metric units"
       >
-        <span
-          className={cn(
-            'text-sm font-medium transition-colors',
-            value === 'imperial' ? 'text-foreground' : 'text-muted-foreground'
-          )}
-          id={`${toggleId}-imperial-label`}
-        >
-          {labels.imperial}
-        </span>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={value === 'metric'}
-          aria-labelledby={`${toggleId}-imperial-label ${toggleId}-metric-label`}
-          disabled={disabled}
-          onClick={handleToggle}
-          onKeyDown={handleKeyDown}
-          className={cn(
-            'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-            'disabled:cursor-not-allowed disabled:opacity-50',
-            value === 'metric' ? 'bg-primary' : 'bg-input'
-          )}
-        >
-          <span
-            className={cn(
-              'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform',
-              value === 'metric' ? 'translate-x-5' : 'translate-x-0'
-            )}
-          />
-        </button>
-        <span
-          className={cn(
-            'text-sm font-medium transition-colors',
-            value === 'metric' ? 'text-foreground' : 'text-muted-foreground'
-          )}
-          id={`${toggleId}-metric-label`}
-        >
-          {labels.metric}
-        </span>
-      </div>
-    );
-  }
-);
-UnitToggle.displayName = 'UnitToggle';
-
-export { UnitToggle };
+        Metric
+      </Button>
+      <Button
+        type="button"
+        variant={value === 'imperial' ? 'default' : 'outline'}
+        size="sm"
+        onClick={() => onChange('imperial')}
+        aria-pressed={value === 'imperial'}
+        aria-label="Use imperial units"
+      >
+        Imperial
+      </Button>
+    </div>
+  );
+}

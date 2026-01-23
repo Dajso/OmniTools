@@ -22,6 +22,7 @@ import {
     Clock,
     Plane,
     Smile,
+    Coffee,
     LucideIcon
 } from 'lucide-react';
 
@@ -266,6 +267,16 @@ export const categoryConfig: Record<string, CategoryConfig> = {
         hoverColor: 'hover:bg-sky-50',
         iconColor: 'text-sky-600',
         bgColor: 'bg-sky-100',
+    },
+    coffee: {
+        name: 'Coffee & Barista',
+        description: 'Extraction, ratios, timers & brew science',
+        icon: Coffee,
+        href: '/calculators/coffee',
+        color: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
+        hoverColor: 'hover:bg-amber-50',
+        iconColor: 'text-amber-700',
+        bgColor: 'bg-amber-100',
     },
 };
 

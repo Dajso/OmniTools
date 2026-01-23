@@ -10,6 +10,7 @@ export { ResultDisplay, type ResultDisplayProps } from './result-display';
 export { SelectInput, type SelectInputProps } from './select-input';
 export { Logo } from './logo';
 export { FavoriteButton } from './favorite-button';
+export { Tooltip, InlineTooltip } from './tooltip';
 
 // Accessibility components - Requirements 11.1-11.7
 export { SkipLink, type SkipLinkProps } from './skip-link';

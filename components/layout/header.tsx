@@ -256,6 +256,16 @@ const moreCategories: NavCategory[] = [
       { name: 'View All Creator Tools', href: '/calculators/creator' },
     ],
   },
+  {
+    name: 'Coffee & Barista',
+    href: '/calculators/coffee',
+    items: [
+      { name: 'Extraction Yield Calculator', href: '/calculators/coffee/extraction-yield-calculator' },
+      { name: 'Brew Ratio Calculator', href: '/calculators/coffee/brew-ratio-calculator' },
+      { name: 'Espresso Dial-in Log', href: '/calculators/coffee/espresso-dial-in-log' },
+      { name: 'View All Coffee Tools', href: '/calculators/coffee' },
+    ],
+  },
 ];
 
 // All categories combined for mobile menu

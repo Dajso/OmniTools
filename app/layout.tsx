@@ -4,9 +4,10 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { CookieConsent } from '@/components/layout/cookie-consent';
 import { SkipLink } from '@/components/ui/skip-link';
+import { ServiceWorkerRegister, InstallPrompt } from '@/components/pwa';
 import './globals.css';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap', // Optimize font loading for better LCP
@@ -80,9 +81,22 @@ export default function RootLayout({
         {/* Preconnect to external resources for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* DNS prefetch for potential external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Apple Touch Icon for iOS */}
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="OmniTools" />
+
+        {/* Microsoft Tiles */}
+        <meta name="msapplication-TileColor" content="#6366f1" />
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
       </head>
       <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <SkipLink href="#main-content" />
@@ -92,6 +106,10 @@ export default function RootLayout({
         </main>
         <Footer />
         <CookieConsent />
+
+        {/* PWA Components */}
+        <ServiceWorkerRegister />
+        <InstallPrompt />
       </body>
     </html>
   );

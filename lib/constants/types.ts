@@ -22,7 +22,8 @@ export type ToolCategory =
   | 'stats'         // Category U: Statistics Tools
   | 'time'          // Category V: Time & Date Tools
   | 'physics'       // Category X: Physics Tools
-  | 'construction'; // Category Y: Construction Tools
+  | 'construction'  // Category Y: Construction Tools
+  | 'coffee';       // Coffee & Barista Tools
 
 export type UnitCategory = 
   | 'length' 

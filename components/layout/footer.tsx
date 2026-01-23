@@ -43,13 +43,13 @@ const footerSections: FooterSection[] = [
     ],
   },
   {
-    title: 'Converters',
+    title: 'Coffee & Barista',
     links: [
-      { name: 'Length Converter', href: '/convert/meters-to-feet' },
-      { name: 'Weight Converter', href: '/convert/kg-to-lbs' },
-      { name: 'Temperature', href: '/convert/celsius-to-fahrenheit' },
-      { name: 'Volume Converter', href: '/convert/liters-to-gallons' },
-      { name: 'All Converters', href: '/convert' },
+      { name: 'Extraction Yield', href: '/calculators/coffee/extraction-yield-calculator' },
+      { name: 'Brew Ratio', href: '/calculators/coffee/brew-ratio-calculator' },
+      { name: 'Espresso Dial-in', href: '/calculators/coffee/espresso-dial-in-log' },
+      { name: 'Water Recipe', href: '/calculators/coffee/water-recipe-calculator' },
+      { name: 'All Coffee Tools', href: '/calculators/coffee' },
     ],
   },
 ];

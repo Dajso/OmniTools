@@ -424,6 +424,17 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'fraction-calculator': Percent,
   'scientific-notation-converter': Hash,
   'study-timer': Timer,
+  // Coffee Tools
+  'extraction-yield-calculator': FlaskConical,
+  'brew-ratio-calculator': Scale,
+  'iced-coffee-dilution-calculator': Snowflake,
+  'espresso-dial-in-log': FileText,
+  'water-recipe-calculator': Droplet,
+  'grind-size-converter': Cog,
+  'caffeine-half-life-tracker': Zap,
+  'pour-over-timer': Timer,
+  'cost-per-cup-calculator': DollarSign,
+  'french-press-timer': Timer,
 };
 
 // Default icon for tools without a specific icon

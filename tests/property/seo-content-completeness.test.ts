@@ -233,7 +233,7 @@ describe('SEO Content Completeness - Property 6', () => {
       'academic', 'travel', 'gaming', 'creator', 'fun',
       'audio', 'rpg', 'crypto', 'photo', 'crafts',
       'garden', 'electronics', 'betting', 'auto', 'stats',
-      'time', 'physics', 'construction'
+      'time', 'physics', 'construction', 'coffee'
     ];
     const applicationCategoryMap: Record<string, string> = {
       finance: 'FinanceApplication',
@@ -259,6 +259,7 @@ describe('SEO Content Completeness - Property 6', () => {
       time: 'UtilitiesApplication',
       physics: 'EducationalApplication',
       construction: 'UtilitiesApplication',
+      coffee: 'LifestyleApplication',
     };
 
     fc.assert(

@@ -24,6 +24,7 @@ const APPLICATION_CATEGORIES: Record<string, string> = {
   home: 'UtilitiesApplication',
   converter: 'UtilitiesApplication',
   productivity: 'ProductivityApplication',
+  coffee: 'UtilitiesApplication',
 };
 
 /**

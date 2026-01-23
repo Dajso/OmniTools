@@ -59,7 +59,7 @@ describe('Tool Registry Completeness - Property 5', () => {
             'academic', 'travel', 'gaming', 'creator', 'fun',
             'audio', 'rpg', 'crypto', 'photo', 'crafts',
             'garden', 'electronics', 'betting', 'auto', 'stats',
-            'time', 'physics', 'construction'
+            'time', 'physics', 'construction', 'coffee'
           ];
           expect(validCategories).toContain(tool.category);
 
