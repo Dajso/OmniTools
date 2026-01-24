@@ -183,7 +183,7 @@ export function InstallPrompt() {
                                         </span>
                                     </div>
                                     <p className="text-sm text-primary-foreground/80 hidden sm:block">
-                                        Add 500+ calculator tools to your home screen for quick access anytime
+                                        Add 280+ calculator tools to your home screen for quick access anytime
                                     </p>
                                     {/* Mobile: Short benefit preview */}
                                     <p className="text-xs text-primary-foreground/70 sm:hidden mt-0.5">
