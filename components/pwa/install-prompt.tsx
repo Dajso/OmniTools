@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { X, Download, Smartphone, Monitor, Share } from 'lucide-react';
+import { X, Download, Smartphone, Monitor, Share, Zap, WifiOff, Sparkles, Home, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -20,6 +20,30 @@ declare global {
     }
 }
 
+// Install benefits configuration
+const installBenefits = [
+    {
+        icon: Zap,
+        title: 'Faster Loading',
+        description: 'Local cache for instant startup',
+    },
+    {
+        icon: WifiOff,
+        title: 'Works Offline',
+        description: 'Use without internet connection',
+    },
+    {
+        icon: Home,
+        title: 'Home Screen Access',
+        description: 'One-tap access, no browser needed',
+    },
+    {
+        icon: Sparkles,
+        title: 'Native Experience',
+        description: 'Full-screen immersive interface',
+    },
+];
+
 /**
  * PWA Install Prompt Component
  * 
@@ -32,6 +56,7 @@ export function InstallPrompt() {
     const [isInstalled, setIsInstalled] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
     const [showIOSInstructions, setShowIOSInstructions] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
         // Check if already installed
@@ -133,37 +158,59 @@ export function InstallPrompt() {
 
     return (
         <>
-            {/* Install Banner */}
+            {/* Install Banner - Enhanced with Benefits */}
             <div className="fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom-full duration-300">
-                <div className="bg-gradient-to-r from-primary/95 to-primary backdrop-blur-sm border-t border-primary-foreground/10">
+                <div className="bg-gradient-to-r from-primary/95 via-primary to-primary/90 backdrop-blur-md border-t border-primary-foreground/10 shadow-2xl">
                     <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
+                        {/* Main Row */}
                         <div className="flex items-center justify-between gap-4">
                             {/* Icon and Text */}
                             <div className="flex items-center gap-4 flex-1 min-w-0">
-                                <div className="hidden sm:flex items-center justify-center w-12 h-12 rounded-xl bg-primary-foreground/20 shrink-0">
+                                <div className="hidden sm:flex items-center justify-center w-12 h-12 rounded-xl bg-primary-foreground/20 shrink-0 ring-2 ring-primary-foreground/30">
                                     {isIOS ? (
                                         <Smartphone className="w-6 h-6 text-primary-foreground" />
                                     ) : (
                                         <Monitor className="w-6 h-6 text-primary-foreground" />
                                     )}
                                 </div>
-                                <div className="min-w-0">
-                                    <p className="font-semibold text-primary-foreground truncate">
-                                        Install OmniTools
-                                    </p>
+                                <div className="min-w-0 flex-1">
+                                    <div className="flex items-center gap-2">
+                                        <p className="font-semibold text-primary-foreground truncate">
+                                            Install OmniTools
+                                        </p>
+                                        <span className="hidden sm:inline-flex px-2 py-0.5 text-xs font-medium bg-primary-foreground/20 text-primary-foreground rounded-full">
+                                            Free
+                                        </span>
+                                    </div>
                                     <p className="text-sm text-primary-foreground/80 hidden sm:block">
-                                        Get quick access to 100+ calculators right from your home screen
+                                        Add 500+ calculator tools to your home screen for quick access anytime
+                                    </p>
+                                    {/* Mobile: Short benefit preview */}
+                                    <p className="text-xs text-primary-foreground/70 sm:hidden mt-0.5">
+                                        Offline · Faster · Native
                                     </p>
                                 </div>
                             </div>
 
                             {/* Actions */}
                             <div className="flex items-center gap-2 shrink-0">
+                                {/* Expand button for mobile */}
+                                <button
+                                    onClick={() => setIsExpanded(!isExpanded)}
+                                    className="sm:hidden p-2 hover:bg-primary-foreground/10 rounded-lg transition-colors"
+                                    aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                                >
+                                    {isExpanded ? (
+                                        <ChevronDown className="w-5 h-5 text-primary-foreground" />
+                                    ) : (
+                                        <ChevronUp className="w-5 h-5 text-primary-foreground" />
+                                    )}
+                                </button>
                                 <Button
                                     onClick={handleInstall}
                                     variant="secondary"
                                     size="sm"
-                                    className="gap-2 bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                                    className="gap-2 bg-primary-foreground text-primary hover:bg-primary-foreground/90 font-medium shadow-lg"
                                 >
                                     <Download className="w-4 h-4" />
                                     <span className="hidden sm:inline">Install App</span>
@@ -178,6 +225,46 @@ export function InstallPrompt() {
                                 </button>
                             </div>
                         </div>
+
+                        {/* Desktop Benefits Row */}
+                        <div className="hidden sm:grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-primary-foreground/10">
+                            {installBenefits.map((benefit, index) => (
+                                <div key={index} className="flex items-center gap-3 group">
+                                    <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-colors">
+                                        <benefit.icon className="w-4 h-4 text-primary-foreground" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-medium text-primary-foreground truncate">
+                                            {benefit.title}
+                                        </p>
+                                        <p className="text-xs text-primary-foreground/70 truncate">
+                                            {benefit.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Mobile Expanded Benefits */}
+                        {isExpanded && (
+                            <div className="sm:hidden grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-primary-foreground/10 animate-in slide-in-from-top-2 duration-200">
+                                {installBenefits.map((benefit, index) => (
+                                    <div key={index} className="flex items-start gap-2 bg-primary-foreground/5 rounded-lg p-2">
+                                        <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary-foreground/10 shrink-0">
+                                            <benefit.icon className="w-3.5 h-3.5 text-primary-foreground" />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-xs font-medium text-primary-foreground">
+                                                {benefit.title}
+                                            </p>
+                                            <p className="text-[10px] text-primary-foreground/70 leading-tight">
+                                                {benefit.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -188,7 +275,7 @@ export function InstallPrompt() {
                     <div className="bg-background rounded-t-2xl sm:rounded-2xl w-full max-w-md shadow-xl animate-in slide-in-from-bottom-4 duration-300">
                         <div className="p-6">
                             {/* Header */}
-                            <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-xl font-bold">Install OmniTools</h2>
                                 <button
                                     onClick={() => setShowIOSInstructions(false)}
@@ -199,9 +286,22 @@ export function InstallPrompt() {
                                 </button>
                             </div>
 
+                            {/* Benefits Summary */}
+                            <div className="mb-6 p-4 bg-muted/50 rounded-xl">
+                                <p className="text-sm font-medium mb-3">After installation you will get:</p>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {installBenefits.map((benefit, index) => (
+                                        <div key={index} className="flex items-center gap-2">
+                                            <benefit.icon className="w-4 h-4 text-primary shrink-0" />
+                                            <span className="text-xs text-muted-foreground">{benefit.title}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
                             {/* Instructions */}
                             <div className="space-y-4">
-                                <p className="text-muted-foreground">
+                                <p className="text-sm text-muted-foreground">
                                     To install OmniTools on your iOS device:
                                 </p>
 
@@ -238,7 +338,7 @@ export function InstallPrompt() {
                                         <div>
                                             <p className="font-medium">Tap "Add"</p>
                                             <p className="text-sm text-muted-foreground mt-1">
-                                                OmniTools will be added to your home screen
+                                                OmniTools will appear on your home screen
                                             </p>
                                         </div>
                                     </li>
