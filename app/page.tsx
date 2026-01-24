@@ -25,7 +25,8 @@ import {
   BarChart3,
   Clock,
   Plane,
-  Smile
+  Smile,
+  Coffee
 } from 'lucide-react';
 import { Logo } from '@/components/ui/logo';
 import { toolRegistry, getFeaturedTools, getToolsByCategory } from '@/lib/constants/tool-registry';
@@ -219,6 +220,14 @@ const categories = [
     href: '/calculators/travel',
     color: 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
     hoverColor: 'hover:bg-sky-50',
+  },
+  {
+    name: 'Coffee & Barista',
+    description: 'Extraction, ratios, timers & brew science',
+    icon: Coffee,
+    href: '/calculators/coffee',
+    color: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
+    hoverColor: 'hover:bg-amber-50',
   },
 ];
 
