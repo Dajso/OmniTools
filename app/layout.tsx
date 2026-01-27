@@ -7,6 +7,7 @@ import { SkipLink } from '@/components/ui/skip-link';
 import { ServiceWorkerRegister, InstallPrompt } from '@/components/pwa';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
