@@ -4,6 +4,9 @@ import { getAllConversionPairs } from '@/lib/conversions';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://omnitools.devtoolcafe.com';
 
+// Required for static export
+export const dynamic = 'error';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date();
 

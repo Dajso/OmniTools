@@ -131,8 +131,15 @@ const nextConfig = {
 
   /**
    * Output Configuration
+   * Static export for deployment to any static hosting
    */
-  output: 'standalone',
+  output: 'export',
+  
+  /**
+   * Trailing Slash for Static Export
+   * Ensures proper routing on static hosts
+   */
+  trailingSlash: true,
   
   /**
    * Powered By Header - Remove for security
