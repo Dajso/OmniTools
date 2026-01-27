@@ -13,7 +13,7 @@ export function GradeCalculator() {
   const [results, setResults] = React.useState<GradeResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const handleCalculate = React.useCallback(() => {
     try {
       setError(null);
       const result = calculateGrade({ items, useWeights });
@@ -22,7 +22,7 @@ export function GradeCalculator() {
       setError(e instanceof Error ? e.message : 'Calculation failed');
       setResults(null);
     }
-  };
+  }, [items, useWeights]);
 
   const addItem = () => {
     setItems([...items, { name: `Item ${items.length + 1}`, score: 0, maxScore: 100, weight: 10 }]);
@@ -38,7 +38,7 @@ export function GradeCalculator() {
     setItems(updated);
   };
 
-  React.useEffect(() => { handleCalculate(); }, [items, useWeights]);
+  React.useEffect(() => { handleCalculate(); }, [handleCalculate]);
 
   return (
     <Card className="w-full max-w-2xl">

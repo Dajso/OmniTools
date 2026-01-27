@@ -16,7 +16,7 @@ export function AspectRatioCalculator() {
   const [results, setResults] = React.useState<AspectRatioResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const handleCalculate = React.useCallback(() => {
     try {
       setError(null);
       const result = calculateAspectRatio({ width, height, mode, targetWidth, targetHeight });
@@ -25,9 +25,9 @@ export function AspectRatioCalculator() {
       setError(e instanceof Error ? e.message : 'Calculation failed');
       setResults(null);
     }
-  };
+  }, [width, height, mode, targetWidth, targetHeight]);
 
-  React.useEffect(() => { handleCalculate(); }, [width, height, mode, targetWidth, targetHeight]);
+  React.useEffect(() => { handleCalculate(); }, [handleCalculate]);
 
   return (
     <Card className="w-full max-w-2xl">

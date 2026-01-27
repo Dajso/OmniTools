@@ -14,12 +14,12 @@ export function JSONFormatter() {
   const [results, setResults] = React.useState<JSONFormatterResults | null>(null);
   const [copied, setCopied] = React.useState(false);
 
-  const handleFormat = () => {
+  const handleFormat = React.useCallback(() => {
     const result = formatJSON({ json: input, indentSize, sortKeys });
     setResults(result);
-  };
+  }, [input, indentSize, sortKeys]);
 
-  React.useEffect(() => { handleFormat(); }, [input, indentSize, sortKeys]);
+  React.useEffect(() => { handleFormat(); }, [handleFormat]);
 
   const handleCopy = async (text: string) => {
     await navigator.clipboard.writeText(text);

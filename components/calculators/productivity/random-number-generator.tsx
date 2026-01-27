@@ -16,7 +16,7 @@ export function RandomNumberGenerator() {
   const [results, setResults] = React.useState<RandomNumberResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleGenerate = () => {
+  const handleGenerate = React.useCallback(() => {
     try {
       setError(null);
       const result = generateRandomNumbers({ min, max, count, allowDuplicates, sortResults });
@@ -24,9 +24,9 @@ export function RandomNumberGenerator() {
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Generation failed');
     }
-  };
+  }, [min, max, count, allowDuplicates, sortResults]);
 
-  React.useEffect(() => { handleGenerate(); }, []);
+  React.useEffect(() => { handleGenerate(); }, [handleGenerate]);
 
   return (
     <Card className="w-full max-w-2xl">

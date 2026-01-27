@@ -22,7 +22,7 @@ export function PercentageCalculator() {
   const [results, setResults] = React.useState<PercentageResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const handleCalculate = React.useCallback(() => {
     try {
       setError(null);
       const result = calculatePercentage({ mode, value1, value2 });
@@ -31,9 +31,9 @@ export function PercentageCalculator() {
       setError(e instanceof Error ? e.message : 'Calculation failed');
       setResults(null);
     }
-  };
+  }, [mode, value1, value2]);
 
-  React.useEffect(() => { handleCalculate(); }, [mode, value1, value2]);
+  React.useEffect(() => { handleCalculate(); }, [handleCalculate]);
 
   const getLabels = () => {
     switch (mode) {

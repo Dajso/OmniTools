@@ -160,9 +160,11 @@ export function estimateYarnRequirements(sockResult: SockResult, yarnWeight: 'fi
   return Math.round(baseYardage[yarnWeight] * legMultiplier);
 }
 
-export default {
+const socksSizeCalculator = {
   calculateSockDimensions,
   getSockSize,
   estimateYarnRequirements,
   SOCK_SIZE_CHART,
 };
+
+export default socksSizeCalculator;

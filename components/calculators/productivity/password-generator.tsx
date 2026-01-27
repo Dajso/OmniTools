@@ -44,16 +44,16 @@ export function PasswordGenerator() {
   const [result, setResult] = React.useState<PasswordResult | null>(null);
   const [copied, setCopied] = React.useState(false);
 
-  // Generate initial password on mount
-  React.useEffect(() => {
-    handleGenerate();
-  }, []);
-
-  const handleGenerate = () => {
+  const handleGenerate = React.useCallback(() => {
     const newResult = generatePassword(options);
     setResult(newResult);
     setCopied(false);
-  };
+  }, [options]);
+
+  // Generate initial password on mount
+  React.useEffect(() => {
+    handleGenerate();
+  }, [handleGenerate]);
 
   const handleCopy = async () => {
     if (result?.password) {

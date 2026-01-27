@@ -111,7 +111,7 @@ export function FertilizerCalculator() {
       setInput('phosphorus', fert.phosphorus);
       setInput('potassium', fert.potassium);
     }
-  }, [inputs.fertilizerType]);
+  }, [inputs.fertilizerType, setInput]);
 
   const handlePlantTypeChange = (plantType: string) => {
     if (NITROGEN_RATES[plantType]) {

@@ -14,12 +14,12 @@ export function LoremIpsumGenerator() {
   const [results, setResults] = React.useState<LoremIpsumResults | null>(null);
   const [copied, setCopied] = React.useState(false);
 
-  const handleGenerate = () => {
+  const handleGenerate = React.useCallback(() => {
     const result = generateLoremIpsum({ type, count, startWithLorem });
     setResults(result);
-  };
+  }, [type, count, startWithLorem]);
 
-  React.useEffect(() => { handleGenerate(); }, []);
+  React.useEffect(() => { handleGenerate(); }, [handleGenerate]);
 
   const handleCopy = async () => {
     if (results) {

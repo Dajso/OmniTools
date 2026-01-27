@@ -14,12 +14,12 @@ export function Base64Converter() {
   const [results, setResults] = React.useState<Base64Results | null>(null);
   const [copied, setCopied] = React.useState(false);
 
-  const handleConvert = () => {
+  const handleConvert = React.useCallback(() => {
     const result = convertBase64({ text: input, mode, urlSafe });
     setResults(result);
-  };
+  }, [input, mode, urlSafe]);
 
-  React.useEffect(() => { handleConvert(); }, [input, mode, urlSafe]);
+  React.useEffect(() => { handleConvert(); }, [handleConvert]);
 
   const handleCopy = async () => {
     if (results?.output) {

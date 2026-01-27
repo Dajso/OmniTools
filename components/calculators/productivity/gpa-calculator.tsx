@@ -13,7 +13,7 @@ export function GPACalculator() {
   const [results, setResults] = React.useState<GPAResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const handleCalculate = React.useCallback(() => {
     try {
       setError(null);
       const result = calculateGPA({ courses, scale });
@@ -22,7 +22,7 @@ export function GPACalculator() {
       setError(e instanceof Error ? e.message : 'Calculation failed');
       setResults(null);
     }
-  };
+  }, [courses, scale]);
 
   const addCourse = () => {
     setCourses([...courses, { name: `Course ${courses.length + 1}`, grade: 'A', credits: 3 }]);
@@ -38,7 +38,7 @@ export function GPACalculator() {
     setCourses(updated);
   };
 
-  React.useEffect(() => { handleCalculate(); }, [courses, scale]);
+  React.useEffect(() => { handleCalculate(); }, [handleCalculate]);
 
   return (
     <Card className="w-full max-w-2xl">

@@ -98,7 +98,7 @@ export function PlantSpacingCalculator() {
       setInput('rowSpacing', guide.rowSpacing);
       setInput('unit', 'inches');
     }
-  }, [inputs.plantType]);
+  }, [inputs.plantType, setInput]);
 
   const unitLabel = inputs.unit === 'feet' ? 'ft' :
     inputs.unit === 'inches' ? 'in' :

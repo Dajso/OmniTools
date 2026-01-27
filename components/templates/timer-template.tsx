@@ -203,6 +203,32 @@ export function TimerTemplate({
     }
   }, [mode, presets, pomodoroConfig]);
 
+  const handleTimerComplete = React.useCallback(() => {
+    onComplete?.();
+
+    if (mode === 'pomodoro') {
+      // Handle pomodoro phase transitions
+      if (pomodoroPhase === 'work') {
+        const newCompletedSessions = completedSessions + 1;
+        setCompletedSessions(newCompletedSessions);
+
+        if (newCompletedSessions % pomodoroConfig.sessionsBeforeLongBreak === 0) {
+          setPomodoroPhase('longBreak');
+          setTime(pomodoroConfig.longBreak);
+          setInitialTime(pomodoroConfig.longBreak);
+        } else {
+          setPomodoroPhase('shortBreak');
+          setTime(pomodoroConfig.shortBreak);
+          setInitialTime(pomodoroConfig.shortBreak);
+        }
+      } else {
+        setPomodoroPhase('work');
+        setTime(pomodoroConfig.workDuration);
+        setInitialTime(pomodoroConfig.workDuration);
+      }
+    }
+  }, [onComplete, mode, pomodoroPhase, completedSessions, pomodoroConfig]);
+
   // Timer logic
   React.useEffect(() => {
     if (isRunning) {
@@ -228,33 +254,9 @@ export function TimerTemplate({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, mode]);
+  }, [isRunning, mode, handleTimerComplete]);
 
-  const handleTimerComplete = () => {
-    onComplete?.();
 
-    if (mode === 'pomodoro') {
-      // Handle pomodoro phase transitions
-      if (pomodoroPhase === 'work') {
-        const newCompletedSessions = completedSessions + 1;
-        setCompletedSessions(newCompletedSessions);
-
-        if (newCompletedSessions % pomodoroConfig.sessionsBeforeLongBreak === 0) {
-          setPomodoroPhase('longBreak');
-          setTime(pomodoroConfig.longBreak);
-          setInitialTime(pomodoroConfig.longBreak);
-        } else {
-          setPomodoroPhase('shortBreak');
-          setTime(pomodoroConfig.shortBreak);
-          setInitialTime(pomodoroConfig.shortBreak);
-        }
-      } else {
-        setPomodoroPhase('work');
-        setTime(pomodoroConfig.workDuration);
-        setInitialTime(pomodoroConfig.workDuration);
-      }
-    }
-  };
 
   const handleStart = () => setIsRunning(true);
   const handlePause = () => setIsRunning(false);

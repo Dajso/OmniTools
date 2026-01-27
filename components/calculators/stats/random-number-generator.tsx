@@ -142,7 +142,7 @@ export function RandomNumberGenerator() {
 
   React.useEffect(() => {
     generate();
-  }, []);
+  }, [generate]);
 
   const copyNumbers = () => {
     if (result) {

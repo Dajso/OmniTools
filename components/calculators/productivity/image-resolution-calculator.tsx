@@ -16,7 +16,7 @@ export function ImageResolutionCalculator() {
   const [results, setResults] = React.useState<ImageResolutionResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleCalculate = () => {
+  const handleCalculate = React.useCallback(() => {
     try {
       setError(null);
       const result = calculateImageResolution({ mode, widthPixels, heightPixels, widthInches, heightInches, dpi });
@@ -25,9 +25,9 @@ export function ImageResolutionCalculator() {
       setError(e instanceof Error ? e.message : 'Calculation failed');
       setResults(null);
     }
-  };
+  }, [mode, widthPixels, heightPixels, widthInches, heightInches, dpi]);
 
-  React.useEffect(() => { handleCalculate(); }, [mode, widthPixels, heightPixels, widthInches, heightInches, dpi]);
+  React.useEffect(() => { handleCalculate(); }, [handleCalculate]);
 
   return (
     <Card className="w-full max-w-2xl">

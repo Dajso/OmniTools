@@ -14,12 +14,12 @@ export function UUIDGenerator() {
   const [results, setResults] = React.useState<UUIDResults | null>(null);
   const [copied, setCopied] = React.useState<number | null>(null);
 
-  const handleGenerate = () => {
+  const handleGenerate = React.useCallback(() => {
     const result = generateUUIDs({ count, version, uppercase, hyphens });
     setResults(result);
-  };
+  }, [count, version, uppercase, hyphens]);
 
-  React.useEffect(() => { handleGenerate(); }, []);
+  React.useEffect(() => { handleGenerate(); }, [handleGenerate]);
 
   const handleCopy = async (uuid: string, index: number) => {
     await navigator.clipboard.writeText(uuid);

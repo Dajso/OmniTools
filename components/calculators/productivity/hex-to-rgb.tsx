@@ -13,7 +13,7 @@ export function HexToRgbConverter() {
   const [results, setResults] = React.useState<ColorResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleConvert = () => {
+  const handleConvert = React.useCallback(() => {
     try {
       setError(null);
       const result = convertColor({ value: input, mode });
@@ -22,9 +22,9 @@ export function HexToRgbConverter() {
       setError(e instanceof Error ? e.message : 'Conversion failed');
       setResults(null);
     }
-  };
+  }, [input, mode]);
 
-  React.useEffect(() => { handleConvert(); }, []);
+  React.useEffect(() => { handleConvert(); }, [handleConvert]);
 
   return (
     <Card className="w-full max-w-2xl">
