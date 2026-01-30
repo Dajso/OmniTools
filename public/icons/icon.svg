@@ -1,30 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#6366f1"/>
       <stop offset="100%" style="stop-color:#4f46e5"/>
     </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
   </defs>
-  <!-- Background -->
+  <!-- Background with rounded corners -->
   <rect width="512" height="512" rx="108" fill="url(#bg)"/>
-  <!-- Calculator icon stylized -->
-  <g fill="#ffffff">
-    <!-- Main body -->
-    <rect x="136" y="96" width="240" height="320" rx="24" fill="#ffffff" opacity="0.95"/>
+  <!-- Calculator body -->
+  <g transform="translate(135.68, 96)">
+    <rect width="240.64" height="320" rx="24.064" fill="#ffffff" opacity="0.95"/>
     <!-- Display screen -->
-    <rect x="160" y="120" width="192" height="72" rx="12" fill="#1e1b4b"/>
-    <!-- Buttons grid -->
-    <circle cx="196" cy="236" r="20" fill="#6366f1"/>
-    <circle cx="256" cy="236" r="20" fill="#6366f1"/>
-    <circle cx="316" cy="236" r="20" fill="#6366f1"/>
-    <circle cx="196" cy="296" r="20" fill="#6366f1"/>
-    <circle cx="256" cy="296" r="20" fill="#6366f1"/>
-    <circle cx="316" cy="296" r="20" fill="#6366f1"/>
-    <circle cx="196" cy="356" r="20" fill="#6366f1"/>
-    <circle cx="256" cy="356" r="20" fill="#6366f1"/>
-    <circle cx="316" cy="356" r="20" fill="#f59e0b"/>
+    <rect x="24.064" y="24.064" width="192" height="71.68" rx="11.776" fill="#1e1b4b"/>
+    <!-- Button grid - 3x3 -->
+    <circle cx="39.936" cy="119.808" r="19.968" fill="#6366f1"/>
+    <circle cx="99.84" cy="119.808" r="19.968" fill="#6366f1"/>
+    <circle cx="159.744" cy="119.808" r="19.968" fill="#6366f1"/>
+    <circle cx="39.936" cy="179.71200000000002" r="19.968" fill="#6366f1"/>
+    <circle cx="99.84" cy="179.71200000000002" r="19.968" fill="#6366f1"/>
+    <circle cx="159.744" cy="179.71200000000002" r="19.968" fill="#6366f1"/>
+    <circle cx="39.936" cy="239.616" r="19.968" fill="#6366f1"/>
+    <circle cx="99.84" cy="239.616" r="19.968" fill="#6366f1"/>
+    <circle cx="159.744" cy="239.616" r="19.968" fill="url(#accent)"/>
   </g>
-  <!-- "O" letter stylized as Omni symbol -->
-  <circle cx="380" cy="132" r="40" fill="#ffffff" stroke="#1e1b4b" stroke-width="8"/>
-  <circle cx="380" cy="132" r="20" fill="#1e1b4b"/>
+  <!-- "O" symbol for Omni -->
+  <circle cx="379.904" cy="132.096" r="39.936" fill="#ffffff"/>
+  <circle cx="379.904" cy="132.096" r="19.968" fill="#1e1b4b"/>
 </svg>
