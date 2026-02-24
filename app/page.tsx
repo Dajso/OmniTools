@@ -26,7 +26,12 @@ import {
   Clock,
   Plane,
   Smile,
-  Coffee
+  Coffee,
+  Fish,
+  Sun,
+  ChefHat,
+  Building2,
+  PartyPopper
 } from 'lucide-react';
 import { Logo } from '@/components/ui/logo';
 import { toolRegistry, getFeaturedTools, getToolsByCategory } from '@/lib/constants/tool-registry';
@@ -228,6 +233,46 @@ const categories = [
     href: '/calculators/coffee',
     color: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
     hoverColor: 'hover:bg-amber-50',
+  },
+  {
+    name: 'Aquariums & Terrariums',
+    description: 'Tank volume, stocking, CO₂ & dosing',
+    icon: Fish,
+    href: '/calculators/aquarium',
+    color: 'bg-cyan-50 text-cyan-600 ring-1 ring-cyan-200',
+    hoverColor: 'hover:bg-cyan-50',
+  },
+  {
+    name: 'Solar & Off-Grid',
+    description: 'Panels, batteries, inverters & wire sizing',
+    icon: Sun,
+    href: '/calculators/solar',
+    color: 'bg-yellow-50 text-yellow-600 ring-1 ring-yellow-200',
+    hoverColor: 'hover:bg-yellow-50',
+  },
+  {
+    name: 'Baking & Food Science',
+    description: 'Hydration, yeast, tempering & servings',
+    icon: ChefHat,
+    href: '/calculators/baking',
+    color: 'bg-orange-50 text-orange-600 ring-1 ring-orange-200',
+    hoverColor: 'hover:bg-orange-50',
+  },
+  {
+    name: 'Real Estate Investing',
+    description: 'Cap rate, BRRRR, Airbnb & ROI',
+    icon: Building2,
+    href: '/calculators/realestate',
+    color: 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200',
+    hoverColor: 'hover:bg-emerald-50',
+  },
+  {
+    name: 'Wedding & Events',
+    description: 'Alcohol, catering, budget & seating',
+    icon: PartyPopper,
+    href: '/calculators/wedding',
+    color: 'bg-rose-50 text-rose-600 ring-1 ring-rose-200',
+    hoverColor: 'hover:bg-rose-50',
   },
 ];
 

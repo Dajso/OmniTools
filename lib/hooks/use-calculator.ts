@@ -148,13 +148,13 @@ export function useCalculator<
     if (!result.success && result.errors) {
       setErrors(result.errors as Partial<Record<keyof TInputs, string>>);
     } else {
-      setErrors({});
+      setErrors(prev => Object.keys(prev).length === 0 ? prev : {});
     }
     return result;
   }, [inputs, schema]);
 
   // Check if inputs are valid
-  const isValid = Object.keys(errors).length === 0 && 
+  const isValid = Object.keys(errors).length === 0 &&
     validateInputs(inputs, schema).success;
 
   // Set a single input value
@@ -187,14 +187,14 @@ export function useCalculator<
   // Perform calculation
   const calculate = useCallback(() => {
     const validation = validate();
-    
+
     if (!validation.success || !validation.data) {
       setResults(null);
       return;
     }
 
     setIsCalculating(true);
-    
+
     try {
       const result = calculateFn(validation.data);
       setResults(result);
@@ -213,7 +213,7 @@ export function useCalculator<
     setInputsState(initialInputs);
     setResults(null);
     setErrors({});
-    
+
     // Clear session storage
     if (typeof window !== 'undefined' && storageKey) {
       try {

@@ -1,8 +1,8 @@
-export type ToolCategory = 
-  | 'finance' 
-  | 'health' 
-  | 'home' 
-  | 'converter' 
+export type ToolCategory =
+  | 'finance'
+  | 'health'
+  | 'home'
+  | 'converter'
   | 'productivity'
   // New expanded categories (Requirements 15-32)
   | 'academic'      // Category F: Student & Academic Tools
@@ -23,18 +23,23 @@ export type ToolCategory =
   | 'time'          // Category V: Time & Date Tools
   | 'physics'       // Category X: Physics Tools
   | 'construction'  // Category Y: Construction Tools
-  | 'coffee';       // Coffee & Barista Tools
+  | 'coffee'        // Coffee & Barista Tools
+  | 'aquarium'      // Category CC: Aquariums & Terrariums
+  | 'solar'         // Category EE: Solar Energy & Off-Grid
+  | 'baking'        // Category FF: Baking & Food Science
+  | 'realestate'    // Category GG: Real Estate Investing
+  | 'wedding';      // Category HH: Wedding & Event Planning
 
-export type UnitCategory = 
-  | 'length' 
-  | 'weight' 
-  | 'temperature' 
-  | 'volume' 
-  | 'area' 
-  | 'speed' 
-  | 'time' 
-  | 'data' 
-  | 'pressure' 
+export type UnitCategory =
+  | 'length'
+  | 'weight'
+  | 'temperature'
+  | 'volume'
+  | 'area'
+  | 'speed'
+  | 'time'
+  | 'data'
+  | 'pressure'
   | 'energy';
 
 export interface ToolDefinition {

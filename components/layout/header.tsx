@@ -266,6 +266,56 @@ const moreCategories: NavCategory[] = [
       { name: 'View All Coffee Tools', href: '/calculators/coffee' },
     ],
   },
+  {
+    name: 'Aquariums',
+    href: '/calculators/aquarium',
+    items: [
+      { name: 'Aquarium Volume Calculator', href: '/calculators/aquarium/aquarium-volume-calculator' },
+      { name: 'CO₂ Bubble Calculator', href: '/calculators/aquarium/co2-bubble-calculator' },
+      { name: 'Stocking Calculator', href: '/calculators/aquarium/stocking-calculator' },
+      { name: 'View All Aquarium Tools', href: '/calculators/aquarium' },
+    ],
+  },
+  {
+    name: 'Solar & Off-Grid',
+    href: '/calculators/solar',
+    items: [
+      { name: 'Solar Panel Tilt Calculator', href: '/calculators/solar/solar-panel-tilt-calculator' },
+      { name: 'Battery Bank Sizing', href: '/calculators/solar/battery-bank-sizing-calculator' },
+      { name: 'Solar ROI Calculator', href: '/calculators/solar/solar-roi-calculator' },
+      { name: 'View All Solar Tools', href: '/calculators/solar' },
+    ],
+  },
+  {
+    name: 'Baking & Food Science',
+    href: '/calculators/baking',
+    items: [
+      { name: 'Sourdough Hydration Calculator', href: '/calculators/baking/sourdough-hydration-calculator' },
+      { name: "Baker's Percentage Calculator", href: '/calculators/baking/bakers-percentage-calculator' },
+      { name: 'Cake Pan Converter', href: '/calculators/baking/cake-pan-converter' },
+      { name: 'View All Baking Tools', href: '/calculators/baking' },
+    ],
+  },
+  {
+    name: 'Real Estate',
+    href: '/calculators/realestate',
+    items: [
+      { name: 'Cap Rate Calculator', href: '/calculators/realestate/cap-rate-calculator' },
+      { name: 'BRRRR Calculator', href: '/calculators/realestate/brrrr-calculator' },
+      { name: 'Airbnb Profit Estimator', href: '/calculators/realestate/airbnb-profit-estimator' },
+      { name: 'View All Real Estate Tools', href: '/calculators/realestate' },
+    ],
+  },
+  {
+    name: 'Wedding & Events',
+    href: '/calculators/wedding',
+    items: [
+      { name: 'Alcohol Calculator', href: '/calculators/wedding/wedding-alcohol-calculator' },
+      { name: 'Budget Allocator', href: '/calculators/wedding/budget-allocator' },
+      { name: 'Seating Arrangement', href: '/calculators/wedding/seating-arrangement-calculator' },
+      { name: 'View All Wedding Tools', href: '/calculators/wedding' },
+    ],
+  },
 ];
 
 // All categories combined for mobile menu
@@ -385,11 +435,11 @@ export function Header() {
             {/* Mega dropdown menu */}
             {openDropdown === 'more' && (
               <div
-                className="absolute right-0 top-full z-10 w-[600px] rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5"
+                className="absolute right-0 top-full z-10 w-[800px] rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5"
                 onMouseEnter={() => handleMouseEnter('more')}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                   {moreCategories.map((category) => (
                     <div key={category.name}>
                       <Link

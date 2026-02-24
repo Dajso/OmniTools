@@ -149,6 +149,18 @@ import {
   Blend,
   Link2,
   Tags,
+  Fish,
+  Pipette,
+  Battery,
+  BatteryCharging,
+  Cable,
+  Egg,
+  Candy,
+  Beef,
+  PartyPopper,
+  Tent,
+  HandCoins,
+  SunMoon,
 } from 'lucide-react';
 
 // Map tool IDs to their icons
@@ -435,6 +447,66 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'pour-over-timer': Timer,
   'cost-per-cup-calculator': DollarSign,
   'french-press-timer': Timer,
+
+  // Aquarium & Terrarium Tools
+  'aquarium-volume-calculator': Fish,
+  'substrate-calculator': Box,
+  'co2-bubble-calculator': Waves,
+  'salt-mix-calculator': FlaskConical,
+  'heater-wattage-calculator': Thermometer,
+  'par-estimator': Lightbulb,
+  'stocking-calculator': Fish,
+  'fertilizer-dosing-calculator': Pipette,
+  'medicine-dosage-calculator': Pipette,
+  'water-change-calculator': Droplet,
+
+  // Solar & Off-Grid Tools
+  'solar-panel-tilt-calculator': Sun,
+  'battery-bank-sizing-calculator': Battery,
+  'off-grid-runtime-calculator': BatteryCharging,
+  'dc-wire-gauge-calculator': Cable,
+  'inverter-size-calculator': Zap,
+  'sun-peak-hours-calculator': Sun,
+  'solar-roi-calculator': DollarSign,
+  'dc-power-calculator': Zap,
+  'generator-fuel-calculator': Fuel,
+  'rainwater-collection-calculator': CloudRain,
+
+  // Baking & Food Science Tools
+  'sourdough-hydration-calculator': Droplet,
+  'bakers-percentage-calculator': Percent,
+  'cake-pan-converter': Cake,
+  'yeast-conversion-calculator': FlaskConical,
+  'chocolate-tempering-calculator': Candy,
+  'turkey-thawing-calculator': Timer,
+  'brine-calculator': FlaskConical,
+  'egg-size-converter': Egg,
+  'alcohol-dilution-calculator': Beaker,
+  'unit-cost-per-serving': DollarSign,
+
+  // Real Estate Investing Tools
+  'cap-rate-calculator': Building2,
+  'cash-on-cash-calculator': HandCoins,
+  'airbnb-profit-estimator': Building2,
+  'brrrr-calculator': Building2,
+  'renovation-roi-estimator': Hammer,
+  'prorated-rent-calculator': CalendarDays,
+  '1031-exchange-calculator': Calendar,
+  'gross-rent-multiplier-calculator': TrendingUp,
+  'closing-cost-estimator': Receipt,
+  'house-affordability-calculator': Home,
+
+  // Wedding & Event Planning Tools
+  'wedding-alcohol-calculator': Wine,
+  'wedding-cake-calculator': Cake,
+  'dance-floor-calculator': Square,
+  'seating-arrangement-calculator': Users,
+  'wedding-budget-allocator': DollarSign,
+  'flower-stem-calculator': Flower2,
+  'save-the-date-calculator': CalendarDays,
+  'catering-quantity-calculator': Beef,
+  'tent-size-calculator': Tent,
+  'sunset-time-calculator': SunMoon,
 };
 
 // Default icon for tools without a specific icon

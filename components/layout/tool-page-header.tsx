@@ -43,6 +43,17 @@ const categoryConfig: Record<string, { label: string; href: string }> = {
   time: { label: 'Time', href: '/calculators/time' },
   'time & date': { label: 'Time & Date', href: '/calculators/time' }, // alias for time
   travel: { label: 'Travel', href: '/calculators/travel' },
+  aquarium: { label: 'Aquariums & Terrariums', href: '/calculators/aquarium' },
+  'aquariums & terrariums': { label: 'Aquariums & Terrariums', href: '/calculators/aquarium' },
+  solar: { label: 'Solar & Off-Grid', href: '/calculators/solar' },
+  'solar & off-grid': { label: 'Solar & Off-Grid', href: '/calculators/solar' },
+  baking: { label: 'Baking & Food Science', href: '/calculators/baking' },
+  'baking & food science': { label: 'Baking & Food Science', href: '/calculators/baking' },
+  realestate: { label: 'Real Estate Investing', href: '/calculators/realestate' },
+  'real estate investing': { label: 'Real Estate Investing', href: '/calculators/realestate' },
+  wedding: { label: 'Wedding & Events', href: '/calculators/wedding' },
+  'wedding & event planning': { label: 'Wedding & Events', href: '/calculators/wedding' },
+  'wedding & events': { label: 'Wedding & Events', href: '/calculators/wedding' },
   // Other categories
   converter: { label: 'Converters', href: '/convert' },
 };
