@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
+
   /**
    * Image Optimization Configuration
    * @see Requirements 13.1, 13.5 - Performance optimization
@@ -15,8 +15,9 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Minimize image quality while maintaining visual fidelity
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
-    // Disable static image imports optimization in development for faster builds
-    unoptimized: process.env.NODE_ENV === 'development',
+    // Static export (output: 'export') does not support Next.js Image Optimization API
+    // Must set unoptimized: true so images use their original src paths
+    unoptimized: true,
   },
 
   /**
@@ -134,18 +135,18 @@ const nextConfig = {
    * Static export for deployment to any static hosting
    */
   output: 'export',
-  
+
   /**
    * Trailing Slash for Static Export
    * Ensures proper routing on static hosts
    */
   trailingSlash: true,
-  
+
   /**
    * Powered By Header - Remove for security
    */
   poweredByHeader: false,
-  
+
   /**
    * Compression - Enable gzip compression
    */
