@@ -72,10 +72,10 @@ export function SampleRateCalculator() {
   }));
 
   const channelOptions = [
-    { value: '1', label: 'Mono (1 channel)' },
-    { value: '2', label: 'Stereo (2 channels)' },
-    { value: '6', label: '5.1 Surround (6 channels)' },
-    { value: '8', label: '7.1 Surround (8 channels)' },
+    { value: '1', label: 'Mono (1 kanal)' },
+    { value: '2', label: 'Stereo (2 kanaler)' },
+    { value: '6', label: '5.1 surround (6 kanaler)' },
+    { value: '8', label: '7.1 surround (8 kanaler)' },
   ];
 
   const applyPreset = (presetName: keyof typeof AUDIO_PRESETS) => {
@@ -94,9 +94,9 @@ export function SampleRateCalculator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Sample Rate Calculator</CardTitle>
+        <CardTitle>Samplingsfrekvens</CardTitle>
         <CardDescription>
-          Calculate audio file sizes, durations, and technical specifications for different sample rates and bit depths.
+          Regn ut lydfilstørrelse, varighet og tekniske data for ulike samplingsfrekvenser og bitdybder.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -107,42 +107,42 @@ export function SampleRateCalculator() {
             onClick={() => setMode('size')}
             size="sm"
           >
-            Calculate Size
+            Regn ut størrelse
           </Button>
           <Button
             variant={mode === 'duration' ? 'default' : 'outline'}
             onClick={() => setMode('duration')}
             size="sm"
           >
-            Calculate Duration
+            Regn ut varighet
           </Button>
           <Button
             variant={mode === 'specs' ? 'default' : 'outline'}
             onClick={() => setMode('specs')}
             size="sm"
           >
-            Specs Only
+            Bare data
           </Button>
         </div>
 
         {/* Presets */}
         <div>
-          <p className="text-sm font-medium mb-2">Quality Presets</p>
+          <p className="text-sm font-medium mb-2">Kvalitetsvalg</p>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => applyPreset('cd-quality')}>
-              CD Quality
+              CD-kvalitet
             </Button>
             <Button variant="outline" size="sm" onClick={() => applyPreset('dvd-quality')}>
-              DVD Quality
+              DVD-kvalitet
             </Button>
             <Button variant="outline" size="sm" onClick={() => applyPreset('high-res')}>
-              High-Res
+              Høyoppløselig
             </Button>
             <Button variant="outline" size="sm" onClick={() => applyPreset('podcast')}>
-              Podcast
+              Podkast
             </Button>
             <Button variant="outline" size="sm" onClick={() => applyPreset('voice-mono')}>
-              Voice
+              Tale
             </Button>
           </div>
         </div>
@@ -150,7 +150,7 @@ export function SampleRateCalculator() {
         {/* Audio Format Settings */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="sample-rate">Sample Rate</Label>
+            <Label htmlFor="sample-rate">Samplingsfrekvens</Label>
             <Select
               id="sample-rate"
               options={sampleRateOptions}
@@ -159,7 +159,7 @@ export function SampleRateCalculator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="bit-depth">Bit Depth</Label>
+            <Label htmlFor="bit-depth">Bitdybde</Label>
             <Select
               id="bit-depth"
               options={bitDepthOptions}
@@ -168,7 +168,7 @@ export function SampleRateCalculator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="channels">Channels</Label>
+            <Label htmlFor="channels">Kanaler</Label>
             <Select
               id="channels"
               options={channelOptions}
@@ -183,7 +183,7 @@ export function SampleRateCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="duration-minutes"
-              label="Duration (minutes)"
+              label="Varighet (minutter)"
               value={durationMinutes}
               onChange={setDurationMinutes}
               min={0}
@@ -192,7 +192,7 @@ export function SampleRateCalculator() {
             />
             <NumberInput
               id="duration-seconds"
-              label="Duration (seconds)"
+              label="Varighet (sekunder)"
               value={durationSeconds}
               onChange={setDurationSeconds}
               min={0}
@@ -206,7 +206,7 @@ export function SampleRateCalculator() {
         {mode === 'duration' && (
           <NumberInput
             id="file-size"
-            label="File Size"
+            label="Filstørrelse"
             value={fileSizeMB}
             onChange={setFileSizeMB}
             min={0.1}
@@ -219,25 +219,25 @@ export function SampleRateCalculator() {
         {/* File Size Result */}
         {mode === 'size' && fileSizeResult && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">File Size (Uncompressed WAV)</p>
+            <p className="text-sm font-medium mb-3">Filstørrelse (ukomprimert WAV)</p>
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="File Size"
+                label="Filstørrelse"
                 value={fileSizeResult.formatted}
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Bit Rate"
+                label="Bitrate"
                 value={fileSizeResult.bitRateKbps.toLocaleString('nb-NO')}
-                unit="kbps"
+                unit="kbit/s"
                 copyable
               />
             </div>
             <div className="grid grid-cols-3 gap-3 mt-3">
-              <ResultDisplay label="Bytes" value={fileSizeResult.bytes.toLocaleString('nb-NO')} />
-              <ResultDisplay label="Kilobytes" value={formatFixed(fileSizeResult.kilobytes, 2)} />
-              <ResultDisplay label="Megabytes" value={formatFixed(fileSizeResult.megabytes, 2)} />
+              <ResultDisplay label="Byte" value={fileSizeResult.bytes.toLocaleString('nb-NO')} />
+              <ResultDisplay label="Kilobyte" value={formatFixed(fileSizeResult.kilobytes, 2)} />
+              <ResultDisplay label="Megabyte" value={formatFixed(fileSizeResult.megabytes, 2)} />
             </div>
           </div>
         )}
@@ -245,39 +245,39 @@ export function SampleRateCalculator() {
         {/* Duration Result */}
         {mode === 'duration' && calculatedDuration !== null && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">Calculated Duration</p>
+            <p className="text-sm font-medium mb-3">Utregnet varighet</p>
             <ResultDisplay
-              label="Duration"
+              label="Varighet"
               value={formatDuration(calculatedDuration)}
               highlight
             />
             <p className="text-sm text-muted-foreground mt-2">
-              {formatFixed(calculatedDuration, 1)} seconds total
+              {formatFixed(calculatedDuration, 1)} sekunder totalt
             </p>
           </div>
         )}
 
         {/* Technical Specifications */}
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Technical Specifications</p>
+          <p className="text-sm font-medium mb-3">Tekniske data</p>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Nyquist Frequency"
+              label="Nyquist-frekvens"
               value={formatFixed((nyquist.nyquistFrequency / 1000), 1)}
               unit="kHz"
             />
             <ResultDisplay
-              label="Dynamic Range"
+              label="Dynamikkområde"
               value={formatFixed(dynamicRange, 1)}
               unit="dB"
             />
             <ResultDisplay
-              label="Signal-to-Noise Ratio"
+              label="Signal/støy-forhold"
               value={formatFixed(snr, 1)}
               unit="dB"
             />
             <ResultDisplay
-              label="Max Frequency"
+              label="Høyeste frekvens"
               value={formatFixed((nyquist.nyquistFrequency / 1000), 1)}
               unit="kHz"
             />
@@ -286,12 +286,12 @@ export function SampleRateCalculator() {
 
         {/* Info */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Notes:</p>
+          <p className="font-medium mb-1">Merknader:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>File sizes are for uncompressed PCM audio (WAV format)</li>
-            <li>Compressed formats (MP3, AAC) are typically 5-10x smaller</li>
-            <li>Nyquist frequency is the maximum frequency that can be represented</li>
-            <li>Human hearing range is approximately 20 Hz - 20 kHz</li>
+            <li>Filstørrelsene gjelder ukomprimert PCM-lyd (WAV)</li>
+            <li>Komprimerte formater (MP3, AAC) er vanligvis 5–10 ganger mindre</li>
+            <li>Nyquist-frekvensen er den høyeste frekvensen som kan gjengis</li>
+            <li>Menneskets hørselsområde er omtrent 20 Hz – 20 kHz</li>
           </ul>
         </div>
       </CardContent>

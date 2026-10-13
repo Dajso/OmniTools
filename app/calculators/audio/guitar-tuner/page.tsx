@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { GuitarTuner } from '@/components/calculators/audio';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Guitar Tuner - Free Online Chromatic Tuner',
-  description: 'Free online guitar tuner using your microphone. Supports standard tuning, drop D, half step down, open G, DADGAD, and more. Works with any instrument.',
-  keywords: ['guitar tuner', 'online tuner', 'chromatic tuner', 'drop d tuning', 'standard tuning', 'instrument tuner', 'free tuner'],
+  title: 'Gitarstemmer – gratis kalkulator på nett',
+  description: 'Gratis gitarstemmer som bruker mikrofonen, med standard, drop D, DADGAD og mer. Gratis og uten registrering.',
+  keywords: ['gitarstemmer', 'stemmeapparat', 'kromatisk', 'drop d', 'standard stemming'],
   alternates: { canonical: '/calculators/audio/guitar-tuner' },
+  openGraph: {
+    title: 'Gitarstemmer',
+    description: 'Gratis gitarstemmer som bruker mikrofonen, med standard, drop D, DADGAD og mer',
+    url: '/calculators/audio/guitar-tuner',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Guitar Tuner',
-  description: 'Free online guitar tuner using your microphone',
+  name: 'Gitarstemmer',
+  description: 'Gratis gitarstemmer som bruker mikrofonen, med standard, drop D, DADGAD og mer',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Allow microphone', text: 'Click "Start Tuning" and allow microphone access when prompted.' },
-  { name: 'Select tuning', text: 'Choose your desired tuning (standard, drop D, etc.) from the dropdown.' },
-  { name: 'Select string', text: 'Click on the string you want to tune to see its target frequency.' },
-  { name: 'Play the string', text: 'Pluck the string and watch the tuner detect the pitch.' },
-  { name: 'Adjust tuning', text: 'Turn the tuning peg until the indicator shows green (in tune).' },
+  { name: 'Gi tilgang til mikrofonen', text: 'Nettleseren spør om tillatelse første gang.' },
+  { name: 'Velg stemming', text: 'For eksempel standard, drop D eller åpen G.' },
+  { name: 'Slå an en streng', text: 'Se om tonen er for høy, for lav eller stemt.' },
+  { name: 'Juster til tonen er stemt', text: 'Vri på stemmeskruen til meldingen viser at strengen er stemt.' },
 ];
 
 const faqs = [
-  {
-    question: 'How accurate is this tuner?',
-    answer: 'This tuner uses autocorrelation pitch detection and is accurate to within a few cents. For best results, tune in a quiet environment and let each string ring clearly.',
-  },
-  {
-    question: 'What is standard guitar tuning?',
-    answer: 'Standard tuning from low to high is E-A-D-G-B-E (strings 6 to 1). The frequencies are E2 (82.4 Hz), A2 (110 Hz), D3 (146.8 Hz), G3 (196 Hz), B3 (246.9 Hz), E4 (329.6 Hz).',
-  },
-  {
-    question: 'What is Drop D tuning?',
-    answer: 'Drop D tuning lowers the 6th string from E to D. This allows power chords to be played with one finger and is popular in rock and metal music.',
-  },
-  {
-    question: 'Why should I tune up to pitch?',
-    answer: 'Tuning up (tightening) to pitch rather than down helps the string settle into position and stay in tune longer. If you overshoot, tune down below the note and then back up.',
-  },
-  {
-    question: 'Can I use this for other instruments?',
-    answer: 'Yes! This is a chromatic tuner that detects any pitch. It works for bass, ukulele, violin, and any other instrument. Just ignore the string labels and tune to the detected note.',
-  },
+  { question: 'Hvorfor trenger siden mikrofonen?', answer: 'For å høre tonen du spiller. Lyd behandles i nettleseren og sendes ikke noe sted.' },
+  { question: 'Fungerer den med el-gitar?', answer: 'Ja, hold mikrofonen nær forsterkeren eller bruk et lydkort.' },
+  { question: 'Hva betyr cent?', answer: 'Avvik fra riktig tone. 100 cent er en halvtone.' },
+  { question: 'Hvorfor finner den ikke tonen?', answer: 'Prøv å stemme i et stille rom, slå an strengen tydelig og sjekk at riktig mikrofon er valgt.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/audio/note-frequency', title: 'Note to Frequency', description: 'Convert notes to frequencies.' },
-  { href: '/calculators/audio/metronome', title: 'Visual Metronome', description: 'Keep time while practicing.' },
-  { href: '/calculators/audio/bpm-tapper', title: 'BPM Tapper', description: 'Find the tempo of a song.' },
+  { href: '/calculators/audio/note-frequency', title: 'Tone til frekvens', description: 'Regn om mellom toner og frekvens i Hz, med ulike stemmetoner og cent' },
+  { href: '/calculators/audio/metronome', title: 'Visuell metronom', description: 'Metronom med visuelle og hørbare signaler, taktarter og tempoer' },
+  { href: '/calculators/audio/key-scale-finder', title: 'Toneart- og skalafinner', description: 'Finn toneart og skala ved å velge toner' },
 ];
 
 export default function GuitarTunerPage() {
@@ -63,12 +55,11 @@ export default function GuitarTunerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="guitar-tuner"
-          title="Guitar Tuner"
-          description="Free online guitar tuner using your microphone. Supports multiple tunings including standard, drop D, half step down, and more."
-          colorClass="bg-orange-100 text-orange-600"
+          title="Gitarstemmer"
+          description="Stem gitaren med mikrofonen. Støtter flere stemminger og referansetoner. Gratis og uten registrering."
         />
 
-        <section aria-label="Guitar Tuner">
+        <section aria-label="Gitarstemmer">
           <GuitarTuner />
         </section>
 

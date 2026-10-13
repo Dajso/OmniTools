@@ -11,18 +11,18 @@ import { formatFixed } from '@/lib/utils/formatting';
 type WaveType = 'sine' | 'square' | 'sawtooth' | 'triangle';
 
 const WAVE_TYPES: { value: WaveType; label: string }[] = [
-  { value: 'sine', label: 'Sine (Smooth)' },
-  { value: 'square', label: 'Square (Harsh)' },
-  { value: 'sawtooth', label: 'Sawtooth (Bright)' },
-  { value: 'triangle', label: 'Triangle (Soft)' },
+  { value: 'sine', label: 'Sinus (myk)' },
+  { value: 'square', label: 'Firkant (hard)' },
+  { value: 'sawtooth', label: 'Sagtann (lys)' },
+  { value: 'triangle', label: 'Trekant (myk)' },
 ];
 
 const FREQUENCY_PRESETS = [
   { label: 'Bass (100 Hz)', value: 100 },
-  { label: 'Low Mid (300 Hz)', value: 300 },
-  { label: 'Mid (1000 Hz)', value: 1000 },
-  { label: 'High Mid (3000 Hz)', value: 3000 },
-  { label: 'High (8000 Hz)', value: 8000 },
+  { label: 'Lav mellomtone (300 Hz)', value: 300 },
+  { label: 'Mellomtone (1000 Hz)', value: 1000 },
+  { label: 'Høy mellomtone (3000 Hz)', value: 3000 },
+  { label: 'Diskant (8000 Hz)', value: 8000 },
 ];
 
 export function AudioPanningVisualizer() {
@@ -163,8 +163,8 @@ export function AudioPanningVisualizer() {
 
   const getPanLabel = () => {
     if (pan === 0) return 'Center';
-    if (pan < 0) return `${Math.abs(pan * 100).toFixed(0)}% Left`;
-    return `${(pan * 100).toFixed(0)}% Right`;
+    if (pan < 0) return `${formatFixed(Math.abs(pan * 100), 0)} % venstre`;
+    return `${formatFixed(pan * 100, 0)} % høyre`;
   };
 
   const getLeftVolume = () => Math.max(0, 1 - pan) * 100;
@@ -173,9 +173,9 @@ export function AudioPanningVisualizer() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Audio Panning Visualizer</CardTitle>
+        <CardTitle>Stereopanorering</CardTitle>
         <CardDescription>
-          Visualize and test stereo panning. Hear how sound moves between left and right channels.
+          Se og hør hvordan lyden flytter seg mellom venstre og høyre kanal.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -193,7 +193,7 @@ export function AudioPanningVisualizer() {
               >
                 🔊
               </div>
-              <p className="text-sm mt-1 font-medium">Left</p>
+              <p className="text-sm mt-1 font-medium">Venstre</p>
               <p className="text-xs text-muted-foreground">{formatFixed(getLeftVolume(), 0)}%</p>
             </div>
             
@@ -219,14 +219,14 @@ export function AudioPanningVisualizer() {
               >
                 🔊
               </div>
-              <p className="text-sm mt-1 font-medium">Right</p>
+              <p className="text-sm mt-1 font-medium">Høyre</p>
               <p className="text-xs text-muted-foreground">{formatFixed(getRightVolume(), 0)}%</p>
             </div>
           </div>
 
           {/* Pan Slider */}
           <div className="space-y-2">
-            <Label htmlFor="pan-slider">Pan Position</Label>
+            <Label htmlFor="pan-slider">Panoreringsposisjon</Label>
             <input
               id="pan-slider"
               type="range"
@@ -237,31 +237,31 @@ export function AudioPanningVisualizer() {
               className="w-full h-2 bg-muted-foreground/20 rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Left</span>
-              <span>Center</span>
-              <span>Right</span>
+              <span>Venstre</span>
+              <span>Midten</span>
+              <span>Høyre</span>
             </div>
           </div>
         </div>
 
         {/* Quick Pan Buttons */}
         <div>
-          <p className="text-sm font-medium mb-2">Quick Pan</p>
+          <p className="text-sm font-medium mb-2">Hurtigvalg</p>
           <div className="flex gap-2 justify-center">
             <Button variant={pan === -1 ? 'default' : 'outline'} size="sm" onClick={() => setPan(-1)}>
-              Hard Left
+              Helt til venstre
             </Button>
             <Button variant={pan === -0.5 ? 'default' : 'outline'} size="sm" onClick={() => setPan(-0.5)}>
-              50% Left
+              50 % venstre
             </Button>
             <Button variant={pan === 0 ? 'default' : 'outline'} size="sm" onClick={() => setPan(0)}>
-              Center
+              Midten
             </Button>
             <Button variant={pan === 0.5 ? 'default' : 'outline'} size="sm" onClick={() => setPan(0.5)}>
-              50% Right
+              50 % høyre
             </Button>
             <Button variant={pan === 1 ? 'default' : 'outline'} size="sm" onClick={() => setPan(1)}>
-              Hard Right
+              Helt til høyre
             </Button>
           </div>
         </div>
@@ -270,7 +270,7 @@ export function AudioPanningVisualizer() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="frequency"
-            label="Frequency (Hz)"
+            label="Frekvens (Hz)"
             value={frequency}
             onChange={setFrequency}
             min={20}
@@ -279,7 +279,7 @@ export function AudioPanningVisualizer() {
           />
           <NumberInput
             id="volume"
-            label="Volume"
+            label="Volum"
             value={Math.round(volume * 100)}
             onChange={(v) => setVolume(v / 100)}
             min={0}
@@ -291,7 +291,7 @@ export function AudioPanningVisualizer() {
 
         {/* Frequency Presets */}
         <div>
-          <p className="text-sm font-medium mb-2">Frequency Presets</p>
+          <p className="text-sm font-medium mb-2">Frekvensvalg</p>
           <div className="flex flex-wrap gap-2">
             {FREQUENCY_PRESETS.map(preset => (
               <Button
@@ -308,7 +308,7 @@ export function AudioPanningVisualizer() {
 
         {/* Wave Type */}
         <div className="space-y-2">
-          <Label htmlFor="wave-type">Wave Type</Label>
+          <Label htmlFor="wave-type">Bølgeform</Label>
           <Select
             id="wave-type"
             options={WAVE_TYPES}
@@ -324,12 +324,12 @@ export function AudioPanningVisualizer() {
             onClick={() => setAutoPan(!autoPan)}
             disabled={!isPlaying}
           >
-            {autoPan ? 'Stop Auto-Pan' : 'Start Auto-Pan'}
+            {autoPan ? 'Stopp autopanorering' : 'Start autopanorering'}
           </Button>
           {autoPan && (
             <NumberInput
               id="auto-pan-speed"
-              label="Speed"
+              label="Hastighet"
               value={autoPanSpeed}
               onChange={setAutoPanSpeed}
               min={0.5}
@@ -347,17 +347,17 @@ export function AudioPanningVisualizer() {
           className="w-full"
           variant={isPlaying ? 'destructive' : 'default'}
         >
-          {isPlaying ? 'Stop Sound' : 'Play Sound'}
+          {isPlaying ? 'Stopp lyd' : 'Spill lyd'}
         </Button>
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">How to use:</p>
+          <p className="font-medium mb-1">Slik bruker du den:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Click &quot;Play Sound&quot; to start the test tone</li>
-            <li>Use the slider or buttons to adjust panning</li>
-            <li>Enable Auto-Pan to hear the sound move between speakers</li>
-            <li>Use headphones for the best stereo experience</li>
+            <li>Trykk «Spill lyd» for å starte testtonen</li>
+            <li>Bruk glidebryteren eller knappene for å justere panoreringen</li>
+            <li>Slå på autopanorering for å høre lyden bevege seg mellom høyttalerne</li>
+            <li>Bruk hodetelefoner for best stereoopplevelse</li>
           </ul>
         </div>
       </CardContent>

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatFixed } from '@/lib/utils/formatting';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -70,14 +71,14 @@ export function BPMTapper() {
     setMode('manual');
   };
 
-  const formatMs = (ms: number) => ms.toFixed(1);
+  const formatMs = (ms: number) => formatFixed(ms, 1);
 
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>BPM Tapper</CardTitle>
+        <CardTitle>BPM-tapper</CardTitle>
         <CardDescription>
-          Tap to the beat or enter BPM manually to calculate delay times for various note values.
+          Tapp i takt med musikken, eller skriv inn BPM selv, for å regne ut ekkotider for ulike notelengder.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -88,14 +89,14 @@ export function BPMTapper() {
             onClick={() => setMode('tap')}
             size="sm"
           >
-            Tap Mode
+            Tappemodus
           </Button>
           <Button
             variant={mode === 'manual' ? 'default' : 'outline'}
             onClick={() => setMode('manual')}
             size="sm"
           >
-            Manual Entry
+            Manuell
           </Button>
         </div>
 
@@ -108,23 +109,23 @@ export function BPMTapper() {
               className="w-full h-40 rounded-lg bg-primary/10 hover:bg-primary/20 active:bg-primary/30 
                          transition-colors flex flex-col items-center justify-center cursor-pointer
                          focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-2 border-dashed border-primary/30"
-              aria-label="Tap to detect BPM"
+              aria-label="Tapp for å finne BPM"
             >
               <span className="text-4xl font-bold text-primary">
-                {bpm !== null ? `${bpm} BPM` : 'TAP'}
+                {bpm !== null ? `${bpm} BPM` : 'TAPP'}
               </span>
               <span className="text-sm text-muted-foreground mt-2">
-                Click or press Spacebar
+                Klikk eller trykk mellomrom
               </span>
               {tapTimestamps.length > 0 && (
                 <span className="text-xs text-muted-foreground mt-1">
-                  {tapTimestamps.length} tap{tapTimestamps.length !== 1 ? 's' : ''}
+                  {tapTimestamps.length} tapp{tapTimestamps.length !== 1 ? 's' : ''}
                 </span>
               )}
             </button>
 
             <Button variant="outline" onClick={handleReset} className="w-full">
-              Reset
+              Nullstill
             </Button>
           </>
         ) : (
@@ -142,7 +143,7 @@ export function BPMTapper() {
 
             {/* Genre Presets */}
             <div>
-              <p className="text-sm font-medium mb-2">Genre Presets</p>
+              <p className="text-sm font-medium mb-2">Sjangervalg</p>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(BPM_PRESETS).map(([genre, preset]) => (
                   <Button
@@ -169,7 +170,7 @@ export function BPMTapper() {
               copyable
             />
             <ResultDisplay
-              label="ms per Beat"
+              label="ms per slag"
               value={formatMs(60000 / bpm)}
               unit="ms"
               copyable
@@ -180,29 +181,29 @@ export function BPMTapper() {
         {/* Delay Times */}
         {delayTimes && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">Delay Times</p>
+            <p className="text-sm font-medium mb-3">Ekkotider</p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <ResultDisplay label="1/4 Note" value={formatMs(delayTimes.quarter)} unit="ms" copyable />
-              <ResultDisplay label="1/8 Note" value={formatMs(delayTimes.eighth)} unit="ms" copyable />
-              <ResultDisplay label="1/16 Note" value={formatMs(delayTimes.sixteenth)} unit="ms" copyable />
-              <ResultDisplay label="1/32 Note" value={formatMs(delayTimes.thirtySecond)} unit="ms" copyable />
-              <ResultDisplay label="Dotted 1/4" value={formatMs(delayTimes.dottedQuarter)} unit="ms" copyable />
-              <ResultDisplay label="Dotted 1/8" value={formatMs(delayTimes.dottedEighth)} unit="ms" copyable />
-              <ResultDisplay label="Triplet 1/4" value={formatMs(delayTimes.tripletQuarter)} unit="ms" copyable />
-              <ResultDisplay label="Triplet 1/8" value={formatMs(delayTimes.tripletEighth)} unit="ms" copyable />
-              <ResultDisplay label="Triplet 1/16" value={formatMs(delayTimes.tripletSixteenth)} unit="ms" copyable />
+              <ResultDisplay label="1/4-note" value={formatMs(delayTimes.quarter)} unit="ms" copyable />
+              <ResultDisplay label="1/8-note" value={formatMs(delayTimes.eighth)} unit="ms" copyable />
+              <ResultDisplay label="1/16-note" value={formatMs(delayTimes.sixteenth)} unit="ms" copyable />
+              <ResultDisplay label="1/32-note" value={formatMs(delayTimes.thirtySecond)} unit="ms" copyable />
+              <ResultDisplay label="Punktert 1/4" value={formatMs(delayTimes.dottedQuarter)} unit="ms" copyable />
+              <ResultDisplay label="Punktert 1/8" value={formatMs(delayTimes.dottedEighth)} unit="ms" copyable />
+              <ResultDisplay label="Trioler 1/4" value={formatMs(delayTimes.tripletQuarter)} unit="ms" copyable />
+              <ResultDisplay label="Trioler 1/8" value={formatMs(delayTimes.tripletEighth)} unit="ms" copyable />
+              <ResultDisplay label="Trioler 1/16" value={formatMs(delayTimes.tripletSixteenth)} unit="ms" copyable />
             </div>
           </div>
         )}
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">How to use:</p>
+          <p className="font-medium mb-1">Slik bruker du den:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Tap the button or press Spacebar in rhythm with your music</li>
-            <li>The BPM is calculated from the average of your last 8 taps</li>
-            <li>Use the delay times for setting up delay/reverb effects</li>
-            <li>Switch to Manual mode to enter a specific BPM value</li>
+            <li>Trykk på knappen eller mellomromstasten i takt med musikken</li>
+            <li>BPM regnes ut som gjennomsnittet av de siste 8 tappene</li>
+            <li>Bruk ekkotidene når du stiller inn delay- og romklangseffekter</li>
+            <li>Bytt til manuell modus for å skrive inn en bestemt BPM</li>
           </ul>
         </div>
       </CardContent>

@@ -39,7 +39,7 @@ const GUITAR_TUNINGS = {
     ],
   },
   halfStepDown: {
-    name: 'Half Step Down (Eb)',
+    name: 'Halvtone ned (Eb)',
     notes: [
       { string: 6, note: 'D#', octave: 2 },
       { string: 5, note: 'G#', octave: 2 },
@@ -50,7 +50,7 @@ const GUITAR_TUNINGS = {
     ],
   },
   openG: {
-    name: 'Open G (DGDGBD)',
+    name: 'Åpen G (DGDGBD)',
     notes: [
       { string: 6, note: 'D', octave: 2 },
       { string: 5, note: 'G', octave: 2 },
@@ -111,7 +111,7 @@ export function GuitarTuner() {
       setIsListening(true);
       detectPitch();
     } catch (err) {
-      console.error('Microphone access denied:', err);
+      console.error('Mikrofontilgang nektet:', err);
       setHasPermission(false);
     }
   };
@@ -239,11 +239,11 @@ export function GuitarTuner() {
   }, []);
 
   const getTuneIndicator = () => {
-    if (cents === 0) return { text: 'In Tune!', color: 'text-green-600' };
-    if (Math.abs(cents) <= 5) return { text: 'Almost there', color: 'text-green-500' };
-    if (Math.abs(cents) <= 10) return { text: 'Close', color: 'text-yellow-500' };
-    if (cents > 0) return { text: 'Too Sharp ↑', color: 'text-orange-500' };
-    return { text: 'Too Flat ↓', color: 'text-blue-500' };
+    if (cents === 0) return { text: 'Stemt!', color: 'text-green-600' };
+    if (Math.abs(cents) <= 5) return { text: 'Nesten der', color: 'text-green-500' };
+    if (Math.abs(cents) <= 10) return { text: 'Nær', color: 'text-yellow-500' };
+    if (cents > 0) return { text: 'For høy ↑', color: 'text-orange-500' };
+    return { text: 'For lav ↓', color: 'text-blue-500' };
   };
 
   const tuningOptions = Object.entries(GUITAR_TUNINGS).map(([key, value]) => ({
@@ -261,16 +261,16 @@ export function GuitarTuner() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Guitar Tuner</CardTitle>
+        <CardTitle>Gitarstemmer</CardTitle>
         <CardDescription>
-          Use your microphone to tune your guitar. Supports multiple tunings and reference pitches.
+          Bruk mikrofonen til å stemme gitaren. Støtter flere stemminger og referansetoner.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Settings */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="tuning">Tuning</Label>
+            <Label htmlFor="tuning">Stemming</Label>
             <Select
               id="tuning"
               options={tuningOptions}
@@ -279,7 +279,7 @@ export function GuitarTuner() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="reference">Reference Pitch</Label>
+            <Label htmlFor="reference">Referansetone</Label>
             <Select
               id="reference"
               options={pitchOptions}
@@ -291,7 +291,7 @@ export function GuitarTuner() {
 
         {/* String Selection */}
         <div>
-          <p className="text-sm font-medium mb-2">Select String to Tune</p>
+          <p className="text-sm font-medium mb-2">Velg streng å stemme</p>
           <div className="flex gap-2 justify-center">
             {tuning.notes.map((stringNote) => {
               const targetFreq = noteToFrequency(stringNote.note, stringNote.octave, referenceFreq);
@@ -302,7 +302,7 @@ export function GuitarTuner() {
                   onClick={() => setSelectedString(stringNote.string)}
                   className="flex flex-col h-auto py-2"
                 >
-                  <span className="text-xs text-muted-foreground">String {stringNote.string}</span>
+                  <span className="text-xs text-muted-foreground">Streng {stringNote.string}</span>
                   <span className="font-bold">{stringNote.note}{stringNote.octave}</span>
                   <span className="text-xs">{formatFixed(targetFreq, 1)} Hz</span>
                 </Button>
@@ -317,14 +317,14 @@ export function GuitarTuner() {
             <div className="space-y-4">
               {hasPermission === false && (
                 <p className="text-destructive text-sm">
-                  Microphone access denied. Please allow microphone access to use the tuner.
+                  Mikrofontilgang nektet. Gi nettleseren tilgang til mikrofonen for å bruke stemmeren.
                 </p>
               )}
               <Button onClick={startListening} size="lg">
-                Start Tuning
+                Start stemming
               </Button>
               <p className="text-sm text-muted-foreground">
-                Click to enable microphone and start tuning
+                Trykk for å slå på mikrofonen og begynne å stemme
               </p>
             </div>
           ) : (
@@ -335,7 +335,7 @@ export function GuitarTuner() {
                   {detectedNote || '—'}
                 </p>
                 <p className="text-2xl text-muted-foreground">
-                  {detectedFrequency ? `${detectedFrequency} Hz` : 'Listening...'}
+                  {detectedFrequency ? `${detectedFrequency} Hz` : 'Lytter …'}
                 </p>
               </div>
 
@@ -357,13 +357,13 @@ export function GuitarTuner() {
                     {indicator.text}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {cents > 0 ? '+' : ''}{formatFixed(cents, 1)} cents
+                    {cents > 0 ? '+' : ''}{formatFixed(cents, 1)} cent
                   </p>
                 </div>
               )}
 
               <Button variant="outline" onClick={stopListening}>
-                Stop Tuning
+                Stopp stemming
               </Button>
             </div>
           )}
@@ -372,7 +372,7 @@ export function GuitarTuner() {
         {/* Reference Frequencies */}
         {selectedString && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Target for String {selectedString}</p>
+            <p className="text-sm font-medium mb-2">Måltone for streng {selectedString}</p>
             {(() => {
               const stringNote = tuning.notes.find(n => n.string === selectedString);
               if (!stringNote) return null;
@@ -391,12 +391,12 @@ export function GuitarTuner() {
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Tips for accurate tuning:</p>
+          <p className="font-medium mb-1">Tips for presis stemming:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Tune in a quiet environment for best results</li>
-            <li>Pluck the string clearly and let it ring</li>
-            <li>Tune up to pitch rather than down when possible</li>
-            <li>Check tuning after adjusting all strings</li>
+            <li>Stem i rolige omgivelser for best resultat</li>
+            <li>Slå an strengen tydelig og la den klinge</li>
+            <li>Stem opp til tonen i stedet for ned når det er mulig</li>
+            <li>Sjekk stemmingen igjen etter at alle strengene er justert</li>
           </ul>
         </div>
       </CardContent>

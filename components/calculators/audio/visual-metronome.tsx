@@ -133,9 +133,9 @@ export function VisualMetronome() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Visual Metronome</CardTitle>
+        <CardTitle>Visuell metronom</CardTitle>
         <CardDescription>
-          Keep time with visual and audio cues. Perfect for practice sessions.
+          Hold takten med lys og lyd. Fint til øving.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -186,7 +186,7 @@ export function VisualMetronome() {
 
         {/* Genre Presets */}
         <div>
-          <p className="text-sm font-medium mb-2">Tempo Presets</p>
+          <p className="text-sm font-medium mb-2">Tempovalg</p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(BPM_PRESETS).slice(0, 6).map(([genre, preset]) => (
               <Button
@@ -204,7 +204,7 @@ export function VisualMetronome() {
         {/* Time Signature */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="time-signature">Time Signature</Label>
+            <Label htmlFor="time-signature">Taktart</Label>
             <Select
               id="time-signature"
               options={timeSignatureOptions}
@@ -213,28 +213,28 @@ export function VisualMetronome() {
             />
           </div>
           <div className="space-y-2">
-            <Label>Options</Label>
+            <Label>Valg</Label>
             <div className="flex gap-2">
               <Button
                 variant={accentFirst ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setAccentFirst(!accentFirst)}
               >
-                Accent 1st
+                Aksent på 1
               </Button>
               <Button
                 variant={soundEnabled ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setSoundEnabled(!soundEnabled)}
               >
-                Sound
+                Lyd
               </Button>
               <Button
                 variant={flashEnabled ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFlashEnabled(!flashEnabled)}
               >
-                Flash
+                Blink
               </Button>
             </div>
           </div>
@@ -283,21 +283,21 @@ export function VisualMetronome() {
           className="w-full text-xl py-6"
           variant={isPlaying ? 'destructive' : 'default'}
         >
-          {isPlaying ? 'Stop' : 'Start'}
+          {isPlaying ? 'Stopp' : 'Start'}
         </Button>
 
         {/* Tempo Info */}
         <div className="grid grid-cols-3 gap-4 text-center text-sm">
           <div className="bg-muted/50 p-3 rounded-lg">
-            <p className="text-muted-foreground">ms per beat</p>
+            <p className="text-muted-foreground">ms per slag</p>
             <p className="font-bold">{formatFixed((60000 / bpm), 1)}</p>
           </div>
           <div className="bg-muted/50 p-3 rounded-lg">
-            <p className="text-muted-foreground">beats per second</p>
+            <p className="text-muted-foreground">slag per sekund</p>
             <p className="font-bold">{formatFixed((bpm / 60), 2)}</p>
           </div>
           <div className="bg-muted/50 p-3 rounded-lg">
-            <p className="text-muted-foreground">bar duration</p>
+            <p className="text-muted-foreground">taktvarighet</p>
             <p className="font-bold">{formatFixed(((60000 / bpm) * beats / 1000), 2)}s</p>
           </div>
         </div>
@@ -306,10 +306,10 @@ export function VisualMetronome() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Use keyboard shortcuts: Space to start/stop</li>
-            <li>Enable &quot;Accent 1st&quot; to emphasize the downbeat</li>
-            <li>Adjust BPM with +/- buttons or type directly</li>
-            <li>Try different time signatures for various music styles</li>
+            <li>Bruk tastatur: mellomrom starter og stopper</li>
+            <li>Slå på «Aksent på 1» for å markere første slag</li>
+            <li>Juster BPM med +/- eller skriv inn direkte</li>
+            <li>Prøv ulike taktarter for ulike stilarter</li>
           </ul>
         </div>
       </CardContent>

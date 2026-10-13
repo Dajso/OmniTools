@@ -1,5 +1,6 @@
 'use client';
 
+import { formatFixed } from '@/lib/utils/formatting';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { NumberInput } from '@/components/ui/number-input';
@@ -28,7 +29,7 @@ export function DelayReverbCalculator() {
     }
   }, [bpm, decayBeats]);
 
-  const formatMs = (ms: number) => ms.toFixed(1);
+  const formatMs = (ms: number) => formatFixed(ms, 1);
 
   const applyPreset = (presetBpm: number) => {
     setBpm(presetBpm);
@@ -37,9 +38,9 @@ export function DelayReverbCalculator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Delay & Reverb Time Calculator</CardTitle>
+        <CardTitle>Delay- og romklangkalkulator</CardTitle>
         <CardDescription>
-          Calculate tempo-synced delay and reverb times for your music production.
+          Regn ut tempo-synkede delay- og romklangtider til musikkproduksjonen din.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -47,7 +48,7 @@ export function DelayReverbCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="bpm"
-            label="BPM (Tempo)"
+            label="BPM (tempo)"
             value={bpm}
             onChange={setBpm}
             min={20}
@@ -56,7 +57,7 @@ export function DelayReverbCalculator() {
           />
           <NumberInput
             id="decay-beats"
-            label="Reverb Decay (beats)"
+            label="Romklangens utklingning (slag)"
             value={decayBeats}
             onChange={setDecayBeats}
             min={0.5}
@@ -67,7 +68,7 @@ export function DelayReverbCalculator() {
 
         {/* Genre Presets */}
         <div>
-          <p className="text-sm font-medium mb-2">Genre Presets</p>
+          <p className="text-sm font-medium mb-2">Sjangervalg</p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(BPM_PRESETS).slice(0, 6).map(([genre, preset]) => (
               <Button
@@ -84,16 +85,16 @@ export function DelayReverbCalculator() {
 
         {/* Reverb Times */}
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Reverb Settings</p>
+          <p className="text-sm font-medium mb-3">Romklanginnstillinger</p>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Pre-Delay (1/64 note)"
+              label="Pre-delay (1/64-note)"
               value={formatMs(reverbPreDelay)}
               unit="ms"
               copyable
             />
             <ResultDisplay
-              label={`Decay Time (${decayBeats} beats)`}
+              label={`Utklingningstid (${decayBeats} slag)`}
               value={formatMs(reverbDecay)}
               unit="ms"
               copyable
@@ -105,32 +106,32 @@ export function DelayReverbCalculator() {
         {delayTimes && (
           <>
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-3">Standard Note Delays</p>
+              <p className="text-sm font-medium mb-3">Vanlige notelengder</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <ResultDisplay label="1/4 Note" value={formatMs(delayTimes.quarter)} unit="ms" copyable />
-                <ResultDisplay label="1/8 Note" value={formatMs(delayTimes.eighth)} unit="ms" copyable />
-                <ResultDisplay label="1/16 Note" value={formatMs(delayTimes.sixteenth)} unit="ms" copyable />
-                <ResultDisplay label="1/32 Note" value={formatMs(delayTimes.thirtySecond)} unit="ms" copyable />
+                <ResultDisplay label="1/4-note" value={formatMs(delayTimes.quarter)} unit="ms" copyable />
+                <ResultDisplay label="1/8-note" value={formatMs(delayTimes.eighth)} unit="ms" copyable />
+                <ResultDisplay label="1/16-note" value={formatMs(delayTimes.sixteenth)} unit="ms" copyable />
+                <ResultDisplay label="1/32-note" value={formatMs(delayTimes.thirtySecond)} unit="ms" copyable />
               </div>
             </div>
 
             {/* Delay Times - Dotted Notes */}
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-3">Dotted Note Delays</p>
+              <p className="text-sm font-medium mb-3">Punkterte noter</p>
               <div className="grid grid-cols-3 gap-3">
-                <ResultDisplay label="Dotted 1/4" value={formatMs(delayTimes.dottedQuarter)} unit="ms" copyable />
-                <ResultDisplay label="Dotted 1/8" value={formatMs(delayTimes.dottedEighth)} unit="ms" copyable />
-                <ResultDisplay label="Dotted 1/16" value={formatMs(delayTimes.dottedSixteenth)} unit="ms" copyable />
+                <ResultDisplay label="Punktert 1/4" value={formatMs(delayTimes.dottedQuarter)} unit="ms" copyable />
+                <ResultDisplay label="Punktert 1/8" value={formatMs(delayTimes.dottedEighth)} unit="ms" copyable />
+                <ResultDisplay label="Punktert 1/16" value={formatMs(delayTimes.dottedSixteenth)} unit="ms" copyable />
               </div>
             </div>
 
             {/* Delay Times - Triplet Notes */}
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-3">Triplet Note Delays</p>
+              <p className="text-sm font-medium mb-3">Trioler</p>
               <div className="grid grid-cols-3 gap-3">
-                <ResultDisplay label="Triplet 1/4" value={formatMs(delayTimes.tripletQuarter)} unit="ms" copyable />
-                <ResultDisplay label="Triplet 1/8" value={formatMs(delayTimes.tripletEighth)} unit="ms" copyable />
-                <ResultDisplay label="Triplet 1/16" value={formatMs(delayTimes.tripletSixteenth)} unit="ms" copyable />
+                <ResultDisplay label="Trioler 1/4" value={formatMs(delayTimes.tripletQuarter)} unit="ms" copyable />
+                <ResultDisplay label="Trioler 1/8" value={formatMs(delayTimes.tripletEighth)} unit="ms" copyable />
+                <ResultDisplay label="Trioler 1/16" value={formatMs(delayTimes.tripletSixteenth)} unit="ms" copyable />
               </div>
             </div>
           </>
@@ -138,12 +139,12 @@ export function DelayReverbCalculator() {
 
         {/* Formula Reference */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Formulas:</p>
+          <p className="font-medium mb-1">Formler:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Quarter note (ms) = 60,000 ÷ BPM</li>
-            <li>Dotted note = Note × 1.5</li>
-            <li>Triplet note = Note × (2/3)</li>
-            <li>Pre-delay = Quarter note × (1/16)</li>
+            <li>Kvartnote (ms) = 60 000 ÷ BPM</li>
+            <li>Punktert note = note × 1,5</li>
+            <li>Triolnote = note × (2/3)</li>
+            <li>Pre-delay = kvartnote × (1/16)</li>
           </ul>
         </div>
       </CardContent>

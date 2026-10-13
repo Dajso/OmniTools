@@ -79,14 +79,14 @@ export interface ScaleMatch {
 export function getScaleNotes(root: string, scaleType: ScaleType): string[] {
   const pattern = SCALE_PATTERNS[scaleType];
   if (!pattern) {
-    throw new Error(`Unknown scale type: ${scaleType}`);
+    throw new Error(`Ukjent skalatype: ${scaleType}`);
   }
 
   const normalizedRoot = normalizeNoteName(root);
   const rootIndex = NOTE_NAMES.indexOf(normalizedRoot as NoteName);
   
   if (rootIndex === -1) {
-    throw new Error(`Invalid root note: ${root}`);
+    throw new Error(`Ugyldig grunntone: ${root}`);
   }
 
   return pattern.map((interval) => {
@@ -102,7 +102,7 @@ function noteToSemitone(note: string): number {
   const normalized = normalizeNoteName(note);
   const index = NOTE_NAMES.indexOf(normalized as NoteName);
   if (index === -1) {
-    throw new Error(`Invalid note: ${note}`);
+    throw new Error(`Ugyldig note: ${note}`);
   }
   return index;
 }
@@ -218,9 +218,9 @@ export function findKey(inputNotes: string[]): ScaleMatch | null {
 export function formatScaleName(root: string, scaleType: ScaleType): string {
   const scaleNames: Record<ScaleType, string> = {
     'major': 'Major',
-    'natural-minor': 'Natural Minor',
-    'harmonic-minor': 'Harmonic Minor',
-    'melodic-minor': 'Melodic Minor',
+    'natural-minor': 'Naturlig moll',
+    'harmonic-minor': 'Harmonisk moll',
+    'melodic-minor': 'Melodisk moll',
     'ionian': 'Ionian',
     'dorian': 'Dorian',
     'phrygian': 'Phrygian',
@@ -228,11 +228,11 @@ export function formatScaleName(root: string, scaleType: ScaleType): string {
     'mixolydian': 'Mixolydian',
     'aeolian': 'Aeolian',
     'locrian': 'Locrian',
-    'major-pentatonic': 'Major Pentatonic',
-    'minor-pentatonic': 'Minor Pentatonic',
+    'major-pentatonic': 'Durpentatonisk',
+    'minor-pentatonic': 'Mollpentatonisk',
     'blues': 'Blues',
-    'major-blues': 'Major Blues',
-    'whole-tone': 'Whole Tone',
+    'major-blues': 'Durblues',
+    'whole-tone': 'Heltone',
     'diminished': 'Diminished',
     'chromatic': 'Chromatic',
   };
@@ -302,7 +302,7 @@ export function getChordTones(
   const scaleNotes = getScaleNotes(root, scaleType);
   
   if (degree < 1 || degree > scaleNotes.length) {
-    throw new Error(`Invalid scale degree: ${degree}`);
+    throw new Error(`Ugyldig skalatrinn: ${degree}`);
   }
 
   const index = degree - 1;

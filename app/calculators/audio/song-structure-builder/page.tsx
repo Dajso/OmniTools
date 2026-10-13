@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { SongStructureBuilder } from '@/components/calculators/audio';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Song Structure Builder - Plan Your Song Arrangement',
-  description: 'Plan and visualize your song structure with this drag-and-drop builder. Add verses, choruses, bridges, and more. Calculate song duration based on BPM.',
-  keywords: ['song structure', 'song arrangement', 'music composition', 'verse chorus', 'song builder', 'music production', 'arrangement tool'],
+  title: 'Låtstruktur – gratis kalkulator på nett',
+  description: 'Planlegg låtoppbyggingen med vers, refreng og bro, og regn ut total varighet. Gratis og uten registrering.',
+  keywords: ['låtstruktur', 'arrangement', 'vers', 'refreng', 'komposisjon'],
   alternates: { canonical: '/calculators/audio/song-structure-builder' },
+  openGraph: {
+    title: 'Låtstruktur',
+    description: 'Planlegg låtoppbyggingen med vers, refreng og bro, og regn ut total varighet',
+    url: '/calculators/audio/song-structure-builder',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Song Structure Builder',
-  description: 'Plan and visualize your song structure',
+  name: 'Låtstruktur',
+  description: 'Planlegg låtoppbyggingen med vers, refreng og bro, og regn ut total varighet',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set tempo', text: 'Enter your song BPM and beats per bar (time signature).' },
-  { name: 'Add sections', text: 'Click section buttons to add intro, verse, chorus, bridge, etc.' },
-  { name: 'Adjust length', text: 'Use +4/-4 buttons to change the number of bars in each section.' },
-  { name: 'Reorder sections', text: 'Drag and drop sections to rearrange your song structure.' },
-  { name: 'Review duration', text: 'Check the total duration and section summary to plan your song.' },
+  { name: 'Velg et utgangspunkt', text: 'Start med et ferdig valg eller en tom låt.' },
+  { name: 'Legg til deler', text: 'Klikk på deltypene du trenger.' },
+  { name: 'Endre rekkefølge og lengde', text: 'Dra delene og juster takter med +4 og -4.' },
+  { name: 'Les av oversikten', text: 'Se total varighet, takter og slag.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is a typical song structure?',
-    answer: 'The most common pop structure is Verse-Chorus-Verse-Chorus-Bridge-Chorus. Many songs also include an intro and outro. EDM often uses Intro-Build-Drop-Breakdown-Build-Drop-Outro.',
-  },
-  {
-    question: 'How many bars should each section be?',
-    answer: 'Typically: Intro (4-8 bars), Verse (8-16 bars), Pre-Chorus (4-8 bars), Chorus (8-16 bars), Bridge (8 bars), Outro (4-8 bars). These are guidelines - feel free to experiment!',
-  },
-  {
-    question: 'How long should a song be?',
-    answer: 'Pop songs are typically 3-4 minutes. Radio edits are often under 3:30. EDM tracks can be 5-7 minutes. For streaming, 2:30-3:30 is often ideal for playlist placement.',
-  },
-  {
-    question: 'What is a pre-chorus?',
-    answer: 'A pre-chorus is a short section between the verse and chorus that builds tension and leads into the chorus. It often has different chords or melody than both verse and chorus.',
-  },
-  {
-    question: 'What is the difference between a bridge and a breakdown?',
-    answer: 'A bridge is a contrasting section that provides variety, often with different chords or melody. A breakdown (common in EDM) strips away elements to create tension before a drop.',
-  },
+  { question: 'Hvor lang bør en poplåt være?', answer: 'Ofte 3–4 minutter, rundt 64–80 takter ved 120 BPM.' },
+  { question: 'Hvordan regnes varigheten ut?', answer: 'Antall takter × slag per takt ÷ BPM gir minutter.' },
+  { question: 'Hva er en bro?', answer: 'En kontrastdel, ofte mot slutten, som gir variasjon før siste refreng.' },
+  { question: 'Lagres låten min?', answer: 'Nei, strukturen lagres ikke på noen server.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/audio/bpm-tapper', title: 'BPM Tapper', description: 'Find the tempo of a song.' },
-  { href: '/calculators/audio/delay-reverb-calculator', title: 'Delay Calculator', description: 'Calculate tempo-synced delays.' },
-  { href: '/calculators/audio/key-scale-finder', title: 'Key/Scale Finder', description: 'Find the key of your song.' },
+  { href: '/calculators/audio/bpm-tapper', title: 'BPM-tapper', description: 'Tapp i takt for å finne tempo og delay-tider i musikkproduksjon' },
+  { href: '/calculators/audio/delay-reverb-calculator', title: 'Delay- og reverb-tid', description: 'Regn ut tempo-synkede delay- og reverb-tider fra BPM i millisekunder' },
+  { href: '/calculators/audio/key-scale-finder', title: 'Toneart- og skalafinner', description: 'Finn toneart og skala ved å velge toner' },
 ];
 
 export default function SongStructureBuilderPage() {
@@ -63,12 +55,11 @@ export default function SongStructureBuilderPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="song-structure-builder"
-          title="Song Structure Builder"
-          description="Plan and visualize your song arrangement. Add sections, adjust lengths, and calculate total duration based on your tempo."
-          colorClass="bg-emerald-100 text-emerald-600"
+          title="Låtstruktur"
+          description="Planlegg låtstrukturen med intro, vers, refreng, bro og mer. Se total varighet og antall takter. Gratis og uten registrering."
         />
 
-        <section aria-label="Song Structure Builder">
+        <section aria-label="Låtstruktur">
           <SongStructureBuilder />
         </section>
 

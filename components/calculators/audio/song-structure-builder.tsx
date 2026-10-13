@@ -17,66 +17,66 @@ interface SongSection {
 
 const SECTION_TYPES = [
   { type: 'Intro', color: 'bg-blue-500', textColor: 'text-blue-500' },
-  { type: 'Verse', color: 'bg-green-500', textColor: 'text-green-500' },
-  { type: 'Pre-Chorus', color: 'bg-yellow-500', textColor: 'text-yellow-500' },
-  { type: 'Chorus', color: 'bg-red-500', textColor: 'text-red-500' },
-  { type: 'Bridge', color: 'bg-purple-500', textColor: 'text-purple-500' },
+  { type: 'Vers', color: 'bg-green-500', textColor: 'text-green-500' },
+  { type: 'Pre-refreng', color: 'bg-yellow-500', textColor: 'text-yellow-500' },
+  { type: 'Refreng', color: 'bg-red-500', textColor: 'text-red-500' },
+  { type: 'Bro', color: 'bg-purple-500', textColor: 'text-purple-500' },
   { type: 'Breakdown', color: 'bg-orange-500', textColor: 'text-orange-500' },
   { type: 'Solo', color: 'bg-pink-500', textColor: 'text-pink-500' },
   { type: 'Outro', color: 'bg-gray-500', textColor: 'text-gray-500' },
   { type: 'Drop', color: 'bg-cyan-500', textColor: 'text-cyan-500' },
-  { type: 'Build', color: 'bg-amber-500', textColor: 'text-amber-500' },
+  { type: 'Oppbygging', color: 'bg-amber-500', textColor: 'text-amber-500' },
 ];
 
 const STRUCTURE_PRESETS = [
   {
-    name: 'Pop Standard',
+    name: 'Pop (standard)',
     sections: [
       { type: 'Intro', bars: 4 },
-      { type: 'Verse', bars: 8 },
-      { type: 'Pre-Chorus', bars: 4 },
-      { type: 'Chorus', bars: 8 },
-      { type: 'Verse', bars: 8 },
-      { type: 'Pre-Chorus', bars: 4 },
-      { type: 'Chorus', bars: 8 },
-      { type: 'Bridge', bars: 8 },
-      { type: 'Chorus', bars: 8 },
+      { type: 'Vers', bars: 8 },
+      { type: 'Pre-refreng', bars: 4 },
+      { type: 'Refreng', bars: 8 },
+      { type: 'Vers', bars: 8 },
+      { type: 'Pre-refreng', bars: 4 },
+      { type: 'Refreng', bars: 8 },
+      { type: 'Bro', bars: 8 },
+      { type: 'Refreng', bars: 8 },
       { type: 'Outro', bars: 4 },
     ],
   },
   {
-    name: 'EDM Drop',
+    name: 'Elektronisk dans (drop)',
     sections: [
       { type: 'Intro', bars: 8 },
-      { type: 'Build', bars: 8 },
+      { type: 'Oppbygging', bars: 8 },
       { type: 'Drop', bars: 16 },
       { type: 'Breakdown', bars: 8 },
-      { type: 'Build', bars: 8 },
+      { type: 'Oppbygging', bars: 8 },
       { type: 'Drop', bars: 16 },
       { type: 'Outro', bars: 8 },
     ],
   },
   {
-    name: 'Rock Classic',
+    name: 'Rock (klassisk)',
     sections: [
       { type: 'Intro', bars: 4 },
-      { type: 'Verse', bars: 16 },
-      { type: 'Chorus', bars: 8 },
-      { type: 'Verse', bars: 16 },
-      { type: 'Chorus', bars: 8 },
+      { type: 'Vers', bars: 16 },
+      { type: 'Refreng', bars: 8 },
+      { type: 'Vers', bars: 16 },
+      { type: 'Refreng', bars: 8 },
       { type: 'Solo', bars: 16 },
-      { type: 'Chorus', bars: 8 },
+      { type: 'Refreng', bars: 8 },
       { type: 'Outro', bars: 8 },
     ],
   },
   {
-    name: 'Verse-Chorus Simple',
+    name: 'Enkel vers–refreng',
     sections: [
-      { type: 'Verse', bars: 8 },
-      { type: 'Chorus', bars: 8 },
-      { type: 'Verse', bars: 8 },
-      { type: 'Chorus', bars: 8 },
-      { type: 'Chorus', bars: 8 },
+      { type: 'Vers', bars: 8 },
+      { type: 'Refreng', bars: 8 },
+      { type: 'Vers', bars: 8 },
+      { type: 'Refreng', bars: 8 },
+      { type: 'Refreng', bars: 8 },
     ],
   },
 ];
@@ -177,21 +177,21 @@ export function SongStructureBuilder() {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <CardTitle>Song Structure Builder</CardTitle>
+        <CardTitle>Låtstruktur</CardTitle>
         <CardDescription>
-          Plan your song arrangement by adding and arranging sections. Drag to reorder.
+          Planlegg arrangementet ved å legge til og ordne deler. Dra for å endre rekkefølgen.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Song Info */}
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="song-title">Song Title</Label>
+            <Label htmlFor="song-title">Låttittel</Label>
             <Input
               id="song-title"
               value={songTitle}
               onChange={(e) => setSongTitle(e.target.value)}
-              placeholder="Untitled"
+              placeholder="Uten tittel"
             />
           </div>
           <NumberInput
@@ -205,7 +205,7 @@ export function SongStructureBuilder() {
           />
           <NumberInput
             id="beats-per-bar"
-            label="Beats per Bar"
+            label="Slag per takt"
             value={beatsPerBar}
             onChange={setBeatsPerBar}
             min={2}
@@ -216,7 +216,7 @@ export function SongStructureBuilder() {
 
         {/* Presets */}
         <div>
-          <p className="text-sm font-medium mb-2">Structure Presets</p>
+          <p className="text-sm font-medium mb-2">Strukturvalg</p>
           <div className="flex flex-wrap gap-2">
             {STRUCTURE_PRESETS.map(preset => (
               <Button
@@ -233,7 +233,7 @@ export function SongStructureBuilder() {
 
         {/* Add Section Buttons */}
         <div>
-          <p className="text-sm font-medium mb-2">Add Section</p>
+          <p className="text-sm font-medium mb-2">Legg til del</p>
           <div className="flex flex-wrap gap-2">
             {SECTION_TYPES.map(section => (
               <Button
@@ -253,18 +253,18 @@ export function SongStructureBuilder() {
         {/* Song Structure Timeline */}
         <div className="border rounded-lg p-4">
           <div className="flex justify-between items-center mb-3">
-            <p className="text-sm font-medium">Song Structure</p>
+            <p className="text-sm font-medium">Låtstruktur</p>
             {sections.length > 0 && (
               <Button variant="ghost" size="sm" onClick={clearAll}>
-                Clear All
+                Fjern alle
               </Button>
             )}
           </div>
 
           {sections.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              <p>No sections added yet.</p>
-              <p className="text-sm">Click a section type above to add it to your song.</p>
+              <p>Ingen deler lagt til ennå.</p>
+              <p className="text-sm">Klikk på en deltype ovenfor for å legge den til.</p>
             </div>
           ) : (
             <>
@@ -275,7 +275,7 @@ export function SongStructureBuilder() {
                     key={section.id}
                     className={`${section.color} flex items-center justify-center text-white text-xs font-medium`}
                     style={{ flex: section.bars }}
-                    title={`${section.type} - ${section.bars} bars`}
+                    title={`${section.type} – ${section.bars} takter`}
                   >
                     {section.bars >= 4 && section.type.substring(0, 3)}
                   </div>
@@ -309,7 +309,7 @@ export function SongStructureBuilder() {
                       >
                         -4
                       </Button>
-                      <span className="w-12 text-center text-sm">{section.bars} bars</span>
+                      <span className="w-12 text-center text-sm">{section.bars} takter</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -337,20 +337,20 @@ export function SongStructureBuilder() {
         {sections.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
-              label="Total Duration"
+              label="Total varighet"
               value={`${totalMinutes}:${remainingSeconds.toString().padStart(2, '0')}`}
               highlight
             />
             <ResultDisplay
-              label="Total Bars"
+              label="Takter totalt"
               value={totalBars}
             />
             <ResultDisplay
-              label="Total Beats"
+              label="Slag totalt"
               value={totalBeats}
             />
             <ResultDisplay
-              label="Sections"
+              label="Deler"
               value={sections.length}
             />
           </div>
@@ -359,7 +359,7 @@ export function SongStructureBuilder() {
         {/* Section Summary */}
         {sections.length > 0 && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Section Summary</p>
+            <p className="text-sm font-medium mb-2">Oversikt over delene</p>
             <div className="flex flex-wrap gap-2">
               {SECTION_TYPES.map(sectionType => {
                 const count = sections.filter(s => s.type === sectionType.type).length;
@@ -368,7 +368,7 @@ export function SongStructureBuilder() {
                 return (
                   <div key={sectionType.type} className="bg-muted/50 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${sectionType.color}`} />
-                    <span>{sectionType.type}: {count}× ({bars} bars)</span>
+                    <span>{sectionType.type}: {count}× ({bars} takter)</span>
                   </div>
                 );
               })}
@@ -380,10 +380,10 @@ export function SongStructureBuilder() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Drag sections to reorder them</li>
-            <li>Use +4/-4 buttons to adjust section length</li>
-            <li>Try presets for common song structures</li>
-            <li>Most pop songs are 3-4 minutes (around 64-80 bars at 120 BPM)</li>
+            <li>Dra delene for å endre rekkefølgen</li>
+            <li>Bruk +4/-4-knappene for å justere lengden</li>
+            <li>Prøv ferdige valg for vanlige låtstrukturer</li>
+            <li>De fleste poplåter varer 3–4 minutter (rundt 64–80 takter ved 120 BPM)</li>
           </ul>
         </div>
       </CardContent>

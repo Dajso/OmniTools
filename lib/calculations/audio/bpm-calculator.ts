@@ -151,7 +151,7 @@ export function calculateBPMFromTaps(
  */
 export function calculateDelayTimes(bpm: number): DelayTimes {
   if (bpm <= 0) {
-    throw new Error('BPM must be positive');
+    throw new Error('BPM må være større enn 0');
   }
 
   // Quarter note = 60000ms / BPM
@@ -180,7 +180,7 @@ export function calculateDelayTimes(bpm: number): DelayTimes {
  */
 export function calculateBPMResult(bpm: number): BPMResult {
   if (bpm <= 0) {
-    throw new Error('BPM must be positive');
+    throw new Error('BPM må være større enn 0');
   }
 
   const msPerBeat = 60000 / bpm;
@@ -202,7 +202,7 @@ export function calculateBPMResult(bpm: number): BPMResult {
  */
 export function bpmFromMsPerBeat(msPerBeat: number): number {
   if (msPerBeat <= 0) {
-    throw new Error('Milliseconds per beat must be positive');
+    throw new Error('Millisekunder per slag må være større enn 0');
   }
 
   return 60000 / msPerBeat;
@@ -220,10 +220,10 @@ export function bpmFromMsPerBeat(msPerBeat: number): number {
  */
 export function calculateReverbPreDelay(bpm: number, fraction: number = 1 / 64): number {
   if (bpm <= 0) {
-    throw new Error('BPM must be positive');
+    throw new Error('BPM må være større enn 0');
   }
   if (fraction <= 0 || fraction > 1) {
-    throw new Error('Fraction must be between 0 and 1');
+    throw new Error('Brøken må ligge mellom 0 og 1');
   }
 
   const quarterNote = 60000 / bpm;
@@ -242,10 +242,10 @@ export function calculateReverbPreDelay(bpm: number, fraction: number = 1 / 64):
  */
 export function calculateReverbDecay(bpm: number, beats: number = 2): number {
   if (bpm <= 0) {
-    throw new Error('BPM must be positive');
+    throw new Error('BPM må være større enn 0');
   }
   if (beats <= 0) {
-    throw new Error('Beats must be positive');
+    throw new Error('Antall slag må være større enn 0');
   }
 
   const msPerBeat = 60000 / bpm;

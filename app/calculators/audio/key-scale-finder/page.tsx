@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { KeyScaleFinder } from '@/components/calculators/audio';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Key/Scale Finder - Identify Musical Keys from Notes',
-  description: 'Find the key and scale of a song by selecting notes. Identifies major, minor, pentatonic, blues, and modal scales with match percentages.',
-  keywords: ['key finder', 'scale finder', 'music theory', 'identify key', 'find scale', 'chord progression', 'music analysis'],
+  title: 'Toneart- og skalafinner – gratis kalkulator på nett',
+  description: 'Finn toneart og skala ved å velge toner. Gratis og uten registrering.',
+  keywords: ['toneart', 'skala', 'musikkteori', 'akkordprogresjon'],
   alternates: { canonical: '/calculators/audio/key-scale-finder' },
+  openGraph: {
+    title: 'Toneart- og skalafinner',
+    description: 'Finn toneart og skala ved å velge toner',
+    url: '/calculators/audio/key-scale-finder',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Key/Scale Finder',
-  description: 'Identify musical keys and scales from selected notes',
+  name: 'Toneart- og skalafinner',
+  description: 'Finn toneart og skala ved å velge toner',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select notes', text: 'Click on the notes you hear in the song or want to analyze (at least 3).' },
-  { name: 'View matches', text: 'The finder will show scales that contain your selected notes, ranked by match percentage.' },
-  { name: 'Check the key', text: 'The "Most Likely Key" shows the best major or minor key match.' },
-  { name: 'Explore scales', text: 'Browse other matching scales like pentatonic, blues, or modes.' },
-  { name: 'Use presets', text: 'Try the quick presets to see how common scales look.' },
+  { name: 'Velg noter', text: 'Klikk på minst tre noter.' },
+  { name: 'Se mest sannsynlige toneart', text: 'Den beste matchen vises øverst.' },
+  { name: 'Utforsk skalaer', text: 'Se flere skalaer og hvor mange prosent som passer.' },
 ];
 
 const faqs = [
-  {
-    question: 'How do I find the key of a song?',
-    answer: 'Listen to the song and identify the notes being played (especially in the melody and bass). Select those notes in the finder. The scale with the highest match percentage that feels like "home" is likely the key.',
-  },
-  {
-    question: 'What is a relative minor/major?',
-    answer: 'Relative keys share the same notes but have different root notes. C Major and A Minor are relatives - they use the same 7 notes (C D E F G A B) but C Major resolves to C while A Minor resolves to A.',
-  },
-  {
-    question: 'What are modes?',
-    answer: 'Modes are scales derived from the major scale by starting on different degrees. Dorian, Phrygian, Lydian, Mixolydian, Aeolian (natural minor), and Locrian each have a unique sound character.',
-  },
-  {
-    question: 'When should I use pentatonic scales?',
-    answer: 'Pentatonic scales (5 notes) are great for improvisation because they avoid dissonant intervals. The minor pentatonic is especially popular in rock, blues, and pop music.',
-  },
-  {
-    question: 'What if multiple scales match 100%?',
-    answer: 'This is common! For example, C Major and A Minor share all the same notes. The actual key depends on which note feels like "home" or the tonal center of the music.',
-  },
+  { question: 'Hvor mange noter trenger jeg?', answer: 'Minst tre, men jo flere noter du velger, jo sikrere blir resultatet.' },
+  { question: 'Hva betyr prosent?', answer: 'Hvor stor andel av de valgte notene som finnes i skalaen.' },
+  { question: 'Hva er parallell dur og moll?', answer: 'To tonearter som bruker de samme notene, for eksempel C-dur og A-moll.' },
+  { question: 'Hvorfor heter B-naturlig H i Norge?', answer: 'I norsk notasjon heter B-naturlig H, og B er B-flat. Kalkulatoren bruker internasjonale notenavn.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/audio/note-frequency', title: 'Note to Frequency', description: 'Convert notes to frequencies.' },
-  { href: '/calculators/audio/bpm-tapper', title: 'BPM Tapper', description: 'Find the tempo of a song.' },
-  { href: '/calculators/audio/guitar-tuner', title: 'Guitar Tuner', description: 'Tune your instrument.' },
+  { href: '/calculators/audio/note-frequency', title: 'Tone til frekvens', description: 'Regn om mellom toner og frekvens i Hz, med ulike stemmetoner og cent' },
+  { href: '/calculators/audio/guitar-tuner', title: 'Gitarstemmer', description: 'Gratis gitarstemmer som bruker mikrofonen, med standard, drop D, DADGAD og mer' },
+  { href: '/calculators/audio/song-structure-builder', title: 'Låtstruktur', description: 'Planlegg låtoppbyggingen med vers, refreng og bro, og regn ut total varighet' },
 ];
 
 export default function KeyScaleFinderPage() {
@@ -63,12 +54,11 @@ export default function KeyScaleFinderPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="key-scale-finder"
-          title="Key/Scale Finder"
-          description="Identify the key and scale of a song by selecting notes. Find matching major, minor, pentatonic, blues, and modal scales."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Toneart- og skalafinner"
+          description="Velg noter og finn tonearter og skalaer som passer, for eksempel for å finne tonearten i en sang. Gratis og uten registrering."
         />
 
-        <section aria-label="Key/Scale Finder">
+        <section aria-label="Toneart- og skalafinner">
           <KeyScaleFinder />
         </section>
 

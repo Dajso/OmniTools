@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { NoteFrequencyConverter } from '@/components/calculators/audio';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Note to Frequency Converter - Musical Note Hz Calculator',
-  description: 'Convert musical notes to frequencies in Hz and vice versa. Supports all octaves, different concert pitches, and shows cents deviation.',
-  keywords: ['note to frequency', 'frequency to note', 'hz calculator', 'musical notes', 'A440', 'equal temperament', 'pitch converter'],
+  title: 'Tone til frekvens – gratis kalkulator på nett',
+  description: 'Regn om mellom toner og frekvens i Hz, med ulike stemmetoner og cent. Gratis og uten registrering.',
+  keywords: ['tone til frekvens', 'Hz', 'noter', 'A440', 'stemming'],
   alternates: { canonical: '/calculators/audio/note-frequency' },
+  openGraph: {
+    title: 'Tone til frekvens',
+    description: 'Regn om mellom toner og frekvens i Hz, med ulike stemmetoner og cent',
+    url: '/calculators/audio/note-frequency',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Note to Frequency Converter',
-  description: 'Convert musical notes to frequencies and frequencies to notes',
+  name: 'Tone til frekvens',
+  description: 'Regn om mellom toner og frekvens i Hz, med ulike stemmetoner og cent',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose mode', text: 'Select whether you want to convert a note to frequency or frequency to note.' },
-  { name: 'Set reference pitch', text: 'Choose your reference pitch (A4 = 440 Hz is standard, but other tunings are available).' },
-  { name: 'Enter your value', text: 'Select a note and octave, or enter a frequency in Hz.' },
-  { name: 'View result', text: 'See the calculated frequency or the closest note with cents deviation.' },
-  { name: 'Copy if needed', text: 'Click the copy button to copy the result to your clipboard.' },
+  { name: 'Velg retning', text: 'Fra note til frekvens, eller fra frekvens til note.' },
+  { name: 'Velg note og oktav', text: 'Eller skriv inn frekvensen.' },
+  { name: 'Juster referansetone', text: 'Standard er A4 = 440 Hz.' },
+  { name: 'Les av resultatet', text: 'Du får frekvens, nærmeste note og avvik i cent.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is A440?',
-    answer: 'A440 (also known as Stuttgart pitch) is the standard concert pitch where the note A above middle C (A4) is tuned to 440 Hz. This is the most common tuning standard used worldwide.',
-  },
-  {
-    question: 'What are cents in music?',
-    answer: 'A cent is a unit of measurement for musical intervals. There are 100 cents in a semitone. If a note is 50 cents sharp, it is exactly halfway between two semitones.',
-  },
-  {
-    question: 'What is equal temperament?',
-    answer: 'Equal temperament is a tuning system where the octave is divided into 12 equal semitones. Each semitone has a frequency ratio of 2^(1/12) ≈ 1.0595. This allows instruments to play in any key.',
-  },
-  {
-    question: 'Why would I use a different reference pitch?',
-    answer: 'Some orchestras tune to A442 or A443 for a brighter sound. Baroque music is often performed at A415. Some musicians prefer A432 for its purported benefits, though this is debated.',
-  },
-  {
-    question: 'What is the frequency range of human hearing?',
-    answer: 'Humans can typically hear frequencies from about 20 Hz to 20,000 Hz. Musical instruments generally produce fundamentals between 27.5 Hz (lowest piano note) and 4,186 Hz (highest piano note).',
-  },
+  { question: 'Hva er likesvevende temperatur?', answer: 'Et system der oktaven er delt i 12 like halvtoner. Frekvensen øker med faktoren 2^(1/12) per halvtone.' },
+  { question: 'Hva er en cent?', answer: 'En hundredel av en halvtone. Avvik under noen få cent hører de fleste ikke.' },
+  { question: 'Hvorfor er A4 440 Hz?', answer: 'Det er internasjonal standard. Noen orkestre og barokkensembler bruker andre referansetoner.' },
+  { question: 'Hvorfor heter tonen H i Norge?', answer: 'I norsk notasjon heter B-naturlig H, og B er det samme som B-flat. Kalkulatoren bruker internasjonale notenavn, der B er B-naturlig.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/audio/bpm-tapper', title: 'BPM Tapper', description: 'Tap to detect the tempo of any song.' },
-  { href: '/calculators/audio/key-scale-finder', title: 'Key/Scale Finder', description: 'Find the key and scale from notes.' },
-  { href: '/calculators/audio/guitar-tuner', title: 'Guitar Tuner', description: 'Tune your guitar using your microphone.' },
+  { href: '/calculators/audio/guitar-tuner', title: 'Gitarstemmer', description: 'Gratis gitarstemmer som bruker mikrofonen, med standard, drop D, DADGAD og mer' },
+  { href: '/calculators/audio/key-scale-finder', title: 'Toneart- og skalafinner', description: 'Finn toneart og skala ved å velge toner' },
+  { href: '/calculators/audio/bpm-tapper', title: 'BPM-tapper', description: 'Tapp i takt for å finne tempo og delay-tider i musikkproduksjon' },
 ];
 
 export default function NoteFrequencyPage() {
@@ -63,12 +55,11 @@ export default function NoteFrequencyPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="note-frequency"
-          title="Note to Frequency Converter"
-          description="Convert musical notes to frequencies in Hz and vice versa. Supports all octaves and different concert pitches."
-          colorClass="bg-cyan-100 text-cyan-600"
+          title="Tone til frekvens"
+          description="Regn om mellom noter og frekvens i hertz med likesvevende temperatur og valgfri referansetone. Gratis og uten registrering."
         />
 
-        <section aria-label="Note to Frequency Converter">
+        <section aria-label="Tone til frekvens">
           <NoteFrequencyConverter />
         </section>
 

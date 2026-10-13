@@ -63,9 +63,9 @@ export function NoteFrequencyConverter() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Note to Frequency Converter</CardTitle>
+        <CardTitle>Note til frekvens</CardTitle>
         <CardDescription>
-          Convert musical notes to frequencies and vice versa using equal temperament tuning.
+          Regn om toner til frekvens og omvendt med likesvevende temperatur.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -76,20 +76,20 @@ export function NoteFrequencyConverter() {
             onClick={() => setMode('note-to-freq')}
             size="sm"
           >
-            Note → Frequency
+            Note → frekvens
           </Button>
           <Button
             variant={mode === 'freq-to-note' ? 'default' : 'outline'}
             onClick={() => setMode('freq-to-note')}
             size="sm"
           >
-            Frequency → Note
+            Frekvens → note
           </Button>
         </div>
 
         {/* Reference Pitch */}
         <div className="space-y-2">
-          <Label htmlFor="reference-pitch">Reference Pitch (A4)</Label>
+          <Label htmlFor="reference-pitch">Referansetone (A4)</Label>
           <Select
             id="reference-pitch"
             options={pitchOptions}
@@ -112,7 +112,7 @@ export function NoteFrequencyConverter() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="octave-select">Octave</Label>
+                <Label htmlFor="octave-select">Oktav</Label>
                 <Select
                   id="octave-select"
                   options={octaveOptions}
@@ -124,7 +124,7 @@ export function NoteFrequencyConverter() {
 
             {/* Quick Note Buttons */}
             <div>
-              <p className="text-sm font-medium mb-2">Quick Select</p>
+              <p className="text-sm font-medium mb-2">Hurtigvalg</p>
               <div className="flex flex-wrap gap-2">
                 {NOTE_NAMES.map(note => (
                   <Button
@@ -144,7 +144,7 @@ export function NoteFrequencyConverter() {
             {calculatedFrequency !== null && (
               <div className="border-t pt-4">
                 <ResultDisplay
-                  label={`${selectedNote}${octave} Frequency`}
+                  label={`Frekvens for ${selectedNote}${octave}`}
                   value={formatFixed(calculatedFrequency, 2)}
                   unit="Hz"
                   highlight
@@ -158,7 +158,7 @@ export function NoteFrequencyConverter() {
             {/* Frequency Input */}
             <NumberInput
               id="frequency-input"
-              label="Frequency"
+              label="Frekvens"
               value={inputFrequency}
               onChange={setInputFrequency}
               min={16}
@@ -171,34 +171,34 @@ export function NoteFrequencyConverter() {
             {noteResult && (
               <div className="border-t pt-4 space-y-4">
                 <ResultDisplay
-                  label="Closest Note"
+                  label="Nærmeste note"
                   value={formatNote(noteResult.note)}
                   highlight
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <ResultDisplay
-                    label="Exact Frequency"
+                    label="Nøyaktig frekvens"
                     value={formatFixed(noteResult.exactFrequency, 2)}
                     unit="Hz"
                     copyable
                   />
                   <ResultDisplay
-                    label="Cents Deviation"
+                    label="Avvik i cent"
                     value={`${noteResult.cents > 0 ? '+' : ''}${formatFixed(noteResult.cents, 1)}`}
-                    unit="cents"
+                    unit="cent"
                   />
                 </div>
                 <div className="bg-muted/50 p-3 rounded-md">
                   <p className="text-sm">
                     {noteResult.deviation === 'exact' ? (
-                      <span className="text-green-600 font-medium">Perfectly in tune!</span>
+                      <span className="text-green-600 font-medium">Helt stemt!</span>
                     ) : noteResult.deviation === 'sharp' ? (
                       <span className="text-orange-600">
-                        {formatFixed(Math.abs(noteResult.cents), 1)} cents sharp of {formatNote(noteResult.note)}
+                        {formatFixed(Math.abs(noteResult.cents), 1)} cent over {formatNote(noteResult.note)}
                       </span>
                     ) : (
                       <span className="text-blue-600">
-                        {formatFixed(Math.abs(noteResult.cents), 1)} cents flat of {formatNote(noteResult.note)}
+                        {formatFixed(Math.abs(noteResult.cents), 1)} cent under {formatNote(noteResult.note)}
                       </span>
                     )}
                   </p>
@@ -210,28 +210,28 @@ export function NoteFrequencyConverter() {
 
         {/* Common Frequencies Reference */}
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Common Reference Frequencies</p>
+          <p className="text-sm font-medium mb-3">Vanlige referansefrekvenser</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
             <div className="bg-muted/50 p-2 rounded">
               <span className="font-medium">A4:</span> 440 Hz
             </div>
             <div className="bg-muted/50 p-2 rounded">
-              <span className="font-medium">C4:</span> 261.63 Hz
+              <span className="font-medium">C4:</span> 261,63 Hz
             </div>
             <div className="bg-muted/50 p-2 rounded">
-              <span className="font-medium">E4:</span> 329.63 Hz
+              <span className="font-medium">E4:</span> 329,63 Hz
             </div>
             <div className="bg-muted/50 p-2 rounded">
-              <span className="font-medium">G4:</span> 392.00 Hz
+              <span className="font-medium">G4:</span> 392,00 Hz
             </div>
           </div>
         </div>
 
         {/* Formula */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Formula (Equal Temperament):</p>
+          <p className="font-medium mb-1">Formel (likesvevende temperatur):</p>
           <code className="text-xs">f = 440 × 2^((n - 69) / 12)</code>
-          <p className="mt-1 text-xs">where n is the MIDI note number (A4 = 69)</p>
+          <p className="mt-1 text-xs">der n er MIDI-notenummeret (A4 = 69)</p>
         </div>
       </CardContent>
     </Card>

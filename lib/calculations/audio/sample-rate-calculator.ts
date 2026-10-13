@@ -1,3 +1,4 @@
+import { formatFixed } from '../../utils/formatting';
 /**
  * Sample Rate Calculator
  * 
@@ -11,25 +12,25 @@
  * Common sample rates in Hz
  */
 export const SAMPLE_RATES = {
-  '8000': { hz: 8000, name: '8 kHz (Telephone)' },
-  '11025': { hz: 11025, name: '11.025 kHz (Low quality)' },
-  '22050': { hz: 22050, name: '22.05 kHz (FM Radio)' },
-  '44100': { hz: 44100, name: '44.1 kHz (CD Quality)' },
-  '48000': { hz: 48000, name: '48 kHz (DVD/Professional)' },
-  '88200': { hz: 88200, name: '88.2 kHz (High-res)' },
-  '96000': { hz: 96000, name: '96 kHz (High-res)' },
-  '176400': { hz: 176400, name: '176.4 kHz (Studio)' },
-  '192000': { hz: 192000, name: '192 kHz (Studio)' },
+  '8000': { hz: 8000, name: '8 kHz (telefon)' },
+  '11025': { hz: 11025, name: '11,025 kHz (lav kvalitet)' },
+  '22050': { hz: 22050, name: '22,05 kHz (FM-radio)' },
+  '44100': { hz: 44100, name: '44,1 kHz (CD-kvalitet)' },
+  '48000': { hz: 48000, name: '48 kHz (DVD/profesjonell)' },
+  '88200': { hz: 88200, name: '88,2 kHz (høyoppløselig)' },
+  '96000': { hz: 96000, name: '96 kHz (høyoppløselig)' },
+  '176400': { hz: 176400, name: '176,4 kHz (studio)' },
+  '192000': { hz: 192000, name: '192 kHz (studio)' },
 } as const;
 
 /**
  * Common bit depths
  */
 export const BIT_DEPTHS = {
-  '8': { bits: 8, name: '8-bit (Low quality)' },
-  '16': { bits: 16, name: '16-bit (CD Quality)' },
-  '24': { bits: 24, name: '24-bit (Professional)' },
-  '32': { bits: 32, name: '32-bit (Float)' },
+  '8': { bits: 8, name: '8 bit (lav kvalitet)' },
+  '16': { bits: 16, name: '16 bit (CD-kvalitet)' },
+  '24': { bits: 24, name: '24 bit (profesjonell)' },
+  '32': { bits: 32, name: '32 bit (flyttall)' },
 } as const;
 
 /**
@@ -111,16 +112,16 @@ export function calculateFileSize(
   durationSeconds: number
 ): AudioFileSizeResult {
   if (format.sampleRate <= 0) {
-    throw new Error('Sample rate must be positive');
+    throw new Error('Samplingsfrekvensen må være større enn 0');
   }
   if (format.bitDepth <= 0) {
-    throw new Error('Bit depth must be positive');
+    throw new Error('Bitdybden må være større enn 0');
   }
   if (format.channels <= 0) {
-    throw new Error('Channels must be positive');
+    throw new Error('Antall kanaler må være større enn 0');
   }
   if (durationSeconds < 0) {
-    throw new Error('Duration cannot be negative');
+    throw new Error('Varigheten kan ikke være negativ');
   }
 
   // Calculate bit rate (bits per second)
@@ -156,16 +157,16 @@ export function calculateDuration(
   fileSizeBytes: number
 ): number {
   if (format.sampleRate <= 0) {
-    throw new Error('Sample rate must be positive');
+    throw new Error('Samplingsfrekvensen må være større enn 0');
   }
   if (format.bitDepth <= 0) {
-    throw new Error('Bit depth must be positive');
+    throw new Error('Bitdybden må være større enn 0');
   }
   if (format.channels <= 0) {
-    throw new Error('Channels must be positive');
+    throw new Error('Antall kanaler må være større enn 0');
   }
   if (fileSizeBytes < 0) {
-    throw new Error('File size cannot be negative');
+    throw new Error('Filstørrelsen kan ikke være negativ');
   }
 
   const bitRate = format.sampleRate * format.bitDepth * format.channels;
@@ -186,13 +187,13 @@ export function calculateSampleCount(
   channels: number = 1
 ): SampleCountResult {
   if (sampleRate <= 0) {
-    throw new Error('Sample rate must be positive');
+    throw new Error('Samplingsfrekvensen må være større enn 0');
   }
   if (durationSeconds < 0) {
-    throw new Error('Duration cannot be negative');
+    throw new Error('Varigheten kan ikke være negativ');
   }
   if (channels <= 0) {
-    throw new Error('Channels must be positive');
+    throw new Error('Antall kanaler må være større enn 0');
   }
 
   const samplesPerChannel = Math.round(sampleRate * durationSeconds);
@@ -218,10 +219,10 @@ export function calculateDurationFromSamples(
   sampleCount: number
 ): number {
   if (sampleRate <= 0) {
-    throw new Error('Sample rate must be positive');
+    throw new Error('Samplingsfrekvensen må være større enn 0');
   }
   if (sampleCount < 0) {
-    throw new Error('Sample count cannot be negative');
+    throw new Error('Antall samples kan ikke være negativt');
   }
 
   return sampleCount / sampleRate;
@@ -238,7 +239,7 @@ export function calculateDurationFromSamples(
  */
 export function calculateNyquist(sampleRate: number): NyquistResult {
   if (sampleRate <= 0) {
-    throw new Error('Sample rate must be positive');
+    throw new Error('Samplingsfrekvensen må være større enn 0');
   }
 
   const nyquistFrequency = sampleRate / 2;
@@ -262,10 +263,10 @@ export function calculateRequiredSampleRate(
   oversamplingFactor: number = 2.2
 ): number {
   if (maxFrequency <= 0) {
-    throw new Error('Maximum frequency must be positive');
+    throw new Error('Høyeste frekvens må være større enn 0');
   }
   if (oversamplingFactor < 2) {
-    throw new Error('Oversampling factor must be at least 2 (Nyquist theorem)');
+    throw new Error('Oversamplingsfaktoren må være minst 2 (Nyquist-teoremet)');
   }
 
   return Math.ceil(maxFrequency * oversamplingFactor);
@@ -285,10 +286,10 @@ export function calculateResampledCount(
   originalSampleCount: number
 ): number {
   if (originalSampleRate <= 0 || targetSampleRate <= 0) {
-    throw new Error('Sample rates must be positive');
+    throw new Error('Samplingsfrekvensene må være større enn 0');
   }
   if (originalSampleCount < 0) {
-    throw new Error('Sample count cannot be negative');
+    throw new Error('Antall samples kan ikke være negativt');
   }
 
   const ratio = targetSampleRate / originalSampleRate;
@@ -303,7 +304,7 @@ export function calculateResampledCount(
  */
 export function calculateDynamicRange(bitDepth: number): number {
   if (bitDepth <= 0) {
-    throw new Error('Bit depth must be positive');
+    throw new Error('Bitdybden må være større enn 0');
   }
 
   // Dynamic range ≈ 6.02 × bit depth (for linear PCM)
@@ -318,7 +319,7 @@ export function calculateDynamicRange(bitDepth: number): number {
  */
 export function calculateSNR(bitDepth: number): number {
   if (bitDepth <= 0) {
-    throw new Error('Bit depth must be positive');
+    throw new Error('Bitdybden må være større enn 0');
   }
 
   // SNR ≈ 6.02 × bit depth + 1.76 dB (for dithered audio)
@@ -336,12 +337,12 @@ export function formatFileSize(bytes: number): string {
     return `${bytes} B`;
   }
   if (bytes < 1024 * 1024) {
-    return `${(bytes / 1024).toFixed(2)} KB`;
+    return `${formatFixed(bytes / 1024, 2)} KB`;
   }
   if (bytes < 1024 * 1024 * 1024) {
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    return `${formatFixed(bytes / (1024 * 1024), 2)} MB`;
   }
-  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+  return `${formatFixed(bytes / (1024 * 1024 * 1024), 2)} GB`;
 }
 
 /**
@@ -371,7 +372,7 @@ export function parseDuration(durationString: string): number {
   const parts = durationString.split(':').map(Number);
   
   if (parts.some(isNaN)) {
-    throw new Error('Invalid duration format');
+    throw new Error('Ugyldig varighetsformat');
   }
 
   if (parts.length === 2) {
@@ -384,7 +385,7 @@ export function parseDuration(durationString: string): number {
     return hours * 3600 + minutes * 60 + seconds;
   }
 
-  throw new Error('Invalid duration format. Use MM:SS or HH:MM:SS');
+  throw new Error('Ugyldig varighetsformat. Bruk MM:SS eller TT:MM:SS');
 }
 
 /**

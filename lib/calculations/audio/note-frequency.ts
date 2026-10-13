@@ -136,7 +136,7 @@ export function frequencyToNote(
   referenceFrequency: number = A4_FREQUENCY
 ): FrequencyToNoteResult {
   if (frequency <= 0) {
-    throw new Error('Frequency must be positive');
+    throw new Error('Frekvensen må være større enn 0');
   }
 
   // Calculate the exact MIDI note number (can be fractional)
@@ -184,7 +184,7 @@ export function frequencyToMidi(
   referenceFrequency: number = A4_FREQUENCY
 ): number {
   if (frequency <= 0) {
-    throw new Error('Frequency must be positive');
+    throw new Error('Frekvensen må være større enn 0');
   }
   return 12 * Math.log2(frequency / referenceFrequency) + A4_MIDI;
 }
@@ -202,7 +202,7 @@ export function noteToMidi(note: string, octave: number): number {
   const noteIndex = NOTE_NAMES.indexOf(normalizedNote as NoteName);
   
   if (noteIndex === -1) {
-    throw new Error(`Invalid note name: ${note}`);
+    throw new Error(`Ugyldig notenavn: ${note}`);
   }
 
   // MIDI note 0 is C-1, so C0 is MIDI 12
@@ -354,7 +354,7 @@ export function parseNote(noteString: string): Note {
   const match = noteString.match(/^([A-Ga-g][#b]?)(-?\d+)$/);
   
   if (!match) {
-    throw new Error(`Invalid note string: ${noteString}`);
+    throw new Error(`Ugyldig notetekst: ${noteString}`);
   }
 
   const [, name, octaveStr] = match;
