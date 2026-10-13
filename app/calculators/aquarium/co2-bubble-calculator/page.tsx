@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { CO2BubbleCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'CO₂ Bubble Rate Calculator - Planted Aquarium CO2 Levels',
-    description: 'Calculate CO2 concentration in your planted aquarium from KH and pH values. Determine optimal bubble rates for plant growth.',
-    keywords: ['CO2 calculator', 'planted tank CO2', 'KH pH CO2 chart', 'aquarium CO2 levels', 'bubble counter'],
-    alternates: { canonical: '/calculators/aquarium/co2-bubble-calculator' },
+  title: 'CO₂-bobler – gratis kalkulator på nett',
+  description: 'Regn ut CO₂-konsentrasjon fra KH og pH, og anbefalt boblefrekvens. Gratis og uten registrering.',
+  keywords: ['CO2', 'KH', 'pH', 'plantet akvarium', 'bobler'],
+  alternates: { canonical: '/calculators/aquarium/co2-bubble-calculator' },
+  openGraph: {
+    title: 'CO₂-bobler',
+    description: 'Regn ut CO₂-konsentrasjon fra KH og pH, og anbefalt boblefrekvens',
+    url: '/calculators/aquarium/co2-bubble-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'CO₂ Bubble Rate Calculator', description: 'Calculate CO2 concentration from KH and pH values for planted aquariums.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'CO₂-bobler',
+  description: 'Regn ut CO₂-konsentrasjon fra KH og pH, og anbefalt boblefrekvens',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Test your water', text: 'Measure KH (carbonate hardness) and pH using liquid test kits for accuracy.' },
-    { name: 'Enter KH and pH', text: 'Input the measured KH in dKH and pH value into the calculator.' },
-    { name: 'Read CO₂ level', text: 'The calculator shows your CO₂ concentration in mg/L (ppm).' },
-    { name: 'Adjust if needed', text: 'Aim for 20-30 ppm CO₂ for optimal plant growth without harming fish.' },
+  { name: 'Mål KH og pH', text: 'Bruk dråpetest eller sonde, og oppgi KH i °dH.' },
+  { name: 'Oppgi volumet', text: 'Akvariumvolum i liter.' },
+  { name: 'Les av CO₂-nivået', text: 'Se konsentrasjonen i ppm og om den er lav, ideell eller farlig.' },
+  { name: 'Juster bobletakten', text: 'Følg forslaget og endre litt om gangen.' },
 ];
 
 const faqs = [
-    { question: 'What is the ideal CO₂ level for a planted tank?', answer: '20-30 mg/L (ppm) is ideal. Below 20 ppm, plants may not thrive. Above 30 ppm, fish may show signs of stress.' },
-    { question: 'How does KH affect CO₂ readings?', answer: 'CO₂ concentration is calculated from the relationship between KH and pH. Higher KH at the same pH means more CO₂ is dissolved.' },
-    { question: 'Why is my drop checker yellow?', answer: 'A yellow drop checker indicates CO₂ is above 30 ppm, which may be too high for fish. Reduce your bubble rate or increase surface agitation.' },
-    { question: 'Can I use CO₂ with a low-tech tank?', answer: 'Yes, but low-tech tanks usually rely on natural CO₂ from fish and organic matter. Injected CO₂ is typically used in high-light, high-tech setups.' },
+  { question: 'Hva er ideelt CO₂-nivå i et plantet akvarium?', answer: 'Rundt 15–30 mg/l. Over 35 mg/l øker risikoen for at fisk får problemer.' },
+  { question: 'Hvordan regnes CO₂ ut fra KH og pH?', answer: 'CO₂ (mg/l) = 3,0 × KH × 10^(7,0 − pH). Metoden er et anslag og gir mest mening i ferskvann uten buffer-tilsetninger.' },
+  { question: 'Hvor fort bør jeg øke CO₂?', answer: 'Gradvis over flere dager, og følg med på fiskene. Fisk som går etter luft ved overflaten får for mye CO₂.' },
+  { question: 'Hva er KH?', answer: 'Karbonathardhet, målt i °dH. Den viser hvor godt vannet motstår endringer i pH.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Fertilizer Dosing Calculator', description: 'Calculate EI method fertilizer dosing.' },
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Aquarium Volume Calculator', description: 'Calculate your tank volume accurately.' },
-    { href: '/calculators/aquarium/par-estimator', title: 'PAR Estimator', description: 'Estimate light levels at substrate depth.' },
+  { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Gjødseldosering (EI)', description: 'Regn ut EI-dosering av gjødsel til plantet akvarium' },
+  { href: '/calculators/aquarium/par-estimator', title: 'Lysstyrke (PAR) i akvarium', description: 'Anslå hvordan vanndybde svekker lyset (PAR) i plantet akvarium' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
 ];
 
 export default function CO2BubbleCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="co2-bubble-calculator" title="CO₂ Bubble Rate Calculator"
-                    description="Calculate CO2 concentration from KH and pH values." category="Aquariums & Terrariums" />
-                <section aria-label="CO2 Bubble Calculator"><CO2BubbleCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="co2-bubble-calculator"
+          title="CO₂-bobler"
+          description="Regn ut CO₂-konsentrasjonen i akvariet ut fra KH og pH, og få forslag til bobletakt. Gratis og uten registrering."
+        />
+
+        <section aria-label="CO₂-bobler">
+          <CO2BubbleCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

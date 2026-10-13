@@ -34,48 +34,48 @@ export interface FertilizerDosingResult {
 export function calculateFertilizerDosing(input: FertilizerDosingInput): FertilizerDosingResult {
     const { volumeLiters } = input;
 
-    if (volumeLiters <= 0) throw new Error('Volume must be positive');
+    if (volumeLiters <= 0) throw new Error('Volumet må være positivt');
 
     // EI standard is based on ~40 gallon (150L) reference
     const factor = volumeLiters / 150;
 
     const macroDoses: EIDose[] = [
         {
-            compound: 'Potassium Nitrate',
+            compound: 'Kaliumnitrat',
             formula: 'KNO3',
             gramsPerDose: Math.round(factor * 2.5 * 100) / 100,
             dosesPerWeek: 3,
             totalGramsPerWeek: Math.round(factor * 7.5 * 100) / 100,
-            targetPPM: '~7.5 ppm NO3 per dose',
+            targetPPM: 'ca. 7,5 ppm NO3 per dose',
         },
         {
-            compound: 'Monopotassium Phosphate',
+            compound: 'Monokaliumfosfat',
             formula: 'KH2PO4',
             gramsPerDose: Math.round(factor * 0.5 * 100) / 100,
             dosesPerWeek: 3,
             totalGramsPerWeek: Math.round(factor * 1.5 * 100) / 100,
-            targetPPM: '~1.3 ppm PO4 per dose',
+            targetPPM: 'ca. 1,3 ppm PO4 per dose',
         },
         {
-            compound: 'Potassium Sulfate',
+            compound: 'Kaliumsulfat',
             formula: 'K2SO4',
             gramsPerDose: Math.round(factor * 3.7 * 100) / 100,
             dosesPerWeek: 3,
             totalGramsPerWeek: Math.round(factor * 11.1 * 100) / 100,
-            targetPPM: '~10 ppm K per dose',
+            targetPPM: 'ca. 10 ppm K per dose',
         },
     ];
 
     const microDose: EIDose = {
-        compound: 'Trace Mix (CSM+B)',
+        compound: 'Sporstoffmiks (CSM+B)',
         formula: 'CSM+B',
         gramsPerDose: Math.round(factor * 1.25 * 100) / 100,
         dosesPerWeek: 3,
         totalGramsPerWeek: Math.round(factor * 3.75 * 100) / 100,
-        targetPPM: '~0.5 ppm Fe per dose',
+        targetPPM: 'ca. 0,5 ppm Fe per dose',
     };
 
-    const weeklySchedule = 'Day 1: Macros | Day 2: Micros | Day 3: Macros | Day 4: Micros | Day 5: Macros | Day 6: Micros | Day 7: 50% water change';
+    const weeklySchedule = 'Dag 1: makro | Dag 2: mikro | Dag 3: makro | Dag 4: mikro | Dag 5: makro | Dag 6: mikro | Dag 7: 50 % vannskifte';
 
     return { macroDoses, microDose, weeklySchedule };
 }

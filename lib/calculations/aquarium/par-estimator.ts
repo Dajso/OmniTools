@@ -6,11 +6,11 @@
  */
 
 export const WATER_CLARITY: Record<string, { name: string; k: number }> = {
-    'crystal-clear': { name: 'Crystal Clear', k: 0.02 },
-    'clear': { name: 'Clear (typical)', k: 0.04 },
-    'slightly-tinted': { name: 'Slightly Tinted', k: 0.06 },
-    'tannin-stained': { name: 'Tannin Stained', k: 0.10 },
-    'green-water': { name: 'Green Water (algae)', k: 0.15 },
+    'crystal-clear': { name: 'Krystallklart', k: 0.02 },
+    'clear': { name: 'Klart (vanlig)', k: 0.04 },
+    'slightly-tinted': { name: 'Svakt farget', k: 0.06 },
+    'tannin-stained': { name: 'Tanninfarget', k: 0.10 },
+    'green-water': { name: 'Grønt vann (alger)', k: 0.15 },
 };
 
 export interface PAREstimatorInput {
@@ -38,8 +38,8 @@ export interface PAREstimatorResult {
 export function calculatePAR(input: PAREstimatorInput): PAREstimatorResult {
     const { surfacePAR, depthCm, clarity, customK } = input;
 
-    if (surfacePAR <= 0) throw new Error('Surface PAR must be positive');
-    if (depthCm <= 0) throw new Error('Depth must be positive');
+    if (surfacePAR <= 0) throw new Error('PAR ved overflaten må være positiv');
+    if (depthCm <= 0) throw new Error('Dybden må være positiv');
 
     const k = clarity === 'custom' && customK ? customK : (WATER_CLARITY[clarity]?.k ?? 0.04);
 
@@ -52,20 +52,20 @@ export function calculatePAR(input: PAREstimatorInput): PAREstimatorResult {
     let suitablePlants: string;
 
     if (parAtDepth >= 150) {
-        lightLevel = 'Very High';
-        suitablePlants = 'Demanding carpeting plants (HC Cuba, Monte Carlo, Glossostigma)';
+        lightLevel = 'Svært høyt';
+        suitablePlants = 'Krevende teppeplanter (HC Cuba, Monte Carlo, Glossostigma)';
     } else if (parAtDepth >= 80) {
-        lightLevel = 'High';
-        suitablePlants = 'Most stem plants, red plants (Rotala, Ludwigia)';
+        lightLevel = 'Høyt';
+        suitablePlants = 'De fleste stengelplanter og røde planter (Rotala, Ludwigia)';
     } else if (parAtDepth >= 40) {
-        lightLevel = 'Medium';
-        suitablePlants = 'Cryptocoryne, Echinodorus, Vallisneria, Java Fern';
+        lightLevel = 'Middels';
+        suitablePlants = 'Cryptocoryne, Echinodorus, Vallisneria, javaving';
     } else if (parAtDepth >= 15) {
-        lightLevel = 'Low';
-        suitablePlants = 'Anubias, Java Moss, Bucephalandra';
+        lightLevel = 'Lavt';
+        suitablePlants = 'Anubias, javamose, Bucephalandra';
     } else {
-        lightLevel = 'Very Low';
-        suitablePlants = 'Most plants will struggle at this light level';
+        lightLevel = 'Svært lavt';
+        suitablePlants = 'De fleste planter vil slite med så lite lys';
     }
 
     return {

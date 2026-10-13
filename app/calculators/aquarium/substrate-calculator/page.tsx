@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { SubstrateCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Aquarium Substrate Calculator - How Much Gravel or Sand',
-    description: 'Calculate how much substrate you need for your aquarium. Supports gravel, sand, soil, and other substrate types.',
-    keywords: ['aquarium substrate calculator', 'fish tank gravel', 'aquarium sand amount', 'substrate depth'],
-    alternates: { canonical: '/calculators/aquarium/substrate-calculator' },
+  title: 'Bunnsubstrat – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye grus, sand eller jord akvariet trenger. Gratis og uten registrering.',
+  keywords: ['bunnsubstrat', 'akvariegrus', 'sand', 'bunnlag', 'aquasoil'],
+  alternates: { canonical: '/calculators/aquarium/substrate-calculator' },
+  openGraph: {
+    title: 'Bunnsubstrat',
+    description: 'Regn ut hvor mye grus, sand eller jord akvariet trenger',
+    url: '/calculators/aquarium/substrate-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Aquarium Substrate Calculator', description: 'Calculate how much substrate you need for your aquarium.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Bunnsubstrat',
+  description: 'Regn ut hvor mye grus, sand eller jord akvariet trenger',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter tank dimensions', text: 'Input the length and width of your tank in inches or centimeters.' },
-    { name: 'Choose desired depth', text: 'Select your target substrate depth — typically 1-3 inches for most setups.' },
-    { name: 'Select substrate type', text: 'Choose between gravel, sand, or planted tank soil for accurate weight calculation.' },
-    { name: 'Get your amounts', text: 'See how many pounds or kilograms of substrate to purchase.' },
+  { name: 'Oppgi akvariets mål', text: 'Lengde og bredde på bunnen i cm.' },
+  { name: 'Velg tykkelse', text: 'Typisk 3–5 cm, og mer for planter med mye rot.' },
+  { name: 'Velg type substrat', text: 'Grus, sand, aqua soil eller egen tetthet.' },
+  { name: 'Les av vekten', text: 'Se hvor mange kilo du må kjøpe.' },
 ];
 
 const faqs = [
-    { question: 'How deep should aquarium substrate be?', answer: '1-2 inches for fish-only tanks, 2-3 inches for planted tanks. Slope it from back (deeper) to front (shallower) for a natural look.' },
-    { question: 'How many pounds of gravel per gallon?', answer: 'Approximately 1-1.5 pounds per gallon for a 2-inch layer. Exact amounts vary by tank dimensions.' },
-    { question: 'Can I mix gravel and sand?', answer: 'You can, but sand tends to settle below gravel over time. Use a mesh divider or keep them in separate zones.' },
-    { question: 'Do I need special substrate for live plants?', answer: 'Yes. Planted tanks benefit from nutrient-rich substrate like aquasoil, though root tabs can supplement inert substrate.' },
+  { question: 'Hvor tykt bør bunnsubstratet være?', answer: '3–5 cm passer for de fleste kar. Plantekar med krevende rotplanter kan trenge 6–8 cm.' },
+  { question: 'Hvor mye substrat trenger jeg per liter?', answer: 'Som tommelfingerregel ca. 1 kg per 4–5 liter vann ved 3 cm tykkelse, men regn det ut med målene dine for et riktig svar.' },
+  { question: 'Er det forskjell på grus og sand?', answer: 'Ja. Sand er litt lettere per liter enn grus, og aqua soil er enda lettere. Velg type i kalkulatoren.' },
+  { question: 'Skal jeg kjøpe litt ekstra?', answer: 'Ja, ta med 5–10 % ekstra til skråning bakover og svinn.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Aquarium Volume Calculator', description: 'Calculate your tank volume.' },
-    { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Fertilizer Dosing Calculator', description: 'Dose fertilizers for planted tanks.' },
-    { href: '/calculators/aquarium/par-estimator', title: 'PAR Estimator', description: 'Estimate light levels for your plants.' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
+  { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Gjødseldosering (EI)', description: 'Regn ut EI-dosering av gjødsel til plantet akvarium' },
 ];
 
 export default function SubstrateCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="substrate-calculator" title="Aquarium Substrate Calculator"
-                    description="Calculate how much substrate you need for your aquarium." category="Aquariums & Terrariums" />
-                <section aria-label="Substrate Calculator"><SubstrateCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="substrate-calculator"
+          title="Bunnsubstrat"
+          description="Regn ut hvor mange kilo grus, sand eller aqua soil akvariet trenger ut fra mål og ønsket tykkelse. Gratis og uten registrering."
+        />
+
+        <section aria-label="Bunnsubstrat">
+          <SubstrateCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

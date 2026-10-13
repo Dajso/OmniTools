@@ -11,46 +11,46 @@ export const MEDICATIONS: Record<string, {
     notes: string;
 }> = {
     'malachite-green': {
-        name: 'Malachite Green (0.1%)',
+        name: 'Malakittgrønt (0,1 %)',
         concentration: '0.1%',
         mlPer10Liters: 0.5,
-        notes: 'For ich/white spot disease. Reduce dose by 50% for scaleless fish.',
+        notes: 'Mot flekksyke (ich). Halver dosen for fisk uten skjell.',
     },
     'methylene-blue': {
-        name: 'Methylene Blue (1%)',
+        name: 'Metylenblått (1 %)',
         concentration: '1%',
         mlPer10Liters: 1.0,
-        notes: 'For fungal infections and egg treatment. May stain decorations.',
+        notes: 'Mot soppinfeksjoner og til behandling av rogn. Kan farge dekor.',
     },
     'ich-x': {
         name: 'Ich-X (Hikari)',
         concentration: 'Standard',
         mlPer10Liters: 1.3,
-        notes: 'For ich, velvet, and fungal infections. Safe for most fish.',
+        notes: 'Mot flekksyke, fløyelssyke og soppinfeksjoner. Trygt for de fleste fisk.',
     },
     'general-cure': {
         name: 'API General Cure',
-        concentration: 'Powder',
+        concentration: 'Pulver',
         mlPer10Liters: 0,
-        notes: '1 packet per 38 liters. For parasitic infections.',
+        notes: '1 pose per 38 liter. Mot parasittinfeksjoner.',
     },
     'melafix': {
         name: 'API Melafix',
         concentration: 'Standard',
         mlPer10Liters: 1.3,
-        notes: 'For bacterial infections, fin rot, and ulcers.',
+        notes: 'Mot bakterieinfeksjoner, finneråte og sår.',
     },
     'seachem-paraguard': {
         name: 'Seachem ParaGuard',
         concentration: 'Standard',
         mlPer10Liters: 1.3,
-        notes: 'External parasites and fungal/bacterial infections.',
+        notes: 'Mot ytre parasitter og sopp- og bakterieinfeksjoner.',
     },
     'custom': {
-        name: 'Custom Medication',
-        concentration: 'Custom',
+        name: 'Egen medisin',
+        concentration: 'Egendefinert',
         mlPer10Liters: 1.0,
-        notes: 'Enter your own dosing rate.',
+        notes: 'Legg inn din egen doseringsrate.',
     },
 };
 
@@ -73,10 +73,10 @@ export interface MedicineDosageResult {
 export function calculateMedicineDosage(input: MedicineDosageInput): MedicineDosageResult {
     const { volumeLiters, medication, customDose } = input;
 
-    if (volumeLiters <= 0) throw new Error('Volume must be positive');
+    if (volumeLiters <= 0) throw new Error('Volumet må være positivt');
 
     const med = MEDICATIONS[medication];
-    if (!med) throw new Error('Unknown medication');
+    if (!med) throw new Error('Ukjent medisin');
 
     const mlPer10L = medication === 'custom' && customDose
         ? customDose

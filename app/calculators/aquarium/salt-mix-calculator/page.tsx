@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { SaltMixCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Salt Mix Calculator - Marine & Reef Aquarium Salinity',
-    description: 'Calculate salt mix needed for your marine aquarium. Get the right amount for water changes and new tank setups.',
-    keywords: ['salt mix calculator', 'marine aquarium salt', 'reef tank salinity', 'saltwater mix ratio', 'specific gravity'],
-    alternates: { canonical: '/calculators/aquarium/salt-mix-calculator' },
+  title: 'Saltblanding – gratis kalkulator på nett',
+  description: 'Regn ut saltmengde for å nå ønsket saltholdighet i saltvannsakvarium. Gratis og uten registrering.',
+  keywords: ['saltvann', 'saltblanding', 'revakvarium', 'saltholdighet', 'egenvekt'],
+  alternates: { canonical: '/calculators/aquarium/salt-mix-calculator' },
+  openGraph: {
+    title: 'Saltblanding',
+    description: 'Regn ut saltmengde for å nå ønsket saltholdighet i saltvannsakvarium',
+    url: '/calculators/aquarium/salt-mix-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Salt Mix Calculator', description: 'Calculate salt mix needed for your marine aquarium.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Saltblanding',
+  description: 'Regn ut saltmengde for å nå ønsket saltholdighet i saltvannsakvarium',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter water volume', text: 'Input the amount of water you need to mix in gallons or liters.' },
-    { name: 'Set target salinity', text: 'Choose your desired salinity or specific gravity (typically 1.025 sg / 35 ppt).' },
-    { name: 'Get salt amount', text: 'See exactly how many cups or grams of salt mix to add.' },
-    { name: 'Mix and verify', text: 'Mix thoroughly, aerate, and verify with a refractometer before use.' },
+  { name: 'Oppgi vannvolum', text: 'Hvor mange liter du skal blande.' },
+  { name: 'Velg salttype', text: 'Velg merke, eller legg inn egen mengde gram per liter.' },
+  { name: 'Velg ønsket egenvekt', text: 'Typisk 1,024–1,026 for revakvarium.' },
+  { name: 'Les av saltmengden', text: 'Se hvor mange gram eller kilo salt du trenger.' },
 ];
 
 const faqs = [
-    { question: 'What salinity should a reef tank be?', answer: 'Most reef tanks should be maintained at 35 ppt (1.025-1.026 specific gravity). Fish-only tanks can be kept slightly lower at 30-33 ppt.' },
-    { question: 'How much salt per gallon of water?', answer: 'Most salt mixes require about ½ cup per gallon to achieve 35 ppt. Exact amounts vary by brand — always measure with a refractometer.' },
-    { question: 'Can I use table salt for aquariums?', answer: 'No. Table salt contains anti-caking agents and iodine that can harm marine life. Use only marine aquarium salt mix.' },
-    { question: 'How long should I mix saltwater before using it?', answer: 'Mix and aerate for at least 24 hours before adding to your tank. This ensures the salt fully dissolves and stabilizes.' },
+  { question: 'Hvilken egenvekt bør revakvariet ha?', answer: 'De fleste rev ligger på 1,024–1,026 ved 25 °C, som tilsvarer ca. 35 ‰ saltholdighet.' },
+  { question: 'Hvor mye salt trenger jeg per liter?', answer: 'Det varierer med merke, men vanligvis 30–37 gram per liter for å nå full saltholdighet.' },
+  { question: 'Bør jeg måle egenvekten etter blanding?', answer: 'Ja. Bruk refraktometer og la saltet løse seg opp i minst en time (gjerne over natten) før du måler.' },
+  { question: 'Kan jeg bruke vanlig bordsalt?', answer: 'Nei. Bruk ferdig blandet marint salt, som inneholder alle sporstoffene dyrene trenger.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Volume Calculator', description: 'Calculate water volume for mixing.' },
-    { href: '/calculators/aquarium/water-change-calculator', title: 'Water Change Calculator', description: 'Plan your water change schedule.' },
-    { href: '/calculators/aquarium/heater-wattage-calculator', title: 'Heater Calculator', description: 'Size your heater correctly.' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
+  { href: '/calculators/aquarium/water-change-calculator', title: 'Vannskifte', description: 'Regn ut hvordan vannskifte påvirker nitrat og andre verdier' },
 ];
 
 export default function SaltMixCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="salt-mix-calculator" title="Salt Mix Calculator"
-                    description="Calculate salt mix needed for your marine aquarium." category="Aquariums & Terrariums" />
-                <section aria-label="Salt Mix Calculator"><SaltMixCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="salt-mix-calculator"
+          title="Saltblanding"
+          description="Regn ut hvor mye salt du må blande i vannet for å nå ønsket saltholdighet i saltvannsakvariet. Gratis og uten registrering."
+        />
+
+        <section aria-label="Saltblanding">
+          <SaltMixCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

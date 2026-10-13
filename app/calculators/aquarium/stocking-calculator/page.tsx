@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { StockingCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Aquarium Stocking Calculator - Fish Load & Bioload Checker',
-    description: 'Check if your aquarium stocking level is safe. Calculate fish bioload based on tank size and fish species for a healthy aquarium.',
-    keywords: ['aquarium stocking calculator', 'fish tank stocking', 'bioload calculator', 'how many fish', 'inch per gallon rule'],
-    alternates: { canonical: '/calculators/aquarium/stocking-calculator' },
+  title: 'Fiskebesetning – gratis kalkulator på nett',
+  description: 'Regn ut hvor mange fisk akvariet tåler (cm fisk per liter). Gratis og uten registrering.',
+  keywords: ['fiskebesetning', 'antall fisk', 'akvarium', 'overbesetning'],
+  alternates: { canonical: '/calculators/aquarium/stocking-calculator' },
+  openGraph: {
+    title: 'Fiskebesetning',
+    description: 'Regn ut hvor mange fisk akvariet tåler (cm fisk per liter)',
+    url: '/calculators/aquarium/stocking-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Aquarium Stocking Calculator', description: 'Check if your aquarium fish load is safe.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Fiskebesetning',
+  description: 'Regn ut hvor mange fisk akvariet tåler (cm fisk per liter)',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter tank volume', text: 'Input your aquarium volume in gallons or liters.' },
-    { name: 'Select filtration type', text: 'Choose your filtration strength — basic, moderate, or heavy filtration.' },
-    { name: 'Add your fish', text: 'Enter the number and approximate size of fish you plan to keep.' },
-    { name: 'Check stocking level', text: 'Review the stocking percentage and recommendations for a healthy tank.' },
+  { name: 'Oppgi akvariumvolum', text: 'Volum i liter.' },
+  { name: 'Legg til fiskene', text: 'Skriv inn navn, lengde i cm og antall.' },
+  { name: 'Se besetningsgraden', text: 'Se samlet fiskelengde og hvor stor del av kapasiteten som er brukt.' },
+  { name: 'Les anbefalingen', text: 'Få en vurdering og tips for å holde vannkvaliteten god.' },
 ];
 
 const faqs = [
-    { question: 'What is the one-inch-per-gallon rule?', answer: 'The old rule suggests 1 inch of fish per gallon, but it is inaccurate for large or messy fish. Our calculator uses bioload-based calculations for better accuracy.' },
-    { question: 'How many fish can I put in a 10 gallon tank?', answer: 'A 10-gallon tank works for about 6-8 small fish (neon tetras, guppies). Avoid large or territorial species in small tanks.' },
-    { question: 'What happens if I overstock my tank?', answer: 'Overstocking leads to poor water quality, stress, disease, and shortened lifespans. Ammonia and nitrite spikes become more frequent.' },
-    { question: 'Does filtration affect stocking capacity?', answer: 'Yes. Heavy filtration with good biological media can support a slightly higher bioload, but tank volume remains the primary limiting factor.' },
+  { question: 'Hvor mange fisk kan jeg ha i akvariet?', answer: 'Som veiledende tommelfingerregel omtrent 0,67 cm fisk per liter vann. Et kar på 100 liter rommer da ca. 67 cm fisk totalt.' },
+  { question: 'Er regelen alltid riktig?', answer: 'Nei. Store, aktive eller skitne fisk trenger mer plass, og god filtrering kan gi litt rom. Bruk den som veiledning, ikke fasit.' },
+  { question: 'Hva skjer hvis jeg har for mange fisk?', answer: 'Vannkvaliteten forverres, fisken blir stresset og sykdom er vanlig. Ammoniakk og nitritt stiger raskere.' },
+  { question: 'Påvirker filteret hvor mange fisk jeg kan ha?', answer: 'Ja, litt. Men akvariets volum er fortsatt den viktigste begrensningen.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Aquarium Volume Calculator', description: 'Calculate your exact tank volume.' },
-    { href: '/calculators/aquarium/water-change-calculator', title: 'Water Change Calculator', description: 'Plan water changes to maintain quality.' },
-    { href: '/calculators/aquarium/heater-wattage-calculator', title: 'Heater Wattage Calculator', description: 'Size your heater appropriately.' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
+  { href: '/calculators/aquarium/heater-wattage-calculator', title: 'Varmeelement til akvarium', description: 'Regn ut nødvendig effekt (watt) ut fra volum, romtemperatur og ønsket vanntemperatur' },
+  { href: '/calculators/aquarium/water-change-calculator', title: 'Vannskifte', description: 'Regn ut hvordan vannskifte påvirker nitrat og andre verdier' },
 ];
 
 export default function StockingCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="stocking-calculator" title="Aquarium Stocking Calculator"
-                    description="Check if your aquarium stocking level is safe." category="Aquariums & Terrariums" />
-                <section aria-label="Stocking Calculator"><StockingCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="stocking-calculator"
+          title="Fiskebesetning"
+          description="Sjekk om det er plass til fiskene i akvariet, ut fra volum og lengden på fiskene. Gratis og uten registrering."
+        />
+
+        <section aria-label="Fiskebesetning">
+          <StockingCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

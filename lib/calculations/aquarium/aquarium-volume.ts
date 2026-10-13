@@ -22,9 +22,10 @@ export interface AquariumVolumeInput {
 
 export interface AquariumVolumeResult {
     liters: number;
-    usGallons: number;
-    ukGallons: number;
-    cubicInches: number;
+    /** Netto vannvolum (ca. 90 % av brutto, etter substrat og dekor) */
+    netLiters: number;
+    /** Vekt av vannet i kg (ca. 1 kg per liter) */
+    waterWeightKg: number;
     cubicCm: number;
 }
 
@@ -34,7 +35,7 @@ export function calculateAquariumVolume(input: AquariumVolumeInput): AquariumVol
     switch (input.shape) {
         case 'rectangular':
             if (input.length <= 0 || input.width <= 0 || input.height <= 0) {
-                throw new Error('All dimensions must be positive');
+                throw new Error('Alle målene må være positive');
             }
             cubicCm = input.length * input.width * input.height;
             break;
@@ -42,7 +43,7 @@ export function calculateAquariumVolume(input: AquariumVolumeInput): AquariumVol
         case 'cylindrical': {
             const d = input.diameter ?? input.length;
             if (d <= 0 || input.height <= 0) {
-                throw new Error('Diameter and height must be positive');
+                throw new Error('Diameter og høyde må være positive');
             }
             const radius = d / 2;
             cubicCm = Math.PI * radius * radius * input.height;
@@ -51,7 +52,7 @@ export function calculateAquariumVolume(input: AquariumVolumeInput): AquariumVol
 
         case 'bowfront': {
             if (input.length <= 0 || input.width <= 0 || input.height <= 0) {
-                throw new Error('All dimensions must be positive');
+                throw new Error('Alle målene må være positive');
             }
             const bowD = input.bowDepth ?? (input.width * 0.25);
             // Rectangular part + half-ellipse bow
@@ -62,14 +63,13 @@ export function calculateAquariumVolume(input: AquariumVolumeInput): AquariumVol
         }
 
         default:
-            throw new Error('Unknown tank shape');
+            throw new Error('Ukjent akvarieform');
     }
 
     return {
         cubicCm,
         liters: cubicCm / 1000,
-        usGallons: cubicCm / 3785.41,
-        ukGallons: cubicCm / 4546.09,
-        cubicInches: cubicCm / 16.387,
+        netLiters: (cubicCm / 1000) * 0.9,
+        waterWeightKg: cubicCm / 1000,
     };
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { formatNumber } from '@/lib/utils/formatting';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
@@ -21,30 +22,30 @@ export function MedicineDosageCalculator() {
             setError(undefined);
             const res = calculateMedicineDosage({ volumeLiters: parseFloat(volume), medication, customDose: parseFloat(customDose) });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Calculation error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Beregningsfeil'); setResult(null); }
     }, [volume, medication, customDose]);
 
     const reset = () => { setVolume('100'); setMedication('malachite-green'); setCustomDose('1.0'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Medicine Dosage Calculator" description="Calculate aquarium medication dosing"
-            formula="Dose = (Volume ÷ 10) × mL per 10L" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Medisindosering" description="Regn ut dosering av medisin til akvariet"
+            formula="Dose = (volum ÷ 10) × ml per 10 liter" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Dose Required" value={`${result.doseMl} mL`} copyable />
-                    <ResultDisplay label="Teaspoons" value={`${result.doseTeaspoons} tsp`} />
+                    <ResultDisplay label="Nødvendig dose" value={`${formatNumber(result.doseMl)} ml`} copyable />
+                    <ResultDisplay label="Teskjeer" value={`${formatNumber(result.doseTeaspoons)} ts`} />
                     <div className="bg-yellow-50 rounded-lg p-3 text-sm text-yellow-800">
-                        <strong>Note:</strong> {result.notes}
+                        <strong>Merk:</strong> {result.notes}
                     </div>
                 </div>
             )}
         >
             <div className="space-y-4">
-                <NumberInput id="volume" label="Tank Volume (Liters)" value={volume} onChange={(v) => setVolume(String(v))} min={1} step={10} />
-                <SelectInput id="medication" label="Medication" value={medication} onChange={setMedication} options={MED_OPTIONS} />
+                <NumberInput id="volume" label="Akvariumvolum (liter)" value={volume} onChange={(v) => setVolume(String(v))} min={1} step={10} />
+                <SelectInput id="medication" label="Medisin" value={medication} onChange={setMedication} options={MED_OPTIONS} />
                 {medication === 'custom' && (
-                    <NumberInput id="custom-dose" label="mL per 10 Liters" value={customDose} onChange={(v) => setCustomDose(String(v))} min={0.1} step={0.1} />
+                    <NumberInput id="custom-dose" label="ml per 10 liter" value={customDose} onChange={(v) => setCustomDose(String(v))} min={0.1} step={0.1} />
                 )}
             </div>
         </CalculatorBase>

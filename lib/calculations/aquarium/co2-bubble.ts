@@ -31,9 +31,9 @@ export interface CO2BubbleResult {
 export function calculateCO2Bubble(input: CO2BubbleInput): CO2BubbleResult {
     const { kh, ph, volumeLiters } = input;
 
-    if (kh <= 0) throw new Error('KH must be positive');
-    if (ph <= 0 || ph > 14) throw new Error('pH must be between 0 and 14');
-    if (volumeLiters <= 0) throw new Error('Volume must be positive');
+    if (kh <= 0) throw new Error('KH må være positiv');
+    if (ph <= 0 || ph > 14) throw new Error('pH må være mellom 0 og 14');
+    if (volumeLiters <= 0) throw new Error('Volumet må være positivt');
 
     const co2ppm = 3.0 * kh * Math.pow(10, 7.0 - ph);
     const targetCo2 = 30; // mg/L, optimal for planted tanks
@@ -43,11 +43,11 @@ export function calculateCO2Bubble(input: CO2BubbleInput): CO2BubbleResult {
     const bubblesPerSecond = Math.max(0, (targetCo2 - co2ppm) * volumeLiters / 1500);
 
     let status: string;
-    if (co2ppm < 10) status = 'Low — plants may struggle';
-    else if (co2ppm < 20) status = 'Moderate — adequate for low-light plants';
-    else if (co2ppm <= 35) status = 'Optimal — ideal for planted tanks';
-    else if (co2ppm <= 50) status = 'High — monitor fish behavior';
-    else status = 'Dangerous — risk of suffocating fish';
+    if (co2ppm < 10) status = 'Lavt – plantene kan slite';
+    else if (co2ppm < 20) status = 'Moderat – passer for planter som trives med lite lys';
+    else if (co2ppm <= 35) status = 'Optimalt – ideelt for plantekar';
+    else if (co2ppm <= 50) status = 'Høyt – følg med på hvordan fiskene oppfører seg';
+    else status = 'Farlig – fare for at fiskene kveles';
 
     return {
         co2ppm: Math.round(co2ppm * 10) / 10,

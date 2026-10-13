@@ -23,12 +23,12 @@ export interface HeaterWattageResult {
 /**
  * Rule of thumb: ~1W per liter per °C difference for small tanks,
  * less for larger tanks due to better heat retention.
- * Standard guideline: 3-5 W/gal for 10°F delta, scaling proportionally.
+ * Veiledende: omtrent 0,8–1,3 W per liter ved 5,5 °C forskjell, skalert etter temperaturforskjellen.
  */
 export function calculateHeaterWattage(input: HeaterWattageInput): HeaterWattageResult {
     const { volumeLiters, roomTempC, targetTempC } = input;
 
-    if (volumeLiters <= 0) throw new Error('Volume must be positive');
+    if (volumeLiters <= 0) throw new Error('Volumet må være positivt');
 
     const deltaTemp = targetTempC - roomTempC;
 
@@ -37,7 +37,7 @@ export function calculateHeaterWattage(input: HeaterWattageInput): HeaterWattage
             wattage: 0,
             wattsPerLiter: 0,
             deltaTemp,
-            recommendation: 'No heater needed — room temperature is at or above target.',
+            recommendation: 'Du trenger ikke varmeelement – romtemperaturen er på eller over ønsket temperatur.',
         };
     }
 
@@ -51,9 +51,9 @@ export function calculateHeaterWattage(input: HeaterWattageInput): HeaterWattage
     const wattage = heaterSizes.find(s => s >= rawWattage) ?? Math.ceil(rawWattage / 100) * 100;
 
     let recommendation: string;
-    if (wattage <= 100) recommendation = `A single ${wattage}W heater should suffice.`;
-    else if (wattage <= 300) recommendation = `Use a ${wattage}W heater, or two ${Math.ceil(wattage / 2)}W heaters for redundancy.`;
-    else recommendation = `Use two ${Math.ceil(wattage / 2)}W heaters for safety and even heat distribution.`;
+    if (wattage <= 100) recommendation = `Ett varmeelement på ${wattage} W bør holde.`;
+    else if (wattage <= 300) recommendation = `Bruk ett varmeelement på ${wattage} W, eller to på ${Math.ceil(wattage / 2)} W hver for ekstra sikkerhet.`;
+    else recommendation = `Bruk to varmeelementer på ${Math.ceil(wattage / 2)} W hver for sikkerhet og jevn varmefordeling.`;
 
     return {
         wattage,

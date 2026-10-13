@@ -30,9 +30,9 @@ export interface WaterChangeResult {
 export function calculateWaterChange(input: WaterChangeInput): WaterChangeResult {
     const { currentConcentration, changePercent, numberOfChanges, targetConcentration } = input;
 
-    if (currentConcentration < 0) throw new Error('Concentration cannot be negative');
-    if (changePercent <= 0 || changePercent > 100) throw new Error('Change percent must be between 0 and 100');
-    if (numberOfChanges < 1) throw new Error('Must perform at least one water change');
+    if (currentConcentration < 0) throw new Error('Konsentrasjonen kan ikke være negativ');
+    if (changePercent <= 0 || changePercent > 100) throw new Error('Andelen som skiftes må være mellom 0 og 100 prosent');
+    if (numberOfChanges < 1) throw new Error('Du må gjøre minst ett vannskifte');
 
     const retainFactor = 1 - changePercent / 100;
     const concentrationHistory: number[] = [currentConcentration];

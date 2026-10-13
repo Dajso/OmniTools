@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { PAREstimatorCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'PAR Estimator - Aquarium Light Level Calculator',
-    description: 'Estimate PAR (Photosynthetically Active Radiation) at substrate depth in your aquarium for optimal plant growth.',
-    keywords: ['PAR estimator', 'aquarium light calculator', 'planted tank lighting', 'PAR at depth', 'aquarium PAR'],
-    alternates: { canonical: '/calculators/aquarium/par-estimator' },
+  title: 'Lysstyrke (PAR) i akvarium – gratis kalkulator på nett',
+  description: 'Anslå hvordan vanndybde svekker lyset (PAR) i plantet akvarium. Gratis og uten registrering.',
+  keywords: ['PAR', 'akvarielys', 'lysstyrke', 'plantet akvarium', 'vanndybde'],
+  alternates: { canonical: '/calculators/aquarium/par-estimator' },
+  openGraph: {
+    title: 'Lysstyrke (PAR) i akvarium',
+    description: 'Anslå hvordan vanndybde svekker lyset (PAR) i plantet akvarium',
+    url: '/calculators/aquarium/par-estimator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'PAR Estimator', description: 'Estimate PAR at substrate depth in your aquarium.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Lysstyrke (PAR) i akvarium',
+  description: 'Anslå hvordan vanndybde svekker lyset (PAR) i plantet akvarium',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter light specifications', text: 'Input your light fixture wattage and type (LED, T5, etc.).' },
-    { name: 'Enter tank depth', text: 'Measure the distance from the light to the substrate in inches.' },
-    { name: 'Review PAR estimate', text: 'See the estimated PAR value at substrate level.' },
-    { name: 'Match to plant needs', text: 'Low light plants need 20-40 PAR, medium 40-80, high light 80+ PAR.' },
+  { name: 'Oppgi PAR ved overflaten', text: 'Bruk målt verdi eller oppgitt verdi fra armaturet.' },
+  { name: 'Oppgi vanndybde', text: 'Avstand fra overflaten til substratet i cm.' },
+  { name: 'Velg vannklarhet', text: 'Fra krystallklart til tanninfarget eller grønt vann.' },
+  { name: 'Les av resultatet', text: 'Se PAR ved bunnen og hvilke planter som passer.' },
 ];
 
 const faqs = [
-    { question: 'What PAR do aquarium plants need?', answer: 'Low light plants (Anubias, Java fern): 20-40 PAR. Medium (Amazon sword, Crypts): 40-80 PAR. High (carpet plants, red plants): 80-150+ PAR.' },
-    { question: 'Does water depth affect PAR?', answer: 'Yes, water absorbs light significantly. PAR drops roughly 50% for every 12 inches of water depth.' },
-    { question: 'How do I measure PAR in my tank?', answer: 'Use a PAR meter (like Apogee MQ-500) if available. Otherwise, this estimator provides a reasonable approximation.' },
-    { question: 'More PAR means more algae?', answer: 'High PAR without adequate CO2 and nutrients can fuel algae growth. Balance all three factors for best results.' },
+  { question: 'Hva er PAR?', answer: 'Fotosyntetisk aktiv stråling, altså lyset plantene faktisk kan bruke, målt i µmol/m²/s.' },
+  { question: 'Hvor mye PAR trenger akvarieplanter?', answer: 'Planter med lite behov klarer seg på 15–40, vanlige stengelplanter trenger 80 eller mer, og teppeplanter 150 eller mer ved bunnen.' },
+  { question: 'Hvorfor faller lyset med dybden?', answer: 'Vannet og partikler i det absorberer lys. Jo mer farget eller grumsete vannet er, desto fortere svekkes lyset.' },
+  { question: 'Er tallene nøyaktige?', answer: 'Nei, de er et anslag. Måler du med PAR-meter, får du best resultat.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/co2-bubble-calculator', title: 'CO₂ Bubble Calculator', description: 'Balance CO2 with your lighting.' },
-    { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Fertilizer Dosing', description: 'Match nutrients to light levels.' },
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Volume Calculator', description: 'Calculate your tank volume.' },
+  { href: '/calculators/aquarium/co2-bubble-calculator', title: 'CO₂-bobler', description: 'Regn ut CO₂-konsentrasjon fra KH og pH, og anbefalt boblefrekvens' },
+  { href: '/calculators/aquarium/fertilizer-dosing-calculator', title: 'Gjødseldosering (EI)', description: 'Regn ut EI-dosering av gjødsel til plantet akvarium' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
 ];
 
 export default function PAREstimatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="par-estimator" title="PAR Estimator"
-                    description="Estimate PAR at substrate depth in your aquarium." category="Aquariums & Terrariums" />
-                <section aria-label="PAR Estimator"><PAREstimatorCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="par-estimator"
+          title="Lysstyrke (PAR) i akvarium"
+          description="Anslå hvor mye lys (PAR) som når bunnen av akvariet ut fra vanndybde og vannklarhet, og se hvilke planter som passer. Gratis og uten registrering."
+        />
+
+        <section aria-label="Lysstyrke (PAR) i akvarium">
+          <PAREstimatorCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

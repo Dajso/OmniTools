@@ -6,11 +6,11 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateSubstrate, SUBSTRATE_TYPES, type SubstrateResult } from '@/lib/calculations/aquarium/substrate';
-import { formatFixed } from '@/lib/utils/formatting';
+import { formatFixed, formatNumber } from '@/lib/utils/formatting';
 
 const SUBSTRATE_OPTIONS = [
     ...Object.entries(SUBSTRATE_TYPES).map(([value, data]) => ({
-        value, label: `${data.name} (${data.density} kg/L)`,
+        value, label: `${data.name} (${formatNumber(data.density)} kg/l)`,
     })),
 ];
 
@@ -32,7 +32,7 @@ export function SubstrateCalculator() {
             });
             setResult(res);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Calculation error');
+            setError(err instanceof Error ? err.message : 'Beregningsfeil');
             setResult(null);
         }
     }, [length, width, depth, substrateType, customDensity]);
@@ -47,29 +47,28 @@ export function SubstrateCalculator() {
 
     return (
         <CalculatorBase
-            title="Substrate Calculator"
-            description="Calculate the amount of substrate needed for your aquarium"
-            formula="Weight = Length × Width × Depth × Density"
+            title="Bunnsubstrat"
+            description="Regn ut hvor mye bunnsubstrat akvariet trenger"
+            formula="Vekt = lengde × bredde × dybde × tetthet"
             onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Weight Needed" value={`${formatFixed(result.weightKg, 2)} kg`} copyable />
+                    <ResultDisplay label="Nødvendig vekt" value={`${formatFixed(result.weightKg, 2)} kg`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Weight (lbs)" value={formatFixed(result.weightLbs, 2)} />
-                        <ResultDisplay label="Volume (Liters)" value={formatFixed(result.volumeLiters, 2)} />
+                        <ResultDisplay label="Volum (liter)" value={formatFixed(result.volumeLiters, 2)} />
                     </div>
                 </div>
             )}
         >
             <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <NumberInput id="length" label="Tank Length (cm)" value={length} onChange={(v) => setLength(String(v))} min={1} step={1} />
-                    <NumberInput id="width" label="Tank Width (cm)" value={width} onChange={(v) => setWidth(String(v))} min={1} step={1} />
+                    <NumberInput id="length" label="Lengde på akvariet (cm)" value={length} onChange={(v) => setLength(String(v))} min={1} step={1} />
+                    <NumberInput id="width" label="Bredde på akvariet (cm)" value={width} onChange={(v) => setWidth(String(v))} min={1} step={1} />
                 </div>
-                <NumberInput id="depth" label="Substrate Depth (cm)" value={depth} onChange={(v) => setDepth(String(v))} min={0.5} step={0.5} />
-                <SelectInput id="substrate-type" label="Substrate Type" value={substrateType} onChange={setSubstrateType} options={SUBSTRATE_OPTIONS} />
+                <NumberInput id="depth" label="Tykkelse på substratet (cm)" value={depth} onChange={(v) => setDepth(String(v))} min={0.5} step={0.5} />
+                <SelectInput id="substrate-type" label="Type substrat" value={substrateType} onChange={setSubstrateType} options={SUBSTRATE_OPTIONS} />
                 {substrateType === 'custom' && (
-                    <NumberInput id="custom-density" label="Custom Density (kg/L)" value={customDensity} onChange={(v) => setCustomDensity(String(v))} min={0.1} step={0.1} />
+                    <NumberInput id="custom-density" label="Egen tetthet (kg/l)" value={customDensity} onChange={(v) => setCustomDensity(String(v))} min={0.1} step={0.1} />
                 )}
             </div>
         </CalculatorBase>

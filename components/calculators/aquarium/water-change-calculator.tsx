@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { formatNumber } from '@/lib/utils/formatting';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
@@ -22,29 +23,29 @@ export function WaterChangeCalculator() {
                 numberOfChanges: parseInt(numChanges), targetConcentration: parseFloat(target),
             });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Calculation error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Beregningsfeil'); setResult(null); }
     }, [concentration, changePercent, numChanges, target]);
 
     const reset = () => { setConcentration('40'); setChangePercent('20'); setNumChanges('1'); setTarget('20'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Water Change Calculator" description="Calculate how water changes reduce concentrations"
-            formula="C_new = C_old × (1 - change%)" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Vannskifte" description="Regn ut hvordan vannskifter reduserer konsentrasjonen av stoffer i vannet"
+            formula="C_ny = C_gammel × (1 − andel skiftet)" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Final Concentration" value={`${result.finalConcentration} ppm`} copyable />
-                    <ResultDisplay label="Total Reduction" value={`${result.reductionPercent}%`} />
+                    <ResultDisplay label="Sluttkonsentrasjon" value={`${formatNumber(result.finalConcentration)} ppm`} copyable />
+                    <ResultDisplay label="Samlet reduksjon" value={`${formatNumber(result.reductionPercent)} %`} />
                     {result.changesToTarget !== undefined && (
-                        <ResultDisplay label="Changes to Reach Target" value={`${result.changesToTarget} water changes`} />
+                        <ResultDisplay label="Vannskifter for å nå målet" value={`${formatNumber(result.changesToTarget)} vannskifter`} />
                     )}
                     {result.concentrationHistory.length > 2 && (
                         <div className="bg-gray-50 rounded-lg p-3">
-                            <div className="text-sm font-medium text-gray-700 mb-2">Concentration After Each Change</div>
+                            <div className="text-sm font-medium text-gray-700 mb-2">Konsentrasjon etter hvert vannskifte</div>
                             <div className="flex flex-wrap gap-2">
                                 {result.concentrationHistory.map((c, i) => (
                                     <span key={i} className="text-xs bg-white border rounded px-2 py-1">
-                                        {i === 0 ? 'Start' : `#${i}`}: {c} ppm
+                                        {i === 0 ? 'Start' : `#${i}`}: {formatNumber(c)} ppm
                                     </span>
                                 ))}
                             </div>
@@ -54,10 +55,10 @@ export function WaterChangeCalculator() {
             )}
         >
             <div className="space-y-4">
-                <NumberInput id="concentration" label="Current Concentration (ppm)" value={concentration} onChange={(v) => setConcentration(String(v))} min={0} step={5} />
-                <NumberInput id="change-percent" label="Water Change (%)" value={changePercent} onChange={(v) => setChangePercent(String(v))} min={1} max={100} step={5} />
-                <NumberInput id="num-changes" label="Number of Water Changes" value={numChanges} onChange={(v) => setNumChanges(String(v))} min={1} max={20} step={1} />
-                <NumberInput id="target" label="Target Concentration (ppm)" value={target} onChange={(v) => setTarget(String(v))} min={0} step={5} />
+                <NumberInput id="concentration" label="Nåværende konsentrasjon (ppm)" value={concentration} onChange={(v) => setConcentration(String(v))} min={0} step={5} />
+                <NumberInput id="change-percent" label="Vannskifte (%)" value={changePercent} onChange={(v) => setChangePercent(String(v))} min={1} max={100} step={5} />
+                <NumberInput id="num-changes" label="Antall vannskifter" value={numChanges} onChange={(v) => setNumChanges(String(v))} min={1} max={20} step={1} />
+                <NumberInput id="target" label="Ønsket konsentrasjon (ppm)" value={target} onChange={(v) => setTarget(String(v))} min={0} step={5} />
             </div>
         </CalculatorBase>
     );

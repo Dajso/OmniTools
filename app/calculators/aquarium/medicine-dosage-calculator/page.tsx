@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { MedicineDosageCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Aquarium Medicine Dosage Calculator - Fish Medication Dosing',
-    description: 'Calculate accurate aquarium medication dosing based on tank volume. Prevent over-dosing and under-dosing fish medications.',
-    keywords: ['aquarium medicine calculator', 'fish medication dosing', 'aquarium treatment', 'ich medication dose'],
-    alternates: { canonical: '/calculators/aquarium/medicine-dosage-calculator' },
+  title: 'Medisindosering i akvarium – gratis kalkulator på nett',
+  description: 'Regn ut riktig dose akvariemedisin ut fra volum. Gratis og uten registrering.',
+  keywords: ['akvariemedisin', 'dosering', 'malakittgrønt', 'metylenblått'],
+  alternates: { canonical: '/calculators/aquarium/medicine-dosage-calculator' },
+  openGraph: {
+    title: 'Medisindosering i akvarium',
+    description: 'Regn ut riktig dose akvariemedisin ut fra volum',
+    url: '/calculators/aquarium/medicine-dosage-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Aquarium Medicine Dosage Calculator', description: 'Calculate aquarium medication dosing based on tank volume.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Medisindosering i akvarium',
+  description: 'Regn ut riktig dose akvariemedisin ut fra volum',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter tank volume', text: 'Input your actual water volume (subtract for substrate and decorations).' },
-    { name: 'Select medication', text: 'Choose the medication type or enter a custom dosing rate.' },
-    { name: 'Get dosage', text: 'See the exact amount to add in mL or drops for your tank.' },
-    { name: 'Follow schedule', text: 'Note the recommended treatment duration and re-dosing intervals.' },
+  { name: 'Oppgi volumet', text: 'Akvariumvolum i liter.' },
+  { name: 'Velg medisin', text: 'Velg et av produktene, eller legg inn egen dosering.' },
+  { name: 'Les av dosen', text: 'Se hvor mange ml (og teskjeer) du skal bruke.' },
+  { name: 'Les merknaden', text: 'Sjekk forholdsregler og følg alltid bruksanvisningen på produktet.' },
 ];
 
 const faqs = [
-    { question: 'Should I use actual water volume or tank size?', answer: 'Use actual water volume, which is typically 10-15% less than the rated tank size due to substrate, rocks, and decorations.' },
-    { question: 'Can I overdose aquarium medication?', answer: 'Yes, overdosing can stress or kill fish and beneficial bacteria. Always measure carefully and follow dosing instructions.' },
-    { question: 'Should I remove activated carbon during treatment?', answer: 'Yes, activated carbon absorbs most medications and reduces their effectiveness. Remove it before treatment and replace it after.' },
-    { question: 'Do I need to treat the whole tank or just sick fish?', answer: 'For contagious diseases like ich, treat the entire tank. For localized issues, a quarantine tank may be better.' },
+  { question: 'Hvordan regner jeg ut medisindosen?', answer: 'Dose = (volum ÷ 10) × dose per 10 liter. Et kar på 100 liter med 1 ml per 10 liter gir 10 ml.' },
+  { question: 'Skal jeg bruke bruttovolum eller nettovolum?', answer: 'Bruk gjerne nettovolum, siden substrat og dekor tar plass. Er du usikker, bruk netto vannvolum fra akvarievolum-kalkulatoren.' },
+  { question: 'Må jeg ta ut filterkull?', answer: 'Ja, aktivt kull fjerner medisin fra vannet og må tas ut under behandlingen.' },
+  { question: 'Kan jeg stole på kalkulatoren?', answer: 'Bruk den som hjelp, men følg alltid produsentens anvisning og spør veterinær eller akvariebutikk ved tvil.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Volume Calculator', description: 'Calculate exact water volume.' },
-    { href: '/calculators/aquarium/water-change-calculator', title: 'Water Change Calculator', description: 'Plan post-treatment water changes.' },
-    { href: '/calculators/aquarium/salt-mix-calculator', title: 'Salt Mix Calculator', description: 'Calculate salt for treatments.' },
+  { href: '/calculators/aquarium/aquarium-volume-calculator', title: 'Akvarievolum', description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter' },
+  { href: '/calculators/aquarium/water-change-calculator', title: 'Vannskifte', description: 'Regn ut hvordan vannskifte påvirker nitrat og andre verdier' },
 ];
 
 export default function MedicineDosageCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="medicine-dosage-calculator" title="Aquarium Medicine Dosage Calculator"
-                    description="Calculate aquarium medication dosing based on tank volume." category="Aquariums & Terrariums" />
-                <section aria-label="Medicine Dosage Calculator"><MedicineDosageCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="medicine-dosage-calculator"
+          title="Medisindosering i akvarium"
+          description="Regn ut hvor mange milliliter medisin du trenger til akvariet ut fra volum og produkt. Gratis og uten registrering."
+        />
+
+        <section aria-label="Medisindosering i akvarium">
+          <MedicineDosageCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

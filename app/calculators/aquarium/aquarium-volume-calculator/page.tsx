@@ -1,56 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { AquariumVolumeCalculator } from '@/components/calculators/aquarium';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Aquarium Volume Calculator - Tank Size in Gallons & Liters',
-    description: 'Calculate aquarium volume for rectangular, cylindrical, and bow-front tanks. Get results in gallons, liters, and cubic inches instantly.',
-    keywords: ['aquarium volume calculator', 'fish tank size', 'tank gallons', 'aquarium liters', 'bow front tank volume'],
-    alternates: { canonical: '/calculators/aquarium/aquarium-volume-calculator' },
+  title: 'Akvarievolum – gratis kalkulator på nett',
+  description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter. Gratis og uten registrering.',
+  keywords: ['akvarievolum', 'akvarium', 'liter', 'fiskekar', 'størrelse'],
+  alternates: { canonical: '/calculators/aquarium/aquarium-volume-calculator' },
+  openGraph: {
+    title: 'Akvarievolum',
+    description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter',
+    url: '/calculators/aquarium/aquarium-volume-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Aquarium Volume Calculator',
-    description: 'Calculate aquarium water volume for rectangular, cylindrical, and bow-front tank shapes.',
-    applicationCategory: 'UtilityApplication',
-    operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Akvarievolum',
+  description: 'Regn ut volum for rektangulære, sylinderformede og buede akvarier i liter',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Select tank shape', text: 'Choose rectangular, cylindrical, or bow-front from the shape selector.' },
-    { name: 'Enter dimensions', text: 'Measure and enter the length, width, and height of your tank in inches or centimeters.' },
-    { name: 'Review the results', text: 'Instantly see the volume in gallons, liters, and cubic inches.' },
-    { name: 'Plan your stocking', text: 'Use the volume to determine appropriate fish stocking levels and equipment sizing.' },
+  { name: 'Velg form', text: 'Rektangulært, sylinder eller buet front.' },
+  { name: 'Mål akvariet', text: 'Oppgi lengde, bredde og høyde i cm (eller diameter og høyde for sylinder).' },
+  { name: 'Les av volumet', text: 'Se brutto volum i liter og omtrentlig netto vannvolum.' },
+  { name: 'Sjekk vekten', text: 'Se hvor mye vannet veier, så du vet at benken tåler det.' },
 ];
 
 const faqs = [
-    { question: 'How do I calculate the volume of my aquarium?', answer: 'For rectangular tanks, multiply length × width × height and divide by 231 to get US gallons. Our calculator handles this and other shapes automatically.' },
-    { question: 'What is a bow-front aquarium?', answer: 'A bow-front aquarium has a curved front glass panel that adds extra volume compared to a standard rectangular tank of the same footprint.' },
-    { question: 'How many gallons is a 20×10×12 tank?', answer: 'A rectangular tank measuring 20×10×12 inches holds approximately 10.4 US gallons (39.3 liters) of water.' },
-    { question: 'Should I account for substrate and decorations?', answer: 'Yes, subtract about 10% from the calculated volume if you have a thick substrate layer and large decorations.' },
+  { question: 'Hvordan regner jeg ut volumet i et akvarium?', answer: 'Gang lengde × bredde × høyde i cm og del på 1000 for å få liter. Et kar på 100 × 40 × 50 cm rommer 200 liter.' },
+  { question: 'Hvorfor er netto volum mindre enn brutto?', answer: 'Substrat, dekor og at du ikke fyller helt til kanten gjør at ekte vannmengde ofte er rundt 90 % av brutto volum.' },
+  { question: 'Hvor mye veier et akvarium?', answer: 'Én liter vann veier 1 kg. Et kar på 200 liter har dermed 200 kg vann, i tillegg til glass, substrat og bunnmøbel.' },
+  { question: 'Hvordan regner jeg ut et sylinderformet akvarium?', answer: 'Volum = π × radius² × høyde. Del på 1000 for å få liter når målene er i cm.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/aquarium/stocking-calculator', title: 'Stocking Calculator', description: 'Check if your fish load is safe for your tank.' },
-    { href: '/calculators/aquarium/heater-wattage-calculator', title: 'Heater Wattage Calculator', description: 'Find the right heater for your tank volume.' },
-    { href: '/calculators/aquarium/substrate-calculator', title: 'Substrate Calculator', description: 'Calculate how much substrate you need.' },
+  { href: '/calculators/aquarium/substrate-calculator', title: 'Bunnsubstrat', description: 'Regn ut hvor mye grus, sand eller jord akvariet trenger' },
+  { href: '/calculators/aquarium/stocking-calculator', title: 'Fiskebesetning', description: 'Regn ut hvor mange fisk akvariet tåler (cm fisk per liter)' },
+  { href: '/calculators/aquarium/heater-wattage-calculator', title: 'Varmeelement til akvarium', description: 'Regn ut nødvendig effekt (watt) ut fra volum, romtemperatur og ønsket vanntemperatur' },
 ];
 
 export default function AquariumVolumeCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="aquarium-volume-calculator" title="Aquarium Volume Calculator"
-                    description="Calculate aquarium volume for rectangular, cylindrical, and bow-front tank shapes." category="Aquariums & Terrariums" />
-                <section aria-label="Aquarium Volume Calculator"><AquariumVolumeCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="aquarium-volume-calculator"
+          title="Akvarievolum"
+          description="Regn ut volumet i akvariet i liter for rektangulære, sylinderformede og buede kar, med nettovolum og vekt av vannet. Gratis og uten registrering."
+        />
+
+        <section aria-label="Akvarievolum">
+          <AquariumVolumeCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

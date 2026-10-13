@@ -9,9 +9,9 @@ import { calculateAquariumVolume, type TankShape, type AquariumVolumeResult } fr
 import { formatFixed } from '@/lib/utils/formatting';
 
 const SHAPE_OPTIONS = [
-    { value: 'rectangular', label: 'Rectangular' },
-    { value: 'cylindrical', label: 'Cylindrical' },
-    { value: 'bowfront', label: 'Bow-Front' },
+    { value: 'rectangular', label: 'Rektangulært' },
+    { value: 'cylindrical', label: 'Sylinderformet' },
+    { value: 'bowfront', label: 'Buet front' },
 ];
 
 export function AquariumVolumeCalculator() {
@@ -37,7 +37,7 @@ export function AquariumVolumeCalculator() {
             });
             setResult(res);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Calculation error');
+            setError(err instanceof Error ? err.message : 'Beregningsfeil');
             setResult(null);
         }
     }, [shape, length, width, height, diameter, bowDepth]);
@@ -53,38 +53,37 @@ export function AquariumVolumeCalculator() {
 
     return (
         <CalculatorBase
-            title="Aquarium Volume Calculator"
-            description="Calculate your aquarium volume in liters and gallons"
-            formula="Volume varies by shape: L×W×H, πr²h, or rectangular + bow section"
+            title="Akvariumvolum"
+            description="Regn ut volumet i akvariet i liter, med nettovolum og vekt av vannet"
+            formula="Volumet avhenger av formen: L × B × H, πr²h, eller rektangel + buet frontparti"
             onCalculate={calculate}
             onReset={reset}
             error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Volume (Liters)" value={formatFixed(result.liters, 1)} copyable />
+                    <ResultDisplay label="Volum (liter)" value={formatFixed(result.liters, 1)} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="US Gallons" value={formatFixed(result.usGallons, 1)} />
-                        <ResultDisplay label="UK Gallons" value={formatFixed(result.ukGallons, 1)} />
-                        <ResultDisplay label="Cubic cm" value={formatFixed(result.cubicCm, 0)} />
-                        <ResultDisplay label="Cubic Inches" value={formatFixed(result.cubicInches, 1)} />
+                        <ResultDisplay label="Netto vann (ca. 90 %)" value={`${formatFixed(result.netLiters, 1)} liter`} />
+                        <ResultDisplay label="Vekt av vannet" value={`${formatFixed(result.waterWeightKg, 0)} kg`} />
+                        <ResultDisplay label="Kubikkcentimeter" value={formatFixed(result.cubicCm, 0)} />
                     </div>
                 </div>
             )}
         >
             <div className="space-y-4">
-                <SelectInput id="shape" label="Tank Shape" value={shape} onChange={setShape} options={SHAPE_OPTIONS} />
+                <SelectInput id="shape" label="Akvarieform" value={shape} onChange={setShape} options={SHAPE_OPTIONS} />
                 {shape === 'cylindrical' ? (
                     <>
                         <NumberInput id="diameter" label="Diameter (cm)" value={diameter} onChange={(v) => setDiameter(String(v))} min={1} step={1} />
-                        <NumberInput id="height" label="Height (cm)" value={height} onChange={(v) => setHeight(String(v))} min={1} step={1} />
+                        <NumberInput id="height" label="Høyde (cm)" value={height} onChange={(v) => setHeight(String(v))} min={1} step={1} />
                     </>
                 ) : (
                     <>
-                        <NumberInput id="length" label="Length (cm)" value={length} onChange={(v) => setLength(String(v))} min={1} step={1} />
-                        <NumberInput id="width" label="Width (cm)" value={width} onChange={(v) => setWidth(String(v))} min={1} step={1} />
-                        <NumberInput id="height" label="Height (cm)" value={height} onChange={(v) => setHeight(String(v))} min={1} step={1} />
+                        <NumberInput id="length" label="Lengde (cm)" value={length} onChange={(v) => setLength(String(v))} min={1} step={1} />
+                        <NumberInput id="width" label="Bredde (cm)" value={width} onChange={(v) => setWidth(String(v))} min={1} step={1} />
+                        <NumberInput id="height" label="Høyde (cm)" value={height} onChange={(v) => setHeight(String(v))} min={1} step={1} />
                         {shape === 'bowfront' && (
-                            <NumberInput id="bowDepth" label="Bow Depth (cm)" value={bowDepth} onChange={(v) => setBowDepth(String(v))} min={0} step={1} />
+                            <NumberInput id="bowDepth" label="Dybde på buen (cm)" value={bowDepth} onChange={(v) => setBowDepth(String(v))} min={0} step={1} />
                         )}
                     </>
                 )}

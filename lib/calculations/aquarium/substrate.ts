@@ -5,13 +5,13 @@
  */
 
 export const SUBSTRATE_TYPES: Record<string, { name: string; density: number }> = {
-    'gravel': { name: 'Gravel', density: 1.6 },
+    'gravel': { name: 'Grus', density: 1.6 },
     'sand': { name: 'Sand', density: 1.5 },
-    'aquasoil': { name: 'Aqua Soil (ADA etc.)', density: 1.0 },
+    'aquasoil': { name: 'Aqua soil (ADA o.l.)', density: 1.0 },
     'fluorite': { name: 'Seachem Fluorite', density: 1.3 },
     'eco-complete': { name: 'Eco-Complete', density: 1.2 },
-    'crushed-coral': { name: 'Crushed Coral', density: 1.4 },
-    'custom': { name: 'Custom', density: 1.5 },
+    'crushed-coral': { name: 'Knust korall', density: 1.4 },
+    'custom': { name: 'Egendefinert', density: 1.5 },
 };
 
 export interface SubstrateInput {
@@ -37,7 +37,7 @@ export function calculateSubstrate(input: SubstrateInput): SubstrateResult {
     const { length, width, depth, substrateType, customDensity } = input;
 
     if (length <= 0 || width <= 0 || depth <= 0) {
-        throw new Error('All dimensions must be positive');
+        throw new Error('Alle målene må være positive');
     }
 
     const density = substrateType === 'custom' && customDensity
