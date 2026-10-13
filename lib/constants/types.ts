@@ -38,7 +38,15 @@ export type UnitCategory =
   | 'time'
   | 'data'
   | 'pressure'
-  | 'energy';
+  | 'energy'
+  | 'angle'
+  | 'frequency'
+  | 'fuelEconomy'
+  | 'power'
+  | 'torque'
+  | 'force'
+  | 'density'
+  | 'illuminance';
 
 export interface ToolDefinition {
   id: string;

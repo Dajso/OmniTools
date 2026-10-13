@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { SerializableUnit, UnitCategory } from '@/lib/constants/types';
 import { convert, generateFormula } from '@/lib/conversions';
 import { getUnit } from '@/lib/constants/units';
+import { parseFormattedNumber } from '@/lib/utils/formatting';
 import Link from 'next/link';
 import { ArrowRightLeft, Copy, Check, ChevronRight } from 'lucide-react';
 
@@ -39,7 +40,7 @@ function formatDisplayValue(value: number): string {
   const absValue = Math.abs(value);
   
   if (absValue < 0.0001 || absValue >= 1000000000) {
-    return value.toExponential(6);
+    return value.toExponential(6).replace('.', ',');
   }
   
   if (absValue >= 1000) {
@@ -84,7 +85,7 @@ export function ConverterBase({
     const inputValue = e.target.value;
     setFromValue(inputValue);
     
-    const numValue = parseFloat(inputValue);
+    const numValue = parseFormattedNumber(inputValue);
     if (!isNaN(numValue)) {
       try {
         const converted = convert(numValue, currentFromUnit.id, currentToUnit.id, category);
@@ -101,7 +102,7 @@ export function ConverterBase({
     const inputValue = e.target.value;
     setToValue(inputValue);
     
-    const numValue = parseFloat(inputValue);
+    const numValue = parseFormattedNumber(inputValue);
     if (!isNaN(numValue)) {
       try {
         const converted = convert(numValue, currentToUnit.id, currentFromUnit.id, category);
@@ -122,7 +123,7 @@ export function ConverterBase({
   }, [fromValue, toValue]);
 
   const handlePresetClick = React.useCallback((value: number) => {
-    setFromValue(value.toString());
+    setFromValue(String(value).replace('.', ','));
     try {
       const converted = convert(value, currentFromUnit.id, currentToUnit.id, category);
       setToValue(formatDisplayValue(converted));
@@ -159,7 +160,7 @@ export function ConverterBase({
             {/* From Input */}
             <div className="p-6 space-y-3">
               <Label htmlFor="from-value" className="text-sm font-medium text-muted-foreground">
-                From
+                Fra
               </Label>
               <div className="relative">
                 <Input
@@ -186,7 +187,7 @@ export function ConverterBase({
                 size="icon"
                 onClick={handleSwap}
                 className="rounded-full h-12 w-12 bg-background shadow-sm hover:bg-primary hover:text-primary-foreground transition-all"
-                aria-label="Swap units"
+                aria-label="Bytt enhetene"
               >
                 <ArrowRightLeft className="h-5 w-5" />
               </Button>
@@ -195,7 +196,7 @@ export function ConverterBase({
             {/* To Input */}
             <div className="p-6 space-y-3">
               <Label htmlFor="to-value" className="text-sm font-medium text-muted-foreground">
-                To
+                Til
               </Label>
               <div className="relative">
                 <Input
@@ -219,7 +220,7 @@ export function ConverterBase({
           <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 p-6 border-t">
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-muted-foreground mb-1">Result</p>
+                <p className="text-sm text-muted-foreground mb-1">Resultat</p>
                 <p className="text-xl md:text-2xl font-bold truncate">
                   {fromValue} {currentFromUnit.symbol} = {toValue} {currentToUnit.symbol}
                 </p>
@@ -237,12 +238,12 @@ export function ConverterBase({
                 {copied ? (
                   <>
                     <Check className="h-4 w-4 mr-2" />
-                    Copied!
+                    Kopiert!
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4 mr-2" />
-                    Copy
+                    Kopier
                   </>
                 )}
               </Button>
@@ -251,11 +252,11 @@ export function ConverterBase({
         </CardContent>
       </Card>
 
-      {/* Quick Convert */}
+      {/* Hurtigvalg */}
       {presetValues.length > 0 && (
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm font-medium text-muted-foreground mb-3">Quick Convert</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">Hurtigvalg</p>
             <div className="flex flex-wrap gap-2">
               {presetValues.map((value) => (
                 <Button
@@ -277,16 +278,16 @@ export function ConverterBase({
       {/* Formula Card */}
       <Card>
         <CardContent className="p-4">
-          <p className="text-sm font-medium text-muted-foreground mb-2">Conversion Formula</p>
+          <p className="text-sm font-medium text-muted-foreground mb-2">Formel</p>
           <p className="font-mono text-lg bg-muted px-4 py-3 rounded-lg">{formula}</p>
         </CardContent>
       </Card>
 
-      {/* Related Conversions */}
+      {/* Relaterte omregninger */}
       {relatedConversions.length > 0 && (
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm font-medium text-muted-foreground mb-3">Related Conversions</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">Relaterte omregninger</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {relatedConversions.map((link) => (
                 <Link

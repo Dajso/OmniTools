@@ -270,7 +270,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'force-converter': ArrowRight,
   'density-converter': Box,
   'illuminance-converter': Lightbulb,
-  'currency-converter': DollarSign,
   'number-base-converter': Hash,
 
   // Garden Tools

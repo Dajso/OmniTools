@@ -30,18 +30,18 @@ export function convert(
 ): number {
   // Handle edge cases
   if (!Number.isFinite(value)) {
-    throw new ConversionError('Value must be a finite number', 'invalid_value');
+    throw new ConversionError('Verdien må være et endelig tall', 'invalid_value');
   }
 
   const fromUnit = getUnit(category, fromUnitId);
   const toUnit = getUnit(category, toUnitId);
 
   if (!fromUnit) {
-    throw new ConversionError(`Invalid source unit: ${fromUnitId}`, 'invalid_unit');
+    throw new ConversionError(`Ugyldig enhet å regne fra: ${fromUnitId}`, 'invalid_unit');
   }
 
   if (!toUnit) {
-    throw new ConversionError(`Invalid target unit: ${toUnitId}`, 'invalid_unit');
+    throw new ConversionError(`Ugyldig enhet å regne til: ${toUnitId}`, 'invalid_unit');
   }
 
   if (fromUnitId === toUnitId) {
@@ -68,11 +68,11 @@ export function convertWithDetails(
   const toUnit = getUnit(category, toUnitId);
 
   if (!fromUnit) {
-    throw new ConversionError(`Invalid source unit: ${fromUnitId}`, 'invalid_unit');
+    throw new ConversionError(`Ugyldig enhet å regne fra: ${fromUnitId}`, 'invalid_unit');
   }
 
   if (!toUnit) {
-    throw new ConversionError(`Invalid target unit: ${toUnitId}`, 'invalid_unit');
+    throw new ConversionError(`Ugyldig enhet å regne til: ${toUnitId}`, 'invalid_unit');
   }
 
   const convertedValue = convert(value, fromUnitId, toUnitId, category);
@@ -119,7 +119,13 @@ export function generateFormula(
     }
   }
 
-  // For linear conversions, show the multiplication factor
+  if (category === 'fuelEconomy') {
+    // Omvendte enheter (km/l, mpg): vis et eksempel i stedet for en fast faktor
+    const example = fromUnit.id === 'litersPerMil' ? 0.8 : fromUnit.id === 'kmPerLiter' ? 20 : fromUnit.id.startsWith('mpg') ? 40 : 8;
+    return `Eksempel: ${formatConversionFactor(example)} ${fromUnit.symbol} = ${formatConversionFactor(convert(example, fromUnit.id, toUnit.id, category))} ${toUnit.symbol}`;
+  }
+
+  // For lineære omregninger vises faktoren
   const formattedFactor = formatConversionFactor(factor);
   return `1 ${fromUnit.symbol} = ${formattedFactor} ${toUnit.symbol}`;
 }
@@ -129,20 +135,17 @@ export function generateFormula(
  */
 function formatConversionFactor(factor: number): string {
   if (factor === 0) return '0';
-  
-  // For very small or very large numbers, use scientific notation
+  if (!Number.isFinite(factor)) return '–';
+
+  // Svært små eller store tall vises med vitenskapelig notasjon
   if (Math.abs(factor) < 0.0001 || Math.abs(factor) >= 1000000) {
-    return factor.toExponential(6);
+    return factor.toExponential(6).replace('.', ',');
   }
-  
-  // Otherwise, use fixed decimal places based on magnitude
-  if (Math.abs(factor) >= 100) {
-    return factor.toFixed(2);
-  }
-  if (Math.abs(factor) >= 1) {
-    return factor.toFixed(4);
-  }
-  return factor.toFixed(6);
+
+  // Ellers brukes norsk tallformat (komma som desimaltegn, hardt mellomrom som tusenskille)
+  const abs = Math.abs(factor);
+  const digits = abs >= 100 ? 2 : abs >= 1 ? 4 : 6;
+  return factor.toLocaleString('nb-NO', { maximumFractionDigits: digits });
 }
 
 /**
@@ -178,38 +181,46 @@ export function getCommonConversionPairs(): Array<{
   category: UnitCategory;
 }> {
   return [
-    // Length
+    // Lengde
     { from: 'meter', to: 'foot', category: 'length' },
     { from: 'foot', to: 'meter', category: 'length' },
     { from: 'centimeter', to: 'inch', category: 'length' },
     { from: 'inch', to: 'centimeter', category: 'length' },
     { from: 'kilometer', to: 'mile', category: 'length' },
     { from: 'mile', to: 'kilometer', category: 'length' },
-    // Weight
+    { from: 'norwegianMile', to: 'kilometer', category: 'length' },
+    { from: 'kilometer', to: 'norwegianMile', category: 'length' },
+    { from: 'nauticalMile', to: 'kilometer', category: 'length' },
+    // Vekt
     { from: 'kilogram', to: 'pound', category: 'weight' },
     { from: 'pound', to: 'kilogram', category: 'weight' },
     { from: 'gram', to: 'ounce', category: 'weight' },
     { from: 'ounce', to: 'gram', category: 'weight' },
-    // Temperature
+    { from: 'stone', to: 'kilogram', category: 'weight' },
+    // Temperatur
     { from: 'celsius', to: 'fahrenheit', category: 'temperature' },
     { from: 'fahrenheit', to: 'celsius', category: 'temperature' },
     { from: 'celsius', to: 'kelvin', category: 'temperature' },
     { from: 'kelvin', to: 'celsius', category: 'temperature' },
-    // Volume
+    // Volum
     { from: 'liter', to: 'gallon', category: 'volume' },
     { from: 'gallon', to: 'liter', category: 'volume' },
-    { from: 'milliliter', to: 'cup', category: 'volume' },
-    { from: 'cup', to: 'milliliter', category: 'volume' },
-    // Area
+    { from: 'deciliter', to: 'milliliter', category: 'volume' },
+    { from: 'tablespoon', to: 'milliliter', category: 'volume' },
+    { from: 'teaspoon', to: 'milliliter', category: 'volume' },
+    { from: 'cup', to: 'deciliter', category: 'volume' },
+    // Areal
     { from: 'squareFoot', to: 'squareMeter', category: 'area' },
     { from: 'squareMeter', to: 'squareFoot', category: 'area' },
     { from: 'acre', to: 'hectare', category: 'area' },
-    { from: 'hectare', to: 'acre', category: 'area' },
-    // Speed
+    { from: 'decare', to: 'squareMeter', category: 'area' },
+    { from: 'hectare', to: 'decare', category: 'area' },
+    // Fart
     { from: 'milePerHour', to: 'kilometerPerHour', category: 'speed' },
     { from: 'kilometerPerHour', to: 'milePerHour', category: 'speed' },
-    { from: 'knot', to: 'milePerHour', category: 'speed' },
-    // Time
+    { from: 'knot', to: 'kilometerPerHour', category: 'speed' },
+    { from: 'meterPerSecond', to: 'kilometerPerHour', category: 'speed' },
+    // Tid
     { from: 'hour', to: 'minute', category: 'time' },
     { from: 'minute', to: 'second', category: 'time' },
     { from: 'day', to: 'hour', category: 'time' },
@@ -217,14 +228,42 @@ export function getCommonConversionPairs(): Array<{
     { from: 'megabyte', to: 'gigabyte', category: 'data' },
     { from: 'gigabyte', to: 'terabyte', category: 'data' },
     { from: 'kilobyte', to: 'megabyte', category: 'data' },
-    // Pressure
+    // Trykk
     { from: 'psi', to: 'bar', category: 'pressure' },
     { from: 'bar', to: 'psi', category: 'pressure' },
     { from: 'kilopascal', to: 'psi', category: 'pressure' },
-    // Energy
+    { from: 'hectopascal', to: 'mmHg', category: 'pressure' },
+    // Energi
     { from: 'calorie', to: 'joule', category: 'energy' },
     { from: 'kilocalorie', to: 'kilojoule', category: 'energy' },
     { from: 'kilowattHour', to: 'joule', category: 'energy' },
+    { from: 'kilowattHour', to: 'megajoule', category: 'energy' },
+    // Vinkel
+    { from: 'degree', to: 'radian', category: 'angle' },
+    { from: 'radian', to: 'degree', category: 'angle' },
+    { from: 'degree', to: 'gradian', category: 'angle' },
+    // Frekvens
+    { from: 'megahertz', to: 'kilohertz', category: 'frequency' },
+    { from: 'gigahertz', to: 'megahertz', category: 'frequency' },
+    // Drivstofforbruk
+    { from: 'litersPer100Km', to: 'kmPerLiter', category: 'fuelEconomy' },
+    { from: 'kmPerLiter', to: 'litersPer100Km', category: 'fuelEconomy' },
+    { from: 'litersPer100Km', to: 'litersPerMil', category: 'fuelEconomy' },
+    { from: 'mpgUs', to: 'litersPer100Km', category: 'fuelEconomy' },
+    // Effekt
+    { from: 'kilowatt', to: 'horsepowerMetric', category: 'power' },
+    { from: 'horsepowerMetric', to: 'kilowatt', category: 'power' },
+    { from: 'horsepowerMechanical', to: 'kilowatt', category: 'power' },
+    // Dreiemoment
+    { from: 'newtonMeter', to: 'footPound', category: 'torque' },
+    { from: 'footPound', to: 'newtonMeter', category: 'torque' },
+    // Kraft
+    { from: 'newton', to: 'kilopond', category: 'force' },
+    { from: 'kilopond', to: 'newton', category: 'force' },
+    // Tetthet
+    { from: 'kilogramPerCubicMeter', to: 'gramPerCubicCentimeter', category: 'density' },
+    // Belysningsstyrke
+    { from: 'lux', to: 'footCandle', category: 'illuminance' },
   ];
 }
 

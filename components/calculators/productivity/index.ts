@@ -29,3 +29,4 @@ export { TitleCapitalization } from './title-capitalization';
 export { ColorBlindnessSimulator } from './color-blindness-simulator';
 export { SQLFormatter } from './sql-formatter';
 export { FaviconGenerator } from './favicon-generator';
+export { NumberBaseConverter } from './number-base-converter';

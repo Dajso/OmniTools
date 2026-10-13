@@ -20,6 +20,13 @@ import {
   HardDrive,
   Activity,
   Zap,
+  Compass,
+  Radio,
+  Fuel,
+  Wrench,
+  ArrowUpRight,
+  Box,
+  Lightbulb,
   LucideIcon
 } from 'lucide-react';
 
@@ -59,24 +66,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   if (!pair) {
     return {
-      title: 'Converter Not Found',
+      title: 'Omregner ikke funnet',
     };
   }
 
   const { from, to, category } = pair;
-  const title = `${from.name} to ${to.name} Converter - Free Online ${capitalize(category)} Converter`;
-  const description = `Convert ${from.name} (${from.symbol}) to ${to.name} (${to.symbol}) instantly. Free online ${category} converter with formula and related conversions.`;
+  const fromName = from.name.toLowerCase();
+  const toName = to.name.toLowerCase();
+  const title = `${from.name} til ${toName} (${from.symbol} til ${to.symbol}) – omregner`;
+  const description = `Regn om fra ${fromName} (${from.symbol}) til ${toName} (${to.symbol}) med en gang. Gratis omregner for ${CATEGORY_LABELS[category].toLowerCase()} med formel og relaterte omregninger.`;
 
   return {
     title,
     description,
     keywords: [
-      `${from.name.toLowerCase()} to ${to.name.toLowerCase()}`,
-      `${from.symbol} to ${to.symbol}`,
-      `convert ${from.name.toLowerCase()}`,
-      `${category} converter`,
-      `${from.name.toLowerCase()} converter`,
-      `${to.name.toLowerCase()} converter`,
+      `${fromName} til ${toName}`,
+      `${from.symbol} til ${to.symbol}`,
+      `regn om ${fromName}`,
+      `${CATEGORY_LABELS[category].toLowerCase()} omregner`,
+      `${fromName} omregner`,
+      `${toName} omregner`,
     ],
     alternates: {
       canonical: `/convert/${conversion}`,
@@ -85,13 +94,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'website',
+      locale: 'nb_NO',
+      siteName: 'Kalkulator',
     },
   };
 }
 
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+/** Norske navn på enhetskategoriene */
+const CATEGORY_LABELS: Record<UnitCategory, string> = {
+  length: 'Lengde',
+  weight: 'Vekt',
+  temperature: 'Temperatur',
+  volume: 'Volum',
+  area: 'Areal',
+  speed: 'Fart',
+  time: 'Tid',
+  data: 'Datastørrelse',
+  pressure: 'Trykk',
+  energy: 'Energi',
+  angle: 'Vinkel',
+  frequency: 'Frekvens',
+  fuelEconomy: 'Drivstofforbruk',
+  power: 'Effekt',
+  torque: 'Dreiemoment',
+  force: 'Kraft',
+  density: 'Tetthet',
+  illuminance: 'Belysningsstyrke',
+};
 
 /**
  * Get icon for a unit category
@@ -108,6 +137,14 @@ function getCategoryIcon(category: UnitCategory): LucideIcon {
     data: HardDrive,
     pressure: Activity,
     energy: Zap,
+    angle: Compass,
+    frequency: Radio,
+    fuelEconomy: Fuel,
+    power: Zap,
+    torque: Wrench,
+    force: ArrowUpRight,
+    density: Box,
+    illuminance: Lightbulb,
   };
   return iconMap[category] || Ruler;
 }
@@ -127,6 +164,14 @@ function getCategoryColorClass(category: UnitCategory): string {
     data: 'bg-slate-100 text-slate-600',
     pressure: 'bg-amber-100 text-amber-600',
     energy: 'bg-yellow-100 text-yellow-600',
+    angle: 'bg-teal-100 text-teal-600',
+    frequency: 'bg-pink-100 text-pink-600',
+    fuelEconomy: 'bg-lime-100 text-lime-700',
+    power: 'bg-yellow-100 text-yellow-600',
+    torque: 'bg-stone-100 text-stone-600',
+    force: 'bg-rose-100 text-rose-600',
+    density: 'bg-emerald-100 text-emerald-600',
+    illuminance: 'bg-amber-100 text-amber-600',
   };
   return colorMap[category] || 'bg-blue-100 text-blue-600';
 }
@@ -148,18 +193,22 @@ export default async function ConversionPage({ params }: PageProps) {
   const CategoryIcon = getCategoryIcon(category);
   const colorClass = getCategoryColorClass(category);
 
-  // Structured data for SEO
+  const fromName = from.name.toLowerCase();
+  const toName = to.name.toLowerCase();
+
+  // Strukturerte data for søkemotorer
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: `${from.name} to ${to.name} Converter`,
-    description: `Convert ${from.name} (${from.symbol}) to ${to.name} (${to.symbol}) instantly.`,
+    name: `${from.name} til ${toName} – omregner`,
+    description: `Regn om fra ${fromName} (${from.symbol}) til ${toName} (${to.symbol}).`,
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'Any',
+    inLanguage: 'nb-NO',
     offers: {
       '@type': 'Offer',
       price: '0',
-      priceCurrency: 'USD',
+      priceCurrency: 'NOK',
     },
   };
 
@@ -174,15 +223,15 @@ export default async function ConversionPage({ params }: PageProps) {
       />
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Breadcrumb */}
+        {/* Brødsmulesti */}
         <Breadcrumb
           items={[
-            { label: 'Converters', href: '/convert' },
-            { label: `${from.name} to ${to.name}` },
+            { label: 'Omregnere', href: '/convert' },
+            { label: `${from.name} til ${toName}` },
           ]}
         />
 
-        {/* Page Header */}
+        {/* Sideoverskrift */}
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-3">
             <div className={`p-3 rounded-xl ${colorClass}`}>
@@ -190,19 +239,19 @@ export default async function ConversionPage({ params }: PageProps) {
             </div>
             <div>
               <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">
-                {capitalize(category)} Converter
+                {CATEGORY_LABELS[category]}
               </p>
               <h1 className="text-2xl md:text-3xl font-bold">
-                {from.name} to {to.name}
+                {from.name} til {toName}
               </h1>
             </div>
           </div>
           <p className="text-muted-foreground">
-            Instantly convert {from.name.toLowerCase()} ({from.symbol}) to {to.name.toLowerCase()} ({to.symbol}) with our free online converter.
+            Regn om fra {fromName} ({from.symbol}) til {toName} ({to.symbol}) med en gang. Gratis og uten registrering.
           </p>
         </header>
 
-        {/* Converter Component */}
+        {/* Omregner */}
         <ConverterBase
           fromUnit={toSerializableUnit(from)}
           toUnit={toSerializableUnit(to)}
@@ -211,18 +260,18 @@ export default async function ConversionPage({ params }: PageProps) {
           presetValues={getPresetValues(category)}
         />
 
-        {/* How to Use Section */}
+        {/* Slik bruker du den */}
         <section className="mt-12">
           <h2 className="text-xl font-semibold mb-4">
-            How to Convert {from.name} to {to.name}
+            Slik regner du om fra {fromName} til {toName}
           </h2>
           <div className="bg-muted/50 rounded-xl p-6">
             <ol className="space-y-3">
               {[
-                `Enter the value in ${from.name.toLowerCase()} (${from.symbol}) in the input field`,
-                `The converter automatically calculates the equivalent in ${to.name.toLowerCase()} (${to.symbol})`,
-                'Use the swap button (↔) to reverse the conversion direction',
-                'Click "Copy" to copy the result to your clipboard',
+                `Skriv inn verdien i ${fromName} (${from.symbol}) i feltet til venstre`,
+                `Omregneren viser svaret i ${toName} (${to.symbol}) med en gang`,
+                'Bruk bytteknappen (↔) for å snu retningen',
+                'Trykk på «Kopier» for å kopiere resultatet',
               ].map((step, index) => (
                 <li key={index} className="flex gap-3">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm flex items-center justify-center font-medium">
@@ -235,23 +284,23 @@ export default async function ConversionPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* FAQ Section */}
+        {/* Vanlige spørsmål */}
         <section className="mt-10">
           <h2 className="text-xl font-semibold mb-4">
-            Frequently Asked Questions
+            Vanlige spørsmål
           </h2>
           <div className="space-y-3">
             <FAQItem
-              question={`How do I convert ${from.name.toLowerCase()} to ${to.name.toLowerCase()}?`}
-              answer={`To convert ${from.name.toLowerCase()} to ${to.name.toLowerCase()}, use the formula: ${formula}. Simply enter your value in the converter above for instant results.`}
+              question={`Hvordan regner jeg om fra ${fromName} til ${toName}?`}
+              answer={`Bruk formelen ${formula}. Eller skriv inn verdien i omregneren over, så får du svaret med en gang.`}
             />
             <FAQItem
-              question={`What is the relationship between ${from.symbol} and ${to.symbol}?`}
-              answer={`${from.name} (${from.symbol}) and ${to.name} (${to.symbol}) are both units of ${category}. The conversion formula is: ${formula}.`}
+              question={`Hva er sammenhengen mellom ${from.symbol} og ${to.symbol}?`}
+              answer={`${from.name} (${from.symbol}) og ${toName} (${to.symbol}) er begge enheter for ${CATEGORY_LABELS[category].toLowerCase()}. Sammenhengen er: ${formula}.`}
             />
             <FAQItem
-              question={`Is this ${category} converter accurate?`}
-              answer={`Yes, our converter uses precise conversion factors to ensure accurate results. The conversion is calculated using the standard formula: ${formula}.`}
+              question={`Er omregneren nøyaktig?`}
+              answer={`Ja. Omregneren bruker presise omregningsfaktorer, og svaret vises med opptil seks desimaler eller i vitenskapelig notasjon for svært store og små tall.`}
             />
           </div>
         </section>
@@ -278,11 +327,21 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 function getPresetValues(category: string): number[] {
   switch (category) {
     case 'temperature':
-      return [0, 32, 100, 212];
+      return [0, 20, 37, 100];
     case 'data':
       return [1, 100, 1024, 10240];
     case 'time':
       return [1, 60, 3600, 86400];
+    case 'angle':
+      return [1, 45, 90, 180];
+    case 'fuelEconomy':
+      return [5, 6, 8, 10];
+    case 'speed':
+      return [1, 10, 50, 100];
+    case 'power':
+      return [1, 10, 100, 1000];
+    case 'illuminance':
+      return [1, 100, 500, 1000];
     default:
       return [1, 10, 100, 1000];
   }
