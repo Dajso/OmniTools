@@ -104,34 +104,34 @@ export function convertMarkdown(inputs: MarkdownInputs): MarkdownResults {
 /**
  * Example markdown for demonstration
  */
-export const MARKDOWN_EXAMPLE = `# Heading 1
-## Heading 2
-### Heading 3
+export const MARKDOWN_EXAMPLE = `# Overskrift 1
+## Overskrift 2
+### Overskrift 3
 
-This is a paragraph with **bold text** and *italic text*.
+Dette er et avsnitt med **fet tekst** og *kursiv tekst*.
 
-Here is a [link](https://example.com) and an image:
+Her er en [lenke](https://example.com) og et bilde:
 
-![Alt text](https://via.placeholder.com/150)
+![Alternativ tekst](https://via.placeholder.com/150)
 
-> This is a blockquote
+> Dette er et sitat
 
 \`\`\`javascript
-const greeting = "Hello, World!";
-console.log(greeting);
+const hilsen = "Hei, verden!";
+console.log(hilsen);
 \`\`\`
 
-Inline \`code\` example.
+Eksempel på \`kode\` i teksten.
 
-- Unordered list item 1
-- Unordered list item 2
-- Unordered list item 3
+- Punkt 1 i punktliste
+- Punkt 2 i punktliste
+- Punkt 3 i punktliste
 
-1. Ordered list item 1
-2. Ordered list item 2
-3. Ordered list item 3
+1. Punkt 1 i nummerert liste
+2. Punkt 2 i nummerert liste
+3. Punkt 3 i nummerert liste
 
 ---
 
-~~Strikethrough text~~
+~~Gjennomstreket tekst~~
 `;

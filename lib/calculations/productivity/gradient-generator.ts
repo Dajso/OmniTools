@@ -99,26 +99,26 @@ export function generateGradient(inputs: GradientInputs): GradientResults {
  * Preset gradients for quick selection
  */
 export const GRADIENT_PRESETS = [
-    { name: 'Sunset', angle: 135, colors: ['#f093fb', '#f5576c'] },
-    { name: 'Ocean', angle: 90, colors: ['#667eea', '#764ba2'] },
-    { name: 'Forest', angle: 180, colors: ['#11998e', '#38ef7d'] },
-    { name: 'Fire', angle: 45, colors: ['#f12711', '#f5af19'] },
-    { name: 'Sky', angle: 180, colors: ['#a1c4fd', '#c2e9fb'] },
-    { name: 'Night', angle: 135, colors: ['#0f0c29', '#302b63', '#24243e'] },
-    { name: 'Aurora', angle: 90, colors: ['#00c6ff', '#0072ff'] },
-    { name: 'Peach', angle: 135, colors: ['#ffecd2', '#fcb69f'] },
+    { name: 'Solnedgang', angle: 135, colors: ['#f093fb', '#f5576c'] },
+    { name: 'Hav', angle: 90, colors: ['#667eea', '#764ba2'] },
+    { name: 'Skog', angle: 180, colors: ['#11998e', '#38ef7d'] },
+    { name: 'Ild', angle: 45, colors: ['#f12711', '#f5af19'] },
+    { name: 'Himmel', angle: 180, colors: ['#a1c4fd', '#c2e9fb'] },
+    { name: 'Natt', angle: 135, colors: ['#0f0c29', '#302b63', '#24243e'] },
+    { name: 'Nordlys', angle: 90, colors: ['#00c6ff', '#0072ff'] },
+    { name: 'Fersken', angle: 135, colors: ['#ffecd2', '#fcb69f'] },
 ] as const;
 
 /**
  * Direction presets for linear gradients
  */
 export const DIRECTION_PRESETS = [
-    { name: 'To Right', angle: 90, icon: '→' },
-    { name: 'To Left', angle: 270, icon: '←' },
-    { name: 'To Bottom', angle: 180, icon: '↓' },
-    { name: 'To Top', angle: 0, icon: '↑' },
-    { name: 'To Bottom Right', angle: 135, icon: '↘' },
-    { name: 'To Bottom Left', angle: 225, icon: '↙' },
-    { name: 'To Top Right', angle: 45, icon: '↗' },
-    { name: 'To Top Left', angle: 315, icon: '↖' },
+    { name: 'Mot høyre', angle: 90, icon: '→' },
+    { name: 'Mot venstre', angle: 270, icon: '←' },
+    { name: 'Nedover', angle: 180, icon: '↓' },
+    { name: 'Oppover', angle: 0, icon: '↑' },
+    { name: 'Mot nedre høyre', angle: 135, icon: '↘' },
+    { name: 'Mot nedre venstre', angle: 225, icon: '↙' },
+    { name: 'Mot øvre høyre', angle: 45, icon: '↗' },
+    { name: 'Mot øvre venstre', angle: 315, icon: '↖' },
 ] as const;

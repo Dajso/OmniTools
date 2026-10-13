@@ -28,7 +28,7 @@ const ResultDisplay = React.forwardRef<HTMLDivElement, ResultDisplayProps>(
     const [copied, setCopied] = React.useState(false);
 
     const displayValue = typeof value === 'number' 
-      ? value.toLocaleString('en-US', { maximumFractionDigits: 2 })
+      ? value.toLocaleString('nb-NO', { maximumFractionDigits: 2 })
       : value;
 
     const copyValue = unit ? `${displayValue} ${unit}` : displayValue;

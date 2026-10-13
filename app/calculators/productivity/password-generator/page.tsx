@@ -1,41 +1,50 @@
 import { Metadata } from 'next';
 import { PasswordGenerator } from '@/components/calculators/productivity';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Password Generator - Free Secure Password Generator',
-  description: 'Generate strong, secure passwords with customizable options. Free online password generator with strength indicator.',
-  keywords: ['password generator', 'secure password', 'random password', 'strong password generator'],
+  title: 'Passordgenerator – gratis kalkulator på nett',
+  description: 'Lag sterke passord med styrkeindikator. Gratis og uten registrering.',
+  keywords: ['passordgenerator', 'sikkert passord', 'tilfeldig passord', 'sterkt passord'],
   alternates: { canonical: '/calculators/productivity/password-generator' },
+  openGraph: {
+    title: 'Passordgenerator',
+    description: 'Lag sterke passord med styrkeindikator',
+    url: '/calculators/productivity/password-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Password Generator',
-  description: 'Generate strong, secure passwords with customizable options',
+  name: 'Passordgenerator',
+  description: 'Lag sterke passord med styrkeindikator',
   applicationCategory: 'SecurityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set password length', text: 'Choose 12-16+ characters for best security.' },
-  { name: 'Select character types', text: 'Include uppercase, lowercase, numbers, and symbols.' },
-  { name: 'Generate password', text: 'Click "Generate" to create a secure random password.' },
-  { name: 'Copy password', text: 'Click "Copy" to save it to your clipboard.' },
+  { name: 'Velg lengde', text: 'Lengre er sterkere. Bruk minst 16 tegn.' },
+  { name: 'Velg tegntyper', text: 'Store og små bokstaver, tall og symboler.' },
+  { name: 'Lag passordet', text: 'Trykk på knappen for å lage nytt passord, og kopier det.' },
+  { name: 'Lagre det trygt', text: 'Bruk en passordbehandler, og ikke gjenbruk passord.' },
 ];
 
 const faqs = [
-  { question: 'How long should my password be?', answer: 'At least 12-16 characters. Longer passwords are exponentially harder to crack.' },
-  { question: 'Are these passwords truly random?', answer: 'Yes, we use cryptographically secure random generation (crypto.getRandomValues) for maximum security.' },
-  { question: 'What makes a password strong?', answer: 'Length, mix of character types, and uniqueness for each account. Avoid dictionary words and personal info.' },
-  { question: 'Is it safe to generate passwords online?', answer: 'Yes, passwords are generated entirely in your browser. Nothing is sent to any server.' },
+  { question: 'Hvor langt bør et passord være?', answer: 'Minst 12 tegn, og helst 16 eller mer. Lengde betyr mer enn spesialtegn.' },
+  { question: 'Er passordet trygt?', answer: 'Passordet lages i nettleseren din med tilfeldige tall fra nettleserens sikre generator. Det sendes aldri til noen server.' },
+  { question: 'Hva er entropi?', answer: 'Et mål på hvor uforutsigbart passordet er, i bit. Jo høyere tall, jo sterkere passord.' },
+  { question: 'Hva er «tid for å knekke»?', answer: 'Et grovt anslag på hvor lang tid det tar å gjette passordet ved et raskt angrep. Det er et grovt estimat.' },
+  { question: 'Bør jeg bruke passordfrase?', answer: 'Flere tilfeldige ord etter hverandre kan være både sterke og lettere å huske. Bruk likevel en passordbehandler.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/uuid-generator', title: 'UUID Generator', description: 'Generate unique identifiers.' },
-  { href: '/calculators/productivity/base64-converter', title: 'Base64 Converter', description: 'Encode and decode Base64.' },
+  { href: '/calculators/productivity/uuid-generator', title: 'UUID-generator', description: 'Lag unike UUID-er (v4)' },
 ];
 
 export default function PasswordGeneratorPage() {
@@ -45,12 +54,11 @@ export default function PasswordGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="password-generator"
-          title="Password Generator"
-          description="Generate strong, secure passwords instantly. Customize length and character types to meet any password requirements."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Passordgenerator"
+          description="Lag sterke, tilfeldige passord med valgfri lengde og tegn, og se hvor sterkt passordet er. Gratis og uten registrering."
         />
 
-        <section aria-label="Password Generator Tool">
+        <section aria-label="Passordgenerator">
           <PasswordGenerator />
         </section>
 

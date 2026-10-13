@@ -118,7 +118,7 @@ export function BitrateCalculator() {
             />
             <ResultDisplay
               label="Pixels/Frame"
-              value={result.pixelsPerFrame.toLocaleString()}
+              value={result.pixelsPerFrame.toLocaleString('nb-NO')}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">

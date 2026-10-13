@@ -54,9 +54,9 @@ export function FaviconGenerator() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Favicon Generator</CardTitle>
+                <CardTitle>Favicon-generator</CardTitle>
                 <CardDescription>
-                    Create favicons from text or emoji with custom styles
+                    Lag favicon fra tekst eller emoji med egen stil
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -66,19 +66,19 @@ export function FaviconGenerator() {
                     {preview && (
                         <>
                             <div className="text-center">
-                                <img src={preview} alt="Favicon preview" width={128} height={128} className="rounded-lg shadow" />
+                                <img src={preview} alt="Forhåndsvisning av favicon" width={128} height={128} className="rounded-lg shadow" />
                                 <p className="text-sm text-muted-foreground mt-2">128x128</p>
                             </div>
                             <div className="text-center">
-                                <img src={preview} alt="Favicon preview" width={64} height={64} className="rounded shadow" />
+                                <img src={preview} alt="Forhåndsvisning av favicon" width={64} height={64} className="rounded shadow" />
                                 <p className="text-sm text-muted-foreground mt-2">64x64</p>
                             </div>
                             <div className="text-center">
-                                <img src={preview} alt="Favicon preview" width={32} height={32} className="rounded shadow" />
+                                <img src={preview} alt="Forhåndsvisning av favicon" width={32} height={32} className="rounded shadow" />
                                 <p className="text-sm text-muted-foreground mt-2">32x32</p>
                             </div>
                             <div className="text-center">
-                                <img src={preview} alt="Favicon preview" width={16} height={16} className="shadow" />
+                                <img src={preview} alt="Forhåndsvisning av favicon" width={16} height={16} className="shadow" />
                                 <p className="text-sm text-muted-foreground mt-2">16x16</p>
                             </div>
                         </>
@@ -87,12 +87,12 @@ export function FaviconGenerator() {
 
                 {/* Text Input */}
                 <div className="space-y-2">
-                    <Label>Text or Emoji</Label>
+                    <Label>Tekst eller emoji</Label>
                     <input
                         type="text"
                         value={inputs.text}
                         onChange={(e) => updateInput('text', e.target.value)}
-                        placeholder="🚀 or A"
+                        placeholder="🚀 eller A"
                         maxLength={3}
                         className="w-full px-3 py-2 border rounded-md text-2xl text-center focus:outline-none focus:ring-2 focus:ring-primary"
                     />
@@ -112,7 +112,7 @@ export function FaviconGenerator() {
                 {/* Colors */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Background Color</Label>
+                        <Label>Bakgrunnsfarge</Label>
                         <div className="flex gap-2">
                             <input
                                 type="color"
@@ -129,7 +129,7 @@ export function FaviconGenerator() {
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label>Text Color</Label>
+                        <Label>Tekstfarge</Label>
                         <div className="flex gap-2">
                             <input
                                 type="color"
@@ -149,7 +149,7 @@ export function FaviconGenerator() {
 
                 {/* Color Presets */}
                 <div className="space-y-2">
-                    <Label>Color Presets</Label>
+                    <Label>Fargeforslag</Label>
                     <div className="flex flex-wrap gap-2">
                         {FAVICON_COLOR_PRESETS.map((preset) => (
                             <button
@@ -166,7 +166,7 @@ export function FaviconGenerator() {
                 {/* Font Size & Border Radius */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Font Size: {inputs.fontSize}%</Label>
+                        <Label>Skriftstørrelse: {inputs.fontSize}%</Label>
                         <input
                             type="range"
                             min="30"
@@ -177,7 +177,7 @@ export function FaviconGenerator() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label>Border Radius: {inputs.borderRadius}%</Label>
+                        <Label>Hjørneradius: {inputs.borderRadius}%</Label>
                         <input
                             type="range"
                             min="0"
@@ -191,7 +191,7 @@ export function FaviconGenerator() {
 
                 {/* Font Family */}
                 <div className="space-y-2">
-                    <Label>Font Family</Label>
+                    <Label>Skrifttype</Label>
                     <select
                         value={inputs.fontFamily}
                         onChange={(e) => updateInput('fontFamily', e.target.value)}
@@ -205,7 +205,7 @@ export function FaviconGenerator() {
 
                 {/* Download Buttons */}
                 <div className="space-y-2">
-                    <Label>Download</Label>
+                    <Label>Last ned</Label>
                     <div className="flex flex-wrap gap-2">
                         {[16, 32, 64, 128, 180, 512].map((size) => (
                             <Button
@@ -218,7 +218,7 @@ export function FaviconGenerator() {
                             </Button>
                         ))}
                         <Button onClick={downloadAll}>
-                            <Download className="w-4 h-4 mr-1" /> Download All
+                            <Download className="w-4 h-4 mr-1" /> Last ned alle
                         </Button>
                     </div>
                 </div>

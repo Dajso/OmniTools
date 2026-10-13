@@ -22,7 +22,7 @@ export function URLEncoder() {
             setError(null);
             return convertUrl({ text, mode, encodeType });
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Conversion failed');
+            setError(e instanceof Error ? e.message : 'Omregningen mislyktes');
             return { output: '', inputLength: 0, outputLength: 0 };
         }
     }, [text, mode, encodeType]);
@@ -43,9 +43,9 @@ export function URLEncoder() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>URL Encoder/Decoder</CardTitle>
+                <CardTitle>URL-koding</CardTitle>
                 <CardDescription>
-                    Encode and decode URL strings for web use
+                    Kod og dekod URL-er for bruk på nett
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -55,7 +55,7 @@ export function URLEncoder() {
                         variant={mode === 'encode' ? 'default' : 'outline'}
                         onClick={() => setMode('encode')}
                     >
-                        Encode
+                        Kod
                     </Button>
                     <Button variant="outline" size="icon" onClick={swapMode}>
                         <ArrowLeftRight className="w-4 h-4" />
@@ -64,7 +64,7 @@ export function URLEncoder() {
                         variant={mode === 'decode' ? 'default' : 'outline'}
                         onClick={() => setMode('decode')}
                     >
-                        Decode
+                        Dekod
                     </Button>
                 </div>
 
@@ -88,18 +88,18 @@ export function URLEncoder() {
 
                 {/* Input */}
                 <div className="space-y-2">
-                    <Label>{mode === 'encode' ? 'Text to Encode' : 'URL to Decode'}</Label>
+                    <Label>{mode === 'encode' ? 'Tekst som skal kodes' : 'URL som skal dekodes'}</Label>
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder={mode === 'encode'
-                            ? 'Enter text to encode...'
-                            : 'Enter encoded URL to decode...'}
+                            ? 'Skriv inn tekst som skal kodes ...'
+                            : 'Skriv inn kodet URL som skal dekodes ...'}
                         rows={4}
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-y font-mono text-sm"
                     />
                     <div className="text-xs text-muted-foreground">
-                        Characters: {result.inputLength}
+                        Tegn: {result.inputLength}
                     </div>
                 </div>
 
@@ -108,23 +108,23 @@ export function URLEncoder() {
                 {/* Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>{mode === 'encode' ? 'Encoded URL' : 'Decoded Text'}</Label>
+                        <Label>{mode === 'encode' ? 'Kodet URL' : 'Dekodet tekst'}</Label>
                         <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!result.output}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all min-h-[80px]">
-                        {result.output || <span className="text-muted-foreground">Output will appear here...</span>}
+                        {result.output || <span className="text-muted-foreground">Resultatet vises her ...</span>}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                        Characters: {result.outputLength}
+                        Tegn: {result.outputLength}
                     </div>
                 </div>
 
                 {/* Reference Table */}
                 <div className="border-t pt-4">
-                    <Label className="mb-2 block">Common Encodings</Label>
+                    <Label className="mb-2 block">Vanlige tegnkoder</Label>
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-xs">
                         {ENCODING_REFERENCE.slice(0, 10).map((item) => (
                             <div key={item.char} className="p-2 bg-muted/50 rounded text-center">

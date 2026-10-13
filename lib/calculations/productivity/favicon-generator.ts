@@ -120,12 +120,12 @@ export const FONT_FAMILIES = [
  * Preset color schemes
  */
 export const FAVICON_COLOR_PRESETS = [
-    { name: 'Blue', bg: '#3b82f6', text: '#ffffff' },
-    { name: 'Green', bg: '#22c55e', text: '#ffffff' },
-    { name: 'Red', bg: '#ef4444', text: '#ffffff' },
-    { name: 'Purple', bg: '#a855f7', text: '#ffffff' },
-    { name: 'Orange', bg: '#f97316', text: '#ffffff' },
-    { name: 'Pink', bg: '#ec4899', text: '#ffffff' },
-    { name: 'Dark', bg: '#1f2937', text: '#ffffff' },
-    { name: 'Light', bg: '#f3f4f6', text: '#1f2937' },
+    { name: 'Blå', bg: '#3b82f6', text: '#ffffff' },
+    { name: 'Grønn', bg: '#22c55e', text: '#ffffff' },
+    { name: 'Rød', bg: '#ef4444', text: '#ffffff' },
+    { name: 'Lilla', bg: '#a855f7', text: '#ffffff' },
+    { name: 'Oransje', bg: '#f97316', text: '#ffffff' },
+    { name: 'Rosa', bg: '#ec4899', text: '#ffffff' },
+    { name: 'Mørk', bg: '#1f2937', text: '#ffffff' },
+    { name: 'Lys', bg: '#f3f4f6', text: '#1f2937' },
 ] as const;

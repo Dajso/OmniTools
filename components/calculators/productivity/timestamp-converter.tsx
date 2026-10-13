@@ -19,7 +19,7 @@ export function TimestampConverter() {
       const result = convertTimestamp({ value: input, mode, timezone: 'local' });
       setResults(result);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Conversion failed');
+      setError(e instanceof Error ? e.message : 'Omregningen mislyktes');
       setResults(null);
     }
   };
@@ -36,17 +36,17 @@ export function TimestampConverter() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Timestamp Converter</CardTitle>
-        <CardDescription>Convert Unix timestamps to human-readable dates</CardDescription>
+        <CardTitle>Tidsstempel-omregner</CardTitle>
+        <CardDescription>Gjør om Unix-tidsstempler til lesbare datoer</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
-          <Button variant={mode === 'unix-to-date' ? 'default' : 'outline'} onClick={() => setMode('unix-to-date')}>Unix → Date</Button>
-          <Button variant={mode === 'date-to-unix' ? 'default' : 'outline'} onClick={() => setMode('date-to-unix')}>Date → Unix</Button>
-          <Button variant="outline" onClick={handleNow}>Now</Button>
+          <Button variant={mode === 'unix-to-date' ? 'default' : 'outline'} onClick={() => setMode('unix-to-date')}>Unix → dato</Button>
+          <Button variant={mode === 'date-to-unix' ? 'default' : 'outline'} onClick={() => setMode('date-to-unix')}>Dato → Unix</Button>
+          <Button variant="outline" onClick={handleNow}>Nå</Button>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="timestamp-input">{mode === 'unix-to-date' ? 'Unix Timestamp' : 'Date/Time'}</Label>
+          <Label htmlFor="timestamp-input">{mode === 'unix-to-date' ? 'Unix-tidsstempel' : 'Dato og klokkeslett'}</Label>
           <input
             id="timestamp-input"
             type="text"
@@ -56,16 +56,16 @@ export function TimestampConverter() {
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
-        <Button onClick={handleConvert} className="w-full">Convert</Button>
+        <Button onClick={handleConvert} className="w-full">Regn om</Button>
         {error && <p className="text-sm text-destructive">{error}</p>}
         {results && (
           <div className="border-t pt-4 grid grid-cols-2 gap-3">
-            <ResultDisplay label="Unix (seconds)" value={results.unix.toLocaleString()} copyable />
-            <ResultDisplay label="Unix (ms)" value={results.unixMs.toLocaleString()} copyable />
+            <ResultDisplay label="Unix (sekunder)" value={results.unix.toLocaleString('nb-NO')} copyable />
+            <ResultDisplay label="Unix (ms)" value={results.unixMs.toLocaleString('nb-NO')} copyable />
             <ResultDisplay label="ISO 8601" value={results.iso8601} copyable />
             <ResultDisplay label="UTC" value={results.utc} copyable />
-            <ResultDisplay label="Local" value={results.local} copyable />
-            <ResultDisplay label="Relative" value={results.relative} />
+            <ResultDisplay label="Lokal tid" value={results.local} copyable />
+            <ResultDisplay label="Relativt" value={results.relative} />
           </div>
         )}
       </CardContent>

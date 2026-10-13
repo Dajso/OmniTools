@@ -18,7 +18,7 @@ import {
 
 const CR_OPTIONS = Object.keys(CR_XP_VALUES).map(cr => ({
   value: cr,
-  label: `CR ${cr} (${CR_XP_VALUES[cr].toLocaleString()} XP)`,
+  label: `CR ${cr} (${CR_XP_VALUES[cr].toLocaleString('nb-NO')} XP)`,
 }));
 
 const LEVEL_OPTIONS = Array.from({ length: 20 }, (_, i) => ({
@@ -241,7 +241,7 @@ export function EncounterDifficultyCalculator() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="bg-muted/50 rounded-lg p-3 text-center">
                 <p className="text-xs text-muted-foreground">Base XP</p>
-                <p className="text-lg font-bold">{result.totalXP.toLocaleString()}</p>
+                <p className="text-lg font-bold">{result.totalXP.toLocaleString('nb-NO')}</p>
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
                 <p className="text-xs text-muted-foreground">Multiplier</p>
@@ -249,11 +249,11 @@ export function EncounterDifficultyCalculator() {
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
                 <p className="text-xs text-muted-foreground">Adjusted XP</p>
-                <p className="text-lg font-bold">{result.adjustedXP.toLocaleString()}</p>
+                <p className="text-lg font-bold">{result.adjustedXP.toLocaleString('nb-NO')}</p>
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
                 <p className="text-xs text-muted-foreground">XP per Player</p>
-                <p className="text-lg font-bold">{result.xpPerPlayer.toLocaleString()}</p>
+                <p className="text-lg font-bold">{result.xpPerPlayer.toLocaleString('nb-NO')}</p>
               </div>
             </div>
 
@@ -263,19 +263,19 @@ export function EncounterDifficultyCalculator() {
               <div className="grid grid-cols-4 gap-2 text-center text-sm">
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.easy ? 'bg-green-100' : 'bg-muted/30'}`}>
                   <p className="text-xs text-muted-foreground">Easy</p>
-                  <p className="font-medium">{result.partyThresholds.easy.toLocaleString()}</p>
+                  <p className="font-medium">{result.partyThresholds.easy.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.medium ? 'bg-yellow-100' : 'bg-muted/30'}`}>
                   <p className="text-xs text-muted-foreground">Medium</p>
-                  <p className="font-medium">{result.partyThresholds.medium.toLocaleString()}</p>
+                  <p className="font-medium">{result.partyThresholds.medium.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.hard ? 'bg-orange-100' : 'bg-muted/30'}`}>
                   <p className="text-xs text-muted-foreground">Hard</p>
-                  <p className="font-medium">{result.partyThresholds.hard.toLocaleString()}</p>
+                  <p className="font-medium">{result.partyThresholds.hard.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.deadly ? 'bg-red-100' : 'bg-muted/30'}`}>
                   <p className="text-xs text-muted-foreground">Deadly</p>
-                  <p className="font-medium">{result.partyThresholds.deadly.toLocaleString()}</p>
+                  <p className="font-medium">{result.partyThresholds.deadly.toLocaleString('nb-NO')}</p>
                 </div>
               </div>
             </div>
@@ -288,7 +288,7 @@ export function EncounterDifficultyCalculator() {
                   {result.monsters.map((m, i) => (
                     <div key={i} className="flex justify-between text-sm bg-muted/30 rounded px-3 py-1">
                       <span>CR {m.cr} × {m.count}</span>
-                      <span>{m.xp.toLocaleString()} × {m.count} = {m.totalXP.toLocaleString()} XP</span>
+                      <span>{m.xp.toLocaleString('nb-NO')} × {m.count} = {m.totalXP.toLocaleString('nb-NO')} XP</span>
                     </div>
                   ))}
                 </div>

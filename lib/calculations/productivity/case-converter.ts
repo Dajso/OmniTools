@@ -22,13 +22,13 @@ function toTitleCase(text: string): string {
 }
 
 function toSentenceCase(text: string): string {
-  return text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase());
+  return text.toLowerCase().replace(/(^\s*\p{L}|[.!?]\s*\p{L})/gu, (char) => char.toUpperCase());
 }
 
 function toCamelCase(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
+    .replace(/[^\p{L}\p{N}]+(.)/gu, (_, char) => char.toUpperCase())
     .replace(/^[A-Z]/, (char) => char.toLowerCase());
 }
 
@@ -39,14 +39,14 @@ function toPascalCase(text: string): string {
 
 function toSnakeCase(text: string): string {
   return text
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .replace(/(\p{Ll})(\p{Lu})/gu, '$1_$2')
     .replace(/[\s-]+/g, '_')
     .toLowerCase();
 }
 
 function toKebabCase(text: string): string {
   return text
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/(\p{Ll})(\p{Lu})/gu, '$1-$2')
     .replace(/[\s_]+/g, '-')
     .toLowerCase();
 }

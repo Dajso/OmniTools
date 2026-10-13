@@ -1,40 +1,48 @@
 import { Metadata } from 'next';
 import { WordCounter } from '@/components/calculators/productivity';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Word Counter - Free Online Word & Character Counter',
-  description: 'Count words, characters, sentences, and paragraphs instantly. Free online word counter with reading time estimation.',
-  keywords: ['word counter', 'character counter', 'sentence counter', 'word count tool', 'text analyzer'],
+  title: 'Ordteller – gratis kalkulator på nett',
+  description: 'Tell ord, tegn og setninger i en tekst. Gratis og uten registrering.',
+  keywords: ['ordteller', 'tegnteller', 'tekstlengde', 'antall ord'],
   alternates: { canonical: '/calculators/productivity/word-counter' },
+  openGraph: {
+    title: 'Ordteller',
+    description: 'Tell ord, tegn og setninger i en tekst',
+    url: '/calculators/productivity/word-counter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Word Counter',
-  description: 'Count words, characters, sentences, and paragraphs in your text',
+  name: 'Ordteller',
+  description: 'Tell ord, tegn og setninger i en tekst',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your text', text: 'Type or paste your text into the text area.' },
-  { name: 'View statistics', text: 'Word count, character count, and other stats update automatically.' },
-  { name: 'Copy results', text: 'Click on any statistic to copy it to your clipboard.' },
+  { name: 'Skriv eller lim inn teksten', text: 'Tallene oppdateres mens du skriver.' },
+  { name: 'Les av statistikken', text: 'Du ser ord, tegn med og uten mellomrom, setninger og avsnitt.' },
+  { name: 'Sjekk lesetid og taletid', text: 'Lesetid er regnet ut fra 200 ord i minuttet og taletid fra 150 ord i minuttet.' },
 ];
 
 const faqs = [
-  { question: 'How are words counted?', answer: 'Words are counted by splitting text on whitespace. Hyphenated words count as one word.' },
-  { question: 'Does the character count include spaces?', answer: 'We show both: total characters (including spaces) and characters without spaces.' },
-  { question: 'How is reading time calculated?', answer: 'Reading time is based on an average reading speed of 200 words per minute.' },
-  { question: 'How is speaking time calculated?', answer: 'Speaking time is based on an average speaking speed of 150 words per minute.' },
+  { question: 'Hvordan telles ord?', answer: 'Alt som er skilt med mellomrom eller linjeskift telles som ett ord. Tall og tegnsetting som står alene teller også.' },
+  { question: 'Hvor lang er lesetiden?', answer: 'Lesetiden er regnet ut fra 200 ord i minuttet, som er vanlig for voksne ved normal lesing. Teknisk stoff tar ofte lenger tid.' },
+  { question: 'Telles ord med æ, ø og å riktig?', answer: 'Ja. Alle bokstaver i teksten din telles som en del av ordene.' },
+  { question: 'Lagres teksten min?', answer: 'Nei. Alt skjer i nettleseren din, og ingenting sendes til noen server.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/character-counter', title: 'Character Counter', description: 'Count characters with detailed breakdown.' },
-  { href: '/calculators/productivity/case-converter', title: 'Case Converter', description: 'Convert text between different cases.' },
+  { href: '/calculators/productivity/character-counter', title: 'Tegnteller', description: 'Tell tegn med eller uten mellomrom' },
 ];
 
 export default function WordCounterPage() {
@@ -44,12 +52,11 @@ export default function WordCounterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="word-counter"
-          title="Word Counter"
-          description="Count words, characters, sentences, and paragraphs instantly. Perfect for essays, articles, and social media posts."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Ordteller"
+          description="Tell ord, tegn, setninger og avsnitt i teksten din, og se lesetid og taletid. Gratis og uten registrering."
         />
 
-        <section aria-label="Word Counter Tool">
+        <section aria-label="Ordteller">
           <WordCounter />
         </section>
 

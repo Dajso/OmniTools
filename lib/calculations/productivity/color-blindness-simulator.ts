@@ -142,15 +142,15 @@ export function simulateColor(inputs: ColorBlindnessInputs): ColorBlindnessResul
     const simulatedHex = rgbToHex(simulatedRgb.r, simulatedRgb.g, simulatedRgb.b);
 
     const descriptions: Record<ColorBlindnessType, string> = {
-        normal: 'Normal color vision',
-        protanopia: 'Red-blind - Cannot see red light',
-        protanomaly: 'Red-weak - Reduced sensitivity to red',
-        deuteranopia: 'Green-blind - Cannot see green light',
-        deuteranomaly: 'Green-weak - Reduced sensitivity to green',
-        tritanopia: 'Blue-blind - Cannot see blue light',
-        tritanomaly: 'Blue-weak - Reduced sensitivity to blue',
-        achromatopsia: 'Complete color blindness - Only sees shades of gray',
-        achromatomaly: 'Partial color blindness - Reduced color intensity',
+        normal: 'Normalt fargesyn',
+        protanopia: 'Rødblind – ser ikke rødt lys',
+        protanomaly: 'Rødsvak – redusert følsomhet for rødt',
+        deuteranopia: 'Grønnblind – ser ikke grønt lys',
+        deuteranomaly: 'Grønnsvak – redusert følsomhet for grønt',
+        tritanopia: 'Blåblind – ser ikke blått lys',
+        tritanomaly: 'Blåsvak – redusert følsomhet for blått',
+        achromatopsia: 'Total fargeblindhet – ser bare gråtoner',
+        achromatomaly: 'Delvis fargeblindhet – redusert fargestyrke',
     };
 
     return {
@@ -171,13 +171,13 @@ export function simulateColor(inputs: ColorBlindnessInputs): ColorBlindnessResul
  * Color blindness types with metadata
  */
 export const COLOR_BLINDNESS_TYPES: { type: ColorBlindnessType; name: string; prevalence: string }[] = [
-    { type: 'normal', name: 'Normal Vision', prevalence: '92%' },
-    { type: 'deuteranomaly', name: 'Deuteranomaly (Green-weak)', prevalence: '5% of males' },
-    { type: 'protanomaly', name: 'Protanomaly (Red-weak)', prevalence: '1% of males' },
-    { type: 'deuteranopia', name: 'Deuteranopia (Green-blind)', prevalence: '1% of males' },
-    { type: 'protanopia', name: 'Protanopia (Red-blind)', prevalence: '1% of males' },
-    { type: 'tritanopia', name: 'Tritanopia (Blue-blind)', prevalence: '0.01%' },
-    { type: 'tritanomaly', name: 'Tritanomaly (Blue-weak)', prevalence: '0.01%' },
-    { type: 'achromatopsia', name: 'Achromatopsia (Monochrome)', prevalence: '0.003%' },
-    { type: 'achromatomaly', name: 'Achromatomaly (Partial)', prevalence: 'Rare' },
+    { type: 'normal', name: 'Normalt syn', prevalence: '92 %' },
+    { type: 'deuteranomaly', name: 'Deuteranomali (grønnsvak)', prevalence: '5 % av menn' },
+    { type: 'protanomaly', name: 'Protanomali (rødsvak)', prevalence: '1 % av menn' },
+    { type: 'deuteranopia', name: 'Deuteranopi (grønnblind)', prevalence: '1 % av menn' },
+    { type: 'protanopia', name: 'Protanopi (rødblind)', prevalence: '1 % av menn' },
+    { type: 'tritanopia', name: 'Tritanopi (blåblind)', prevalence: '0,01 %' },
+    { type: 'tritanomaly', name: 'Tritanomali (blåsvak)', prevalence: '0,01 %' },
+    { type: 'achromatopsia', name: 'Akromatopsi (svart-hvitt)', prevalence: '0,003 %' },
+    { type: 'achromatomaly', name: 'Akromatomali (delvis)', prevalence: 'Svært sjelden' },
 ];

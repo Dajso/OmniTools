@@ -68,7 +68,7 @@ function parseColor(color: string): { r: number; g: number; b: number } {
         return hexToRgb('#' + cleanColor);
     }
 
-    throw new Error(`Invalid color format: ${color}`);
+    throw new Error(`Ugyldig fargeformat: ${color}`);
 }
 
 /**
@@ -83,7 +83,7 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
     }
 
     if (!/^[0-9A-Fa-f]{6}$/.test(fullHex)) {
-        throw new Error('Invalid hex color');
+        throw new Error('Ugyldig HEX-farge');
     }
 
     return {
@@ -158,7 +158,7 @@ export function checkContrast(inputs: ContrastInputs): ContrastResults {
     const { foreground, background } = inputs;
 
     if (!foreground.trim() || !background.trim()) {
-        throw new Error('Please enter both foreground and background colors');
+        throw new Error('Fyll inn både forgrunns- og bakgrunnsfarge');
     }
 
     const fgRgb = parseColor(foreground);
@@ -191,21 +191,21 @@ export function checkContrast(inputs: ContrastInputs): ContrastResults {
  * Get a rating description based on contrast ratio
  */
 export function getContrastRating(ratio: number): string {
-    if (ratio >= 7) return 'Excellent';
-    if (ratio >= 4.5) return 'Good';
-    if (ratio >= 3) return 'Acceptable for large text';
-    return 'Poor';
+    if (ratio >= 7) return 'Utmerket';
+    if (ratio >= 4.5) return 'God';
+    if (ratio >= 3) return 'Godkjent for stor tekst';
+    return 'Dårlig';
 }
 
 /**
  * Common color presets for quick testing
  */
 export const COLOR_PRESETS = [
-    { name: 'Black on White', fg: '#000000', bg: '#FFFFFF' },
-    { name: 'White on Black', fg: '#FFFFFF', bg: '#000000' },
-    { name: 'Navy on White', fg: '#1e3a5f', bg: '#FFFFFF' },
-    { name: 'Dark Gray on Light', fg: '#333333', bg: '#F5F5F5' },
-    { name: 'Blue on White', fg: '#0066CC', bg: '#FFFFFF' },
-    { name: 'Red on White', fg: '#CC0000', bg: '#FFFFFF' },
-    { name: 'Green on White', fg: '#008800', bg: '#FFFFFF' },
+    { name: 'Svart på hvit', fg: '#000000', bg: '#FFFFFF' },
+    { name: 'Hvit på svart', fg: '#FFFFFF', bg: '#000000' },
+    { name: 'Marineblå på hvit', fg: '#1e3a5f', bg: '#FFFFFF' },
+    { name: 'Mørkegrå på lys', fg: '#333333', bg: '#F5F5F5' },
+    { name: 'Blå på hvit', fg: '#0066CC', bg: '#FFFFFF' },
+    { name: 'Rød på hvit', fg: '#CC0000', bg: '#FFFFFF' },
+    { name: 'Grønn på hvit', fg: '#008800', bg: '#FFFFFF' },
 ] as const;

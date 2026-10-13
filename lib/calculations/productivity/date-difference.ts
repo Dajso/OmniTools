@@ -51,7 +51,7 @@ export function calculateDateDifference(inputs: DateDifferenceInputs): DateDiffe
   let end = new Date(endDate);
   
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-    throw new Error('Invalid date format');
+    throw new Error('Ugyldig datoformat');
   }
   
   // Swap if start is after end

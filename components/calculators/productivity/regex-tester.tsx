@@ -53,16 +53,16 @@ export function RegexTester() {
     return (
         <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>Regex Tester</CardTitle>
+                <CardTitle>Regex-tester</CardTitle>
                 <CardDescription>
-                    Test regular expressions with live matching and group extraction
+                    Test regulære uttrykk med live treff og gruppeuttrekk
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Pattern Input */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label htmlFor="pattern">Regular Expression</Label>
+                        <Label htmlFor="pattern">Regulært uttrykk</Label>
                         <Button variant="ghost" size="sm" onClick={copyPattern}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                         </Button>
@@ -74,7 +74,7 @@ export function RegexTester() {
                             type="text"
                             value={pattern}
                             onChange={(e) => setPattern(e.target.value)}
-                            placeholder="Enter regex pattern..."
+                            placeholder="Skriv inn regex-mønster ..."
                             className="flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary font-mono"
                         />
                         <span className="text-muted-foreground">/{results?.flags || ''}</span>
@@ -86,14 +86,14 @@ export function RegexTester() {
 
                 {/* Flags */}
                 <div className="space-y-2">
-                    <Label>Flags</Label>
+                    <Label>Flagg</Label>
                     <div className="flex flex-wrap gap-2">
                         {[
-                            { key: 'global', label: 'g', title: 'Global - Find all matches' },
-                            { key: 'caseInsensitive', label: 'i', title: 'Case Insensitive' },
-                            { key: 'multiline', label: 'm', title: 'Multiline - ^ and $ match line boundaries' },
-                            { key: 'dotAll', label: 's', title: 'DotAll - . matches newlines' },
-                            { key: 'unicode', label: 'u', title: 'Unicode - Enable unicode features' },
+                            { key: 'global', label: 'g', title: 'Global – finn alle treff' },
+                            { key: 'caseInsensitive', label: 'i', title: 'Ikke skill mellom store og små bokstaver' },
+                            { key: 'multiline', label: 'm', title: 'Flere linjer – ^ og $ matcher linjegrenser' },
+                            { key: 'dotAll', label: 's', title: 'DotAll – . matcher linjeskift' },
+                            { key: 'unicode', label: 'u', title: 'Unicode – slå på unicode-funksjoner' },
                         ].map(({ key, label, title }) => (
                             <button
                                 key={key}
@@ -112,12 +112,12 @@ export function RegexTester() {
 
                 {/* Test String */}
                 <div className="space-y-2">
-                    <Label htmlFor="test-string">Test String</Label>
+                    <Label htmlFor="test-string">Tekst å teste</Label>
                     <textarea
                         id="test-string"
                         value={testString}
                         onChange={(e) => setTestString(e.target.value)}
-                        placeholder="Enter text to test against..."
+                        placeholder="Skriv inn tekst å teste mot ..."
                         rows={5}
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-y"
                     />
@@ -128,7 +128,7 @@ export function RegexTester() {
                     <div className="space-y-4">
                         {/* Match Count */}
                         <div className="flex items-center gap-2 text-sm">
-                            <span className="font-medium">Matches:</span>
+                            <span className="font-medium">Treff:</span>
                             <span className={`px-2 py-0.5 rounded ${results.matchCount > 0
                                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                                     : 'bg-muted text-muted-foreground'
@@ -139,7 +139,7 @@ export function RegexTester() {
 
                         {/* Highlighted Text */}
                         <div className="space-y-2">
-                            <Label>Highlighted Matches</Label>
+                            <Label>Uthevede treff</Label>
                             <div className="p-3 border rounded-md bg-muted/30 font-mono text-sm whitespace-pre-wrap break-all">
                                 {results.highlightedText.map((segment, i) => (
                                     <span
@@ -155,24 +155,24 @@ export function RegexTester() {
                         {/* Match Details */}
                         {results.matches.length > 0 && (
                             <div className="space-y-2">
-                                <Label>Match Details</Label>
+                                <Label>Detaljer om treff</Label>
                                 <div className="max-h-60 overflow-y-auto space-y-2">
                                     {results.matches.map((match, i) => (
                                         <div key={i} className="p-2 border rounded-md bg-background text-sm">
                                             <div className="flex justify-between items-center mb-1">
-                                                <span className="font-medium">Match {i + 1}</span>
-                                                <span className="text-muted-foreground text-xs">Index: {match.index}</span>
+                                                <span className="font-medium">Treff {i + 1}</span>
+                                                <span className="text-muted-foreground text-xs">Indeks: {match.index}</span>
                                             </div>
                                             <code className="block bg-muted px-2 py-1 rounded text-xs break-all">
                                                 {match.match}
                                             </code>
                                             {match.captureGroups.length > 0 && (
                                                 <div className="mt-2 text-xs">
-                                                    <span className="text-muted-foreground">Capture Groups:</span>
+                                                    <span className="text-muted-foreground">Fangstgrupper:</span>
                                                     <div className="flex flex-wrap gap-1 mt-1">
                                                         {match.captureGroups.map((group, j) => (
                                                             <span key={j} className="px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900 rounded">
-                                                                ${j + 1}: {group || '(empty)'}
+                                                                ${j + 1}: {group || '(tom)'}
                                                             </span>
                                                         ))}
                                                     </div>
@@ -180,11 +180,11 @@ export function RegexTester() {
                                             )}
                                             {match.groups && Object.keys(match.groups).length > 0 && (
                                                 <div className="mt-2 text-xs">
-                                                    <span className="text-muted-foreground">Named Groups:</span>
+                                                    <span className="text-muted-foreground">Navngitte grupper:</span>
                                                     <div className="flex flex-wrap gap-1 mt-1">
                                                         {Object.entries(match.groups).map(([name, value]) => (
                                                             <span key={name} className="px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900 rounded">
-                                                                {name}: {value || '(empty)'}
+                                                                {name}: {value || '(tom)'}
                                                             </span>
                                                         ))}
                                                     </div>
@@ -200,7 +200,7 @@ export function RegexTester() {
 
                 {/* Common Patterns */}
                 <div className="border-t pt-4">
-                    <Label className="mb-3 block">Common Patterns</Label>
+                    <Label className="mb-3 block">Vanlige mønstre</Label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
                         {COMMON_PATTERNS.map((p) => (
                             <button

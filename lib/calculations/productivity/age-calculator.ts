@@ -1,5 +1,5 @@
 /**
- * Age Calculator
+ * Alderskalkulator
  * 
  * @module lib/calculations/productivity/age-calculator
  * @see Requirements 9.12
@@ -24,24 +24,24 @@ export interface AgeResults {
   chineseZodiac: string;
 }
 
-const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAYS_OF_WEEK = ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
 
 const ZODIAC_SIGNS = [
-  { sign: 'Capricorn', start: [12, 22], end: [1, 19] },
-  { sign: 'Aquarius', start: [1, 20], end: [2, 18] },
-  { sign: 'Pisces', start: [2, 19], end: [3, 20] },
-  { sign: 'Aries', start: [3, 21], end: [4, 19] },
-  { sign: 'Taurus', start: [4, 20], end: [5, 20] },
-  { sign: 'Gemini', start: [5, 21], end: [6, 20] },
-  { sign: 'Cancer', start: [6, 21], end: [7, 22] },
-  { sign: 'Leo', start: [7, 23], end: [8, 22] },
-  { sign: 'Virgo', start: [8, 23], end: [9, 22] },
-  { sign: 'Libra', start: [9, 23], end: [10, 22] },
-  { sign: 'Scorpio', start: [10, 23], end: [11, 21] },
-  { sign: 'Sagittarius', start: [11, 22], end: [12, 21] },
+  { sign: 'Steinbukken', start: [12, 22], end: [1, 19] },
+  { sign: 'Vannmannen', start: [1, 20], end: [2, 18] },
+  { sign: 'Fiskene', start: [2, 19], end: [3, 20] },
+  { sign: 'Væren', start: [3, 21], end: [4, 19] },
+  { sign: 'Tyren', start: [4, 20], end: [5, 20] },
+  { sign: 'Tvillingene', start: [5, 21], end: [6, 20] },
+  { sign: 'Krepsen', start: [6, 21], end: [7, 22] },
+  { sign: 'Løven', start: [7, 23], end: [8, 22] },
+  { sign: 'Jomfruen', start: [8, 23], end: [9, 22] },
+  { sign: 'Vekten', start: [9, 23], end: [10, 22] },
+  { sign: 'Skorpionen', start: [10, 23], end: [11, 21] },
+  { sign: 'Skytten', start: [11, 22], end: [12, 21] },
 ];
 
-const CHINESE_ZODIAC = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'];
+const CHINESE_ZODIAC = ['Rotte', 'Okse', 'Tiger', 'Kanin', 'Drage', 'Slange', 'Hest', 'Geit', 'Ape', 'Hane', 'Hund', 'Gris'];
 
 function getZodiacSign(month: number, day: number): string {
   for (const zodiac of ZODIAC_SIGNS) {
@@ -56,7 +56,7 @@ function getZodiacSign(month: number, day: number): string {
       return zodiac.sign;
     }
   }
-  return 'Unknown';
+  return 'Ukjent';
 }
 
 function getChineseZodiac(year: number): string {
@@ -70,11 +70,11 @@ export function calculateAge(inputs: AgeInputs): AgeResults {
   const target = targetDate ? new Date(targetDate) : new Date();
   
   if (isNaN(birth.getTime())) {
-    throw new Error('Invalid birth date');
+    throw new Error('Ugyldig fødselsdato');
   }
   
   if (birth > target) {
-    throw new Error('Birth date cannot be in the future');
+    throw new Error('Fødselsdatoen kan ikke være i fremtiden');
   }
 
   // Calculate years, months, days
@@ -112,7 +112,7 @@ export function calculateAge(inputs: AgeInputs): AgeResults {
     totalDays,
     totalWeeks,
     totalMonths,
-    nextBirthday: nextBirthday.toLocaleDateString(),
+    nextBirthday: nextBirthday.toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' }),
     daysUntilBirthday,
     dayOfWeekBorn: DAYS_OF_WEEK[birth.getDay()],
     zodiacSign: getZodiacSign(birth.getMonth() + 1, birth.getDate()),

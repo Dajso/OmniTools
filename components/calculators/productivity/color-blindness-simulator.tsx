@@ -22,16 +22,16 @@ export function ColorBlindnessSimulator() {
     return (
         <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>Color Blindness Simulator</CardTitle>
+                <CardTitle>Fargeblindhet-simulator</CardTitle>
                 <CardDescription>
-                    See how colors appear to people with different types of color vision deficiency
+                    Se hvordan farger oppleves med ulike typer fargesynsavvik
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Color Input */}
                 <div className="flex items-center gap-4">
                     <div className="space-y-2 flex-1">
-                        <Label>Select a Color</Label>
+                        <Label>Velg en farge</Label>
                         <div className="flex gap-2">
                             <input
                                 type="color"
@@ -53,7 +53,7 @@ export function ColorBlindnessSimulator() {
                 {/* Original vs Selected Comparison */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Original Color</Label>
+                        <Label>Opprinnelig farge</Label>
                         <div
                             className="h-24 rounded-lg border shadow-inner flex items-center justify-center"
                             style={{ backgroundColor: hexColor }}
@@ -78,7 +78,7 @@ export function ColorBlindnessSimulator() {
 
                 {/* Type Selection */}
                 <div className="space-y-2">
-                    <Label>Color Vision Type</Label>
+                    <Label>Type fargesyn</Label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {COLOR_BLINDNESS_TYPES.map((t) => (
                             <button
@@ -98,7 +98,7 @@ export function ColorBlindnessSimulator() {
 
                 {/* All Types Preview */}
                 <div className="space-y-2">
-                    <Label>All Vision Types Preview</Label>
+                    <Label>Forhåndsvisning av alle typer</Label>
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                         {allResults.map((result) => (
                             <button
@@ -112,7 +112,7 @@ export function ColorBlindnessSimulator() {
                                     style={{ backgroundColor: result.simulated.hex }}
                                 />
                                 <div className="text-xs truncate">
-                                    {result.type === 'normal' ? 'Normal' : result.type.slice(0, 8)}
+                                    {result.type === 'normal' ? 'Normalt' : result.type.slice(0, 8)}
                                 </div>
                             </button>
                         ))}
@@ -121,8 +121,7 @@ export function ColorBlindnessSimulator() {
 
                 {/* Info */}
                 <div className="p-3 bg-muted/50 rounded-lg text-sm text-muted-foreground">
-                    <p><strong>Note:</strong> This simulation provides an approximation of how colors may appear to individuals with color vision deficiency.
-                        Actual perception varies by individual. Use tools like the <strong>Contrast Checker</strong> to ensure your designs are accessible.</p>
+                    <p><strong>Merk:</strong> Simuleringen er en tilnærming til hvordan farger kan oppleves ved fargesynsavvik. Hvordan det oppleves varierer fra person til person. Bruk for eksempel <strong>Kontrastsjekker</strong> for å sikre at designet ditt er universelt utformet.</p>
                 </div>
             </CardContent>
         </Card>

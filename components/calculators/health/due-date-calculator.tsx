@@ -55,7 +55,7 @@ export function DueDateCalculator() {
               {results.milestones.map((m, i) => (
                 <div key={i} className={`flex justify-between text-sm p-2 rounded ${results.currentWeek >= m.week ? 'bg-green-50' : 'bg-muted/50'}`}>
                   <span>Uke {m.week}: {m.description}</span>
-                  <span className="text-muted-foreground">{m.date.toLocaleDateString()}</span>
+                  <span className="text-muted-foreground">{m.date.toLocaleDateString('nb-NO')}</span>
                 </div>
               ))}
             </div>

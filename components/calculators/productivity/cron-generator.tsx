@@ -51,15 +51,15 @@ export function CronGenerator() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Cron Job Generator</CardTitle>
+                <CardTitle>Cron-generator</CardTitle>
                 <CardDescription>
-                    Build cron expressions with a visual scheduler
+                    Bygg cron-uttrykk med en visuell planlegger
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Presets */}
                 <div className="space-y-2">
-                    <Label>Quick Presets</Label>
+                    <Label>Hurtigvalg</Label>
                     <div className="flex flex-wrap gap-2">
                         {CRON_PRESETS.slice(0, 6).map((preset) => (
                             <button
@@ -78,8 +78,8 @@ export function CronGenerator() {
                     {(['minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'] as const).map((field) => (
                         <div key={field} className="space-y-1.5">
                             <Label className="text-xs text-center block">
-                                {field === 'dayOfMonth' ? 'Day (Month)' :
-                                    field === 'dayOfWeek' ? 'Day (Week)' :
+                                {field === 'dayOfMonth' ? 'Dag (måned)' :
+                                    field === 'dayOfWeek' ? 'Dag (uke)' :
                                         field.charAt(0).toUpperCase() + field.slice(1)}
                             </Label>
                             <input
@@ -103,7 +103,7 @@ export function CronGenerator() {
 
                 {/* Day of Week Quick Select */}
                 <div className="space-y-2">
-                    <Label>Quick Day Selection</Label>
+                    <Label>Hurtigvalg for dager</Label>
                     <div className="flex gap-1">
                         {WEEKDAYS.map((day, index) => (
                             <button
@@ -134,7 +134,7 @@ export function CronGenerator() {
                 <div className="p-4 bg-muted/50 rounded-lg space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <Label className="text-sm text-muted-foreground">Cron Expression</Label>
+                            <Label className="text-sm text-muted-foreground">Cron-uttrykk</Label>
                             <p className="text-xl font-mono font-bold">{result.expression}</p>
                         </div>
                         <Button variant="outline" size="sm" onClick={copyExpression}>
@@ -142,27 +142,27 @@ export function CronGenerator() {
                         </Button>
                     </div>
                     <div>
-                        <Label className="text-sm text-muted-foreground">Description</Label>
+                        <Label className="text-sm text-muted-foreground">Beskrivelse</Label>
                         <p className="text-sm font-medium">{result.description}</p>
                     </div>
                 </div>
 
                 {/* Expression Format Guide */}
                 <div className="text-xs text-muted-foreground p-3 bg-muted/30 rounded-lg">
-                    <div className="font-mono mb-2">┌───────── minute (0-59)</div>
-                    <div className="font-mono mb-2">│ ┌─────── hour (0-23)</div>
-                    <div className="font-mono mb-2">│ │ ┌───── day of month (1-31)</div>
-                    <div className="font-mono mb-2">│ │ │ ┌─── month (1-12)</div>
-                    <div className="font-mono mb-2">│ │ │ │ ┌─ day of week (0-6, Sun=0)</div>
+                    <div className="font-mono mb-2">┌───────── minutt (0–59)</div>
+                    <div className="font-mono mb-2">│ ┌─────── time (0–23)</div>
+                    <div className="font-mono mb-2">│ │ ┌───── dag i måneden (1–31)</div>
+                    <div className="font-mono mb-2">│ │ │ ┌─── måned (1–12)</div>
+                    <div className="font-mono mb-2">│ │ │ │ ┌─ ukedag (0–6, søn = 0)</div>
                     <div className="font-mono">* * * * *</div>
                 </div>
 
                 {/* Syntax Reference */}
                 <div className="text-xs text-muted-foreground space-y-1">
-                    <p><code className="bg-muted px-1 rounded">*</code> = any value</p>
-                    <p><code className="bg-muted px-1 rounded">,</code> = list separator (e.g., 1,3,5)</p>
-                    <p><code className="bg-muted px-1 rounded">-</code> = range (e.g., 1-5)</p>
-                    <p><code className="bg-muted px-1 rounded">/</code> = step (e.g., */15 = every 15)</p>
+                    <p><code className="bg-muted px-1 rounded">*</code> = alle verdier</p>
+                    <p><code className="bg-muted px-1 rounded">,</code> = liste (f.eks. 1,3,5)</p>
+                    <p><code className="bg-muted px-1 rounded">-</code> = intervall (f.eks. 1-5)</p>
+                    <p><code className="bg-muted px-1 rounded">/</code> = trinn (f.eks. */15 = hvert 15. minutt)</p>
                 </div>
             </CardContent>
         </Card>

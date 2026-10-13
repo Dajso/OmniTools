@@ -9,14 +9,14 @@ import { convertTimezone, COMMON_TIMEZONES, type TimezoneResults } from '@/lib/c
 
 export function TimezoneConverter() {
   const [dateTime, setDateTime] = React.useState('');
-  const [fromTimezone, setFromTimezone] = React.useState('America/New_York');
-  const [toTimezone, setToTimezone] = React.useState('Europe/London');
+  const [fromTimezone, setFromTimezone] = React.useState('Europe/Oslo');
+  const [toTimezone, setToTimezone] = React.useState('America/New_York');
   const [results, setResults] = React.useState<TimezoneResults | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   const handleConvert = () => {
     if (!dateTime) {
-      setError('Please enter a date and time');
+      setError('Skriv inn dato og klokkeslett');
       return;
     }
     try {
@@ -24,14 +24,15 @@ export function TimezoneConverter() {
       const result = convertTimezone({ dateTime, fromTimezone, toTimezone });
       setResults(result);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Conversion failed');
+      setError(e instanceof Error ? e.message : 'Omregningen mislyktes');
       setResults(null);
     }
   };
 
   const handleNow = () => {
-    const now = new Date();
-    setDateTime(now.toISOString().slice(0, 16));
+    // Veggklokke i valgt «fra»-sone
+    const parts = new Intl.DateTimeFormat('sv-SE', { timeZone: fromTimezone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date());
+    setDateTime(parts.replace(' ', 'T'));
   };
 
   const handleSwap = () => {
@@ -42,34 +43,34 @@ export function TimezoneConverter() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Time Zone Converter</CardTitle>
-        <CardDescription>Convert times between different time zones</CardDescription>
+        <CardTitle>Tidssoneomregner</CardTitle>
+        <CardDescription>Regn om klokkeslett mellom tidssoner</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label htmlFor="datetime">Date & Time</Label>
-            <Button size="sm" variant="ghost" onClick={handleNow}>Now</Button>
+            <Label htmlFor="datetime">Dato og klokkeslett</Label>
+            <Button size="sm" variant="ghost" onClick={handleNow}>Nå</Button>
           </div>
           <input id="datetime" type="datetime-local" value={dateTime} onChange={(e) => setDateTime(e.target.value)}
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
         </div>
         <div className="grid grid-cols-[1fr,auto,1fr] gap-2 items-end">
           <div className="space-y-2">
-            <Label>From</Label>
+            <Label>Fra</Label>
             <select value={fromTimezone} onChange={(e) => setFromTimezone(e.target.value)} className="w-full p-2 border rounded-md">
               {COMMON_TIMEZONES.map((tz) => <option key={tz.value} value={tz.value}>{tz.label}</option>)}
             </select>
           </div>
           <Button variant="ghost" size="sm" onClick={handleSwap} className="mb-1">⇄</Button>
           <div className="space-y-2">
-            <Label>To</Label>
+            <Label>Til</Label>
             <select value={toTimezone} onChange={(e) => setToTimezone(e.target.value)} className="w-full p-2 border rounded-md">
               {COMMON_TIMEZONES.map((tz) => <option key={tz.value} value={tz.value}>{tz.label}</option>)}
             </select>
           </div>
         </div>
-        <Button onClick={handleConvert} className="w-full">Convert</Button>
+        <Button onClick={handleConvert} className="w-full">Regn om</Button>
         {error && <p className="text-sm text-destructive">{error}</p>}
         {results && (
           <div className="border-t pt-4 space-y-3">
@@ -83,7 +84,7 @@ export function TimezoneConverter() {
                 <p className="text-lg font-semibold">{results.toTime}</p>
               </div>
             </div>
-            <ResultDisplay label="Offset" value={results.offset} />
+            <ResultDisplay label="Tidsforskjell" value={results.offset} />
           </div>
         )}
       </CardContent>

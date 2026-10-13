@@ -32,9 +32,9 @@ export function MarkdownToHtml() {
     return (
         <Card className="w-full max-w-4xl">
             <CardHeader>
-                <CardTitle>Markdown to HTML</CardTitle>
+                <CardTitle>Markdown til HTML</CardTitle>
                 <CardDescription>
-                    Convert Markdown text to HTML with live preview
+                    Gjør om Markdown til HTML med forhåndsvisning
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -42,15 +42,15 @@ export function MarkdownToHtml() {
                     {/* Input */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <Label>Markdown Input</Label>
+                            <Label>Markdown-inndata</Label>
                             <Button variant="ghost" size="sm" onClick={loadExample}>
-                                Load Example
+                                Last inn eksempel
                             </Button>
                         </div>
                         <textarea
                             value={markdown}
                             onChange={(e) => setMarkdown(e.target.value)}
-                            placeholder="Enter Markdown text..."
+                            placeholder="Skriv inn Markdown ..."
                             rows={20}
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-y font-mono text-sm"
                         />
@@ -65,7 +65,7 @@ export function MarkdownToHtml() {
                                     className={`flex items-center gap-1 px-2 py-1 text-sm rounded transition-colors ${viewMode === 'preview' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
                                         }`}
                                 >
-                                    <Eye className="w-3 h-3" /> Preview
+                                    <Eye className="w-3 h-3" /> Forhåndsvisning
                                 </button>
                                 <button
                                     onClick={() => setViewMode('html')}
@@ -83,11 +83,11 @@ export function MarkdownToHtml() {
                         {viewMode === 'preview' ? (
                             <div
                                 className="w-full min-h-[400px] p-4 border rounded-md bg-background overflow-auto prose prose-sm max-w-none"
-                                dangerouslySetInnerHTML={{ __html: result.preview || '<p class="text-muted-foreground">Preview will appear here...</p>' }}
+                                dangerouslySetInnerHTML={{ __html: result.preview || '<p class="text-muted-foreground">Forhåndsvisningen vises her ...</p>' }}
                             />
                         ) : (
                             <pre className="w-full min-h-[400px] p-4 border rounded-md bg-muted overflow-auto text-xs font-mono">
-                                <code>{result.html || '<!-- HTML will appear here -->'}</code>
+                                <code>{result.html || '<!-- HTML vises her -->'}</code>
                             </pre>
                         )}
                     </div>
@@ -95,7 +95,7 @@ export function MarkdownToHtml() {
 
                 {/* Syntax Reference */}
                 <div className="border-t pt-4">
-                    <Label className="mb-2 block">Quick Reference</Label>
+                    <Label className="mb-2 block">Hurtigreferanse</Label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                         <div className="p-2 bg-muted/50 rounded">
                             <code># Heading</code> → H1
@@ -107,19 +107,19 @@ export function MarkdownToHtml() {
                             <code>*italic*</code> → <em>italic</em>
                         </div>
                         <div className="p-2 bg-muted/50 rounded">
-                            <code>[link](url)</code> → link
+                            <code>[link](url)</code> → lenke
                         </div>
                         <div className="p-2 bg-muted/50 rounded">
                             <code>`code`</code> → <code>code</code>
                         </div>
                         <div className="p-2 bg-muted/50 rounded">
-                            <code>- item</code> → list
+                            <code>- item</code> → liste
                         </div>
                         <div className="p-2 bg-muted/50 rounded">
-                            <code>&gt; quote</code> → blockquote
+                            <code>&gt; quote</code> → sitat
                         </div>
                         <div className="p-2 bg-muted/50 rounded">
-                            <code>---</code> → hr
+                            <code>---</code> → vannrett linje
                         </div>
                     </div>
                 </div>

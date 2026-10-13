@@ -83,19 +83,19 @@ export function createDefaultShadow(id?: string): BoxShadow {
  */
 export const SHADOW_PRESETS = [
     {
-        name: 'Subtle',
+        name: 'Svak',
         shadows: [{ offsetX: 0, offsetY: 1, blur: 2, spread: 0, color: '#000000', opacity: 0.05 }]
     },
     {
-        name: 'Small',
+        name: 'Liten',
         shadows: [{ offsetX: 0, offsetY: 1, blur: 3, spread: 0, color: '#000000', opacity: 0.1 }]
     },
     {
-        name: 'Medium',
+        name: 'Middels',
         shadows: [{ offsetX: 0, offsetY: 4, blur: 6, spread: -1, color: '#000000', opacity: 0.1 }]
     },
     {
-        name: 'Large',
+        name: 'Stor',
         shadows: [{ offsetX: 0, offsetY: 10, blur: 15, spread: -3, color: '#000000', opacity: 0.1 }]
     },
     {
@@ -103,18 +103,18 @@ export const SHADOW_PRESETS = [
         shadows: [{ offsetX: 0, offsetY: 20, blur: 25, spread: -5, color: '#000000', opacity: 0.1 }]
     },
     {
-        name: 'Elevated',
+        name: 'Svevende',
         shadows: [
             { offsetX: 0, offsetY: 1, blur: 3, spread: 0, color: '#000000', opacity: 0.1 },
             { offsetX: 0, offsetY: 10, blur: 20, spread: 0, color: '#000000', opacity: 0.1 },
         ]
     },
     {
-        name: 'Inset',
+        name: 'Innvendig',
         shadows: [{ offsetX: 0, offsetY: 2, blur: 4, spread: 0, color: '#000000', opacity: 0.06, inset: true }]
     },
     {
-        name: 'Glow',
+        name: 'Glød',
         shadows: [{ offsetX: 0, offsetY: 0, blur: 15, spread: 0, color: '#3b82f6', opacity: 0.5 }]
     },
 ] as const;

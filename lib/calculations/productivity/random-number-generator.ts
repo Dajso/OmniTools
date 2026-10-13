@@ -23,17 +23,17 @@ export function generateRandomNumbers(inputs: RandomNumberInputs): RandomNumberR
   const { min, max, count, allowDuplicates, sortResults } = inputs;
   
   if (min > max) {
-    throw new Error('Minimum must be less than or equal to maximum');
+    throw new Error('Minimum kan ikke være større enn maksimum');
   }
   
   if (count < 1) {
-    throw new Error('Count must be at least 1');
+    throw new Error('Antallet må være minst 1');
   }
 
   const range = max - min + 1;
   
   if (!allowDuplicates && count > range) {
-    throw new Error(`Cannot generate ${count} unique numbers in range ${min}-${max}`);
+    throw new Error(`Kan ikke trekke ${count} unike tall i intervallet ${min}–${max}`);
   }
 
   let numbers: number[] = [];

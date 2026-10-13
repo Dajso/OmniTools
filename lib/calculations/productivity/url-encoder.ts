@@ -44,7 +44,7 @@ export function decodeUrl(text: string, type: 'component' | 'full' = 'component'
             return decodeURI(text);
         }
     } catch {
-        throw new Error('Invalid encoded URL string');
+        throw new Error('Ugyldig kodet URL');
     }
 }
 
@@ -77,19 +77,19 @@ export function convertUrl(inputs: URLEncoderInputs): URLEncoderResults {
  * Common characters that get encoded
  */
 export const ENCODING_REFERENCE = [
-    { char: ' ', encoded: '%20', description: 'Space' },
-    { char: '!', encoded: '%21', description: 'Exclamation' },
-    { char: '#', encoded: '%23', description: 'Hash' },
-    { char: '$', encoded: '%24', description: 'Dollar' },
-    { char: '&', encoded: '%26', description: 'Ampersand' },
-    { char: "'", encoded: '%27', description: 'Apostrophe' },
-    { char: '(', encoded: '%28', description: 'Open paren' },
-    { char: ')', encoded: '%29', description: 'Close paren' },
-    { char: '+', encoded: '%2B', description: 'Plus' },
-    { char: ',', encoded: '%2C', description: 'Comma' },
-    { char: '/', encoded: '%2F', description: 'Slash' },
-    { char: ':', encoded: '%3A', description: 'Colon' },
-    { char: '=', encoded: '%3D', description: 'Equals' },
-    { char: '?', encoded: '%3F', description: 'Question' },
-    { char: '@', encoded: '%40', description: 'At sign' },
+    { char: ' ', encoded: '%20', description: 'Mellomrom' },
+    { char: '!', encoded: '%21', description: 'Utropstegn' },
+    { char: '#', encoded: '%23', description: 'Hash (firkant)' },
+    { char: '$', encoded: '%24', description: 'Dollartegn' },
+    { char: '&', encoded: '%26', description: 'Og-tegn' },
+    { char: "'", encoded: '%27', description: 'Apostrof' },
+    { char: '(', encoded: '%28', description: 'Venstreparentes' },
+    { char: ')', encoded: '%29', description: 'Høyreparentes' },
+    { char: '+', encoded: '%2B', description: 'Pluss' },
+    { char: ',', encoded: '%2C', description: 'Komma' },
+    { char: '/', encoded: '%2F', description: 'Skråstrek' },
+    { char: ':', encoded: '%3A', description: 'Kolon' },
+    { char: '=', encoded: '%3D', description: 'Er lik' },
+    { char: '?', encoded: '%3F', description: 'Spørsmålstegn' },
+    { char: '@', encoded: '%40', description: 'Alfakrøll' },
 ] as const;

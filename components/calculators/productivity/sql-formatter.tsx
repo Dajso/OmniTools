@@ -39,16 +39,16 @@ export function SQLFormatter() {
     return (
         <Card className="w-full max-w-4xl">
             <CardHeader>
-                <CardTitle>SQL Formatter</CardTitle>
+                <CardTitle>SQL-formaterer</CardTitle>
                 <CardDescription>
-                    Format and beautify SQL queries with proper indentation
+                    Formater og rydd opp i SQL-spørringer med riktig innrykk
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Options */}
                 <div className="flex flex-wrap gap-4 items-end">
                     <div className="space-y-1">
-                        <Label>Dialect</Label>
+                        <Label>Dialekt</Label>
                         <select
                             value={dialect}
                             onChange={(e) => setDialect(e.target.value as SQLFormatterInputs['dialect'])}
@@ -60,14 +60,14 @@ export function SQLFormatter() {
                         </select>
                     </div>
                     <div className="space-y-1">
-                        <Label>Indent Size</Label>
+                        <Label>Størrelse på innrykk</Label>
                         <select
                             value={indentSize}
                             onChange={(e) => setIndentSize(parseInt(e.target.value))}
                             className="px-3 py-2 border rounded-md text-sm"
                         >
-                            <option value="2">2 spaces</option>
-                            <option value="4">4 spaces</option>
+                            <option value="2">2 mellomrom</option>
+                            <option value="4">4 mellomrom</option>
                         </select>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -77,21 +77,21 @@ export function SQLFormatter() {
                             onChange={(e) => setUppercase(e.target.checked)}
                             className="rounded"
                         />
-                        <span className="text-sm">Uppercase Keywords</span>
+                        <span className="text-sm">Store bokstaver i nøkkelord</span>
                     </label>
                     <Button variant="outline" size="sm" onClick={loadExample}>
-                        <FileCode className="w-4 h-4 mr-1" /> Load Example
+                        <FileCode className="w-4 h-4 mr-1" /> Last inn eksempel
                     </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Input */}
                     <div className="space-y-2">
-                        <Label>Input SQL</Label>
+                        <Label>SQL-inndata</Label>
                         <textarea
                             value={sql}
                             onChange={(e) => setSQL(e.target.value)}
-                            placeholder="Paste your SQL query here..."
+                            placeholder="Lim inn SQL-spørringen her ..."
                             rows={15}
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-y font-mono text-sm"
                         />
@@ -100,14 +100,14 @@ export function SQLFormatter() {
                     {/* Output */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <Label>Formatted SQL</Label>
+                            <Label>Formatert SQL</Label>
                             <Button variant="ghost" size="sm" onClick={copyFormatted} disabled={!result.formatted}>
                                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                                <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                                <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                             </Button>
                         </div>
                         <pre className="w-full min-h-[300px] p-3 border rounded-md bg-muted overflow-auto text-sm font-mono">
-                            <code>{result.formatted || '-- Formatted SQL will appear here'}</code>
+                            <code>{result.formatted || '-- Formatert SQL vises her'}</code>
                         </pre>
                     </div>
                 </div>
@@ -115,8 +115,8 @@ export function SQLFormatter() {
                 {/* Stats */}
                 {result.formatted && (
                     <div className="flex gap-4 text-sm text-muted-foreground">
-                        <span>{result.lineCount} lines</span>
-                        <span>{result.keywordCount} keywords</span>
+                        <span>{result.lineCount} linjer</span>
+                        <span>{result.keywordCount} nøkkelord</span>
                     </div>
                 )}
             </CardContent>

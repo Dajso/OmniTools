@@ -108,7 +108,7 @@ export function TimeLapseCalculator() {
             />
             <ResultDisplay
               label="Total Frames"
-              value={result.totalFrames.toLocaleString()}
+              value={result.totalFrames.toLocaleString('nb-NO')}
               highlight
               copyable
             />

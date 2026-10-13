@@ -8,11 +8,11 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { calculatePercentage, type PercentageMode, type PercentageResults } from '@/lib/calculations/productivity/percentage-calculator';
 
 const MODES: Array<{ value: PercentageMode; label: string; desc: string }> = [
-  { value: 'what-is-x-percent-of-y', label: 'What is X% of Y?', desc: 'Find a percentage of a number' },
-  { value: 'x-is-what-percent-of-y', label: 'X is what % of Y?', desc: 'Find what percentage X is of Y' },
-  { value: 'percent-change', label: '% Change', desc: 'Calculate percentage change from X to Y' },
-  { value: 'percent-increase', label: 'Increase by %', desc: 'Increase X by Y percent' },
-  { value: 'percent-decrease', label: 'Decrease by %', desc: 'Decrease X by Y percent' },
+  { value: 'what-is-x-percent-of-y', label: 'Hva er X % av Y?', desc: 'Finn en prosentandel av et tall' },
+  { value: 'x-is-what-percent-of-y', label: 'X er hvor mange % av Y?', desc: 'Finn hvor mange prosent X er av Y' },
+  { value: 'percent-change', label: 'Prosentvis endring', desc: 'Regn ut endringen i prosent fra X til Y' },
+  { value: 'percent-increase', label: 'Øk med %', desc: 'Øk X med Y prosent' },
+  { value: 'percent-decrease', label: 'Reduser med %', desc: 'Reduser X med Y prosent' },
 ];
 
 export function PercentageCalculator() {
@@ -28,7 +28,7 @@ export function PercentageCalculator() {
       const result = calculatePercentage({ mode, value1, value2 });
       setResults(result);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Calculation failed');
+      setError(e instanceof Error ? e.message : 'Beregningen mislyktes');
       setResults(null);
     }
   }, [mode, value1, value2]);
@@ -37,11 +37,11 @@ export function PercentageCalculator() {
 
   const getLabels = () => {
     switch (mode) {
-      case 'what-is-x-percent-of-y': return { label1: 'Percentage (%)', label2: 'Number' };
-      case 'x-is-what-percent-of-y': return { label1: 'Part', label2: 'Whole' };
-      case 'percent-change': return { label1: 'From', label2: 'To' };
-      case 'percent-increase': return { label1: 'Number', label2: 'Increase by (%)' };
-      case 'percent-decrease': return { label1: 'Number', label2: 'Decrease by (%)' };
+      case 'what-is-x-percent-of-y': return { label1: 'Prosent (%)', label2: 'Tall' };
+      case 'x-is-what-percent-of-y': return { label1: 'Del', label2: 'Helhet' };
+      case 'percent-change': return { label1: 'Fra', label2: 'Til' };
+      case 'percent-increase': return { label1: 'Tall', label2: 'Økning (%)' };
+      case 'percent-decrease': return { label1: 'Tall', label2: 'Reduksjon (%)' };
     }
   };
 
@@ -50,12 +50,12 @@ export function PercentageCalculator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Percentage Calculator</CardTitle>
-        <CardDescription>Calculate percentages in different ways</CardDescription>
+        <CardTitle>Prosentkalkulator</CardTitle>
+        <CardDescription>Regn ut prosent på flere måter</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Calculation Type</label>
+          <label className="text-sm font-medium">Type utregning</label>
           <select value={mode} onChange={(e) => setMode(e.target.value as PercentageMode)} className="w-full p-2 border rounded-md">
             {MODES.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
           </select>
@@ -68,9 +68,9 @@ export function PercentageCalculator() {
         {error && <p className="text-sm text-destructive">{error}</p>}
         {results && (
           <div className="border-t pt-4 space-y-3">
-            <ResultDisplay label="Result" value={results.result.toLocaleString(undefined, { maximumFractionDigits: 4 })} highlight copyable />
+            <ResultDisplay label="Resultat" value={results.result.toLocaleString('nb-NO', { maximumFractionDigits: 4 })} highlight copyable />
             <div className="p-3 bg-muted rounded-md text-sm">
-              <p className="font-medium">Formula: {results.formula}</p>
+              <p className="font-medium">Formel: {results.formula}</p>
               <p className="text-muted-foreground mt-1">{results.explanation}</p>
             </div>
           </div>

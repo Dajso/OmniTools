@@ -28,7 +28,7 @@ export function PxRemConverter() {
             const result = convertPxRem({ value: numValue, baseFontSize, mode });
             setResults(result);
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Conversion failed');
+            setError(e instanceof Error ? e.message : 'Omregningen mislyktes');
             setResults(null);
         }
     }, [value, baseFontSize, mode]);
@@ -46,9 +46,9 @@ export function PxRemConverter() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Px to Rem Converter</CardTitle>
+                <CardTitle>Px til rem</CardTitle>
                 <CardDescription>
-                    Convert between pixels and rem units for responsive CSS
+                    Regn om mellom piksler og rem i responsiv CSS
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -68,7 +68,7 @@ export function PxRemConverter() {
                 {/* Input */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="value">{mode === 'px-to-rem' ? 'Pixels (px)' : 'Rem'}</Label>
+                        <Label htmlFor="value">{mode === 'px-to-rem' ? 'Piksler (px)' : 'Rem'}</Label>
                         <input
                             id="value"
                             type="number"
@@ -80,7 +80,7 @@ export function PxRemConverter() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="base">Base Font Size (px)</Label>
+                        <Label htmlFor="base">Basisskriftstørrelse (px)</Label>
                         <input
                             id="base"
                             type="number"
@@ -94,7 +94,7 @@ export function PxRemConverter() {
 
                 {/* Quick Base Size Selection */}
                 <div className="space-y-2">
-                    <Label>Quick Base Size</Label>
+                    <Label>Hurtigvalg for basisstørrelse</Label>
                     <div className="flex flex-wrap gap-2">
                         {COMMON_BASE_SIZES.map((item) => (
                             <button
@@ -116,7 +116,7 @@ export function PxRemConverter() {
                 {/* Results */}
                 {results && (
                     <div className="grid grid-cols-3 gap-4">
-                        <ResultDisplay label="Pixels" value={results.pxString} copyable />
+                        <ResultDisplay label="Piksler" value={results.pxString} copyable />
                         <ResultDisplay label="REM" value={results.remString} copyable />
                         <ResultDisplay label="EM" value={results.emString} copyable />
                     </div>
@@ -129,7 +129,7 @@ export function PxRemConverter() {
                         onClick={() => setShowTable(!showTable)}
                         className="w-full"
                     >
-                        {showTable ? 'Hide' : 'Show'} Conversion Table
+                        {showTable ? 'Skjul' : 'Vis'} Omregningstabell
                     </Button>
                 </div>
 
@@ -139,8 +139,8 @@ export function PxRemConverter() {
                         <table className="w-full text-sm">
                             <thead className="bg-muted">
                                 <tr>
-                                    <th className="px-4 py-2 text-left">Pixels</th>
-                                    <th className="px-4 py-2 text-left">REM (base: {baseFontSize}px)</th>
+                                    <th className="px-4 py-2 text-left">Piksler</th>
+                                    <th className="px-4 py-2 text-left">REM (basis: {baseFontSize}px)</th>
                                 </tr>
                             </thead>
                             <tbody>

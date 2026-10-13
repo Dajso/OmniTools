@@ -3,29 +3,25 @@ import { ContrastChecker } from '@/components/calculators/productivity';
 import { ToolPageHeader } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Contrast Checker - WCAG Accessibility Color Contrast Tool',
-    description: 'Check color contrast ratio for WCAG 2.1 AA/AAA accessibility compliance. Free tool to test text and background color combinations for web accessibility.',
-    keywords: ['contrast checker', 'WCAG', 'accessibility', 'color contrast', 'ADA compliance', 'AA', 'AAA', 'web accessibility'],
-    alternates: { canonical: '/calculators/productivity/contrast-checker' },
+  title: 'Kontrastsjekker (WCAG) – gratis kalkulator på nett',
+  description: 'Sjekk fargekontrast mot WCAG 2.1 AA/AAA for universell utforming. Gratis og uten registrering.',
+  keywords: ['kontrast', 'WCAG', 'universell utforming', 'tilgjengelighet', 'fargekontrast', 'AA', 'AAA', 'UU'],
+  alternates: { canonical: '/calculators/productivity/contrast-checker' },
+  openGraph: {
+    title: 'Kontrastsjekker (WCAG)',
+    description: 'Sjekk fargekontrast mot WCAG 2.1 AA/AAA for universell utforming',
+    url: '/calculators/productivity/contrast-checker',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const faqs = [
-    {
-        question: 'What is WCAG contrast?',
-        answer: 'WCAG (Web Content Accessibility Guidelines) defines minimum contrast ratios between text and background colors to ensure readability for users with visual impairments.'
-    },
-    {
-        question: 'What is the difference between AA and AAA?',
-        answer: 'AA is the minimum standard, requiring 4.5:1 for normal text and 3:1 for large text. AAA is enhanced, requiring 7:1 for normal text and 4.5:1 for large text.'
-    },
-    {
-        question: 'What counts as large text?',
-        answer: 'Large text is defined as 18pt (24px) or larger, or 14pt (18.67px) bold or larger.'
-    },
-    {
-        question: 'Why is color contrast important?',
-        answer: 'Good contrast ensures that text is readable by people with low vision, color blindness, or those viewing in bright sunlight. It is also a legal requirement under ADA and Section 508.'
-    },
+  { question: 'Hvilke krav gjelder i Norge?', answer: 'Offentlige og mange private nettløsninger skal oppfylle WCAG 2.1 nivå AA etter forskrift om universell utforming av IKT. Sjekk gjeldende regler hos Tilsynet for universell utforming av IKT (Digitaliseringsdirektoratet).' },
+  { question: 'Hva er kravet til kontrast?', answer: 'AA krever 4,5:1 for normal tekst og 3:1 for stor tekst og grensesnitt. AAA krever 7:1 og 4,5:1.' },
+  { question: 'Hva regnes som stor tekst?', answer: 'Minst 18 px, eller 14 px i fet skrift.' },
+  { question: 'Gjelder kravet logoer?', answer: 'Nei, logoer og rent dekorativ grafikk er unntatt.' },
 ];
 
 export default function ContrastCheckerPage() {
@@ -33,30 +29,52 @@ export default function ContrastCheckerPage() {
         <main className="container mx-auto px-4 py-8 max-w-4xl">
             <ToolPageHeader
                 toolId="contrast-checker"
-                title="Contrast Checker (WCAG)"
-                description="Check color contrast ratio for WCAG 2.1 AA/AAA accessibility compliance. Essential for ADA and web accessibility requirements."
+                title="Kontrastsjekker (WCAG)"
+                description="Sjekk fargekontrast mot WCAG 2.1 AA og AAA for universell utforming av nettsider og apper. Gratis og uten registrering."
                 colorClass="bg-violet-100 text-violet-700"
             />
-            <section aria-label="Contrast Checker Tool">
+            <section aria-label="Kontrastsjekker (WCAG)">
                 <ContrastChecker />
             </section>
 
-            <section className="mt-12" aria-labelledby="about-heading">
-                <h2 id="about-heading" className="text-2xl font-semibold mb-4">About WCAG Contrast Requirements</h2>
-                <div className="prose prose-sm max-w-none text-muted-foreground">
-                    <p>
-                        The Web Content Accessibility Guidelines (WCAG) 2.1 set minimum contrast ratios to ensure
-                        text is readable by users with visual impairments. These guidelines are legally required
-                        in many jurisdictions under laws like the Americans with Disabilities Act (ADA).
-                    </p>
-                    <h3 className="text-lg font-medium mt-4 mb-2 text-foreground">Contrast Ratio Requirements</h3>
-                    <ul className="list-disc list-inside space-y-1">
-                        <li><strong>Normal Text:</strong> 4.5:1 for AA, 7:1 for AAA</li>
-                        <li><strong>Large Text:</strong> 3:1 for AA, 4.5:1 for AAA</li>
-                        <li><strong>UI Components:</strong> 3:1 for AA</li>
-                    </ul>
-                </div>
-            </section>
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold mb-4">Kontrastkrav i WCAG 2.1</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-3">Hva</th>
+                  <th className="text-right py-2 px-3">Nivå AA</th>
+                  <th className="text-right py-2 px-3">Nivå AAA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b"><td className="text-left py-2 px-3">Normal tekst (under 18 px)</td><td className="text-right py-2 px-3">4,5 : 1</td><td className="text-right py-2 px-3">7 : 1</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">Stor tekst (18 px eller 14 px fet)</td><td className="text-right py-2 px-3">3 : 1</td><td className="text-right py-2 px-3">4,5 : 1</td></tr>
+                <tr><td className="text-left py-2 px-3">Grensesnitt og grafikk</td><td className="text-right py-2 px-3">3 : 1</td><td className="text-right py-2 px-3">–</td></tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-muted-foreground mt-2">Kontrastforholdet går fra 1:1 (ingen kontrast) til 21:1 (svart på hvitt).</p>
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold mb-4">Slik bruker du kontrastsjekkeren</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Hvorfor kontrast?</h3>
+              <p className="text-sm text-muted-foreground">Tydelig kontrast gjør innholdet lesbart for blant annet svaksynte, eldre og alle som bruker skjermen i sterkt lys.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Universell utforming</h3>
+              <p className="text-sm text-muted-foreground">I Norge stilles det krav til universell utforming av nettløsninger. Nivå AA i WCAG 2.1 er utgangspunktet.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Ikke bare farge</h3>
+              <p className="text-sm text-muted-foreground">Bruk ikke farge alene til å formidle informasjon. Legg til tekst, ikon eller mønster.</p>
+            </div>
+          </div>
+        </section>
 
             <section className="mt-12" aria-labelledby="faq-heading">
                 <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>

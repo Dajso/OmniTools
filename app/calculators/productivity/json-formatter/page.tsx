@@ -1,41 +1,49 @@
 import { Metadata } from 'next';
 import { JSONFormatter } from '@/components/calculators/productivity';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'JSON Formatter & Validator - Free Online JSON Tool',
-  description: 'Format, validate, and beautify JSON data instantly. Free online JSON formatter with syntax highlighting and error detection.',
-  keywords: ['json formatter', 'json validator', 'json beautifier', 'json parser', 'format json online'],
+  title: 'JSON-formaterer og validator – gratis kalkulator på nett',
+  description: 'Formater og valider JSON-data. Gratis og uten registrering.',
+  keywords: ['JSON', 'JSON-formaterer', 'JSON-validator', 'pretty print'],
   alternates: { canonical: '/calculators/productivity/json-formatter' },
+  openGraph: {
+    title: 'JSON-formaterer og validator',
+    description: 'Formater og valider JSON-data',
+    url: '/calculators/productivity/json-formatter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'JSON Formatter',
-  description: 'Format, validate, and beautify JSON data',
+  name: 'JSON-formaterer og validator',
+  description: 'Formater og valider JSON-data',
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Paste your JSON', text: 'Paste or type your JSON data into the input area.' },
-  { name: 'Format automatically', text: 'JSON is formatted and validated in real-time.' },
-  { name: 'Fix errors', text: 'Any syntax errors are highlighted with line numbers.' },
-  { name: 'Copy result', text: 'Copy the formatted JSON to your clipboard.' },
+  { name: 'Lim inn JSON', text: 'Lim inn koden i feltet.' },
+  { name: 'Velg innrykk', text: 'To eller fire mellomrom, eller tabulator.' },
+  { name: 'Les av resultatet', text: 'Formatert JSON vises, eller en feilmelding.' },
+  { name: 'Kopier', text: 'Kopier formatert eller komprimert versjon.' },
 ];
 
 const faqs = [
-  { question: 'What is JSON?', answer: 'JSON (JavaScript Object Notation) is a lightweight data format used for storing and exchanging data between servers and web applications.' },
-  { question: 'Why format JSON?', answer: 'Formatted JSON is easier to read, debug, and understand. It adds proper indentation and line breaks to make the structure clear.' },
-  { question: 'Is my data secure?', answer: 'Yes, all processing happens in your browser. Your JSON data is never sent to any server.' },
-  { question: 'What errors can this detect?', answer: 'Missing brackets, commas, quotes, invalid values, and other syntax errors are detected and highlighted.' },
+  { question: 'Hvorfor er JSON-en min ugyldig?', answer: 'Vanlige feil er enkle anførselstegn, komma etter siste element og manglende anførselstegn rundt nøkler.' },
+  { question: 'Sendes dataene mine noe sted?', answer: 'Nei. Alt skjer i nettleseren din.' },
+  { question: 'Hva betyr komprimere?', answer: 'Fjerner mellomrom og linjeskift så filen blir mindre.' },
+  { question: 'Hva gjør «Sorter nøkler»?', answer: 'Sorterer nøklene alfabetisk i alle nivåer.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/base64-converter', title: 'Base64 Converter', description: 'Encode and decode Base64 data.' },
-  { href: '/calculators/productivity/text-to-binary', title: 'Text to Binary', description: 'Convert text to binary code.' },
+  { href: '/calculators/productivity/base64-converter', title: 'Base64-koding', description: 'Kod og dekod Base64-strenger' },
 ];
 
 export default function JSONFormatterPage() {
@@ -45,12 +53,11 @@ export default function JSONFormatterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="json-formatter"
-          title="JSON Formatter"
-          description="Format, validate, and beautify JSON data instantly. Syntax highlighting and real-time error detection included."
-          colorClass="bg-purple-100 text-purple-600"
+          title="JSON-formaterer og validator"
+          description="Formater, valider og komprimer JSON, med feilmeldinger og statistikk. Gratis og uten registrering."
         />
 
-        <section aria-label="JSON Formatter Tool">
+        <section aria-label="JSON-formaterer og validator">
           <JSONFormatter />
         </section>
 

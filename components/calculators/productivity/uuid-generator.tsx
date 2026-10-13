@@ -38,34 +38,34 @@ export function UUIDGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>UUID Generator</CardTitle>
-        <CardDescription>Generate universally unique identifiers</CardDescription>
+        <CardTitle>UUID-generator</CardTitle>
+        <CardDescription>Lag unike identifikatorer (UUID)</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="count" label="Count" value={count} onChange={setCount} min={1} max={100} />
+          <NumberInput id="count" label="Antall" value={count} onChange={setCount} min={1} max={100} />
           <div className="space-y-2">
-            <label className="text-sm font-medium">Version</label>
+            <label className="text-sm font-medium">Versjon</label>
             <select value={version} onChange={(e) => setVersion(e.target.value as 'v4' | 'v1-like')} className="w-full p-2 border rounded-md">
-              <option value="v4">UUID v4 (Random)</option>
-              <option value="v1-like">UUID v1-like (Time-based)</option>
+              <option value="v4">UUID v4 (tilfeldig)</option>
+              <option value="v1-like">UUID v1-lignende (tidsbasert)</option>
             </select>
           </div>
         </div>
         <div className="flex gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" checked={uppercase} onChange={(e) => setUppercase(e.target.checked)} className="w-4 h-4" />
-            <span className="text-sm">Uppercase</span>
+            <span className="text-sm">Store bokstaver</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" checked={hyphens} onChange={(e) => setHyphens(e.target.checked)} className="w-4 h-4" />
-            <span className="text-sm">Include hyphens</span>
+            <span className="text-sm">Ta med bindestreker</span>
           </label>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleGenerate} className="flex-1">Generate</Button>
+          <Button onClick={handleGenerate} className="flex-1">Lag tekst</Button>
           {results && results.uuids.length > 1 && (
-            <Button onClick={handleCopyAll} variant="outline">{copied === -1 ? 'Copied!' : 'Copy All'}</Button>
+            <Button onClick={handleCopyAll} variant="outline">{copied === -1 ? 'Kopiert!' : 'Kopier alle'}</Button>
           )}
         </div>
         {results && (
@@ -74,7 +74,7 @@ export function UUIDGenerator() {
               <div key={i} className="flex items-center gap-2 p-2 bg-muted rounded-md">
                 <code className="flex-1 font-mono text-sm break-all">{uuid}</code>
                 <Button size="sm" variant="ghost" onClick={() => handleCopy(uuid, i)}>
-                  {copied === i ? 'Copied!' : 'Copy'}
+                  {copied === i ? 'Kopiert!' : 'Kopier'}
                 </Button>
               </div>
             ))}

@@ -1,53 +1,69 @@
 import { Metadata } from 'next';
 import { MarkdownToHtml } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Markdown to HTML Converter - Free Online Tool',
-    description: 'Convert Markdown to HTML with live preview. Supports headers, bold, italic, links, images, code blocks, and lists.',
-    keywords: ['markdown to html', 'markdown converter', 'md to html', 'markdown preview', 'markdown editor'],
-    alternates: { canonical: '/calculators/productivity/markdown-to-html' },
+  title: 'Markdown til HTML – gratis kalkulator på nett',
+  description: 'Gjør om Markdown til HTML med forhåndsvisning. Gratis og uten registrering.',
+  keywords: ['markdown', 'markdown til html', 'md til html', 'forhåndsvisning'],
+  alternates: { canonical: '/calculators/productivity/markdown-to-html' },
+  openGraph: {
+    title: 'Markdown til HTML',
+    description: 'Gjør om Markdown til HTML med forhåndsvisning',
+    url: '/calculators/productivity/markdown-to-html',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Markdown til HTML',
+  description: 'Gjør om Markdown til HTML med forhåndsvisning',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Skriv eller lim inn Markdown', text: 'Skriv i feltet til venstre, eller last inn et eksempel.' },
+  { name: 'Se forhåndsvisningen', text: 'Forhåndsvisningen oppdateres mens du skriver.' },
+  { name: 'Hent HTML-koden', text: 'Bytt til HTML-fanen og kopier koden.' },
+];
+
 const faqs = [
-    {
-        question: 'What is Markdown?',
-        answer: 'Markdown is a lightweight markup language that uses plain text formatting syntax. It was created to be easy to read and write, and it converts to HTML.'
-    },
-    {
-        question: 'What Markdown syntax is supported?',
-        answer: 'This converter supports headers (#), bold (**), italic (*), links, images, code blocks, blockquotes (>), horizontal rules (---), and lists.'
-    },
-    {
-        question: 'Is the generated HTML safe to use?',
-        answer: 'Yes, the HTML is escaped to prevent XSS attacks. The output is safe for embedding in web pages.'
-    },
+  { question: 'Hva er Markdown?', answer: 'Et enkelt tekstformat som gjør det lett å skrive overskrifter, lister og lenker med vanlige tegn.' },
+  { question: 'Hvordan lager jeg en overskrift?', answer: 'Skriv # først i linjen. ## gir mindre overskrift.' },
+  { question: 'Er HTML-en trygg å bruke?', answer: 'Sjekk og rens HTML-en hvis den kommer fra uvedkommende kilder før du viser den på et nettsted.' },
+  { question: 'Støttes tabeller?', answer: 'Ikke alle utvidelser, så sjekk forhåndsvisningen.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/json-formatter', title: 'JSON-formaterer og validator', description: 'Formater og valider JSON-data' },
 ];
 
 export default function MarkdownToHtmlPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-5xl">
-            <ToolPageHeader
-                toolId="markdown-to-html"
-                title="Markdown to HTML"
-                description="Convert Markdown text to HTML with live preview."
-                colorClass="bg-violet-100 text-violet-700"
-            />
-            <section aria-label="Markdown to HTML Tool">
-                <MarkdownToHtml />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="markdown-to-html"
+          title="Markdown til HTML"
+          description="Gjør om Markdown til HTML med live forhåndsvisning og hurtigreferanse. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="Markdown til HTML">
+          <MarkdownToHtml />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

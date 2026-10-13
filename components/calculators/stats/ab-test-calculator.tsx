@@ -225,7 +225,7 @@ export function ABTestCalculator() {
               <h4 className="font-medium text-blue-700 mb-2">📊 Sample Size Recommendation</h4>
               <p className="text-sm text-blue-600">
                 To detect a 10% relative lift with 80% power, you need approximately{' '}
-                <strong>{minSampleSize.toLocaleString()}</strong> visitors per variation.
+                <strong>{minSampleSize.toLocaleString('nb-NO')}</strong> visitors per variation.
               </p>
             </div>
           )}

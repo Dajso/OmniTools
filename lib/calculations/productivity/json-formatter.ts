@@ -77,7 +77,7 @@ export function formatJSON(inputs: JSONFormatterInputs): JSONFormatterResults {
       formatted: '',
       minified: '',
       isValid: false,
-      error: 'Empty input',
+      error: 'Ingen inndata',
       stats: { keys: 0, values: 0, depth: 0, size: 0, minifiedSize: 0 },
     };
   }
@@ -108,7 +108,7 @@ export function formatJSON(inputs: JSONFormatterInputs): JSONFormatterResults {
       },
     };
   } catch (e) {
-    const error = e instanceof Error ? e.message : 'Invalid JSON';
+    const error = e instanceof Error ? e.message : 'Ugyldig JSON';
     return {
       formatted: json,
       minified: json,
@@ -124,6 +124,6 @@ export function validateJSON(json: string): { isValid: boolean; error: string | 
     JSON.parse(json);
     return { isValid: true, error: null };
   } catch (e) {
-    return { isValid: false, error: e instanceof Error ? e.message : 'Invalid JSON' };
+    return { isValid: false, error: e instanceof Error ? e.message : 'Ugyldig JSON' };
   }
 }

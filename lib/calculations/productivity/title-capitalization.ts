@@ -152,10 +152,10 @@ export function convertTitle(inputs: TitleCapInputs): TitleCapResults {
  * Style options with descriptions
  */
 export const CAPITALIZATION_STYLES: { style: CapitalizationStyle; name: string; description: string; example: string }[] = [
-    { style: 'title-case', name: 'Title Case', description: 'AP/Chicago style capitalization', example: 'The Quick Brown Fox' },
-    { style: 'sentence-case', name: 'Sentence case', description: 'Only first word capitalized', example: 'The quick brown fox' },
-    { style: 'uppercase', name: 'UPPERCASE', description: 'All letters uppercase', example: 'THE QUICK BROWN FOX' },
-    { style: 'lowercase', name: 'lowercase', description: 'All letters lowercase', example: 'the quick brown fox' },
-    { style: 'capitalize', name: 'Capitalize Words', description: 'Every word capitalized', example: 'The Quick Brown Fox' },
-    { style: 'toggle', name: 'tOGGLE cASE', description: 'Invert case of each letter', example: 'tHE qUICK bROWN fOX' },
+    { style: 'title-case', name: 'Engelsk tittelstil', description: 'Stor forbokstav i viktige ord (AP/Chicago, vanlig på engelsk)', example: 'The Quick Brown Fox' },
+    { style: 'sentence-case', name: 'Setningsformat', description: 'Bare første ord har stor forbokstav (vanlig på norsk)', example: 'Den raske brune reven' },
+    { style: 'uppercase', name: 'STORE BOKSTAVER', description: 'Alle bokstaver store', example: 'DEN RASKE BRUNE REVEN' },
+    { style: 'lowercase', name: 'små bokstaver', description: 'Alle bokstaver små', example: 'den raske brune reven' },
+    { style: 'capitalize', name: 'Hvert Ord Med Stor Bokstav', description: 'Alle ord får stor forbokstav', example: 'The Quick Brown Fox' },
+    { style: 'toggle', name: 'oMVENDT sKRIVEMÅTE', description: 'Snur store og små bokstaver', example: 'dEN rASKE bRUNE rEVEN' },
 ];

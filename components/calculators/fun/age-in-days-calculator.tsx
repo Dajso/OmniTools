@@ -135,7 +135,7 @@ function calculateAge(birthDate: Date, birthTime: string): AgeResult {
  * Format large numbers with commas
  */
 function formatNumber(num: number): string {
-  return num.toLocaleString();
+  return num.toLocaleString('nb-NO');
 }
 
 /**
@@ -271,7 +271,7 @@ export function AgeInDaysCalculator() {
             <div className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 p-4 rounded-lg text-center">
               <p className="text-sm text-muted-foreground">Your next birthday is on</p>
               <p className="font-semibold text-lg">
-                {displayResults.nextBirthday.toLocaleDateString('en-US', {
+                {displayResults.nextBirthday.toLocaleDateString('nb-NO', {
                   weekday: 'long',
                   year: 'numeric',
                   month: 'long',

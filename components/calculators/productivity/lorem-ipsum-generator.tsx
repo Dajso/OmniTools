@@ -32,28 +32,28 @@ export function LoremIpsumGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Lorem Ipsum Generator</CardTitle>
-        <CardDescription>Generate placeholder text for your designs</CardDescription>
+        <CardTitle>Lorem ipsum-generator</CardTitle>
+        <CardDescription>Lag fylltekst til design og layout</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Type</label>
             <select value={type} onChange={(e) => setType(e.target.value as typeof type)} className="w-full p-2 border rounded-md">
-              <option value="paragraphs">Paragraphs</option>
-              <option value="sentences">Sentences</option>
-              <option value="words">Words</option>
+              <option value="paragraphs">Avsnitt</option>
+              <option value="sentences">Setninger</option>
+              <option value="words">Ord</option>
             </select>
           </div>
-          <NumberInput id="count" label="Count" value={count} onChange={setCount} min={1} max={100} />
+          <NumberInput id="count" label="Antall" value={count} onChange={setCount} min={1} max={100} />
         </div>
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" checked={startWithLorem} onChange={(e) => setStartWithLorem(e.target.checked)} className="w-4 h-4" />
-          <span className="text-sm">Start with "Lorem ipsum..."</span>
+          <span className="text-sm">Start med «Lorem ipsum ...»</span>
         </label>
         <div className="flex gap-2">
-          <Button onClick={handleGenerate} className="flex-1">Generate</Button>
-          <Button onClick={handleCopy} variant="outline">{copied ? 'Copied!' : 'Copy'}</Button>
+          <Button onClick={handleGenerate} className="flex-1">Lag tekst</Button>
+          <Button onClick={handleCopy} variant="outline">{copied ? 'Kopiert!' : 'Kopier'}</Button>
         </div>
         {results && (
           <div className="border-t pt-4 space-y-3">
@@ -61,8 +61,8 @@ export function LoremIpsumGenerator() {
               {results.text}
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay label="Words" value={results.wordCount.toLocaleString()} />
-              <ResultDisplay label="Characters" value={results.characterCount.toLocaleString()} />
+              <ResultDisplay label="Ord" value={results.wordCount.toLocaleString('nb-NO')} />
+              <ResultDisplay label="Tegn" value={results.characterCount.toLocaleString('nb-NO')} />
             </div>
           </div>
         )}

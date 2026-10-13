@@ -36,7 +36,7 @@ export function convertTextBinary(inputs: TextBinaryInputs): TextBinaryResults {
     const cleanBinary = text.replace(/[^01]/g, '');
     
     if (cleanBinary.length % 8 !== 0) {
-      throw new Error('Invalid binary string: length must be a multiple of 8');
+      throw new Error('Ugyldig binær streng: lengden må være et multiplum av 8');
     }
     
     const bytes = cleanBinary.match(/.{8}/g) || [];

@@ -43,12 +43,12 @@ function formatDisplayValue(value: number): string {
   }
   
   if (absValue >= 1000) {
-    return value.toLocaleString('en-US', { maximumFractionDigits: 2 });
+    return value.toLocaleString('nb-NO', { maximumFractionDigits: 2 });
   }
   if (absValue >= 1) {
-    return value.toLocaleString('en-US', { maximumFractionDigits: 4 });
+    return value.toLocaleString('nb-NO', { maximumFractionDigits: 4 });
   }
-  return value.toLocaleString('en-US', { maximumFractionDigits: 6 });
+  return value.toLocaleString('nb-NO', { maximumFractionDigits: 6 });
 }
 
 export function ConverterBase({
@@ -266,7 +266,7 @@ export function ConverterBase({
                   onClick={() => handlePresetClick(value)}
                   className="font-mono"
                 >
-                  {value.toLocaleString()} {currentFromUnit.symbol}
+                  {value.toLocaleString('nb-NO')} {currentFromUnit.symbol}
                 </Button>
               ))}
             </div>

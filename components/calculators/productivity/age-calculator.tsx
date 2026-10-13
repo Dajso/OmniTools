@@ -15,7 +15,7 @@ export function AgeCalculator() {
 
   const handleCalculate = () => {
     if (!birthDate) {
-      setError('Please enter a birth date');
+      setError('Skriv inn en fødselsdato');
       return;
     }
     try {
@@ -23,7 +23,7 @@ export function AgeCalculator() {
       const result = calculateAge({ birthDate, targetDate: targetDate || undefined });
       setResults(result);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Calculation failed');
+      setError(e instanceof Error ? e.message : 'Beregningen mislyktes');
       setResults(null);
     }
   };
@@ -31,38 +31,38 @@ export function AgeCalculator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Age Calculator</CardTitle>
-        <CardDescription>Calculate your exact age and more</CardDescription>
+        <CardTitle>Alderskalkulator</CardTitle>
+        <CardDescription>Regn ut nøyaktig alder og mer</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="birth-date">Birth Date</Label>
+            <Label htmlFor="birth-date">Fødselsdato</Label>
             <input id="birth-date" type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)}
               className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="target-date">Target Date (optional)</Label>
+            <Label htmlFor="target-date">Til dato (valgfritt)</Label>
             <input id="target-date" type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)}
               className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
         </div>
-        <Button onClick={handleCalculate} className="w-full">Calculate Age</Button>
+        <Button onClick={handleCalculate} className="w-full">Regn ut alder</Button>
         {error && <p className="text-sm text-destructive">{error}</p>}
         {results && (
           <div className="border-t pt-4 space-y-4">
             <div className="text-center p-4 bg-primary/10 rounded-lg">
-              <p className="text-3xl font-bold">{results.years} years, {results.months} months, {results.days} days</p>
+              <p className="text-3xl font-bold">{results.years} år, {results.months} måneder, {results.days} dager</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <ResultDisplay label="Total Days" value={results.totalDays.toLocaleString()} copyable />
-              <ResultDisplay label="Total Weeks" value={results.totalWeeks.toLocaleString()} copyable />
-              <ResultDisplay label="Total Months" value={results.totalMonths.toLocaleString()} copyable />
-              <ResultDisplay label="Next Birthday" value={results.nextBirthday} />
-              <ResultDisplay label="Days Until" value={results.daysUntilBirthday.toString()} />
-              <ResultDisplay label="Born On" value={results.dayOfWeekBorn} />
-              <ResultDisplay label="Zodiac Sign" value={results.zodiacSign} />
-              <ResultDisplay label="Chinese Zodiac" value={results.chineseZodiac} />
+              <ResultDisplay label="Dager totalt" value={results.totalDays.toLocaleString('nb-NO')} copyable />
+              <ResultDisplay label="Uker totalt" value={results.totalWeeks.toLocaleString('nb-NO')} copyable />
+              <ResultDisplay label="Måneder totalt" value={results.totalMonths.toLocaleString('nb-NO')} copyable />
+              <ResultDisplay label="Neste bursdag" value={results.nextBirthday} />
+              <ResultDisplay label="Dager til" value={results.daysUntilBirthday.toString()} />
+              <ResultDisplay label="Født på en" value={results.dayOfWeekBorn} />
+              <ResultDisplay label="Stjernetegn" value={results.zodiacSign} />
+              <ResultDisplay label="Kinesisk dyrekrets" value={results.chineseZodiac} />
             </div>
           </div>
         )}

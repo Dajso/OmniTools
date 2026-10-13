@@ -1,38 +1,70 @@
 import { Metadata } from 'next';
 import { RandomNumberGenerator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Random Number Generator - Free Online RNG',
-  description: 'Generate random numbers within any range. Options for unique numbers, sorting, and multiple results.',
-  keywords: ['random number generator', 'RNG', 'random picker', 'number randomizer'],
+  title: 'Tilfeldig tallgenerator – gratis kalkulator på nett',
+  description: 'Trekk tilfeldige tall innenfor et intervall. Gratis og uten registrering.',
+  keywords: ['tilfeldig tall', 'tallgenerator', 'terning', 'trekning'],
   alternates: { canonical: '/calculators/productivity/random-number-generator' },
+  openGraph: {
+    title: 'Tilfeldig tallgenerator',
+    description: 'Trekk tilfeldige tall innenfor et intervall',
+    url: '/calculators/productivity/random-number-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Tilfeldig tallgenerator',
+  description: 'Trekk tilfeldige tall innenfor et intervall',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg intervall', text: 'Skriv inn minste og største tall.' },
+  { name: 'Velg antall', text: 'Hvor mange tall vil du trekke?' },
+  { name: 'Velg om like tall er tillatt', text: 'Slå av «Tillat like tall» for unike tall, for eksempel i en trekning.' },
+  { name: 'Trekk', text: 'Trykk på knappen og se tallene, sum og gjennomsnitt.' },
+];
+
 const faqs = [
-  { question: 'Are these numbers truly random?', answer: 'We use JavaScript\'s Math.random() which provides pseudo-random numbers suitable for most purposes.' },
-  { question: 'Can I generate unique numbers?', answer: 'Yes, uncheck "Allow duplicates" to ensure all generated numbers are unique.' },
+  { question: 'Er tallene virkelig tilfeldige?', answer: 'De er tilfeldige nok til spill og trekninger, men ikke egnet til kryptografi eller lotteri med penger.' },
+  { question: 'Kan jeg trekke lottotall?', answer: 'Ja. Bruk 1 til 34, trekk 7 tall og slå av gjentakelser for å trekke som i Lotto.' },
+  { question: 'Hvorfor får jeg en feilmelding?', answer: 'Hvis du ber om flere unike tall enn det finnes i intervallet, er det umulig. Øk intervallet eller slå på gjentakelser.' },
+  { question: 'Kan jeg bruke negative tall?', answer: 'Ja, både minste og største verdi kan være negative.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/uuid-generator', title: 'UUID-generator', description: 'Lag unike UUID-er (v4)' },
 ];
 
 export default function RandomNumberGeneratorPage() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
           toolId="random-number-generator"
-          title="Random Number Generator"
-          description="Generate random numbers within any range you specify."
-          colorClass="bg-purple-100 text-purple-700"
+          title="Tilfeldig tallgenerator"
+          description="Trekk tilfeldige tall innenfor et intervall, med eller uten gjentakelser. Gratis og uten registrering."
         />
-      <section aria-label="Random Number Generator"><RandomNumberGenerator /></section>
-      <section className="mt-12" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-        <div className="space-y-6">{faqs.map((faq, i) => (
-          <div key={i} className="border-b pb-6 last:border-b-0">
-            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-            <p className="text-muted-foreground">{faq.answer}</p>
-          </div>
-        ))}</div>
-      </section>
-    </main>
+
+        <section aria-label="Tilfeldig tallgenerator">
+          <RandomNumberGenerator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

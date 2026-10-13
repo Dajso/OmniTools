@@ -1,57 +1,70 @@
 import { Metadata } from 'next';
 import { ColorBlindnessSimulator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Color Blindness Simulator - Free Accessibility Tool',
-    description: 'Simulate how colors appear to people with color blindness. Test your designs for deuteranopia, protanopia, tritanopia, and more.',
-    keywords: ['color blindness simulator', 'accessibility', 'color vision', 'deuteranopia', 'protanopia', 'colorblind test'],
-    alternates: { canonical: '/calculators/productivity/color-blindness-simulator' },
+  title: 'Fargeblindhet-simulator – gratis kalkulator på nett',
+  description: 'Se hvordan farger oppleves med ulike typer fargesynsavvik. Gratis og uten registrering.',
+  keywords: ['fargeblindhet', 'universell utforming', 'deuteranopi', 'protanopi', 'fargesyn'],
+  alternates: { canonical: '/calculators/productivity/color-blindness-simulator' },
+  openGraph: {
+    title: 'Fargeblindhet-simulator',
+    description: 'Se hvordan farger oppleves med ulike typer fargesynsavvik',
+    url: '/calculators/productivity/color-blindness-simulator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Fargeblindhet-simulator',
+  description: 'Se hvordan farger oppleves med ulike typer fargesynsavvik',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg en farge', text: 'Velg fargen du vil teste.' },
+  { name: 'Velg type fargesyn', text: 'For eksempel deuteranopi eller protanopi.' },
+  { name: 'Se resultatet', text: 'Se hvordan fargen oppleves, og forhåndsvisning av alle typer.' },
+  { name: 'Bruk det i designet', text: 'Velg farger som kan skilles fra hverandre og ikke bare bruk farge til å formidle informasjon.' },
+];
+
 const faqs = [
-    {
-        question: 'What is color blindness?',
-        answer: 'Color blindness (color vision deficiency) is the decreased ability to see colors or differences between colors. It affects about 8% of men and 0.5% of women of Northern European ancestry.'
-    },
-    {
-        question: 'What are the most common types?',
-        answer: 'Deuteranomaly (green-weak) is the most common, affecting about 5% of males. Protanomaly (red-weak) and deuteranopia (green-blind) each affect about 1% of males.'
-    },
-    {
-        question: 'How can I make my designs accessible?',
-        answer: 'Don\'t rely solely on color to convey information. Use patterns, labels, or icons alongside colors. Ensure sufficient contrast ratios (use our Contrast Checker tool).'
-    },
-    {
-        question: 'Is this simulation accurate?',
-        answer: 'This is a mathematical approximation. Actual perception varies between individuals. Use it as a guide, not as a definitive representation of color vision deficiency.'
-    },
+  { question: 'Hvor vanlig er fargeblindhet?', answer: 'Rundt 8 % av menn og 0,5 % av kvinner har fargesynsavvik, oftest rødgrønt.' },
+  { question: 'Hvor nøyaktig er simuleringen?', answer: 'Den er en tilnærming. Opplevelsen varierer fra person til person.' },
+  { question: 'Hva krever universell utforming?', answer: 'Informasjon skal ikke formidles med farge alene. Bruk også tekst, symboler eller mønster.' },
+  { question: 'Hva er deuteranomali?', answer: 'Redusert følsomhet for grønt lys. Det er den vanligste formen.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/contrast-checker', title: 'Kontrastsjekker (WCAG)', description: 'Sjekk fargekontrast mot WCAG 2.1 AA/AAA for universell utforming' },
 ];
 
 export default function ColorBlindnessSimulatorPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="color-blindness-simulator"
-                title="Color Blindness Simulator"
-                description="Simulate how colors appear to people with different types of color vision deficiency."
-                colorClass="bg-violet-100 text-violet-700"
-            />
-            <section aria-label="Color Blindness Simulator Tool">
-                <ColorBlindnessSimulator />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="color-blindness-simulator"
+          title="Fargeblindhet-simulator"
+          description="Se hvordan farger oppleves med ulike typer fargesynsavvik som rødgrønn fargeblindhet. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="Fargeblindhet-simulator">
+          <ColorBlindnessSimulator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

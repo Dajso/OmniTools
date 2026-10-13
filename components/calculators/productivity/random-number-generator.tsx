@@ -22,7 +22,7 @@ export function RandomNumberGenerator() {
       const result = generateRandomNumbers({ min, max, count, allowDuplicates, sortResults });
       setResults(result);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed');
+      setError(e instanceof Error ? e.message : 'Trekningen mislyktes');
     }
   }, [min, max, count, allowDuplicates, sortResults]);
 
@@ -31,26 +31,26 @@ export function RandomNumberGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Random Number Generator</CardTitle>
-        <CardDescription>Generate random numbers within a range</CardDescription>
+        <CardTitle>Tilfeldig tallgenerator</CardTitle>
+        <CardDescription>Trekk tilfeldige tall innenfor et intervall</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <NumberInput id="min" label="Minimum" value={min} onChange={setMin} />
-          <NumberInput id="max" label="Maximum" value={max} onChange={setMax} />
-          <NumberInput id="count" label="Count" value={count} onChange={setCount} min={1} max={1000} />
+          <NumberInput id="max" label="Maksimum" value={max} onChange={setMax} />
+          <NumberInput id="count" label="Antall" value={count} onChange={setCount} min={1} max={1000} />
         </div>
         <div className="flex gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" checked={allowDuplicates} onChange={(e) => setAllowDuplicates(e.target.checked)} className="w-4 h-4" />
-            <span className="text-sm">Allow duplicates</span>
+            <span className="text-sm">Tillat like tall</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" checked={sortResults} onChange={(e) => setSortResults(e.target.checked)} className="w-4 h-4" />
-            <span className="text-sm">Sort results</span>
+            <span className="text-sm">Sorter resultatet</span>
           </label>
         </div>
-        <Button onClick={handleGenerate} className="w-full">Generate</Button>
+        <Button onClick={handleGenerate} className="w-full">Lag tekst</Button>
         {error && <p className="text-sm text-destructive">{error}</p>}
         {results && (
           <div className="border-t pt-4 space-y-3">
@@ -58,8 +58,8 @@ export function RandomNumberGenerator() {
               {results.numbers.join(', ')}
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay label="Sum" value={results.sum.toLocaleString()} copyable />
-              <ResultDisplay label="Average" value={results.average.toFixed(2)} copyable />
+              <ResultDisplay label="Sum" value={results.sum.toLocaleString('nb-NO')} copyable />
+              <ResultDisplay label="Gjennomsnitt" value={results.average.toFixed(2)} copyable />
             </div>
           </div>
         )}

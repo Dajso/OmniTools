@@ -39,14 +39,14 @@ export function calculatePercentage(inputs: PercentageInputs): PercentageResults
       break;
       
     case 'x-is-what-percent-of-y':
-      if (value2 === 0) throw new Error('Cannot divide by zero');
+      if (value2 === 0) throw new Error('Kan ikke dele på null');
       result = (value1 / value2) * 100;
       formula = `(${value1} ÷ ${value2}) × 100 = ${result.toFixed(2)}%`;
       explanation = `${value1} is ${result.toFixed(2)}% of ${value2}`;
       break;
       
     case 'percent-change':
-      if (value1 === 0) throw new Error('Cannot calculate change from zero');
+      if (value1 === 0) throw new Error('Kan ikke regne ut endring fra null');
       result = ((value2 - value1) / value1) * 100;
       formula = `((${value2} - ${value1}) ÷ ${value1}) × 100 = ${result.toFixed(2)}%`;
       explanation = result >= 0 
@@ -67,7 +67,7 @@ export function calculatePercentage(inputs: PercentageInputs): PercentageResults
       break;
       
     default:
-      throw new Error('Invalid calculation mode');
+      throw new Error('Ugyldig beregningsmodus');
   }
 
   return { result, formula, explanation };

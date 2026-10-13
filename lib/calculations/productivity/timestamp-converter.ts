@@ -60,7 +60,7 @@ export function convertTimestamp(inputs: TimestampInputs): TimestampResults {
   const { value, mode } = inputs;
   
   if (!value.trim()) {
-    throw new Error('Please enter a value');
+    throw new Error('Skriv inn en verdi');
   }
 
   let date: Date;
@@ -68,14 +68,14 @@ export function convertTimestamp(inputs: TimestampInputs): TimestampResults {
   if (mode === 'unix-to-date') {
     const timestamp = parseInt(value, 10);
     if (isNaN(timestamp)) {
-      throw new Error('Invalid Unix timestamp');
+      throw new Error('Ugyldig Unix-tidsstempel');
     }
     // Detect if milliseconds or seconds
     date = timestamp > 9999999999 ? new Date(timestamp) : new Date(timestamp * 1000);
   } else {
     date = new Date(value);
     if (isNaN(date.getTime())) {
-      throw new Error('Invalid date format');
+      throw new Error('Ugyldig datoformat');
     }
   }
   
@@ -87,7 +87,7 @@ export function convertTimestamp(inputs: TimestampInputs): TimestampResults {
     unixMs,
     iso8601: date.toISOString(),
     utc: date.toUTCString(),
-    local: date.toLocaleString(),
+    local: date.toLocaleString('nb-NO'),
     relative: getRelativeTime(date),
   };
 }

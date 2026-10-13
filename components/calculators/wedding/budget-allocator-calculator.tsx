@@ -20,14 +20,14 @@ export function BudgetAllocatorCalculator() {
             formula="Percentages based on industry averages" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Total Budget" value={`$${parseFloat(budget).toLocaleString()}`} />
+                    <ResultDisplay label="Total Budget" value={`$${parseFloat(budget).toLocaleString('nb-NO')}`} />
                     <div className="space-y-2">
                         {result.items.map((item, i) => (
                             <div key={i} className="flex items-center justify-between text-sm border-b border-gray-100 py-2">
                                 <span className="text-gray-700">{item.category}</span>
                                 <div className="flex items-center gap-3">
                                     <div className="w-24 bg-gray-200 rounded-full h-2"><div className="bg-pink-500 h-2 rounded-full" style={{ width: `${item.percent}%` }} /></div>
-                                    <span className="font-mono text-right w-20">${item.amount.toLocaleString()}</span>
+                                    <span className="font-mono text-right w-20">${item.amount.toLocaleString('nb-NO')}</span>
                                     <span className="text-gray-400 w-10 text-right">{item.percent}%</span>
                                 </div>
                             </div>

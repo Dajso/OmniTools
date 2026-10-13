@@ -84,7 +84,7 @@ export function DiceProbabilityCalculator() {
       title="Dice Probability Calculator"
       description="Calculate the probability of rolling specific sums with multiple dice"
       formula="P(sum) = favorable outcomes / total outcomes"
-      formulaExplanation={`Total outcomes for ${numDice}d${numSides} = ${numSides}^${numDice} = ${Math.pow(numSides, numDice).toLocaleString()}`}
+      formulaExplanation={`Total outcomes for ${numDice}d${numSides} = ${numSides}^${numDice} = ${Math.pow(numSides, numDice).toLocaleString('nb-NO')}`}
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -183,12 +183,12 @@ export function DiceProbabilityCalculator() {
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
                 label="Favorable Outcomes"
-                value={result.favorableOutcomes.toLocaleString()}
+                value={result.favorableOutcomes.toLocaleString('nb-NO')}
                 copyable
               />
               <ResultDisplay
                 label="Total Outcomes"
-                value={result.totalOutcomes.toLocaleString()}
+                value={result.totalOutcomes.toLocaleString('nb-NO')}
                 copyable
               />
             </div>
@@ -198,7 +198,7 @@ export function DiceProbabilityCalculator() {
             <p className="text-sm text-muted-foreground">
               💡 Rolling {numDice}d{numSides} (
               {numDice} {numDice === 1 ? 'die' : 'dice'} with {numSides} sides each)
-              has {result.totalOutcomes.toLocaleString()} possible outcomes.
+              has {result.totalOutcomes.toLocaleString('nb-NO')} possible outcomes.
               The most likely sum is around {result.statistics.mean.toFixed(0)}.
             </p>
           </div>

@@ -73,9 +73,9 @@ export function GradientGenerator() {
     return (
         <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>CSS Gradient Generator</CardTitle>
+                <CardTitle>CSS-gradientgenerator</CardTitle>
                 <CardDescription>
-                    Create beautiful CSS gradients with live preview
+                    Lag fine CSS-gradienter med forhåndsvisning
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -91,13 +91,13 @@ export function GradientGenerator() {
                         variant={gradientType === 'linear' ? 'default' : 'outline'}
                         onClick={() => setGradientType('linear')}
                     >
-                        Linear
+                        Lineær
                     </Button>
                     <Button
                         variant={gradientType === 'radial' ? 'default' : 'outline'}
                         onClick={() => setGradientType('radial')}
                     >
-                        Radial
+                        Radiell
                     </Button>
                 </div>
 
@@ -105,7 +105,7 @@ export function GradientGenerator() {
                 {gradientType === 'linear' && (
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <Label>Angle: {angle}°</Label>
+                            <Label>Vinkel: {angle}°</Label>
                             <input
                                 type="range"
                                 min="0"
@@ -139,7 +139,7 @@ export function GradientGenerator() {
                                 size="sm"
                                 onClick={() => setRadialShape('circle')}
                             >
-                                Circle
+                                Sirkel
                             </Button>
                             <Button
                                 variant={radialShape === 'ellipse' ? 'default' : 'outline'}
@@ -151,7 +151,7 @@ export function GradientGenerator() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Position X: {radialPosition.x}%</Label>
+                                <Label>Posisjon X: {radialPosition.x}%</Label>
                                 <input
                                     type="range"
                                     min="0"
@@ -162,7 +162,7 @@ export function GradientGenerator() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label>Position Y: {radialPosition.y}%</Label>
+                                <Label>Posisjon Y: {radialPosition.y}%</Label>
                                 <input
                                     type="range"
                                     min="0"
@@ -178,7 +178,7 @@ export function GradientGenerator() {
 
                 {/* Color Stops */}
                 <div className="space-y-3">
-                    <Label>Color Stops</Label>
+                    <Label>Fargestopp</Label>
                     {colorStops.map((stop, i) => (
                         <div key={i} className="flex items-center gap-3">
                             <input
@@ -194,7 +194,7 @@ export function GradientGenerator() {
                                 className="w-24 px-2 py-1 border rounded-md text-sm font-mono"
                             />
                             <div className="flex-1 flex items-center gap-2">
-                                <span className="text-sm text-muted-foreground">Position:</span>
+                                <span className="text-sm text-muted-foreground">Posisjon:</span>
                                 <input
                                     type="range"
                                     min="0"
@@ -213,13 +213,13 @@ export function GradientGenerator() {
                         </div>
                     ))}
                     <Button variant="outline" size="sm" onClick={addColorStop}>
-                        <Plus className="w-4 h-4 mr-2" /> Add Color
+                        <Plus className="w-4 h-4 mr-2" /> Legg til farge
                     </Button>
                 </div>
 
                 {/* Presets */}
                 <div className="space-y-2">
-                    <Label>Presets</Label>
+                    <Label>Forhåndsvalg</Label>
                     <div className="flex flex-wrap gap-2">
                         {GRADIENT_PRESETS.map((preset) => (
                             <button
@@ -238,10 +238,10 @@ export function GradientGenerator() {
                 {/* CSS Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>CSS Code</Label>
+                        <Label>CSS-kode</Label>
                         <Button variant="ghost" size="sm" onClick={copyCSS}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <pre className="p-3 bg-muted rounded-lg text-xs overflow-x-auto font-mono">

@@ -1,53 +1,69 @@
 import { Metadata } from 'next';
 import { TitleCapitalization } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Title Capitalization Tool - Free Title Case Converter',
-    description: 'Convert text to title case, sentence case, uppercase, lowercase, and more. AP/Chicago style capitalization for headlines and titles.',
-    keywords: ['title case converter', 'capitalization tool', 'title capitalization', 'headline case', 'sentence case'],
-    alternates: { canonical: '/calculators/productivity/title-capitalization' },
+  title: 'Tittelformat – gratis kalkulator på nett',
+  description: 'Gjør om tekst til tittelformat, setningsformat og mer. Gratis og uten registrering.',
+  keywords: ['tittelformat', 'stor forbokstav', 'overskrift', 'setningsformat'],
+  alternates: { canonical: '/calculators/productivity/title-capitalization' },
+  openGraph: {
+    title: 'Tittelformat',
+    description: 'Gjør om tekst til tittelformat, setningsformat og mer',
+    url: '/calculators/productivity/title-capitalization',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Tittelformat',
+  description: 'Gjør om tekst til tittelformat, setningsformat og mer',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Lim inn teksten', text: 'Skriv inn tittelen.' },
+  { name: 'Velg skrivemåte', text: 'Setningsformat er vanlig på norsk.' },
+  { name: 'Kopier', text: 'Kopier resultatet.' },
+];
+
 const faqs = [
-    {
-        question: 'What is title case?',
-        answer: 'Title case capitalizes the first letter of major words while keeping minor words (a, an, the, and, but, or, etc.) in lowercase, except when they are the first or last word.'
-    },
-    {
-        question: 'What words should not be capitalized in title case?',
-        answer: 'Articles (a, an, the), coordinating conjunctions (and, but, or, nor, for, yet, so), and short prepositions (at, by, in, of, on, to, up, as) are typically lowercase unless they start or end the title.'
-    },
-    {
-        question: 'What is sentence case?',
-        answer: 'Sentence case capitalizes only the first word of a sentence and proper nouns. It is the standard for body text and many online headlines.'
-    },
+  { question: 'Skal norske titler ha stor forbokstav i hvert ord?', answer: 'Nei. På norsk skriver man vanligvis bare første ord og egennavn med stor forbokstav. Engelsk tittelformat har stor forbokstav i de fleste ord.' },
+  { question: 'Hva er forskjellen på tittelformat og setningsformat?', answer: 'I tittelformat får de fleste ord stor forbokstav. I setningsformat bare første ord.' },
+  { question: 'Behandles små ord riktig?', answer: 'I engelsk tittelformat holdes småord som «the», «of» og «and» små.' },
+  { question: 'Fungerer det med æ, ø og å?', answer: 'Ja.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/lorem-ipsum-generator', title: 'Lorem ipsum-generator', description: 'Lag fylltekst til design og layout' },
 ];
 
 export default function TitleCapitalizationPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="title-capitalization"
-                title="Title Capitalization Tool"
-                description="Convert text to various capitalization styles including AP/Chicago title case."
-                colorClass="bg-violet-100 text-violet-700"
-            />
-            <section aria-label="Title Capitalization Tool">
-                <TitleCapitalization />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="title-capitalization"
+          title="Tittelformat"
+          description="Gjør om tekst til setningsformat, tittelformat og flere skrivemåter. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="Tittelformat">
+          <TitleCapitalization />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

@@ -52,7 +52,7 @@ function buildFlagsString(flags: RegexInputs['flags']): string {
  */
 export function validatePattern(pattern: string, flags: string): { isValid: boolean; error: string | null } {
     if (!pattern) {
-        return { isValid: false, error: 'Please enter a pattern' };
+        return { isValid: false, error: 'Skriv inn et mønster' };
     }
 
     try {
@@ -61,7 +61,7 @@ export function validatePattern(pattern: string, flags: string): { isValid: bool
     } catch (e) {
         return {
             isValid: false,
-            error: e instanceof Error ? e.message : 'Invalid regex pattern'
+            error: e instanceof Error ? e.message : 'Ugyldig regex-mønster'
         };
     }
 }
@@ -165,21 +165,23 @@ export function testRegex(inputs: RegexInputs): RegexResults {
  * Common regex patterns for quick reference
  */
 export const COMMON_PATTERNS = [
-    { name: 'Email', pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', description: 'Matches email addresses' },
-    { name: 'URL', pattern: 'https?://[\\w.-]+(?:\\.[\\w.-]+)+[\\w.,@?^=%&:/~+#-]*', description: 'Matches HTTP/HTTPS URLs' },
-    { name: 'Phone (US)', pattern: '\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}', description: 'Matches US phone numbers' },
-    { name: 'IP Address (v4)', pattern: '\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', description: 'Matches IPv4 addresses' },
-    { name: 'Hex Color', pattern: '#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})', description: 'Matches hex color codes' },
-    { name: 'Date (YYYY-MM-DD)', pattern: '\\d{4}-\\d{2}-\\d{2}', description: 'Matches dates in ISO format' },
-    { name: 'Date (MM/DD/YYYY)', pattern: '\\d{2}/\\d{2}/\\d{4}', description: 'Matches dates in US format' },
-    { name: 'Time (HH:MM)', pattern: '([01]\\d|2[0-3]):[0-5]\\d', description: 'Matches 24-hour time' },
-    { name: 'Words Only', pattern: '\\b[a-zA-Z]+\\b', description: 'Matches alphabetic words' },
-    { name: 'Numbers Only', pattern: '\\d+', description: 'Matches one or more digits' },
-    { name: 'Alphanumeric', pattern: '[a-zA-Z0-9]+', description: 'Matches letters and numbers' },
-    { name: 'Whitespace', pattern: '\\s+', description: 'Matches whitespace characters' },
-    { name: 'HTML Tags', pattern: '<[^>]+>', description: 'Matches HTML tags' },
-    { name: 'Username', pattern: '^[a-zA-Z0-9_]{3,16}$', description: 'Matches typical usernames (3-16 chars)' },
-    { name: 'Password (Strong)', pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$', description: 'Matches strong passwords' },
+    { name: 'E-post', pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', description: 'Finner e-postadresser' },
+    { name: 'URL', pattern: 'https?://[\\w.-]+(?:\\.[\\w.-]+)+[\\w.,@?^=%&:/~+#-]*', description: 'Finner HTTP/HTTPS-adresser' },
+    { name: 'Telefon (Norge)', pattern: '(?:\\+47|0047)?\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}', description: 'Finner norske telefonnumre (8 siffer, evt. med +47)' },
+    { name: 'IP-adresse (v4)', pattern: '\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', description: 'Finner IPv4-adresser' },
+    { name: 'HEX-farge', pattern: '#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})', description: 'Finner HEX-fargekoder' },
+    { name: 'Dato (ÅÅÅÅ-MM-DD)', pattern: '\\d{4}-\\d{2}-\\d{2}', description: 'Finner datoer i ISO-format' },
+    { name: 'Dato (DD.MM.ÅÅÅÅ)', pattern: '\\d{2}\\.\\d{2}\\.\\d{4}', description: 'Finner datoer i norsk format' },
+    { name: 'Postnummer', pattern: '\\b\\d{4}\\b', description: 'Finner norske postnumre (4 siffer)' },
+    { name: 'Organisasjonsnummer', pattern: '\\b\\d{3}\\s?\\d{3}\\s?\\d{3}\\b', description: 'Finner organisasjonsnumre (9 siffer)' },
+    { name: 'Klokkeslett (TT:MM)', pattern: '([01]\\d|2[0-3]):[0-5]\\d', description: 'Finner klokkeslett i 24-timersformat' },
+    { name: 'Kun ord', pattern: '\\b[a-zA-ZæøåÆØÅ]+\\b', description: 'Finner ord med bokstaver' },
+    { name: 'Kun tall', pattern: '\\d+', description: 'Finner ett eller flere sifre' },
+    { name: 'Bokstaver og tall', pattern: '[a-zA-Z0-9æøåÆØÅ]+', description: 'Finner bokstaver og tall' },
+    { name: 'Mellomrom', pattern: '\\s+', description: 'Finner mellomromstegn' },
+    { name: 'HTML-tagger', pattern: '<[^>]+>', description: 'Finner HTML-tagger' },
+    { name: 'Brukernavn', pattern: '^[a-zA-Z0-9_]{3,16}$', description: 'Finner vanlige brukernavn (3–16 tegn)' },
+    { name: 'Passord (sterkt)', pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$', description: 'Finner sterke passord' },
 ] as const;
 
 /**

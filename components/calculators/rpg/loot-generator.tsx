@@ -193,7 +193,7 @@ export function LootGenerator() {
                 <span className="font-medium">Total Value</span>
               </div>
               <span className="text-2xl font-bold text-yellow-700">
-                {loot.totalValue.toLocaleString()} gp
+                {loot.totalValue.toLocaleString('nb-NO')} gp
               </span>
             </div>
 

@@ -140,7 +140,7 @@ export function MoonPhaseCalculator() {
   }, [inputs.date, calculate]);
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('nb-NO', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',

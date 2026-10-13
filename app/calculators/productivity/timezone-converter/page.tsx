@@ -1,38 +1,69 @@
 import { Metadata } from 'next';
 import { TimezoneConverter } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Time Zone Converter - World Time Converter',
-  description: 'Convert times between different time zones. Supports all major world time zones.',
-  keywords: ['timezone converter', 'time zone calculator', 'world clock', 'time difference'],
+  title: 'Tidssoneomregner – gratis kalkulator på nett',
+  description: 'Regn om klokkeslett mellom tidssoner. Gratis og uten registrering.',
+  keywords: ['tidssone', 'verdensklokke', 'klokkeslett', 'tidsforskjell'],
   alternates: { canonical: '/calculators/productivity/timezone-converter' },
+  openGraph: {
+    title: 'Tidssoneomregner',
+    description: 'Regn om klokkeslett mellom tidssoner',
+    url: '/calculators/productivity/timezone-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Tidssoneomregner',
+  description: 'Regn om klokkeslett mellom tidssoner',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg dato og klokkeslett', text: 'Skriv inn tidspunktet, eller trykk på «Nå».' },
+  { name: 'Velg fra- og til-sone', text: 'Velg sonene du regner mellom. Bruk ⇄ for å bytte.' },
+  { name: 'Regn om', text: 'Trykk på «Regn om» og se klokkeslett og tidsforskjell.' },
+];
+
 const faqs = [
-  { question: 'What is UTC?', answer: 'UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks.' },
-  { question: 'What is DST?', answer: 'Daylight Saving Time is the practice of advancing clocks during warmer months to extend evening daylight.' },
+  { question: 'Hvilken tidssone har Norge?', answer: 'Norge bruker mellomeuropeisk tid (CET, UTC+1) om vinteren og sommertid (CEST, UTC+2) fra siste søndag i mars til siste søndag i oktober.' },
+  { question: 'Hvilken tidssone gjelder klokkeslettet jeg skriver inn?', answer: 'Klokkeslettet gjelder i sonen du har valgt under «Fra», ikke nødvendigvis der du er.' },
+  { question: 'Hvorfor varierer tidsforskjellen til USA?', answer: 'USA bytter til sommertid på andre datoer enn Europa, så forskjellen endres noen uker i mars og oktober/november.' },
+  { question: 'Hva er forskjellen på UTC og GMT?', answer: 'De er nesten like for praktisk bruk. UTC er det offisielle standardsystemet.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/timestamp-converter', title: 'Tidsstempel-omregner', description: 'Gjør om Unix-tidsstempler til lesbare datoer' },
 ];
 
 export default function TimezoneConverterPage() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
           toolId="timezone-converter"
-          title="Time Zone Converter"
-          description="Convert times between different time zones around the world."
-          colorClass="bg-purple-100 text-purple-700"
+          title="Tidssoneomregner"
+          description="Regn om klokkeslett mellom tidssoner, med riktig sommertid. Oslo er valgt som standard. Gratis og uten registrering."
         />
-      <section aria-label="Time Zone Converter"><TimezoneConverter /></section>
-      <section className="mt-12" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-        <div className="space-y-6">{faqs.map((faq, i) => (
-          <div key={i} className="border-b pb-6 last:border-b-0">
-            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-            <p className="text-muted-foreground">{faq.answer}</p>
-          </div>
-        ))}</div>
-      </section>
-    </main>
+
+        <section aria-label="Tidssoneomregner">
+          <TimezoneConverter />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

@@ -430,7 +430,7 @@ export function EspressoDialInLog() {
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">
-                      {shot.timestamp.toLocaleString()}
+                      {shot.timestamp.toLocaleString('nb-NO')}
                     </p>
                     <p className="text-sm font-medium mt-1">
                       Grind: {shot.grindSetting}
@@ -441,7 +441,7 @@ export function EspressoDialInLog() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleDeleteShot(shot.id)}
-                    aria-label={`Delete shot from ${shot.timestamp.toLocaleString()}`}
+                    aria-label={`Delete shot from ${shot.timestamp.toLocaleString('nb-NO')}`}
                   >
                     <Trash2 className="h-4 w-4" aria-hidden="true" />
                   </Button>

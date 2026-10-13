@@ -23,17 +23,17 @@ export interface AspectRatioResults {
 }
 
 const COMMON_RATIOS: Array<{ ratio: string; decimal: number; name: string }> = [
-  { ratio: '1:1', decimal: 1, name: 'Square' },
+  { ratio: '1:1', decimal: 1, name: 'Kvadrat' },
   { ratio: '4:3', decimal: 4/3, name: 'Standard (4:3)' },
-  { ratio: '3:2', decimal: 3/2, name: 'Classic Film (3:2)' },
+  { ratio: '3:2', decimal: 3/2, name: 'Klassisk film (3:2)' },
   { ratio: '16:9', decimal: 16/9, name: 'Widescreen (16:9)' },
   { ratio: '16:10', decimal: 16/10, name: 'Widescreen (16:10)' },
   { ratio: '21:9', decimal: 21/9, name: 'Ultrawide (21:9)' },
-  { ratio: '9:16', decimal: 9/16, name: 'Vertical Video (9:16)' },
-  { ratio: '2:3', decimal: 2/3, name: 'Portrait (2:3)' },
-  { ratio: '1.85:1', decimal: 1.85, name: 'Cinema (1.85:1)' },
-  { ratio: '2.35:1', decimal: 2.35, name: 'Anamorphic (2.35:1)' },
-  { ratio: '2.39:1', decimal: 2.39, name: 'Panavision (2.39:1)' },
+  { ratio: '9:16', decimal: 9/16, name: 'Stående video (9:16)' },
+  { ratio: '2:3', decimal: 2/3, name: 'Portrett (2:3)' },
+  { ratio: '1.85:1', decimal: 1.85, name: 'Kino (1,85:1)' },
+  { ratio: '2.35:1', decimal: 2.35, name: 'Anamorfisk (2,35:1)' },
+  { ratio: '2.39:1', decimal: 2.39, name: 'Panavision (2,39:1)' },
 ];
 
 function gcd(a: number, b: number): number {
@@ -61,7 +61,7 @@ export function calculateAspectRatio(inputs: AspectRatioInputs): AspectRatioResu
   const { width, height, mode, targetWidth, targetHeight } = inputs;
   
   if (width <= 0 || height <= 0) {
-    throw new Error('Width and height must be positive');
+    throw new Error('Bredde og høyde må være større enn 0');
   }
 
   let finalWidth = width;

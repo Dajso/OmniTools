@@ -91,7 +91,7 @@ export function convertBase64(inputs: Base64Inputs): Base64Results {
       inputLength: text.length,
       outputLength: 0,
       isValid: false,
-      error: e instanceof Error ? e.message : 'Conversion failed',
+      error: e instanceof Error ? e.message : 'Omregningen mislyktes',
     };
   }
 }

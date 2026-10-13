@@ -205,13 +205,13 @@ export function PrintingSizeCalculator() {
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
                   label="Required Width"
-                  value={`${requiredPixels.widthPx.toLocaleString()} px`}
+                  value={`${requiredPixels.widthPx.toLocaleString('nb-NO')} px`}
                   highlight
                   copyable
                 />
                 <ResultDisplay
                   label="Required Height"
-                  value={`${requiredPixels.heightPx.toLocaleString()} px`}
+                  value={`${requiredPixels.heightPx.toLocaleString('nb-NO')} px`}
                   highlight
                   copyable
                 />

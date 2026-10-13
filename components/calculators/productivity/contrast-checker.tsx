@@ -37,7 +37,7 @@ export function ContrastChecker() {
             const result = checkContrast({ foreground, background });
             setResults(result);
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Check failed');
+            setError(e instanceof Error ? e.message : 'Kontrollen mislyktes');
             setResults(null);
         }
     }, [foreground, background]);
@@ -60,16 +60,16 @@ export function ContrastChecker() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Contrast Checker (WCAG)</CardTitle>
+                <CardTitle>Kontrastsjekker (WCAG)</CardTitle>
                 <CardDescription>
-                    Check color contrast ratio for WCAG 2.1 AA/AAA accessibility compliance
+                    Sjekk fargekontrast mot WCAG 2.1 AA/AAA for universell utforming
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Color Inputs */}
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="foreground">Foreground Color</Label>
+                        <Label htmlFor="foreground">Forgrunnsfarge</Label>
                         <div className="flex gap-2">
                             <input
                                 type="color"
@@ -88,7 +88,7 @@ export function ContrastChecker() {
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="background">Background Color</Label>
+                        <Label htmlFor="background">Bakgrunnsfarge</Label>
                         <div className="flex gap-2">
                             <input
                                 type="color"
@@ -112,13 +112,13 @@ export function ContrastChecker() {
                 <div className="flex justify-center">
                     <Button variant="outline" size="sm" onClick={handleSwap}>
                         <ArrowLeftRight className="w-4 h-4 mr-2" />
-                        Swap Colors
+                        Bytt farger
                     </Button>
                 </div>
 
                 {/* Presets */}
                 <div className="space-y-2">
-                    <Label>Quick Presets</Label>
+                    <Label>Hurtigvalg</Label>
                     <div className="flex flex-wrap gap-2">
                         {COLOR_PRESETS.map((preset) => (
                             <button
@@ -153,13 +153,13 @@ export function ContrastChecker() {
                                 className="text-sm mb-2"
                                 style={{ color: results.foregroundHex }}
                             >
-                                Small text (14px) - Normal body text looks like this
+                                Liten tekst (14 px) – slik ser vanlig brødtekst ut
                             </p>
                             <p
                                 className="text-xl font-bold"
                                 style={{ color: results.foregroundHex }}
                             >
-                                Large text (18px+) - Headlines look like this
+                                Stor tekst (18 px+) – slik ser overskrifter ut
                             </p>
                         </div>
 
@@ -178,20 +178,20 @@ export function ContrastChecker() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Normal Text */}
                             <div className="p-4 border rounded-lg">
-                                <h4 className="font-medium mb-3">Normal Text (&lt;18px)</h4>
+                                <h4 className="font-medium mb-3">Normal tekst (&lt;18 px)</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
                                         <span className="text-sm text-muted-foreground">AA (4.5:1)</span>
                                         <ComplianceBadge
                                             passes={results.normalText.AA.passes}
-                                            level={results.normalText.AA.passes ? 'Pass' : 'Fail'}
+                                            level={results.normalText.AA.passes ? 'Bestått' : 'Ikke bestått'}
                                         />
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-sm text-muted-foreground">AAA (7:1)</span>
                                         <ComplianceBadge
                                             passes={results.normalText.AAA.passes}
-                                            level={results.normalText.AAA.passes ? 'Pass' : 'Fail'}
+                                            level={results.normalText.AAA.passes ? 'Bestått' : 'Ikke bestått'}
                                         />
                                     </div>
                                 </div>
@@ -199,20 +199,20 @@ export function ContrastChecker() {
 
                             {/* Large Text */}
                             <div className="p-4 border rounded-lg">
-                                <h4 className="font-medium mb-3">Large Text (≥18px or 14px bold)</h4>
+                                <h4 className="font-medium mb-3">Stor tekst (≥18 px, eller 14 px fet)</h4>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
                                         <span className="text-sm text-muted-foreground">AA (3:1)</span>
                                         <ComplianceBadge
                                             passes={results.largeText.AA.passes}
-                                            level={results.largeText.AA.passes ? 'Pass' : 'Fail'}
+                                            level={results.largeText.AA.passes ? 'Bestått' : 'Ikke bestått'}
                                         />
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-sm text-muted-foreground">AAA (4.5:1)</span>
                                         <ComplianceBadge
                                             passes={results.largeText.AAA.passes}
-                                            level={results.largeText.AAA.passes ? 'Pass' : 'Fail'}
+                                            level={results.largeText.AAA.passes ? 'Bestått' : 'Ikke bestått'}
                                         />
                                     </div>
                                 </div>
@@ -221,12 +221,12 @@ export function ContrastChecker() {
 
                         {/* UI Components */}
                         <div className="p-4 border rounded-lg">
-                            <h4 className="font-medium mb-3">UI Components & Graphics</h4>
+                            <h4 className="font-medium mb-3">Grensesnitt og grafikk</h4>
                             <div className="flex justify-between items-center">
                                 <span className="text-sm text-muted-foreground">AA (3:1)</span>
                                 <ComplianceBadge
                                     passes={results.uiComponents.AA.passes}
-                                    level={results.uiComponents.AA.passes ? 'Pass' : 'Fail'}
+                                    level={results.uiComponents.AA.passes ? 'Bestått' : 'Ikke bestått'}
                                 />
                             </div>
                         </div>
@@ -234,22 +234,22 @@ export function ContrastChecker() {
                         {/* Color Values */}
                         <div className="grid grid-cols-2 gap-4">
                             <ResultDisplay
-                                label="Foreground Hex"
+                                label="Forgrunn HEX"
                                 value={results.foregroundHex}
                                 copyable
                             />
                             <ResultDisplay
-                                label="Background Hex"
+                                label="Bakgrunn HEX"
                                 value={results.backgroundHex}
                                 copyable
                             />
                             <ResultDisplay
-                                label="Foreground RGB"
+                                label="Forgrunn RGB"
                                 value={`rgb(${results.foregroundRgb.r}, ${results.foregroundRgb.g}, ${results.foregroundRgb.b})`}
                                 copyable
                             />
                             <ResultDisplay
-                                label="Background RGB"
+                                label="Bakgrunn RGB"
                                 value={`rgb(${results.backgroundRgb.r}, ${results.backgroundRgb.g}, ${results.backgroundRgb.b})`}
                                 copyable
                             />

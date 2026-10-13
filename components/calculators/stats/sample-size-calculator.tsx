@@ -72,7 +72,7 @@ export function SampleSizeCalculator() {
         <div className="space-y-4">
           <ResultDisplay
             label="Required Sample Size"
-            value={result.sampleSize.toLocaleString()}
+            value={result.sampleSize.toLocaleString('nb-NO')}
             highlight
             copyable
           />
@@ -80,7 +80,7 @@ export function SampleSizeCalculator() {
           {result.adjustedSampleSize && (
             <ResultDisplay
               label="Adjusted Sample Size (Finite Population)"
-              value={result.adjustedSampleSize.toLocaleString()}
+              value={result.adjustedSampleSize.toLocaleString('nb-NO')}
               copyable
             />
           )}
@@ -114,8 +114,8 @@ export function SampleSizeCalculator() {
           {result.adjustedSampleSize && populationSize && (
             <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
               <p className="text-sm text-blue-700">
-                📊 With a population of {populationSize.toLocaleString()}, you need to survey{' '}
-                <strong>{result.adjustedSampleSize.toLocaleString()}</strong> people 
+                📊 With a population of {populationSize.toLocaleString('nb-NO')}, you need to survey{' '}
+                <strong>{result.adjustedSampleSize.toLocaleString('nb-NO')}</strong> people 
                 ({((result.adjustedSampleSize / populationSize) * 100).toFixed(1)}% of the population).
               </p>
             </div>

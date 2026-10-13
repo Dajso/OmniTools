@@ -3,29 +3,25 @@ import { RegexTester } from '@/components/calculators/productivity';
 import { ToolPageHeader } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Regex Tester - Free Online Regular Expression Tester',
-    description: 'Test and debug regular expressions with live matching. See matches highlighted, extract capture groups, and access common regex patterns.',
-    keywords: ['regex tester', 'regular expression', 'regex online', 'regex debugger', 'pattern matching', 'regex validator'],
-    alternates: { canonical: '/calculators/productivity/regex-tester' },
+  title: 'Regex-tester – gratis kalkulator på nett',
+  description: 'Test regulære uttrykk med live treff og grupper. Gratis og uten registrering.',
+  keywords: ['regex', 'regulære uttrykk', 'regex-tester', 'mønstersøk'],
+  alternates: { canonical: '/calculators/productivity/regex-tester' },
+  openGraph: {
+    title: 'Regex-tester',
+    description: 'Test regulære uttrykk med live treff og grupper',
+    url: '/calculators/productivity/regex-tester',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const faqs = [
-    {
-        question: 'What is a regular expression?',
-        answer: 'A regular expression (regex) is a sequence of characters that defines a search pattern. It is used for pattern matching, validation, and text manipulation in programming.'
-    },
-    {
-        question: 'What do the flags mean?',
-        answer: 'g = Global (find all matches), i = Case insensitive, m = Multiline (^ and $ match line boundaries), s = DotAll (. matches newlines), u = Unicode support.'
-    },
-    {
-        question: 'What are capture groups?',
-        answer: 'Capture groups are portions of the pattern enclosed in parentheses (). They allow you to extract specific parts of a match. Named groups use the syntax (?<name>pattern).'
-    },
-    {
-        question: 'How do I escape special characters?',
-        answer: 'Use a backslash (\\) before special characters like . * + ? ^ $ { } [ ] ( ) | \\ to match them literally.'
-    },
+  { question: 'Hva er et regulært uttrykk?', answer: 'Et mønster som beskriver tekst, brukt til søk, validering og erstatning.' },
+  { question: 'Hva gjør flaggene?', answer: 'g finner alle treff, i ignorerer store og små bokstaver, m gjør at ^ og $ passer på hver linje, s lar . passe linjeskift og u slår på unicode.' },
+  { question: 'Hvordan matcher jeg norske bokstaver?', answer: 'Bruk [a-zæøå] eller flagget u med \\p{L}. Mønsteret \\w dekker ikke æ, ø og å.' },
+  { question: 'Sendes teksten min til en server?', answer: 'Nei, alt kjører i nettleseren.' },
 ];
 
 export default function RegexTesterPage() {
@@ -33,36 +29,62 @@ export default function RegexTesterPage() {
         <main className="container mx-auto px-4 py-8 max-w-4xl">
             <ToolPageHeader
                 toolId="regex-tester"
-                title="Regex Tester"
-                description="Test regular expressions with live matching, capture groups, and common pattern library."
+                title="Regex-tester"
+                description="Test regulære uttrykk med live treff, uthevede treff og fangstgrupper. Med norske mønstre for telefon, dato og postnummer. Gratis og uten registrering."
                 colorClass="bg-violet-100 text-violet-700"
             />
-            <section aria-label="Regex Tester Tool">
+            <section aria-label="Regex-tester">
                 <RegexTester />
             </section>
 
-            <section className="mt-12" aria-labelledby="about-heading">
-                <h2 id="about-heading" className="text-2xl font-semibold mb-4">About Regular Expressions</h2>
-                <div className="prose prose-sm max-w-none text-muted-foreground">
-                    <p>
-                        Regular expressions are powerful tools for pattern matching and text processing.
-                        They are supported in virtually all programming languages and are essential for
-                        tasks like form validation, data extraction, and search/replace operations.
-                    </p>
-                    <h3 className="text-lg font-medium mt-4 mb-2 text-foreground">Common Metacharacters</h3>
-                    <ul className="list-disc list-inside space-y-1">
-                        <li><code>.</code> - Any single character (except newline)</li>
-                        <li><code>*</code> - Zero or more of the preceding element</li>
-                        <li><code>+</code> - One or more of the preceding element</li>
-                        <li><code>?</code> - Zero or one of the preceding element</li>
-                        <li><code>^</code> - Start of string/line</li>
-                        <li><code>$</code> - End of string/line</li>
-                        <li><code>\d</code> - Any digit (0-9)</li>
-                        <li><code>\w</code> - Any word character (a-z, A-Z, 0-9, _)</li>
-                        <li><code>\s</code> - Any whitespace character</li>
-                    </ul>
-                </div>
-            </section>
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold mb-4">Vanlige tegn i regulære uttrykk</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-3">Tegn</th>
+                  <th className="text-left py-2 px-3">Betydning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b"><td className="text-left py-2 px-3">.</td><td className="text-left py-2 px-3">Hvilket som helst tegn (unntatt linjeskift)</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">*</td><td className="text-left py-2 px-3">Null eller flere av det foregående</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">+</td><td className="text-left py-2 px-3">Ett eller flere av det foregående</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">?</td><td className="text-left py-2 px-3">Null eller ett av det foregående</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">^</td><td className="text-left py-2 px-3">Start på tekst eller linje</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">$</td><td className="text-left py-2 px-3">Slutt på tekst eller linje</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">\d</td><td className="text-left py-2 px-3">Et siffer (0–9)</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">\w</td><td className="text-left py-2 px-3">Ordtegn (a–z, A–Z, 0–9, _). Dekker ikke æ, ø og å</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">\s</td><td className="text-left py-2 px-3">Mellomromstegn</td></tr>
+                <tr><td className="text-left py-2 px-3">{'\\p{L}'}</td><td className="text-left py-2 px-3">Hvilken som helst bokstav, også æ, ø og å (krever flagget u)</td></tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-muted-foreground mt-2">Regulære uttrykk fungerer i nesten alle programmeringsspråk, men syntaksen kan variere litt.</p>
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold mb-4">Tips</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Start enkelt</h3>
+              <p className="text-sm text-muted-foreground">Bygg uttrykket bit for bit, og test mot flere eksempler, også de som ikke skal treffe.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Norske bokstaver</h3>
+              <p className="text-sm text-muted-foreground">Bruk [a-zæøåA-ZÆØÅ] eller {'\\p{L}'} med flagget u i stedet for \w og [a-z].</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Unngå for generelle uttrykk</h3>
+              <p className="text-sm text-muted-foreground">Uttrykk som .* kan være trege og gi uventede treff. Vær så presis som mulig.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Valider også på serveren</h3>
+              <p className="text-sm text-muted-foreground">Skjemavalidering i nettleseren kan omgås. Sjekk data også på serversiden.</p>
+            </div>
+          </div>
+        </section>
 
             <section className="mt-12" aria-labelledby="faq-heading">
                 <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>

@@ -47,7 +47,7 @@ export function generateUUIDs(inputs: UUIDInputs): UUIDResults {
   const { count, version, uppercase, hyphens } = inputs;
   
   if (count < 1 || count > 100) {
-    throw new Error('Count must be between 1 and 100');
+    throw new Error('Antallet må være mellom 1 og 100');
   }
 
   const uuids: string[] = [];

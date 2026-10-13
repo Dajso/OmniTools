@@ -102,7 +102,7 @@ function formatDateAPA(dateStr: string): string {
   try {
     const date = new Date(dateStr);
     const year = date.getFullYear();
-    const month = date.toLocaleString('en-US', { month: 'long' });
+    const month = date.toLocaleString('nb-NO', { month: 'long' });
     const day = date.getDate();
     return `${year}, ${month} ${day}`;
   } catch {
@@ -118,7 +118,7 @@ function formatDateMLA(dateStr: string): string {
   try {
     const date = new Date(dateStr);
     const year = date.getFullYear();
-    const month = date.toLocaleString('en-US', { month: 'short' }).replace('.', '');
+    const month = date.toLocaleString('nb-NO', { month: 'short' }).replace('.', '');
     const day = date.getDate();
     return `${day} ${month}. ${year}`;
   } catch {

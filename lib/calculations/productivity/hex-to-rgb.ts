@@ -27,7 +27,7 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
   }
   
   if (!/^[0-9A-Fa-f]{6}$/.test(fullHex)) {
-    throw new Error('Invalid hex color');
+    throw new Error('Ugyldig HEX-farge');
   }
   
   return {
@@ -74,7 +74,7 @@ function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: n
 function parseRgbString(rgbString: string): { r: number; g: number; b: number } {
   const match = rgbString.match(/(\d+)\s*,?\s*(\d+)\s*,?\s*(\d+)/);
   if (!match) {
-    throw new Error('Invalid RGB format. Use "r, g, b" or "r g b"');
+    throw new Error('Ugyldig RGB-format. Bruk «r, g, b» eller «r g b»');
   }
   
   return {
@@ -88,7 +88,7 @@ export function convertColor(inputs: ColorInputs): ColorResults {
   const { value, mode } = inputs;
   
   if (!value.trim()) {
-    throw new Error('Please enter a color value');
+    throw new Error('Skriv inn en fargeverdi');
   }
 
   let rgb: { r: number; g: number; b: number };

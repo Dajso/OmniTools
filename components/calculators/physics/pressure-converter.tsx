@@ -27,13 +27,13 @@ function formatValue(value: number): string {
     return value.toExponential(4);
   }
   if (Math.abs(value) >= 1000) {
-    return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    return value.toLocaleString('nb-NO', { maximumFractionDigits: 2 });
   }
   if (Math.abs(value) >= 1) {
-    return value.toLocaleString(undefined, { maximumFractionDigits: 4 });
+    return value.toLocaleString('nb-NO', { maximumFractionDigits: 4 });
   }
   if (Math.abs(value) >= 0.0001) {
-    return value.toLocaleString(undefined, { maximumFractionDigits: 6 });
+    return value.toLocaleString('nb-NO', { maximumFractionDigits: 6 });
   }
   return value.toExponential(4);
 }

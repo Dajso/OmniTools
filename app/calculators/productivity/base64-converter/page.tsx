@@ -1,38 +1,71 @@
 import { Metadata } from 'next';
 import { Base64Converter } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Base64 Encoder/Decoder - Free Online Tool',
-  description: 'Encode text to Base64 or decode Base64 to text. Supports URL-safe encoding.',
-  keywords: ['Base64 encoder', 'Base64 decoder', 'Base64 converter', 'encode decode'],
+  title: 'Base64-koding – gratis kalkulator på nett',
+  description: 'Kod og dekod Base64-strenger. Gratis og uten registrering.',
+  keywords: ['Base64', 'Base64-koding', 'dekoding', 'enkoding'],
   alternates: { canonical: '/calculators/productivity/base64-converter' },
+  openGraph: {
+    title: 'Base64-koding',
+    description: 'Kod og dekod Base64-strenger',
+    url: '/calculators/productivity/base64-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Base64-koding',
+  description: 'Kod og dekod Base64-strenger',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg retning', text: 'Kod tekst til Base64, eller dekod tilbake.' },
+  { name: 'Skriv inn teksten', text: 'Lim inn teksten eller Base64-strengen.' },
+  { name: 'Les av resultatet', text: 'Resultatet vises med en gang.' },
+  { name: 'Kopier', text: 'Kopier resultatet med ett klikk.' },
+];
+
 const faqs = [
-  { question: 'What is Base64?', answer: 'Base64 is an encoding scheme that converts binary data to ASCII text, commonly used for transmitting data.' },
-  { question: 'What is URL-safe Base64?', answer: 'URL-safe Base64 replaces + and / with - and _ to avoid issues in URLs.' },
+  { question: 'Hva er Base64?', answer: 'En måte å skrive binære data som tekst, brukt i e-post, nettadresser og API-er.' },
+  { question: 'Er Base64 kryptering?', answer: 'Nei. Alle kan dekode det. Bruk ikke Base64 for å skjule passord.' },
+  { question: 'Fungerer det med æ, ø og å?', answer: 'Ja, teksten kodes som UTF-8.' },
+  { question: 'Hva er URL-sikker koding?', answer: 'En variant som bytter + og / med - og _, så strengen kan brukes i nettadresser.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/text-to-binary', title: 'Tekst til binær', description: 'Gjør om tekst til binærkode og tilbake' },
+  { href: '/calculators/productivity/base64-converter', title: 'Base64-koding', description: 'Kod og dekod Base64-strenger' },
 ];
 
 export default function Base64ConverterPage() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader
-          toolId="base64-encoder"
-          title="Base64 Encoder/Decoder"
-          description="Encode and decode Base64 strings instantly."
-          colorClass="bg-purple-100 text-purple-700"
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="base64-converter"
+          title="Base64-koding"
+          description="Kod og dekod Base64, også URL-sikker variant. Gratis og uten registrering."
         />
-      <section aria-label="Base64 Converter"><Base64Converter /></section>
-      <section className="mt-12" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-        <div className="space-y-6">{faqs.map((faq, i) => (
-          <div key={i} className="border-b pb-6 last:border-b-0">
-            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-            <p className="text-muted-foreground">{faq.answer}</p>
-          </div>
-        ))}</div>
-      </section>
-    </main>
+
+        <section aria-label="Base64-koding">
+          <Base64Converter />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

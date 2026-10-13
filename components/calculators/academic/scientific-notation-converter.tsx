@@ -65,7 +65,7 @@ export function ScientificNotationConverter() {
         const siPrefix = SI_PREFIXES[engExp];
 
         setResults({
-          decimal: value.toLocaleString('en-US', { maximumFractionDigits: 20 }),
+          decimal: value.toLocaleString('nb-NO', { maximumFractionDigits: 20 }),
           scientific: scientific.formatted,
           eNotation: `${coefficient}e${exponent}`,
           engineering,

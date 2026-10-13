@@ -140,15 +140,16 @@ function calculateStrength(password: string, charsetSize: number): {
  * Formats crack time into human-readable string
  */
 function formatCrackTime(seconds: number): string {
-  if (seconds < 1) return 'Instantly';
-  if (seconds < 60) return `${Math.round(seconds)} seconds`;
-  if (seconds < 3600) return `${Math.round(seconds / 60)} minutes`;
-  if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
-  if (seconds < 31536000) return `${Math.round(seconds / 86400)} days`;
-  if (seconds < 31536000 * 100) return `${Math.round(seconds / 31536000)} years`;
-  if (seconds < 31536000 * 1000000) return `${Math.round(seconds / 31536000 / 1000)} thousand years`;
-  if (seconds < 31536000 * 1000000000) return `${Math.round(seconds / 31536000 / 1000000)} million years`;
-  return 'Billions of years';
+  const nb = (n: number) => n.toLocaleString('nb-NO');
+  if (seconds < 1) return 'Umiddelbart';
+  if (seconds < 60) return `${nb(Math.round(seconds))} sekunder`;
+  if (seconds < 3600) return `${nb(Math.round(seconds / 60))} minutter`;
+  if (seconds < 86400) return `${nb(Math.round(seconds / 3600))} timer`;
+  if (seconds < 31536000) return `${nb(Math.round(seconds / 86400))} dager`;
+  if (seconds < 31536000 * 100) return `${nb(Math.round(seconds / 31536000))} år`;
+  if (seconds < 31536000 * 1000000) return `${nb(Math.round(seconds / 31536000 / 1000))} tusen år`;
+  if (seconds < 31536000 * 1000000000) return `${nb(Math.round(seconds / 31536000 / 1000000))} millioner år`;
+  return 'Milliarder av år';
 }
 
 /**

@@ -228,13 +228,13 @@ export function SampleRateCalculator() {
               />
               <ResultDisplay
                 label="Bit Rate"
-                value={fileSizeResult.bitRateKbps.toLocaleString()}
+                value={fileSizeResult.bitRateKbps.toLocaleString('nb-NO')}
                 unit="kbps"
                 copyable
               />
             </div>
             <div className="grid grid-cols-3 gap-3 mt-3">
-              <ResultDisplay label="Bytes" value={fileSizeResult.bytes.toLocaleString()} />
+              <ResultDisplay label="Bytes" value={fileSizeResult.bytes.toLocaleString('nb-NO')} />
               <ResultDisplay label="Kilobytes" value={fileSizeResult.kilobytes.toFixed(2)} />
               <ResultDisplay label="Megabytes" value={fileSizeResult.megabytes.toFixed(2)} />
             </div>

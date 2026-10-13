@@ -193,12 +193,12 @@ export function MulchSoilCalculator() {
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
                   label="Weight"
-                  value={results.weightLbs.toLocaleString()}
+                  value={results.weightLbs.toLocaleString('nb-NO')}
                   unit="lbs"
                 />
                 <ResultDisplay
                   label="Weight"
-                  value={results.weightKg.toLocaleString()}
+                  value={results.weightKg.toLocaleString('nb-NO')}
                   unit="kg"
                 />
               </div>

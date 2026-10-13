@@ -13,7 +13,7 @@ import { Copy, Check } from 'lucide-react';
 
 export function TitleCapitalization() {
     const [text, setText] = React.useState('');
-    const [style, setStyle] = React.useState<CapitalizationStyle>('title-case');
+    const [style, setStyle] = React.useState<CapitalizationStyle>('sentence-case');
     const [copied, setCopied] = React.useState(false);
 
     const result = React.useMemo(() => convertTitle({ text, style }), [text, style]);
@@ -29,30 +29,30 @@ export function TitleCapitalization() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Title Capitalization Tool</CardTitle>
+                <CardTitle>Tittelformat</CardTitle>
                 <CardDescription>
-                    Convert text to various capitalization styles
+                    Gjør om tekst til ulike skrivemåter for titler
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Input */}
                 <div className="space-y-2">
-                    <Label>Input Text</Label>
+                    <Label>Tekst</Label>
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        placeholder="Enter text to convert..."
+                        placeholder="Skriv inn tekst som skal gjøres om ..."
                         rows={4}
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-y"
                     />
                     <div className="text-xs text-muted-foreground">
-                        {result.wordCount} words, {result.charCount} characters
+                        {result.wordCount} ord, {result.charCount} tegn
                     </div>
                 </div>
 
                 {/* Style Selection */}
                 <div className="space-y-2">
-                    <Label>Capitalization Style</Label>
+                    <Label>Skrivemåte</Label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {CAPITALIZATION_STYLES.map((s) => (
                             <button
@@ -73,14 +73,14 @@ export function TitleCapitalization() {
                 {/* Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>Result</Label>
+                        <Label>Resultat</Label>
                         <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!result.output}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <div className="p-4 bg-muted rounded-lg min-h-[100px]">
-                        {result.output || <span className="text-muted-foreground">Result will appear here...</span>}
+                        {result.output || <span className="text-muted-foreground">Resultatet vises her ...</span>}
                     </div>
                 </div>
 

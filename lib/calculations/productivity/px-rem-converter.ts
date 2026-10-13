@@ -26,7 +26,7 @@ export interface PxRemResults {
  */
 export function pxToRem(px: number, baseFontSize: number = 16): number {
     if (baseFontSize <= 0) {
-        throw new Error('Base font size must be greater than 0');
+        throw new Error('Basisskriftstørrelsen må være større enn 0');
     }
     return px / baseFontSize;
 }
@@ -36,7 +36,7 @@ export function pxToRem(px: number, baseFontSize: number = 16): number {
  */
 export function remToPx(rem: number, baseFontSize: number = 16): number {
     if (baseFontSize <= 0) {
-        throw new Error('Base font size must be greater than 0');
+        throw new Error('Basisskriftstørrelsen må være større enn 0');
     }
     return rem * baseFontSize;
 }
@@ -48,7 +48,7 @@ export function convertPxRem(inputs: PxRemInputs): PxRemResults {
     const { value, baseFontSize, mode } = inputs;
 
     if (baseFontSize <= 0) {
-        throw new Error('Base font size must be greater than 0');
+        throw new Error('Basisskriftstørrelsen må være større enn 0');
     }
 
     let px: number;
@@ -90,9 +90,9 @@ export function generateConversionTable(baseFontSize: number = 16): { px: number
  * Common base font sizes
  */
 export const COMMON_BASE_SIZES = [
-    { size: 10, description: '10px (Easy math: 1rem = 10px)' },
-    { size: 14, description: '14px (Small screens)' },
-    { size: 16, description: '16px (Browser default)' },
-    { size: 18, description: '18px (Larger readable text)' },
-    { size: 20, description: '20px (Large scale)' },
+    { size: 10, description: '10 px (enkel regning: 1 rem = 10 px)' },
+    { size: 14, description: '14 px (små skjermer)' },
+    { size: 16, description: '16 px (nettleserens standard)' },
+    { size: 18, description: '18 px (større, lettlest tekst)' },
+    { size: 20, description: '20 px (stor skala)' },
 ] as const;

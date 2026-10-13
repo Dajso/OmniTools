@@ -1,57 +1,70 @@
 import { Metadata } from 'next';
 import { FaviconGenerator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Favicon Generator - Free Emoji Favicon Creator',
-    description: 'Create favicons from text or emoji with custom colors and styles. Download in all standard sizes for your website.',
-    keywords: ['favicon generator', 'emoji favicon', 'favicon creator', 'website icon', 'favicon maker'],
-    alternates: { canonical: '/calculators/productivity/favicon-generator' },
+  title: 'Favicon-generator – gratis kalkulator på nett',
+  description: 'Lag favicon fra tekst eller emoji. Gratis og uten registrering.',
+  keywords: ['favicon', 'emoji-favicon', 'nettstedsikon', 'faviconlager'],
+  alternates: { canonical: '/calculators/productivity/favicon-generator' },
+  openGraph: {
+    title: 'Favicon-generator',
+    description: 'Lag favicon fra tekst eller emoji',
+    url: '/calculators/productivity/favicon-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Favicon-generator',
+  description: 'Lag favicon fra tekst eller emoji',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Skriv inn tekst eller emoji', text: 'Én eller to bokstaver, eller en emoji, fungerer best.' },
+  { name: 'Velg farger og stil', text: 'Velg bakgrunn, tekstfarge, skrift og hjørneradius.' },
+  { name: 'Se forhåndsvisningen', text: 'Se hvordan favicon ser ut i ulike størrelser.' },
+  { name: 'Last ned', text: 'Last ned én størrelse eller alle.' },
+];
+
 const faqs = [
-    {
-        question: 'What sizes do I need for a favicon?',
-        answer: 'Common sizes are 16x16 (browser tab), 32x32 (taskbar), 180x180 (Apple touch icon), and 512x512 (PWA). We generate all standard sizes.'
-    },
-    {
-        question: 'Can I use emoji as a favicon?',
-        answer: 'Yes! Emoji make great favicons and work on all modern browsers. This tool lets you create emoji-based favicons with custom backgrounds.'
-    },
-    {
-        question: 'How do I add a favicon to my website?',
-        answer: 'Add this to your HTML head: <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">. For full support, include multiple sizes.'
-    },
-    {
-        question: 'What file format should I use?',
-        answer: 'PNG is recommended for modern browsers. For legacy support, you may also want an .ico file. This tool generates PNG files.'
-    },
+  { question: 'Hva er en favicon?', answer: 'Det lille ikonet som vises i nettleserfanen og bokmerker.' },
+  { question: 'Hvilke størrelser trenger jeg?', answer: '16, 32 og 180 piksler dekker de fleste behov. Mange nettsteder bruker også 192 og 512 piksler til apper.' },
+  { question: 'Hvilket format bør jeg bruke?', answer: 'PNG fungerer i alle moderne nettlesere. SVG er et godt alternativ.' },
+  { question: 'Får æ, ø og å plass?', answer: 'Ja, men bruk gjerne en stor, tydelig skrift.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/hex-to-rgb', title: 'HEX til RGB', description: 'Gjør om HEX-fargekoder til RGB-verdier' },
 ];
 
 export default function FaviconGeneratorPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="favicon-generator"
-                title="Favicon Generator"
-                description="Create favicons from text or emoji with custom colors and styles."
-                colorClass="bg-violet-100 text-violet-700"
-            />
-            <section aria-label="Favicon Generator Tool">
-                <FaviconGenerator />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="favicon-generator"
+          title="Favicon-generator"
+          description="Lag favicon fra tekst eller emoji, med egne farger og stil, og last ned i flere størrelser. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="Favicon-generator">
+          <FaviconGenerator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

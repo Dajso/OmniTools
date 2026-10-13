@@ -38,9 +38,9 @@ export function countCharacters(inputs: CharacterCountInputs): CharacterCountRes
   const totalCharacters = text.length;
   const spaces = (text.match(/\s/g) || []).length;
   const charactersNoSpaces = totalCharacters - spaces;
-  const letters = (text.match(/[a-zA-Z]/g) || []).length;
+  const letters = (text.match(/\p{L}/gu) || []).length;
   const digits = (text.match(/[0-9]/g) || []).length;
-  const specialCharacters = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+  const specialCharacters = (text.match(/[^\p{L}\p{N}\s]/gu) || []).length;
   const lines = text.split('\n').length;
 
   return {

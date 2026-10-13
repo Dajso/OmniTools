@@ -56,7 +56,7 @@ export function CapacitorCodeConverter() {
         <div className="space-y-4">
           <ResultDisplay label="Capacitance" value={result.formatted} copyable />
           <div className="grid grid-cols-3 gap-4">
-            <ResultDisplay label="Picofarads" value={`${result.picofarads.toLocaleString()} pF`} />
+            <ResultDisplay label="Picofarads" value={`${result.picofarads.toLocaleString('nb-NO')} pF`} />
             <ResultDisplay label="Nanofarads" value={`${result.nanofarads} nF`} />
             <ResultDisplay label="Microfarads" value={`${result.microfarads} µF`} />
           </div>

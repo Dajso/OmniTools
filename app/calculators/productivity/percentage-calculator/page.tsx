@@ -1,38 +1,69 @@
 import { Metadata } from 'next';
 import { PercentageCalculator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Percentage Calculator - Free Online Percent Calculator',
-  description: 'Calculate percentages easily. Find X% of Y, percentage change, increase, and decrease.',
-  keywords: ['percentage calculator', 'percent calculator', 'percentage change', 'percent of number'],
+  title: 'Prosentkalkulator – gratis kalkulator på nett',
+  description: 'Regn ut prosent, økning og nedgang. Gratis og uten registrering.',
+  keywords: ['prosentkalkulator', 'prosent', 'prosentvis endring', 'prosent av'],
   alternates: { canonical: '/calculators/productivity/percentage-calculator' },
+  openGraph: {
+    title: 'Prosentkalkulator',
+    description: 'Regn ut prosent, økning og nedgang',
+    url: '/calculators/productivity/percentage-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Prosentkalkulator',
+  description: 'Regn ut prosent, økning og nedgang',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg type utregning', text: 'For eksempel «Hva er X % av Y?» eller «Prosentvis endring».' },
+  { name: 'Fyll inn tallene', text: 'Feltene tilpasses valget ditt.' },
+  { name: 'Les av svaret', text: 'Du ser svaret og formelen som er brukt.' },
+];
+
 const faqs = [
-  { question: 'How do I calculate percentage?', answer: 'To find X% of Y, multiply Y by X and divide by 100. Our calculator does this automatically.' },
-  { question: 'What is percentage change?', answer: 'Percentage change shows how much a value has increased or decreased relative to its original value.' },
+  { question: 'Hvordan regner jeg ut 25 % av 200?', answer: '200 × 25 ÷ 100 = 50.' },
+  { question: 'Hvordan regner jeg ut prosentvis endring?', answer: '(nytt tall − gammelt tall) ÷ gammelt tall × 100.' },
+  { question: 'Hvordan regner jeg ut mva. fra et beløp?', answer: 'For å legge til 25 % mva., øk med 25 %. For å finne beløpet uten mva. fra et beløp med mva., del på 1,25.' },
+  { question: 'Hva er forskjellen på prosent og prosentpoeng?', answer: 'Går renten fra 4 % til 5 %, har den økt med 1 prosentpoeng, men 25 % i prosentvis økning.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/finance/discount-calculator', title: 'Rabattkalkulator', description: 'Regn ut rabatt, tilbudspris og pris med MVA' },
 ];
 
 export default function PercentageCalculatorPage() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
           toolId="percentage-calculator"
-          title="Percentage Calculator"
-          description="Calculate percentages in multiple ways with step-by-step formulas."
-          colorClass="bg-purple-100 text-purple-700"
+          title="Prosentkalkulator"
+          description="Regn ut prosent av et tall, hvor mange prosent ett tall er av et annet, prosentvis endring, økning og reduksjon. Gratis og uten registrering."
         />
-      <section aria-label="Percentage Calculator"><PercentageCalculator /></section>
-      <section className="mt-12" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-        <div className="space-y-6">{faqs.map((faq, i) => (
-          <div key={i} className="border-b pb-6 last:border-b-0">
-            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-            <p className="text-muted-foreground">{faq.answer}</p>
-          </div>
-        ))}</div>
-      </section>
-    </main>
+
+        <section aria-label="Prosentkalkulator">
+          <PercentageCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

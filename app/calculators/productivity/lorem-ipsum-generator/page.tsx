@@ -1,38 +1,70 @@
 import { Metadata } from 'next';
 import { LoremIpsumGenerator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Lorem Ipsum Generator - Free Placeholder Text Generator',
-  description: 'Generate Lorem Ipsum placeholder text for your designs. Create paragraphs, sentences, or words.',
-  keywords: ['lorem ipsum generator', 'placeholder text', 'dummy text', 'filler text'],
+  title: 'Lorem ipsum-generator – gratis kalkulator på nett',
+  description: 'Lag fylltekst til design og layout. Gratis og uten registrering.',
+  keywords: ['lorem ipsum', 'fylltekst', 'plassholdertekst', 'dummytekst'],
   alternates: { canonical: '/calculators/productivity/lorem-ipsum-generator' },
+  openGraph: {
+    title: 'Lorem ipsum-generator',
+    description: 'Lag fylltekst til design og layout',
+    url: '/calculators/productivity/lorem-ipsum-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Lorem ipsum-generator',
+  description: 'Lag fylltekst til design og layout',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg type', text: 'Velg avsnitt, setninger eller ord.' },
+  { name: 'Velg antall', text: 'Skriv inn hvor mye tekst du trenger.' },
+  { name: 'Velg start', text: 'Slå på «Start med Lorem ipsum» hvis teksten skal begynne klassisk.' },
+  { name: 'Lag og kopier', text: 'Trykk på knappen og kopier teksten.' },
+];
+
 const faqs = [
-  { question: 'What is Lorem Ipsum?', answer: 'Lorem Ipsum is placeholder text used in design and publishing to demonstrate visual form without meaningful content.' },
-  { question: 'Why use Lorem Ipsum?', answer: 'It helps designers focus on layout and typography without being distracted by readable content.' },
+  { question: 'Hva er lorem ipsum?', answer: 'Fylltekst som brukes i design for å vise hvordan tekst vil se ut, uten at innholdet distraherer. Teksten har røtter i latin.' },
+  { question: 'Hvorfor ikke bruke ekte tekst?', answer: 'Ekte tekst trekker oppmerksomheten bort fra layouten. Lorem ipsum gir en jevn tekstfordeling.' },
+  { question: 'Kan jeg bruke teksten kommersielt?', answer: 'Ja, fylltekst er ikke opphavsrettsbeskyttet i praksis.' },
+  { question: 'Finnes det norsk fylltekst?', answer: 'Denne generatoren lager klassisk latinsk fylltekst. Bytt til ekte norsk tekst før publisering.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/word-counter', title: 'Ordteller', description: 'Tell ord, tegn og setninger i en tekst' },
 ];
 
 export default function LoremIpsumGeneratorPage() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
           toolId="lorem-ipsum-generator"
-          title="Lorem Ipsum Generator"
-          description="Generate placeholder text for your designs and mockups."
-          colorClass="bg-purple-100 text-purple-700"
+          title="Lorem ipsum-generator"
+          description="Lag lorem ipsum-fylltekst i avsnitt, setninger eller ord til design og layout. Gratis og uten registrering."
         />
-      <section aria-label="Lorem Ipsum Generator"><LoremIpsumGenerator /></section>
-      <section className="mt-12" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-        <div className="space-y-6">{faqs.map((faq, i) => (
-          <div key={i} className="border-b pb-6 last:border-b-0">
-            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-            <p className="text-muted-foreground">{faq.answer}</p>
-          </div>
-        ))}</div>
-      </section>
-    </main>
+
+        <section aria-label="Lorem ipsum-generator">
+          <LoremIpsumGenerator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

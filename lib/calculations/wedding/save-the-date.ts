@@ -22,7 +22,7 @@ export function calculateSaveTheDate(input: SaveTheDateInput): SaveTheDateResult
         { event: '🎉 Rehearsal Dinner', daysBeforeWedding: 1 },
         { event: '💒 Wedding Day!', daysBeforeWedding: 0 },
     ];
-    const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const fmt = (d: Date) => d.toLocaleDateString('nb-NO', { year: 'numeric', month: 'short', day: 'numeric' });
     const events = milestones.map(m => {
         const d = new Date(wedding); d.setDate(d.getDate() - m.daysBeforeWedding);
         return { event: m.event, date: fmt(d), daysFromNow: Math.ceil((d.getTime() - now.getTime()) / msPerDay) };

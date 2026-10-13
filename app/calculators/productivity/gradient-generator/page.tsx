@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
 import { GradientGenerator } from '@/components/calculators/productivity';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'CSS Gradient Generator - Free Linear & Radial Gradient Tool',
-    description: 'Create beautiful CSS gradients with live preview. Generate linear and radial gradients with multiple color stops and copy ready-to-use CSS code.',
-    keywords: ['gradient generator', 'CSS gradient', 'linear gradient', 'radial gradient', 'gradient maker', 'color gradient'],
-    alternates: { canonical: '/calculators/productivity/gradient-generator' },
+  title: 'CSS-gradientgenerator – gratis kalkulator på nett',
+  description: 'Lag lineære og radiale CSS-gradienter med forhåndsvisning. Gratis og uten registrering.',
+  keywords: ['gradient', 'CSS-gradient', 'lineær gradient', 'radial gradient'],
+  alternates: { canonical: '/calculators/productivity/gradient-generator' },
+  openGraph: {
+    title: 'CSS-gradientgenerator',
+    description: 'Lag lineære og radiale CSS-gradienter med forhåndsvisning',
+    url: '/calculators/productivity/gradient-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'CSS-gradientgenerator',
+  description: 'Lag lineære og radiale CSS-gradienter med forhåndsvisning',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Velg type', text: 'Lineær eller radiell.' },
+  { name: 'Velg farger', text: 'Legg til fargestopp og juster posisjon.' },
+  { name: 'Juster vinkel eller posisjon', text: 'Dra i glidebryteren for å endre retningen.' },
+  { name: 'Kopier koden', text: 'Kopier CSS-koden og lim den inn i stilarket.' },
+];
+
 const faqs = [
-    {
-        question: 'What is a CSS gradient?',
-        answer: 'A CSS gradient is a smooth transition between two or more colors. They are defined using functions like linear-gradient() and radial-gradient() and used as background images.'
-    },
-    {
-        question: 'What is the difference between linear and radial gradients?',
-        answer: 'Linear gradients transition colors along a straight line at a specified angle. Radial gradients transition colors from a center point outward in a circular or elliptical shape.'
-    },
-    {
-        question: 'What are color stops?',
-        answer: 'Color stops define the colors in a gradient and their positions. You can have multiple color stops to create complex multi-color gradients.'
-    },
+  { question: 'Hva er forskjellen på lineær og radiell?', answer: 'Lineære går i en rett linje, radielle går ut fra et punkt.' },
+  { question: 'Hvor mange farger kan jeg bruke?', answer: 'Så mange du vil, men to eller tre gir som regel best resultat.' },
+  { question: 'Fungerer gradienter i alle nettlesere?', answer: 'Ja, i alle moderne nettlesere.' },
+  { question: 'Hvordan unngår jeg «bånd» i gradienten?', answer: 'Bruk farger som ligger nær hverandre, og vurder litt støy eller et mønster oppå.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/productivity/hex-to-rgb', title: 'HEX til RGB', description: 'Gjør om HEX-fargekoder til RGB-verdier' },
+  { href: '/calculators/productivity/contrast-checker', title: 'Kontrastsjekker (WCAG)', description: 'Sjekk fargekontrast mot WCAG 2.1 AA/AAA for universell utforming' },
 ];
 
 export default function GradientGeneratorPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="gradient-generator"
-                title="CSS Gradient Generator"
-                description="Create beautiful linear and radial CSS gradients with live preview."
-                colorClass="bg-violet-100 text-violet-700"
-            />
-            <section aria-label="Gradient Generator Tool">
-                <GradientGenerator />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="gradient-generator"
+          title="CSS-gradientgenerator"
+          description="Lag lineære og radiale CSS-gradienter med flere fargestopp, forhåndsvisning og ferdig kode. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="CSS-gradientgenerator">
+          <GradientGenerator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

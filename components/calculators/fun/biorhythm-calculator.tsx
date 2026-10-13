@@ -160,7 +160,7 @@ export function BiorhythmCalculator() {
       const chartResults = getBiorhythmChart(birthDate, 30, targetDate);
       
       const chartData: ChartData[] = chartResults.map((result) => ({
-        date: result.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: result.date.toLocaleDateString('nb-NO', { month: 'short', day: 'numeric' }),
         physical: result.physical,
         emotional: result.emotional,
         intellectual: result.intellectual,
@@ -261,7 +261,7 @@ export function BiorhythmCalculator() {
             
             {/* Days since birth */}
             <div className="text-center text-sm text-muted-foreground">
-              <p>Days since birth: <span className="font-medium text-foreground">{results.current.daysSinceBirth.toLocaleString()}</span></p>
+              <p>Days since birth: <span className="font-medium text-foreground">{results.current.daysSinceBirth.toLocaleString('nb-NO')}</span></p>
             </div>
             
             {/* Legend explanation */}

@@ -59,9 +59,9 @@ export function BoxShadowGenerator() {
     return (
         <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>CSS Box Shadow Generator</CardTitle>
+                <CardTitle>CSS-skyggegenerator</CardTitle>
                 <CardDescription>
-                    Create CSS box shadows with multiple layers and live preview
+                    Lag CSS-skygger med flere lag og forhåndsvisning
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -75,7 +75,7 @@ export function BoxShadowGenerator() {
 
                 {/* Shadow Layers */}
                 <div className="space-y-2">
-                    <Label>Shadow Layers</Label>
+                    <Label>Skyggelag</Label>
                     <div className="flex flex-wrap gap-2">
                         {shadows.map((shadow, i) => (
                             <button
@@ -84,8 +84,8 @@ export function BoxShadowGenerator() {
                                 className={`px-3 py-1.5 text-sm border rounded-md transition-colors flex items-center gap-2 ${activeIndex === i ? 'border-primary bg-primary/5' : 'hover:bg-muted'
                                     }`}
                             >
-                                Shadow {i + 1}
-                                {shadow.inset && <span className="text-xs text-muted-foreground">(inset)</span>}
+                                Skygge {i + 1}
+                                {shadow.inset && <span className="text-xs text-muted-foreground">(innvendig)</span>}
                                 {shadows.length > 1 && (
                                     <span
                                         className="hover:text-destructive"
@@ -106,7 +106,7 @@ export function BoxShadowGenerator() {
                 {activeShadow && (
                     <div className="grid grid-cols-2 gap-4 p-4 border rounded-lg">
                         <div className="space-y-2">
-                            <Label>Offset X: {activeShadow.offsetX}px</Label>
+                            <Label>Forskyvning X: {activeShadow.offsetX}px</Label>
                             <input
                                 type="range"
                                 min="-50"
@@ -117,7 +117,7 @@ export function BoxShadowGenerator() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Offset Y: {activeShadow.offsetY}px</Label>
+                            <Label>Forskyvning Y: {activeShadow.offsetY}px</Label>
                             <input
                                 type="range"
                                 min="-50"
@@ -128,7 +128,7 @@ export function BoxShadowGenerator() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Blur: {activeShadow.blur}px</Label>
+                            <Label>Uskarphet: {activeShadow.blur}px</Label>
                             <input
                                 type="range"
                                 min="0"
@@ -139,7 +139,7 @@ export function BoxShadowGenerator() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Spread: {activeShadow.spread}px</Label>
+                            <Label>Utbredelse: {activeShadow.spread}px</Label>
                             <input
                                 type="range"
                                 min="-50"
@@ -150,7 +150,7 @@ export function BoxShadowGenerator() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Color</Label>
+                            <Label>Farge</Label>
                             <div className="flex gap-2">
                                 <input
                                     type="color"
@@ -167,7 +167,7 @@ export function BoxShadowGenerator() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label>Opacity: {Math.round(activeShadow.opacity * 100)}%</Label>
+                            <Label>Gjennomsiktighet: {Math.round(activeShadow.opacity * 100)}%</Label>
                             <input
                                 type="range"
                                 min="0"
@@ -185,7 +185,7 @@ export function BoxShadowGenerator() {
                                     onChange={(e) => updateShadow(activeIndex, 'inset', e.target.checked)}
                                     className="rounded"
                                 />
-                                <span className="text-sm">Inset shadow</span>
+                                <span className="text-sm">Innvendig skygge</span>
                             </label>
                         </div>
                     </div>
@@ -193,7 +193,7 @@ export function BoxShadowGenerator() {
 
                 {/* Presets */}
                 <div className="space-y-2">
-                    <Label>Presets</Label>
+                    <Label>Forhåndsvalg</Label>
                     <div className="flex flex-wrap gap-2">
                         {SHADOW_PRESETS.map((preset) => (
                             <button
@@ -210,10 +210,10 @@ export function BoxShadowGenerator() {
                 {/* CSS Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>CSS Code</Label>
+                        <Label>CSS-kode</Label>
                         <Button variant="ghost" size="sm" onClick={copyCSS}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <pre className="p-3 bg-muted rounded-lg text-xs overflow-x-auto font-mono">
