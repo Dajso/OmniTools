@@ -170,28 +170,28 @@ export function calculateCompoundInterest(
   // Validate inputs
   if (principal < 0) {
     throw new CompoundInterestError(
-      'Principal cannot be negative',
+      'Startbeløpet kan ikke være negativt',
       'invalid_input',
       'principal'
     );
   }
   if (annualRate < 0) {
     throw new CompoundInterestError(
-      'Interest rate cannot be negative',
+      'Renten kan ikke være negativ',
       'invalid_input',
       'annualRate'
     );
   }
   if (years <= 0) {
     throw new CompoundInterestError(
-      'Investment period must be positive',
+      'Investeringsperioden må være større enn null',
       'invalid_input',
       'years'
     );
   }
   if (contribution < 0) {
     throw new CompoundInterestError(
-      'Contribution cannot be negative',
+      'Innskuddet kan ikke være negativt',
       'invalid_input',
       'contribution'
     );
@@ -256,7 +256,7 @@ export function calculateCompoundInterest(
   // Check for overflow
   if (!Number.isFinite(balance)) {
     throw new CompoundInterestError(
-      'Calculation resulted in overflow',
+      'Beregningen ga for store tall',
       'overflow'
     );
   }
@@ -291,13 +291,13 @@ export function calculateSimpleCompoundInterest(
   compoundingFrequency: CompoundingFrequency = 'annually'
 ): number {
   if (principal < 0) {
-    throw new CompoundInterestError('Principal cannot be negative', 'invalid_input', 'principal');
+    throw new CompoundInterestError('Startbeløpet kan ikke være negativt', 'invalid_input', 'principal');
   }
   if (annualRate < 0) {
-    throw new CompoundInterestError('Interest rate cannot be negative', 'invalid_input', 'annualRate');
+    throw new CompoundInterestError('Renten kan ikke være negativ', 'invalid_input', 'annualRate');
   }
   if (years <= 0) {
-    throw new CompoundInterestError('Years must be positive', 'invalid_input', 'years');
+    throw new CompoundInterestError('Antall år må være større enn null', 'invalid_input', 'years');
   }
 
   const n = getCompoundingPeriodsPerYear(compoundingFrequency);

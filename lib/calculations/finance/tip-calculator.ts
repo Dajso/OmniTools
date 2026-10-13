@@ -21,9 +21,9 @@ export interface TipResults {
 export function calculateTip(inputs: TipInputs): TipResults {
   const { billAmount, tipPercent, numberOfPeople } = inputs;
   
-  if (billAmount < 0) throw new Error('Bill amount cannot be negative');
-  if (tipPercent < 0) throw new Error('Tip percent cannot be negative');
-  if (numberOfPeople < 1) throw new Error('Number of people must be at least 1');
+  if (billAmount < 0) throw new Error('Regningen kan ikke være negativ');
+  if (tipPercent < 0) throw new Error('Drikkepengene kan ikke være negative');
+  if (numberOfPeople < 1) throw new Error('Antall personer må være minst 1');
 
   const tipAmount = billAmount * (tipPercent / 100);
   const totalAmount = billAmount + tipAmount;

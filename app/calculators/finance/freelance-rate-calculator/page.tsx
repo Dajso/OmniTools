@@ -1,57 +1,69 @@
 import { Metadata } from 'next';
 import { FreelanceRateCalculator } from '@/components/calculators/finance/freelance-rate-calculator';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Freelance Rate Calculator - Calculate Your Hourly Rate',
-  description: 'Calculate your ideal freelance hourly rate based on income goals, expenses, and taxes.',
-  keywords: ['freelance rate', 'hourly rate', 'consulting rate', 'contractor rate', 'freelance calculator'],
+  title: 'Timepris for frilansere – gratis kalkulator på nett',
+  description: 'Beregn hvilken timepris du bør ta som frilanser eller selvstendig. Gratis og uten registrering.',
+  keywords: ['frilans', 'timepris', 'konsulent', 'selvstendig næringsdrivende', 'honorar'],
   alternates: { canonical: '/calculators/finance/freelance-rate-calculator' },
+  openGraph: {
+    title: 'Timepris for frilansere',
+    description: 'Beregn hvilken timepris du bør ta som frilanser eller selvstendig',
+    url: '/calculators/finance/freelance-rate-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Timepris for frilansere',
+  description: 'Beregn hvilken timepris du bør ta som frilanser eller selvstendig',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set income goal', text: 'Enter your desired annual take-home income.' },
-  { name: 'Estimate billable hours', text: 'Input how many hours per week you can bill clients.' },
-  { name: 'Add working weeks', text: 'Account for vacation and non-billable time.' },
-  { name: 'Include expenses', text: 'Add your annual business expenses.' },
-  { name: 'View your rate', text: 'See your recommended hourly, daily, and monthly rates.' },
+  { name: 'Oppgi ønsket inntekt', text: 'Skriv inn hva du vil sitte igjen med etter skatt i året.' },
+  { name: 'Fyll inn kostnader', text: 'Oppgi årlige driftskostnader som regnskapsfører, programvare og kontor.' },
+  { name: 'Legg inn arbeidstid', text: 'Oppgi fakturerbare timer per uke og arbeidsuker i året.' },
+  { name: 'Legg inn skattesats', text: 'Oppgi anslått skattesats, og se anbefalt timepris.' },
 ];
 
 const faqs = [
-  { question: 'How many hours should I bill?', answer: 'Most freelancers can bill 20-30 hours per week. The rest goes to admin, marketing, and business development.' },
-  { question: 'Should I charge hourly or project-based?', answer: 'Project-based pricing often earns more as you get faster. Start hourly to understand your time, then transition to project rates.' },
-  { question: 'How do I handle taxes?', answer: 'As a freelancer, you\'re responsible for self-employment tax (15.3%) plus income tax. Set aside 25-35% of income for taxes.' },
+  { question: 'Hvorfor må timeprisen være mye høyere enn timelønn?', answer: 'Som selvstendig betaler du selv for sykdom, ferie, pensjon, forsikring og administrasjon, og du kan ikke fakturere alle timene du jobber.' },
+  { question: 'Er MVA med i timeprisen?', answer: 'Nei. Hvis du er MVA-registrert, legger du 25 % MVA oppå timeprisen på fakturaen.' },
+  { question: 'Hva er fakturerbare timer?', answer: 'Timer du faktisk kan fakturere kunder for. Salg, administrasjon og kompetanseheving er ikke fakturerbare, så tallet er ofte 50–70 % av arbeidstiden.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/finance/hourly-salary-calculator', title: 'Timelønn til årslønn', description: 'Regn om mellom timelønn, månedslønn og årslønn' },
 ];
 
 export default function Page() {
   return (
-    <main className="container mx-auto px-4 py-8 max-w-4xl">
-      <ToolPageHeader toolId="freelance-rate-calculator" title="Freelance Rate Calculator"
-        description="Calculate your ideal freelance hourly rate to meet your income goals after taxes and expenses."
-        colorClass="bg-indigo-100 text-indigo-700" />
-      <section aria-label="Freelance Rate Calculator"><FreelanceRateCalculator /></section>
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-        <ol className="space-y-4">
-          {howToSteps.map((step, i) => (
-            <li key={i} className="flex gap-4">
-              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-              <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-        <div className="space-y-6">
-          {faqs.map((faq, i) => (
-            <div key={i} className="border-b pb-6 last:border-b-0">
-              <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-              <p className="text-muted-foreground">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </main>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="freelance-rate-calculator"
+          title="Timepris for frilansere"
+          description="Beregn hvilken timepris du bør ta som frilanser eller selvstendig"
+        />
+
+        <section aria-label="Timepris for frilansere">
+          <FreelanceRateCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
   );
 }

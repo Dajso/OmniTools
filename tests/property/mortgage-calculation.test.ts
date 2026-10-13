@@ -18,9 +18,8 @@ import {
   generateAmortizationSchedule,
   calculateDownPaymentPercent,
   calculateDownPaymentFromPercent,
-  isPMIRequired,
-  estimatePMI,
   MortgageCalculationError,
+  calculateNorwegianLoan,
   type MortgageInputs,
 } from '@/lib/calculations/finance/mortgage';
 
@@ -244,61 +243,6 @@ describe('Mortgage Calculator - Property 2: Calculator Computation Correctness',
     );
   });
 
-  /**
-   * Property: PMI is required when down payment < 20%
-   */
-  it('PMI is required when down payment is less than 20%', () => {
-    fc.assert(
-      fc.property(
-        fc.double({ min: 0, max: 19.99, noNaN: true, noDefaultInfinity: true }),
-        (percent) => {
-          expect(isPMIRequired(percent)).toBe(true);
-          return true;
-        }
-      ),
-      { numRuns: 100 }
-    );
-  });
-
-  /**
-   * Property: PMI is not required when down payment >= 20%
-   */
-  it('PMI is not required when down payment is 20% or more', () => {
-    fc.assert(
-      fc.property(
-        fc.double({ min: 20, max: 100, noNaN: true, noDefaultInfinity: true }),
-        (percent) => {
-          expect(isPMIRequired(percent)).toBe(false);
-          return true;
-        }
-      ),
-      { numRuns: 100 }
-    );
-  });
-
-  /**
-   * Property: Estimated PMI is proportional to loan amount
-   */
-  it('estimated PMI is proportional to loan amount', () => {
-    fc.assert(
-      fc.property(
-        fc.double({ min: 50000, max: 1000000, noNaN: true, noDefaultInfinity: true }),
-        fc.double({ min: 0.3, max: 1.5, noNaN: true, noDefaultInfinity: true }),
-        (loanAmount, pmiRate) => {
-          const pmi = estimatePMI(loanAmount, pmiRate);
-          const expected = (loanAmount * (pmiRate / 100)) / 12;
-          
-          expect(pmi).toBeCloseTo(expected, 2);
-          return true;
-        }
-      ),
-      { numRuns: 100 }
-    );
-  });
-
-  /**
-   * Property: Invalid inputs throw MortgageCalculationError
-   */
   describe('invalid inputs throw errors', () => {
     it('negative home price throws error', () => {
       fc.assert(
@@ -425,6 +369,68 @@ describe('Mortgage Calculator - Property 2: Calculator Computation Correctness',
         }
       ),
       { numRuns: 100 }
+    );
+  });
+});
+
+
+describe('Boliglån (norsk): annuitet og serie', () => {
+  const base = {
+    loanAmount: 3_000_000,
+    termYears: 25,
+    interestRate: 5.5,
+    establishmentFee: 1000,
+    monthlyFee: 50,
+  };
+
+  it('annuitet gir like terminbeløp (bortsett fra siste)', () => {
+    const r = calculateNorwegianLoan({ ...base, loanType: 'annuity' });
+    expect(r.firstPayment).toBeCloseTo(r.schedule[100].payment, 2);
+    expect(r.schedule).toHaveLength(300);
+  });
+
+  it('serielån har synkende terminbeløp og like avdrag', () => {
+    const r = calculateNorwegianLoan({ ...base, loanType: 'serial' });
+    expect(r.firstPayment).toBeGreaterThan(r.lastPayment);
+    expect(r.schedule[0].principal).toBeCloseTo(10000, 6);
+    expect(r.schedule[299].principal).toBeCloseTo(10000, 6);
+  });
+
+  it('serielån koster mindre i renter enn annuitet', () => {
+    const a = calculateNorwegianLoan({ ...base, loanType: 'annuity' });
+    const s = calculateNorwegianLoan({ ...base, loanType: 'serial' });
+    expect(s.totalInterest).toBeLessThan(a.totalInterest);
+  });
+
+  it('restgjelden går mot null', () => {
+    for (const loanType of ['annuity', 'serial'] as const) {
+      const r = calculateNorwegianLoan({ ...base, loanType });
+      expect(r.schedule[r.schedule.length - 1].balance).toBeCloseTo(0, 6);
+      const sumPrincipal = r.schedule.reduce((s, e) => s + e.principal, 0);
+      expect(sumPrincipal).toBeCloseTo(base.loanAmount, 4);
+    }
+  });
+
+  it('effektiv rente er høyere enn nominell rente når det er gebyrer', () => {
+    const r = calculateNorwegianLoan({ ...base, loanType: 'annuity' });
+    // månedlig rentesrente alene gir ca. 5,64 %
+    expect(r.effectiveRate).toBeGreaterThan(5.64);
+  });
+
+  it('uten gebyrer er effektiv rente lik nominell rente omregnet til årlig', () => {
+    const r = calculateNorwegianLoan({
+      ...base,
+      establishmentFee: 0,
+      monthlyFee: 0,
+      loanType: 'annuity',
+    });
+    const forventet = (Math.pow(1 + 0.055 / 12, 12) - 1) * 100;
+    expect(r.effectiveRate).toBeCloseTo(forventet, 3);
+  });
+
+  it('ugyldig lånebeløp gir feil', () => {
+    expect(() => calculateNorwegianLoan({ ...base, loanAmount: 0, loanType: 'annuity' })).toThrow(
+      MortgageCalculationError
     );
   });
 });

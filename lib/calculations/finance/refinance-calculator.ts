@@ -36,8 +36,8 @@ export function calculateRefinance(inputs: RefinanceInputs): RefinanceResults {
     closingCosts,
   } = inputs;
 
-  if (currentBalance <= 0) throw new Error('Current balance must be positive');
-  if (newTermMonths <= 0) throw new Error('New term must be positive');
+  if (currentBalance <= 0) throw new Error('Restgjelden må være større enn null');
+  if (newTermMonths <= 0) throw new Error('Ny nedbetalingstid må være større enn null');
 
   // Calculate new monthly payment
   const newMonthlyRate = newRate / 100 / 12;

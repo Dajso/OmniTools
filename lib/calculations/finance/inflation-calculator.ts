@@ -21,8 +21,8 @@ export interface InflationResults {
 export function calculateInflation(inputs: InflationInputs): InflationResults {
   const { amount, inflationRate, years } = inputs;
   
-  if (amount < 0) throw new Error('Amount cannot be negative');
-  if (years < 0) throw new Error('Years cannot be negative');
+  if (amount < 0) throw new Error('Beløpet kan ikke være negativt');
+  if (years < 0) throw new Error('Antall år kan ikke være negativt');
 
   // Future value needed to maintain purchasing power
   const futureValue = amount * Math.pow(1 + inflationRate / 100, years);

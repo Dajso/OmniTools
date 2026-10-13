@@ -23,9 +23,9 @@ export interface EmergencyFundResults {
 export function calculateEmergencyFund(inputs: EmergencyFundInputs): EmergencyFundResults {
   const { monthlyExpenses, monthsOfCoverage, currentSavings, monthlySavingsRate } = inputs;
   
-  if (monthlyExpenses < 0) throw new Error('Monthly expenses cannot be negative');
-  if (monthsOfCoverage < 1) throw new Error('Coverage must be at least 1 month');
-  if (currentSavings < 0) throw new Error('Current savings cannot be negative');
+  if (monthlyExpenses < 0) throw new Error('Månedlige utgifter kan ikke være negative');
+  if (monthsOfCoverage < 1) throw new Error('Dekningen må være minst 1 måned');
+  if (currentSavings < 0) throw new Error('Sparingen kan ikke være negativ');
 
   const targetAmount = monthlyExpenses * monthsOfCoverage;
   const amountNeeded = Math.max(0, targetAmount - currentSavings);

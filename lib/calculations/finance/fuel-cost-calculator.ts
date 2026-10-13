@@ -22,9 +22,9 @@ export interface FuelCostResults {
 export function calculateFuelCost(inputs: FuelCostInputs): FuelCostResults {
   const { distance, fuelEfficiency, fuelPrice, unit } = inputs;
   
-  if (distance < 0) throw new Error('Distance cannot be negative');
-  if (fuelEfficiency <= 0) throw new Error('Fuel efficiency must be positive');
-  if (fuelPrice < 0) throw new Error('Fuel price cannot be negative');
+  if (distance < 0) throw new Error('Avstanden kan ikke være negativ');
+  if (fuelEfficiency <= 0) throw new Error('Forbruket må være større enn null');
+  if (fuelPrice < 0) throw new Error('Drivstoffprisen kan ikke være negativ');
 
   let fuelNeeded: number;
   let distanceInMiles: number;

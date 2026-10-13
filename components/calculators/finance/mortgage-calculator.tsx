@@ -8,98 +8,112 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { SelectInput } from '@/components/ui/select-input';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
-  calculateMortgage,
+  calculateNorwegianLoan,
   calculateDownPaymentPercent,
   calculateDownPaymentFromPercent,
-  isPMIRequired,
-  estimatePMI,
-  type MortgageInputs,
-  type MortgageResults,
+  type LoanType,
+  type NorwegianLoanResults,
 } from '@/lib/calculations/finance/mortgage';
 import { formatCurrency, formatPercent } from '@/lib/utils/formatting';
 import { cn } from '@/lib/utils';
 
-/**
- * Zod schema for mortgage calculator inputs
- */
+/** Bankene krever normalt minst 15 % egenkapital (utlånsforskriften). */
+const MIN_EQUITY_PERCENT = 15;
+
+const kr = (v: number) => formatCurrency(v, { decimals: 0 });
+const pct = (v: number) => formatPercent(v, { isDecimal: false });
+
 const mortgageSchema = z.object({
-  homePrice: z.number().min(1000, 'Home price must be at least $1,000').max(100000000, 'Home price too high'),
-  downPayment: z.number().min(0, 'Down payment cannot be negative'),
+  homePrice: z.number().min(10000, 'Boligprisen må være minst 10 000 kr').max(200000000, 'Boligprisen er for høy'),
+  downPayment: z.number().min(0, 'Egenkapitalen kan ikke være negativ'),
   downPaymentPercent: z.number().min(0).max(99.99),
-  loanTerm: z.number().refine(v => [10, 15, 20, 25, 30].includes(v), 'Select a valid loan term'),
-  interestRate: z.number().min(0, 'Interest rate cannot be negative').max(30, 'Interest rate too high'),
-  propertyTax: z.number().min(0, 'Property tax cannot be negative'),
-  homeInsurance: z.number().min(0, 'Insurance cannot be negative'),
-  pmi: z.number().min(0, 'PMI cannot be negative'),
-  hoaFees: z.number().min(0, 'HOA fees cannot be negative'),
+  loanType: z.enum(['annuity', 'serial']),
+  loanTerm: z.number().refine((v) => [5, 10, 15, 20, 25, 30].includes(v), 'Velg en gyldig nedbetalingstid'),
+  interestRate: z.number().min(0, 'Renten kan ikke være negativ').max(30, 'Renten er for høy'),
+  establishmentFee: z.number().min(0, 'Gebyret kan ikke være negativt'),
+  monthlyFee: z.number().min(0, 'Gebyret kan ikke være negativt'),
+  commonCosts: z.number().min(0, 'Felleskostnadene kan ikke være negative'),
+  propertyTax: z.number().min(0, 'Eiendomsskatten kan ikke være negativ'),
+  homeInsurance: z.number().min(0, 'Forsikringen kan ikke være negativ'),
 });
 
 type MortgageFormInputs = z.infer<typeof mortgageSchema>;
 
-const LOAN_TERM_OPTIONS = [
-  { value: '10', label: '10 years' },
-  { value: '15', label: '15 years' },
-  { value: '20', label: '20 years' },
-  { value: '25', label: '25 years' },
-  { value: '30', label: '30 years' },
+interface MortgageResults extends NorwegianLoanResults {
+  loanAmount: number;
+  /** Første terminbeløp hvis renten stiger 3 prosentpoeng (bankenes stresstest) */
+  stressFirstPayment: number;
+  /** Boutgifter per måned første måned: termin + felleskostnader + eiendomsskatt + forsikring */
+  housingCostFirstMonth: number;
+}
+
+const LOAN_TYPE_OPTIONS = [
+  { value: 'annuity', label: 'Annuitetslån (like terminbeløp)' },
+  { value: 'serial', label: 'Serielån (like avdrag)' },
 ];
 
+const LOAN_TERM_OPTIONS = [5, 10, 15, 20, 25, 30].map((y) => ({ value: String(y), label: `${y} år` }));
+
 const INITIAL_INPUTS: MortgageFormInputs = {
-  homePrice: 300000,
-  downPayment: 60000,
-  downPaymentPercent: 20,
-  loanTerm: 30,
-  interestRate: 6.5,
-  propertyTax: 3600,
-  homeInsurance: 1200,
-  pmi: 0,
-  hoaFees: 0,
+  homePrice: 4500000,
+  downPayment: 675000,
+  downPaymentPercent: 15,
+  loanType: 'annuity',
+  loanTerm: 25,
+  interestRate: 5.5,
+  establishmentFee: 1000,
+  monthlyFee: 50,
+  commonCosts: 0,
+  propertyTax: 0,
+  homeInsurance: 0,
 };
 
+function calculateMortgageFn(f: MortgageFormInputs): MortgageResults {
+  const loanAmount = f.homePrice - f.downPayment;
+  const base = {
+    loanAmount,
+    termYears: f.loanTerm,
+    interestRate: f.interestRate,
+    loanType: f.loanType as LoanType,
+    establishmentFee: f.establishmentFee,
+    monthlyFee: f.monthlyFee,
+  };
+  const loan = calculateNorwegianLoan(base);
+  const stress = calculateNorwegianLoan({ ...base, interestRate: f.interestRate + 3 });
+  return {
+    ...loan,
+    loanAmount,
+    stressFirstPayment: stress.firstPayment,
+    housingCostFirstMonth: loan.firstPayment + f.commonCosts + f.propertyTax / 12 + f.homeInsurance / 12,
+  };
+}
 
-/**
- * Amortization schedule table component
- */
-function AmortizationSchedule({
-  schedule,
-  showAll = false,
-}: {
-  schedule: MortgageResults['amortizationSchedule'];
-  showAll?: boolean;
-}) {
-  const [expanded, setExpanded] = React.useState(showAll);
-  const displaySchedule = expanded ? schedule : schedule.slice(0, 12);
+function Schedule({ schedule }: { schedule: NorwegianLoanResults['schedule'] }) {
+  const [expanded, setExpanded] = React.useState(false);
+  const rows = expanded ? schedule : schedule.slice(0, 12);
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-3">Amortization Schedule</h3>
+      <h3 className="text-lg font-semibold mb-3">Nedbetalingsplan</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b">
-              <th className="text-left py-2 px-2">Month</th>
-              <th className="text-right py-2 px-2">Payment</th>
-              <th className="text-right py-2 px-2">Principal</th>
-              <th className="text-right py-2 px-2">Interest</th>
-              <th className="text-right py-2 px-2">Balance</th>
+              <th className="text-left py-2 px-2">Termin</th>
+              <th className="text-right py-2 px-2">Terminbeløp</th>
+              <th className="text-right py-2 px-2">Avdrag</th>
+              <th className="text-right py-2 px-2">Renter</th>
+              <th className="text-right py-2 px-2">Restgjeld</th>
             </tr>
           </thead>
           <tbody>
-            {displaySchedule.map((entry) => (
-              <tr key={entry.month} className="border-b border-muted">
-                <td className="py-2 px-2">{entry.month}</td>
-                <td className="text-right py-2 px-2">
-                  {formatCurrency(entry.payment)}
-                </td>
-                <td className="text-right py-2 px-2">
-                  {formatCurrency(entry.principal)}
-                </td>
-                <td className="text-right py-2 px-2">
-                  {formatCurrency(entry.interest)}
-                </td>
-                <td className="text-right py-2 px-2">
-                  {formatCurrency(entry.balance)}
-                </td>
+            {rows.map((e) => (
+              <tr key={e.month} className="border-b border-muted">
+                <td className="py-2 px-2">{e.month}</td>
+                <td className="text-right py-2 px-2">{kr(e.payment)}</td>
+                <td className="text-right py-2 px-2">{kr(e.principal)}</td>
+                <td className="text-right py-2 px-2">{kr(e.interest)}</td>
+                <td className="text-right py-2 px-2">{kr(e.balance)}</td>
               </tr>
             ))}
           </tbody>
@@ -111,140 +125,84 @@ function AmortizationSchedule({
           onClick={() => setExpanded(!expanded)}
           className="mt-3 text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
         >
-          {expanded ? 'Show less' : `Show all ${schedule.length} months`}
+          {expanded ? 'Vis færre' : `Vis alle ${schedule.length} terminer`}
         </button>
       )}
     </div>
   );
 }
 
-/**
- * Payment breakdown component showing pie chart-like visualization
- */
-function PaymentBreakdown({ results }: { results: MortgageResults }) {
-  const breakdown = [
-    { label: 'Principal & Interest', value: results.principalAndInterest, color: 'bg-blue-500' },
-    { label: 'Property Tax', value: results.monthlyTax, color: 'bg-green-500' },
-    { label: 'Home Insurance', value: results.monthlyInsurance, color: 'bg-yellow-500' },
-    { label: 'PMI', value: results.monthlyPMI, color: 'bg-red-500' },
-    { label: 'HOA Fees', value: results.monthlyHOA, color: 'bg-purple-500' },
-  ].filter(item => item.value > 0);
+function CostBreakdown({ inputs, results }: { inputs: MortgageFormInputs; results: MortgageResults }) {
+  const items = [
+    { label: 'Avdrag', value: results.schedule[0].principal, color: 'bg-accent-600' },
+    { label: 'Renter', value: results.schedule[0].interest, color: 'bg-accent-300' },
+    { label: 'Termingebyr', value: inputs.monthlyFee, color: 'bg-gray-400' },
+    { label: 'Felleskostnader', value: inputs.commonCosts, color: 'bg-gray-300' },
+    { label: 'Eiendomsskatt', value: inputs.propertyTax / 12, color: 'bg-gray-500' },
+    { label: 'Forsikring', value: inputs.homeInsurance / 12, color: 'bg-gray-200' },
+  ].filter((i) => i.value > 0);
 
   return (
     <div className="mt-4 space-y-2">
-      <h4 className="text-sm font-medium text-muted-foreground">Payment Breakdown</h4>
-      {breakdown.map((item) => (
+      <h4 className="text-sm font-medium text-muted-foreground">Boutgifter første måned</h4>
+      {items.map((item) => (
         <div key={item.label} className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-full', item.color)} />
             <span>{item.label}</span>
           </div>
-          <span className="font-medium">{formatCurrency(item.value)}</span>
+          <span className="font-medium">{kr(item.value)}</span>
         </div>
       ))}
     </div>
   );
 }
 
-
 /**
- * Mortgage Calculator Component
- * 
- * A comprehensive mortgage calculator that computes monthly payments
- * including principal, interest, taxes, insurance, PMI, and HOA fees.
- * 
- * Features:
- * - Real-time calculation
- * - Down payment percentage sync
- * - Automatic PMI estimation
- * - Full amortization schedule
- * - Payment breakdown visualization
- * 
- * @see Requirements 5.1
+ * Boliglånskalkulator for Norge.
+ * Annuitetslån og serielån, etableringsgebyr, termingebyr, felleskostnader,
+ * eiendomsskatt, effektiv rente og bankenes stresstest (+3 prosentpoeng).
  */
-
-function calculateMortgageFn(formInputs: MortgageFormInputs): MortgageResults {
-  const mortgageInputs: MortgageInputs = {
-    homePrice: formInputs.homePrice,
-    downPayment: formInputs.downPayment,
-    loanTerm: formInputs.loanTerm,
-    interestRate: formInputs.interestRate,
-    propertyTax: formInputs.propertyTax,
-    homeInsurance: formInputs.homeInsurance,
-    pmi: formInputs.pmi,
-    hoaFees: formInputs.hoaFees,
-  };
-  return calculateMortgage(mortgageInputs);
-}
-
 export function MortgageCalculator() {
-  const {
-    inputs,
-    setInput,
-    results,
-    errors,
-    isValid,
-    calculate,
-    reset,
-    isCalculating,
-  } = useCalculator<MortgageFormInputs, MortgageResults>({
-    initialInputs: INITIAL_INPUTS,
-    schema: mortgageSchema,
-    calculate: calculateMortgageFn,
-    storageKey: 'mortgage-calculator',
-  });
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<MortgageFormInputs, MortgageResults>({
+      initialInputs: INITIAL_INPUTS,
+      schema: mortgageSchema,
+      calculate: calculateMortgageFn,
+      storageKey: 'mortgage-calculator-no',
+    });
 
-  // Sync down payment amount and percentage
   const handleHomePriceChange = (value: number) => {
     setInput('homePrice', value);
-    // Recalculate down payment from percentage
-    const newDownPayment = calculateDownPaymentFromPercent(value, inputs.downPaymentPercent);
-    setInput('downPayment', newDownPayment);
-    // Update PMI if needed
-    updatePMI(value, newDownPayment);
+    setInput('downPayment', Math.round(calculateDownPaymentFromPercent(value, inputs.downPaymentPercent)));
   };
 
   const handleDownPaymentChange = (value: number) => {
     setInput('downPayment', value);
-    const percent = calculateDownPaymentPercent(inputs.homePrice, value);
-    setInput('downPaymentPercent', percent);
-    updatePMI(inputs.homePrice, value);
+    setInput('downPaymentPercent', calculateDownPaymentPercent(inputs.homePrice, value));
   };
 
   const handleDownPaymentPercentChange = (value: number) => {
     setInput('downPaymentPercent', value);
-    const amount = calculateDownPaymentFromPercent(inputs.homePrice, value);
-    setInput('downPayment', amount);
-    updatePMI(inputs.homePrice, amount);
+    setInput('downPayment', Math.round(calculateDownPaymentFromPercent(inputs.homePrice, value)));
   };
 
-  const updatePMI = (homePrice: number, downPayment: number) => {
-    const percent = calculateDownPaymentPercent(homePrice, downPayment);
-    if (isPMIRequired(percent)) {
-      const loanAmount = homePrice - downPayment;
-      const estimatedPMI = estimatePMI(loanAmount);
-      setInput('pmi', Math.round(estimatedPMI * 100) / 100);
-    } else {
-      setInput('pmi', 0);
-    }
-  };
-
-  const handleLoanTermChange = (value: string) => {
-    setInput('loanTerm', parseInt(value, 10));
-  };
-
-  // Calculate on mount with initial values
   React.useEffect(() => {
     calculate();
   }, [calculate]);
 
-  const formula = 'M = P × [r(1+r)^n] / [(1+r)^n - 1]';
-  const formulaExplanation = 'Where M = Monthly payment, P = Principal, r = Monthly interest rate, n = Number of payments';
+  const isSerial = inputs.loanType === 'serial';
+  const formula = isSerial
+    ? 'Avdrag = Lån ÷ antall terminer. Renter = restgjeld × (rente ÷ 12)'
+    : 'T = L × [r(1+r)^n] / [(1+r)^n − 1]';
+  const formulaExplanation = isSerial
+    ? 'Ved serielån er avdraget likt hver måned, så terminbeløpet synker etter hvert som renten faller.'
+    : 'T = terminbeløp, L = lånebeløp, r = månedlig rente (årsrente ÷ 12), n = antall terminer.';
 
   return (
     <CalculatorBase
-      title="Mortgage Calculator"
-      description="Calculate your monthly mortgage payment including PMI, taxes, and insurance"
+      title="Boliglånskalkulator"
+      description="Beregn terminbeløp, renter og gebyrer på boliglånet"
       formula={formula}
       formulaExplanation={formulaExplanation}
       isCalculateDisabled={!isValid}
@@ -256,68 +214,70 @@ export function MortgageCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Monthly Payment"
-              value={formatCurrency(results.monthlyPayment)}
+              label={isSerial ? 'Første terminbeløp' : 'Terminbeløp per måned'}
+              value={kr(results.firstPayment)}
               highlight
               copyable
             />
+            {isSerial && (
+              <p className="text-sm text-muted-foreground">
+                Terminbeløpet synker til {kr(results.lastPayment)} i siste termin.
+              </p>
+            )}
             <div className="grid grid-cols-2 gap-3">
+              <ResultDisplay label="Lånebeløp" value={kr(results.loanAmount)} copyable />
+              <ResultDisplay label="Effektiv rente" value={pct(results.effectiveRate)} copyable />
+              <ResultDisplay label="Sum renter" value={kr(results.totalInterest)} copyable />
+              <ResultDisplay label="Sum gebyrer" value={kr(results.totalFees)} copyable />
+              <ResultDisplay label="Totalt å betale" value={kr(results.totalPaid)} copyable />
               <ResultDisplay
-                label="Principal & Interest"
-                value={formatCurrency(results.principalAndInterest)}
-                copyable
-              />
-              <ResultDisplay
-                label="Loan Amount"
-                value={formatCurrency(results.loanAmount)}
-                copyable
-              />
-              <ResultDisplay
-                label="Total Interest"
-                value={formatCurrency(results.totalInterest)}
-                copyable
-              />
-              <ResultDisplay
-                label="Total Payment"
-                value={formatCurrency(results.totalPayment)}
+                label="Boutgifter første måned"
+                value={kr(results.housingCostFirstMonth)}
                 copyable
               />
             </div>
-            <PaymentBreakdown results={results} />
-            <AmortizationSchedule schedule={results.amortizationSchedule} />
+            <div className="rounded-md bg-muted/50 p-3 text-sm">
+              <p className="font-medium">Stresstest: renten stiger 3 prosentpoeng</p>
+              <p className="mt-1 text-muted-foreground">
+                Ved {pct(inputs.interestRate + 3)} rente blir første terminbeløp{' '}
+                <strong>{kr(results.stressFirstPayment)}</strong> (
+                {kr(results.stressFirstPayment - results.firstPayment)} mer per måned). Banken
+                vurderer om du tåler dette når du søker om lån.
+              </p>
+            </div>
+            <CostBreakdown inputs={inputs} results={results} />
+            <Schedule schedule={results.schedule} />
           </div>
         )
       }
     >
-      {/* Home Price */}
       <NumberInput
         id="homePrice"
-        label="Home Price"
+        label="Boligpris"
         value={inputs.homePrice}
         onChange={handleHomePriceChange}
-        min={1000}
-        max={100000000}
-        step={1000}
-        unit="$"
+        min={10000}
+        max={200000000}
+        step={50000}
+        unit="kr"
         error={errors.homePrice}
         required
       />
 
-      {/* Down Payment */}
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="downPayment"
-          label="Down Payment"
+          label="Egenkapital"
           value={inputs.downPayment}
           onChange={handleDownPaymentChange}
           min={0}
-          step={1000}
-          unit="$"
+          step={10000}
+          unit="kr"
           error={errors.downPayment}
         />
         <NumberInput
           id="downPaymentPercent"
-          label="Down Payment %"
+          label="Egenkapital i prosent"
           value={Math.round(inputs.downPaymentPercent * 100) / 100}
           onChange={handleDownPaymentPercentChange}
           min={0}
@@ -328,86 +288,104 @@ export function MortgageCalculator() {
         />
       </div>
 
-      {/* Loan Details */}
       <div className="grid grid-cols-2 gap-4">
         <SelectInput
+          id="loanType"
+          label="Lånetype"
+          value={inputs.loanType}
+          onChange={(v: string) => setInput('loanType', v as LoanType)}
+          options={LOAN_TYPE_OPTIONS}
+        />
+        <SelectInput
           id="loanTerm"
-          label="Loan Term"
+          label="Nedbetalingstid"
           value={String(inputs.loanTerm)}
-          onChange={handleLoanTermChange}
+          onChange={(v: string) => setInput('loanTerm', parseInt(v, 10))}
           options={LOAN_TERM_OPTIONS}
           error={errors.loanTerm}
           required
         />
+      </div>
+
+      <NumberInput
+        id="interestRate"
+        label="Nominell rente"
+        value={inputs.interestRate}
+        onChange={(v) => setInput('interestRate', v)}
+        min={0}
+        max={30}
+        step={0.05}
+        unit="%"
+        error={errors.interestRate}
+        required
+      />
+
+      <div className="grid grid-cols-2 gap-4">
         <NumberInput
-          id="interestRate"
-          label="Interest Rate"
-          value={inputs.interestRate}
-          onChange={(v) => setInput('interestRate', v)}
+          id="establishmentFee"
+          label="Etableringsgebyr"
+          value={inputs.establishmentFee}
+          onChange={(v) => setInput('establishmentFee', v)}
           min={0}
-          max={30}
-          step={0.125}
-          unit="%"
-          error={errors.interestRate}
-          required
+          step={100}
+          unit="kr"
+          error={errors.establishmentFee}
+        />
+        <NumberInput
+          id="monthlyFee"
+          label="Termingebyr"
+          value={inputs.monthlyFee}
+          onChange={(v) => setInput('monthlyFee', v)}
+          min={0}
+          step={5}
+          unit="kr/mnd"
+          error={errors.monthlyFee}
         />
       </div>
 
-      {/* Taxes and Insurance */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
+        <NumberInput
+          id="commonCosts"
+          label="Felleskostnader"
+          value={inputs.commonCosts}
+          onChange={(v) => setInput('commonCosts', v)}
+          min={0}
+          step={100}
+          unit="kr/mnd"
+          error={errors.commonCosts}
+        />
         <NumberInput
           id="propertyTax"
-          label="Annual Property Tax"
+          label="Eiendomsskatt"
           value={inputs.propertyTax}
           onChange={(v) => setInput('propertyTax', v)}
           min={0}
-          step={100}
-          unit="$/yr"
+          step={500}
+          unit="kr/år"
           error={errors.propertyTax}
         />
         <NumberInput
           id="homeInsurance"
-          label="Annual Home Insurance"
+          label="Forsikring"
           value={inputs.homeInsurance}
           onChange={(v) => setInput('homeInsurance', v)}
           min={0}
-          step={100}
-          unit="$/yr"
+          step={500}
+          unit="kr/år"
           error={errors.homeInsurance}
         />
       </div>
 
-      {/* PMI and HOA */}
-      <div className="grid grid-cols-2 gap-4">
-        <NumberInput
-          id="pmi"
-          label="Monthly PMI"
-          value={inputs.pmi}
-          onChange={(v) => setInput('pmi', v)}
-          min={0}
-          step={10}
-          unit="$/mo"
-          error={errors.pmi}
-        />
-        <NumberInput
-          id="hoaFees"
-          label="Monthly HOA Fees"
-          value={inputs.hoaFees}
-          onChange={(v) => setInput('hoaFees', v)}
-          min={0}
-          step={25}
-          unit="$/mo"
-          error={errors.hoaFees}
-        />
-      </div>
-
-      {/* PMI Notice */}
-      {isPMIRequired(inputs.downPaymentPercent) && (
+      {inputs.downPaymentPercent < MIN_EQUITY_PERCENT && (
         <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-          💡 PMI is typically required when down payment is less than 20%.
-          PMI can be removed once you reach 20% equity.
+          Banker krever normalt minst {MIN_EQUITY_PERCENT} % egenkapital ved boligkjøp (utlånsforskriften).
+          Med lavere egenkapital må du ofte stille tilleggssikkerhet eller få et unntak fra banken.
         </p>
       )}
+      <p className="text-xs text-muted-foreground">
+        Dokumentavgift (2,5 % av kjøpesummen for selveierbolig) og tinglysingsgebyr kommer i tillegg til
+        egenkapitalen. Se kalkulatoren for omkostninger ved boligkjøp.
+      </p>
     </CalculatorBase>
   );
 }

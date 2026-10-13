@@ -9,13 +9,13 @@ import { useCalculator } from '@/lib/hooks/use-calculator';
 import { formatCurrency } from '@/lib/utils/formatting';
 
 const schema = z.object({
-  carPrice: z.number().min(1000, 'Price must be at least $1,000'),
-  downPayment: z.number().min(0, 'Cannot be negative'),
-  loanTerm: z.number().min(12, 'Min 12 months').max(84, 'Max 84 months'),
-  loanApr: z.number().min(0, 'Cannot be negative').max(30, 'Rate too high'),
-  leaseTerm: z.number().min(12, 'Min 12 months').max(60, 'Max 60 months'),
-  leaseMonthly: z.number().min(0, 'Cannot be negative'),
-  residualValue: z.number().min(0, 'Cannot be negative'),
+  carPrice: z.number().min(1000, 'Prisen må være minst 1 000 kr'),
+  downPayment: z.number().min(0, 'Kan ikke være negativ'),
+  loanTerm: z.number().min(12, 'Minst 12 måneder').max(84, 'Maks 84 måneder'),
+  loanApr: z.number().min(0, 'Kan ikke være negativ').max(30, 'Renten er for høy'),
+  leaseTerm: z.number().min(12, 'Minst 12 måneder').max(60, 'Maks 60 måneder'),
+  leaseMonthly: z.number().min(0, 'Kan ikke være negativ'),
+  residualValue: z.number().min(0, 'Kan ikke være negativ'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -29,13 +29,13 @@ interface Results {
 }
 
 const INITIAL_INPUTS: FormInputs = {
-  carPrice: 35000,
-  downPayment: 5000,
+  carPrice: 450000,
+  downPayment: 90000,
   loanTerm: 60,
-  loanApr: 6.5,
+  loanApr: 7,
   leaseTerm: 36,
-  leaseMonthly: 350,
-  residualValue: 20000,
+  leaseMonthly: 4500,
+  residualValue: 220000,
 };
 
 function calculateLeaseVsBuy(inputs: FormInputs): Results {
@@ -54,7 +54,7 @@ function calculateLeaseVsBuy(inputs: FormInputs): Results {
     totalLeaseCost,
     buyMonthlyPayment,
     savings,
-    recommendation: totalBuyCost < totalLeaseCost ? 'Buying is cheaper' : 'Leasing is cheaper',
+    recommendation: totalBuyCost < totalLeaseCost ? 'Kjøp er billigst' : 'Leasing er billigst',
   };
 }
 
@@ -64,16 +64,16 @@ export function CarLeaseVsBuyCalculator() {
       initialInputs: INITIAL_INPUTS,
       schema,
       calculate: calculateLeaseVsBuy,
-      storageKey: 'car-lease-vs-buy',
+      storageKey: 'car-lease-vs-buy-no',
     });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="Car Lease vs Buy Calculator"
-      description="Compare the total cost of leasing versus buying a car"
-      formula="Total Buy Cost = Down Payment + Monthly Payments - Residual Value"
+      title="Leasing eller kjøp av bil"
+      description="Sammenlign totalkostnaden ved å leasing eller kjøpe bil"
+      formula="Kjøpskostnad = Egenandel + Månedlige terminer − Restverdi"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -81,36 +81,39 @@ export function CarLeaseVsBuyCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Recommendation" value={results.recommendation} highlight />
+          <ResultDisplay label="Billigste alternativ" value={results.recommendation} highlight />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Total Cost to Buy" value={formatCurrency(results.totalBuyCost)} copyable />
-            <ResultDisplay label="Total Cost to Lease" value={formatCurrency(results.totalLeaseCost)} copyable />
-            <ResultDisplay label="Buy Monthly Payment" value={formatCurrency(results.buyMonthlyPayment)} copyable />
-            <ResultDisplay label="Potential Savings" value={formatCurrency(results.savings)} copyable />
+            <ResultDisplay label="Totalkostnad ved kjøp" value={formatCurrency(results.totalBuyCost)} copyable />
+            <ResultDisplay label="Totalkostnad ved leasing" value={formatCurrency(results.totalLeaseCost)} copyable />
+            <ResultDisplay label="Månedlig termin ved kjøp" value={formatCurrency(results.buyMonthlyPayment)} copyable />
+            <ResultDisplay label="Mulig besparelse" value={formatCurrency(results.savings)} copyable />
           </div>
         </div>
       )}
     >
-      <NumberInput id="carPrice" label="Car Price" value={inputs.carPrice}
-        onChange={(v) => setInput('carPrice', v)} min={1000} step={1000} unit="$" error={errors.carPrice} required />
+      <NumberInput id="carPrice" label="Bilpris" value={inputs.carPrice}
+        onChange={(v) => setInput('carPrice', v)} min={1000} step={1000} unit="kr" error={errors.carPrice} required />
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="downPayment" label="Down Payment" value={inputs.downPayment}
-          onChange={(v) => setInput('downPayment', v)} min={0} step={500} unit="$" error={errors.downPayment} />
-        <NumberInput id="residualValue" label="Residual Value (after loan)" value={inputs.residualValue}
-          onChange={(v) => setInput('residualValue', v)} min={0} step={1000} unit="$" error={errors.residualValue} />
+        <NumberInput id="downPayment" label="Egenandel" value={inputs.downPayment}
+          onChange={(v) => setInput('downPayment', v)} min={0} step={500} unit="kr" error={errors.downPayment} />
+        <NumberInput id="residualValue" label="Bilens verdi når lånet er nedbetalt" value={inputs.residualValue}
+          onChange={(v) => setInput('residualValue', v)} min={0} step={1000} unit="kr" error={errors.residualValue} />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="loanTerm" label="Loan Term" value={inputs.loanTerm}
-          onChange={(v) => setInput('loanTerm', v)} min={12} max={84} step={12} unit="months" error={errors.loanTerm} />
-        <NumberInput id="loanApr" label="Loan APR" value={inputs.loanApr}
+        <NumberInput id="loanTerm" label="Lånetid" value={inputs.loanTerm}
+          onChange={(v) => setInput('loanTerm', v)} min={12} max={84} step={12} unit="måneder" error={errors.loanTerm} />
+        <NumberInput id="loanApr" label="Lånerente" value={inputs.loanApr}
           onChange={(v) => setInput('loanApr', v)} min={0} max={30} step={0.1} unit="%" error={errors.loanApr} />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="leaseTerm" label="Lease Term" value={inputs.leaseTerm}
-          onChange={(v) => setInput('leaseTerm', v)} min={12} max={60} step={12} unit="months" error={errors.leaseTerm} />
-        <NumberInput id="leaseMonthly" label="Lease Monthly Payment" value={inputs.leaseMonthly}
-          onChange={(v) => setInput('leaseMonthly', v)} min={0} step={25} unit="$" error={errors.leaseMonthly} />
+        <NumberInput id="leaseTerm" label="Leasingperiode" value={inputs.leaseTerm}
+          onChange={(v) => setInput('leaseTerm', v)} min={12} max={60} step={12} unit="måneder" error={errors.leaseTerm} />
+        <NumberInput id="leaseMonthly" label="Månedlig leasingleie" value={inputs.leaseMonthly}
+          onChange={(v) => setInput('leaseMonthly', v)} min={0} step={25} unit="kr" error={errors.leaseMonthly} />
       </div>
+      <p className="text-xs text-muted-foreground">
+        Sammenligningen tar ikke med forsikring, vedlikehold, årsavgift eller kjørelengdebegrensninger i leasingavtalen.
+      </p>
     </CalculatorBase>
   );
 }

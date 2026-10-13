@@ -9,11 +9,11 @@ import { useCalculator } from '@/lib/hooks/use-calculator';
 import { formatCurrency } from '@/lib/utils/formatting';
 
 const schema = z.object({
-  loanBalance: z.number().min(1000, 'Balance must be at least $1,000'),
-  currentRate: z.number().min(0.1, 'Rate must be positive').max(20, 'Rate too high'),
-  newRate: z.number().min(0.1, 'Rate must be positive').max(20, 'Rate too high'),
-  remainingTerm: z.number().min(12, 'Min 12 months').max(360, 'Max 360 months'),
-  closingCosts: z.number().min(0, 'Cannot be negative'),
+  loanBalance: z.number().min(1000, 'Gjelden må være minst 1 000 kr'),
+  currentRate: z.number().min(0.1, 'Renten må være større enn null').max(20, 'Renten er for høy'),
+  newRate: z.number().min(0.1, 'Renten må være større enn null').max(20, 'Renten er for høy'),
+  remainingTerm: z.number().min(12, 'Minst 12 måneder').max(360, 'Maks 360 måneder'),
+  closingCosts: z.number().min(0, 'Kan ikke være negativ'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -27,11 +27,11 @@ interface Results {
 }
 
 const INITIAL_INPUTS: FormInputs = {
-  loanBalance: 250000,
-  currentRate: 6.5,
-  newRate: 5.5,
+  loanBalance: 2500000,
+  currentRate: 5.9,
+  newRate: 5.3,
   remainingTerm: 300,
-  closingCosts: 5000,
+  closingCosts: 3000,
 };
 
 function calculateRefinance(inputs: FormInputs): Results {
@@ -70,9 +70,9 @@ export function RefinanceCalculator() {
 
   return (
     <CalculatorBase
-      title="Refinance Calculator"
-      description="Calculate if refinancing your mortgage makes financial sense"
-      formula="Monthly Savings = Current Payment - New Payment"
+      title="Refinansieringskalkulator"
+      description="Finn ut om det lønner seg å refinansiere boliglånet"
+      formula="Månedlig besparelse = Dagens terminbeløp − Nytt terminbeløp"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -81,32 +81,32 @@ export function RefinanceCalculator() {
       results={results && (
         <div className="space-y-4">
           <ResultDisplay
-            label={results.totalSavings > 0 ? "Total Savings" : "Total Cost"}
+            label={results.totalSavings > 0 ? "Total besparelse" : "Total kostnad"}
             value={formatCurrency(Math.abs(results.totalSavings))}
             highlight
             copyable
           />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Current Payment" value={formatCurrency(results.currentPayment)} copyable />
-            <ResultDisplay label="New Payment" value={formatCurrency(results.newPayment)} copyable />
-            <ResultDisplay label="Monthly Savings" value={formatCurrency(results.monthlySavings)} copyable />
-            <ResultDisplay label="Break-Even" value={`${results.breakEvenMonths} months`} />
+            <ResultDisplay label="Dagens terminbeløp" value={formatCurrency(results.currentPayment)} copyable />
+            <ResultDisplay label="Nytt terminbeløp" value={formatCurrency(results.newPayment)} copyable />
+            <ResultDisplay label="Månedlig besparelse" value={formatCurrency(results.monthlySavings)} copyable />
+            <ResultDisplay label="Tilbakebetalingstid" value={`${results.breakEvenMonths} måneder`} />
           </div>
         </div>
       )}
     >
-      <NumberInput id="loanBalance" label="Current Loan Balance" value={inputs.loanBalance}
-        onChange={(v) => setInput('loanBalance', v)} min={1000} step={5000} unit="$" error={errors.loanBalance} required />
+      <NumberInput id="loanBalance" label="Dagens restgjeld" value={inputs.loanBalance}
+        onChange={(v) => setInput('loanBalance', v)} min={1000} step={5000} unit="kr" error={errors.loanBalance} required />
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="currentRate" label="Current Interest Rate" value={inputs.currentRate}
+        <NumberInput id="currentRate" label="Dagens rente" value={inputs.currentRate}
           onChange={(v) => setInput('currentRate', v)} min={0.1} max={20} step={0.125} unit="%" error={errors.currentRate} required />
-        <NumberInput id="newRate" label="New Interest Rate" value={inputs.newRate}
+        <NumberInput id="newRate" label="Ny rente" value={inputs.newRate}
           onChange={(v) => setInput('newRate', v)} min={0.1} max={20} step={0.125} unit="%" error={errors.newRate} required />
       </div>
-      <NumberInput id="remainingTerm" label="Remaining Term" value={inputs.remainingTerm}
-        onChange={(v) => setInput('remainingTerm', v)} min={12} max={360} step={12} unit="months" error={errors.remainingTerm} />
-      <NumberInput id="closingCosts" label="Closing Costs" value={inputs.closingCosts}
-        onChange={(v) => setInput('closingCosts', v)} min={0} step={500} unit="$" error={errors.closingCosts} />
+      <NumberInput id="remainingTerm" label="Gjenstående nedbetalingstid" value={inputs.remainingTerm}
+        onChange={(v) => setInput('remainingTerm', v)} min={12} max={360} step={12} unit="måneder" error={errors.remainingTerm} />
+      <NumberInput id="closingCosts" label="Kostnader ved refinansiering" value={inputs.closingCosts}
+        onChange={(v) => setInput('closingCosts', v)} min={0} step={500} unit="kr" error={errors.closingCosts} />
     </CalculatorBase>
   );
 }

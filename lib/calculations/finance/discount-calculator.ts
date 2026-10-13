@@ -22,9 +22,9 @@ export interface DiscountResults {
 export function calculateDiscount(inputs: DiscountInputs): DiscountResults {
   const { originalPrice, discountPercent, salesTaxPercent } = inputs;
   
-  if (originalPrice < 0) throw new Error('Price cannot be negative');
-  if (discountPercent < 0 || discountPercent > 100) throw new Error('Discount must be 0-100%');
-  if (salesTaxPercent < 0) throw new Error('Tax rate cannot be negative');
+  if (originalPrice < 0) throw new Error('Prisen kan ikke være negativ');
+  if (discountPercent < 0 || discountPercent > 100) throw new Error('Rabatten må være mellom 0 og 100 %');
+  if (salesTaxPercent < 0) throw new Error('MVA-satsen kan ikke være negativ');
 
   const discountAmount = originalPrice * (discountPercent / 100);
   const priceAfterDiscount = originalPrice - discountAmount;

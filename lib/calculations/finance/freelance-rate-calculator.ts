@@ -33,9 +33,9 @@ export function calculateFreelanceRate(inputs: FreelanceRateInputs): FreelanceRa
     profitMargin,
   } = inputs;
 
-  if (desiredAnnualIncome <= 0) throw new Error('Desired income must be positive');
-  if (billableHoursPerWeek <= 0) throw new Error('Billable hours must be positive');
-  if (weeksWorkedPerYear <= 0) throw new Error('Weeks worked must be positive');
+  if (desiredAnnualIncome <= 0) throw new Error('Ønsket inntekt må være større enn null');
+  if (billableHoursPerWeek <= 0) throw new Error('Fakturerbare timer må være større enn null');
+  if (weeksWorkedPerYear <= 0) throw new Error('Antall arbeidsuker må være større enn null');
 
   // Account for self-employment tax
   const incomeAfterTax = desiredAnnualIncome / (1 - selfEmploymentTaxRate / 100);

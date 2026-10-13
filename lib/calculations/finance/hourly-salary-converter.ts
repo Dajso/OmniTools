@@ -1,5 +1,5 @@
 /**
- * Hourly to Salary Converter
+ * Timelønn til årslønn
  * 
  * @module lib/calculations/finance/hourly-salary-converter
  * @see Requirements 5.13
@@ -24,8 +24,8 @@ export interface HourlySalaryResults {
 export function convertHourlyToSalary(inputs: HourlySalaryInputs): HourlySalaryResults {
   const { hourlyRate, annualSalary, hoursPerWeek, weeksPerYear } = inputs;
   
-  if (hoursPerWeek <= 0) throw new Error('Hours per week must be positive');
-  if (weeksPerYear <= 0 || weeksPerYear > 52) throw new Error('Weeks per year must be 1-52');
+  if (hoursPerWeek <= 0) throw new Error('Timer per uke må være større enn null');
+  if (weeksPerYear <= 0 || weeksPerYear > 52) throw new Error('Uker per år må være mellom 1 og 52');
 
   let calculatedHourly: number;
   let calculatedAnnual: number;
@@ -37,7 +37,7 @@ export function convertHourlyToSalary(inputs: HourlySalaryInputs): HourlySalaryR
     calculatedAnnual = annualSalary;
     calculatedHourly = annualSalary / (hoursPerWeek * weeksPerYear);
   } else {
-    throw new Error('Either hourly rate or annual salary must be provided');
+    throw new Error('Du må oppgi enten timelønn eller årslønn');
   }
 
   const dailyRate = calculatedHourly * (hoursPerWeek / 5);

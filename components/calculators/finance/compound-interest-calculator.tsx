@@ -22,11 +22,11 @@ import { cn } from '@/lib/utils';
  * Zod schema for compound interest calculator inputs
  */
 const compoundInterestSchema = z.object({
-  principal: z.number().min(0, 'Principal cannot be negative').max(1000000000, 'Principal too high'),
-  annualRate: z.number().min(0, 'Rate cannot be negative').max(100, 'Rate too high'),
-  years: z.number().min(1, 'Must be at least 1 year').max(100, 'Maximum 100 years'),
+  principal: z.number().min(0, 'Startbeløpet kan ikke være negativt').max(1000000000, 'Startbeløpet er for høyt'),
+  annualRate: z.number().min(0, 'Renten kan ikke være negativ').max(100, 'Renten er for høy'),
+  years: z.number().min(1, 'Må være minst 1 år').max(100, 'Maks 100 år'),
   compoundingFrequency: z.enum(['annually', 'semi-annually', 'quarterly', 'monthly', 'daily']),
-  contribution: z.number().min(0, 'Contribution cannot be negative'),
+  contribution: z.number().min(0, 'Sparebeløpet kan ikke være negativt'),
   contributionFrequency: z.enum(['monthly', 'annually']),
   contributionTiming: z.enum(['beginning', 'end']),
 });
@@ -34,29 +34,29 @@ const compoundInterestSchema = z.object({
 type CompoundInterestFormInputs = z.infer<typeof compoundInterestSchema>;
 
 const COMPOUNDING_OPTIONS = [
-  { value: 'annually', label: 'Annually' },
-  { value: 'semi-annually', label: 'Semi-Annually' },
-  { value: 'quarterly', label: 'Quarterly' },
-  { value: 'monthly', label: 'Monthly' },
-  { value: 'daily', label: 'Daily' },
+  { value: 'annually', label: 'Årlig' },
+  { value: 'semi-annually', label: 'Halvårlig' },
+  { value: 'quarterly', label: 'Kvartalsvis' },
+  { value: 'monthly', label: 'Månedlig' },
+  { value: 'daily', label: 'Daglig' },
 ];
 
 const CONTRIBUTION_FREQ_OPTIONS = [
-  { value: 'monthly', label: 'Monthly' },
-  { value: 'annually', label: 'Annually' },
+  { value: 'monthly', label: 'Månedlig' },
+  { value: 'annually', label: 'Årlig' },
 ];
 
 const CONTRIBUTION_TIMING_OPTIONS = [
-  { value: 'end', label: 'End of Period' },
-  { value: 'beginning', label: 'Beginning of Period' },
+  { value: 'end', label: 'Slutten av perioden' },
+  { value: 'beginning', label: 'Starten av perioden' },
 ];
 
 const INITIAL_INPUTS: CompoundInterestFormInputs = {
-  principal: 10000,
-  annualRate: 7,
+  principal: 100000,
+  annualRate: 5,
   years: 10,
   compoundingFrequency: 'monthly',
-  contribution: 200,
+  contribution: 2000,
   contributionFrequency: 'monthly',
   contributionTiming: 'end',
 };
@@ -75,7 +75,7 @@ function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) 
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-4">Growth Over Time</h3>
+      <h3 className="text-lg font-semibold mb-4">Vekst over tid</h3>
       <div className="space-y-2">
         {displayData.map((point) => {
           const contributionPercent = (point.totalContributions / point.balance) * 100;
@@ -85,19 +85,19 @@ function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) 
           return (
             <div key={point.year} className="flex items-center gap-3">
               <span className="w-16 text-sm text-muted-foreground text-right">
-                Year {point.year}
+                År {point.year}
               </span>
               <div className="flex-1 h-6 bg-muted rounded overflow-hidden" style={{ width: `${widthPercent}%`, minWidth: '20%' }}>
                 <div className="h-full flex">
                   <div
                     className="bg-blue-500 h-full"
                     style={{ width: `${contributionPercent}%` }}
-                    title={`Contributions: ${formatCurrency(point.totalContributions)}`}
+                    title={`Innskudd: ${formatCurrency(point.totalContributions)}`}
                   />
                   <div
                     className="bg-green-500 h-full"
                     style={{ width: `${interestPercent}%` }}
-                    title={`Interest: ${formatCurrency(point.totalInterest)}`}
+                    title={`Renter: ${formatCurrency(point.totalInterest)}`}
                   />
                 </div>
               </div>
@@ -111,11 +111,11 @@ function GrowthChart({ data }: { data: CompoundInterestResults['growthData'] }) 
       <div className="flex gap-4 mt-4 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-blue-500 rounded" />
-          <span>Contributions</span>
+          <span>Innskudd</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-green-500 rounded" />
-          <span>Interest Earned</span>
+          <span>Opptjente renter</span>
         </div>
       </div>
     </div>
@@ -131,15 +131,15 @@ function GrowthTable({ data }: { data: CompoundInterestResults['growthData'] }) 
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-3">Year-by-Year Breakdown</h3>
+      <h3 className="text-lg font-semibold mb-3">År for år</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b">
-              <th className="text-left py-2 px-2">Year</th>
-              <th className="text-right py-2 px-2">Balance</th>
-              <th className="text-right py-2 px-2">Contributions</th>
-              <th className="text-right py-2 px-2">Interest</th>
+              <th className="text-left py-2 px-2">År</th>
+              <th className="text-right py-2 px-2">Saldo</th>
+              <th className="text-right py-2 px-2">Innskudd</th>
+              <th className="text-right py-2 px-2">Renter</th>
             </tr>
           </thead>
           <tbody>
@@ -160,7 +160,7 @@ function GrowthTable({ data }: { data: CompoundInterestResults['growthData'] }) 
           onClick={() => setShowAll(!showAll)}
           className="mt-3 text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
         >
-          {showAll ? 'Show less' : `Show all ${data.length} years`}
+          {showAll ? 'Vis færre' : `Vis alle ${data.length} år`}
         </button>
       )}
     </div>
@@ -218,12 +218,12 @@ export function CompoundInterestCalculator() {
   const ruleOf72Years = calculateRuleOf72(inputs.annualRate);
 
   const formula = 'A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)]';
-  const formulaExplanation = 'Where A = Final amount, P = Principal, r = Annual rate, n = Compounding periods, t = Years, PMT = Contribution';
+  const formulaExplanation = 'Der A = sluttbeløp, P = startbeløp, r = årsrente, n = antall rentetilskrivninger per år, t = antall år, PMT = innskudd';
 
   return (
     <CalculatorBase
-      title="Compound Interest Calculator"
-      description="Calculate how your investments grow over time with compound interest and regular contributions"
+      title="Rentesrentekalkulator"
+      description="Se hvordan sparingen din vokser med renters rente og regelmessig sparing"
       formula={formula}
       formulaExplanation={formulaExplanation}
       isCalculateDisabled={!isValid}
@@ -235,29 +235,29 @@ export function CompoundInterestCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Final Balance"
+              label="Sluttbeløp"
               value={formatCurrency(results.finalBalance)}
               highlight
               copyable
             />
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Total Contributions"
+                label="Sum innskudd"
                 value={formatCurrency(results.totalContributions)}
                 copyable
               />
               <ResultDisplay
-                label="Total Interest Earned"
+                label="Sum opptjente renter"
                 value={formatCurrency(results.totalInterest)}
                 copyable
               />
               <ResultDisplay
-                label="Effective Annual Rate"
+                label="Effektiv årlig rente"
                 value={formatPercent(results.effectiveAnnualRate / 100, { decimals: 2 })}
                 copyable
               />
               <ResultDisplay
-                label="Interest as % of Final"
+                label="Renter som andel av sluttbeløpet"
                 value={formatPercent(results.totalInterest / results.finalBalance, { decimals: 1 })}
                 copyable
               />
@@ -272,12 +272,12 @@ export function CompoundInterestCalculator() {
       {/* Initial Investment */}
       <NumberInput
         id="principal"
-        label="Initial Investment"
+        label="Startbeløp"
         value={inputs.principal}
         onChange={(v) => setInput('principal', v)}
         min={0}
         step={1000}
-        unit="$"
+        unit="kr"
         error={errors.principal}
         required
       />
@@ -286,7 +286,7 @@ export function CompoundInterestCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="annualRate"
-          label="Annual Interest Rate"
+          label="Rente per år"
           value={inputs.annualRate}
           onChange={(v) => setInput('annualRate', v)}
           min={0}
@@ -298,13 +298,13 @@ export function CompoundInterestCalculator() {
         />
         <NumberInput
           id="years"
-          label="Investment Period"
+          label="Sparetid"
           value={inputs.years}
           onChange={(v) => setInput('years', v)}
           min={1}
           max={100}
           step={1}
-          unit="years"
+          unit="år"
           error={errors.years}
           required
         />
@@ -313,7 +313,7 @@ export function CompoundInterestCalculator() {
       {/* Compounding Frequency */}
       <SelectInput
         id="compoundingFrequency"
-        label="Compounding Frequency"
+        label="Rentetilskrivning"
         value={inputs.compoundingFrequency}
         onChange={(v) => setInput('compoundingFrequency', v as CompoundingFrequency)}
         options={COMPOUNDING_OPTIONS}
@@ -324,17 +324,17 @@ export function CompoundInterestCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="contribution"
-          label="Regular Contribution"
+          label="Regelmessig sparing"
           value={inputs.contribution}
           onChange={(v) => setInput('contribution', v)}
           min={0}
           step={50}
-          unit="$"
+          unit="kr"
           error={errors.contribution}
         />
         <SelectInput
           id="contributionFrequency"
-          label="Contribution Frequency"
+          label="Hvor ofte du sparer"
           value={inputs.contributionFrequency}
           onChange={(v) => setInput('contributionFrequency', v as ContributionFrequency)}
           options={CONTRIBUTION_FREQ_OPTIONS}
@@ -345,7 +345,7 @@ export function CompoundInterestCalculator() {
       {/* Contribution Timing */}
       <SelectInput
         id="contributionTiming"
-        label="Contribution Timing"
+        label="Når i perioden du sparer"
         value={inputs.contributionTiming}
         onChange={(v) => setInput('contributionTiming', v as 'beginning' | 'end')}
         options={CONTRIBUTION_TIMING_OPTIONS}
@@ -355,8 +355,8 @@ export function CompoundInterestCalculator() {
       {/* Rule of 72 Info */}
       {inputs.annualRate > 0 && (
         <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-          💡 Rule of 72: At {inputs.annualRate}% interest, your money will double in approximately{' '}
-          <strong>{ruleOf72Years.toFixed(1)} years</strong>.
+          💡 72-regelen: Med {inputs.annualRate}% rente dobles pengene dine på omtrent{' '}
+          <strong>{ruleOf72Years.toFixed(1)} år</strong>.
         </p>
       )}
     </CalculatorBase>

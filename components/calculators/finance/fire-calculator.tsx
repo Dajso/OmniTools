@@ -9,11 +9,11 @@ import { useCalculator } from '@/lib/hooks/use-calculator';
 import { formatCurrency } from '@/lib/utils/formatting';
 
 const schema = z.object({
-  annualExpenses: z.number().min(1, 'Expenses must be positive'),
-  currentSavings: z.number().min(0, 'Cannot be negative'),
-  annualSavings: z.number().min(0, 'Cannot be negative'),
-  expectedReturn: z.number().min(0, 'Cannot be negative').max(20, 'Unrealistic return'),
-  withdrawalRate: z.number().min(2, 'Min 2%').max(6, 'Max 6%'),
+  annualExpenses: z.number().min(1, 'Utgiftene må være større enn null'),
+  currentSavings: z.number().min(0, 'Kan ikke være negativ'),
+  annualSavings: z.number().min(0, 'Kan ikke være negativ'),
+  expectedReturn: z.number().min(0, 'Kan ikke være negativ').max(20, 'Urealistisk avkastning'),
+  withdrawalRate: z.number().min(2, 'Minst 2 %').max(6, 'Maks 6 %'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -26,10 +26,10 @@ interface Results {
 }
 
 const INITIAL_INPUTS: FormInputs = {
-  annualExpenses: 50000,
-  currentSavings: 100000,
-  annualSavings: 25000,
-  expectedReturn: 7,
+  annualExpenses: 400000,
+  currentSavings: 500000,
+  annualSavings: 200000,
+  expectedReturn: 5,
   withdrawalRate: 4,
 };
 
@@ -60,16 +60,16 @@ export function FireCalculator() {
       initialInputs: INITIAL_INPUTS,
       schema,
       calculate: calculateFire,
-      storageKey: 'fire-calculator',
+      storageKey: 'fire-calculator-no',
     });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="FIRE Calculator"
-      description="Calculate your Financial Independence Retire Early number"
-      formula="FIRE Number = Annual Expenses ÷ Withdrawal Rate"
+      title="FIRE-kalkulator"
+      description="Beregn hvor mye du må ha spart for å bli økonomisk uavhengig og kunne gå av tidlig"
+      formula="FIRE-tall = Årlige utgifter ÷ Uttaksrate"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -77,25 +77,25 @@ export function FireCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="FIRE Number" value={formatCurrency(results.fireNumber)} highlight copyable />
+          <ResultDisplay label="FIRE-tall" value={formatCurrency(results.fireNumber)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Years to FIRE" value={`${results.yearsToFire.toFixed(1)} years`} />
-            <ResultDisplay label="Safe Annual Withdrawal" value={formatCurrency(results.safeWithdrawal)} copyable />
-            <ResultDisplay label="Current Progress" value={`${results.progress.toFixed(1)}%`} />
+            <ResultDisplay label="År til FIRE" value={`${results.yearsToFire.toFixed(1)} år`} />
+            <ResultDisplay label="Trygt årlig uttak" value={formatCurrency(results.safeWithdrawal)} copyable />
+            <ResultDisplay label="Fremdrift så langt" value={`${results.progress.toFixed(1)}%`} />
           </div>
         </div>
       )}
     >
-      <NumberInput id="annualExpenses" label="Annual Expenses" value={inputs.annualExpenses}
-        onChange={(v) => setInput('annualExpenses', v)} min={1} step={1000} unit="$" error={errors.annualExpenses} required />
-      <NumberInput id="currentSavings" label="Current Savings" value={inputs.currentSavings}
-        onChange={(v) => setInput('currentSavings', v)} min={0} step={5000} unit="$" error={errors.currentSavings} />
-      <NumberInput id="annualSavings" label="Annual Savings" value={inputs.annualSavings}
-        onChange={(v) => setInput('annualSavings', v)} min={0} step={1000} unit="$" error={errors.annualSavings} />
+      <NumberInput id="annualExpenses" label="Årlige utgifter" value={inputs.annualExpenses}
+        onChange={(v) => setInput('annualExpenses', v)} min={1} step={1000} unit="kr" error={errors.annualExpenses} required />
+      <NumberInput id="currentSavings" label="Sparing i dag" value={inputs.currentSavings}
+        onChange={(v) => setInput('currentSavings', v)} min={0} step={5000} unit="kr" error={errors.currentSavings} />
+      <NumberInput id="annualSavings" label="Sparing per år" value={inputs.annualSavings}
+        onChange={(v) => setInput('annualSavings', v)} min={0} step={1000} unit="kr" error={errors.annualSavings} />
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="expectedReturn" label="Expected Return" value={inputs.expectedReturn}
+        <NumberInput id="expectedReturn" label="Forventet avkastning" value={inputs.expectedReturn}
           onChange={(v) => setInput('expectedReturn', v)} min={0} max={20} step={0.5} unit="%" error={errors.expectedReturn} />
-        <NumberInput id="withdrawalRate" label="Withdrawal Rate" value={inputs.withdrawalRate}
+        <NumberInput id="withdrawalRate" label="Uttaksrate" value={inputs.withdrawalRate}
           onChange={(v) => setInput('withdrawalRate', v)} min={2} max={6} step={0.5} unit="%" error={errors.withdrawalRate} />
       </div>
     </CalculatorBase>

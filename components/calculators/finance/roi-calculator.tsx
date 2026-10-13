@@ -10,16 +10,16 @@ import { calculateROI, type ROIResults } from '@/lib/calculations/finance/roi-ca
 import { formatCurrency, formatPercent } from '@/lib/utils/formatting';
 
 const roiSchema = z.object({
-  initialInvestment: z.number().min(0.01, 'Investment must be positive'),
-  finalValue: z.number().min(0, 'Final value cannot be negative'),
-  investmentPeriodYears: z.number().min(0, 'Period cannot be negative').optional(),
+  initialInvestment: z.number().min(0.01, 'Investeringen må være større enn null'),
+  finalValue: z.number().min(0, 'Sluttverdien kan ikke være negativ'),
+  investmentPeriodYears: z.number().min(0, 'Perioden kan ikke være negativ').optional(),
 });
 
 type ROIFormInputs = z.infer<typeof roiSchema>;
 
 const INITIAL_INPUTS: ROIFormInputs = {
-  initialInvestment: 10000,
-  finalValue: 15000,
+  initialInvestment: 100000,
+  finalValue: 150000,
   investmentPeriodYears: 5,
 };
 
@@ -38,16 +38,16 @@ export function ROICalculator() {
       initialInputs: INITIAL_INPUTS,
       schema: roiSchema,
       calculate: calculateROIFn,
-      storageKey: 'roi-calculator',
+      storageKey: 'roi-calculator-no',
     });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="ROI Calculator"
-      description="Calculate return on investment and annualized returns"
-      formula="ROI = ((Final - Initial) / Initial) × 100"
+      title="Avkastningskalkulator (ROI)"
+      description="Regn ut avkastning og årlig avkastning på en investering"
+      formula="ROI = ((Sluttverdi − Innskudd) ÷ Innskudd) × 100"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -56,16 +56,16 @@ export function ROICalculator() {
       results={results && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Return on Investment"
+            label="Avkastning (ROI)"
             value={formatPercent(results.roi / 100, { decimals: 2 })}
             highlight
             copyable
           />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Total Gain/Loss" value={formatCurrency(results.gain)} copyable />
+            <ResultDisplay label="Gevinst / tap" value={formatCurrency(results.gain)} copyable />
             {results.annualizedROI !== undefined && (
               <ResultDisplay
-                label="Annualized ROI"
+                label="Årlig avkastning"
                 value={formatPercent(results.annualizedROI / 100, { decimals: 2 })}
                 copyable
               />
@@ -74,14 +74,14 @@ export function ROICalculator() {
         </div>
       )}
     >
-      <NumberInput id="initialInvestment" label="Initial Investment" value={inputs.initialInvestment}
-        onChange={(v) => setInput('initialInvestment', v)} min={0.01} step={100} unit="$" error={errors.initialInvestment} required />
+      <NumberInput id="initialInvestment" label="Innskutt beløp" value={inputs.initialInvestment}
+        onChange={(v) => setInput('initialInvestment', v)} min={0.01} step={100} unit="kr" error={errors.initialInvestment} required />
 
-      <NumberInput id="finalValue" label="Final Value" value={inputs.finalValue}
-        onChange={(v) => setInput('finalValue', v)} min={0} step={100} unit="$" error={errors.finalValue} required />
+      <NumberInput id="finalValue" label="Sluttverdi" value={inputs.finalValue}
+        onChange={(v) => setInput('finalValue', v)} min={0} step={100} unit="kr" error={errors.finalValue} required />
 
-      <NumberInput id="investmentPeriodYears" label="Investment Period (optional)" value={inputs.investmentPeriodYears || 0}
-        onChange={(v) => setInput('investmentPeriodYears', v || undefined)} min={0} step={1} unit="years" error={errors.investmentPeriodYears} />
+      <NumberInput id="investmentPeriodYears" label="Investeringsperiode (valgfritt)" value={inputs.investmentPeriodYears || 0}
+        onChange={(v) => setInput('investmentPeriodYears', v || undefined)} min={0} step={1} unit="år" error={errors.investmentPeriodYears} />
     </CalculatorBase>
   );
 }

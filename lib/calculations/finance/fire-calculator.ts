@@ -32,8 +32,8 @@ export function calculateFIRE(inputs: FIREInputs): FIREResults {
     withdrawalRate,
   } = inputs;
 
-  if (annualExpenses <= 0) throw new Error('Annual expenses must be positive');
-  if (withdrawalRate <= 0) throw new Error('Withdrawal rate must be positive');
+  if (annualExpenses <= 0) throw new Error('Årlige utgifter må være større enn null');
+  if (withdrawalRate <= 0) throw new Error('Uttaksraten må være større enn null');
 
   // FIRE number = annual expenses / withdrawal rate
   const fireNumber = annualExpenses / (withdrawalRate / 100);

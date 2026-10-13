@@ -40,7 +40,7 @@ export interface DebtSnowballResults {
 export function calculateDebtSnowball(inputs: DebtSnowballInputs): DebtSnowballResults {
   const { debts, extraPayment, method } = inputs;
   
-  if (debts.length === 0) throw new Error('At least one debt is required');
+  if (debts.length === 0) throw new Error('Du må oppgi minst én gjeld');
 
   // Sort debts based on method
   const sortedDebts = [...debts].sort((a, b) => {

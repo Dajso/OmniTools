@@ -28,14 +28,14 @@ export interface CreditCardPayoffResults {
 export function calculateCreditCardPayoff(inputs: CreditCardPayoffInputs): CreditCardPayoffResults {
   const { balance, apr, monthlyPayment } = inputs;
   
-  if (balance <= 0) throw new Error('Balance must be positive');
-  if (apr < 0) throw new Error('APR cannot be negative');
+  if (balance <= 0) throw new Error('Gjelden må være større enn null');
+  if (apr < 0) throw new Error('Renten kan ikke være negativ');
   
   const monthlyRate = apr / 100 / 12;
   const minPayment = balance * monthlyRate * 1.01; // Minimum to make progress
   
   if (monthlyPayment < minPayment) {
-    throw new Error(`Payment too low. Minimum payment needed: $${minPayment.toFixed(2)}`);
+    throw new Error(`Betalingen er for lav. Minste månedsbeløp er ${minPayment.toFixed(2)} kr`);
   }
 
   let remainingBalance = balance;

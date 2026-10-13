@@ -1,28 +1,48 @@
 import { Metadata } from 'next';
 import { HourlySalaryCalculator } from '@/components/calculators/finance';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Hourly to Salary Calculator - Wage Converter',
-  description: 'Convert hourly wage to annual salary or salary to hourly rate. Free wage calculator with daily, weekly, and monthly breakdowns.',
-  keywords: ['hourly to salary calculator', 'salary to hourly', 'wage calculator', 'pay converter'],
+  title: 'Timelønn til årslønn – gratis kalkulator på nett',
+  description: 'Regn om mellom timelønn, månedslønn og årslønn. Gratis og uten registrering.',
+  keywords: ['timelønn', 'årslønn', 'månedslønn', 'lønnskalkulator', 'brutto lønn'],
   alternates: { canonical: '/calculators/finance/hourly-salary-calculator' },
+  openGraph: {
+    title: 'Timelønn til årslønn',
+    description: 'Regn om mellom timelønn, månedslønn og årslønn',
+    url: '/calculators/finance/hourly-salary-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Hourly to Salary Calculator',
-  description: 'Convert between hourly wage and annual salary',
+  name: 'Timelønn til årslønn',
+  description: 'Regn om mellom timelønn, månedslønn og årslønn',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
+const howToSteps = [
+  { name: 'Velg retning', text: 'Velg om du vil regne fra timelønn eller fra årslønn.' },
+  { name: 'Skriv inn lønn', text: 'Oppgi timelønn eller årslønn i kroner.' },
+  { name: 'Oppgi arbeidstid', text: 'En full arbeidsuke er normalt 37,5 timer, og året har 52 uker.' },
+  { name: 'Se resultatet', text: 'Se lønn per time, dag, uke, 14. dag, måned og år.' },
+];
+
 const faqs = [
-  { question: 'How do I convert hourly to salary?', answer: 'Multiply your hourly rate by hours worked per week, then by weeks worked per year. For example: $25/hr × 40 hrs × 52 weeks = $52,000/year.' },
-  { question: 'What is a standard work year?', answer: 'A standard full-time work year is 2,080 hours (40 hours/week × 52 weeks). Some calculations use 50 weeks to account for vacation.' },
-  { question: 'Should I include overtime in my calculation?', answer: 'For base salary comparison, use your regular hours. Overtime pay varies and should be calculated separately.' },
+  { question: 'Hvor mange timer er en full stilling i Norge?', answer: 'Normalt 37,5 timer per uke i mange bransjer, og opptil 40 timer i andre. Se arbeidsavtalen eller tariffavtalen din.' },
+  { question: 'Er beløpene før eller etter skatt?', answer: 'Beløpene er brutto, før skatt og trekk.' },
+  { question: 'Hva med feriepenger?', answer: 'Feriepenger er normalt 10,2 % av lønnen (12 % med ekstra ferieuke for de over 60 år eller etter tariffavtale). Har du fast månedslønn, er de ofte allerede en del av årslønnen.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/finance/freelance-rate-calculator', title: 'Timepris for frilansere', description: 'Beregn hvilken timepris du bør ta som frilanser eller selvstendig' },
 ];
 
 export default function HourlySalaryCalculatorPage() {
@@ -31,23 +51,18 @@ export default function HourlySalaryCalculatorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="hourly-to-salary"
-          title="Hourly to Salary Calculator"
-          description="Convert between hourly wage and annual salary. See daily, weekly, and monthly breakdowns."
-          colorClass="bg-green-100 text-green-700"
+          toolId="hourly-salary-calculator"
+          title="Timelønn til årslønn"
+          description="Regn om mellom timelønn, månedslønn og årslønn"
         />
-        <section aria-label="Hourly Salary Calculator"><HourlySalaryCalculator /></section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+
+        <section aria-label="Timelønn til årslønn">
+          <HourlySalaryCalculator />
         </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

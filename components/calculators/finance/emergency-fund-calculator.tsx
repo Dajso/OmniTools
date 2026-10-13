@@ -9,10 +9,10 @@ import { useCalculator } from '@/lib/hooks/use-calculator';
 import { formatCurrency } from '@/lib/utils/formatting';
 
 const schema = z.object({
-  monthlyExpenses: z.number().min(100, 'Expenses must be at least $100'),
-  monthsOfCoverage: z.number().min(3, 'Min 3 months').max(12, 'Max 12 months'),
-  currentSavings: z.number().min(0, 'Cannot be negative'),
-  monthlySavingsRate: z.number().min(0, 'Cannot be negative'),
+  monthlyExpenses: z.number().min(100, 'Utgiftene må være minst 100 kr'),
+  monthsOfCoverage: z.number().min(3, 'Minst 3 måneder').max(12, 'Maks 12 måneder'),
+  currentSavings: z.number().min(0, 'Kan ikke være negativ'),
+  monthlySavingsRate: z.number().min(0, 'Kan ikke være negativ'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -25,10 +25,10 @@ interface Results {
 }
 
 const INITIAL_INPUTS: FormInputs = {
-  monthlyExpenses: 4000,
+  monthlyExpenses: 25000,
   monthsOfCoverage: 6,
-  currentSavings: 5000,
-  monthlySavingsRate: 500,
+  currentSavings: 30000,
+  monthlySavingsRate: 3000,
 };
 
 function calculateEmergencyFund(inputs: FormInputs): Results {
@@ -60,9 +60,9 @@ export function EmergencyFundCalculator() {
 
   return (
     <CalculatorBase
-      title="Emergency Fund Calculator"
-      description="Calculate how much you need in your emergency fund"
-      formula="Target = Monthly Expenses × Months of Coverage"
+      title="Buffersparing"
+      description="Beregn hvor stor sparebuffer du trenger"
+      formula="Mål = Månedlige utgifter × Antall måneder"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -70,12 +70,12 @@ export function EmergencyFundCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Target Emergency Fund" value={formatCurrency(results.targetAmount)} highlight copyable />
+          <ResultDisplay label="Målet for bufferen" value={formatCurrency(results.targetAmount)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Amount Still Needed" value={formatCurrency(results.amountNeeded)} copyable />
-            <ResultDisplay label="Current Progress" value={`${results.progress.toFixed(1)}%`} />
+            <ResultDisplay label="Mangler fortsatt" value={formatCurrency(results.amountNeeded)} copyable />
+            <ResultDisplay label="Fremdrift så langt" value={`${results.progress.toFixed(1)}%`} />
             {results.monthsToGoal > 0 && (
-              <ResultDisplay label="Months to Goal" value={`${results.monthsToGoal} months`} />
+              <ResultDisplay label="Måneder til målet" value={`${results.monthsToGoal} måneder`} />
             )}
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4">
@@ -87,12 +87,12 @@ export function EmergencyFundCalculator() {
         </div>
       )}
     >
-      <NumberInput id="monthlyExpenses" label="Monthly Expenses" value={inputs.monthlyExpenses}
-        onChange={(v) => setInput('monthlyExpenses', v)} min={100} step={100} unit="$" error={errors.monthlyExpenses} required />
+      <NumberInput id="monthlyExpenses" label="Månedlige utgifter" value={inputs.monthlyExpenses}
+        onChange={(v) => setInput('monthlyExpenses', v)} min={100} step={100} unit="kr" error={errors.monthlyExpenses} required />
 
       <div className="space-y-2">
-        <NumberInput id="monthsOfCoverage" label="Months of Coverage" value={inputs.monthsOfCoverage}
-          onChange={(v) => setInput('monthsOfCoverage', v)} min={3} max={12} step={1} unit="months" error={errors.monthsOfCoverage} />
+        <NumberInput id="monthsOfCoverage" label="Antall måneder bufferen skal dekke" value={inputs.monthsOfCoverage}
+          onChange={(v) => setInput('monthsOfCoverage', v)} min={3} max={12} step={1} unit="måneder" error={errors.monthsOfCoverage} />
         <div className="flex gap-2">
           {COVERAGE_PRESETS.map((preset) => (
             <button
@@ -102,16 +102,16 @@ export function EmergencyFundCalculator() {
               className={`px-3 py-1 text-sm rounded-md border transition-colors ${inputs.monthsOfCoverage === preset ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
                 }`}
             >
-              {preset} mo
+              {preset} mnd
             </button>
           ))}
         </div>
       </div>
 
-      <NumberInput id="currentSavings" label="Current Emergency Savings" value={inputs.currentSavings}
-        onChange={(v) => setInput('currentSavings', v)} min={0} step={500} unit="$" error={errors.currentSavings} />
-      <NumberInput id="monthlySavingsRate" label="Monthly Savings Rate" value={inputs.monthlySavingsRate}
-        onChange={(v) => setInput('monthlySavingsRate', v)} min={0} step={100} unit="$" error={errors.monthlySavingsRate} />
+      <NumberInput id="currentSavings" label="Sparebuffer i dag" value={inputs.currentSavings}
+        onChange={(v) => setInput('currentSavings', v)} min={0} step={500} unit="kr" error={errors.currentSavings} />
+      <NumberInput id="monthlySavingsRate" label="Sparing per måned" value={inputs.monthlySavingsRate}
+        onChange={(v) => setInput('monthlySavingsRate', v)} min={0} step={100} unit="kr" error={errors.monthlySavingsRate} />
     </CalculatorBase>
   );
 }

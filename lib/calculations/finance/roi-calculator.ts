@@ -20,7 +20,7 @@ export interface ROIResults {
 export function calculateROI(inputs: ROIInputs): ROIResults {
   const { initialInvestment, finalValue, investmentPeriodYears } = inputs;
   
-  if (initialInvestment <= 0) throw new Error('Initial investment must be positive');
+  if (initialInvestment <= 0) throw new Error('Innskutt beløp må være større enn null');
 
   const gain = finalValue - initialInvestment;
   const roi = (gain / initialInvestment) * 100;

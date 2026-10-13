@@ -6,13 +6,13 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { formatCurrency } from '@/lib/utils/formatting';
+import { formatCurrency, formatNumber } from '@/lib/utils/formatting';
 
 const schema = z.object({
-  distance: z.number().min(1, 'Distance must be positive'),
-  fuelEfficiency: z.number().min(1, 'Efficiency must be positive'),
-  fuelPrice: z.number().min(0.01, 'Price must be positive'),
-  useMetric: z.boolean(),
+  distance: z.number().min(1, 'Avstanden må være større enn null'),
+  fuelConsumption: z.number().min(0.1, 'Forbruket må være større enn null'),
+  fuelPrice: z.number().min(0.01, 'Prisen må være større enn null'),
+  passengers: z.number().min(1, 'Minst én person').max(20, 'For mange personer'),
 });
 
 type FormInputs = z.infer<typeof schema>;
@@ -20,34 +20,25 @@ type FormInputs = z.infer<typeof schema>;
 interface Results {
   fuelNeeded: number;
   totalCost: number;
-  costPerMile: number;
+  costPerKm: number;
+  costPerPerson: number;
 }
 
 const INITIAL_INPUTS: FormInputs = {
   distance: 300,
-  fuelEfficiency: 30,
-  fuelPrice: 3.50,
-  useMetric: false,
+  fuelConsumption: 6.5,
+  fuelPrice: 21.5,
+  passengers: 1,
 };
 
 function calculateFuelCost(inputs: FormInputs): Results {
-  let fuelNeeded: number;
-  let costPerMile: number;
-
-  if (inputs.useMetric) {
-    fuelNeeded = (inputs.distance / 100) * inputs.fuelEfficiency;
-    costPerMile = (inputs.fuelEfficiency / 100) * inputs.fuelPrice;
-  } else {
-    fuelNeeded = inputs.distance / inputs.fuelEfficiency;
-    costPerMile = inputs.fuelPrice / inputs.fuelEfficiency;
-  }
-
+  const fuelNeeded = (inputs.distance / 100) * inputs.fuelConsumption;
   const totalCost = fuelNeeded * inputs.fuelPrice;
-
   return {
     fuelNeeded,
     totalCost,
-    costPerMile,
+    costPerKm: totalCost / inputs.distance,
+    costPerPerson: totalCost / inputs.passengers,
   };
 }
 
@@ -57,16 +48,16 @@ export function FuelCostCalculator() {
       initialInputs: INITIAL_INPUTS,
       schema,
       calculate: calculateFuelCost,
-      storageKey: 'fuel-cost-calculator',
+      storageKey: 'fuel-cost-calculator-no',
     });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="Fuel Cost Trip Calculator"
-      description="Calculate fuel costs for your trip in MPG or L/100km"
-      formula={inputs.useMetric ? "Fuel = (Distance ÷ 100) × L/100km" : "Fuel = Distance ÷ MPG"}
+      title="Drivstoffkostnad for turen"
+      description="Regn ut drivstoffkostnaden på en kjøretur i liter per 100 km"
+      formula="Drivstoff (liter) = Avstand (km) ÷ 100 × Forbruk (l/100 km)"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -74,71 +65,63 @@ export function FuelCostCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Total Fuel Cost" value={formatCurrency(results.totalCost)} highlight copyable />
+          <ResultDisplay label="Total drivstoffkostnad" value={formatCurrency(results.totalCost)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay
-              label={inputs.useMetric ? "Fuel Needed (L)" : "Fuel Needed (gal)"}
-              value={results.fuelNeeded.toFixed(2)}
-              copyable
-            />
-            <ResultDisplay
-              label={inputs.useMetric ? "Cost per km" : "Cost per mile"}
-              value={formatCurrency(results.costPerMile)}
-              copyable
-            />
+            <ResultDisplay label="Drivstoff (liter)" value={formatNumber(results.fuelNeeded, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} copyable />
+            <ResultDisplay label="Kostnad per km" value={formatCurrency(results.costPerKm)} copyable />
+            {inputs.passengers > 1 && (
+              <ResultDisplay label="Per person" value={formatCurrency(results.costPerPerson)} copyable />
+            )}
           </div>
         </div>
       )}
     >
-      <div className="flex gap-2 mb-4">
-        <button
-          type="button"
-          onClick={() => setInput('useMetric', false)}
-          className={`px-4 py-2 text-sm rounded-md border transition-colors ${!inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-            }`}
-        >
-          Imperial (MPG)
-        </button>
-        <button
-          type="button"
-          onClick={() => setInput('useMetric', true)}
-          className={`px-4 py-2 text-sm rounded-md border transition-colors ${inputs.useMetric ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
-            }`}
-        >
-          Metric (L/100km)
-        </button>
-      </div>
       <NumberInput
         id="distance"
-        label={inputs.useMetric ? "Distance (km)" : "Distance (miles)"}
+        label="Avstand (km)"
         value={inputs.distance}
         onChange={(v) => setInput('distance', v)}
         min={1}
         step={10}
+        unit="km"
         error={errors.distance}
         required
       />
       <NumberInput
-        id="fuelEfficiency"
-        label={inputs.useMetric ? "Fuel Consumption (L/100km)" : "Fuel Efficiency (MPG)"}
-        value={inputs.fuelEfficiency}
-        onChange={(v) => setInput('fuelEfficiency', v)}
-        min={1}
-        step={1}
-        error={errors.fuelEfficiency}
+        id="fuelConsumption"
+        label="Forbruk (liter per 100 km)"
+        value={inputs.fuelConsumption}
+        onChange={(v) => setInput('fuelConsumption', v)}
+        min={0.1}
+        step={0.1}
+        unit="l/100 km"
+        error={errors.fuelConsumption}
         required
       />
       <NumberInput
         id="fuelPrice"
-        label={inputs.useMetric ? "Fuel Price (per liter)" : "Fuel Price (per gallon)"}
+        label="Drivstoffpris (per liter)"
         value={inputs.fuelPrice}
         onChange={(v) => setInput('fuelPrice', v)}
         min={0.01}
         step={0.1}
-        unit="$"
+        unit="kr/l"
         error={errors.fuelPrice}
         required
       />
+      <NumberInput
+        id="passengers"
+        label="Antall i bilen (for å dele kostnaden)"
+        value={inputs.passengers}
+        onChange={(v) => setInput('passengers', v)}
+        min={1}
+        max={20}
+        step={1}
+        error={errors.passengers}
+      />
+      <p className="text-xs text-muted-foreground">
+        1 liter per mil tilsvarer 10 l/100 km. Et forbruk på 0,65 l/mil er altså 6,5 l/100 km.
+      </p>
     </CalculatorBase>
   );
 }

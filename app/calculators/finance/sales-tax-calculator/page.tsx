@@ -1,28 +1,50 @@
 import { Metadata } from 'next';
 import { SalesTaxCalculator } from '@/components/calculators/finance';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Sales Tax Calculator - US State Tax Calculator',
-  description: 'Calculate sales tax for any US state. Find tax rates and calculate totals with our free sales tax calculator.',
-  keywords: ['sales tax calculator', 'state tax calculator', 'tax calculator', 'US sales tax'],
+  title: 'MVA-kalkulator – gratis kalkulator på nett',
+  description: 'Regn ut merverdiavgift (25 %, 15 % og 12 %) med og uten MVA. Gratis og uten registrering.',
+  keywords: ['MVA', 'merverdiavgift', 'moms', 'pris med mva', 'pris uten mva'],
   alternates: { canonical: '/calculators/finance/sales-tax-calculator' },
+  openGraph: {
+    title: 'MVA-kalkulator',
+    description: 'Regn ut merverdiavgift (25 %, 15 % og 12 %) med og uten MVA',
+    url: '/calculators/finance/sales-tax-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Sales Tax Calculator',
-  description: 'Calculate sales tax for any US state',
+  name: 'MVA-kalkulator',
+  description: 'Regn ut merverdiavgift (25 %, 15 % og 12 %) med og uten MVA',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
+const howToSteps = [
+  { name: 'Velg om prisen har MVA', text: 'Velg om beløpet du skriver inn er med eller uten MVA.' },
+  { name: 'Skriv inn beløpet', text: 'Oppgi prisen i kroner.' },
+  { name: 'Velg MVA-sats', text: 'Velg 25 %, 15 %, 12 % eller 0 %, eller skriv inn en egen sats.' },
+  { name: 'Les resultatet', text: 'Se pris uten MVA, MVA-beløp og pris med MVA.' },
+];
+
 const faqs = [
-  { question: 'Which states have no sales tax?', answer: 'Alaska, Delaware, Montana, New Hampshire, and Oregon have no state sales tax.' },
-  { question: 'What is the highest sales tax state?', answer: 'California has the highest state sales tax rate at 7.25%, though local taxes can make total rates higher in other states.' },
-  { question: 'Are there local sales taxes too?', answer: 'Yes, many cities and counties add local sales tax on top of state rates. Our calculator shows state rates only.' },
+  { question: 'Hvilke MVA-satser gjelder i Norge?', answer: 'Alminnelig sats er 25 %. Næringsmidler har lavere sats på 15 %. Persontransport, overnatting, kino og kringkasting har 12 %. Noen varer og tjenester, som bøker og aviser, er fritatt. Sjekk alltid Skatteetaten for gjeldende satser.' },
+  { question: 'Hvordan regner jeg ut MVA fra en pris med MVA?', answer: 'Del prisen på 1 + satsen. Med 25 % MVA deler du på 1,25. Forskjellen mellom prisen med og uten MVA er MVA-beløpet.' },
+  { question: 'Hva er forskjellen på MVA og moms?', answer: 'Ingen. Moms er dagligtale for merverdiavgift (MVA).' },
+  { question: 'Kan jeg få tilbake MVA?', answer: 'Registrerte virksomheter kan fradragsføre inngående MVA. Privatpersoner får normalt ikke MVA tilbake.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/finance/discount-calculator', title: 'Rabattkalkulator', description: 'Regn ut rabatt, tilbudspris og pris med MVA' },
+  { href: '/calculators/finance/tip-calculator', title: 'Drikkepengekalkulator', description: 'Regn ut drikkepenger og del regningen mellom flere' },
 ];
 
 export default function SalesTaxCalculatorPage() {
@@ -32,22 +54,17 @@ export default function SalesTaxCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="sales-tax-calculator"
-          title="Sales Tax Calculator"
-          description="Calculate sales tax for any US state with current tax rates."
-          colorClass="bg-green-100 text-green-700"
+          title="MVA-kalkulator"
+          description="Regn ut merverdiavgift (25 %, 15 % og 12 %) med og uten MVA"
         />
-        <section aria-label="Sales Tax Calculator"><SalesTaxCalculator /></section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+
+        <section aria-label="MVA-kalkulator">
+          <SalesTaxCalculator />
         </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

@@ -1,15 +1,15 @@
 /**
- * Mortgage Calculator with PMI, Taxes, and Insurance
- * 
- * Calculates monthly mortgage payments including:
- * - Principal and Interest (P&I)
- * - Property Tax
- * - Homeowner's Insurance
- * - Private Mortgage Insurance (PMI)
- * - HOA Fees
- * 
+ * Boliglånskalkulator: annuitetslån og serielån
+ *
+ * Beregner terminbeløp, renter og gebyrer. Støtter:
+ * - Annuitetslån (like terminbeløp) og serielån (like store avdrag)
+ * - Etableringsgebyr og termingebyr
+ * - Effektiv rente inkludert gebyrer
+ *
+ * Funksjonene for fast annuitet og nedbetalingsplan er generelle og
+ * brukes også av andre kalkulatorer.
+ *
  * @module lib/calculations/finance/mortgage
- * @see Requirements 5.1
  */
 
 /**
@@ -30,21 +30,21 @@ export class MortgageCalculationError extends Error {
  * Input parameters for mortgage calculation
  */
 export interface MortgageInputs {
-  /** Home purchase price in dollars */
+  /** Home purchase price i kroner */
   homePrice: number;
-  /** Down payment amount in dollars */
+  /** Down payment amount i kroner */
   downPayment: number;
   /** Loan term in years (typically 15, 20, or 30) */
   loanTerm: number;
   /** Annual interest rate as a percentage (e.g., 6.5 for 6.5%) */
   interestRate: number;
-  /** Annual property tax in dollars */
+  /** Annual property tax i kroner */
   propertyTax: number;
-  /** Annual homeowner's insurance in dollars */
+  /** Annual homeowner's insurance i kroner */
   homeInsurance: number;
-  /** Monthly PMI amount in dollars (0 if down payment >= 20%) */
+  /** Monthly PMI amount i kroner (0 if down payment >= 20%) */
   pmi: number;
-  /** Monthly HOA fees in dollars */
+  /** Monthly HOA fees i kroner */
   hoaFees: number;
 }
 
@@ -103,7 +103,7 @@ export interface MortgageResults {
  *   r = Monthly interest rate (annual rate / 12)
  *   n = Total number of payments (years × 12)
  * 
- * @param principal - Loan amount in dollars
+ * @param principal - Loan amount i kroner
  * @param annualRate - Annual interest rate as percentage (e.g., 6.5)
  * @param termYears - Loan term in years
  * @returns Monthly principal and interest payment
@@ -116,21 +116,21 @@ export function calculateMonthlyPrincipalAndInterest(
   // Validate inputs
   if (principal <= 0) {
     throw new MortgageCalculationError(
-      'Loan amount must be positive',
+      'Lånebeløpet må være større enn null',
       'invalid_input',
       'principal'
     );
   }
   if (annualRate < 0) {
     throw new MortgageCalculationError(
-      'Interest rate cannot be negative',
+      'Renten kan ikke være negativ',
       'invalid_input',
       'interestRate'
     );
   }
   if (termYears <= 0) {
     throw new MortgageCalculationError(
-      'Loan term must be positive',
+      'Nedbetalingstiden må være større enn null',
       'invalid_input',
       'loanTerm'
     );
@@ -152,7 +152,7 @@ export function calculateMonthlyPrincipalAndInterest(
   // Check for overflow
   if (!Number.isFinite(monthlyPayment)) {
     throw new MortgageCalculationError(
-      'Calculation resulted in overflow',
+      'Beregningen ga for store tall',
       'overflow'
     );
   }
@@ -163,7 +163,7 @@ export function calculateMonthlyPrincipalAndInterest(
 /**
  * Generates the full amortization schedule for a mortgage
  * 
- * @param principal - Loan amount in dollars
+ * @param principal - Loan amount i kroner
  * @param annualRate - Annual interest rate as percentage
  * @param termYears - Loan term in years
  * @returns Array of amortization entries for each month
@@ -247,21 +247,21 @@ export function calculateMortgage(inputs: MortgageInputs): MortgageResults {
   // Validate inputs
   if (homePrice <= 0) {
     throw new MortgageCalculationError(
-      'Home price must be positive',
+      'Boligprisen må være større enn null',
       'invalid_input',
       'homePrice'
     );
   }
   if (downPayment < 0) {
     throw new MortgageCalculationError(
-      'Down payment cannot be negative',
+      'Egenkapitalen kan ikke være negativ',
       'invalid_input',
       'downPayment'
     );
   }
   if (downPayment >= homePrice) {
     throw new MortgageCalculationError(
-      'Down payment must be less than home price',
+      'Egenkapitalen må være mindre enn boligprisen',
       'invalid_input',
       'downPayment'
     );
@@ -347,7 +347,7 @@ export function calculateDownPaymentPercent(
  * 
  * @param homePrice - Home purchase price
  * @param percent - Down payment percentage (0-100)
- * @returns Down payment amount in dollars
+ * @returns Down payment amount i kroner
  */
 export function calculateDownPaymentFromPercent(
   homePrice: number,
@@ -356,28 +356,146 @@ export function calculateDownPaymentFromPercent(
   return homePrice * (percent / 100);
 }
 
-/**
- * Determines if PMI is required based on down payment percentage
- * PMI is typically required when down payment is less than 20%
- * 
- * @param downPaymentPercent - Down payment as percentage (0-100)
- * @returns Whether PMI is required
- */
-export function isPMIRequired(downPaymentPercent: number): boolean {
-  return downPaymentPercent < 20;
+
+// ---------------------------------------------------------------------------
+// Norsk boliglån: annuitet og serie, med gebyrer og effektiv rente
+// ---------------------------------------------------------------------------
+
+export type LoanType = 'annuity' | 'serial';
+
+export interface NorwegianLoanInputs {
+  /** Lånebeløp i kroner */
+  loanAmount: number;
+  /** Nedbetalingstid i år */
+  termYears: number;
+  /** Nominell rente per år i prosent (f.eks. 5.5) */
+  interestRate: number;
+  /** Annuitet (like terminbeløp) eller serie (like avdrag) */
+  loanType: LoanType;
+  /** Etableringsgebyr i kroner (betales ved opptak) */
+  establishmentFee: number;
+  /** Termingebyr per måned i kroner */
+  monthlyFee: number;
+}
+
+export interface NorwegianLoanEntry {
+  month: number;
+  /** Avdrag */
+  principal: number;
+  /** Renter */
+  interest: number;
+  /** Termingebyr */
+  fee: number;
+  /** Terminbeløp totalt (avdrag + renter + gebyr) */
+  payment: number;
+  /** Restgjeld etter terminen */
+  balance: number;
+}
+
+export interface NorwegianLoanResults {
+  firstPayment: number;
+  lastPayment: number;
+  averagePayment: number;
+  totalInterest: number;
+  totalFees: number;
+  /** Totalt som betales tilbake, inkludert renter og gebyrer */
+  totalPaid: number;
+  /** Effektiv rente per år i prosent, inkludert gebyrer */
+  effectiveRate: number;
+  schedule: NorwegianLoanEntry[];
 }
 
 /**
- * Estimates monthly PMI based on loan amount
- * Typical PMI ranges from 0.5% to 1% of loan amount annually
- * 
- * @param loanAmount - Loan principal amount
- * @param annualPMIRate - Annual PMI rate as percentage (default: 0.5%)
- * @returns Estimated monthly PMI payment
+ * Lager nedbetalingsplan for annuitetslån eller serielån, med termingebyr.
  */
-export function estimatePMI(
+export function generateNorwegianSchedule(inputs: NorwegianLoanInputs): NorwegianLoanEntry[] {
+  const { loanAmount, termYears, interestRate, loanType, monthlyFee } = inputs;
+  const n = Math.round(termYears * 12);
+  const r = interestRate / 100 / 12;
+  const schedule: NorwegianLoanEntry[] = [];
+  let balance = loanAmount;
+  const annuityPayment =
+    loanType === 'annuity' ? calculateMonthlyPrincipalAndInterest(loanAmount, interestRate, termYears) : 0;
+  const serialPrincipal = loanAmount / n;
+
+  for (let month = 1; month <= n; month++) {
+    const interest = balance * r;
+    let principal = loanType === 'annuity' ? annuityPayment - interest : serialPrincipal;
+    if (month === n || principal > balance) principal = balance;
+    balance = Math.max(0, balance - principal);
+    schedule.push({
+      month,
+      principal,
+      interest,
+      fee: monthlyFee,
+      payment: principal + interest + monthlyFee,
+      balance,
+    });
+  }
+  return schedule;
+}
+
+/**
+ * Effektiv rente per år (%) når etableringsgebyr og termingebyr tas med.
+ * Finner månedlig internrente med halvering og regner om til årlig: (1 + r)^12 - 1.
+ */
+export function calculateEffectiveRate(
   loanAmount: number,
-  annualPMIRate: number = 0.5
+  establishmentFee: number,
+  payments: number[]
 ): number {
-  return (loanAmount * (annualPMIRate / 100)) / 12;
+  const netto = loanAmount - establishmentFee;
+  if (netto <= 0 || payments.length === 0) return 0;
+  const npv = (r: number) => {
+    let sum = 0;
+    let disc = 1;
+    for (const p of payments) {
+      disc /= 1 + r;
+      sum += p * disc;
+    }
+    return sum - netto;
+  };
+  let lo = 0;
+  let hi = 1; // 100 % per måned er langt over alt realistisk
+  if (npv(lo) < 0) return 0;
+  for (let i = 0; i < 100; i++) {
+    const mid = (lo + hi) / 2;
+    if (npv(mid) > 0) lo = mid;
+    else hi = mid;
+  }
+  const monthly = (lo + hi) / 2;
+  return (Math.pow(1 + monthly, 12) - 1) * 100;
+}
+
+/**
+ * Regner ut et norsk boliglån (annuitet eller serie) med gebyrer og effektiv rente.
+ */
+export function calculateNorwegianLoan(inputs: NorwegianLoanInputs): NorwegianLoanResults {
+  if (inputs.loanAmount <= 0) {
+    throw new MortgageCalculationError('Lånebeløpet må være større enn null', 'invalid_input', 'loanAmount');
+  }
+  if (inputs.termYears <= 0) {
+    throw new MortgageCalculationError('Nedbetalingstiden må være større enn null', 'invalid_input', 'termYears');
+  }
+  if (inputs.interestRate < 0) {
+    throw new MortgageCalculationError('Renten kan ikke være negativ', 'invalid_input', 'interestRate');
+  }
+  const schedule = generateNorwegianSchedule(inputs);
+  const totalInterest = schedule.reduce((sum, e) => sum + e.interest, 0);
+  const totalFees = inputs.establishmentFee + schedule.reduce((sum, e) => sum + e.fee, 0);
+  const totalPayments = schedule.reduce((sum, e) => sum + e.payment, 0);
+  return {
+    firstPayment: schedule[0].payment,
+    lastPayment: schedule[schedule.length - 1].payment,
+    averagePayment: totalPayments / schedule.length,
+    totalInterest,
+    totalFees,
+    totalPaid: totalPayments + inputs.establishmentFee,
+    effectiveRate: calculateEffectiveRate(
+      inputs.loanAmount,
+      inputs.establishmentFee,
+      schedule.map((e) => e.payment)
+    ),
+    schedule,
+  };
 }

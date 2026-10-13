@@ -1,28 +1,48 @@
 import { Metadata } from 'next';
 import { ROICalculator } from '@/components/calculators/finance';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'ROI Calculator - Return on Investment Calculator',
-  description: 'Calculate return on investment (ROI) and annualized returns. Free investment ROI calculator.',
-  keywords: ['roi calculator', 'return on investment', 'investment calculator', 'annualized return'],
+  title: 'Avkastningskalkulator (ROI) – gratis kalkulator på nett',
+  description: 'Beregn avkastningen på en investering. Gratis og uten registrering.',
+  keywords: ['ROI', 'avkastning', 'investering', 'fortjeneste'],
   alternates: { canonical: '/calculators/finance/roi-calculator' },
+  openGraph: {
+    title: 'Avkastningskalkulator (ROI)',
+    description: 'Beregn avkastningen på en investering',
+    url: '/calculators/finance/roi-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'ROI Calculator',
-  description: 'Calculate return on investment and annualized returns',
+  name: 'Avkastningskalkulator (ROI)',
+  description: 'Beregn avkastningen på en investering',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
+const howToSteps = [
+  { name: 'Skriv inn innskutt beløp', text: 'Oppgi hvor mye du investerte i begynnelsen.' },
+  { name: 'Skriv inn sluttverdi', text: 'Oppgi hva investeringen er verdt nå, eller hva du solgte den for.' },
+  { name: 'Legg til periode', text: 'Valgfritt: oppgi antall år for å se årlig avkastning.' },
+  { name: 'Les avkastningen', text: 'Se total avkastning i prosent, gevinst eller tap i kroner og årlig avkastning.' },
+];
+
 const faqs = [
-  { question: 'What is ROI?', answer: 'ROI (Return on Investment) measures the gain or loss on an investment relative to its cost, expressed as a percentage.' },
-  { question: 'What is annualized ROI?', answer: 'Annualized ROI converts your total return into an equivalent yearly rate, making it easier to compare investments of different durations.' },
-  { question: 'What is a good ROI?', answer: 'A "good" ROI depends on the investment type. Stock market historically returns 7-10% annually. Real estate typically 8-12%.' },
+  { question: 'Hva er ROI?', answer: 'ROI står for return on investment, eller avkastning på investering. Det er gevinsten delt på det du investerte, uttrykt i prosent.' },
+  { question: 'Hvorfor er årlig avkastning nyttig?', answer: 'En avkastning på 50 % over fem år er ikke det samme som 50 % over ett år. Årlig avkastning gjør det mulig å sammenligne investeringer over ulik tid.' },
+  { question: 'Er skatt og gebyrer med i beregningen?', answer: 'Nei. Trekk fra kostnader som kurtasje, forvaltningsgebyr og skatt på gevinst for å få avkastningen etter kostnader.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/finance/compound-interest-calculator', title: 'Rentesrentekalkulator', description: 'Beregn hvordan sparing vokser med renters rente' },
 ];
 
 export default function ROICalculatorPage() {
@@ -32,22 +52,17 @@ export default function ROICalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="roi-calculator"
-          title="ROI Calculator"
-          description="Calculate your return on investment and see annualized returns."
-          colorClass="bg-green-100 text-green-700"
+          title="Avkastningskalkulator (ROI)"
+          description="Beregn avkastningen på en investering"
         />
-        <section aria-label="ROI Calculator"><ROICalculator /></section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+
+        <section aria-label="Avkastningskalkulator (ROI)">
+          <ROICalculator />
         </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

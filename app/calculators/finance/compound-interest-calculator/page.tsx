@@ -1,42 +1,49 @@
 import { Metadata } from 'next';
 import { CompoundInterestCalculator } from '@/components/calculators/finance';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Compound Interest Calculator - Free Investment Growth Calculator',
-  description: 'Calculate compound interest with regular contributions. See how your investments grow over time with our free calculator.',
-  keywords: ['compound interest calculator', 'investment calculator', 'interest calculator', 'savings calculator'],
+  title: 'Rentesrentekalkulator – gratis kalkulator på nett',
+  description: 'Beregn hvordan sparing vokser med renters rente. Gratis og uten registrering.',
+  keywords: ['renters rente', 'sparekalkulator', 'sparing', 'fondssparing', 'vekst'],
   alternates: { canonical: '/calculators/finance/compound-interest-calculator' },
+  openGraph: {
+    title: 'Rentesrentekalkulator',
+    description: 'Beregn hvordan sparing vokser med renters rente',
+    url: '/calculators/finance/compound-interest-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Compound Interest Calculator',
-  description: 'Calculate compound interest with regular contributions and see how your investments grow',
+  name: 'Rentesrentekalkulator',
+  description: 'Beregn hvordan sparing vokser med renters rente',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter initial investment', text: 'Input the amount you\'re starting with.' },
-  { name: 'Set interest rate', text: 'Enter the expected annual interest rate.' },
-  { name: 'Choose investment period', text: 'Select how many years to invest.' },
-  { name: 'Select compounding frequency', text: 'Choose how often interest compounds (monthly is common).' },
-  { name: 'Add contributions (optional)', text: 'Enter regular contributions to your investment.' },
-  { name: 'View results', text: 'See your projected balance and growth chart.' },
+  { name: 'Skriv inn startbeløp', text: 'Oppgi hvor mye du har spart fra før.' },
+  { name: 'Velg rente og tid', text: 'Oppgi forventet årlig avkastning og hvor mange år du sparer.' },
+  { name: 'Legg til regelmessig sparing', text: 'Oppgi hvor mye du sparer, og hvor ofte.' },
+  { name: 'Se veksten', text: 'Se sluttbeløp, innskudd og opptjente renter, år for år.' },
 ];
 
 const faqs = [
-  { question: 'What is compound interest?', answer: 'Compound interest is interest calculated on both the initial principal and accumulated interest. Your money grows faster because you earn interest on your interest.' },
-  { question: 'How does compounding frequency affect returns?', answer: 'More frequent compounding yields higher returns. Monthly compounding earns slightly more than annual compounding at the same rate.' },
-  { question: 'What is the Rule of 72?', answer: 'Divide 72 by your interest rate to estimate doubling time. At 8% interest, money doubles in about 9 years (72 ÷ 8 = 9).' },
-  { question: 'What is a realistic interest rate?', answer: 'Stock market averages 7-10% annually. High-yield savings offer 4-5%. CDs and bonds typically offer 3-6%.' },
+  { question: 'Hva er renters rente?', answer: 'Renters rente betyr at du får avkastning både på pengene du har satt inn og på rentene som allerede er opptjent. Over tid gir det eksponentiell vekst.' },
+  { question: 'Hva er 72-regelen?', answer: 'Del 72 på årlig rente for å anslå hvor mange år det tar å doble pengene. Med 6 % rente tar det omtrent 12 år.' },
+  { question: 'Hvilken rente bør jeg bruke?', answer: 'Bruk en forsiktig anslått rente. Sparekonto gir ofte noen få prosent. Aksjefond kan gi mer over lang tid, men med risiko og svingninger.' },
+  { question: 'Er skatt og kostnader med?', answer: 'Nei. Trekk fra forvaltningskostnader og skatt for å få et realistisk bilde, for eksempel skatt på gevinst i aksjefond.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/finance/mortgage-calculator', title: 'Mortgage Calculator', description: 'Calculate monthly mortgage payments.' },
+  { href: '/calculators/finance/roi-calculator', title: 'Avkastningskalkulator (ROI)', description: 'Beregn avkastningen på en investering' },
 ];
 
 export default function CompoundInterestCalculatorPage() {
@@ -46,13 +53,11 @@ export default function CompoundInterestCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="compound-interest-calculator"
-          title="Compound Interest Calculator"
-          description="Calculate how your investments grow over time with compound interest. Add regular contributions to see the power of consistent investing."
-          colorClass="bg-green-100 text-green-600"
-          category="Finance"
+          title="Rentesrentekalkulator"
+          description="Beregn hvordan sparing vokser med renters rente"
         />
 
-        <section aria-label="Compound Interest Calculator">
+        <section aria-label="Rentesrentekalkulator">
           <CompoundInterestCalculator />
         </section>
 
