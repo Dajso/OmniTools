@@ -6,6 +6,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { Card } from '@/components/ui/card';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface PrintResult {
   maxWidthInches: number;
@@ -18,20 +19,30 @@ interface PrintResult {
   actualDpi: number;
 }
 
+const QUALITY_NAMES: Record<PrintResult['quality'], string> = {
+  excellent: 'UTMERKET',
+  good: 'GOD',
+  acceptable: 'BRUKBAR',
+  poor: 'LAV',
+};
+
 const DPI_PRESETS = [
-  { value: 300, label: '300 DPI (Professional Print)' },
-  { value: 240, label: '240 DPI (High Quality)' },
-  { value: 150, label: '150 DPI (Standard Quality)' },
-  { value: 72, label: '72 DPI (Web/Screen)' },
+  { value: 300, label: '300 DPI (profesjonelt trykk)' },
+  { value: 240, label: '240 DPI (høy kvalitet)' },
+  { value: 150, label: '150 DPI (vanlig kvalitet)' },
+  { value: 72, label: '72 DPI (nett/skjerm)' },
 ];
 
+// Størrelser i cm (bredde × høyde)
 const PRINT_SIZE_PRESETS = [
-  { name: '4×6"', width: 4, height: 6 },
-  { name: '5×7"', width: 5, height: 7 },
-  { name: '8×10"', width: 8, height: 10 },
-  { name: '11×14"', width: 11, height: 14 },
-  { name: '16×20"', width: 16, height: 20 },
-  { name: '24×36"', width: 24, height: 36 },
+  { name: '10×15 cm', width: 10, height: 15 },
+  { name: '13×18 cm', width: 13, height: 18 },
+  { name: 'A5 (14,8×21)', width: 14.8, height: 21 },
+  { name: 'A4 (21×29,7)', width: 21, height: 29.7 },
+  { name: 'A3 (29,7×42)', width: 29.7, height: 42 },
+  { name: '30×40 cm', width: 30, height: 40 },
+  { name: '50×70 cm', width: 50, height: 70 },
+  { name: '70×100 cm', width: 70, height: 100 },
 ];
 
 function calculatePrintSize(
@@ -50,16 +61,16 @@ function calculatePrintSize(
 
   if (targetDpi >= 300) {
     quality = 'excellent';
-    qualityDescription = 'Professional quality, suitable for close viewing';
+    qualityDescription = 'Profesjonell kvalitet, egnet for nærbetraktning';
   } else if (targetDpi >= 200) {
     quality = 'good';
-    qualityDescription = 'Good quality for most prints';
+    qualityDescription = 'God kvalitet for de fleste utskrifter';
   } else if (targetDpi >= 150) {
     quality = 'acceptable';
-    qualityDescription = 'Acceptable for viewing at arm\'s length';
+    qualityDescription = 'Brukbart når bildet ses på en armlengdes avstand';
   } else {
     quality = 'poor';
-    qualityDescription = 'Only suitable for large prints viewed from distance';
+    qualityDescription = 'Passer bare til store utskrifter som ses på avstand';
   }
 
   return {
@@ -75,12 +86,12 @@ function calculatePrintSize(
 }
 
 function calculateRequiredPixels(
-  printWidthInches: number,
-  printHeightInches: number,
+  printWidthCm: number,
+  printHeightCm: number,
   targetDpi: number
 ): { widthPx: number; heightPx: number; megapixels: number } {
-  const widthPx = Math.ceil(printWidthInches * targetDpi);
-  const heightPx = Math.ceil(printHeightInches * targetDpi);
+  const widthPx = Math.ceil((printWidthCm / 2.54) * targetDpi);
+  const heightPx = Math.ceil((printHeightCm / 2.54) * targetDpi);
   const megapixels = (widthPx * heightPx) / 1000000;
 
   return {
@@ -94,8 +105,8 @@ export function PrintingSizeCalculator() {
   const [mode, setMode] = React.useState<'fromPixels' | 'fromPrint'>('fromPixels');
   const [widthPx, setWidthPx] = React.useState(6000);
   const [heightPx, setHeightPx] = React.useState(4000);
-  const [printWidth, setPrintWidth] = React.useState(8);
-  const [printHeight, setPrintHeight] = React.useState(10);
+  const [printWidth, setPrintWidth] = React.useState(30);
+  const [printHeight, setPrintHeight] = React.useState(40);
   const [targetDpi, setTargetDpi] = React.useState(300);
   const [result, setResult] = React.useState<PrintResult | null>(null);
   const [requiredPixels, setRequiredPixels] = React.useState<{ widthPx: number; heightPx: number; megapixels: number } | null>(null);
@@ -107,7 +118,7 @@ export function PrintingSizeCalculator() {
       
       if (mode === 'fromPixels') {
         if (widthPx <= 0 || heightPx <= 0) {
-          setError('Dimensions must be positive');
+          setError('Målene må være større enn 0');
           setResult(null);
           return;
         }
@@ -116,7 +127,7 @@ export function PrintingSizeCalculator() {
         setRequiredPixels(null);
       } else {
         if (printWidth <= 0 || printHeight <= 0) {
-          setError('Print dimensions must be positive');
+          setError('Utskriftsmålene må være større enn 0');
           setRequiredPixels(null);
           return;
         }
@@ -125,7 +136,7 @@ export function PrintingSizeCalculator() {
         setResult(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
       setRequiredPixels(null);
     }
@@ -135,8 +146,8 @@ export function PrintingSizeCalculator() {
     setMode('fromPixels');
     setWidthPx(6000);
     setHeightPx(4000);
-    setPrintWidth(8);
-    setPrintHeight(10);
+    setPrintWidth(30);
+    setPrintHeight(40);
     setTargetDpi(300);
     setResult(null);
     setRequiredPixels(null);
@@ -158,10 +169,10 @@ export function PrintingSizeCalculator() {
 
   return (
     <CalculatorBase
-      title="Printing Size Calculator"
-      description="Calculate maximum print size from image resolution or required pixels for a print size"
-      formula="Print Size = Pixels ÷ DPI"
-      formulaExplanation="Higher DPI means sharper prints but smaller maximum size"
+      title="Utskriftsstørrelse"
+      description="Regn ut største utskriftsstørrelse ut fra bildets oppløsning, eller hvor mange piksler du trenger til en bestemt størrelse"
+      formula="Utskriftsstørrelse = piksler ÷ DPI"
+      formulaExplanation="Høyere DPI gir skarpere utskrift, men mindre maksimal størrelse"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -171,30 +182,30 @@ export function PrintingSizeCalculator() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
-                  label="Max Print Size (inches)"
-                  value={`${result.maxWidthInches}" × ${result.maxHeightInches}"`}
+                  label="Største størrelse (cm)"
+                  value={`${formatFixed(result.maxWidthCm, 1)} × ${formatFixed(result.maxHeightCm, 1)} cm`}
                   highlight
                   copyable
                 />
                 <ResultDisplay
-                  label="Max Print Size (cm)"
-                  value={`${result.maxWidthCm} × ${result.maxHeightCm} cm`}
+                  label="Største størrelse (tommer)"
+                  value={`${formatFixed(result.maxWidthInches, 1)}" × ${formatFixed(result.maxHeightInches, 1)}"`}
                   copyable
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
-                  label="Image Resolution"
-                  value={`${result.megapixels} MP`}
+                  label="Bildeoppløsning"
+                  value={`${formatFixed(result.megapixels, 1)} MP`}
                 />
                 <ResultDisplay
-                  label="Print DPI"
+                  label="Utskrifts-DPI"
                   value={result.actualDpi.toString()}
                 />
               </div>
               <div className="bg-muted/50 p-3 rounded-md">
                 <p className="text-sm font-medium mb-1">
-                  Quality: <span className={getQualityColor(result.quality)}>{result.quality.toUpperCase()}</span>
+                  Kvalitet: <span className={getQualityColor(result.quality)}>{QUALITY_NAMES[result.quality]}</span>
                 </p>
                 <p className="text-sm text-muted-foreground">{result.qualityDescription}</p>
               </div>
@@ -204,24 +215,24 @@ export function PrintingSizeCalculator() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
-                  label="Required Width"
+                  label="Nødvendig bredde"
                   value={`${requiredPixels.widthPx.toLocaleString('nb-NO')} px`}
                   highlight
                   copyable
                 />
                 <ResultDisplay
-                  label="Required Height"
+                  label="Nødvendig høyde"
                   value={`${requiredPixels.heightPx.toLocaleString('nb-NO')} px`}
                   highlight
                   copyable
                 />
               </div>
               <ResultDisplay
-                label="Required Resolution"
-                value={`${requiredPixels.megapixels} MP`}
+                label="Nødvendig oppløsning"
+                value={`${formatFixed(requiredPixels.megapixels, 2)} MP`}
               />
               <div className="bg-blue-50 text-blue-700 p-3 rounded-md text-sm">
-                For a {printWidth}" × {printHeight}" print at {targetDpi} DPI, you need at least {requiredPixels.megapixels} megapixels.
+                For en {formatFixed(printWidth, 1)} × {formatFixed(printHeight, 1)} cm utskrift ved {targetDpi} DPI trenger du minst {formatFixed(requiredPixels.megapixels, 2)} megapiksler.
               </div>
             </div>
           )}
@@ -239,7 +250,7 @@ export function PrintingSizeCalculator() {
                 : 'bg-background hover:bg-muted border-input'
             }`}
           >
-            From Image Size
+            Fra bildestørrelse
           </button>
           <button
             type="button"
@@ -250,7 +261,7 @@ export function PrintingSizeCalculator() {
                 : 'bg-background hover:bg-muted border-input'
             }`}
           >
-            From Print Size
+            Fra utskriftsstørrelse
           </button>
         </div>
 
@@ -258,7 +269,7 @@ export function PrintingSizeCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="width-px"
-              label="Image Width (pixels)"
+              label="Bildebredde (piksler)"
               value={widthPx}
               onChange={setWidthPx}
               min={1}
@@ -267,7 +278,7 @@ export function PrintingSizeCalculator() {
             />
             <NumberInput
               id="height-px"
-              label="Image Height (pixels)"
+              label="Bildehøyde (piksler)"
               value={heightPx}
               onChange={setHeightPx}
               min={1}
@@ -279,28 +290,28 @@ export function PrintingSizeCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="print-width"
-              label="Print Width (inches)"
+              label="Utskriftsbredde (cm)"
               value={printWidth}
               onChange={setPrintWidth}
-              min={0.1}
-              max={100}
-              step={0.5}
+              min={1}
+              max={500}
+              step={1}
             />
             <NumberInput
               id="print-height"
-              label="Print Height (inches)"
+              label="Utskriftshøyde (cm)"
               value={printHeight}
               onChange={setPrintHeight}
-              min={0.1}
-              max={100}
-              step={0.5}
+              min={1}
+              max={500}
+              step={1}
             />
           </div>
         )}
 
         <SelectInput
           id="target-dpi"
-          label="Target DPI"
+          label="Ønsket DPI"
           value={targetDpi.toString()}
           onChange={(v) => setTargetDpi(parseInt(v))}
           options={DPI_PRESETS.map(p => ({ value: p.value.toString(), label: p.label }))}
@@ -308,7 +319,7 @@ export function PrintingSizeCalculator() {
 
         {mode === 'fromPrint' && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">Common Print Sizes</p>
+            <p className="text-sm font-medium mb-3">Vanlige utskriftsstørrelser</p>
             <div className="grid grid-cols-3 gap-2">
               {PRINT_SIZE_PRESETS.map((preset) => (
                 <button
@@ -328,12 +339,12 @@ export function PrintingSizeCalculator() {
         )}
 
         <div className="border-t pt-4 text-sm text-muted-foreground">
-          <p className="font-medium mb-2">DPI Guidelines:</p>
+          <p className="font-medium mb-2">DPI-veiledning:</p>
           <ul className="space-y-1">
-            <li>• 300 DPI: Professional prints, close viewing</li>
-            <li>• 240 DPI: High quality home prints</li>
-            <li>• 150 DPI: Large prints viewed from distance</li>
-            <li>• 72 DPI: Screen display only</li>
+            <li>• 300 DPI: profesjonelle utskrifter, nærbetraktning</li>
+            <li>• 240 DPI: høy kvalitet på utskrifter hjemme</li>
+            <li>• 150 DPI: store utskrifter som ses på avstand</li>
+            <li>• 72 DPI: bare til skjermvisning</li>
           </ul>
         </div>
       </div>

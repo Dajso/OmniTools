@@ -50,32 +50,32 @@ export const VIDEO_CODECS: Record<string, VideoCodec> = {
   'h264': {
     name: 'H.264 (AVC)',
     efficiencyFactor: 1.0,
-    description: 'Most compatible, good quality',
+    description: 'Mest kompatibel, god kvalitet',
   },
   'h265': {
     name: 'H.265 (HEVC)',
     efficiencyFactor: 0.5,
-    description: '50% smaller files, better quality',
+    description: 'Opptil 50 % mindre filer, bedre kvalitet',
   },
   'vp9': {
     name: 'VP9',
     efficiencyFactor: 0.5,
-    description: 'Google codec, YouTube optimized',
+    description: 'Googles kodek, tilpasset YouTube',
   },
   'av1': {
     name: 'AV1',
     efficiencyFactor: 0.4,
-    description: 'Newest, best compression',
+    description: 'Nyest, best komprimering',
   },
   'prores': {
     name: 'ProRes',
     efficiencyFactor: 3.0,
-    description: 'Professional editing codec',
+    description: 'Profesjonell redigeringskodek',
   },
   'dnxhd': {
     name: 'DNxHD/DNxHR',
     efficiencyFactor: 2.5,
-    description: 'Avid professional codec',
+    description: 'Avids profesjonelle kodek',
   },
 };
 
@@ -94,29 +94,29 @@ export interface QualityPreset {
  */
 export const QUALITY_PRESETS: Record<string, QualityPreset> = {
   'low': {
-    name: 'Low',
+    name: 'Lav',
     bitsPerPixel: 0.05,
-    description: 'Streaming, mobile',
+    description: 'Strømming, mobil',
   },
   'medium': {
-    name: 'Medium',
+    name: 'Middels',
     bitsPerPixel: 0.1,
-    description: 'Web video, social media',
+    description: 'Nettvideo, sosiale medier',
   },
   'high': {
-    name: 'High',
+    name: 'Høy',
     bitsPerPixel: 0.15,
-    description: 'High quality streaming',
+    description: 'Strømming i høy kvalitet',
   },
   'very-high': {
-    name: 'Very High',
+    name: 'Svært høy',
     bitsPerPixel: 0.2,
-    description: 'Broadcast quality',
+    description: 'Kringkastingskvalitet',
   },
   'master': {
     name: 'Master',
     bitsPerPixel: 0.3,
-    description: 'Archive, editing',
+    description: 'Arkiv og redigering',
   },
 };
 
@@ -182,20 +182,20 @@ export function calculateBitrate(input: BitrateInput): BitrateResult {
   
   // Validate inputs
   if (width <= 0 || height <= 0) {
-    throw new Error('Width and height must be positive');
+    throw new Error('Bredde og høyde må være større enn 0');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
   
   const qualityPreset = QUALITY_PRESETS[quality];
   const codecInfo = VIDEO_CODECS[codec];
   
   if (!qualityPreset) {
-    throw new Error(`Invalid quality preset: ${quality}`);
+    throw new Error(`Ugyldig kvalitetsvalg: ${quality}`);
   }
   if (!codecInfo) {
-    throw new Error(`Invalid codec: ${codec}`);
+    throw new Error(`Ugyldig kodek: ${codec}`);
   }
   
   // Calculate pixels

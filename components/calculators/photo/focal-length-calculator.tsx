@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { formatFixed } from '@/lib/utils/formatting';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
@@ -49,7 +50,7 @@ export function FocalLengthCalculator() {
       );
       setAllEquivalents(equivalents);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
       setAllEquivalents(null);
     }
@@ -72,10 +73,10 @@ export function FocalLengthCalculator() {
 
   return (
     <CalculatorBase
-      title="Focal Length Calculator"
-      description="Calculate equivalent focal lengths across different sensor sizes"
-      formula="Equivalent FL = Actual FL × Crop Factor"
-      formulaExplanation="Convert focal lengths between sensor formats to understand field of view equivalence"
+      title="Brennvidde og beskjæringsfaktor"
+      description="Regn ut tilsvarende brennvidde for ulike sensorstørrelser"
+      formula="Tilsvarende brennvidde = faktisk brennvidde × beskjæringsfaktor"
+      formulaExplanation="Regn om brennvidder mellom sensorformater for å se hvilket synsfelt du får"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -83,14 +84,14 @@ export function FocalLengthCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="35mm Equivalent"
-              value={`${result.equivalentFocalLength}mm`}
+              label="Tilsvarende 35 mm"
+              value={`${formatFixed(result.equivalentFocalLength, 1)} mm`}
               highlight
               copyable
             />
             <ResultDisplay
-              label={`On ${SENSOR_FORMATS[targetFormat as keyof typeof SENSOR_FORMATS]?.name.split(' ')[0]}`}
-              value={`${result.convertedFocalLength}mm`}
+              label={`På ${SENSOR_FORMATS[targetFormat as keyof typeof SENSOR_FORMATS]?.name.split(' ')[0]}`}
+              value={`${formatFixed(result.convertedFocalLength, 1)} mm`}
               highlight
               copyable
             />
@@ -98,15 +99,15 @@ export function FocalLengthCalculator() {
 
           <div className="grid grid-cols-3 gap-4">
             <ResultDisplay
-              label="Horizontal FoV"
+              label="Horisontalt synsfelt"
               value={formatFieldOfView(result.horizontalFoV)}
             />
             <ResultDisplay
-              label="Vertical FoV"
+              label="Vertikalt synsfelt"
               value={formatFieldOfView(result.verticalFoV)}
             />
             <ResultDisplay
-              label="Diagonal FoV"
+              label="Diagonalt synsfelt"
               value={formatFieldOfView(result.diagonalFoV)}
             />
           </div>
@@ -114,7 +115,7 @@ export function FocalLengthCalculator() {
           {lensCategory && (
             <div className="bg-muted/50 p-3 rounded-md">
               <p className="text-sm font-medium mb-1">
-                Lens Category: <span className="text-primary capitalize">{lensCategory.replace('-', ' ')}</span>
+                Objektivtype: <span className="text-primary capitalize">{lensCategory.replace('-', ' ')}</span>
               </p>
               <p className="text-sm text-muted-foreground">
                 {LENS_CATEGORY_DESCRIPTIONS[lensCategory]}
@@ -125,7 +126,7 @@ export function FocalLengthCalculator() {
           {/* All Equivalents Table */}
           {allEquivalents && (
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-3">Equivalent Focal Lengths</p>
+              <p className="text-sm font-medium mb-3">Tilsvarende brennvidder</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {Object.entries(SENSOR_FORMATS).slice(0, 6).map(([key, format]) => (
                   <div key={key} className="flex justify-between p-2 bg-muted/30 rounded">
@@ -142,7 +143,7 @@ export function FocalLengthCalculator() {
       <div className="space-y-4">
         <NumberInput
           id="focal-length"
-          label="Focal Length (mm)"
+          label="Brennvidde (mm)"
           value={focalLength}
           onChange={setFocalLength}
           min={1}
@@ -167,7 +168,7 @@ export function FocalLengthCalculator() {
 
         <SelectInput
           id="source-format"
-          label="Your Camera Sensor"
+          label="Kameraets sensor"
           value={sourceFormat}
           onChange={setSourceFormat}
           options={SENSOR_OPTIONS}
@@ -175,14 +176,14 @@ export function FocalLengthCalculator() {
 
         <SelectInput
           id="target-format"
-          label="Compare To"
+          label="Sammenlign med"
           value={targetFormat}
           onChange={setTargetFormat}
           options={SENSOR_OPTIONS}
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Common Focal Lengths</p>
+          <p className="text-sm font-medium mb-3">Vanlige brennvidder</p>
           <div className="space-y-2">
             {COMMON_FOCAL_LENGTH_USES.slice(0, 6).map((item) => (
               <Card

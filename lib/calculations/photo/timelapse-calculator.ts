@@ -57,33 +57,33 @@ export interface ImageQualityPreset {
  */
 export const IMAGE_QUALITY_PRESETS: Record<string, ImageQualityPreset> = {
   'raw-high': {
-    name: 'RAW (High Resolution)',
-    description: '45+ MP RAW files',
+    name: 'RAW (høy oppløsning)',
+    description: 'RAW-filer på 45+ MP',
     fileSizeMB: 60,
   },
   'raw-medium': {
-    name: 'RAW (Medium Resolution)',
-    description: '24-30 MP RAW files',
+    name: 'RAW (middels oppløsning)',
+    description: 'RAW-filer på 24–30 MP',
     fileSizeMB: 35,
   },
   'raw-low': {
-    name: 'RAW (Low Resolution)',
-    description: '12-20 MP RAW files',
+    name: 'RAW (lav oppløsning)',
+    description: 'RAW-filer på 12–20 MP',
     fileSizeMB: 20,
   },
   'jpeg-high': {
-    name: 'JPEG (High Quality)',
-    description: 'Large, fine JPEG',
+    name: 'JPEG (høy kvalitet)',
+    description: 'Store, fine JPEG-filer',
     fileSizeMB: 12,
   },
   'jpeg-medium': {
-    name: 'JPEG (Medium Quality)',
-    description: 'Medium JPEG',
+    name: 'JPEG (middels kvalitet)',
+    description: 'Middels store JPEG-filer',
     fileSizeMB: 6,
   },
   'jpeg-low': {
-    name: 'JPEG (Low Quality)',
-    description: 'Small JPEG',
+    name: 'JPEG (lav kvalitet)',
+    description: 'Små JPEG-filer',
     fileSizeMB: 2,
   },
 };
@@ -120,16 +120,16 @@ export function calculateTimelapse(
   
   // Validate inputs
   if (eventDuration <= 0) {
-    throw new Error('Event duration must be positive');
+    throw new Error('Hendelsens varighet må være større enn 0');
   }
   if (outputDuration <= 0) {
-    throw new Error('Output duration must be positive');
+    throw new Error('Videolengden må være større enn 0');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
   if (imageSizeMB <= 0) {
-    throw new Error('Image size must be positive');
+    throw new Error('Bildestørrelsen må være større enn 0');
   }
   
   // Calculate total frames needed
@@ -180,13 +180,13 @@ export function calculateTimelapseFromInterval(
   imageSizeMB: number = 10
 ): TimelapseResult {
   if (eventDuration <= 0) {
-    throw new Error('Event duration must be positive');
+    throw new Error('Hendelsens varighet må være større enn 0');
   }
   if (intervalSeconds <= 0) {
-    throw new Error('Interval must be positive');
+    throw new Error('Intervallet må være større enn 0');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
   
   // Calculate total frames from interval (floor to not exceed event duration)
@@ -230,13 +230,13 @@ export function calculateTimelapseFromFrames(
   imageSizeMB: number = 10
 ): TimelapseResult {
   if (eventDuration <= 0) {
-    throw new Error('Event duration must be positive');
+    throw new Error('Hendelsens varighet må være større enn 0');
   }
   if (totalFrames <= 0) {
-    throw new Error('Total frames must be positive');
+    throw new Error('Antall bilder må være større enn 0');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
   
   // Calculate interval from frames
@@ -302,7 +302,7 @@ export function parseDuration(duration: string): number {
     return minutes * 60 + seconds;
   }
   
-  throw new Error('Invalid duration format. Use HH:MM:SS or MM:SS');
+  throw new Error('Ugyldig varighetsformat. Bruk TT:MM:SS eller MM:SS');
 }
 
 /**
@@ -322,62 +322,62 @@ export interface TimelapseScenario {
  */
 export const TIMELAPSE_SCENARIOS: TimelapseScenario[] = [
   {
-    name: 'Clouds',
-    description: 'Moving clouds across the sky',
+    name: 'Skyer',
+    description: 'Skyer som beveger seg over himmelen',
     recommendedInterval: 5,
     typicalDuration: 3600, // 1 hour
   },
   {
-    name: 'Sunset/Sunrise',
-    description: 'Sun setting or rising',
+    name: 'Solnedgang/soloppgang',
+    description: 'Sol som går ned eller opp',
     recommendedInterval: 3,
     typicalDuration: 1800, // 30 minutes
   },
   {
-    name: 'Stars/Night Sky',
-    description: 'Star trails or Milky Way movement',
+    name: 'Stjerner/nattehimmel',
+    description: 'Stjernespor eller Melkeveiens bevegelse',
     recommendedInterval: 30,
     typicalDuration: 14400, // 4 hours
   },
   {
-    name: 'Flowers Blooming',
-    description: 'Flower opening over time',
+    name: 'Blomster som springer ut',
+    description: 'Blomst som åpner seg over tid',
     recommendedInterval: 300, // 5 minutes
     typicalDuration: 86400, // 24 hours
   },
   {
-    name: 'Construction',
-    description: 'Building construction progress',
+    name: 'Byggeprosjekt',
+    description: 'Byggingens framdrift',
     recommendedInterval: 600, // 10 minutes
     typicalDuration: 28800, // 8 hours
   },
   {
-    name: 'Traffic',
-    description: 'City traffic flow',
+    name: 'Trafikk',
+    description: 'Trafikk i byen',
     recommendedInterval: 1,
     typicalDuration: 1800, // 30 minutes
   },
   {
-    name: 'Crowd Movement',
-    description: 'People moving through a space',
+    name: 'Menneskemengde',
+    description: 'Mennesker som beveger seg gjennom et rom',
     recommendedInterval: 2,
     typicalDuration: 3600, // 1 hour
   },
   {
-    name: 'Ice Melting',
-    description: 'Ice or snow melting',
+    name: 'Smeltende is',
+    description: 'Is eller snø som smelter',
     recommendedInterval: 60, // 1 minute
     typicalDuration: 7200, // 2 hours
   },
   {
-    name: 'Plant Growth',
-    description: 'Plant growing over days',
+    name: 'Plantevekst',
+    description: 'Plante som vokser over dager',
     recommendedInterval: 900, // 15 minutes
     typicalDuration: 604800, // 1 week
   },
   {
-    name: 'Cooking',
-    description: 'Food preparation or cooking',
+    name: 'Matlaging',
+    description: 'Tilberedning av mat',
     recommendedInterval: 2,
     typicalDuration: 1800, // 30 minutes
   },

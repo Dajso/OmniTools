@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { formatFixed, formatNumber } from '@/lib/utils/formatting';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
@@ -18,7 +19,7 @@ import {
 
 const FRAME_RATE_OPTIONS = CINEMA_FRAME_RATES.map(fr => ({
   value: fr.fps.toString(),
-  label: `${fr.fps} fps - ${fr.description}`,
+  label: `${formatNumber(fr.fps, { maximumFractionDigits: 3 })} b/s – ${fr.description}`,
 }));
 
 export function ShutterAngleConverter() {
@@ -45,7 +46,7 @@ export function ShutterAngleConverter() {
       setResult(conversionResult);
       setShutterTable(generateShutterTable(frameRate));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [mode, shutterAngle, shutterSpeed, frameRate]);
@@ -70,10 +71,10 @@ export function ShutterAngleConverter() {
 
   return (
     <CalculatorBase
-      title="Shutter Angle Converter"
-      description="Convert between shutter angle (cinema) and shutter speed (photography)"
-      formula="Shutter Speed = (Angle / 360) × (1 / Frame Rate)"
-      formulaExplanation="Shutter angle is used in cinema to describe exposure time relative to frame rate"
+      title="Lukkervinkel"
+      description="Regn om mellom lukkervinkel (film) og lukkertid (foto)"
+      formula="Lukkertid = (vinkel ÷ 360) × (1 ÷ bildefrekvens)"
+      formulaExplanation="Lukkervinkel brukes i film for å beskrive eksponeringstiden i forhold til bildefrekvensen"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -81,13 +82,13 @@ export function ShutterAngleConverter() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Shutter Angle"
+              label="Lukkervinkel"
               value={`${result.shutterAngle}°`}
               highlight={mode === 'speedToAngle'}
               copyable
             />
             <ResultDisplay
-              label="Shutter Speed"
+              label="Lukkertid"
               value={result.shutterSpeedFormatted}
               highlight={mode === 'angleToSpeed'}
               copyable
@@ -95,22 +96,22 @@ export function ShutterAngleConverter() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Frame Rate"
-              value={`${result.frameRate} fps`}
+              label="Bildefrekvens"
+              value={`${formatNumber(result.frameRate, { maximumFractionDigits: 3 })} b/s`}
             />
             <ResultDisplay
-              label="Exposure %"
+              label="Eksponering %"
               value={`${result.exposurePercent}%`}
             />
           </div>
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-1">Motion Blur</p>
+            <p className="text-sm font-medium mb-1">Bevegelsesuskarphet</p>
             <p className="text-sm text-muted-foreground">{result.motionBlurDescription}</p>
           </div>
 
           {/* Shutter Table for Current Frame Rate */}
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">Shutter Table @ {frameRate} fps</p>
+            <p className="text-sm font-medium mb-3">Lukkertabell ved {frameRate} b/s</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
               {shutterTable.slice(0, 6).map((row) => (
                 <div
@@ -139,7 +140,7 @@ export function ShutterAngleConverter() {
                 : 'bg-background hover:bg-muted border-input'
               }`}
           >
-            Angle → Speed
+            Vinkel → tid
           </button>
           <button
             type="button"
@@ -149,7 +150,7 @@ export function ShutterAngleConverter() {
                 : 'bg-background hover:bg-muted border-input'
               }`}
           >
-            Speed → Angle
+            Tid → vinkel
           </button>
         </div>
 
@@ -157,7 +158,7 @@ export function ShutterAngleConverter() {
           <>
             <NumberInput
               id="shutter-angle"
-              label="Shutter Angle (degrees)"
+              label="Lukkervinkel (grader)"
               value={shutterAngle}
               onChange={setShutterAngle}
               min={1}
@@ -183,7 +184,7 @@ export function ShutterAngleConverter() {
         ) : (
           <NumberInput
             id="shutter-speed"
-            label="Shutter Speed (seconds)"
+            label="Lukkertid (sekunder)"
             value={shutterSpeed}
             onChange={setShutterSpeed}
             min={0.00001}
@@ -194,14 +195,14 @@ export function ShutterAngleConverter() {
 
         <SelectInput
           id="frame-rate"
-          label="Frame Rate"
+          label="Bildefrekvens"
           value={frameRate.toString()}
           onChange={(v) => setFrameRate(parseFloat(v))}
           options={FRAME_RATE_OPTIONS}
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Cinema Look Presets</p>
+          <p className="text-sm font-medium mb-3">Filmlook</p>
           <div className="space-y-2">
             {CINEMA_PRESETS.slice(0, 4).map((preset) => (
               <Card
@@ -225,8 +226,8 @@ export function ShutterAngleConverter() {
         </div>
 
         <div className="border-t pt-4 text-sm text-muted-foreground">
-          <p className="font-medium mb-2">The 180° Rule:</p>
-          <p>For natural-looking motion blur, set shutter angle to 180° (shutter speed = 1/(2×fps)). At 24fps, this means 1/48 second.</p>
+          <p className="font-medium mb-2">180°-regelen:</p>
+          <p>For naturlig bevegelsesuskarphet setter du lukkervinkelen til 180° (lukkertid = 1/(2 × bilder per sekund)). Ved 24 b/s blir det 1/48 sekund.</p>
         </div>
       </div>
     </CalculatorBase>

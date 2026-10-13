@@ -1,3 +1,4 @@
+import { formatFixed } from '../../utils/formatting';
 /**
  * Shutter Angle Converter
  * 
@@ -12,15 +13,15 @@
  * Common shutter angles used in cinema
  */
 export const COMMON_SHUTTER_ANGLES = [
-  { angle: 360, description: 'Maximum light, very smooth motion blur' },
-  { angle: 270, description: 'Increased motion blur, dreamy look' },
-  { angle: 180, description: 'Standard cinematic look (180° rule)' },
-  { angle: 172.8, description: 'Common digital cinema default' },
-  { angle: 144, description: 'Slightly reduced motion blur' },
-  { angle: 90, description: 'Reduced motion blur, sharper action' },
-  { angle: 45, description: 'Minimal motion blur, staccato effect' },
-  { angle: 22.5, description: 'Very sharp, strobe-like effect' },
-  { angle: 11.25, description: 'Extreme sharpness, Saving Private Ryan effect' },
+  { angle: 360, description: 'Maksimalt lys, svært myk bevegelsesuskarphet' },
+  { angle: 270, description: 'Mer bevegelsesuskarphet, drømmende uttrykk' },
+  { angle: 180, description: 'Vanlig filmuttrykk (180°-regelen)' },
+  { angle: 172.8, description: 'Vanlig standard for digitale filmkameraer' },
+  { angle: 144, description: 'Litt mindre bevegelsesuskarphet' },
+  { angle: 90, description: 'Mindre bevegelsesuskarphet, skarpere action' },
+  { angle: 45, description: 'Minimal bevegelsesuskarphet, staccato-effekt' },
+  { angle: 22.5, description: 'Svært skarpt, stroboskop-lignende effekt' },
+  { angle: 11.25, description: 'Ekstrem skarphet, «Redd menig Ryan»-effekt' },
 ] as const;
 
 /**
@@ -28,16 +29,16 @@ export const COMMON_SHUTTER_ANGLES = [
  */
 export const CINEMA_FRAME_RATES = [
   { fps: 23.976, description: 'Film (NTSC)' },
-  { fps: 24, description: 'Cinema standard' },
-  { fps: 25, description: 'PAL video' },
-  { fps: 29.97, description: 'NTSC video' },
-  { fps: 30, description: 'Web video' },
-  { fps: 48, description: 'High frame rate cinema' },
-  { fps: 50, description: 'PAL high frame rate' },
-  { fps: 59.94, description: 'NTSC high frame rate' },
-  { fps: 60, description: 'High frame rate web' },
-  { fps: 120, description: 'Slow motion' },
-  { fps: 240, description: 'High-speed slow motion' },
+  { fps: 24, description: 'Kinostandard' },
+  { fps: 25, description: 'PAL-video (Europa)' },
+  { fps: 29.97, description: 'NTSC-video' },
+  { fps: 30, description: 'Nettvideo' },
+  { fps: 48, description: 'Kino med høy bildefrekvens' },
+  { fps: 50, description: 'PAL med høy bildefrekvens' },
+  { fps: 59.94, description: 'NTSC med høy bildefrekvens' },
+  { fps: 60, description: 'Nett med høy bildefrekvens' },
+  { fps: 120, description: 'Sakte film' },
+  { fps: 240, description: 'Høyhastighets sakte film' },
 ] as const;
 
 /**
@@ -99,10 +100,10 @@ export function shutterAngleToSpeed(input: ShutterAngleInput): ShutterConversion
   const { shutterAngle, frameRate } = input;
 
   if (shutterAngle <= 0 || shutterAngle > 360) {
-    throw new Error('Shutter angle must be between 0 and 360 degrees');
+    throw new Error('Lukkervinkelen må være mellom 0 og 360 grader');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
 
   // Calculate frame duration
@@ -145,10 +146,10 @@ export function shutterSpeedToAngle(input: ShutterSpeedInput): ShutterConversion
   const { shutterSpeed, frameRate } = input;
 
   if (shutterSpeed <= 0) {
-    throw new Error('Shutter speed must be positive');
+    throw new Error('Lukkertiden må være større enn 0');
   }
   if (frameRate <= 0) {
-    throw new Error('Frame rate must be positive');
+    throw new Error('Bildefrekvensen må være større enn 0');
   }
 
   // Calculate frame duration
@@ -156,7 +157,7 @@ export function shutterSpeedToAngle(input: ShutterSpeedInput): ShutterConversion
 
   // Shutter speed cannot exceed frame duration
   if (shutterSpeed > frameDuration) {
-    throw new Error(`Shutter speed cannot exceed frame duration (${formatCinemaShutterSpeed(frameDuration)})`);
+    throw new Error(`Lukkertiden kan ikke være lengre enn varigheten til ett bilde (${formatCinemaShutterSpeed(frameDuration)})`);
   }
 
   // Calculate shutter angle
@@ -184,13 +185,13 @@ export function shutterSpeedToAngle(input: ShutterSpeedInput): ShutterConversion
  * @returns Description of motion blur effect
  */
 export function getMotionBlurDescription(shutterAngle: number): string {
-  if (shutterAngle >= 300) return 'Maximum motion blur, very smooth/dreamy';
-  if (shutterAngle >= 200) return 'Increased motion blur, smooth motion';
-  if (shutterAngle >= 160 && shutterAngle <= 200) return 'Standard cinematic motion blur';
-  if (shutterAngle >= 100) return 'Moderate motion blur';
-  if (shutterAngle >= 60) return 'Reduced motion blur, sharper action';
-  if (shutterAngle >= 30) return 'Minimal motion blur, staccato effect';
-  return 'Very sharp, strobe-like effect';
+  if (shutterAngle >= 300) return 'Maksimal bevegelsesuskarphet, svært myk og drømmende';
+  if (shutterAngle >= 200) return 'Mer bevegelsesuskarphet, myk bevegelse';
+  if (shutterAngle >= 160 && shutterAngle <= 200) return 'Vanlig bevegelsesuskarphet i film';
+  if (shutterAngle >= 100) return 'Moderat bevegelsesuskarphet';
+  if (shutterAngle >= 60) return 'Mindre bevegelsesuskarphet, skarpere action';
+  if (shutterAngle >= 30) return 'Minimal bevegelsesuskarphet, staccato-effekt';
+  return 'Svært skarpt, stroboskop-lignende effekt';
 }
 
 /**
@@ -201,7 +202,7 @@ export function getMotionBlurDescription(shutterAngle: number): string {
  */
 export function formatCinemaShutterSpeed(seconds: number): string {
   if (seconds >= 1) {
-    return `${seconds.toFixed(2)}s`;
+    return `${formatFixed(seconds, 2)} s`;
   }
 
   const denominator = Math.round(1 / seconds);
@@ -302,40 +303,40 @@ export interface CinemaPreset {
  */
 export const CINEMA_PRESETS: CinemaPreset[] = [
   {
-    name: 'Standard Cinematic',
+    name: 'Vanlig film',
     shutterAngle: 180,
-    description: 'The classic 180-degree rule for natural motion blur',
-    examples: ['Most Hollywood films', 'Standard narrative cinema'],
+    description: 'Den klassiske 180-graders regelen for naturlig bevegelsesuskarphet',
+    examples: ['De fleste spillefilmer', 'Vanlig fortellende film'],
   },
   {
-    name: 'Smooth/Dreamy',
+    name: 'Myk/drømmende',
     shutterAngle: 270,
-    description: 'Increased motion blur for a dreamy, ethereal look',
-    examples: ['Music videos', 'Dream sequences', 'Romantic scenes'],
+    description: 'Mer bevegelsesuskarphet for et drømmende, eterisk uttrykk',
+    examples: ['Musikkvideoer', 'Drømmesekvenser', 'Romantiske scener'],
   },
   {
-    name: 'Action/Sharp',
+    name: 'Action/skarp',
     shutterAngle: 90,
-    description: 'Reduced motion blur for sharper action',
-    examples: ['Action sequences', 'Sports footage', 'Fast-paced editing'],
+    description: 'Mindre bevegelsesuskarphet for skarpere action',
+    examples: ['Actionscener', 'Sportsopptak', 'Rask klipping'],
   },
   {
-    name: 'Saving Private Ryan',
+    name: 'Redd menig Ryan',
     shutterAngle: 45,
-    description: 'Very sharp, staccato effect used in war films',
-    examples: ['Saving Private Ryan', 'Gladiator battle scenes'],
+    description: 'Svært skarp staccato-effekt brukt i krigsfilmer',
+    examples: ['Redd menig Ryan', 'Kampscenene i «Gladiator»'],
   },
   {
-    name: 'Documentary',
+    name: 'Dokumentar',
     shutterAngle: 172.8,
-    description: 'Common default for digital cinema cameras',
-    examples: ['Documentaries', 'News footage', 'Reality TV'],
+    description: 'Vanlig standard for digitale filmkameraer',
+    examples: ['Documentaries', 'Nyhetsopptak', 'Reality-TV'],
   },
   {
     name: 'Blade Runner 2049',
     shutterAngle: 360,
-    description: 'Maximum motion blur for smooth, flowing movement',
-    examples: ['Blade Runner 2049', 'Slow, contemplative scenes'],
+    description: 'Maksimal bevegelsesuskarphet for myke, flytende bevegelser',
+    examples: ['Blade Runner 2049', 'Rolige, ettertenksomme scener'],
   },
 ];
 

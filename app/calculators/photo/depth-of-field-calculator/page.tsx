@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { DepthOfFieldCalculator } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Depth of Field Calculator - Photography DoF Calculator',
-  description: 'Calculate depth of field for photography. Find near focus, far focus, and hyperfocal distance based on focal length, aperture, and sensor size.',
-  keywords: ['depth of field calculator', 'DoF calculator', 'photography calculator', 'hyperfocal distance', 'aperture', 'bokeh'],
+  title: 'Dybdeskarphet – gratis kalkulator på nett',
+  description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand. Gratis og uten registrering.',
+  keywords: ['dybdeskarphet', 'blender', 'hyperfokal', 'fotografi', 'fokusavstand'],
   alternates: { canonical: '/calculators/photo/depth-of-field-calculator' },
+  openGraph: {
+    title: 'Dybdeskarphet',
+    description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand',
+    url: '/calculators/photo/depth-of-field-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Depth of Field Calculator',
-  description: 'Calculate depth of field for photography based on camera settings',
+  name: 'Dybdeskarphet',
+  description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand',
   applicationCategory: 'PhotographyApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter focal length', text: 'Input your lens focal length in millimeters.' },
-  { name: 'Select aperture', text: 'Choose your aperture f-stop value.' },
-  { name: 'Enter subject distance', text: 'Input the distance to your subject in meters.' },
-  { name: 'Select sensor size', text: 'Choose your camera sensor size for accurate calculations.' },
+  { name: 'Velg sensorstørrelse', text: 'For eksempel fullformat eller APS-C.' },
+  { name: 'Oppgi brennvidde og blenderåpning', text: 'Brennvidde i mm og blenderåpning som f-tall.' },
+  { name: 'Oppgi avstand til motivet', text: 'I meter.' },
+  { name: 'Les av dybdeskarpheten', text: 'Se skarpt område foran og bak motivet.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is depth of field?',
-    answer: 'Depth of field (DoF) is the distance between the nearest and farthest objects in a photo that appear acceptably sharp. A shallow DoF creates background blur (bokeh), while a deep DoF keeps more of the scene in focus.',
-  },
-  {
-    question: 'How does aperture affect depth of field?',
-    answer: 'A wider aperture (smaller f-number like f/1.8) creates a shallower depth of field with more background blur. A narrower aperture (larger f-number like f/16) creates a deeper depth of field with more of the scene in focus.',
-  },
-  {
-    question: 'What is hyperfocal distance?',
-    answer: 'Hyperfocal distance is the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When focused at the hyperfocal distance, everything from half that distance to infinity will be in focus.',
-  },
-  {
-    question: 'How does sensor size affect depth of field?',
-    answer: 'Larger sensors (like full-frame) produce shallower depth of field at the same field of view compared to smaller sensors (like APS-C or Micro Four Thirds). This is because larger sensors require longer focal lengths for the same framing.',
-  },
-  {
-    question: 'What is circle of confusion?',
-    answer: 'Circle of confusion (CoC) is the largest blur spot that will still appear as a point to the human eye. It varies by sensor size and determines what is considered "acceptably sharp" in depth of field calculations.',
-  },
+  { question: 'Hva er dybdeskarphet?', answer: 'Området i bildet som oppleves som skarpt, fra nærmeste til fjerneste punkt.' },
+  { question: 'Hva er hyperfokal avstand?', answer: 'Fokusavstanden som gir skarphet fra halve avstanden og til uendelig.' },
+  { question: 'Hva gir grunnere dybdeskarphet?', answer: 'Lengre brennvidde, større blenderåpning (lavere f-tall) og kortere motivavstand.' },
+  { question: 'Hvorfor spiller sensorstørrelsen en rolle?', answer: 'Mindre sensorer har mindre uskarphetssirkel og gir ved samme synsfelt større dybdeskarphet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/focal-length-calculator', title: 'Focal Length Calculator', description: 'Calculate equivalent focal lengths across sensor sizes.' },
-  { href: '/calculators/photo/nd-filter-calculator', title: 'ND Filter Calculator', description: 'Calculate exposure with ND filters.' },
-  { href: '/calculators/photo/timelapse-calculator', title: 'Time Lapse Calculator', description: 'Plan your timelapse shoots.' },
+  { href: '/calculators/photo/focal-length-calculator', title: 'Brennvidde og crop-faktor', description: 'Regn ut tilsvarende brennvidde med crop-faktor' },
+  { href: '/calculators/photo/nd-filter-calculator', title: 'ND-filter', description: 'Regn ut lukkertid ved bruk av ND-filter' },
+  { href: '/calculators/photo/golden-hour-calculator', title: 'Gylden time og blå time', description: 'Regn ut gylden time og blå time for et sted' },
 ];
 
 export default function DepthOfFieldCalculatorPage() {
@@ -62,12 +55,11 @@ export default function DepthOfFieldCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="depth-of-field-calculator"
-          title="Depth of Field Calculator"
-          description="Calculate depth of field for your photography. Find near focus, far focus, hyperfocal distance, and understand how aperture, focal length, and sensor size affect your images."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Dybdeskarphet"
+          description="Regn ut dybdeskarphet, nærmeste og fjerneste skarpe punkt og hyperfokal avstand ut fra brennvidde, blenderåpning, motivavstand og sensorstørrelse. Gratis og uten registrering."
         />
 
-        <section aria-label="Depth of Field Calculator">
+        <section aria-label="Dybdeskarphet">
           <DepthOfFieldCalculator />
         </section>
 

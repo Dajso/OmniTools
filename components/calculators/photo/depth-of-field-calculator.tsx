@@ -44,7 +44,7 @@ export function DepthOfFieldCalculator() {
       });
       setResult(dofResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [focalLength, aperture, subjectDistance, sensorSize]);
@@ -64,55 +64,55 @@ export function DepthOfFieldCalculator() {
 
   return (
     <CalculatorBase
-      title="Depth of Field Calculator"
-      description="Calculate depth of field based on focal length, aperture, and subject distance"
-      formula="DoF = Far Focus - Near Focus"
-      formulaExplanation="Depth of field depends on focal length, aperture, subject distance, and sensor size"
+      title="Dybdeskarphet"
+      description="Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand til motivet"
+      formula="Dybdeskarphet = fjerneste skarpe punkt − nærmeste skarpe punkt"
+      formulaExplanation="Dybdeskarpheten avhenger av brennvidde, blenderåpning, motivavstand og sensorstørrelse"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Total Depth of Field"
+            label="Total dybdeskarphet"
             value={formatDistance(result.totalDoF)}
             highlight
             copyable
           />
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Near Focus"
+              label="Nærmeste skarpe punkt"
               value={formatDistance(result.nearFocus)}
               copyable
             />
             <ResultDisplay
-              label="Far Focus"
+              label="Fjerneste skarpe punkt"
               value={formatDistance(result.farFocus)}
               copyable
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="DoF in Front"
+              label="Skarpt foran motivet"
               value={formatDistance(result.dofInFront)}
             />
             <ResultDisplay
-              label="DoF Behind"
+              label="Skarpt bak motivet"
               value={formatDistance(result.dofBehind)}
             />
           </div>
           <ResultDisplay
-            label="Hyperfocal Distance"
+            label="Hyperfokal avstand"
             value={formatDistance(result.hyperfocalDistance)}
             copyable
           />
           {result.isInfinityFocus && (
             <div className="bg-blue-50 text-blue-700 p-3 rounded-md text-sm">
-              Far focus extends to infinity. Everything beyond {formatDistance(result.nearFocus)} will be in focus.
+              Skarpheten rekker til uendelig. Alt lenger unna enn {formatDistance(result.nearFocus)} blir skarpt.
             </div>
           )}
           <div className="bg-muted/50 p-3 rounded-md text-sm">
-            <p className="font-medium mb-1">Circle of Confusion</p>
+            <p className="font-medium mb-1">Uskarphetssirkel</p>
             <p className="text-muted-foreground">{result.circleOfConfusion} mm</p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export function DepthOfFieldCalculator() {
       <div className="space-y-4">
         <NumberInput
           id="focal-length"
-          label="Focal Length (mm)"
+          label="Brennvidde (mm)"
           value={focalLength}
           onChange={setFocalLength}
           min={1}
@@ -147,7 +147,7 @@ export function DepthOfFieldCalculator() {
 
         <SelectInput
           id="aperture"
-          label="Aperture"
+          label="Blenderåpning"
           value={aperture.toString()}
           onChange={(v) => setAperture(parseFloat(v))}
           options={APERTURE_OPTIONS}
@@ -155,7 +155,7 @@ export function DepthOfFieldCalculator() {
 
         <NumberInput
           id="subject-distance"
-          label="Subject Distance (meters)"
+          label="Avstand til motivet (meter)"
           value={subjectDistance}
           onChange={setSubjectDistance}
           min={0.1}
@@ -165,7 +165,7 @@ export function DepthOfFieldCalculator() {
 
         <SelectInput
           id="sensor-size"
-          label="Sensor Size"
+          label="Sensorstørrelse"
           value={sensorSize}
           onChange={(v) => setSensorSize(v as SensorSize)}
           options={SENSOR_OPTIONS}

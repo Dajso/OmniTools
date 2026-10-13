@@ -1,3 +1,4 @@
+import { formatFixed } from '../../utils/formatting';
 /**
  * Depth of Field Calculator
  * 
@@ -98,7 +99,7 @@ export function calculateHyperfocalDistance(
   circleOfConfusion: number
 ): number {
   if (focalLength <= 0 || aperture <= 0 || circleOfConfusion <= 0) {
-    throw new Error('All parameters must be positive');
+    throw new Error('Alle verdiene må være større enn 0');
   }
   
   // H = f² / (N × c), convert mm to meters
@@ -190,19 +191,19 @@ export function calculateDoF(input: DoFInput): DoFResult {
   
   // Validate inputs
   if (focalLength <= 0) {
-    throw new Error('Focal length must be positive');
+    throw new Error('Brennvidden må være større enn 0');
   }
   if (aperture <= 0) {
-    throw new Error('Aperture must be positive');
+    throw new Error('Blenderåpningen må være større enn 0');
   }
   if (subjectDistance <= 0) {
-    throw new Error('Subject distance must be positive');
+    throw new Error('Avstanden til motivet må være større enn 0');
   }
   
   // Minimum focus distance check (focal length in meters)
   const minFocusDistance = focalLength / 1000;
   if (subjectDistance <= minFocusDistance) {
-    throw new Error(`Subject distance must be greater than focal length (${minFocusDistance}m)`);
+    throw new Error(`Avstanden til motivet må være større enn brennvidden (${minFocusDistance} m)`);
   }
   
   const circleOfConfusion = CIRCLE_OF_CONFUSION[sensorSize];
@@ -311,15 +312,15 @@ export function formatDistance(distance: number, precision: number = 2): string 
   
   if (distance < 1) {
     // Display in centimeters for small distances
-    return `${(distance * 100).toFixed(precision)} cm`;
+    return `${formatFixed(distance * 100, precision)} cm`;
   }
   
   if (distance >= 1000) {
     // Display in kilometers for large distances
-    return `${(distance / 1000).toFixed(precision)} km`;
+    return `${formatFixed(distance / 1000, precision)} km`;
   }
   
-  return `${distance.toFixed(precision)} m`;
+  return `${formatFixed(distance, precision)} m`;
 }
 
 /**
@@ -342,10 +343,10 @@ export const COMMON_FOCAL_LENGTHS = [
  * Sensor size display names
  */
 export const SENSOR_SIZE_NAMES: Record<SensorSize, string> = {
-  'full-frame': 'Full Frame (35mm)',
+  'full-frame': 'Fullformat (35 mm)',
   'aps-c': 'APS-C (Nikon/Sony/Fuji)',
   'aps-c-canon': 'APS-C (Canon)',
   'micro-four-thirds': 'Micro Four Thirds',
-  'medium-format': 'Medium Format',
+  'medium-format': 'Mellomformat',
   '1-inch': '1-inch',
 };

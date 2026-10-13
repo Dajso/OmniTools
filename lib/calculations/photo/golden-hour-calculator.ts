@@ -7,11 +7,13 @@
  * @module lib/calculations/photo/golden-hour-calculator
  */
 
+import { norwayUtcOffsetHours } from '../wedding/sunset-time';
+
 export interface GoldenHourInput {
   latitude: number;
   longitude: number;
   date: Date;
-  timezoneOffset?: number; // in minutes, defaults to local
+  timezoneOffset?: number; // minutter (som Date.getTimezoneOffset), standard er norsk tid for steder i Norge ellers nettleserens tid
 }
 
 export interface SunTimes {
@@ -40,6 +42,12 @@ export interface GoldenHourResult {
   morningBlueHourEnd: Date;
   eveningBlueHourStart: Date;
   eveningBlueHourEnd: Date;
+
+  // Fasene som ikke inntreffer denne dagen (for eksempel blå time midt på sommeren i nord)
+  morningGoldenHourAllDay: boolean;
+  eveningGoldenHourAllDay: boolean;
+  blueHourMorningAvailable: boolean;
+  blueHourEveningAvailable: boolean;
 
   // Current status
   currentPhase: LightPhase;
@@ -75,39 +83,39 @@ export interface PhaseInfo {
 
 export const LIGHT_PHASES: Record<LightPhase, PhaseInfo> = {
   'night': {
-    name: 'Night',
-    description: 'Sun more than 18° below horizon',
-    photographyTips: 'Astrophotography, star trails, light painting',
+    name: 'Natt',
+    description: 'Sola er mer enn 18° under horisonten',
+    photographyTips: 'Astrofoto, stjernespor og lysmaling',
     colorTemperature: 'N/A',
   },
   'astronomical-twilight': {
-    name: 'Astronomical Twilight',
-    description: 'Sun 12° to 18° below horizon',
-    photographyTips: 'Stars visible, good for Milky Way shots',
+    name: 'Astronomisk tussmørke',
+    description: 'Sola er 12° til 18° under horisonten',
+    photographyTips: 'Stjerner synlige, bra for bilder av Melkeveien',
     colorTemperature: 'N/A',
   },
   'nautical-twilight': {
-    name: 'Nautical Twilight',
-    description: 'Sun 6° to 12° below horizon',
-    photographyTips: 'Horizon visible, silhouettes possible',
+    name: 'Nautisk tussmørke',
+    description: 'Sola er 6° til 12° under horisonten',
+    photographyTips: 'Horisonten er synlig, silhuetter er mulig',
     colorTemperature: '~10000K',
   },
   'blue-hour': {
-    name: 'Blue Hour',
-    description: 'Sun 4° to 6° below horizon',
-    photographyTips: 'Deep blue sky, city lights balance with sky',
+    name: 'Blå time',
+    description: 'Sola er 4° til 6° under horisonten',
+    photographyTips: 'Dyp blå himmel, og byens lys balanserer mot himmelen',
     colorTemperature: '9000-12000K',
   },
   'golden-hour': {
-    name: 'Golden Hour',
-    description: 'Sun near horizon (0° to 6° above)',
-    photographyTips: 'Warm, soft light ideal for portraits and landscapes',
+    name: 'Gyllen time',
+    description: 'Sola er nær horisonten (0° til 6° over)',
+    photographyTips: 'Varmt, mykt lys som passer til portretter og landskap',
     colorTemperature: '2500-3500K',
   },
   'daylight': {
-    name: 'Daylight',
-    description: 'Sun more than 6° above horizon',
-    photographyTips: 'Harsh shadows midday, use fill flash or shade',
+    name: 'Dagslys',
+    description: 'Sola er mer enn 6° over horisonten',
+    photographyTips: 'Harde skygger midt på dagen. Bruk fyllblits eller skygge',
     colorTemperature: '5000-6500K',
   },
 };
@@ -242,7 +250,7 @@ function formatTime(date: Date, timezoneOffset: number): string {
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = Math.round(minutes % 60);
-  return `${hours}h ${mins}m`;
+  return `${hours} t ${mins} min`;
 }
 
 /**
@@ -258,18 +266,43 @@ function getLightPhase(altitude: number): LightPhase {
   return 'night';
 }
 
+/** Grov avgrensing av Norge (inkl. Svalbard) for å velge norsk tid */
+function isInNorway(latitude: number, longitude: number): boolean {
+  return latitude >= 57.5 && latitude <= 81 && longitude >= 4 && longitude <= 32;
+}
+
+/** Standard tidssone: norsk tid (med sommertid på valgt dato) i Norge, ellers nettleserens tid på valgt dato */
+function defaultTimezoneOffset(date: Date, latitude: number, longitude: number): number {
+  if (isInNorway(latitude, longitude)) {
+    return -norwayUtcOffsetHours(date) * 60;
+  }
+  return date.getTimezoneOffset();
+}
+
+/** True hvis sola er over horisonten hele døgnet (midnattssol), false ved mørketid */
+function isMidnightSun(date: Date, latitude: number, longitude: number): boolean {
+  const startOfDay = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  let minAlt = 90;
+  for (let h = 0; h < 24; h++) {
+    const { altitude } = calculateSunPosition(dateToJulianDay(new Date(startOfDay + h * 3600 * 1000)), latitude, longitude);
+    if (altitude < minAlt) minAlt = altitude;
+  }
+  return minAlt > -0.833;
+}
+
 /**
  * Calculate golden hour and blue hour times
  */
 export function calculateGoldenHour(input: GoldenHourInput): GoldenHourResult {
-  const { latitude, longitude, date, timezoneOffset = new Date().getTimezoneOffset() } = input;
+  const { latitude, longitude, date } = input;
+  const timezoneOffset = input.timezoneOffset ?? defaultTimezoneOffset(date, latitude, longitude);
 
   // Validate inputs
   if (latitude < -90 || latitude > 90) {
-    throw new Error('Latitude must be between -90 and 90 degrees');
+    throw new Error('Breddegrad må være mellom -90 og 90 grader');
   }
   if (longitude < -180 || longitude > 180) {
-    throw new Error('Longitude must be between -180 and 180 degrees');
+    throw new Error('Lengdegrad må være mellom -180 og 180 grader');
   }
 
   // Calculate key sun times
@@ -277,7 +310,11 @@ export function calculateGoldenHour(input: GoldenHourInput): GoldenHourResult {
   const sunset = findSunAltitudeTime(date, latitude, longitude, -0.833, false);
 
   if (!sunrise || !sunset) {
-    throw new Error('Sun does not rise or set at this location on this date (polar day/night)');
+    throw new Error(
+      isMidnightSun(date, latitude, longitude)
+        ? 'Midnattssol: sola går ikke ned på dette stedet denne datoen.'
+        : 'Mørketid: sola kommer ikke over horisonten på dette stedet denne datoen.'
+    );
   }
 
   // Solar noon is midpoint between sunrise and sunset
@@ -286,15 +323,25 @@ export function calculateGoldenHour(input: GoldenHourInput): GoldenHourResult {
 
   // Golden hour times (sun at 6° above to just below horizon)
   const morningGoldenHourStart = sunrise;
-  const morningGoldenHourEnd = findSunAltitudeTime(date, latitude, longitude, 6, true) || sunrise;
-  const eveningGoldenHourStart = findSunAltitudeTime(date, latitude, longitude, 6, false) || sunset;
+  const morningGoldenHourEndRaw = findSunAltitudeTime(date, latitude, longitude, 6, true);
+  const eveningGoldenHourStartRaw = findSunAltitudeTime(date, latitude, longitude, 6, false);
+  const morningGoldenHourEnd = morningGoldenHourEndRaw || sunrise;
+  const eveningGoldenHourStart = eveningGoldenHourStartRaw || sunset;
   const eveningGoldenHourEnd = sunset;
 
   // Blue hour times (sun 4° to 6° below horizon)
-  const morningBlueHourStart = findSunAltitudeTime(date, latitude, longitude, -6, true) || sunrise;
-  const morningBlueHourEnd = findSunAltitudeTime(date, latitude, longitude, -4, true) || sunrise;
-  const eveningBlueHourStart = findSunAltitudeTime(date, latitude, longitude, -4, false) || sunset;
-  const eveningBlueHourEnd = findSunAltitudeTime(date, latitude, longitude, -6, false) || sunset;
+  const morningBlueHourStartRaw = findSunAltitudeTime(date, latitude, longitude, -6, true);
+  const morningBlueHourEndRaw = findSunAltitudeTime(date, latitude, longitude, -4, true);
+  const eveningBlueHourStartRaw = findSunAltitudeTime(date, latitude, longitude, -4, false);
+  const eveningBlueHourEndRaw = findSunAltitudeTime(date, latitude, longitude, -6, false);
+  const morningBlueHourStart = morningBlueHourStartRaw || sunrise;
+  const morningBlueHourEnd = morningBlueHourEndRaw || sunrise;
+  const eveningBlueHourStart = eveningBlueHourStartRaw || sunset;
+  const eveningBlueHourEnd = eveningBlueHourEndRaw || sunset;
+  const blueHourMorningAvailable = !!(morningBlueHourStartRaw && morningBlueHourEndRaw);
+  const blueHourEveningAvailable = !!(eveningBlueHourStartRaw && eveningBlueHourEndRaw);
+  const morningGoldenHourAllDay = !morningGoldenHourEndRaw;
+  const eveningGoldenHourAllDay = !eveningGoldenHourStartRaw;
 
   // Current phase
   const now = new Date();
@@ -332,6 +379,11 @@ export function calculateGoldenHour(input: GoldenHourInput): GoldenHourResult {
     eveningBlueHourStart,
     eveningBlueHourEnd,
 
+    morningGoldenHourAllDay,
+    eveningGoldenHourAllDay,
+    blueHourMorningAvailable,
+    blueHourEveningAvailable,
+
     currentPhase,
     nextPhase: nextPhaseInfo.phase,
     timeToNextPhase,
@@ -340,22 +392,30 @@ export function calculateGoldenHour(input: GoldenHourInput): GoldenHourResult {
       sunrise: formatTime(sunrise, timezoneOffset),
       sunset: formatTime(sunset, timezoneOffset),
       solarNoon: formatTime(solarNoon, timezoneOffset),
-      morningGoldenHour: `${formatTime(morningGoldenHourStart, timezoneOffset)} - ${formatTime(morningGoldenHourEnd, timezoneOffset)}`,
-      eveningGoldenHour: `${formatTime(eveningGoldenHourStart, timezoneOffset)} - ${formatTime(eveningGoldenHourEnd, timezoneOffset)}`,
-      morningBlueHour: `${formatTime(morningBlueHourStart, timezoneOffset)} - ${formatTime(morningBlueHourEnd, timezoneOffset)}`,
-      eveningBlueHour: `${formatTime(eveningBlueHourStart, timezoneOffset)} - ${formatTime(eveningBlueHourEnd, timezoneOffset)}`,
+      morningGoldenHour: morningGoldenHourAllDay
+        ? 'Hele dagen (sola kommer ikke over 6°)'
+        : `${formatTime(morningGoldenHourStart, timezoneOffset)} – ${formatTime(morningGoldenHourEnd, timezoneOffset)}`,
+      eveningGoldenHour: eveningGoldenHourAllDay
+        ? 'Hele dagen (sola kommer ikke over 6°)'
+        : `${formatTime(eveningGoldenHourStart, timezoneOffset)} – ${formatTime(eveningGoldenHourEnd, timezoneOffset)}`,
+      morningBlueHour: blueHourMorningAvailable
+        ? `${formatTime(morningBlueHourStart, timezoneOffset)} – ${formatTime(morningBlueHourEnd, timezoneOffset)}`
+        : 'Ikke i dag (sola kommer ikke langt nok ned)',
+      eveningBlueHour: blueHourEveningAvailable
+        ? `${formatTime(eveningBlueHourStart, timezoneOffset)} – ${formatTime(eveningBlueHourEnd, timezoneOffset)}`
+        : 'Ikke i dag (sola kommer ikke langt nok ned)',
     },
   };
 }
 
 // Common city presets for quick selection
 export const CITY_PRESETS = [
-  { name: 'New York', latitude: 40.7128, longitude: -74.0060 },
-  { name: 'Los Angeles', latitude: 34.0522, longitude: -118.2437 },
-  { name: 'London', latitude: 51.5074, longitude: -0.1278 },
-  { name: 'Paris', latitude: 48.8566, longitude: 2.3522 },
-  { name: 'Tokyo', latitude: 35.6762, longitude: 139.6503 },
-  { name: 'Sydney', latitude: -33.8688, longitude: 151.2093 },
-  { name: 'Dubai', latitude: 25.2048, longitude: 55.2708 },
-  { name: 'Singapore', latitude: 1.3521, longitude: 103.8198 },
+  { name: 'Oslo', latitude: 59.9139, longitude: 10.7522 },
+  { name: 'Kristiansand', latitude: 58.1467, longitude: 7.9956 },
+  { name: 'Stavanger', latitude: 58.97, longitude: 5.7331 },
+  { name: 'Bergen', latitude: 60.3913, longitude: 5.3221 },
+  { name: 'Trondheim', latitude: 63.4305, longitude: 10.3951 },
+  { name: 'Bodø', latitude: 67.2804, longitude: 14.4049 },
+  { name: 'Tromsø', latitude: 69.6492, longitude: 18.9553 },
+  { name: 'Alta', latitude: 69.9689, longitude: 23.2716 },
 ];

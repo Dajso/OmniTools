@@ -20,12 +20,12 @@ import { formatFixed } from '@/lib/utils/formatting';
 
 const FRAME_RATE_OPTIONS = COMMON_FRAME_RATES.map(fps => ({
   value: fps.toString(),
-  label: `${fps} fps`,
+  label: `${fps} b/s`,
 }));
 
 const QUALITY_OPTIONS = Object.entries(IMAGE_QUALITY_PRESETS).map(([key, preset]) => ({
   value: key,
-  label: `${preset.name} (~${preset.fileSizeMB}MB)`,
+  label: `${preset.name} (ca. ${preset.fileSizeMB} MB)`,
 }));
 
 export function TimeLapseCalculator() {
@@ -44,12 +44,12 @@ export function TimeLapseCalculator() {
     try {
       setError(undefined);
       if (eventDuration <= 0) {
-        setError('Event duration must be positive');
+        setError('Hendelsens varighet må være større enn 0');
         setResult(null);
         return;
       }
       if (outputSeconds <= 0) {
-        setError('Output duration must be positive');
+        setError('Videolengden må være større enn 0');
         setResult(null);
         return;
       }
@@ -61,7 +61,7 @@ export function TimeLapseCalculator() {
       }, imageSizeMB);
       setResult(timelapseResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [eventDuration, outputSeconds, frameRate, imageSizeMB]);
@@ -89,10 +89,10 @@ export function TimeLapseCalculator() {
 
   return (
     <CalculatorBase
-      title="Time Lapse Calculator"
-      description="Calculate timelapse settings including interval, frames, and storage"
-      formula="Interval = Event Duration / (Output Duration × Frame Rate)"
-      formulaExplanation="Plan your timelapse shoot with optimal interval and storage estimates"
+      title="Timelapse"
+      description="Regn ut innstillinger for timelapse: intervall, antall bilder og lagring"
+      formula="Intervall = varighet på hendelsen ÷ (videolengde × bildefrekvens)"
+      formulaExplanation="Planlegg timelapse med riktig intervall og overslag på lagring"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -100,15 +100,15 @@ export function TimeLapseCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Shooting Interval"
+              label="Intervall mellom bildene"
               value={result.intervalSeconds >= 1 
                 ? `${formatFixed(result.intervalSeconds, 1)}s` 
-                : `${formatFixed(result.intervalMs, 0)}ms`}
+                : `${formatFixed(result.intervalMs, 0)} ms`}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Total Frames"
+              label="Antall bilder"
               value={result.totalFrames.toLocaleString('nb-NO')}
               highlight
               copyable
@@ -116,35 +116,35 @@ export function TimeLapseCalculator() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Speed-up Factor"
+              label="Hastighetsfaktor"
               value={`${formatFixed(result.speedUpFactor, 0)}×`}
             />
             <ResultDisplay
-              label="Output Duration"
+              label="Videolengde"
               value={result.outputDurationFormatted}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Storage Needed"
+              label="Lagring som trengs"
               value={result.storageEstimateGB >= 1 
                 ? `${formatFixed(result.storageEstimateGB, 1)} GB`
                 : `${formatFixed(result.storageEstimateMB, 0)} MB`}
             />
             <ResultDisplay
-              label="Shooting Duration"
+              label="Opptakstid"
               value={result.shootingDurationFormatted}
             />
           </div>
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Equipment Estimates</p>
+            <p className="text-sm font-medium mb-2">Overslag for utstyr</p>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-muted-foreground">Batteries needed: </span>
+                <span className="text-muted-foreground">Batterier som trengs: </span>
                 <span className="font-medium">{calculateBatteriesNeeded(result.totalFrames)}</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Card capacity: </span>
+                <span className="text-muted-foreground">Kortkapasitet: </span>
                 <span className="font-medium">{calculateCardCapacity(result.totalFrames, imageSizeMB)} GB</span>
               </div>
             </div>
@@ -156,7 +156,7 @@ export function TimeLapseCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="event-hours"
-            label="Event Duration (hours)"
+            label="Varighet på hendelsen (timer)"
             value={eventHours}
             onChange={setEventHours}
             min={0}
@@ -165,7 +165,7 @@ export function TimeLapseCalculator() {
           />
           <NumberInput
             id="event-minutes"
-            label="Minutes"
+            label="Minutter"
             value={eventMinutes}
             onChange={setEventMinutes}
             min={0}
@@ -176,7 +176,7 @@ export function TimeLapseCalculator() {
 
         <NumberInput
           id="output-seconds"
-          label="Output Video Duration (seconds)"
+          label="Videolengde (sekunder)"
           value={outputSeconds}
           onChange={setOutputSeconds}
           min={1}
@@ -186,7 +186,7 @@ export function TimeLapseCalculator() {
 
         <SelectInput
           id="frame-rate"
-          label="Output Frame Rate"
+          label="Bildefrekvens i videoen"
           value={frameRate.toString()}
           onChange={(v) => setFrameRate(parseInt(v))}
           options={FRAME_RATE_OPTIONS}
@@ -194,14 +194,14 @@ export function TimeLapseCalculator() {
 
         <SelectInput
           id="image-quality"
-          label="Image Quality"
+          label="Bildekvalitet"
           value={imageQuality}
           onChange={setImageQuality}
           options={QUALITY_OPTIONS}
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Quick Scenarios</p>
+          <p className="text-sm font-medium mb-3">Vanlige situasjoner</p>
           <div className="grid grid-cols-2 gap-2">
             {TIMELAPSE_SCENARIOS.slice(0, 6).map((scenario) => (
               <Card
@@ -211,7 +211,7 @@ export function TimeLapseCalculator() {
               >
                 <p className="text-sm font-medium">{scenario.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  ~{formatDuration(scenario.typicalDuration)}, {scenario.recommendedInterval}s interval
+                  ~{formatDuration(scenario.typicalDuration)}, {scenario.recommendedInterval}s intervall
                 </p>
               </Card>
             ))}

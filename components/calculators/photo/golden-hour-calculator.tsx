@@ -36,7 +36,7 @@ export function GoldenHourCalculator() {
       });
       setResult(goldenHourResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [latitude, longitude, date]);
@@ -56,7 +56,7 @@ export function GoldenHourCalculator() {
 
   const useCurrentLocation = () => {
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser');
+      setError('Nettleseren din støtter ikke posisjonsbestemmelse');
       return;
     }
 
@@ -68,7 +68,7 @@ export function GoldenHourCalculator() {
         setLocationLoading(false);
       },
       (err) => {
-        setError(`Location error: ${err.message}`);
+        setError(`Kunne ikke hente posisjon: ${err.message}`);
         setLocationLoading(false);
       }
     );
@@ -91,10 +91,10 @@ export function GoldenHourCalculator() {
 
   return (
     <CalculatorBase
-      title="Golden Hour Calculator"
-      description="Calculate golden hour and blue hour times for photography"
-      formula="Based on solar position calculations"
-      formulaExplanation="Golden hour occurs when the sun is 0-6° above the horizon. Blue hour is when the sun is 4-6° below."
+      title="Gyllen time og blå time"
+      description="Regn ut tidspunkt for gyllen time og blå time til fotografering"
+      formula="Basert på beregning av solens posisjon"
+      formulaExplanation="Gyllen time er når sola står 0–6° over horisonten. Blå time er når sola står 4–6° under horisonten."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -102,7 +102,7 @@ export function GoldenHourCalculator() {
         <div className="space-y-4">
           {/* Current Phase */}
           <div className={`p-4 rounded-lg border ${getPhaseColor(result.currentPhase)}`}>
-            <p className="text-sm font-medium">Current Phase</p>
+            <p className="text-sm font-medium">Nåværende fase</p>
             <p className="text-xl font-bold">{LIGHT_PHASES[result.currentPhase].name}</p>
             <p className="text-sm opacity-80">{LIGHT_PHASES[result.currentPhase].photographyTips}</p>
           </div>
@@ -110,23 +110,23 @@ export function GoldenHourCalculator() {
           {/* Sun Times */}
           <div className="grid grid-cols-3 gap-4">
             <ResultDisplay
-              label="Sunrise"
+              label="Soloppgang"
               value={result.formatted.sunrise}
               copyable
             />
             <ResultDisplay
-              label="Solar Noon"
+              label="Sola høyest"
               value={result.formatted.solarNoon}
             />
             <ResultDisplay
-              label="Sunset"
+              label="Solnedgang"
               value={result.formatted.sunset}
               copyable
             />
           </div>
 
           <ResultDisplay
-            label="Day Length"
+            label="Dagens lengde"
             value={result.dayLengthFormatted}
           />
 
@@ -134,17 +134,17 @@ export function GoldenHourCalculator() {
           <div className="border-t pt-4">
             <p className="text-sm font-medium mb-3 flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-amber-400"></span>
-              Golden Hour
+              Gyllen time
             </p>
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Morning"
+                label="Morgen"
                 value={result.formatted.morningGoldenHour}
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Evening"
+                label="Kveld"
                 value={result.formatted.eveningGoldenHour}
                 highlight
                 copyable
@@ -156,16 +156,16 @@ export function GoldenHourCalculator() {
           <div className="border-t pt-4">
             <p className="text-sm font-medium mb-3 flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-blue-500"></span>
-              Blue Hour
+              Blå time
             </p>
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Morning"
+                label="Morgen"
                 value={result.formatted.morningBlueHour}
                 copyable
               />
               <ResultDisplay
-                label="Evening"
+                label="Kveld"
                 value={result.formatted.eveningBlueHour}
                 copyable
               />
@@ -174,10 +174,10 @@ export function GoldenHourCalculator() {
 
           {/* Photography Tips */}
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Photography Tips</p>
+            <p className="text-sm font-medium mb-2">Tips til fotograferingen</p>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>🌅 <strong>Golden Hour:</strong> Warm, soft light. Perfect for portraits, landscapes, and architecture.</p>
-              <p>🌃 <strong>Blue Hour:</strong> Cool, even light. Ideal for cityscapes and long exposures.</p>
+              <p>🌅 <strong>Gyllen time:</strong> Varmt, mykt lys. Passer til portretter, landskap og arkitektur.</p>
+              <p>🌃 <strong>Blå time:</strong> Kjølig, jevnt lys. Passer til bybilder og lang eksponering.</p>
             </div>
           </div>
         </div>
@@ -190,13 +190,13 @@ export function GoldenHourCalculator() {
           disabled={locationLoading}
           className="w-full px-4 py-2 text-sm rounded-md border bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
         >
-          {locationLoading ? 'Getting location...' : '📍 Use My Location'}
+          {locationLoading ? 'Henter posisjon …' : '📍 Bruk min posisjon'}
         </button>
 
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="latitude"
-            label="Latitude"
+            label="Breddegrad"
             value={latitude}
             onChange={setLatitude}
             min={-90}
@@ -205,7 +205,7 @@ export function GoldenHourCalculator() {
           />
           <NumberInput
             id="longitude"
-            label="Longitude"
+            label="Lengdegrad"
             value={longitude}
             onChange={setLongitude}
             min={-180}
@@ -215,7 +215,7 @@ export function GoldenHourCalculator() {
         </div>
 
         <div>
-          <label htmlFor="date" className="text-sm font-medium mb-2 block">Date</label>
+          <label htmlFor="date" className="text-sm font-medium mb-2 block">Dato</label>
           <input
             type="date"
             id="date"
@@ -226,7 +226,7 @@ export function GoldenHourCalculator() {
         </div>
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Quick City Presets</p>
+          <p className="text-sm font-medium mb-3">Norske byer</p>
           <div className="grid grid-cols-2 gap-2">
             {CITY_PRESETS.map((preset) => (
               <Card
@@ -248,11 +248,11 @@ export function GoldenHourCalculator() {
         </div>
 
         <div className="border-t pt-4 text-sm text-muted-foreground">
-          <p className="font-medium mb-2">About Light Phases:</p>
+          <p className="font-medium mb-2">Om lysfasene:</p>
           <ul className="space-y-1">
-            <li><strong>Golden Hour:</strong> Sun 0-6° above horizon</li>
-            <li><strong>Blue Hour:</strong> Sun 4-6° below horizon</li>
-            <li><strong>Civil Twilight:</strong> Sun 0-6° below horizon</li>
+            <li><strong>Gyllen time:</strong> Sola 0–6° over horisonten</li>
+            <li><strong>Blå time:</strong> Sola 4–6° under horisonten</li>
+            <li><strong>Borgerlig tussmørke:</strong> Sola 0–6° under horisonten</li>
           </ul>
         </div>
       </div>

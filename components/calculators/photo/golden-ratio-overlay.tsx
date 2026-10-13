@@ -12,10 +12,10 @@ const PHI = 1.618033988749895;
 type OverlayType = 'spiral' | 'grid' | 'triangles' | 'diagonal';
 
 const OVERLAY_OPTIONS = [
-  { value: 'spiral', label: 'Golden Spiral' },
-  { value: 'grid', label: 'Phi Grid' },
-  { value: 'triangles', label: 'Golden Triangles' },
-  { value: 'diagonal', label: 'Diagonal Method' },
+  { value: 'spiral', label: 'Gylden spiral' },
+  { value: 'grid', label: 'Fi-rutenett' },
+  { value: 'triangles', label: 'Gylne trekanter' },
+  { value: 'diagonal', label: 'Diagonalmetoden' },
 ];
 
 const ASPECT_PRESETS = [
@@ -165,10 +165,10 @@ export function GoldenRatioOverlay() {
 
   return (
     <CalculatorBase
-      title="Golden Ratio Overlay Generator"
-      description="Generate composition overlays based on the golden ratio (φ = 1.618)"
+      title="Gyllent snitt-overlegg"
+      description="Lag komposisjonshjelp basert på det gylne snitt (φ = 1,618)"
       formula="φ = (1 + √5) / 2 ≈ 1.618"
-      formulaExplanation="The golden ratio creates naturally pleasing compositions in photography and art"
+      formulaExplanation="Det gylne snitt gir komposisjoner som oppleves som naturlig harmoniske i foto og kunst"
       onReset={reset}
       results={
         <div className="space-y-4">
@@ -200,18 +200,18 @@ export function GoldenRatioOverlay() {
           
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground">Dimensions: </span>
+              <span className="text-muted-foreground">Mål: </span>
               <span className="font-medium">{width} × {height} px</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Aspect Ratio: </span>
+              <span className="text-muted-foreground">Sideforhold: </span>
               <span className="font-medium">{formatFixed((width / height), 3)}:1</span>
             </div>
           </div>
 
           <div className="bg-blue-50 text-blue-700 p-3 rounded-md text-sm">
-            <p className="font-medium mb-1">Composition Tip</p>
-            <p>Place key subjects at the intersection points (power points) for naturally balanced compositions.</p>
+            <p className="font-medium mb-1">Komposisjonstips</p>
+            <p>Plasser viktige motiver i skjæringspunktene (kraftpunktene) for en naturlig balansert komposisjon.</p>
           </div>
         </div>
       }
@@ -220,7 +220,7 @@ export function GoldenRatioOverlay() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="width"
-            label="Width (pixels)"
+            label="Bredde (piksler)"
             value={width}
             onChange={setWidth}
             min={100}
@@ -229,7 +229,7 @@ export function GoldenRatioOverlay() {
           />
           <NumberInput
             id="height"
-            label="Height (pixels)"
+            label="Høyde (piksler)"
             value={height}
             onChange={setHeight}
             min={100}
@@ -240,7 +240,7 @@ export function GoldenRatioOverlay() {
 
         <SelectInput
           id="overlay-type"
-          label="Overlay Type"
+          label="Type overlegg"
           value={overlayType}
           onChange={(v) => setOverlayType(v as OverlayType)}
           options={OVERLAY_OPTIONS}
@@ -255,14 +255,14 @@ export function GoldenRatioOverlay() {
                 onChange={(e) => setFlip(e.target.checked)}
                 className="rounded border-input"
               />
-              Flip Horizontal
+              Speilvend
             </label>
           </div>
         )}
 
         {overlayType === 'spiral' && (
           <div>
-            <label className="text-sm font-medium mb-2 block">Rotation</label>
+            <label className="text-sm font-medium mb-2 block">Rotasjon</label>
             <div className="flex gap-2">
               {[0, 90, 180, 270].map((deg) => (
                 <button
@@ -283,7 +283,7 @@ export function GoldenRatioOverlay() {
         )}
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Aspect Ratio Presets</p>
+          <p className="text-sm font-medium mb-3">Vanlige sideforhold</p>
           <div className="flex gap-2 flex-wrap">
             {ASPECT_PRESETS.map((preset) => (
               <button
@@ -299,12 +299,12 @@ export function GoldenRatioOverlay() {
         </div>
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Overlay Types</p>
+          <p className="text-sm font-medium mb-3">Typer overlegg</p>
           <div className="space-y-2 text-sm text-muted-foreground">
-            <p><strong>Golden Spiral:</strong> Fibonacci spiral for leading lines</p>
-            <p><strong>Phi Grid:</strong> Rule of thirds based on φ ratio</p>
-            <p><strong>Golden Triangles:</strong> Diagonal composition guide</p>
-            <p><strong>Diagonal Method:</strong> Dynamic symmetry lines</p>
+            <p><strong>Gylden spiral:</strong> Fibonacci-spiral som leder blikket</p>
+            <p><strong>Fi-rutenett:</strong> Tredjedelsregelen basert på φ</p>
+            <p><strong>Gylne trekanter:</strong> Diagonal komposisjonshjelp</p>
+            <p><strong>Diagonalmetoden:</strong> Linjer for dynamisk symmetri</p>
           </div>
         </div>
       </div>

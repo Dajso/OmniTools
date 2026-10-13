@@ -35,7 +35,7 @@ const SHUTTER_SPEED_PRESETS = [
 
 const ND_FILTER_OPTIONS = ND_FILTERS.map(f => ({
   value: f.stops.toString(),
-  label: `${f.name} (${f.stops} stops)`,
+  label: `${f.name} (${f.stops} blendertrinn)`,
 }));
 
 export function NDFilterCalculator() {
@@ -54,7 +54,7 @@ export function NDFilterCalculator() {
       });
       setResult(ndResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [baseShutterSpeed, selectedFilter]);
@@ -72,10 +72,10 @@ export function NDFilterCalculator() {
 
   return (
     <CalculatorBase
-      title="ND Filter Calculator"
-      description="Calculate exposure adjustments when using neutral density filters"
-      formula="New Shutter = Base Shutter × 2^stops"
-      formulaExplanation="Each stop of ND filter doubles the required exposure time"
+      title="ND-filter"
+      description="Regn ut eksponering når du bruker nøytrale gråfilter (ND)"
+      formula="Ny lukkertid = grunn-lukkertid × 2^trinn"
+      formulaExplanation="Hvert trinn i ND-filteret dobler eksponeringstiden"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -83,11 +83,11 @@ export function NDFilterCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Base Shutter Speed"
+              label="Lukkertid uten filter"
               value={result.baseShutterSpeedFormatted}
             />
             <ResultDisplay
-              label="New Shutter Speed"
+              label="Ny lukkertid"
               value={result.newShutterSpeedFormatted}
               highlight
               copyable
@@ -95,35 +95,35 @@ export function NDFilterCalculator() {
           </div>
           <div className="grid grid-cols-3 gap-4">
             <ResultDisplay
-              label="Stops"
+              label="Blendertrinn"
               value={result.stops.toString()}
             />
             <ResultDisplay
-              label="Filter Factor"
+              label="Filterfaktor"
               value={`${result.filterFactor}×`}
             />
             <ResultDisplay
-              label="Optical Density"
+              label="Optisk tetthet"
               value={formatFixed(result.opticalDensity, 1)}
             />
           </div>
           {result.recommendedFilter && (
             <div className="bg-muted/50 p-3 rounded-md">
-              <p className="text-sm font-medium mb-1">Recommended Filter</p>
+              <p className="text-sm font-medium mb-1">Anbefalt filter</p>
               <p className="text-lg font-bold text-primary">{result.recommendedFilter.name}</p>
               <p className="text-sm text-muted-foreground">
-                {result.recommendedFilter.transmissionPercent}% light transmission
+                {result.recommendedFilter.transmissionPercent}% lysgjennomgang
               </p>
             </div>
           )}
           {result.newShutterSpeed >= 30 && (
             <div className="bg-yellow-50 text-yellow-700 p-3 rounded-md text-sm">
-              <p className="font-medium">Long Exposure Tips:</p>
+              <p className="font-medium">Tips til lang eksponering:</p>
               <ul className="mt-1 space-y-1">
-                <li>• Use a sturdy tripod</li>
-                <li>• Use a remote shutter or timer</li>
-                <li>• Enable mirror lock-up (DSLR)</li>
-                <li>• Consider using Bulb mode</li>
+                <li>• Bruk et solid stativ</li>
+                <li>• Bruk fjernutløser eller selvutløser</li>
+                <li>• Slå på speilutløsning med forsinkelse (speilrefleks)</li>
+                <li>• Vurder bulb-modus</li>
               </ul>
             </div>
           )}
@@ -132,7 +132,7 @@ export function NDFilterCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-2 block">Base Shutter Speed (without filter)</label>
+          <label className="text-sm font-medium mb-2 block">Lukkertid uten filter</label>
           <div className="grid grid-cols-5 gap-2">
             {SHUTTER_SPEED_PRESETS.slice(0, 10).map((preset) => (
               <button
@@ -153,7 +153,7 @@ export function NDFilterCalculator() {
 
         <NumberInput
           id="base-shutter"
-          label="Or enter custom (seconds)"
+          label="Eller skriv inn selv (sekunder)"
           value={baseShutterSpeed}
           onChange={setBaseShutterSpeed}
           min={0.00001}
@@ -163,14 +163,14 @@ export function NDFilterCalculator() {
 
         <SelectInput
           id="nd-filter"
-          label="ND Filter"
+          label="ND-filter"
           value={selectedFilter}
           onChange={setSelectedFilter}
           options={ND_FILTER_OPTIONS}
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Common ND Filters</p>
+          <p className="text-sm font-medium mb-3">Vanlige ND-filtre</p>
           <div className="grid grid-cols-2 gap-2">
             {ND_FILTERS.slice(0, 8).map((filter) => (
               <Card
@@ -184,7 +184,7 @@ export function NDFilterCalculator() {
               >
                 <p className="text-sm font-medium">{filter.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {filter.stops} stops • ND {filter.opticalDensity}
+                  {filter.stops} blendertrinn • ND {filter.opticalDensity}
                 </p>
               </Card>
             ))}
@@ -192,7 +192,7 @@ export function NDFilterCalculator() {
         </div>
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Long Exposure Scenarios</p>
+          <p className="text-sm font-medium mb-3">Situasjoner for lang eksponering</p>
           <div className="space-y-2 text-sm">
             {LONG_EXPOSURE_SCENARIOS.slice(0, 4).map((scenario) => (
               <div key={scenario.name} className="flex justify-between p-2 bg-muted/30 rounded">

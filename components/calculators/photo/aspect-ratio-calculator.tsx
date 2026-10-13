@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { formatFixed } from '@/lib/utils/formatting';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
@@ -15,14 +16,14 @@ interface AspectRatioResult {
 }
 
 const COMMON_RATIOS = [
-  { name: '16:9', width: 16, height: 9, description: 'HD Video, YouTube' },
-  { name: '4:3', width: 4, height: 3, description: 'Standard TV, iPad' },
-  { name: '3:2', width: 3, height: 2, description: 'DSLR Photos' },
-  { name: '1:1', width: 1, height: 1, description: 'Instagram Square' },
-  { name: '21:9', width: 21, height: 9, description: 'Ultrawide Cinema' },
+  { name: '16:9', width: 16, height: 9, description: 'HD-video, YouTube' },
+  { name: '4:3', width: 4, height: 3, description: 'Vanlig TV, iPad' },
+  { name: '3:2', width: 3, height: 2, description: 'Speilrefleks-bilder' },
+  { name: '1:1', width: 1, height: 1, description: 'Instagram, kvadratisk' },
+  { name: '21:9', width: 21, height: 9, description: 'Ultrabredt kino' },
   { name: '9:16', width: 9, height: 16, description: 'TikTok, Stories' },
-  { name: '2.39:1', width: 2.39, height: 1, description: 'Anamorphic Cinema' },
-  { name: '1.85:1', width: 1.85, height: 1, description: 'Theatrical Wide' },
+  { name: '2.39:1', width: 2.39, height: 1, description: 'Anamorfisk kino' },
+  { name: '1.85:1', width: 1.85, height: 1, description: 'Bredt kinoformat' },
 ];
 
 const RESOLUTION_PRESETS = [
@@ -91,7 +92,7 @@ export function AspectRatioCalculator() {
     try {
       setError(undefined);
       if (width <= 0 || height <= 0) {
-        setError('Width and height must be positive');
+        setError('Bredde og høyde må være større enn 0');
         setResult(null);
         return;
       }
@@ -107,7 +108,7 @@ export function AspectRatioCalculator() {
         setScaledResult(scaled);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [width, height, targetWidth]);
@@ -137,53 +138,53 @@ export function AspectRatioCalculator() {
 
   return (
     <CalculatorBase
-      title="Aspect Ratio Calculator"
-      description="Calculate and convert aspect ratios for video and photography"
-      formula="Aspect Ratio = Width : Height (simplified)"
-      formulaExplanation="Find the simplified ratio and scale dimensions while maintaining proportions"
+      title="Bildeformat"
+      description="Regn ut og omform sideforhold for video og foto"
+      formula="Sideforhold = bredde : høyde (forkortet)"
+      formulaExplanation="Finn det forkortede forholdet og skaler størrelsen med samme proporsjoner"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Aspect Ratio"
+            label="Sideforhold"
             value={result.ratio}
             highlight
             copyable
           />
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Decimal Ratio"
+              label="Desimalforhold"
               value={result.decimal.toString()}
               copyable
             />
             <ResultDisplay
-              label="Megapixels"
-              value={`${result.megapixels} MP`}
+              label="Megapiksler"
+              value={`${formatFixed(result.megapixels, 2)} MP`}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Width"
+              label="Bredde"
               value={`${result.width} px`}
             />
             <ResultDisplay
-              label="Height"
+              label="Høyde"
               value={`${result.height} px`}
             />
           </div>
           {scaledResult && (
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-2">Scaled to {targetWidth}px width:</p>
+              <p className="text-sm font-medium mb-2">Skalert til {targetWidth}px bredde:</p>
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
-                  label="New Width"
+                  label="Ny bredde"
                   value={`${scaledResult.width} px`}
                   copyable
                 />
                 <ResultDisplay
-                  label="New Height"
+                  label="Ny høyde"
                   value={`${scaledResult.height} px`}
                   copyable
                 />
@@ -192,7 +193,7 @@ export function AspectRatioCalculator() {
           )}
           {/* Visual Preview */}
           <div className="bg-muted/50 p-4 rounded-md">
-            <p className="text-sm font-medium mb-2">Preview</p>
+            <p className="text-sm font-medium mb-2">Forhåndsvisning</p>
             <div className="flex justify-center">
               <div
                 className="bg-primary/20 border-2 border-primary rounded"
@@ -214,7 +215,7 @@ export function AspectRatioCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="width"
-            label="Width (pixels)"
+            label="Bredde (piksler)"
             value={width}
             onChange={setWidth}
             min={1}
@@ -223,7 +224,7 @@ export function AspectRatioCalculator() {
           />
           <NumberInput
             id="height"
-            label="Height (pixels)"
+            label="Høyde (piksler)"
             value={height}
             onChange={setHeight}
             min={1}
@@ -234,7 +235,7 @@ export function AspectRatioCalculator() {
 
         <NumberInput
           id="target-width"
-          label="Scale to Width (pixels)"
+          label="Skaler til bredde (piksler)"
           value={targetWidth}
           onChange={setTargetWidth}
           min={1}
@@ -243,7 +244,7 @@ export function AspectRatioCalculator() {
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Common Aspect Ratios</p>
+          <p className="text-sm font-medium mb-3">Vanlige sideforhold</p>
           <div className="grid grid-cols-2 gap-2">
             {COMMON_RATIOS.slice(0, 6).map((ratio) => (
               <Card
@@ -259,7 +260,7 @@ export function AspectRatioCalculator() {
         </div>
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Resolution Presets</p>
+          <p className="text-sm font-medium mb-3">Vanlige oppløsninger</p>
           <div className="flex gap-2 flex-wrap">
             {RESOLUTION_PRESETS.map((preset) => (
               <button

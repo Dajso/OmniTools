@@ -28,21 +28,21 @@ export interface SensorFormat {
  */
 export const SENSOR_FORMATS: Record<string, SensorFormat> = {
   'medium-format-gfx': {
-    name: 'Medium Format (Fuji GFX)',
+    name: 'Mellomformat (Fuji GFX)',
     width: 43.8,
     height: 32.9,
     cropFactor: 0.79,
     diagonal: 54.78,
   },
   'medium-format-hasselblad': {
-    name: 'Medium Format (Hasselblad)',
+    name: 'Mellomformat (Hasselblad)',
     width: 43.8,
     height: 32.9,
     cropFactor: 0.79,
     diagonal: 54.78,
   },
   'full-frame': {
-    name: 'Full Frame (35mm)',
+    name: 'Fullformat (35 mm)',
     width: 36,
     height: 24,
     cropFactor: 1.0,
@@ -84,28 +84,28 @@ export const SENSOR_FORMATS: Record<string, SensorFormat> = {
     diagonal: 21.64,
   },
   '1-inch': {
-    name: '1-inch',
+    name: '1 tomme',
     width: 13.2,
     height: 8.8,
     cropFactor: 2.7,
     diagonal: 15.86,
   },
   '1/1.7-inch': {
-    name: '1/1.7-inch',
+    name: '1/1,7 tomme',
     width: 7.6,
     height: 5.7,
     cropFactor: 4.7,
     diagonal: 9.5,
   },
   '1/2.3-inch': {
-    name: '1/2.3-inch (Compact)',
+    name: '1/2,3 tomme (kompakt)',
     width: 6.17,
     height: 4.55,
     cropFactor: 5.6,
     diagonal: 7.66,
   },
   'smartphone': {
-    name: 'Smartphone (typical)',
+    name: 'Mobiltelefon (typisk)',
     width: 4.8,
     height: 3.6,
     cropFactor: 7.5,
@@ -156,17 +156,17 @@ export function calculateEquivalentFocalLength(
   targetFormat: keyof typeof SENSOR_FORMATS = 'full-frame'
 ): FocalLengthResult {
   if (focalLength <= 0) {
-    throw new Error('Focal length must be positive');
+    throw new Error('Brennvidden må være større enn 0');
   }
 
   const source = SENSOR_FORMATS[sourceFormat];
   const target = SENSOR_FORMATS[targetFormat];
 
   if (!source) {
-    throw new Error(`Invalid source format: ${sourceFormat}`);
+    throw new Error(`Ugyldig kildeformat: ${sourceFormat}`);
   }
   if (!target) {
-    throw new Error(`Invalid target format: ${targetFormat}`);
+    throw new Error(`Ugyldig målformat: ${targetFormat}`);
   }
 
   // Calculate 35mm equivalent
@@ -231,7 +231,7 @@ export function getAllEquivalentFocalLengths(
 ): Record<string, number> {
   const source = SENSOR_FORMATS[sourceFormat];
   if (!source) {
-    throw new Error(`Invalid source format: ${sourceFormat}`);
+    throw new Error(`Ugyldig kildeformat: ${sourceFormat}`);
   }
 
   const equivalentIn35mm = focalLength * source.cropFactor;
@@ -275,26 +275,26 @@ export function getLensCategory(equivalentFocalLength: number): LensCategory {
  * Lens category descriptions
  */
 export const LENS_CATEGORY_DESCRIPTIONS: Record<LensCategory, string> = {
-  'ultra-wide': 'Ultra-wide angle (< 24mm) - Architecture, landscapes, interiors',
-  'wide': 'Wide angle (24-35mm) - Landscapes, street photography, environmental portraits',
-  'standard': 'Standard (35-70mm) - General purpose, portraits, street photography',
-  'short-telephoto': 'Short telephoto (70-135mm) - Portraits, events, sports',
-  'telephoto': 'Telephoto (135-300mm) - Sports, wildlife, distant subjects',
-  'super-telephoto': 'Super telephoto (> 300mm) - Wildlife, astronomy, extreme distance',
+  'ultra-wide': 'Ultravidvinkel (< 24 mm) – arkitektur, landskap, interiør',
+  'wide': 'Vidvinkel (24–35 mm) – landskap, gatefoto, miljøportretter',
+  'standard': 'Standard (35–70 mm) – allsidig, portretter, gatefoto',
+  'short-telephoto': 'Kort tele (70–135 mm) – portretter, arrangementer, sport',
+  'telephoto': 'Tele (135–300 mm) – sport, dyreliv, fjerne motiver',
+  'super-telephoto': 'Supertele (> 300 mm) – dyreliv, astronomi, store avstander',
 };
 
 /**
  * Common focal lengths with their typical uses
  */
 export const COMMON_FOCAL_LENGTH_USES: Array<{ focalLength: number; use: string }> = [
-  { focalLength: 14, use: 'Ultra-wide landscapes, architecture' },
-  { focalLength: 16, use: 'Wide landscapes, real estate' },
-  { focalLength: 20, use: 'Wide landscapes, environmental portraits' },
-  { focalLength: 24, use: 'Wide angle, street photography' },
-  { focalLength: 28, use: 'Street photography, photojournalism' },
-  { focalLength: 35, use: 'Street photography, documentary' },
-  { focalLength: 50, use: 'Standard, portraits, general purpose' },
-  { focalLength: 85, use: 'Portrait photography' },
+  { focalLength: 14, use: 'Ultravide landskap, arkitektur' },
+  { focalLength: 16, use: 'Vide landskap, eiendomsfoto' },
+  { focalLength: 20, use: 'Vide landskap, miljøportretter' },
+  { focalLength: 24, use: 'Vidvinkel, gatefoto' },
+  { focalLength: 28, use: 'Gatefoto, fotojournalistikk' },
+  { focalLength: 35, use: 'Gatefoto, dokumentar' },
+  { focalLength: 50, use: 'Standard, portretter, allsidig' },
+  { focalLength: 85, use: 'Portrettfotografering' },
   { focalLength: 100, use: 'Macro, portraits' },
   { focalLength: 135, use: 'Portraits, events' },
   { focalLength: 200, use: 'Sports, wildlife' },
@@ -318,7 +318,7 @@ export function getRelativeCropFactor(
   const target = SENSOR_FORMATS[targetFormat];
 
   if (!source || !target) {
-    throw new Error('Invalid sensor format');
+    throw new Error('Ugyldig sensorformat');
   }
 
   return source.cropFactor / target.cropFactor;

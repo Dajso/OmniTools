@@ -1,3 +1,4 @@
+import { formatFixed } from '../../utils/formatting';
 /**
  * ND Filter Calculator
  * 
@@ -113,7 +114,7 @@ export function calculateNDFilterExposure(input: NDFilterInput): NDFilterResult 
   const { baseShutterSpeed, stops, filterFactor, opticalDensity } = input;
   
   if (baseShutterSpeed <= 0) {
-    throw new Error('Base shutter speed must be positive');
+    throw new Error('Lukkertiden må være større enn 0');
   }
   
   // Determine stops from various inputs
@@ -126,11 +127,11 @@ export function calculateNDFilterExposure(input: NDFilterInput): NDFilterResult 
   } else if (opticalDensity !== undefined) {
     calculatedStops = stopsFromOpticalDensity(opticalDensity);
   } else {
-    throw new Error('Must provide stops, filterFactor, or opticalDensity');
+    throw new Error('Oppgi blendertrinn, filterfaktor eller optisk tetthet');
   }
   
   if (calculatedStops < 0) {
-    throw new Error('Stops must be non-negative');
+    throw new Error('Antall blendertrinn kan ikke være negativt');
   }
   
   // Calculate new shutter speed
@@ -232,7 +233,7 @@ export function calculateRequiredFilter(
   desiredShutterSpeed: number
 ): { stops: number; filter: NDFilter | null } {
   if (baseShutterSpeed <= 0 || desiredShutterSpeed <= 0) {
-    throw new Error('Shutter speeds must be positive');
+    throw new Error('Lukkertidene må være større enn 0');
   }
   
   if (desiredShutterSpeed <= baseShutterSpeed) {
@@ -256,16 +257,16 @@ export function formatShutterSpeed(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
     if (remainingSeconds === 0) {
-      return `${minutes}m`;
+      return `${minutes} min`;
     }
-    return `${minutes}m ${remainingSeconds}s`;
+    return `${minutes} min ${remainingSeconds} s`;
   }
   
   if (seconds >= 1) {
     if (seconds === Math.floor(seconds)) {
-      return `${seconds}s`;
+      return `${seconds} s`;
     }
-    return `${seconds.toFixed(1)}s`;
+    return `${formatFixed(seconds, 1)} s`;
   }
   
   // Display as fraction
@@ -280,7 +281,7 @@ export function formatShutterSpeed(seconds: number): string {
  * @returns Shutter speed in seconds
  */
 export function parseShutterSpeed(shutterSpeed: string): number {
-  const trimmed = shutterSpeed.trim().toLowerCase();
+  const trimmed = shutterSpeed.trim().toLowerCase().replace(',', '.');
   
   // Handle fraction format (1/125)
   if (trimmed.includes('/')) {
@@ -290,7 +291,7 @@ export function parseShutterSpeed(shutterSpeed: string): number {
   
   // Handle minutes and seconds (1m 30s)
   if (trimmed.includes('m')) {
-    const parts = trimmed.match(/(\d+)m\s*(\d+)?s?/);
+    const parts = trimmed.match(/(\d+)\s*m(?:in)?\s*(\d+)?\s*s?/);
     if (parts) {
       const minutes = parseInt(parts[1], 10);
       const seconds = parts[2] ? parseInt(parts[2], 10) : 0;
@@ -375,10 +376,10 @@ export function suggestFilterCombinations(
  * Common long exposure scenarios with recommended settings
  */
 export const LONG_EXPOSURE_SCENARIOS = [
-  { name: 'Silky Water', minSeconds: 1, maxSeconds: 5, description: 'Smooth flowing water' },
-  { name: 'Misty Water', minSeconds: 5, maxSeconds: 30, description: 'Ethereal, misty water effect' },
-  { name: 'Cloud Streaks', minSeconds: 30, maxSeconds: 120, description: 'Moving clouds with streaks' },
-  { name: 'Star Trails', minSeconds: 300, maxSeconds: 3600, description: 'Circular star trails' },
-  { name: 'Light Trails', minSeconds: 10, maxSeconds: 30, description: 'Car light trails at night' },
-  { name: 'Ghost Effect', minSeconds: 2, maxSeconds: 10, description: 'Moving people become ghostly' },
+  { name: 'Silkemykt vann', minSeconds: 1, maxSeconds: 5, description: 'Jevnt rennende vann' },
+  { name: 'Tåkete vann', minSeconds: 5, maxSeconds: 30, description: 'Eterisk, tåkelignende vanneffekt' },
+  { name: 'Skystriper', minSeconds: 30, maxSeconds: 120, description: 'Skyer i bevegelse som lager striper' },
+  { name: 'Stjernespor', minSeconds: 300, maxSeconds: 3600, description: 'Sirkelformede stjernespor' },
+  { name: 'Lysspor', minSeconds: 10, maxSeconds: 30, description: 'Lysspor fra biler om natten' },
+  { name: 'Spøkelseseffekt', minSeconds: 2, maxSeconds: 10, description: 'Folk i bevegelse blir spøkelsesaktige' },
 ];

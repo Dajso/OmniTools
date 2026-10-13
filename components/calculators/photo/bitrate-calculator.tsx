@@ -35,12 +35,12 @@ const QUALITY_OPTIONS = Object.entries(QUALITY_PRESETS).map(([key, preset]) => (
 }));
 
 const FRAME_RATE_OPTIONS = [
-  { value: '24', label: '24 fps (Cinema)' },
-  { value: '25', label: '25 fps (PAL)' },
-  { value: '30', label: '30 fps (Web)' },
-  { value: '48', label: '48 fps (HFR)' },
-  { value: '60', label: '60 fps (Smooth)' },
-  { value: '120', label: '120 fps (Slow-mo)' },
+  { value: '24', label: '24 b/s (kino)' },
+  { value: '25', label: '25 b/s (PAL, Europa)' },
+  { value: '30', label: '30 b/s (nett)' },
+  { value: '48', label: '48 b/s (høy bildefrekvens)' },
+  { value: '60', label: '60 b/s (jevn)' },
+  { value: '120', label: '120 b/s (sakte film)' },
 ];
 
 export function BitrateCalculator() {
@@ -66,7 +66,7 @@ export function BitrateCalculator() {
       });
       setResult(bitrateResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [width, height, frameRate, quality, codec]);
@@ -89,10 +89,10 @@ export function BitrateCalculator() {
 
   return (
     <CalculatorBase
-      title="Video Bitrate Calculator"
-      description="Calculate video bitrate and file size based on resolution and quality"
-      formula="Bitrate = Pixels × Frame Rate × Bits per Pixel × Codec Factor"
-      formulaExplanation="Estimate video bitrate and storage requirements for different quality settings"
+      title="Videobitrate"
+      description="Regn ut videobitrate og filstørrelse ut fra oppløsning og kvalitet"
+      formula="Bitrate = piksler × bildefrekvens × bit per piksel × kodekfaktor"
+      formulaExplanation="Anslå videobitrate og lagringsbehov for ulike kvalitetsinnstillinger"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -100,13 +100,13 @@ export function BitrateCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Video Bitrate"
+              label="Videobitrate"
               value={formatBitrate(result.videoBitrateMbps)}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Total Bitrate"
+              label="Total bitrate"
               value={formatBitrate(result.totalBitrateMbps)}
               highlight
               copyable
@@ -114,28 +114,28 @@ export function BitrateCalculator() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Audio Bitrate"
-              value={`${result.audioBitrateKbps} kbps`}
+              label="Lydbitrate"
+              value={`${result.audioBitrateKbps} kbit/s`}
             />
             <ResultDisplay
-              label="Pixels/Frame"
+              label="Piksler per bilde"
               value={result.pixelsPerFrame.toLocaleString('nb-NO')}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Size per Minute"
+              label="Størrelse per minutt"
               value={formatFileSize(result.fileSizePerMinuteMB)}
             />
             <ResultDisplay
-              label="Size per Hour"
+              label="Størrelse per time"
               value={`${formatFixed(result.fileSizePerHourGB, 2)} GB`}
             />
           </div>
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">File Size for {duration} seconds:</p>
+            <p className="text-sm font-medium mb-2">Filstørrelse for {duration} sekunder:</p>
             <ResultDisplay
-              label="Estimated File Size"
+              label="Anslått filstørrelse"
               value={formatFileSize(fileSizeForDuration)}
               highlight
               copyable
@@ -143,7 +143,7 @@ export function BitrateCalculator() {
           </div>
           {/* Platform Recommendations */}
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Platform Recommendations</p>
+            <p className="text-sm font-medium mb-2">Anbefalinger per plattform</p>
             <div className="space-y-2 text-sm">
               {STREAMING_RECOMMENDATIONS
                 .filter(r => r.resolution === VIDEO_RESOLUTIONS.find(v => v.width === width)?.label)
@@ -151,7 +151,7 @@ export function BitrateCalculator() {
                 .map((rec, i) => (
                   <div key={i} className="flex justify-between">
                     <span className="text-muted-foreground">{rec.platform}:</span>
-                    <span>{rec.recommendedBitrateMbps} Mbps</span>
+                    <span>{rec.recommendedBitrateMbps} Mbit/s</span>
                   </div>
                 ))}
             </div>
@@ -162,7 +162,7 @@ export function BitrateCalculator() {
       <div className="space-y-4">
         <SelectInput
           id="resolution"
-          label="Resolution"
+          label="Oppløsning"
           value={resolution}
           onChange={setResolution}
           options={RESOLUTION_OPTIONS}
@@ -170,7 +170,7 @@ export function BitrateCalculator() {
 
         <SelectInput
           id="frame-rate"
-          label="Frame Rate"
+          label="Bildefrekvens"
           value={frameRate.toString()}
           onChange={(v) => setFrameRate(parseInt(v))}
           options={FRAME_RATE_OPTIONS}
@@ -178,7 +178,7 @@ export function BitrateCalculator() {
 
         <SelectInput
           id="quality"
-          label="Quality Preset"
+          label="Kvalitetsvalg"
           value={quality}
           onChange={(v) => setQuality(v as keyof typeof QUALITY_PRESETS)}
           options={QUALITY_OPTIONS}
@@ -186,7 +186,7 @@ export function BitrateCalculator() {
 
         <SelectInput
           id="codec"
-          label="Video Codec"
+          label="Videokodek"
           value={codec}
           onChange={(v) => setCodec(v as keyof typeof VIDEO_CODECS)}
           options={CODEC_OPTIONS}
@@ -194,7 +194,7 @@ export function BitrateCalculator() {
 
         <NumberInput
           id="duration"
-          label="Video Duration (seconds)"
+          label="Videolengde (sekunder)"
           value={duration}
           onChange={setDuration}
           min={1}
@@ -203,7 +203,7 @@ export function BitrateCalculator() {
         />
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Quick Resolution Presets</p>
+          <p className="text-sm font-medium mb-3">Vanlige oppløsninger</p>
           <div className="flex gap-2 flex-wrap">
             {['720p', '1080p', '4K'].map((label) => {
               const res = VIDEO_RESOLUTIONS.find(r => r.label === label);

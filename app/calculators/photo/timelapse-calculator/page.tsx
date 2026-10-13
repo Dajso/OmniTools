@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { TimeLapseCalculator } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Time Lapse Calculator - Timelapse Interval & Storage Calculator',
-  description: 'Calculate timelapse settings including shooting interval, total frames, and storage requirements. Plan your timelapse photography with precision.',
-  keywords: ['timelapse calculator', 'time lapse interval', 'timelapse photography', 'interval timer', 'frames calculator'],
+  title: 'Tidsforløp (timelapse) – gratis kalkulator på nett',
+  description: 'Regn ut intervall og varighet for timelapse-fotografering. Gratis og uten registrering.',
+  keywords: ['timelapse', 'tidsforløp', 'intervall', 'bildefrekvens'],
   alternates: { canonical: '/calculators/photo/timelapse-calculator' },
+  openGraph: {
+    title: 'Tidsforløp (timelapse)',
+    description: 'Regn ut intervall og varighet for timelapse-fotografering',
+    url: '/calculators/photo/timelapse-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Time Lapse Calculator',
-  description: 'Calculate timelapse settings for photography',
+  name: 'Tidsforløp (timelapse)',
+  description: 'Regn ut intervall og varighet for timelapse-fotografering',
   applicationCategory: 'PhotographyApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter event duration', text: 'Input how long the event you want to capture will last.' },
-  { name: 'Set output duration', text: 'Choose how long you want your final video to be.' },
-  { name: 'Select frame rate', text: 'Choose the frame rate for your output video (24fps is standard).' },
-  { name: 'Choose image quality', text: 'Select your image format to estimate storage needs.' },
+  { name: 'Oppgi hvor lenge hendelsen varer', text: 'Timer og minutter.' },
+  { name: 'Oppgi ønsket videolengde', text: 'I sekunder, sammen med bildefrekvens.' },
+  { name: 'Velg bildekvalitet', text: 'RAW eller JPEG i ulike størrelser.' },
+  { name: 'Les av intervallet', text: 'Se også antall bilder og lagring som trengs.' },
 ];
 
 const faqs = [
-  {
-    question: 'What interval should I use for timelapse?',
-    answer: 'The interval depends on your subject. Fast-moving clouds: 1-5 seconds. Sunsets: 2-5 seconds. Stars: 20-30 seconds. Construction: 5-10 minutes. Flowers blooming: 5-15 minutes.',
-  },
-  {
-    question: 'How many frames do I need for a smooth timelapse?',
-    answer: 'For smooth playback, aim for at least 24 frames per second of final video. A 30-second video at 24fps needs 720 frames. More frames allow for longer videos or higher frame rates.',
-  },
-  {
-    question: 'What frame rate should I use?',
-    answer: '24fps gives a cinematic look, 30fps is standard for web video, and 60fps provides ultra-smooth playback. Higher frame rates require more frames but look smoother.',
-  },
-  {
-    question: 'How do I calculate storage needs?',
-    answer: 'Multiply total frames by your image file size. RAW files are 20-60MB each, while JPEGs are 2-12MB. Always bring extra memory cards and add a 10-20% buffer.',
-  },
-  {
-    question: 'How many batteries do I need?',
-    answer: 'Most cameras get 300-500 shots per battery. Divide your total frames by shots per battery and add one extra. Cold weather reduces battery life significantly.',
-  },
+  { question: 'Hvilken bildefrekvens bør jeg velge?', answer: '25 b/s er vanlig i Europa. 24 b/s gir filmlook, og 30 b/s passer for nett.' },
+  { question: 'Hvor mange bilder trenger jeg?', answer: 'Videolengde × bildefrekvens. Ti sekunder ved 25 b/s krever 250 bilder.' },
+  { question: 'Hvordan velger jeg intervall?', answer: 'Del hendelsens lengde på antall bilder. Raske hendelser trenger kort intervall.' },
+  { question: 'Hva med batteri og minnekort?', answer: 'Kalkulatoren gir et overslag. Ta med ekstra batteri ved lange opptak, særlig i kulde.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/depth-of-field-calculator', title: 'Depth of Field Calculator', description: 'Calculate DoF for your shots.' },
-  { href: '/calculators/photo/nd-filter-calculator', title: 'ND Filter Calculator', description: 'Calculate exposure with ND filters.' },
-  { href: '/calculators/photo/golden-hour-calculator', title: 'Golden Hour Calculator', description: 'Find the best light for your shoot.' },
+  { href: '/calculators/photo/bitrate-calculator', title: 'Bitrate-kalkulator', description: 'Regn ut videobitrate og filstørrelse' },
+  { href: '/calculators/photo/photo-aspect-ratio-calculator', title: 'Sideforhold for video', description: 'Regn ut sideforhold og dimensjoner for video og bilder' },
+  { href: '/calculators/photo/golden-hour-calculator', title: 'Gylden time og blå time', description: 'Regn ut gylden time og blå time for et sted' },
 ];
 
 export default function TimeLapseCalculatorPage() {
@@ -62,12 +55,11 @@ export default function TimeLapseCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="timelapse-calculator"
-          title="Time Lapse Calculator"
-          description="Plan your timelapse photography with precision. Calculate shooting intervals, total frames needed, storage requirements, and equipment estimates."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Tidsforløp (timelapse)"
+          description="Planlegg timelapse: regn ut intervall, antall bilder, videolengde og lagringsbehov. Gratis og uten registrering."
         />
 
-        <section aria-label="Time Lapse Calculator">
+        <section aria-label="Tidsforløp (timelapse)">
           <TimeLapseCalculator />
         </section>
 
