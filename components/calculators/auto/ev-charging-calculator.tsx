@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
+import { formatCurrency } from '@/lib/utils/formatting';
 import {
   calculateChargingTime,
   CHARGER_TYPES,
@@ -15,14 +16,14 @@ import {
 
 const CHARGER_OPTIONS = CHARGER_TYPES.map(charger => ({
   value: charger.id,
-  label: `${charger.name} (${charger.power}kW)`,
+  label: `${charger.name} (${charger.power} kW)`,
 }));
 
 const EV_MODEL_OPTIONS = [
-  { value: 'custom', label: 'Custom / Enter Manually' },
+  { value: 'custom', label: 'Egendefinert / skriv inn selv' },
   ...EV_MODELS.map(model => ({
     value: model.id,
-    label: `${model.name} (${model.batteryCapacity}kWh)`,
+    label: `${model.name} (${model.batteryCapacity} kWh)`,
   })),
 ];
 
@@ -31,10 +32,10 @@ export function EVChargingCalculator() {
   const [batteryCapacity, setBatteryCapacity] = React.useState(75);
   const [currentCharge, setCurrentCharge] = React.useState(20);
   const [targetCharge, setTargetCharge] = React.useState(80);
-  const [selectedCharger, setSelectedCharger] = React.useState('level2-32a');
-  const [customChargerPower, setCustomChargerPower] = React.useState(7.7);
-  const [maxChargingRate, setMaxChargingRate] = React.useState(11.5);
-  const [electricityRate, setElectricityRate] = React.useState(0.12);
+  const [selectedCharger, setSelectedCharger] = React.useState('ac-1ph-32a');
+  const [customChargerPower, setCustomChargerPower] = React.useState(7.4);
+  const [maxChargingRate, setMaxChargingRate] = React.useState(11);
+  const [electricityRate, setElectricityRate] = React.useState(1);
   
   const [result, setResult] = React.useState<EVChargingResult | null>(null);
   const [error, setError] = React.useState<string | undefined>();
@@ -59,7 +60,7 @@ export function EVChargingCalculator() {
       setError(undefined);
       
       if (currentCharge >= targetCharge) {
-        setError('Target charge must be greater than current charge');
+        setError('Ladenivå må være høyere enn dagens ladenivå');
         setResult(null);
         return;
       }
@@ -79,7 +80,7 @@ export function EVChargingCalculator() {
       const calcResult = calculateChargingTime(input);
       setResult(calcResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [batteryCapacity, currentCharge, targetCharge, selectedCharger, customChargerPower, maxChargingRate]);
@@ -89,10 +90,10 @@ export function EVChargingCalculator() {
     setBatteryCapacity(75);
     setCurrentCharge(20);
     setTargetCharge(80);
-    setSelectedCharger('level2-32a');
-    setCustomChargerPower(7.7);
-    setMaxChargingRate(11.5);
-    setElectricityRate(0.12);
+    setSelectedCharger('ac-1ph-32a');
+    setCustomChargerPower(7.4);
+    setMaxChargingRate(11);
+    setElectricityRate(1);
     setResult(null);
     setError(undefined);
   };
@@ -103,39 +104,39 @@ export function EVChargingCalculator() {
 
   return (
     <CalculatorBase
-      title="EV Charging Time Calculator"
-      description="Calculate how long it takes to charge your electric vehicle"
-      formula="Time = Energy Needed / (Effective Power × Efficiency)"
+      title="Ladetid for elbil"
+      description="Regn ut hvor lang tid det tar å lade elbilen"
+      formula="Tid = energi som trengs ÷ (effektiv effekt × virkningsgrad)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay 
-            label="Charging Time" 
+            label="Ladetid" 
             value={result.formattedTime}
             copyable
           />
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Energy Needed" 
-              value={`${result.energyNeeded.toFixed(1)} kWh`}
+              label="Energi som trengs" 
+              value={`${result.energyNeeded.toFixed(1).replace('.', ',')} kWh`}
             />
             <ResultDisplay 
-              label="Effective Power" 
-              value={`${result.effectiveChargingPower.toFixed(1)} kW`}
+              label="Effektiv ladeeffekt" 
+              value={`${result.effectiveChargingPower.toFixed(1).replace('.', ',')} kW`}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Energy from Grid" 
-              value={`${result.energyFromGrid.toFixed(1)} kWh`}
+              label="Energi fra nettet" 
+              value={`${result.energyFromGrid.toFixed(1).replace('.', ',')} kWh`}
             />
             <ResultDisplay 
-              label="Estimated Cost" 
-              value={`$${result.costEstimate(electricityRate).toFixed(2)}`}
+              label="Anslått kostnad" 
+              value={formatCurrency(result.costEstimate(electricityRate))}
             />
           </div>
 
@@ -150,12 +151,12 @@ export function EVChargingCalculator() {
           )}
 
           <div className="bg-muted/50 p-3 rounded-lg text-sm space-y-2">
-            <p className="font-medium">Charging Tips:</p>
+            <p className="font-medium">Ladetips:</p>
             <ul className="text-xs text-muted-foreground space-y-1">
-              <li>• DC fast charging slows down above 80% to protect battery</li>
-              <li>• Level 2 charging is most cost-effective for daily use</li>
-              <li>• Charging efficiency is typically 85-95%</li>
-              <li>• Cold weather can reduce charging speed by 20-30%</li>
+              <li>• Hurtiglading går saktere over 80 % for å skåne batteriet</li>
+              <li>• Lading hjemme er billigst for daglig bruk</li>
+              <li>• Ladetapet er vanligvis 5–15 %</li>
+              <li>• Kaldt vær kan redusere ladefarten med 20–30 %</li>
             </ul>
           </div>
         </div>
@@ -164,7 +165,7 @@ export function EVChargingCalculator() {
       <div className="space-y-4">
         <SelectInput
           id="ev-model"
-          label="EV Model (Optional)"
+          label="Elbilmodell (valgfritt)"
           value={selectedModel}
           onChange={setSelectedModel}
           options={EV_MODEL_OPTIONS}
@@ -173,7 +174,7 @@ export function EVChargingCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="battery-capacity"
-            label="Battery Capacity"
+            label="Batterikapasitet"
             value={batteryCapacity}
             onChange={setBatteryCapacity}
             min={10}
@@ -184,7 +185,7 @@ export function EVChargingCalculator() {
           />
           <NumberInput
             id="max-charging-rate"
-            label="Max Charging Rate"
+            label="Maks ladeeffekt"
             value={maxChargingRate}
             onChange={setMaxChargingRate}
             min={1}
@@ -197,7 +198,7 @@ export function EVChargingCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="current-charge"
-            label="Current Charge"
+            label="Ladenivå nå"
             value={currentCharge}
             onChange={setCurrentCharge}
             min={0}
@@ -207,7 +208,7 @@ export function EVChargingCalculator() {
           />
           <NumberInput
             id="target-charge"
-            label="Target Charge"
+            label="Ønsket ladenivå"
             value={targetCharge}
             onChange={setTargetCharge}
             min={1}
@@ -219,7 +220,7 @@ export function EVChargingCalculator() {
 
         <SelectInput
           id="charger-type"
-          label="Charger Type"
+          label="Type lader"
           value={selectedCharger}
           onChange={setSelectedCharger}
           options={CHARGER_OPTIONS}
@@ -227,13 +228,13 @@ export function EVChargingCalculator() {
 
         <NumberInput
           id="electricity-rate"
-          label="Electricity Rate"
+          label="Strømpris"
           value={electricityRate}
           onChange={setElectricityRate}
           min={0.01}
-          max={1}
-          step={0.01}
-          unit="$/kWh"
+          max={10}
+          step={0.05}
+          unit="kr/kWh"
         />
       </div>
     </CalculatorBase>

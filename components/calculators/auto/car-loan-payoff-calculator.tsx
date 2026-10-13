@@ -12,10 +12,10 @@ import {
 } from '@/lib/calculations/auto/car-loan-calculator';
 
 export function CarLoanPayoffCalculator() {
-  const [loanAmount, setLoanAmount] = React.useState(25000);
-  const [interestRate, setInterestRate] = React.useState(6.5);
+  const [loanAmount, setLoanAmount] = React.useState(300000);
+  const [interestRate, setInterestRate] = React.useState(7);
   const [loanTermMonths, setLoanTermMonths] = React.useState(60);
-  const [extraPayment, setExtraPayment] = React.useState(100);
+  const [extraPayment, setExtraPayment] = React.useState(1000);
   const [lumpSumPayment, setLumpSumPayment] = React.useState(0);
   
   const [result, setResult] = React.useState<CarLoanResult | null>(null);
@@ -35,16 +35,16 @@ export function CarLoanPayoffCalculator() {
       
       setResult(calcResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [loanAmount, interestRate, loanTermMonths, extraPayment, lumpSumPayment]);
 
   const reset = () => {
-    setLoanAmount(25000);
-    setInterestRate(6.5);
+    setLoanAmount(300000);
+    setInterestRate(7);
     setLoanTermMonths(60);
-    setExtraPayment(100);
+    setExtraPayment(1000);
     setLumpSumPayment(0);
     setResult(null);
     setError(undefined);
@@ -54,8 +54,8 @@ export function CarLoanPayoffCalculator() {
 
   return (
     <CalculatorBase
-      title="Car Loan Early Payoff Calculator"
-      description="Calculate how extra payments can save you money and time"
+      title="Nedbetaling av billån"
+      description="Se hvor mye ekstra innbetalinger sparer deg i renter og tid"
       formula="M = P × [r(1+r)^n] / [(1+r)^n - 1]"
       onCalculate={calculate}
       onReset={reset}
@@ -63,59 +63,59 @@ export function CarLoanPayoffCalculator() {
       results={result && (
         <div className="space-y-4">
           <ResultDisplay 
-            label="Monthly Payment" 
+            label="Månedlig betaling" 
             value={formatCurrency(result.originalMonthlyPayment)}
             copyable
           />
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Time Saved" 
+              label="Spart tid" 
               value={formatMonths(result.monthsSaved)}
             />
             <ResultDisplay 
-              label="Interest Saved" 
+              label="Spart rentekostnad" 
               value={formatCurrency(result.interestSaved)}
             />
           </div>
 
           <div className="bg-muted/50 p-4 rounded-lg space-y-3">
-            <p className="font-medium text-sm">Comparison</p>
+            <p className="font-medium text-sm">Sammenligning</p>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-muted-foreground text-xs mb-1">Without Extra Payments</p>
-                <p>Payoff: {formatMonths(loanTermMonths)}</p>
-                <p>Total Interest: {formatCurrency(result.originalTotalInterest)}</p>
-                <p>Total Paid: {formatCurrency(result.originalTotalPaid)}</p>
+                <p className="text-muted-foreground text-xs mb-1">Uten ekstra innbetalinger</p>
+                <p>Ferdig nedbetalt: {formatMonths(loanTermMonths)}</p>
+                <p>Rentekostnad totalt: {formatCurrency(result.originalTotalInterest)}</p>
+                <p>Totalt betalt: {formatCurrency(result.originalTotalPaid)}</p>
               </div>
               <div>
-                <p className="text-muted-foreground text-xs mb-1">With Extra Payments</p>
-                <p>Payoff: {formatMonths(result.newPayoffMonths)}</p>
-                <p>Total Interest: {formatCurrency(result.newTotalInterest)}</p>
-                <p>Total Paid: {formatCurrency(result.newTotalPaid)}</p>
+                <p className="text-muted-foreground text-xs mb-1">Med ekstra innbetalinger</p>
+                <p>Ferdig nedbetalt: {formatMonths(result.newPayoffMonths)}</p>
+                <p>Rentekostnad totalt: {formatCurrency(result.newTotalInterest)}</p>
+                <p>Totalt betalt: {formatCurrency(result.newTotalPaid)}</p>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Original Payoff Date" 
-              value={result.originalPayoffDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+              label="Opprinnelig sluttdato" 
+              value={result.originalPayoffDate.toLocaleDateString('nb-NO', { month: 'short', year: 'numeric' })}
             />
             <ResultDisplay 
-              label="New Payoff Date" 
-              value={result.newPayoffDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+              label="Ny sluttdato" 
+              value={result.newPayoffDate.toLocaleDateString('nb-NO', { month: 'short', year: 'numeric' })}
             />
           </div>
 
           {result.interestSaved > 0 && (
             <div className="bg-green-500/10 border border-green-500/30 p-3 rounded-lg text-sm">
               <p className="font-medium text-green-700 dark:text-green-400">
-                💰 You'll save {formatCurrency(result.interestSaved)} in interest!
+                Du sparer {formatCurrency(result.interestSaved)} i renter!
               </p>
               <p className="text-muted-foreground text-xs mt-1">
-                By paying an extra {formatCurrency(extraPayment)}/month
-                {lumpSumPayment > 0 ? ` plus a ${formatCurrency(lumpSumPayment)} lump sum` : ''}
+                Ved å betale ekstra {formatCurrency(extraPayment)} per måned
+                {lumpSumPayment > 0 ? `pluss en engangsinnbetaling på ${formatCurrency(lumpSumPayment)}` : ''}
               </p>
             </div>
           )}
@@ -125,19 +125,19 @@ export function CarLoanPayoffCalculator() {
       <div className="space-y-4">
         <NumberInput
           id="loan-amount"
-          label="Loan Amount"
+          label="Lånebeløp"
           value={loanAmount}
           onChange={setLoanAmount}
-          min={1000}
-          max={200000}
-          step={1000}
-          unit="$"
+          min={10000}
+          max={2000000}
+          step={10000}
+          unit="kr"
         />
         
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="interest-rate"
-            label="Interest Rate"
+            label="Rente"
             value={interestRate}
             onChange={setInterestRate}
             min={0}
@@ -147,38 +147,38 @@ export function CarLoanPayoffCalculator() {
           />
           <NumberInput
             id="loan-term"
-            label="Loan Term"
+            label="Nedbetalingstid"
             value={loanTermMonths}
             onChange={setLoanTermMonths}
             min={12}
             max={84}
             step={12}
-            unit="mo"
+            unit="mnd"
           />
         </div>
         
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Extra Payments</p>
+          <p className="text-sm font-medium mb-3">Ekstra innbetalinger</p>
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="extra-payment"
-              label="Extra Monthly"
+              label="Ekstra per måned"
               value={extraPayment}
               onChange={setExtraPayment}
               min={0}
-              max={5000}
-              step={25}
-              unit="$"
+              max={50000}
+              step={100}
+              unit="kr"
             />
             <NumberInput
               id="lump-sum"
-              label="One-Time Lump Sum"
+              label="Engangsinnbetaling"
               value={lumpSumPayment}
               onChange={setLumpSumPayment}
               min={0}
-              max={50000}
-              step={500}
-              unit="$"
+              max={500000}
+              step={5000}
+              unit="kr"
             />
           </div>
         </div>

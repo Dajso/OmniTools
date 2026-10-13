@@ -89,13 +89,13 @@ export function calculateMonthlyPayment(
   termMonths: number
 ): number {
   if (principal <= 0) {
-    throw new Error('Loan amount must be positive');
+    throw new Error('Lånebeløpet må være større enn null');
   }
   if (annualRate < 0) {
-    throw new Error('Interest rate cannot be negative');
+    throw new Error('Renten kan ikke være negativ');
   }
   if (termMonths <= 0) {
-    throw new Error('Loan term must be positive');
+    throw new Error('Nedbetalingstiden må være større enn null');
   }
   
   // Handle 0% interest rate
@@ -204,16 +204,16 @@ export function calculateCarLoanPayoff(input: CarLoanInput): CarLoanResult {
   
   // Validate inputs
   if (loanAmount <= 0) {
-    throw new Error('Loan amount must be positive');
+    throw new Error('Lånebeløpet må være større enn null');
   }
   if (interestRate < 0) {
-    throw new Error('Interest rate cannot be negative');
+    throw new Error('Renten kan ikke være negativ');
   }
   if (loanTermMonths <= 0) {
-    throw new Error('Loan term must be positive');
+    throw new Error('Nedbetalingstiden må være større enn null');
   }
   if (extraPayment < 0) {
-    throw new Error('Extra payment cannot be negative');
+    throw new Error('Ekstra innbetaling kan ikke være negativ');
   }
   
   const originalMonthlyPayment = calculateMonthlyPayment(
@@ -296,11 +296,11 @@ export function calculateCarLoanPayoff(input: CarLoanInput): CarLoanResult {
  * @returns Formatted currency string
  */
 export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('nb-NO', {
     style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    currency: 'NOK',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(value);
 }
 

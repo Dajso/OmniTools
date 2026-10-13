@@ -28,94 +28,15 @@ export interface ChargerType {
  * Common charger types
  */
 export const CHARGER_TYPES: ChargerType[] = [
-  {
-    id: 'level1',
-    name: 'Level 1 (120V)',
-    power: 1.4,
-    voltage: 120,
-    amperage: 12,
-    description: 'Standard household outlet',
-  },
-  {
-    id: 'level1-high',
-    name: 'Level 1 (120V 16A)',
-    power: 1.9,
-    voltage: 120,
-    amperage: 16,
-    description: 'Standard outlet with higher amperage',
-  },
-  {
-    id: 'level2-16a',
-    name: 'Level 2 (240V 16A)',
-    power: 3.8,
-    voltage: 240,
-    amperage: 16,
-    description: 'Basic home charger',
-  },
-  {
-    id: 'level2-32a',
-    name: 'Level 2 (240V 32A)',
-    power: 7.7,
-    voltage: 240,
-    amperage: 32,
-    description: 'Standard home charger',
-  },
-  {
-    id: 'level2-40a',
-    name: 'Level 2 (240V 40A)',
-    power: 9.6,
-    voltage: 240,
-    amperage: 40,
-    description: 'High-power home charger',
-  },
-  {
-    id: 'level2-48a',
-    name: 'Level 2 (240V 48A)',
-    power: 11.5,
-    voltage: 240,
-    amperage: 48,
-    description: 'Maximum home charger',
-  },
-  {
-    id: 'level2-80a',
-    name: 'Level 2 (240V 80A)',
-    power: 19.2,
-    voltage: 240,
-    amperage: 80,
-    description: 'Commercial Level 2',
-  },
-  {
-    id: 'dcfc-50',
-    name: 'DC Fast Charger (50kW)',
-    power: 50,
-    voltage: 400,
-    amperage: 125,
-    description: 'Basic DC fast charger',
-  },
-  {
-    id: 'dcfc-150',
-    name: 'DC Fast Charger (150kW)',
-    power: 150,
-    voltage: 400,
-    amperage: 375,
-    description: 'High-power DC fast charger',
-  },
-  {
-    id: 'dcfc-250',
-    name: 'DC Fast Charger (250kW)',
-    power: 250,
-    voltage: 800,
-    amperage: 312,
-    description: 'Ultra-fast charger (Tesla V3, etc.)',
-  },
-  {
-    id: 'dcfc-350',
-    name: 'DC Fast Charger (350kW)',
-    power: 350,
-    voltage: 800,
-    amperage: 437,
-    description: 'Maximum speed charger (Electrify America, etc.)',
-  },
+  { id: 'ac-1ph-10a', name: 'Vanlig stikkontakt (230 V, 10 A)', power: 2.3, voltage: 230, amperage: 10, description: 'Nødlading fra vanlig skuko-kontakt' },
+  { id: 'ac-1ph-16a', name: 'Enfase 230 V, 16 A', power: 3.7, voltage: 230, amperage: 16, description: 'Enkel hjemmelader' },
+  { id: 'ac-1ph-32a', name: 'Enfase 230 V, 32 A', power: 7.4, voltage: 230, amperage: 32, description: 'Vanlig hjemmelader (IT-nett)' },
+  { id: 'ac-3ph-16a', name: 'Trefase 400 V, 16 A', power: 11, voltage: 400, amperage: 16, description: 'Hjemmelader i TN-nett eller på hytta' },
+  { id: 'ac-3ph-32a', name: 'Trefase 400 V, 32 A', power: 22, voltage: 400, amperage: 32, description: 'Kraftig AC-lader (bilen må støtte det)' },
+  { id: 'dcfc-50', name: 'Hurtiglader 50 kW', power: 50, voltage: 400, amperage: 125, description: 'Enkel hurtiglader' },
+  { id: 'dcfc-150', name: 'Hurtiglader 150 kW', power: 150, voltage: 400, amperage: 375, description: 'Rask hurtiglader' },
+  { id: 'dcfc-250', name: 'Hurtiglader 250 kW', power: 250, voltage: 800, amperage: 312, description: 'Superlader (Tesla V3 o.l.)' },
+  { id: 'dcfc-350', name: 'Hurtiglader 350 kW', power: 350, voltage: 800, amperage: 437, description: 'Raskeste lader som finnes' },
 ];
 
 /**
@@ -130,7 +51,7 @@ export interface EVModel {
   maxACChargingRate: number;
   /** Maximum DC charging rate in kW */
   maxDCChargingRate: number;
-  /** EPA range in miles */
+  /** EPA-rekkevidde i miles (amerikansk testsyklus) */
   epaRange: number;
 }
 
@@ -171,14 +92,6 @@ export const EV_MODELS: EVModel[] = [
     epaRange: 405,
   },
   {
-    id: 'chevy-bolt-ev',
-    name: 'Chevrolet Bolt EV',
-    batteryCapacity: 66,
-    maxACChargingRate: 11.5,
-    maxDCChargingRate: 55,
-    epaRange: 259,
-  },
-  {
     id: 'ford-mach-e-er',
     name: 'Ford Mustang Mach-E Extended Range',
     batteryCapacity: 91,
@@ -193,14 +106,6 @@ export const EV_MODELS: EVModel[] = [
     maxACChargingRate: 11,
     maxDCChargingRate: 233,
     epaRange: 361,
-  },
-  {
-    id: 'rivian-r1t',
-    name: 'Rivian R1T Large Pack',
-    batteryCapacity: 135,
-    maxACChargingRate: 11.5,
-    maxDCChargingRate: 220,
-    epaRange: 352,
   },
   {
     id: 'porsche-taycan',
@@ -265,25 +170,25 @@ export interface EVChargingResult {
  */
 function validateChargingInput(input: EVChargingInput): void {
   if (input.batteryCapacity <= 0) {
-    throw new Error('Battery capacity must be positive');
+    throw new Error('Batterikapasiteten må være større enn null');
   }
   if (input.currentCharge < 0 || input.currentCharge > 100) {
-    throw new Error('Current charge must be between 0 and 100%');
+    throw new Error('Dagens ladenivå må være mellom 0 og 100 %');
   }
   if (input.targetCharge < 0 || input.targetCharge > 100) {
-    throw new Error('Target charge must be between 0 and 100%');
+    throw new Error('Ønsket ladenivå må være mellom 0 og 100 %');
   }
   if (input.targetCharge <= input.currentCharge) {
-    throw new Error('Target charge must be greater than current charge');
+    throw new Error('Ladenivå må være høyere enn dagens ladenivå');
   }
   if (input.chargerPower <= 0) {
-    throw new Error('Charger power must be positive');
+    throw new Error('Ladeeffekten må være større enn null');
   }
   if (input.maxChargingRate !== undefined && input.maxChargingRate <= 0) {
-    throw new Error('Maximum charging rate must be positive');
+    throw new Error('Maks ladeeffekt må være større enn null');
   }
   if (input.efficiency !== undefined && (input.efficiency <= 0 || input.efficiency > 1)) {
-    throw new Error('Efficiency must be between 0 and 1');
+    throw new Error('Virkningsgraden må være mellom 0 og 1');
   }
 }
 
@@ -292,7 +197,7 @@ function validateChargingInput(input: EVChargingInput): void {
  */
 function formatDuration(hours: number): string {
   if (hours < 1 / 60) {
-    return 'Less than 1 minute';
+    return 'Mindre enn 1 minutt';
   }
   
   const totalMinutes = Math.round(hours * 60);
@@ -300,12 +205,12 @@ function formatDuration(hours: number): string {
   const m = totalMinutes % 60;
   
   if (h === 0) {
-    return `${m} minute${m !== 1 ? 's' : ''}`;
+    return `${m} min`;
   }
   if (m === 0) {
-    return `${h} hour${h !== 1 ? 's' : ''}`;
+    return `${h} t`;
   }
-  return `${h} hour${h !== 1 ? 's' : ''} ${m} minute${m !== 1 ? 's' : ''}`;
+  return `${h} t ${m} min`;
 }
 
 /**

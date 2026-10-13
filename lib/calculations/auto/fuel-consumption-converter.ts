@@ -34,30 +34,30 @@ export interface FuelEconomyUnitInfo {
 export const FUEL_ECONOMY_UNITS: FuelEconomyUnitInfo[] = [
   {
     id: 'mpg-us',
-    name: 'Miles per US Gallon',
+    name: 'Miles per US gallon',
     shortName: 'MPG (US)',
-    description: 'Standard US fuel economy measurement',
+    description: 'Brukes i USA',
     higherIsBetter: true,
   },
   {
     id: 'mpg-uk',
-    name: 'Miles per Imperial Gallon',
+    name: 'Miles per imperial gallon',
     shortName: 'MPG (UK)',
-    description: 'UK/Commonwealth fuel economy measurement',
+    description: 'Brukes i Storbritannia',
     higherIsBetter: true,
   },
   {
     id: 'l-100km',
-    name: 'Liters per 100 Kilometers',
-    shortName: 'L/100km',
-    description: 'European fuel consumption measurement',
+    name: 'Liter per 100 kilometer',
+    shortName: 'l/100 km',
+    description: 'Standard i Norge og Europa',
     higherIsBetter: false,
   },
   {
     id: 'km-l',
-    name: 'Kilometers per Liter',
-    shortName: 'km/L',
-    description: 'Asian fuel economy measurement',
+    name: 'Kilometer per liter',
+    shortName: 'km/l',
+    description: 'Brukes i Japan og deler av Asia',
     higherIsBetter: true,
   },
 ];
@@ -82,7 +82,7 @@ const KM_PER_MILE = 1.609344;
  */
 export function mpgUsToL100km(mpgUs: number): number {
   if (mpgUs <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   // 100 km / (mpg * km/mile) * liters/gallon
   return (100 * LITERS_PER_US_GALLON) / (mpgUs * KM_PER_MILE);
@@ -96,7 +96,7 @@ export function mpgUsToL100km(mpgUs: number): number {
  */
 export function l100kmToMpgUs(l100km: number): number {
   if (l100km <= 0) {
-    throw new Error('L/100km must be positive');
+    throw new Error('l/100 km må være større enn null');
   }
   return (100 * LITERS_PER_US_GALLON) / (l100km * KM_PER_MILE);
 }
@@ -109,7 +109,7 @@ export function l100kmToMpgUs(l100km: number): number {
  */
 export function mpgUkToL100km(mpgUk: number): number {
   if (mpgUk <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   return (100 * LITERS_PER_UK_GALLON) / (mpgUk * KM_PER_MILE);
 }
@@ -122,7 +122,7 @@ export function mpgUkToL100km(mpgUk: number): number {
  */
 export function l100kmToMpgUk(l100km: number): number {
   if (l100km <= 0) {
-    throw new Error('L/100km must be positive');
+    throw new Error('l/100 km må være større enn null');
   }
   return (100 * LITERS_PER_UK_GALLON) / (l100km * KM_PER_MILE);
 }
@@ -135,7 +135,7 @@ export function l100kmToMpgUk(l100km: number): number {
  */
 export function mpgUsToMpgUk(mpgUs: number): number {
   if (mpgUs <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   return mpgUs * (LITERS_PER_UK_GALLON / LITERS_PER_US_GALLON);
 }
@@ -148,7 +148,7 @@ export function mpgUsToMpgUk(mpgUs: number): number {
  */
 export function mpgUkToMpgUs(mpgUk: number): number {
   if (mpgUk <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   return mpgUk * (LITERS_PER_US_GALLON / LITERS_PER_UK_GALLON);
 }
@@ -161,7 +161,7 @@ export function mpgUkToMpgUs(mpgUk: number): number {
  */
 export function kmLToL100km(kmL: number): number {
   if (kmL <= 0) {
-    throw new Error('km/L must be positive');
+    throw new Error('km/l må være større enn null');
   }
   return 100 / kmL;
 }
@@ -174,7 +174,7 @@ export function kmLToL100km(kmL: number): number {
  */
 export function l100kmToKmL(l100km: number): number {
   if (l100km <= 0) {
-    throw new Error('L/100km must be positive');
+    throw new Error('l/100 km må være større enn null');
   }
   return 100 / l100km;
 }
@@ -187,7 +187,7 @@ export function l100kmToKmL(l100km: number): number {
  */
 export function mpgUsToKmL(mpgUs: number): number {
   if (mpgUs <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   return (mpgUs * KM_PER_MILE) / LITERS_PER_US_GALLON;
 }
@@ -200,7 +200,7 @@ export function mpgUsToKmL(mpgUs: number): number {
  */
 export function kmLToMpgUs(kmL: number): number {
   if (kmL <= 0) {
-    throw new Error('km/L must be positive');
+    throw new Error('km/l må være større enn null');
   }
   return (kmL * LITERS_PER_US_GALLON) / KM_PER_MILE;
 }
@@ -213,7 +213,7 @@ export function kmLToMpgUs(kmL: number): number {
  */
 export function mpgUkToKmL(mpgUk: number): number {
   if (mpgUk <= 0) {
-    throw new Error('MPG must be positive');
+    throw new Error('MPG må være større enn null');
   }
   return (mpgUk * KM_PER_MILE) / LITERS_PER_UK_GALLON;
 }
@@ -226,7 +226,7 @@ export function mpgUkToKmL(mpgUk: number): number {
  */
 export function kmLToMpgUk(kmL: number): number {
   if (kmL <= 0) {
-    throw new Error('km/L must be positive');
+    throw new Error('km/l må være større enn null');
   }
   return (kmL * LITERS_PER_UK_GALLON) / KM_PER_MILE;
 }
@@ -257,7 +257,7 @@ export function convertFuelEconomy(
   fromUnit: FuelEconomyUnit
 ): FuelEconomyConversion {
   if (value <= 0) {
-    throw new Error('Fuel economy value must be positive');
+    throw new Error('Forbruket må være større enn null');
   }
   
   // First convert to L/100km as intermediate
@@ -277,7 +277,7 @@ export function convertFuelEconomy(
       l100km = kmLToL100km(value);
       break;
     default:
-      throw new Error(`Unknown unit: ${fromUnit}`);
+      throw new Error(`Ukjent enhet: ${fromUnit}`);
   }
   
   // Convert from L/100km to all units
@@ -290,10 +290,10 @@ export function convertFuelEconomy(
   
   // Format each value
   const formatted: Record<FuelEconomyUnit, string> = {
-    'mpg-us': `${conversions['mpg-us'].toFixed(1)} MPG (US)`,
-    'mpg-uk': `${conversions['mpg-uk'].toFixed(1)} MPG (UK)`,
-    'l-100km': `${conversions['l-100km'].toFixed(1)} L/100km`,
-    'km-l': `${conversions['km-l'].toFixed(1)} km/L`,
+    'mpg-us': `${conversions['mpg-us'].toFixed(1).replace('.', ',')} MPG (US)`,
+    'mpg-uk': `${conversions['mpg-uk'].toFixed(1).replace('.', ',')} MPG (UK)`,
+    'l-100km': `${conversions['l-100km'].toFixed(1).replace('.', ',')} l/100 km`,
+    'km-l': `${conversions['km-l'].toFixed(1).replace('.', ',')} km/l`,
   };
   
   return {
@@ -355,7 +355,7 @@ export function calculateTripFuelCost(
       cost = fuelNeeded * fuelPrice;
       break;
     default:
-      throw new Error(`Unknown price unit: ${priceUnit}`);
+      throw new Error(`Ukjent prisenhet: ${priceUnit}`);
   }
   
   return { fuelNeeded, fuelUnit, cost };

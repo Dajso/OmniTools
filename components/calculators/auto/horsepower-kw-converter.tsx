@@ -17,10 +17,10 @@ interface ConversionResult {
 }
 
 const POWER_UNITS: { value: PowerUnit; label: string }[] = [
-  { value: 'hp', label: 'Horsepower (HP)' },
-  { value: 'kw', label: 'Kilowatts (kW)' },
-  { value: 'ps', label: 'Metric Horsepower (PS)' },
-  { value: 'bhp', label: 'Brake Horsepower (BHP)' },
+  { value: 'kw', label: 'Kilowatt (kW)' },
+  { value: 'ps', label: 'Metriske hestekrefter (hk / PS)' },
+  { value: 'hp', label: 'Imperiale hestekrefter (HP)' },
+  { value: 'bhp', label: 'Brake horsepower (BHP)' },
 ];
 
 // Conversion constants
@@ -57,8 +57,8 @@ function convertPower(value: number, fromUnit: PowerUnit): ConversionResult {
 }
 
 export function HorsepowerKwConverter() {
-  const [value, setValue] = React.useState(300);
-  const [fromUnit, setFromUnit] = React.useState<PowerUnit>('hp');
+  const [value, setValue] = React.useState(110);
+  const [fromUnit, setFromUnit] = React.useState<PowerUnit>('kw');
   const [result, setResult] = React.useState<ConversionResult | null>(null);
   const [error, setError] = React.useState<string | undefined>();
 
@@ -67,7 +67,7 @@ export function HorsepowerKwConverter() {
       setError(undefined);
       
       if (value <= 0) {
-        setError('Power value must be positive');
+        setError('Effekten må være større enn null');
         setResult(null);
         return;
       }
@@ -75,14 +75,14 @@ export function HorsepowerKwConverter() {
       const conversion = convertPower(value, fromUnit);
       setResult(conversion);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion error');
+      setError(err instanceof Error ? err.message : 'Omregningsfeil');
       setResult(null);
     }
   }, [value, fromUnit]);
 
   const reset = () => {
-    setValue(300);
-    setFromUnit('hp');
+    setValue(110);
+    setFromUnit('kw');
     setResult(null);
     setError(undefined);
   };
@@ -91,9 +91,9 @@ export function HorsepowerKwConverter() {
 
   return (
     <CalculatorBase
-      title="Horsepower to kW Converter"
-      description="Convert between horsepower, kilowatts, and metric horsepower"
-      formula="1 HP = 0.7457 kW | 1 PS = 0.7355 kW"
+      title="Hestekrefter til kW"
+      description="Regn om mellom kilowatt, metriske hestekrefter og imperiale hestekrefter"
+      formula="1 hk (PS) = 0,7355 kW | 1 HP = 0,7457 kW"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -101,37 +101,37 @@ export function HorsepowerKwConverter() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Horsepower (HP)" 
-              value={`${result.hp.toFixed(2)} HP`}
+              label="Hestekrefter (hk, imperial)" 
+              value={`${result.hp.toFixed(1).replace('.', ',')} HP`}
               copyable
             />
             <ResultDisplay 
-              label="Kilowatts (kW)" 
-              value={`${result.kw.toFixed(2)} kW`}
+              label="Kilowatt (kW)" 
+              value={`${result.kw.toFixed(1).replace('.', ',')} kW`}
               copyable
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Metric HP (PS)" 
-              value={`${result.ps.toFixed(2)} PS`}
+              label="Metriske hk (PS)" 
+              value={`${result.ps.toFixed(1).replace('.', ',')} PS`}
               copyable
             />
             <ResultDisplay 
               label="Brake HP (BHP)" 
-              value={`${result.bhp.toFixed(2)} BHP`}
+              value={`${result.bhp.toFixed(1).replace('.', ',')} BHP`}
               copyable
             />
           </div>
 
           <div className="bg-muted/50 p-3 rounded-lg text-sm space-y-2">
-            <p className="font-medium">Quick Reference:</p>
+            <p className="font-medium">Kort oppsummert:</p>
             <ul className="text-muted-foreground text-xs space-y-1">
-              <li>• HP (Horsepower): Used in USA, UK for engine power</li>
-              <li>• kW (Kilowatts): SI unit, used in Europe and for EVs</li>
-              <li>• PS (Pferdestärke): Metric HP, used in Germany/Japan</li>
-              <li>• BHP (Brake HP): Power measured at the crankshaft</li>
+              <li>• HP: imperial hestekraft, brukes i USA og Storbritannia</li>
+              <li>• kW: SI-enheten, oppgis i vognkortet i Norge og for elbiler</li>
+              <li>• PS / hk: metrisk hestekraft, vanlig i Europa</li>
+              <li>• BHP: effekt målt ved veivakselen</li>
             </ul>
           </div>
         </div>
@@ -140,7 +140,7 @@ export function HorsepowerKwConverter() {
       <div className="space-y-4">
         <NumberInput
           id="power-value"
-          label="Power Value"
+          label="Effekt"
           value={value}
           onChange={setValue}
           min={0}
@@ -149,7 +149,7 @@ export function HorsepowerKwConverter() {
         
         <SelectInput
           id="from-unit"
-          label="Convert From"
+          label="Regn om fra"
           value={fromUnit}
           onChange={(v) => setFromUnit(v as PowerUnit)}
           options={POWER_UNITS}

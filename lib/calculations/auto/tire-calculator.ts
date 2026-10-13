@@ -147,13 +147,13 @@ export function formatTireSize(size: TireSize): string {
  */
 export function validateTireSize(size: TireSize): void {
   if (size.width < 100 || size.width > 400) {
-    throw new Error(`Invalid tire width: ${size.width}mm. Expected 100-400mm.`);
+    throw new Error(`Ugyldig dekkbredde: ${size.width} mm. Forventet 100–400 mm.`);
   }
   if (size.aspectRatio < 20 || size.aspectRatio > 90) {
-    throw new Error(`Invalid aspect ratio: ${size.aspectRatio}%. Expected 20-90%.`);
+    throw new Error(`Ugyldig profil: ${size.aspectRatio} %. Forventet 20–90 %.`);
   }
   if (size.rimDiameter < 10 || size.rimDiameter > 30) {
-    throw new Error(`Invalid rim diameter: ${size.rimDiameter}". Expected 10-30".`);
+    throw new Error(`Ugyldig felgdiameter: ${size.rimDiameter}". Forventet 10–30".`);
   }
 }
 

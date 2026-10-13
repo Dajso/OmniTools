@@ -115,13 +115,13 @@ export function calculateOffset(widthInches: number, backspacingInches: number):
  */
 function validateWheelSpec(spec: WheelSpec): void {
   if (spec.width < 4 || spec.width > 16) {
-    throw new Error(`Invalid wheel width: ${spec.width}". Expected 4-16".`);
+    throw new Error(`Ugyldig felgbredde: ${spec.width}". Forventet 4–16".`);
   }
   if (spec.diameter < 13 || spec.diameter > 26) {
-    throw new Error(`Invalid wheel diameter: ${spec.diameter}". Expected 13-26".`);
+    throw new Error(`Ugyldig felgdiameter: ${spec.diameter}". Forventet 13–26".`);
   }
   if (spec.offset < -100 || spec.offset > 100) {
-    throw new Error(`Invalid offset: ${spec.offset}mm. Expected -100 to +100mm.`);
+    throw new Error(`Ugyldig ET: ${spec.offset} mm. Forventet −100 til +100 mm.`);
   }
 }
 
@@ -203,31 +203,31 @@ export function compareWheelFitment(
   let fitmentAssessment = '';
   
   if (Math.abs(trackWidthChangePerSide) < 5 && Math.abs(innerClearanceChange) < 5) {
-    fitmentAssessment = 'Very similar fitment to original wheels.';
+    fitmentAssessment = 'Svært lik plassering som de opprinnelige felgene.';
   } else {
     const changes: string[] = [];
     
     if (willPokeMore) {
-      changes.push(`wheel will sit ${Math.abs(trackWidthChangePerSide).toFixed(1)}mm further out`);
+      changes.push(`felgen havner ${Math.abs(trackWidthChangePerSide).toFixed(1)} mm lenger ut`);
     } else if (willTuckMore) {
-      changes.push(`wheel will sit ${Math.abs(trackWidthChangePerSide).toFixed(1)}mm further in`);
+      changes.push(`felgen havner ${Math.abs(trackWidthChangePerSide).toFixed(1)} mm lenger inn`);
     }
     
     if (closerToSuspension) {
-      changes.push(`${Math.abs(innerClearanceChange).toFixed(1)}mm closer to suspension`);
+      changes.push(`${Math.abs(innerClearanceChange).toFixed(1)} mm nærmere opphenget`);
     } else if (innerClearanceChange > 5) {
-      changes.push(`${innerClearanceChange.toFixed(1)}mm more suspension clearance`);
+      changes.push(`${innerClearanceChange.toFixed(1)} mm mer klaring til opphenget`);
     }
     
     if (newWheel.width > original.width) {
-      changes.push(`${(newWheel.width - original.width).toFixed(1)}" wider`);
+      changes.push(`${(newWheel.width - original.width).toFixed(1)}" bredere`);
     } else if (newWheel.width < original.width) {
-      changes.push(`${(original.width - newWheel.width).toFixed(1)}" narrower`);
+      changes.push(`${(original.width - newWheel.width).toFixed(1)}" smalere`);
     }
     
     fitmentAssessment = changes.length > 0 
-      ? `The new wheel will be ${changes.join(', ')}.`
-      : 'Fitment is similar to original.';
+      ? `Den nye felgen: ${changes.join(', ')}.`
+      : 'Plasseringen er lik den opprinnelige.';
   }
   
   return {
@@ -283,11 +283,11 @@ export function willWheelFit(
   const issues: string[] = [];
   
   if (comparison.trackWidthChangePerSide > maxPokeAllowed) {
-    issues.push(`Wheel pokes ${comparison.trackWidthChangePerSide.toFixed(1)}mm beyond allowed ${maxPokeAllowed}mm`);
+    issues.push(`Felgen stikker ${comparison.trackWidthChangePerSide.toFixed(1)} mm ut, over tillatt ${maxPokeAllowed} mm`);
   }
   
   if (comparison.innerClearanceChange < -minSuspensionClearance) {
-    issues.push(`Wheel is ${Math.abs(comparison.innerClearanceChange).toFixed(1)}mm closer to suspension than safe`);
+    issues.push(`Felgen er ${Math.abs(comparison.innerClearanceChange).toFixed(1)} mm nærmere opphenget enn trygt`);
   }
   
   return {

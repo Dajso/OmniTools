@@ -47,7 +47,7 @@ function TireVisual({
         >
           <div className="rounded-full bg-gray-400 w-1/3 h-1/3" />
         </div>
-        <span className="text-xs mt-2 text-muted-foreground">Original</span>
+        <span className="text-xs mt-2 text-muted-foreground">Opprinnelig</span>
         <span className="text-xs text-muted-foreground">{original.diameter.toFixed(1)}mm</span>
       </div>
       <div className="flex flex-col items-center">
@@ -62,7 +62,7 @@ function TireVisual({
         >
           <div className="rounded-full bg-gray-400 w-1/3 h-1/3" />
         </div>
-        <span className="text-xs mt-2 text-muted-foreground">New</span>
+        <span className="text-xs mt-2 text-muted-foreground">Ny</span>
         <span className="text-xs text-muted-foreground">{newTire.diameter.toFixed(1)}mm</span>
       </div>
     </div>
@@ -106,7 +106,7 @@ export function TireSizeCalculator() {
         const orig = parsePreset(originalPreset);
         const newS = parsePreset(newPreset);
         if (!orig || !newS) {
-          setError('Invalid tire size format');
+          setError('Ugyldig dekkstørrelse');
           return;
         }
         originalSize = orig;
@@ -119,7 +119,7 @@ export function TireSizeCalculator() {
       const comparison = compareTireSizes(originalSize, newSize);
       setResult(comparison);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [usePreset, originalPreset, newPreset, origWidth, origAspect, origRim, newWidth, newAspect, newRim]);
@@ -142,9 +142,9 @@ export function TireSizeCalculator() {
 
   return (
     <CalculatorBase
-      title="Tire Size Calculator"
-      description="Compare tire sizes and calculate speedometer error"
-      formula="Circumference = π × (2 × sidewall + rim × 25.4)"
+      title="Dekkstørrelse"
+      description="Sammenlign dekkstørrelser og se hvor mye speedometeret ditt avviker"
+      formula="Omkrets = π × (2 × flankehøyde + felg × 25,4)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -164,45 +164,45 @@ export function TireSizeCalculator() {
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Diameter Change" 
+              label="Endring i diameter" 
               value={`${result.diameterDifference > 0 ? '+' : ''}${result.diameterDifference.toFixed(1)}mm (${result.diameterDifferencePercent > 0 ? '+' : ''}${result.diameterDifferencePercent.toFixed(2)}%)`} 
             />
             <ResultDisplay 
-              label="Speedometer Error" 
+              label="Avvik i speedometer" 
               value={`${result.speedometerError > 0 ? '+' : ''}${result.speedometerError.toFixed(2)}%`}
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Actual Speed @ 60 MPH" 
-              value={`${result.actualSpeedAt60.toFixed(1)} MPH`}
+              label="Reell fart når speedometeret viser 80 km/t" 
+              value={`${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t`}
             />
             <ResultDisplay 
-              label="Speedo Shows @ 60 MPH" 
-              value={`${result.speedoReadingAt60.toFixed(1)} MPH`}
+              label="Speedometeret viser ved reell fart 80 km/t" 
+              value={`${(result.speedoReadingAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t`}
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Ground Clearance Change" 
+              label="Endring i bakkeklaring" 
               value={`${result.groundClearanceChange > 0 ? '+' : ''}${result.groundClearanceChange.toFixed(1)}mm`}
             />
             <ResultDisplay 
-              label="Revs/Mile (New)" 
-              value={result.newTire.revolutionsPerMile.toFixed(0)}
+              label="Omdreininger per km (nytt)" 
+              value={(result.newTire.revolutionsPerMile / 1.609344).toFixed(0)}
             />
           </div>
 
           <div className="bg-muted/50 p-3 rounded-lg text-sm">
             <p className="font-medium mb-1">
-              {result.isLarger ? '📈 Larger Tire' : '📉 Smaller Tire'}
+              {result.isLarger ? '📈 Større dekk' : '📉 Mindre dekk'}
             </p>
             <p className="text-muted-foreground">
               {result.speedometerError > 0 
-                ? `Your speedometer will read LOW. When it shows 60, you're actually going ${result.actualSpeedAt60.toFixed(1)} MPH.`
-                : `Your speedometer will read HIGH. When it shows 60, you're actually going ${result.actualSpeedAt60.toFixed(1)} MPH.`
+                ? `Speedometeret viser for lavt. Når det viser 80 km/t, kjører du i virkeligheten ${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t.`
+                : `Speedometeret viser for høyt. Når det viser 80 km/t, kjører du i virkeligheten ${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t.`
               }
             </p>
           </div>
@@ -212,12 +212,12 @@ export function TireSizeCalculator() {
       <div className="space-y-4">
         <SelectInput
           id="input-mode"
-          label="Input Mode"
+          label="Inndata"
           value={usePreset ? 'preset' : 'manual'}
           onChange={(v) => setUsePreset(v === 'preset')}
           options={[
-            { value: 'preset', label: 'Common Sizes' },
-            { value: 'manual', label: 'Manual Entry' },
+            { value: 'preset', label: 'Vanlige størrelser' },
+            { value: 'manual', label: 'Skriv inn selv' },
           ]}
         />
 
@@ -225,14 +225,14 @@ export function TireSizeCalculator() {
           <>
             <SelectInput
               id="original-preset"
-              label="Original Tire Size"
+              label="Opprinnelig dekkstørrelse"
               value={originalPreset}
               onChange={setOriginalPreset}
               options={COMMON_TIRE_OPTIONS}
             />
             <SelectInput
               id="new-preset"
-              label="New Tire Size"
+              label="Ny dekkstørrelse"
               value={newPreset}
               onChange={setNewPreset}
               options={COMMON_TIRE_OPTIONS}
@@ -241,19 +241,19 @@ export function TireSizeCalculator() {
         ) : (
           <>
             <div className="p-3 bg-muted/30 rounded-lg space-y-3">
-              <p className="text-sm font-medium">Original Tire</p>
+              <p className="text-sm font-medium">Opprinnelig dekk</p>
               <div className="grid grid-cols-3 gap-2">
-                <NumberInput id="orig-width" label="Width" value={origWidth} onChange={setOrigWidth} min={100} max={400} unit="mm" />
-                <NumberInput id="orig-aspect" label="Aspect" value={origAspect} onChange={setOrigAspect} min={20} max={90} unit="%" />
-                <NumberInput id="orig-rim" label="Rim" value={origRim} onChange={setOrigRim} min={10} max={30} unit="in" />
+                <NumberInput id="orig-width" label="Bredde" value={origWidth} onChange={setOrigWidth} min={100} max={400} unit="mm" />
+                <NumberInput id="orig-aspect" label="Profil" value={origAspect} onChange={setOrigAspect} min={20} max={90} unit="%" />
+                <NumberInput id="orig-rim" label="Felg" value={origRim} onChange={setOrigRim} min={10} max={30} unit="″" />
               </div>
             </div>
             <div className="p-3 bg-muted/30 rounded-lg space-y-3">
-              <p className="text-sm font-medium">New Tire</p>
+              <p className="text-sm font-medium">Nytt dekk</p>
               <div className="grid grid-cols-3 gap-2">
-                <NumberInput id="new-width" label="Width" value={newWidth} onChange={setNewWidth} min={100} max={400} unit="mm" />
-                <NumberInput id="new-aspect" label="Aspect" value={newAspect} onChange={setNewAspect} min={20} max={90} unit="%" />
-                <NumberInput id="new-rim" label="Rim" value={newRim} onChange={setNewRim} min={10} max={30} unit="in" />
+                <NumberInput id="new-width" label="Bredde" value={newWidth} onChange={setNewWidth} min={100} max={400} unit="mm" />
+                <NumberInput id="new-aspect" label="Profil" value={newAspect} onChange={setNewAspect} min={20} max={90} unit="%" />
+                <NumberInput id="new-rim" label="Felg" value={newRim} onChange={setNewRim} min={10} max={30} unit="″" />
               </div>
             </div>
           </>

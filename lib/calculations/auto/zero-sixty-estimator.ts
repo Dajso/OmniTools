@@ -85,19 +85,19 @@ const LAUNCH_CONTROL_FACTOR = 0.95;
  */
 function validateVehicleSpec(spec: VehicleSpec): void {
   if (spec.horsepower <= 0) {
-    throw new Error('Horsepower must be positive');
+    throw new Error('Effekten må være større enn null');
   }
   if (spec.weightLbs <= 0) {
-    throw new Error('Weight must be positive');
+    throw new Error('Vekten må være større enn null');
   }
   if (spec.horsepower > 2000) {
-    throw new Error('Horsepower seems unrealistic (max 2000 hp)');
+    throw new Error('Effekten virker urealistisk (maks 1500 kW)');
   }
   if (spec.weightLbs < 1000 || spec.weightLbs > 10000) {
-    throw new Error('Weight should be between 1000 and 10000 lbs');
+    throw new Error('Vekten bør være mellom 450 og 4 500 kg');
   }
   if (spec.torqueLbFt !== undefined && spec.torqueLbFt <= 0) {
-    throw new Error('Torque must be positive');
+    throw new Error('Dreiemomentet må være større enn null');
   }
 }
 
@@ -253,31 +253,31 @@ export function getAccelerationEstimate(spec: VehicleSpec): AccelerationEstimate
   } else if (weightToPower >= 3 && weightToPower <= 30) {
     confidence = 'medium';
     if (weightToPower < 5) {
-      factors.push('Very high power-to-weight ratio - traction may be limiting factor');
+      factors.push('Svært høy effekt i forhold til vekt: veigrepet kan bli begrensende');
     } else {
-      factors.push('Low power-to-weight ratio - estimate may vary');
+      factors.push('Lav effekt i forhold til vekt: anslaget kan variere');
     }
   } else {
     confidence = 'low';
-    factors.push('Extreme power-to-weight ratio - estimate is approximate');
+    factors.push('Ekstrem effekt i forhold til vekt: anslaget er omtrentlig');
   }
   
   // Add relevant factors
   if (spec.drivetrain === 'fwd' && spec.horsepower > 300) {
-    factors.push('High-power FWD may experience significant wheel spin');
+    factors.push('Kraftig forhjulsdrift kan gi mye hjulspinn');
     confidence = confidence === 'high' ? 'medium' : confidence;
   }
   
   if (spec.drivetrain === 'awd' && spec.hasLaunchControl) {
-    factors.push('AWD with launch control provides optimal traction');
+    factors.push('Firehjulsdrift med launch control gir best veigrep');
   }
   
   if (spec.transmission === 'dct') {
-    factors.push('DCT provides fastest shifts');
+    factors.push('Dobbel clutch gir raskest girskift');
   }
   
   if (spec.torqueLbFt && spec.torqueLbFt / spec.horsepower > 1.2) {
-    factors.push('High torque-to-power ratio aids acceleration');
+    factors.push('Høyt dreiemoment i forhold til effekt hjelper akselerasjonen');
   }
   
   return {
@@ -338,10 +338,10 @@ export function calculateRequiredHorsepower(
   transmission: 'manual' | 'automatic' | 'dct' | 'cvt' = 'automatic'
 ): number {
   if (targetTime <= 0) {
-    throw new Error('Target time must be positive');
+    throw new Error('Måltiden må være større enn null');
   }
   if (weightLbs <= 0) {
-    throw new Error('Weight must be positive');
+    throw new Error('Vekten må være større enn null');
   }
   
   // Reverse the formula: t = 2.0 * sqrt(weight/power) * factors
