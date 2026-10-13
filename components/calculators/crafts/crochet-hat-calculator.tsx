@@ -7,17 +7,19 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import {
-  calculateCrochetHat,
-  STANDARD_HEAD_SIZES,
-  YARN_REQUIREMENTS,
+  calculateCrochetHatMetric,
+  STANDARD_HEAD_SIZES_CM,
+  AGE_GROUP_NAMES_NO,
+  yarnForHatMeters,
   type HatStyle,
   type AgeGroup,
-  type CrochetHatResult,
+  type CrochetHatMetricResult,
 } from '@/lib/calculations/crafts';
 
 const crochetHatSchema = z.object({
-  headCircumference: z.number().min(10).max(30),
+  headCircumference: z.number().min(25).max(75),
   style: z.string(),
   negativeEase: z.number().min(0).max(25),
   useStandardSize: z.boolean(),
@@ -33,7 +35,7 @@ type CrochetHatInputs = {
 };
 
 const INITIAL_INPUTS: CrochetHatInputs = {
-  headCircumference: 22,
+  headCircumference: 56,
   style: 'beanie',
   negativeEase: 10,
   useStandardSize: false,
@@ -41,15 +43,15 @@ const INITIAL_INPUTS: CrochetHatInputs = {
 };
 
 const STYLE_OPTIONS = [
-  { value: 'beanie', label: 'Beanie (Standard)' },
-  { value: 'slouchy', label: 'Slouchy' },
-  { value: 'fitted', label: 'Fitted' },
-  { value: 'earflap', label: 'Earflap' },
+  { value: 'beanie', label: 'Vanlig lue' },
+  { value: 'slouchy', label: 'Slouchy (løs i toppen)' },
+  { value: 'fitted', label: 'Tettsittende' },
+  { value: 'earflap', label: 'Med ørelapper' },
 ];
 
-const AGE_GROUP_OPTIONS = Object.entries(STANDARD_HEAD_SIZES).map(([key, info]) => ({
+const AGE_GROUP_OPTIONS = (Object.keys(STANDARD_HEAD_SIZES_CM) as AgeGroup[]).map((key) => ({
   value: key,
-  label: `${key.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (${info.circumference}")`,
+  label: `${AGE_GROUP_NAMES_NO[key]} (${STANDARD_HEAD_SIZES_CM[key].circumference} cm)`,
 }));
 
 export function CrochetHatCalculator() {
@@ -62,16 +64,16 @@ export function CrochetHatCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<CrochetHatInputs, CrochetHatResult>({
+  } = useCalculator<CrochetHatInputs, CrochetHatMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: crochetHatSchema as unknown as z.ZodType<CrochetHatInputs>,
     calculate: (formInputs) => {
       const circumference = formInputs.useStandardSize
-        ? STANDARD_HEAD_SIZES[formInputs.ageGroup].circumference
+        ? STANDARD_HEAD_SIZES_CM[formInputs.ageGroup].circumference
         : formInputs.headCircumference;
 
-      return calculateCrochetHat({
-        headCircumference: circumference,
+      return calculateCrochetHatMetric({
+        headCm: circumference,
         style: formInputs.style,
         negativeEase: formInputs.negativeEase,
       });
@@ -86,7 +88,7 @@ export function CrochetHatCalculator() {
   // Update circumference when age group changes
   React.useEffect(() => {
     if (inputs.useStandardSize) {
-      const size = STANDARD_HEAD_SIZES[inputs.ageGroup];
+      const size = STANDARD_HEAD_SIZES_CM[inputs.ageGroup];
       if (size) {
         setInput('headCircumference', size.circumference);
       }
@@ -94,15 +96,15 @@ export function CrochetHatCalculator() {
   }, [inputs.ageGroup, inputs.useStandardSize, setInput]);
 
   const yarnEstimate = inputs.useStandardSize
-    ? YARN_REQUIREMENTS[inputs.ageGroup]
+    ? yarnForHatMeters(inputs.ageGroup)
     : null;
 
   return (
     <CalculatorBase
-      title="Crochet Hat Size Calculator"
-      description="Calculate hat dimensions from head circumference for crochet projects"
-      formula="Crown Diameter = Hat Circumference ÷ π"
-      formulaExplanation="Hat circumference includes negative ease for a snug fit"
+      title="Hekle lue"
+      description="Regn ut mål til heklet lue ut fra hodeomkretsen"
+      formula="Diameter på bunnen = lueomkrets ÷ π"
+      formulaExplanation="Lueomkretsen er mindre enn hodet (negativ ease) slik at lua sitter godt"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -113,50 +115,50 @@ export function CrochetHatCalculator() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Crown Diameter"
-                value={results.crownDiameter}
-                unit="inches"
+                label="Diameter på bunnen (kronen)"
+                value={results.crownDiameterCm}
+                unit="cm"
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Hat Circumference"
-                value={results.hatCircumference}
-                unit="inches"
+                label="Lueomkrets"
+                value={results.hatCircumferenceCm}
+                unit="cm"
                 highlight
                 copyable
               />
             </div>
 
             <ResultDisplay
-              label="Hat Height"
-              value={results.hatHeight}
-              unit="inches"
+              label="Luehøyde"
+              value={results.hatHeightCm}
+              unit="cm"
             />
 
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-2">Crown Shaping</p>
+              <p className="text-sm font-medium mb-2">Fasong på toppen</p>
               <p className="text-sm text-muted-foreground">
-                Approximately {results.decreaseRounds} decrease rounds for crown shaping
+                Omtrent {results.decreaseRounds} omganger med felling i toppen
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                Negative ease: {results.negativeEasePercent}%
+                Negativ ease: {results.negativeEasePercent}&nbsp;%
               </p>
             </div>
 
             {yarnEstimate && (
               <div className="border-t pt-4 mt-4">
-                <p className="text-sm font-medium text-muted-foreground mb-3">Yarn Estimate</p>
+                <p className="text-sm font-medium text-muted-foreground mb-3">Garnbehov (omtrentlig)</p>
                 <div className="grid grid-cols-2 gap-3">
                   <ResultDisplay
-                    label="Worsted Weight"
+                    label="Mellomtykt garn (worsted)"
                     value={yarnEstimate.worsted}
-                    unit="yards"
+                    unit="m"
                   />
                   <ResultDisplay
-                    label="Bulky Weight"
+                    label="Tykt garn (bulky)"
                     value={yarnEstimate.bulky}
-                    unit="yards"
+                    unit="m"
                   />
                 </div>
               </div>
@@ -164,12 +166,12 @@ export function CrochetHatCalculator() {
 
             {/* Visual representation */}
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Hat Dimensions</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Mål på lua</p>
               <div className="flex justify-center">
                 <svg
                   viewBox="0 0 200 180"
                   className="w-48 h-44"
-                  aria-label="Crochet hat dimensions diagram"
+                  aria-label="Skisse av luemål"
                 >
                   {/* Hat body (trapezoid shape) */}
                   <path
@@ -213,13 +215,13 @@ export function CrochetHatCalculator() {
                   />
                   {/* Labels */}
                   <text x="100" y="35" textAnchor="middle" className="text-xs fill-current">
-                    {results.crownDiameter}&quot; dia
+                    {formatNumber(results.crownDiameterCm, { maximumFractionDigits: 1 })} cm diameter
                   </text>
                   <text x="185" y="95" textAnchor="middle" className="text-xs fill-current" transform="rotate(90, 185, 95)">
-                    {results.hatHeight}&quot;
+                    {formatNumber(results.hatHeightCm, { maximumFractionDigits: 1 })} cm
                   </text>
                   <text x="100" y="160" textAnchor="middle" className="text-xs fill-current">
-                    {results.hatCircumference}&quot; circ
+                    {formatNumber(results.hatCircumferenceCm, { maximumFractionDigits: 1 })} cm omkrets
                   </text>
                 </svg>
               </div>
@@ -237,14 +239,14 @@ export function CrochetHatCalculator() {
           className="h-4 w-4 rounded border-gray-300"
         />
         <label htmlFor="useStandardSize" className="text-sm">
-          Use standard size chart
+          Bruk standardstørrelse
         </label>
       </div>
 
       {inputs.useStandardSize ? (
         <SelectInput
           id="ageGroup"
-          label="Age Group / Size"
+          label="Alder / størrelse"
           value={inputs.ageGroup}
           onChange={(v) => setInput('ageGroup', v as AgeGroup)}
           options={AGE_GROUP_OPTIONS}
@@ -252,13 +254,13 @@ export function CrochetHatCalculator() {
       ) : (
         <NumberInput
           id="headCircumference"
-          label="Head Circumference"
+          label="Hodeomkrets"
           value={inputs.headCircumference}
           onChange={(v) => setInput('headCircumference', v)}
-          min={10}
-          max={30}
-          step={0.5}
-          unit="inches"
+          min={25}
+          max={75}
+          step={1}
+          unit="cm"
           error={errors.headCircumference}
           required
         />
@@ -266,7 +268,7 @@ export function CrochetHatCalculator() {
 
       <SelectInput
         id="style"
-        label="Hat Style"
+        label="Luemodell"
         value={inputs.style}
         onChange={(v) => setInput('style', v as HatStyle)}
         options={STYLE_OPTIONS}
@@ -274,7 +276,7 @@ export function CrochetHatCalculator() {
 
       <NumberInput
         id="negativeEase"
-        label="Negative Ease"
+        label="Negativ ease (lua mindre enn hodet)"
         value={inputs.negativeEase}
         onChange={(v) => setInput('negativeEase', v)}
         min={0}

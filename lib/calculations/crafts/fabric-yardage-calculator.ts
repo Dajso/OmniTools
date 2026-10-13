@@ -169,7 +169,7 @@ export function calculateFabricYardage(input: FabricYardageInput): FabricYardage
   // Validate inputs
   if (patternRepeat < 0) {
     throw new FabricYardageError(
-      'Pattern repeat cannot be negative',
+      'Mønsterraporten kan ikke være negativ',
       'invalid_input',
       'patternRepeat'
     );
@@ -179,7 +179,7 @@ export function calculateFabricYardage(input: FabricYardageInput): FabricYardage
   const baseYardageTable = BASE_YARDAGE[garmentType];
   if (!baseYardageTable) {
     throw new FabricYardageError(
-      `Unsupported garment type: ${garmentType}`,
+      `Plagget støttes ikke: ${garmentType}`,
       'unsupported_garment',
       'garmentType'
     );
@@ -188,7 +188,7 @@ export function calculateFabricYardage(input: FabricYardageInput): FabricYardage
   const baseYardage45 = baseYardageTable[size];
   if (baseYardage45 === undefined) {
     throw new FabricYardageError(
-      `Unsupported size: ${size}`,
+      `Størrelsen støttes ikke: ${size}`,
       'invalid_input',
       'size'
     );

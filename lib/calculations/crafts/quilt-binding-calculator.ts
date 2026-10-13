@@ -94,14 +94,14 @@ export const DEFAULT_EXTRA_ALLOWANCE = 12;
 export function calculateQuiltPerimeter(width: number, height: number): number {
   if (width <= 0) {
     throw new QuiltBindingError(
-      'Quilt width must be positive',
+      'Bredden må være større enn 0',
       'invalid_input',
       'quiltWidth'
     );
   }
   if (height <= 0) {
     throw new QuiltBindingError(
-      'Quilt height must be positive',
+      'Lengden må være større enn 0',
       'invalid_input',
       'quiltHeight'
     );
@@ -122,7 +122,7 @@ export function calculateNumberOfStrips(
 ): number {
   if (stripLength <= 0) {
     throw new QuiltBindingError(
-      'Strip length must be positive',
+      'Lengden på strimlene må være større enn 0',
       'invalid_input',
       'stripLength'
     );
@@ -180,28 +180,28 @@ export function calculateQuiltBinding(input: QuiltBindingInput): QuiltBindingRes
   // Validate inputs
   if (quiltWidth <= 0) {
     throw new QuiltBindingError(
-      'Quilt width must be positive',
+      'Bredden må være større enn 0',
       'invalid_input',
       'quiltWidth'
     );
   }
   if (quiltHeight <= 0) {
     throw new QuiltBindingError(
-      'Quilt height must be positive',
+      'Lengden må være større enn 0',
       'invalid_input',
       'quiltHeight'
     );
   }
   if (bindingStripWidth <= 0) {
     throw new QuiltBindingError(
-      'Binding strip width must be positive',
+      'Bredden på strimlene må være større enn 0',
       'invalid_input',
       'bindingStripWidth'
     );
   }
   if (fabricWidth <= 0) {
     throw new QuiltBindingError(
-      'Fabric width must be positive',
+      'Stoffbredden må være større enn 0',
       'invalid_input',
       'fabricWidth'
     );
@@ -267,7 +267,7 @@ export function calculateBindingForStandardSize(
   const size = STANDARD_QUILT_SIZES[sizeName];
   if (!size) {
     throw new QuiltBindingError(
-      `Unknown quilt size: ${sizeName}`,
+      `Ukjent størrelse: ${sizeName}`,
       'invalid_input',
       'sizeName'
     );

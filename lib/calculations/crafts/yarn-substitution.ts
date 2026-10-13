@@ -198,19 +198,19 @@ export function calculateYarnSubstitution(input: YarnSubstitutionInput): YarnSub
 
   if (weightDifference === 0) {
     // Same weight category
-    gaugeAdjustment = 'Swatch to match pattern gauge. Minor needle adjustments may be needed.';
+    gaugeAdjustment = 'Strikk en prøvelapp for å treffe oppskriftens fasthet. Det kan hende du må justere pinnestørrelsen litt.';
   } else if (weightDifference === 1) {
     // Adjacent weight category
-    compatibilityWarning = 'Yarn weights are close but not identical. Gauge swatch is essential.';
+    compatibilityWarning = 'Garntykkelsene er nesten like, men ikke helt. Strikk alltid en prøvelapp.';
     if (substituteInfo.cycNumber > originalInfo.cycNumber) {
-      gaugeAdjustment = 'Try going down 1-2 needle sizes to match gauge.';
+      gaugeAdjustment = 'Prøv en til to pinnestørrelser tynnere for å treffe fastheten.';
     } else {
-      gaugeAdjustment = 'Try going up 1-2 needle sizes to match gauge.';
+      gaugeAdjustment = 'Prøv en til to pinnestørrelser tykkere for å treffe fastheten.';
     }
   } else {
     // Very different weights
-    compatibilityWarning = `Significant weight difference (${weightDifference} categories). Results may vary significantly.`;
-    gaugeAdjustment = 'Major needle size adjustment needed. Consider choosing a closer weight.';
+    compatibilityWarning = `Stor forskjell i garntykkelse (${weightDifference} trinn). Resultatet kan bli ganske annerledes.`;
+    gaugeAdjustment = 'Du må justere pinnestørrelsen mye. Vurder et garn som ligger nærmere i tykkelse.';
   }
 
   return {
@@ -240,13 +240,13 @@ export function getYarnWeightByCYC(cycNumber: number): YarnWeight | undefined {
  * Estimates yards needed based on project type
  */
 export const PROJECT_YARDAGE_ESTIMATES: Record<string, { min: number; max: number; description: string }> = {
-  'scarf': { min: 200, max: 400, description: 'Simple scarf' },
-  'hat': { min: 100, max: 200, description: 'Adult hat' },
-  'mittens': { min: 150, max: 250, description: 'Pair of mittens' },
-  'socks': { min: 300, max: 450, description: 'Pair of socks' },
-  'sweater-child': { min: 600, max: 1000, description: 'Child sweater' },
-  'sweater-adult': { min: 1200, max: 2000, description: 'Adult sweater' },
-  'blanket-baby': { min: 800, max: 1200, description: 'Baby blanket' },
-  'blanket-throw': { min: 1500, max: 2500, description: 'Throw blanket' },
-  'shawl': { min: 400, max: 800, description: 'Shawl or wrap' },
+  'scarf': { min: 200, max: 400, description: 'Enkelt skjerf' },
+  'hat': { min: 100, max: 200, description: 'Lue til voksen' },
+  'mittens': { min: 150, max: 250, description: 'Votter, ett par' },
+  'socks': { min: 300, max: 450, description: 'Sokker, ett par' },
+  'sweater-child': { min: 600, max: 1000, description: 'Barnegenser' },
+  'sweater-adult': { min: 1200, max: 2000, description: 'Genser til voksen' },
+  'blanket-baby': { min: 800, max: 1200, description: 'Babyteppe' },
+  'blanket-throw': { min: 1500, max: 2500, description: 'Pledd' },
+  'shawl': { min: 400, max: 800, description: 'Sjal' },
 };

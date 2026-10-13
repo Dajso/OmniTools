@@ -7,12 +7,15 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import {
-  calculateEmbroideryFloss,
+  calculateEmbroideryFlossMetric,
   STITCH_TYPES,
   FABRIC_COUNTS,
+  FLOSS_SKEIN_LENGTH_M,
+  FLOSS_CUT_LENGTH_CM,
   type StitchType,
-  type EmbroideryFlossResult,
+  type EmbroideryFlossMetricResult,
 } from '@/lib/calculations/crafts';
 
 const embroideryFlossSchema = z.object({
@@ -50,11 +53,11 @@ const FABRIC_COUNT_OPTIONS = FABRIC_COUNTS.map(fc => ({
 }));
 
 const STRAND_OPTIONS = [
-  { value: '1', label: '1 strand' },
-  { value: '2', label: '2 strands' },
-  { value: '3', label: '3 strands' },
-  { value: '4', label: '4 strands' },
-  { value: '6', label: '6 strands (full)' },
+  { value: '1', label: '1 tråd' },
+  { value: '2', label: '2 tråder' },
+  { value: '3', label: '3 tråder' },
+  { value: '4', label: '4 tråder' },
+  { value: '6', label: '6 tråder (hel)' },
 ];
 
 export function EmbroideryFlossCalculator() {
@@ -67,11 +70,11 @@ export function EmbroideryFlossCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<EmbroideryFlossInputs, EmbroideryFlossResult>({
+  } = useCalculator<EmbroideryFlossInputs, EmbroideryFlossMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: embroideryFlossSchema as unknown as z.ZodType<EmbroideryFlossInputs>,
     calculate: (formInputs) => {
-      return calculateEmbroideryFloss({
+      return calculateEmbroideryFlossMetric({
         stitchCount: formInputs.stitchCount,
         fabricCount: formInputs.fabricCount,
         stitchType: formInputs.stitchType,
@@ -90,10 +93,10 @@ export function EmbroideryFlossCalculator() {
 
   return (
     <CalculatorBase
-      title="Embroidery Floss Calculator"
-      description="Calculate how much embroidery floss you need for your cross stitch or embroidery project"
-      formula="Thread = Stitches × Thread per Stitch × Strand Adjustment"
-      formulaExplanation="Based on fabric count, stitch type, and number of strands"
+      title="Brodergarn"
+      description="Regn ut hvor mye brodergarn du trenger til korssting og broderi"
+      formula="Tråd = antall sting × tråd per sting × justering for tråder"
+      formulaExplanation="Basert på stoffets ct-tall, type sting og antall tråder"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -103,53 +106,46 @@ export function EmbroideryFlossCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Skeins Needed"
+              label="Dokker som trengs"
               value={results.skeinsNeeded}
-              unit="skeins"
+              unit="dokker"
               highlight
               copyable
             />
 
-            <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay
-                label="Thread Length"
-                value={results.threadLengthInches}
-                unit="inches"
-              />
-              <ResultDisplay
-                label="Thread Length"
-                value={results.threadLengthMeters}
-                unit="meters"
-              />
-            </div>
+            <ResultDisplay
+              label="Trådlengde"
+              value={results.threadLengthMeters}
+              unit="m"
+            />
 
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-2">Usage Details</p>
+              <p className="text-sm font-medium mb-2">Detaljer</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
-                  <span className="text-muted-foreground">Thread per stitch:</span>
-                  <span className="ml-2">{results.threadPerStitch}&quot;</span>
+                  <span className="text-muted-foreground">Tråd per sting:</span>
+                  <span className="ml-2">{formatNumber(results.threadPerStitchCm, { maximumFractionDigits: 2 })}&nbsp;cm</span>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Skein usage:</span>
-                  <span className="ml-2">{results.skeinPercentage}%</span>
+                  <span className="text-muted-foreground">Andel av dokke(r):</span>
+                  <span className="ml-2">{formatNumber(results.skeinPercentage, { maximumFractionDigits: 0 })}&nbsp;%</span>
                 </div>
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Recommendations</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Råd</p>
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-medium">Cut length:</span>{' '}
+                  <span className="font-medium">Klipp tråden i:</span>{' '}
                   <span className="text-muted-foreground">
-                    {results.recommendedCutLength}&quot; (standard working length)
+                    ca. {FLOSS_CUT_LENGTH_CM}&nbsp;cm (vanlig arbeidslengde)
                   </span>
                 </p>
                 <p>
-                  <span className="font-medium">Tip:</span>{' '}
+                  <span className="font-medium">Tips:</span>{' '}
                   <span className="text-muted-foreground">
-                    Includes 15% buffer for waste and tails
+                    Inkluderer 15&nbsp;% ekstra til spill og tråder som festes. Regnet med {FLOSS_SKEIN_LENGTH_M}&nbsp;m per dokke.
                   </span>
                 </p>
               </div>
@@ -158,10 +154,10 @@ export function EmbroideryFlossCalculator() {
             {/* Stitch type info */}
             <div className="border-t pt-4 mt-4">
               <p className="text-sm font-medium text-muted-foreground mb-2">
-                About {stitchInfo.name}
+                Om {stitchInfo.name.toLowerCase()}
               </p>
               <p className="text-sm text-muted-foreground">
-                {stitchInfo.description}. Typically uses {stitchInfo.typicalStrands} strand(s).
+                {stitchInfo.description}. Brukes vanligvis med {stitchInfo.typicalStrands} {stitchInfo.typicalStrands === 1 ? 'tråd' : 'tråder'}.
               </p>
             </div>
           </div>
@@ -170,7 +166,7 @@ export function EmbroideryFlossCalculator() {
     >
       <NumberInput
         id="stitchCount"
-        label="Number of Stitches"
+        label="Antall sting"
         value={inputs.stitchCount}
         onChange={(v) => setInput('stitchCount', v)}
         min={1}
@@ -182,7 +178,7 @@ export function EmbroideryFlossCalculator() {
 
       <SelectInput
         id="fabricCount"
-        label="Fabric Count"
+        label="Stoffets ct-tall"
         value={inputs.fabricCount.toString()}
         onChange={(v) => setInput('fabricCount', parseInt(v))}
         options={FABRIC_COUNT_OPTIONS}
@@ -190,7 +186,7 @@ export function EmbroideryFlossCalculator() {
 
       <SelectInput
         id="stitchType"
-        label="Stitch Type"
+        label="Type sting"
         value={inputs.stitchType}
         onChange={(v) => setInput('stitchType', v as StitchType)}
         options={STITCH_TYPE_OPTIONS}
@@ -198,7 +194,7 @@ export function EmbroideryFlossCalculator() {
 
       <SelectInput
         id="strandsUsed"
-        label="Number of Strands"
+        label="Antall tråder"
         value={inputs.strandsUsed.toString()}
         onChange={(v) => setInput('strandsUsed', parseInt(v))}
         options={STRAND_OPTIONS}
@@ -213,7 +209,7 @@ export function EmbroideryFlossCalculator() {
           className="h-4 w-4 rounded border-gray-300"
         />
         <label htmlFor="overTwo" className="text-sm">
-          Stitching over 2 threads (evenweave/linen)
+          Sting over 2 tråder (jevnvevd stoff / lin)
         </label>
       </div>
     </CalculatorBase>

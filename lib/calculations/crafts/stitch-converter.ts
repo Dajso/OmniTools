@@ -120,14 +120,14 @@ export function calculateStitchesPerInch(gauge: Gauge): number {
   const unitSize = gauge.unitSize ?? 4;
   if (unitSize <= 0) {
     throw new StitchConversionError(
-      'Unit size must be positive',
+      'Enhetsstørrelsen må være større enn 0',
       'invalid_input',
       'unitSize'
     );
   }
   if (gauge.stitchesPerUnit <= 0) {
     throw new StitchConversionError(
-      'Stitches per unit must be positive',
+      'Antall masker må være større enn 0',
       'invalid_input',
       'stitchesPerUnit'
     );
@@ -145,14 +145,14 @@ export function calculateRowsPerInch(gauge: Gauge): number {
   const unitSize = gauge.unitSize ?? 4;
   if (unitSize <= 0) {
     throw new StitchConversionError(
-      'Unit size must be positive',
+      'Enhetsstørrelsen må være større enn 0',
       'invalid_input',
       'unitSize'
     );
   }
   if (gauge.rowsPerUnit <= 0) {
     throw new StitchConversionError(
-      'Rows per unit must be positive',
+      'Antall pinner må være større enn 0',
       'invalid_input',
       'rowsPerUnit'
     );
@@ -185,14 +185,14 @@ export function convertStitches(input: StitchConversionInput): StitchConversionR
   // Validate inputs
   if (originalStitches < 0) {
     throw new StitchConversionError(
-      'Original stitch count cannot be negative',
+      'Antall masker kan ikke være negativt',
       'invalid_input',
       'originalStitches'
     );
   }
   if (originalRows !== undefined && originalRows < 0) {
     throw new StitchConversionError(
-      'Original row count cannot be negative',
+      'Antall pinner kan ikke være negativt',
       'invalid_input',
       'originalRows'
     );
@@ -257,7 +257,7 @@ export function calculateStitchesForWidth(input: TargetWidthInput): TargetWidthR
 
   if (targetWidth <= 0) {
     throw new StitchConversionError(
-      'Target width must be positive',
+      'Ønsket bredde må være større enn 0',
       'invalid_input',
       'targetWidth'
     );
@@ -286,7 +286,7 @@ export function calculateRowsForLength(input: TargetLengthInput): TargetLengthRe
 
   if (targetLength <= 0) {
     throw new StitchConversionError(
-      'Target length must be positive',
+      'Ønsket lengde må være større enn 0',
       'invalid_input',
       'targetLength'
     );
@@ -319,13 +319,13 @@ export function estimateYarnYardage(
 ): number {
   if (stitches < 0 || rows < 0) {
     throw new StitchConversionError(
-      'Stitch and row counts cannot be negative',
+      'Antall masker og pinner kan ikke være negativt',
       'invalid_input'
     );
   }
   if (yardsPerStitch <= 0) {
     throw new StitchConversionError(
-      'Yards per stitch must be positive',
+      'Garnforbruk per maske må være større enn 0',
       'invalid_input',
       'yardsPerStitch'
     );

@@ -4,54 +4,62 @@ import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@
 import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Crochet Hat Size Calculator - Hat Dimensions',
-  description: 'Calculate crochet hat dimensions from head circumference. Get crown diameter, hat height, and yarn estimates for beanies, slouchy hats, and more.',
-  keywords: ['crochet hat calculator', 'hat size chart', 'beanie dimensions', 'crown diameter', 'crochet sizing'],
+  title: 'Hekle lue – gratis kalkulator på nett',
+  description: 'Regn ut mål til hekla luer ut fra hodeomkrets. Gratis og uten registrering.',
+  keywords: ['hekle lue', 'lue', 'hodeomkrets', 'størrelse', 'hekling'],
   alternates: { canonical: '/calculators/crafts/crochet-hat-calculator' },
+  openGraph: {
+    title: 'Hekle lue',
+    description: 'Regn ut mål til hekla luer ut fra hodeomkrets',
+    url: '/calculators/crafts/crochet-hat-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Crochet Hat Size Calculator',
-  description: 'Calculate crochet hat dimensions from head circumference',
+  name: 'Hekle lue',
+  description: 'Regn ut mål til hekla luer ut fra hodeomkrets',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Measure head', text: 'Measure head circumference around the widest part, just above the ears.' },
-  { name: 'Choose size method', text: 'Use custom measurement or select from standard size chart.' },
-  { name: 'Select hat style', text: 'Choose beanie, slouchy, fitted, or earflap style.' },
-  { name: 'Adjust ease', text: 'Set negative ease (10% is standard for a snug fit).' },
-  { name: 'Get dimensions', text: 'View crown diameter, hat circumference, and height for your project.' },
+  { name: 'Mål hodet', text: 'Mål rundt hodet over ørene og pannen, i cm.' },
+  { name: 'Velg luemodell', text: 'Vanlig lue, slouchy, tettsittende eller med ørelapper.' },
+  { name: 'Velg negativ ease', text: 'Lua heklet litt mindre enn hodet sitter bedre. Rundt 10 % er vanlig.' },
+  { name: 'Les av målene', text: 'Se diameter på bunnen, omkrets, høyde og antall felleomganger.' },
 ];
 
 const faqs = [
-  { question: 'What is negative ease?', answer: 'Negative ease means the hat is slightly smaller than the head measurement. This ensures a snug fit since yarn stretches. 10% is standard for most hats.' },
-  { question: 'How do I measure head circumference?', answer: 'Wrap a measuring tape around the head at the widest point, typically just above the ears and eyebrows. Keep the tape snug but not tight.' },
-  { question: 'What is crown diameter?', answer: 'Crown diameter is how wide your flat circle needs to be before you start the sides. It\'s calculated from the hat circumference using π.' },
-  { question: 'How much yarn do I need?', answer: 'An adult beanie typically needs 150-250 yards of worsted weight yarn. Bulky yarn uses less yardage. See the yarn estimates in the results.' },
-  { question: 'Why is my hat too small/big?', answer: 'Check your gauge! If your stitches are tighter than the pattern, your hat will be smaller. Always make a gauge swatch and adjust hook size as needed.' },
+  { question: 'Hva er negativ ease?', answer: 'At lua er litt mindre enn hodet, slik at den sitter godt. Heklet stoff gir etter, så 5–15 % er vanlig.' },
+  { question: 'Hvordan måler jeg hodet?', answer: 'Mål med målebånd rundt hodet der lua skal sitte, vanligvis over øyenbrynene og rett over ørene.' },
+  { question: 'Hvordan bruker jeg diameteren på bunnen?', answer: 'Hekle en flat sirkel til den har denne diameteren, og hekle deretter rett opp til du når ønsket høyde.' },
+  { question: 'Hvor mye garn trenger jeg?', answer: 'Velg standardstørrelse for å se et grovt overslag i meter. Forbruket varierer med garn og fasthet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/crafts/yarn-substitution-helper', title: 'Yarn Substitution', description: 'Calculate yarn substitutions.' },
-  { href: '/calculators/crafts/knitting-stitch-converter', title: 'Stitch Converter', description: 'Convert between gauges.' },
+  { href: '/calculators/crafts/yarn-substitution-helper', title: 'Garnbytte', description: 'Regn ut hvor mye garn du trenger når du bytter garn i en oppskrift' },
+  { href: '/calculators/crafts/knitting-stitch-converter', title: 'Strikkeoppskrift til din strikkefasthet', description: 'Regn om oppskriften til din strikkefasthet og finn antall masker å legge opp' },
+  { href: '/calculators/crafts/socks-size-calculator', title: 'Sokkestørrelse', description: 'Regn ut mål og maskeantall til sokker ut fra fotmål' },
 ];
 
 const sizeChart = [
-  { age: 'Preemie', circ: '12"', height: '4.5"', crown: '3.4"' },
-  { age: 'Newborn', circ: '14"', height: '5"', crown: '4.0"' },
-  { age: 'Baby 3-6m', circ: '16"', height: '5.5"', crown: '4.6"' },
-  { age: 'Baby 6-12m', circ: '18"', height: '6"', crown: '5.2"' },
-  { age: 'Toddler', circ: '19"', height: '6.5"', crown: '5.4"' },
-  { age: 'Child', circ: '20"', height: '7"', crown: '5.7"' },
-  { age: 'Teen', circ: '21"', height: '7.5"', crown: '6.0"' },
-  { age: 'Adult S', circ: '21.5"', height: '8"', crown: '6.2"' },
-  { age: 'Adult M', circ: '22.5"', height: '8.5"', crown: '6.4"' },
-  { age: 'Adult L', circ: '24"', height: '9"', crown: '6.9"' },
+  { age: 'Prematur', circ: '30 cm', height: '12,0 cm', crown: '8,6 cm' },
+  { age: 'Nyfødt', circ: '36 cm', height: '14,4 cm', crown: '10,3 cm' },
+  { age: 'Baby 3–6 mnd', circ: '41 cm', height: '16,4 cm', crown: '11,7 cm' },
+  { age: 'Baby 6–12 mnd', circ: '46 cm', height: '18,4 cm', crown: '13,2 cm' },
+  { age: 'Småbarn', circ: '48 cm', height: '19,2 cm', crown: '13,8 cm' },
+  { age: 'Barn', circ: '51 cm', height: '20,4 cm', crown: '14,6 cm' },
+  { age: 'Ungdom', circ: '53 cm', height: '21,2 cm', crown: '15,2 cm' },
+  { age: 'Voksen S', circ: '55 cm', height: '22,0 cm', crown: '15,8 cm' },
+  { age: 'Voksen M', circ: '57 cm', height: '22,8 cm', crown: '16,3 cm' },
+  { age: 'Voksen L', circ: '61 cm', height: '24,4 cm', crown: '17,5 cm' },
 ];
 
 export default function CrochetHatCalculatorPage() {
@@ -61,27 +69,27 @@ export default function CrochetHatCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="crochet-hat-calculator"
-          title="Crochet Hat Size Calculator"
-          description="Calculate hat dimensions from head circumference. Get crown diameter, hat height, and yarn estimates for your crochet project."
+          title="Hekle lue"
+          description="Regn ut diameter, omkrets og høyde på heklet lue ut fra hodeomkretsen. Mål i cm. Gratis og uten registrering."
           colorClass="bg-amber-100 text-amber-600"
         />
 
-        <section aria-label="Crochet Hat Size Calculator">
+        <section aria-label="Hekle lue">
           <CrochetHatCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Standard Hat Size Chart</h2>
+          <h2 className="text-xl font-semibold mb-4">Standard hodeomkrets og luemål</h2>
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b bg-muted/50">
-                      <th className="text-left py-3 px-4 font-medium">Age/Size</th>
-                      <th className="text-center py-3 px-4 font-medium">Head Circ.</th>
-                      <th className="text-center py-3 px-4 font-medium">Hat Height</th>
-                      <th className="text-center py-3 px-4 font-medium">Crown Dia.</th>
+                      <th className="text-left py-3 px-4 font-medium">Alder / størrelse</th>
+                      <th className="text-center py-3 px-4 font-medium">Hodeomkrets</th>
+                      <th className="text-center py-3 px-4 font-medium">Luehøyde</th>
+                      <th className="text-center py-3 px-4 font-medium">Diameter på bunnen</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -99,39 +107,39 @@ export default function CrochetHatCalculatorPage() {
             </CardContent>
           </Card>
           <p className="text-sm text-muted-foreground mt-2">
-            * Crown diameter calculated with 10% negative ease
+            * Diameter på bunnen er regnet med 10 % negativ ease. Mål og tall er veiledende.
           </p>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Hat Style Guide</h2>
+          <h2 className="text-xl font-semibold mb-4">Luemodeller</h2>
           <Card>
             <CardContent className="p-6 space-y-4">
               <div>
-                <h3 className="font-medium mb-2">Beanie (Standard)</h3>
+                <h3 className="font-medium mb-2">Vanlig lue</h3>
                 <p className="text-sm text-muted-foreground">
-                  Classic fitted hat that covers the ears. Uses 10% negative ease for a snug fit.
+                  Klassisk lue som dekker ørene. Bruker 10 % negativ ease for en tettsittende passform.
                 </p>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Slouchy</h3>
                 <p className="text-sm text-muted-foreground">
-                  Relaxed fit with extra length that slouches at the back. Uses less negative ease (5%) 
-                  and adds 2&quot; to height.
+                  Løs lue med ekstra lengde som faller bakover. Bruker mindre negativ ease (5 %) 
+                  og legger til 5 cm i høyden.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium mb-2">Fitted</h3>
+                <h3 className="font-medium mb-2">Tettsittende</h3>
                 <p className="text-sm text-muted-foreground">
-                  Very snug fit, often worn as a skull cap. Uses more negative ease (15%) 
-                  and slightly shorter height.
+                  Veldig tett passform, ofte brukt som skalle- eller sportslue. Bruker mer negativ ease (15 %) 
+                  og er litt lavere.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium mb-2">Earflap</h3>
+                <h3 className="font-medium mb-2">Med ørelapper</h3>
                 <p className="text-sm text-muted-foreground">
-                  Standard beanie with added earflaps. Calculate main hat dimensions, 
-                  then add flaps separately.
+                  Vanlig lue med ørelapper. Regn ut målene på selve lua først, 
+                  og hekle ørelappene for seg.
                 </p>
               </div>
             </CardContent>

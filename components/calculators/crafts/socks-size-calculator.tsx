@@ -8,72 +8,59 @@ import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
-  calculateSockDimensions,
-  estimateYarnRequirements,
-  SOCK_SIZE_CHART,
-  type SockResult,
+  calculateSocksMetric,
+  type SockMetricResult,
 } from '@/lib/calculations/crafts';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const socksSizeSchema = z.object({
-  footLength: z.number().min(5).max(15),
-  footCircumference: z.number().min(5).max(15),
-  ankleCircumference: z.number().min(5).max(15),
-  legLength: z.number().min(2).max(20),
-  unit: z.enum(['inches', 'cm']),
-  stitchesPerInch: z.number().min(4).max(12),
-  rowsPerInch: z.number().min(4).max(16),
+  footLength: z.number().min(12).max(32),
+  footCircumference: z.number().min(12).max(40),
+  ankleCircumference: z.number().min(12).max(40),
+  legLength: z.number().min(5).max(50),
+  stitchesPer10cm: z.number().min(15).max(50),
+  rowsPer10cm: z.number().min(15).max(65),
   yarnWeight: z.enum(['fingering', 'sport', 'dk']),
 });
 
 type SocksSizeInputs = z.infer<typeof socksSizeSchema>;
 
-interface SocksSizeResults extends SockResult {
-  yarnEstimate: number;
-}
-
 const INITIAL_INPUTS: SocksSizeInputs = {
-  footLength: 9.5,
-  footCircumference: 9,
-  ankleCircumference: 8.5,
-  legLength: 6,
-  unit: 'inches',
-  stitchesPerInch: 8,
-  rowsPerInch: 10,
+  footLength: 24,
+  footCircumference: 23,
+  ankleCircumference: 22,
+  legLength: 15,
+  stitchesPer10cm: 32,
+  rowsPer10cm: 44,
   yarnWeight: 'fingering',
 };
 
-const UNIT_OPTIONS = [
-  { value: 'inches', label: 'Inches' },
-  { value: 'cm', label: 'Centimeters' },
-];
-
 const YARN_WEIGHT_OPTIONS = [
-  { value: 'fingering', label: 'Fingering (Sock Weight)' },
-  { value: 'sport', label: 'Sport Weight' },
-  { value: 'dk', label: 'DK Weight' },
+  { value: 'fingering', label: 'Sokkegarn (fingering)' },
+  { value: 'sport', label: 'Sportsgarn' },
+  { value: 'dk', label: 'Lett garn (DK)' },
 ];
 
-function calculateSocksSize(inputs: SocksSizeInputs): SocksSizeResults {
-  const result = calculateSockDimensions(
-    {
-      footLength: inputs.footLength,
-      footCircumference: inputs.footCircumference,
-      ankleCircumference: inputs.ankleCircumference,
-      legLength: inputs.legLength,
-      unit: inputs.unit,
-    },
-    {
-      stitchesPerInch: inputs.stitchesPerInch,
-      rowsPerInch: inputs.rowsPerInch,
-    }
-  );
+const YARN_WEIGHT_NAMES: Record<SocksSizeInputs['yarnWeight'], string> = {
+  fingering: 'sokkegarn',
+  sport: 'sportsgarn',
+  dk: 'lett garn (DK)',
+};
 
-  const yarnEstimate = estimateYarnRequirements(result, inputs.yarnWeight);
+function calculateSocksSize(inputs: SocksSizeInputs): SockMetricResult {
+  return calculateSocksMetric({
+    footLengthCm: inputs.footLength,
+    footCircumferenceCm: inputs.footCircumference,
+    ankleCircumferenceCm: inputs.ankleCircumference,
+    legLengthCm: inputs.legLength,
+    stitchesPer10cm: inputs.stitchesPer10cm,
+    rowsPer10cm: inputs.rowsPer10cm,
+    yarnWeight: inputs.yarnWeight,
+  });
+}
 
-  return {
-    ...result,
-    yarnEstimate,
-  };
+function cm(value: number): string {
+  return formatNumber(value, { maximumFractionDigits: 1 });
 }
 
 export function SocksSizeCalculator() {
@@ -86,7 +73,7 @@ export function SocksSizeCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<SocksSizeInputs, SocksSizeResults>({
+  } = useCalculator<SocksSizeInputs, SockMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: socksSizeSchema,
     calculate: calculateSocksSize,
@@ -97,14 +84,12 @@ export function SocksSizeCalculator() {
     calculate();
   }, [calculate]);
 
-  const unitLabel = inputs.unit === 'inches' ? 'in' : 'cm';
-
   return (
     <CalculatorBase
-      title="Socks Size Calculator"
-      description="Calculate sock dimensions and stitch counts from foot measurements"
-      formula="Cast On = Foot Circumference × Gauge × (1 - Negative Ease)"
-      formulaExplanation="Socks typically have 10% negative ease for a snug fit"
+      title="Sokkestørrelse"
+      description="Regn ut mål og maskeantall til sokker ut fra fotmålene dine"
+      formula="Opplegg = fotomkrets × maskefasthet × (1 − negativ ease)"
+      formulaExplanation="Sokker strikkes vanligvis 10 % mindre enn foten, slik at de sitter tett"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -115,73 +100,72 @@ export function SocksSizeCalculator() {
           <div className="space-y-4">
             {/* Size Info */}
             <div className="bg-primary/10 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-2">Shoe Size Equivalent</p>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div>
-                  <p className="text-xs text-muted-foreground">US</p>
-                  <p className="font-medium">{results.usSize}</p>
-                </div>
+              <p className="text-sm font-medium mb-2">Skostørrelse</p>
+              <div className="grid grid-cols-2 gap-2 text-center">
                 <div>
                   <p className="text-xs text-muted-foreground">EU</p>
-                  <p className="font-medium">{results.euSize}</p>
+                  <p className="font-medium">{formatNumber(results.euSize, { maximumFractionDigits: 1 })}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">UK</p>
-                  <p className="font-medium">{results.ukSize}</p>
+                  <p className="text-xs text-muted-foreground">Sokkestørrelse</p>
+                  <p className="font-medium">{results.sizeGroup}</p>
                 </div>
               </div>
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                Veiledende. Størrelsen kan variere litt mellom merker.
+              </p>
             </div>
 
             {/* Stitch Counts */}
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Cast On Stitches"
+                label="Masker å legge opp"
                 value={results.castOnStitches}
-                unit="sts"
+                unit="masker"
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Heel Stitches"
+                label="Masker i hælen"
                 value={results.heelStitches}
-                unit="sts"
+                unit="masker"
                 copyable
               />
               <ResultDisplay
-                label="Gusset Pickup"
+                label="Masker å plukke opp til kilen"
                 value={results.gussetPickupStitches}
-                unit="sts per side"
+                unit="masker per side"
                 copyable
               />
               <ResultDisplay
-                label="Toe End Stitches"
-                value={results.toeDecreaseStitches}
-                unit="sts"
+                label="Masker igjen i tåen"
+                value={results.toeStitches}
+                unit="masker"
                 copyable
               />
             </div>
 
             {/* Measurements */}
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Measurements</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Mål</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Foot Length to Toe"
-                  value={results.footLengthToToe}
-                  unit="in"
+                  label="Fotlengde til tåfellingen"
+                  value={results.footLengthToToeCm}
+                  unit="cm"
                 />
                 <ResultDisplay
-                  label="Heel Flap Length"
-                  value={results.heelFlapLength}
-                  unit="in"
+                  label="Lengde på hælstroppen"
+                  value={results.heelFlapLengthCm}
+                  unit="cm"
                 />
                 <ResultDisplay
-                  label="Leg Length"
-                  value={results.legLength}
-                  unit="in"
+                  label="Legglengde"
+                  value={results.legLengthCm}
+                  unit="cm"
                 />
                 <ResultDisplay
-                  label="Negative Ease"
+                  label="Negativ ease"
                   value={results.negativeEase}
                   unit="%"
                 />
@@ -191,48 +175,48 @@ export function SocksSizeCalculator() {
             {/* Yarn Estimate */}
             <div className="border-t pt-4">
               <ResultDisplay
-                label="Yarn Estimate (per pair)"
-                value={`~${results.yarnEstimate}`}
-                unit="yards"
+                label="Garnbehov (per par)"
+                value={`ca. ${formatNumber(results.yarnMeters, { maximumFractionDigits: 0 })}`}
+                unit="m"
                 highlight
               />
               <p className="text-xs text-muted-foreground mt-1">
-                Based on {inputs.yarnWeight} weight yarn
+                Basert på {YARN_WEIGHT_NAMES[inputs.yarnWeight]}
               </p>
             </div>
 
             {/* Visual Sock Diagram */}
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Sock Structure</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Oppbygging av sokken</p>
               <div className="flex justify-center">
                 <svg
                   viewBox="0 0 200 300"
                   className="w-40 h-60"
-                  aria-label="Sock dimensions diagram"
+                  aria-label="Skisse av sokkens deler og mål"
                 >
                   {/* Cuff */}
                   <rect x="50" y="10" width="100" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
-                  <text x="100" y="25" textAnchor="middle" className="text-[8px] fill-current">Cuff</text>
+                  <text x="100" y="25" textAnchor="middle" className="text-[8px] fill-current">Mansjett</text>
 
                   {/* Leg */}
                   <rect x="50" y="30" width="100" height="80" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
-                  <text x="100" y="75" textAnchor="middle" className="text-[8px] fill-current">{results.legLength}" Leg</text>
+                  <text x="100" y="75" textAnchor="middle" className="text-[8px] fill-current">{cm(results.legLengthCm)} cm legg</text>
 
                   {/* Heel flap */}
                   <path d="M 50 110 L 50 150 Q 50 180 80 180 L 120 180 Q 150 180 150 150 L 150 110" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
-                  <text x="100" y="145" textAnchor="middle" className="text-[8px] fill-current">Heel</text>
+                  <text x="100" y="145" textAnchor="middle" className="text-[8px] fill-current">Hæl</text>
 
                   {/* Foot */}
                   <rect x="50" y="180" width="100" height="60" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
-                  <text x="100" y="215" textAnchor="middle" className="text-[8px] fill-current">{results.footLengthToToe}" Foot</text>
+                  <text x="100" y="215" textAnchor="middle" className="text-[8px] fill-current">{cm(results.footLengthToToeCm)} cm fot</text>
 
                   {/* Toe */}
                   <path d="M 50 240 L 50 260 Q 50 290 100 290 Q 150 290 150 260 L 150 240" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
-                  <text x="100" y="270" textAnchor="middle" className="text-[8px] fill-current">Toe</text>
+                  <text x="100" y="270" textAnchor="middle" className="text-[8px] fill-current">Tå</text>
 
                   {/* Stitch count labels */}
-                  <text x="160" y="25" className="text-[7px] fill-current text-muted-foreground">{results.castOnStitches} sts</text>
-                  <text x="160" y="165" className="text-[7px] fill-current text-muted-foreground">{results.heelStitches} sts</text>
+                  <text x="160" y="25" className="text-[7px] fill-current text-muted-foreground">{results.castOnStitches} masker</text>
+                  <text x="160" y="165" className="text-[7px] fill-current text-muted-foreground">{results.heelStitches} masker</text>
                 </svg>
               </div>
             </div>
@@ -240,36 +224,28 @@ export function SocksSizeCalculator() {
         )
       }
     >
-      <SelectInput
-        id="unit"
-        label="Measurement Unit"
-        value={inputs.unit}
-        onChange={(v) => setInput('unit', v as 'inches' | 'cm')}
-        options={UNIT_OPTIONS}
-      />
-
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="footLength"
-          label="Foot Length"
+          label="Fotlengde"
           value={inputs.footLength}
           onChange={(v) => setInput('footLength', v)}
-          min={5}
-          max={15}
-          step={0.25}
-          unit={unitLabel}
+          min={12}
+          max={32}
+          step={0.5}
+          unit="cm"
           error={errors.footLength}
           required
         />
         <NumberInput
           id="footCircumference"
-          label="Foot Circumference"
+          label="Fotomkrets (over tåleddene)"
           value={inputs.footCircumference}
           onChange={(v) => setInput('footCircumference', v)}
-          min={5}
-          max={15}
-          step={0.25}
-          unit={unitLabel}
+          min={12}
+          max={40}
+          step={0.5}
+          unit="cm"
           error={errors.footCircumference}
           required
         />
@@ -278,51 +254,51 @@ export function SocksSizeCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="ankleCircumference"
-          label="Ankle Circumference"
+          label="Ankelomkrets"
           value={inputs.ankleCircumference}
           onChange={(v) => setInput('ankleCircumference', v)}
-          min={5}
-          max={15}
-          step={0.25}
-          unit={unitLabel}
+          min={12}
+          max={40}
+          step={0.5}
+          unit="cm"
           error={errors.ankleCircumference}
         />
         <NumberInput
           id="legLength"
-          label="Desired Leg Length"
+          label="Ønsket legglengde"
           value={inputs.legLength}
           onChange={(v) => setInput('legLength', v)}
-          min={2}
-          max={20}
-          step={0.5}
-          unit={unitLabel}
+          min={5}
+          max={50}
+          step={1}
+          unit="cm"
           error={errors.legLength}
         />
       </div>
 
       <div className="border-t pt-4 mt-4">
-        <p className="text-sm font-medium mb-3">Your Gauge (stitches per inch)</p>
+        <p className="text-sm font-medium mb-3">Din strikkefasthet (per 10 cm)</p>
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
-            id="stitchesPerInch"
-            label="Stitches/inch"
-            value={inputs.stitchesPerInch}
-            onChange={(v) => setInput('stitchesPerInch', v)}
-            min={4}
-            max={12}
-            step={0.5}
-            error={errors.stitchesPerInch}
+            id="stitchesPer10cm"
+            label="Masker"
+            value={inputs.stitchesPer10cm}
+            onChange={(v) => setInput('stitchesPer10cm', v)}
+            min={15}
+            max={50}
+            step={1}
+            error={errors.stitchesPer10cm}
             required
           />
           <NumberInput
-            id="rowsPerInch"
-            label="Rows/inch"
-            value={inputs.rowsPerInch}
-            onChange={(v) => setInput('rowsPerInch', v)}
-            min={4}
-            max={16}
-            step={0.5}
-            error={errors.rowsPerInch}
+            id="rowsPer10cm"
+            label="Pinner"
+            value={inputs.rowsPer10cm}
+            onChange={(v) => setInput('rowsPer10cm', v)}
+            min={15}
+            max={65}
+            step={1}
+            error={errors.rowsPer10cm}
             required
           />
         </div>
@@ -330,7 +306,7 @@ export function SocksSizeCalculator() {
 
       <SelectInput
         id="yarnWeight"
-        label="Yarn Weight"
+        label="Garntykkelse"
         value={inputs.yarnWeight}
         onChange={(v) => setInput('yarnWeight', v as 'fingering' | 'sport' | 'dk')}
         options={YARN_WEIGHT_OPTIONS}

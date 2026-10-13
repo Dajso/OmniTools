@@ -8,14 +8,14 @@ import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
-  calculateFabricYardage,
-  calculateLiningYardage,
-  calculateInterfacingYardage,
+  calculateFabricMetersMetric,
+  FABRIC_WIDTH_OPTIONS_CM,
   type GarmentType,
   type SizeCategory,
   type FabricWidth,
-  type FabricYardageResult,
+  type FabricYardageMetricResult,
 } from '@/lib/calculations/crafts';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const fabricYardageSchema = z.object({
   garmentType: z.string(),
@@ -33,11 +33,6 @@ type FabricYardageInputs = {
   patternRepeat: number;
 };
 
-interface ExtendedResult extends FabricYardageResult {
-  liningYards: number;
-  interfacingYards: number;
-}
-
 const INITIAL_INPUTS: FabricYardageInputs = {
   garmentType: 'dress-midi',
   size: 'm',
@@ -47,18 +42,18 @@ const INITIAL_INPUTS: FabricYardageInputs = {
 };
 
 const GARMENT_OPTIONS = [
-  { value: 'dress-short', label: 'Short Dress' },
-  { value: 'dress-midi', label: 'Midi Dress' },
-  { value: 'dress-maxi', label: 'Maxi Dress' },
-  { value: 'skirt-short', label: 'Short Skirt' },
-  { value: 'skirt-midi', label: 'Midi Skirt' },
-  { value: 'skirt-maxi', label: 'Maxi Skirt' },
-  { value: 'pants', label: 'Pants' },
+  { value: 'dress-short', label: 'Kort kjole' },
+  { value: 'dress-midi', label: 'Midikjole' },
+  { value: 'dress-maxi', label: 'Maxikjole' },
+  { value: 'skirt-short', label: 'Kort skjørt' },
+  { value: 'skirt-midi', label: 'Midiskjørt' },
+  { value: 'skirt-maxi', label: 'Langt skjørt' },
+  { value: 'pants', label: 'Bukse' },
   { value: 'shorts', label: 'Shorts' },
-  { value: 'blouse', label: 'Blouse' },
-  { value: 'shirt', label: 'Shirt' },
-  { value: 'jacket', label: 'Jacket' },
-  { value: 'coat', label: 'Coat' },
+  { value: 'blouse', label: 'Bluse' },
+  { value: 'shirt', label: 'Skjorte' },
+  { value: 'jacket', label: 'Jakke' },
+  { value: 'coat', label: 'Kåpe' },
 ];
 
 const SIZE_OPTIONS = [
@@ -71,17 +66,26 @@ const SIZE_OPTIONS = [
   { value: '3xl', label: '3XL' },
 ];
 
-const FABRIC_WIDTH_OPTIONS = [
-  { value: '36', label: '36" (Quilting Cotton)' },
-  { value: '45', label: '45" (Standard)' },
-  { value: '54', label: '54" (Home Dec)' },
-  { value: '60', label: '60" (Knits/Wide)' },
-];
+const FABRIC_WIDTH_LABELS: Record<number, string> = {
+  36: 'smalt stoff, f.eks. kvalitetsbomull',
+  45: 'vanlig bredde',
+  54: 'interiørstoff',
+  60: 'jersey og bredt stoff',
+};
+
+const FABRIC_WIDTH_OPTIONS = FABRIC_WIDTH_OPTIONS_CM.map((w) => ({
+  value: String(w.value),
+  label: `${w.cm} cm (${FABRIC_WIDTH_LABELS[w.value]})`,
+}));
 
 const NAP_OPTIONS = [
-  { value: 'false', label: 'No (Solid/Non-directional)' },
-  { value: 'true', label: 'Yes (Nap/Directional Print)' },
+  { value: 'false', label: 'Nei (ensfarget eller uten retning)' },
+  { value: 'true', label: 'Ja (luv eller mønster med retning)' },
 ];
+
+function meters(value: number): string {
+  return formatNumber(value, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 export function FabricYardageCalculator() {
   const {
@@ -93,26 +97,17 @@ export function FabricYardageCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<FabricYardageInputs, ExtendedResult>({
+  } = useCalculator<FabricYardageInputs, FabricYardageMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: fabricYardageSchema as unknown as z.ZodType<FabricYardageInputs>,
     calculate: (formInputs) => {
-      const result = calculateFabricYardage({
+      return calculateFabricMetersMetric({
         garmentType: formInputs.garmentType,
         size: formInputs.size,
         fabricWidth: formInputs.fabricWidth,
         hasNap: formInputs.hasNap,
-        patternRepeat: formInputs.patternRepeat,
+        patternRepeatCm: formInputs.patternRepeat,
       });
-
-      const liningYards = calculateLiningYardage(result.yardsNeeded, formInputs.garmentType);
-      const interfacingYards = calculateInterfacingYardage(formInputs.garmentType, formInputs.size);
-
-      return {
-        ...result,
-        liningYards,
-        interfacingYards,
-      };
     },
     storageKey: 'fabric-yardage-calculator',
   });
@@ -123,10 +118,10 @@ export function FabricYardageCalculator() {
 
   return (
     <CalculatorBase
-      title="Fabric Yardage Calculator"
-      description="Calculate how much fabric you need for your sewing project"
-      formula="Yardage = Base × Width Factor × (1 + Nap%) + Pattern Allowance"
-      formulaExplanation="Base yardage adjusted for fabric width, directional patterns, and pattern matching"
+      title="Stoffbehov"
+      description="Regn ut hvor mye stoff du trenger til et syprosjekt"
+      formula="Meter = grunnmengde × breddefaktor × (1 + luv) + mønstertillegg"
+      formulaExplanation="Grunnmengden justeres for stoffbredde, retning i stoffet og mønsterraport"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -136,60 +131,52 @@ export function FabricYardageCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Main Fabric Needed"
-              value={results.yardsNeeded}
-              unit="yards"
+              label="Hovedstoff"
+              value={formatNumber(results.metersNeeded, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+              unit="m"
               highlight
               copyable
             />
 
-            <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay
-                label="In Meters"
-                value={results.metersNeeded}
-                unit="m"
-              />
-              <ResultDisplay
-                label="In Inches"
-                value={results.inchesNeeded}
-                unit="in"
-              />
-            </div>
+            <p className="text-xs text-muted-foreground">
+              Rundet opp til nærmeste 10 cm. Tallene er veiledende, så sjekk mønsterets egen
+              stoffoppgave når du har den.
+            </p>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Breakdown</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Slik er det regnet ut</p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Base Yardage</span>
-                  <span>{results.baseYardage} yards</span>
+                  <span className="text-muted-foreground">Grunnmengde</span>
+                  <span>{meters(results.baseMeters)}&nbsp;m</span>
                 </div>
-                {results.napAllowance > 0 && (
+                {results.napMeters > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Nap Allowance (+15%)</span>
-                    <span>+{results.napAllowance} yards</span>
+                    <span className="text-muted-foreground">Tillegg for retning (+15&nbsp;%)</span>
+                    <span>+{meters(results.napMeters)}&nbsp;m</span>
                   </div>
                 )}
-                {results.patternAllowance > 0 && (
+                {results.patternMeters > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Pattern Matching</span>
-                    <span>+{results.patternAllowance} yards</span>
+                    <span className="text-muted-foreground">Tillegg for mønsterraport</span>
+                    <span>+{meters(results.patternMeters)}&nbsp;m</span>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Additional Materials</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Annet materiell</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Lining (if needed)"
-                  value={results.liningYards}
-                  unit="yards"
+                  label="Fôr (om du vil ha det)"
+                  value={formatNumber(results.liningMeters, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                  unit="m"
                 />
                 <ResultDisplay
-                  label="Interfacing"
-                  value={results.interfacingYards}
-                  unit="yards"
+                  label="Vlieselin (ca. 50 cm bredt)"
+                  value={formatNumber(results.interfacingMeters, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                  unit="m"
                 />
               </div>
             </div>
@@ -199,7 +186,7 @@ export function FabricYardageCalculator() {
     >
       <SelectInput
         id="garmentType"
-        label="Garment Type"
+        label="Type plagg"
         value={inputs.garmentType}
         onChange={(v) => setInput('garmentType', v as GarmentType)}
         options={GARMENT_OPTIONS}
@@ -207,7 +194,7 @@ export function FabricYardageCalculator() {
 
       <SelectInput
         id="size"
-        label="Size"
+        label="Størrelse"
         value={inputs.size}
         onChange={(v) => setInput('size', v as SizeCategory)}
         options={SIZE_OPTIONS}
@@ -215,7 +202,7 @@ export function FabricYardageCalculator() {
 
       <SelectInput
         id="fabricWidth"
-        label="Fabric Width"
+        label="Stoffbredde"
         value={String(inputs.fabricWidth)}
         onChange={(v) => setInput('fabricWidth', Number(v) as FabricWidth)}
         options={FABRIC_WIDTH_OPTIONS}
@@ -223,7 +210,7 @@ export function FabricYardageCalculator() {
 
       <SelectInput
         id="hasNap"
-        label="Directional Fabric?"
+        label="Stoff med retning?"
         value={String(inputs.hasNap)}
         onChange={(v) => setInput('hasNap', v === 'true')}
         options={NAP_OPTIONS}
@@ -231,13 +218,13 @@ export function FabricYardageCalculator() {
 
       <NumberInput
         id="patternRepeat"
-        label="Pattern Repeat"
+        label="Mønsterraport"
         value={inputs.patternRepeat}
         onChange={(v) => setInput('patternRepeat', v)}
         min={0}
-        max={36}
-        step={0.5}
-        unit="inches"
+        max={90}
+        step={1}
+        unit="cm"
         error={errors.patternRepeat}
       />
     </CalculatorBase>

@@ -104,7 +104,7 @@ export function calculateInnerRadius(
 ): number {
   if (waistMeasurement <= 0) {
     throw new CircleSkirtCalculationError(
-      'Waist measurement must be positive',
+      'Midjemålet må være større enn 0',
       'invalid_input',
       'waistMeasurement'
     );
@@ -131,7 +131,7 @@ export function calculateOuterRadius(
 ): number {
   if (skirtLength <= 0) {
     throw new CircleSkirtCalculationError(
-      'Skirt length must be positive',
+      'Skjørtlengden må være større enn 0',
       'invalid_input',
       'skirtLength'
     );
@@ -163,7 +163,7 @@ export function calculateCircumference(radius: number): number {
 export function calculateRadiusFromCircumference(circumference: number): number {
   if (circumference <= 0) {
     throw new CircleSkirtCalculationError(
-      'Circumference must be positive',
+      'Omkretsen må være større enn 0',
       'invalid_input',
       'circumference'
     );
@@ -200,28 +200,28 @@ export function calculateCircleSkirt(input: CircleSkirtInput): CircleSkirtResult
   // Validate inputs
   if (waistMeasurement <= 0) {
     throw new CircleSkirtCalculationError(
-      'Waist measurement must be positive',
+      'Midjemålet må være større enn 0',
       'invalid_input',
       'waistMeasurement'
     );
   }
   if (skirtLength <= 0) {
     throw new CircleSkirtCalculationError(
-      'Skirt length must be positive',
+      'Skjørtlengden må være større enn 0',
       'invalid_input',
       'skirtLength'
     );
   }
   if (seamAllowance < 0) {
     throw new CircleSkirtCalculationError(
-      'Seam allowance cannot be negative',
+      'Sømmonn kan ikke være negativt',
       'invalid_input',
       'seamAllowance'
     );
   }
   if (hemAllowance < 0) {
     throw new CircleSkirtCalculationError(
-      'Hem allowance cannot be negative',
+      'Fald kan ikke være negativt',
       'invalid_input',
       'hemAllowance'
     );
@@ -291,14 +291,14 @@ export function calculateCircleSkirt(input: CircleSkirtInput): CircleSkirtResult
 export function calculateCylinderVolume(radius: number, height: number): number {
   if (radius <= 0) {
     throw new CircleSkirtCalculationError(
-      'Radius must be positive',
+      'Radius må være større enn 0',
       'invalid_input',
       'radius'
     );
   }
   if (height <= 0) {
     throw new CircleSkirtCalculationError(
-      'Height must be positive',
+      'Høyden må være større enn 0',
       'invalid_input',
       'height'
     );

@@ -8,17 +8,18 @@ import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
-  calculateCircleSkirt,
+  calculateCircleSkirtMetric,
   type SkirtType,
-  type CircleSkirtResult,
+  type CircleSkirtMetricResult,
 } from '@/lib/calculations/crafts';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const circleSkirtSchema = z.object({
-  waistMeasurement: z.number().min(10).max(80),
-  skirtLength: z.number().min(5).max(60),
+  waistMeasurement: z.number().min(25).max(200),
+  skirtLength: z.number().min(10).max(150),
   skirtType: z.string(),
-  seamAllowance: z.number().min(0).max(2),
-  hemAllowance: z.number().min(0).max(4),
+  seamAllowance: z.number().min(0).max(5),
+  hemAllowance: z.number().min(0).max(10),
 });
 
 type CircleSkirtInputs = {
@@ -30,18 +31,18 @@ type CircleSkirtInputs = {
 };
 
 const INITIAL_INPUTS: CircleSkirtInputs = {
-  waistMeasurement: 28,
-  skirtLength: 24,
+  waistMeasurement: 70,
+  skirtLength: 60,
   skirtType: 'full',
-  seamAllowance: 0.5,
-  hemAllowance: 1,
+  seamAllowance: 1.5,
+  hemAllowance: 2.5,
 };
 
 const SKIRT_TYPE_OPTIONS = [
-  { value: 'full', label: 'Full Circle (360°)' },
-  { value: 'three-quarter', label: '3/4 Circle (270°)' },
-  { value: 'half', label: 'Half Circle (180°)' },
-  { value: 'quarter', label: 'Quarter Circle (90°)' },
+  { value: 'full', label: 'Hel sirkel (360°)' },
+  { value: 'three-quarter', label: '3/4 sirkel (270°)' },
+  { value: 'half', label: 'Halv sirkel (180°)' },
+  { value: 'quarter', label: 'Kvart sirkel (90°)' },
 ];
 
 export function CircleSkirtCalculator() {
@@ -54,16 +55,16 @@ export function CircleSkirtCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<CircleSkirtInputs, CircleSkirtResult>({
+  } = useCalculator<CircleSkirtInputs, CircleSkirtMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: circleSkirtSchema as unknown as z.ZodType<CircleSkirtInputs>,
     calculate: (formInputs) => {
-      return calculateCircleSkirt({
-        waistMeasurement: formInputs.waistMeasurement,
-        skirtLength: formInputs.skirtLength,
+      return calculateCircleSkirtMetric({
+        waistCm: formInputs.waistMeasurement,
+        lengthCm: formInputs.skirtLength,
         skirtType: formInputs.skirtType,
-        seamAllowance: formInputs.seamAllowance,
-        hemAllowance: formInputs.hemAllowance,
+        seamAllowanceCm: formInputs.seamAllowance,
+        hemAllowanceCm: formInputs.hemAllowance,
       });
     },
     storageKey: 'circle-skirt-calculator',
@@ -75,19 +76,19 @@ export function CircleSkirtCalculator() {
 
   const getSkirtDescription = (type: SkirtType) => {
     switch (type) {
-      case 'full': return 'Cut as one piece with a center back seam';
-      case 'half': return 'Cut 2 half-circle pieces';
-      case 'quarter': return 'Cut 4 quarter-circle pieces';
-      case 'three-quarter': return 'Cut as one piece with a center back opening';
+      case 'full': return 'Klippes som én hel sirkel (stoffet brettes i fire) med åpning midt bak';
+      case 'half': return 'Klippes som én halvsirkel, eller som to kvartsirkler (for og bak) med sidesømmer';
+      case 'quarter': return 'Klippes som én kvartsirkel, med søm midt bak';
+      case 'three-quarter': return 'Klippes som en 3/4-sirkel (270°) med åpning midt bak';
     }
   };
 
   return (
     <CalculatorBase
-      title="Circle Skirt Calculator"
-      description="Calculate the inner radius and fabric requirements for circle skirts"
-      formula="Inner Radius = Waist ÷ (2π) × Multiplier"
-      formulaExplanation="The multiplier varies by skirt type: Full=1, Half=2, Quarter=4"
+      title="Sirkelskjørt"
+      description="Regn ut radius og stoffbehov til sirkelskjørt"
+      formula="Radius i midjen = midjemål ÷ (2π) × faktor"
+      formulaExplanation="Faktoren avhenger av skjørtet: hel sirkel = 1, halv = 2, kvart = 4"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -98,83 +99,81 @@ export function CircleSkirtCalculator() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Inner Radius (Waist)"
-                value={results.innerRadius}
-                unit="inches"
+                label="Radius i midjen (klippes)"
+                value={results.innerCutRadiusCm}
+                unit="cm"
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Outer Radius (Hem)"
-                value={results.outerRadius}
-                unit="inches"
+                label="Radius i fald (klippes)"
+                value={results.outerCutRadiusCm}
+                unit="cm"
                 highlight
                 copyable
               />
             </div>
 
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-2">Cutting Instructions</p>
+              <p className="text-sm font-medium mb-2">Slik klipper du</p>
               <p className="text-sm text-muted-foreground">
                 {getSkirtDescription(inputs.skirtType)}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                Number of panels: {results.numberOfPanels}
+                Radiene måles fra sirkelens midtpunkt. Sømmonnen i midjen er trukket fra, og
+                faldet er lagt til i radien ved nedre kant.
               </p>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Fabric Requirements</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Stoffbehov</p>
               <div className="grid grid-cols-2 gap-3">
-                <ResultDisplay
-                  label="Minimum Width"
-                  value={results.fabricWidthNeeded}
-                  unit="inches"
-                />
-                <ResultDisplay
-                  label="Minimum Length"
-                  value={results.fabricLengthNeeded}
-                  unit="inches"
-                />
+                {results.fabric.map((f) => (
+                  <ResultDisplay
+                    key={f.widthCm}
+                    label={`Stoff, ${f.widthCm} cm bredt`}
+                    value={f.meters === null ? 'For smalt' : formatNumber(f.meters, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                    unit={f.meters === null ? undefined : 'm'}
+                  />
+                ))}
               </div>
+              {results.fabric.some((f) => f.needsSeams && f.meters !== null) && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  På smalt stoff må stykkene skjøtes. Regnestykket er da laget for flere mindre
+                  stykker, og du får søm i skjørtet.
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-3 mt-3">
                 <ResultDisplay
-                  label="For 45&quot; Fabric"
-                  value={results.fabricYards45}
-                  unit="yards"
+                  label="Minste bredde, ett stykke"
+                  value={results.minWidthCm}
+                  unit="cm"
                 />
                 <ResultDisplay
-                  label="For 60&quot; Fabric"
-                  value={results.fabricYards60}
-                  unit="yards"
+                  label="Minste lengde, ett stykke"
+                  value={results.minLengthCm}
+                  unit="cm"
                 />
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Circumferences</p>
-              <div className="grid grid-cols-2 gap-3">
-                <ResultDisplay
-                  label="Waist Circumference"
-                  value={results.waistCircumference}
-                  unit="inches"
-                />
-                <ResultDisplay
-                  label="Hem Circumference"
-                  value={results.hemCircumference}
-                  unit="inches"
-                />
-              </div>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Mål</p>
+              <ResultDisplay
+                label="Vidde i nedre kant (ferdig)"
+                value={results.hemWidthCm}
+                unit="cm"
+              />
             </div>
 
             {/* Visual representation */}
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Visual Guide</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Skisse</p>
               <div className="flex justify-center">
                 <svg
                   viewBox="0 0 200 200"
                   className="w-48 h-48"
-                  aria-label="Circle skirt cutting diagram"
+                  aria-label="Skisse av sirkelskjørt med radier"
                 >
                   {/* Outer circle */}
                   <circle
@@ -190,7 +189,7 @@ export function CircleSkirtCalculator() {
                   <circle
                     cx="100"
                     cy="100"
-                    r={80 * (results.innerRadius / results.outerRadius)}
+                    r={80 * (results.innerCutRadiusCm / results.outerCutRadiusCm)}
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -199,10 +198,10 @@ export function CircleSkirtCalculator() {
                   />
                   {/* Labels */}
                   <text x="100" y="30" textAnchor="middle" className="text-xs fill-current">
-                    {results.outerRadius}&quot;
+                    {formatNumber(results.outerCutRadiusCm, { maximumFractionDigits: 1 })} cm
                   </text>
                   <text x="100" y="100" textAnchor="middle" className="text-xs fill-current">
-                    {results.innerRadius}&quot;
+                    {formatNumber(results.innerCutRadiusCm, { maximumFractionDigits: 1 })} cm
                   </text>
                 </svg>
               </div>
@@ -213,33 +212,33 @@ export function CircleSkirtCalculator() {
     >
       <NumberInput
         id="waistMeasurement"
-        label="Waist Measurement"
+        label="Midjemål"
         value={inputs.waistMeasurement}
         onChange={(v) => setInput('waistMeasurement', v)}
-        min={10}
-        max={80}
-        step={0.5}
-        unit="inches"
+        min={25}
+        max={200}
+        step={1}
+        unit="cm"
         error={errors.waistMeasurement}
         required
       />
 
       <NumberInput
         id="skirtLength"
-        label="Skirt Length"
+        label="Skjørtlengde"
         value={inputs.skirtLength}
         onChange={(v) => setInput('skirtLength', v)}
-        min={5}
-        max={60}
-        step={0.5}
-        unit="inches"
+        min={10}
+        max={150}
+        step={1}
+        unit="cm"
         error={errors.skirtLength}
         required
       />
 
       <SelectInput
         id="skirtType"
-        label="Skirt Type"
+        label="Type skjørt"
         value={inputs.skirtType}
         onChange={(v) => setInput('skirtType', v as SkirtType)}
         options={SKIRT_TYPE_OPTIONS}
@@ -248,25 +247,25 @@ export function CircleSkirtCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="seamAllowance"
-          label="Seam Allowance"
+          label="Sømmonn"
           value={inputs.seamAllowance}
           onChange={(v) => setInput('seamAllowance', v)}
           min={0}
-          max={2}
-          step={0.125}
-          unit="inches"
+          max={5}
+          step={0.5}
+          unit="cm"
           error={errors.seamAllowance}
         />
 
         <NumberInput
           id="hemAllowance"
-          label="Hem Allowance"
+          label="Fald"
           value={inputs.hemAllowance}
           onChange={(v) => setInput('hemAllowance', v)}
           min={0}
-          max={4}
-          step={0.25}
-          unit="inches"
+          max={10}
+          step={0.5}
+          unit="cm"
           error={errors.hemAllowance}
         />
       </div>

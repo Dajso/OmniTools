@@ -8,20 +8,23 @@ import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
-  calculateQuiltBinding,
-  calculateBiasBindingFabric,
-  STANDARD_QUILT_SIZES,
+  calculateQuiltBindingMetric,
+  QUILT_SIZES_CM,
+  BINDING_STRIP_DEFAULT_CM,
+  DEFAULT_USABLE_FABRIC_WIDTH_CM,
+  DEFAULT_BINDING_EXTRA_CM,
   type BindingType,
-  type QuiltBindingResult,
+  type QuiltBindingMetricResult,
 } from '@/lib/calculations/crafts';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const quiltBindingSchema = z.object({
-  quiltWidth: z.number().min(1).max(200),
-  quiltHeight: z.number().min(1).max(200),
+  quiltWidth: z.number().min(10).max(400),
+  quiltHeight: z.number().min(10).max(400),
   bindingType: z.string(),
-  bindingStripWidth: z.number().min(1).max(5),
-  fabricWidth: z.number().min(20).max(60),
-  extraAllowance: z.number().min(0).max(24),
+  bindingStripWidth: z.number().min(2).max(12),
+  fabricWidth: z.number().min(50).max(160),
+  extraAllowance: z.number().min(0).max(60),
   presetSize: z.string(),
 });
 
@@ -35,35 +38,32 @@ type QuiltBindingInputs = {
   presetSize: string;
 };
 
-interface ExtendedResult extends QuiltBindingResult {
-  biasSquareSize: number;
-}
-
 const INITIAL_INPUTS: QuiltBindingInputs = {
-  quiltWidth: 60,
-  quiltHeight: 80,
+  quiltWidth: 130,
+  quiltHeight: 170,
   bindingType: 'double-fold',
-  bindingStripWidth: 2.5,
-  fabricWidth: 42,
-  extraAllowance: 12,
-  presetSize: 'custom',
+  bindingStripWidth: BINDING_STRIP_DEFAULT_CM['double-fold'],
+  fabricWidth: DEFAULT_USABLE_FABRIC_WIDTH_CM,
+  extraAllowance: DEFAULT_BINDING_EXTRA_CM,
+  presetSize: 'throw',
 };
 
 const BINDING_TYPE_OPTIONS = [
-  { value: 'double-fold', label: 'Double-Fold (French)' },
-  { value: 'single-fold', label: 'Single-Fold' },
+  { value: 'double-fold', label: 'Dobbelt kantbånd (vanligst)' },
+  { value: 'single-fold', label: 'Enkelt kantbånd' },
 ];
 
 const PRESET_SIZE_OPTIONS = [
-  { value: 'custom', label: 'Custom Size' },
-  { value: 'crib', label: 'Crib (36" × 52")' },
-  { value: 'throw', label: 'Throw (50" × 65")' },
-  { value: 'twin', label: 'Twin (68" × 88")' },
-  { value: 'full', label: 'Full (81" × 96")' },
-  { value: 'queen', label: 'Queen (90" × 108")' },
-  { value: 'king', label: 'King (108" × 108")' },
-  { value: 'california-king', label: 'California King (104" × 114")' },
+  { value: 'custom', label: 'Egne mål' },
+  ...Object.entries(QUILT_SIZES_CM).map(([key, v]) => ({
+    value: key,
+    label: `${v.label} (${v.width} × ${v.height} cm)`,
+  })),
 ];
+
+function fmt1(value: number): string {
+  return formatNumber(value, { maximumFractionDigits: 1 });
+}
 
 export function QuiltBindingCalculator() {
   const {
@@ -75,28 +75,18 @@ export function QuiltBindingCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<QuiltBindingInputs, ExtendedResult>({
+  } = useCalculator<QuiltBindingInputs, QuiltBindingMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: quiltBindingSchema as unknown as z.ZodType<QuiltBindingInputs>,
     calculate: (formInputs) => {
-      const result = calculateQuiltBinding({
-        quiltWidth: formInputs.quiltWidth,
-        quiltHeight: formInputs.quiltHeight,
+      return calculateQuiltBindingMetric({
+        quiltWidthCm: formInputs.quiltWidth,
+        quiltHeightCm: formInputs.quiltHeight,
         bindingType: formInputs.bindingType,
-        bindingStripWidth: formInputs.bindingStripWidth,
-        fabricWidth: formInputs.fabricWidth,
-        extraAllowance: formInputs.extraAllowance,
+        stripWidthCm: formInputs.bindingStripWidth,
+        fabricWidthCm: formInputs.fabricWidth,
+        extraCm: formInputs.extraAllowance,
       });
-
-      const biasSquareSize = calculateBiasBindingFabric(
-        result.totalBindingLength,
-        formInputs.bindingStripWidth
-      );
-
-      return {
-        ...result,
-        biasSquareSize,
-      };
     },
     storageKey: 'quilt-binding-calculator',
   });
@@ -104,7 +94,7 @@ export function QuiltBindingCalculator() {
   const handlePresetChange = (preset: string) => {
     setInput('presetSize', preset);
     if (preset !== 'custom') {
-      const size = STANDARD_QUILT_SIZES[preset as keyof typeof STANDARD_QUILT_SIZES];
+      const size = QUILT_SIZES_CM[preset];
       if (size) {
         setInput('quiltWidth', size.width);
         setInput('quiltHeight', size.height);
@@ -114,12 +104,8 @@ export function QuiltBindingCalculator() {
 
   const handleBindingTypeChange = (type: BindingType) => {
     setInput('bindingType', type);
-    // Set default strip width based on binding type
-    if (type === 'double-fold') {
-      setInput('bindingStripWidth', 2.5);
-    } else {
-      setInput('bindingStripWidth', 2.0);
-    }
+    // Standard stripebredde etter type kantbånd
+    setInput('bindingStripWidth', BINDING_STRIP_DEFAULT_CM[type]);
   };
 
   React.useEffect(() => {
@@ -128,10 +114,10 @@ export function QuiltBindingCalculator() {
 
   return (
     <CalculatorBase
-      title="Quilt Binding Calculator"
-      description="Calculate binding strip length and fabric requirements for your quilt"
-      formula="Binding Length = 2 × (Width + Height) + Extra"
-      formulaExplanation="Perimeter plus extra for joining strips and mitering corners"
+      title="Kantbånd til quilt"
+      description="Regn ut lengde på kantbånd og stoffbehov til pleddet eller quilten din"
+      formula="Lengde på kantbånd = 2 × (bredde + lengde) + tillegg"
+      formulaExplanation="Omkretsen pluss litt ekstra til skjøting av strimler og hjørner"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -141,60 +127,60 @@ export function QuiltBindingCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Fabric Needed"
-              value={results.fabricYardsNeeded}
-              unit="yards"
+              label="Stoff som trengs"
+              value={formatNumber(results.fabricMetersNeeded, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+              unit="m"
               highlight
               copyable
             />
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Total Binding Length"
-                value={results.totalBindingLength}
-                unit="inches"
+                label="Total lengde kantbånd"
+                value={results.totalBindingLengthCm}
+                unit="cm"
               />
               <ResultDisplay
-                label="Number of Strips"
+                label="Antall strimler"
                 value={results.numberOfStrips}
-                unit="strips"
+                unit="stk."
               />
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Cutting Instructions</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Slik klipper du</p>
               <div className="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
-                <p>Cut <strong>{results.numberOfStrips}</strong> strips at <strong>{results.bindingStripWidth}&quot;</strong> wide</p>
-                <p>Each strip: <strong>{results.stripLength}&quot;</strong> long (fabric width)</p>
-                <p>Total fabric height needed: <strong>{results.fabricInchesNeeded}&quot;</strong></p>
+                <p>Klipp <strong>{results.numberOfStrips}</strong> strimler som er <strong>{fmt1(results.stripWidthCm)}&nbsp;cm</strong> brede</p>
+                <p>Hver strimmel er <strong>{fmt1(results.stripLengthCm)}&nbsp;cm</strong> lang (stoffets bredde)</p>
+                <p>Samlet stofflengde: <strong>{fmt1(results.fabricCmNeeded)}&nbsp;cm</strong></p>
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Binding Details</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Om kantbåndet</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Quilt Perimeter"
-                  value={results.quiltPerimeter}
-                  unit="inches"
+                  label="Omkrets på pleddet"
+                  value={results.perimeterCm}
+                  unit="cm"
                 />
                 <ResultDisplay
-                  label="Finished Width"
-                  value={results.finishedBindingWidth}
-                  unit="inches"
+                  label="Ferdig bredde (omtrent)"
+                  value={results.finishedBindingWidthCm}
+                  unit="cm"
                 />
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">For Bias Binding</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Til skråbånd</p>
               <ResultDisplay
-                label="Square Size Needed"
-                value={results.biasSquareSize}
-                unit="inches"
+                label="Nødvendig kvadrat"
+                value={results.biasSquareCm}
+                unit="cm"
               />
               <p className="text-xs text-muted-foreground mt-2">
-                Cut a square this size and cut on the bias for continuous bias binding
+                Klipp et kvadrat med denne siden og lag sammenhengende skråbånd av det
               </p>
             </div>
           </div>
@@ -203,7 +189,7 @@ export function QuiltBindingCalculator() {
     >
       <SelectInput
         id="presetSize"
-        label="Quilt Size Preset"
+        label="Ferdig størrelse"
         value={inputs.presetSize}
         onChange={handlePresetChange}
         options={PRESET_SIZE_OPTIONS}
@@ -212,32 +198,32 @@ export function QuiltBindingCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="quiltWidth"
-          label="Quilt Width"
+          label="Bredde"
           value={inputs.quiltWidth}
           onChange={(v) => {
             setInput('quiltWidth', v);
             setInput('presetSize', 'custom');
           }}
-          min={1}
-          max={200}
+          min={10}
+          max={400}
           step={1}
-          unit="inches"
+          unit="cm"
           error={errors.quiltWidth}
           required
         />
 
         <NumberInput
           id="quiltHeight"
-          label="Quilt Height"
+          label="Lengde"
           value={inputs.quiltHeight}
           onChange={(v) => {
             setInput('quiltHeight', v);
             setInput('presetSize', 'custom');
           }}
-          min={1}
-          max={200}
+          min={10}
+          max={400}
           step={1}
-          unit="inches"
+          unit="cm"
           error={errors.quiltHeight}
           required
         />
@@ -245,7 +231,7 @@ export function QuiltBindingCalculator() {
 
       <SelectInput
         id="bindingType"
-        label="Binding Type"
+        label="Type kantbånd"
         value={inputs.bindingType}
         onChange={(v) => handleBindingTypeChange(v as BindingType)}
         options={BINDING_TYPE_OPTIONS}
@@ -253,37 +239,37 @@ export function QuiltBindingCalculator() {
 
       <NumberInput
         id="bindingStripWidth"
-        label="Binding Strip Width (cut)"
+        label="Bredde på strimlene (som klippes)"
         value={inputs.bindingStripWidth}
         onChange={(v) => setInput('bindingStripWidth', v)}
-        min={1}
-        max={5}
-        step={0.25}
-        unit="inches"
+        min={2}
+        max={12}
+        step={0.5}
+        unit="cm"
         error={errors.bindingStripWidth}
       />
 
       <NumberInput
         id="fabricWidth"
-        label="Usable Fabric Width"
+        label="Brukbar stoffbredde"
         value={inputs.fabricWidth}
         onChange={(v) => setInput('fabricWidth', v)}
-        min={20}
-        max={60}
+        min={50}
+        max={160}
         step={1}
-        unit="inches"
+        unit="cm"
         error={errors.fabricWidth}
       />
 
       <NumberInput
         id="extraAllowance"
-        label="Extra for Joining/Corners"
+        label="Ekstra til skjøter og hjørner"
         value={inputs.extraAllowance}
         onChange={(v) => setInput('extraAllowance', v)}
         min={0}
-        max={24}
-        step={1}
-        unit="inches"
+        max={60}
+        step={5}
+        unit="cm"
         error={errors.extraAllowance}
       />
     </CalculatorBase>

@@ -11,7 +11,8 @@ import {
   convertStitches,
   calculateStitchesForWidth,
   calculateRowsForLength,
-  YARN_WEIGHT_GAUGES,
+  YARN_WEIGHT_GAUGES_10CM,
+  GAUGE_UNIT_CM,
   type StitchConversionResult,
   type TargetWidthResult,
   type TargetLengthResult,
@@ -53,28 +54,28 @@ const INITIAL_INPUTS: StitchConverterInputs = {
   mode: 'convert',
   patternStitches: 100,
   patternRows: 140,
-  patternGaugeStitches: 20,
-  patternGaugeRows: 28,
-  yourGaugeStitches: 18,
-  yourGaugeRows: 24,
-  targetWidth: 20,
-  targetLength: 24,
+  patternGaugeStitches: 22,
+  patternGaugeRows: 30,
+  yourGaugeStitches: 20,
+  yourGaugeRows: 27,
+  targetWidth: 50,
+  targetLength: 60,
   yarnWeight: 'worsted',
 };
 
 const MODE_OPTIONS = [
-  { value: 'convert', label: 'Convert Pattern Gauge' },
-  { value: 'calculate', label: 'Calculate for Target Size' },
+  { value: 'convert', label: 'Omregn oppskriftens fasthet' },
+  { value: 'calculate', label: 'Regn ut for ønsket størrelse' },
 ];
 
 const YARN_WEIGHT_OPTIONS = [
-  { value: 'lace', label: 'Lace (32 st/4")' },
-  { value: 'fingering', label: 'Fingering (28 st/4")' },
-  { value: 'sport', label: 'Sport (24 st/4")' },
-  { value: 'dk', label: 'DK (22 st/4")' },
-  { value: 'worsted', label: 'Worsted (18 st/4")' },
-  { value: 'bulky', label: 'Bulky (14 st/4")' },
-  { value: 'super-bulky', label: 'Super Bulky (10 st/4")' },
+  { value: 'lace', label: 'Lace (32 masker/10 cm)' },
+  { value: 'fingering', label: 'Sokkegarn (28 masker/10 cm)' },
+  { value: 'sport', label: 'Sportsgarn (24 masker/10 cm)' },
+  { value: 'dk', label: 'Lett garn / DK (22 masker/10 cm)' },
+  { value: 'worsted', label: 'Mellomtykt garn / worsted (18 masker/10 cm)' },
+  { value: 'bulky', label: 'Tykt garn (14 masker/10 cm)' },
+  { value: 'super-bulky', label: 'Ekstra tykt garn (10 masker/10 cm)' },
 ];
 
 export function KnittingStitchConverter() {
@@ -96,10 +97,12 @@ export function KnittingStitchConverter() {
           patternGauge: {
             stitchesPerUnit: formInputs.patternGaugeStitches,
             rowsPerUnit: formInputs.patternGaugeRows,
+            unitSize: GAUGE_UNIT_CM,
           },
           yourGauge: {
             stitchesPerUnit: formInputs.yourGaugeStitches,
             rowsPerUnit: formInputs.yourGaugeRows,
+            unitSize: GAUGE_UNIT_CM,
           },
           originalStitches: formInputs.patternStitches,
           originalRows: formInputs.patternRows,
@@ -109,6 +112,7 @@ export function KnittingStitchConverter() {
         const gauge = {
           stitchesPerUnit: formInputs.yourGaugeStitches,
           rowsPerUnit: formInputs.yourGaugeRows,
+          unitSize: GAUGE_UNIT_CM,
         };
         const widthCalc = calculateStitchesForWidth({
           gauge,
@@ -126,10 +130,10 @@ export function KnittingStitchConverter() {
 
   const handleYarnWeightChange = (weight: string) => {
     setInput('yarnWeight', weight);
-    const gauge = YARN_WEIGHT_GAUGES[weight];
+    const gauge = YARN_WEIGHT_GAUGES_10CM[weight];
     if (gauge) {
-      setInput('yourGaugeStitches', gauge.stitchesPerUnit);
-      setInput('yourGaugeRows', gauge.rowsPerUnit);
+      setInput('yourGaugeStitches', gauge.stitches);
+      setInput('yourGaugeRows', gauge.rows);
     }
   };
 
@@ -139,10 +143,10 @@ export function KnittingStitchConverter() {
 
   return (
     <CalculatorBase
-      title="Knitting Stitch Converter"
-      description="Convert pattern stitches to your gauge or calculate stitches for a target width"
-      formula="Adjusted Stitches = Original × (Your Gauge / Pattern Gauge)"
-      formulaExplanation="Maintains the same finished dimensions when your gauge differs from the pattern"
+      title="Strikkeoppskrift til din strikkefasthet"
+      description="Regn om maskeantallet i en oppskrift til din egen strikkefasthet, eller regn ut masker til en ønsket bredde"
+      formula="Nye masker = opprinnelige masker × (din fasthet ÷ oppskriftens fasthet)"
+      formulaExplanation="Gir samme ferdige mål selv om fastheten din er en annen enn oppskriftens"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -155,17 +159,17 @@ export function KnittingStitchConverter() {
               <>
                 <div className="grid grid-cols-2 gap-3">
                   <ResultDisplay
-                    label="Adjusted Stitches"
+                    label="Nytt antall masker"
                     value={results.conversion.adjustedStitches}
-                    unit="stitches"
+                    unit="masker"
                     highlight
                     copyable
                   />
                   {results.conversion.adjustedRows && (
                     <ResultDisplay
-                      label="Adjusted Rows"
+                      label="Nytt antall pinner"
                       value={results.conversion.adjustedRows}
-                      unit="rows"
+                      unit="pinner"
                       highlight
                       copyable
                     />
@@ -173,31 +177,31 @@ export function KnittingStitchConverter() {
                 </div>
 
                 <div className="border-t pt-4 mt-4">
-                  <p className="text-sm font-medium text-muted-foreground mb-3">Gauge Comparison</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Sammenligning av fasthet</p>
                   <div className="grid grid-cols-2 gap-3">
                     <ResultDisplay
-                      label="Stitch Ratio"
+                      label="Forhold, masker"
                       value={results.conversion.stitchRatio}
                     />
                     <ResultDisplay
-                      label="Row Ratio"
+                      label="Forhold, pinner"
                       value={results.conversion.rowRatio}
                     />
                   </div>
                 </div>
 
                 <div className="border-t pt-4 mt-4">
-                  <p className="text-sm font-medium text-muted-foreground mb-3">Width Comparison</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Bredde i ferdig arbeid</p>
                   <div className="grid grid-cols-2 gap-3">
                     <ResultDisplay
-                      label="At Pattern Gauge"
+                      label="Med oppskriftens fasthet"
                       value={results.conversion.widthAtPatternGauge}
-                      unit="inches"
+                      unit="cm"
                     />
                     <ResultDisplay
-                      label="At Your Gauge"
+                      label="Med din fasthet"
                       value={results.conversion.widthAtYourGauge}
-                      unit="inches"
+                      unit="cm"
                     />
                   </div>
                 </div>
@@ -208,49 +212,49 @@ export function KnittingStitchConverter() {
               <>
                 <div className="grid grid-cols-2 gap-3">
                   <ResultDisplay
-                    label="Stitches Needed"
+                    label="Masker som trengs"
                     value={results.widthCalc.stitchesNeeded}
-                    unit="stitches"
+                    unit="masker"
                     highlight
                     copyable
                   />
                   <ResultDisplay
-                    label="Rows Needed"
+                    label="Pinner som trengs"
                     value={results.lengthCalc.rowsNeeded}
-                    unit="rows"
+                    unit="pinner"
                     highlight
                     copyable
                   />
                 </div>
 
                 <div className="border-t pt-4 mt-4">
-                  <p className="text-sm font-medium text-muted-foreground mb-3">Your Gauge</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Din fasthet</p>
                   <div className="grid grid-cols-2 gap-3">
                     <ResultDisplay
-                      label="Stitches per Inch"
+                      label="Masker per cm"
                       value={results.widthCalc.stitchesPerInch}
-                      unit="st/in"
+                      unit="masker/cm"
                     />
                     <ResultDisplay
-                      label="Rows per Inch"
+                      label="Pinner per cm"
                       value={results.lengthCalc.rowsPerInch}
-                      unit="rows/in"
+                      unit="pinner/cm"
                     />
                   </div>
                 </div>
 
                 <div className="border-t pt-4 mt-4">
-                  <p className="text-sm font-medium text-muted-foreground mb-3">Actual Dimensions</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Faktiske mål</p>
                   <div className="grid grid-cols-2 gap-3">
                     <ResultDisplay
-                      label="Actual Width"
+                      label="Faktisk bredde"
                       value={results.widthCalc.actualWidth}
-                      unit="inches"
+                      unit="cm"
                     />
                     <ResultDisplay
-                      label="Actual Length"
+                      label="Faktisk lengde"
                       value={results.lengthCalc.actualLength}
-                      unit="inches"
+                      unit="cm"
                     />
                   </div>
                 </div>
@@ -262,7 +266,7 @@ export function KnittingStitchConverter() {
     >
       <SelectInput
         id="mode"
-        label="Calculator Mode"
+        label="Hva vil du gjøre?"
         value={inputs.mode}
         onChange={(v) => setInput('mode', v as 'convert' | 'calculate')}
         options={MODE_OPTIONS}
@@ -271,11 +275,11 @@ export function KnittingStitchConverter() {
       {inputs.mode === 'convert' && (
         <>
           <div className="border-t pt-4 mt-2">
-            <p className="text-sm font-medium mb-3">Pattern Information</p>
+            <p className="text-sm font-medium mb-3">Oppskriften</p>
             <div className="grid grid-cols-2 gap-4">
               <NumberInput
                 id="patternStitches"
-                label="Pattern Stitches"
+                label="Masker i oppskriften"
                 value={inputs.patternStitches}
                 onChange={(v) => setInput('patternStitches', v)}
                 min={1}
@@ -284,7 +288,7 @@ export function KnittingStitchConverter() {
               />
               <NumberInput
                 id="patternRows"
-                label="Pattern Rows"
+                label="Pinner i oppskriften"
                 value={inputs.patternRows}
                 onChange={(v) => setInput('patternRows', v)}
                 min={1}
@@ -295,11 +299,11 @@ export function KnittingStitchConverter() {
           </div>
 
           <div className="border-t pt-4 mt-2">
-            <p className="text-sm font-medium mb-3">Pattern Gauge (per 4 inches)</p>
+            <p className="text-sm font-medium mb-3">Oppskriftens fasthet (per 10 cm)</p>
             <div className="grid grid-cols-2 gap-4">
               <NumberInput
                 id="patternGaugeStitches"
-                label="Stitches"
+                label="Masker"
                 value={inputs.patternGaugeStitches}
                 onChange={(v) => setInput('patternGaugeStitches', v)}
                 min={1}
@@ -308,7 +312,7 @@ export function KnittingStitchConverter() {
               />
               <NumberInput
                 id="patternGaugeRows"
-                label="Rows"
+                label="Pinner"
                 value={inputs.patternGaugeRows}
                 onChange={(v) => setInput('patternGaugeRows', v)}
                 min={1}
@@ -321,10 +325,10 @@ export function KnittingStitchConverter() {
       )}
 
       <div className="border-t pt-4 mt-2">
-        <p className="text-sm font-medium mb-3">Your Gauge (per 4 inches)</p>
+        <p className="text-sm font-medium mb-3">Din fasthet (per 10 cm)</p>
         <SelectInput
           id="yarnWeight"
-          label="Yarn Weight (preset)"
+          label="Garntykkelse (forslag)"
           value={inputs.yarnWeight}
           onChange={handleYarnWeightChange}
           options={YARN_WEIGHT_OPTIONS}
@@ -332,7 +336,7 @@ export function KnittingStitchConverter() {
         <div className="grid grid-cols-2 gap-4 mt-3">
           <NumberInput
             id="yourGaugeStitches"
-            label="Your Stitches"
+            label="Dine masker"
             value={inputs.yourGaugeStitches}
             onChange={(v) => setInput('yourGaugeStitches', v)}
             min={1}
@@ -341,7 +345,7 @@ export function KnittingStitchConverter() {
           />
           <NumberInput
             id="yourGaugeRows"
-            label="Your Rows"
+            label="Dine pinner"
             value={inputs.yourGaugeRows}
             onChange={(v) => setInput('yourGaugeRows', v)}
             min={1}
@@ -353,28 +357,28 @@ export function KnittingStitchConverter() {
 
       {inputs.mode === 'calculate' && (
         <div className="border-t pt-4 mt-2">
-          <p className="text-sm font-medium mb-3">Target Dimensions</p>
+          <p className="text-sm font-medium mb-3">Ønsket størrelse</p>
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="targetWidth"
-              label="Target Width"
+              label="Ønsket bredde"
               value={inputs.targetWidth}
               onChange={(v) => setInput('targetWidth', v)}
-              min={0.1}
-              max={100}
-              step={0.5}
-              unit="inches"
+              min={1}
+              max={250}
+              step={1}
+              unit="cm"
               error={errors.targetWidth}
             />
             <NumberInput
               id="targetLength"
-              label="Target Length"
+              label="Ønsket lengde"
               value={inputs.targetLength}
               onChange={(v) => setInput('targetLength', v)}
-              min={0.1}
-              max={200}
-              step={0.5}
-              unit="inches"
+              min={1}
+              max={300}
+              step={1}
+              unit="cm"
               error={errors.targetLength}
             />
           </div>

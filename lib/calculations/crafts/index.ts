@@ -12,3 +12,4 @@ export * from './crochet-hat-calculator';
 export * from './yarn-substitution';
 export * from './embroidery-floss-calculator';
 export * from './socks-size-calculator';
+export * from './metric';

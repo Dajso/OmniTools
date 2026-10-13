@@ -4,47 +4,56 @@ import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@
 import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Circle Skirt Calculator - Free Pattern Calculator',
-  description: 'Calculate the inner radius and fabric requirements for full, half, and quarter circle skirts. Get exact measurements for your waist size.',
-  keywords: ['circle skirt calculator', 'skirt pattern calculator', 'full circle skirt', 'half circle skirt', 'sewing calculator'],
+  title: 'Sirkelskjørt – gratis kalkulator på nett',
+  description: 'Regn ut radius og stoffbehov til hel-, halv- og kvartsirkelskjørt. Gratis og uten registrering.',
+  keywords: ['sirkelskjørt', 'skjørt', 'radius', 'midjemål', 'sying'],
   alternates: { canonical: '/calculators/crafts/circle-skirt-calculator' },
+  openGraph: {
+    title: 'Sirkelskjørt',
+    description: 'Regn ut radius og stoffbehov til hel-, halv- og kvartsirkelskjørt',
+    url: '/calculators/crafts/circle-skirt-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Circle Skirt Calculator',
-  description: 'Calculate inner radius and fabric requirements for circle skirts',
+  name: 'Sirkelskjørt',
+  description: 'Regn ut radius og stoffbehov til hel-, halv- og kvartsirkelskjørt',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Measure your waist', text: 'Measure around your natural waist where you want the skirt to sit.' },
-  { name: 'Decide on length', text: 'Measure from your waist to where you want the hem to fall.' },
-  { name: 'Choose skirt type', text: 'Select full, 3/4, half, or quarter circle based on desired fullness.' },
-  { name: 'Set allowances', text: 'Enter seam and hem allowances (typically 0.5" and 1" respectively).' },
-  { name: 'Cut your fabric', text: 'Use the inner and outer radius measurements to cut your pattern.' },
+  { name: 'Mål midjen', text: 'Mål rundt der skjørtet skal sitte, i cm.' },
+  { name: 'Bestem lengden', text: 'Mål fra midjen og ned til der skjørtet skal slutte.' },
+  { name: 'Velg type skjørt', text: 'Hel, 3/4, halv eller kvart sirkel, ut fra hvor vidt du vil ha det.' },
+  { name: 'Legg inn sømmonn og fald', text: 'Vanlig sømmonn er 1–1,5 cm, og vanlig fald er 2–3 cm.' },
+  { name: 'Klipp stoffet', text: 'Bruk radiene til å tegne og klippe mønsteret, og se hvor mye stoff du trenger.' },
 ];
 
 const faqs = [
-  { question: 'What\'s the difference between circle skirt types?', answer: 'A full circle (360°) has the most volume and swing. Half circle (180°) is less full but still flowy. Quarter circle (90°) is the least full, more like an A-line.' },
-  { question: 'How do I cut a circle skirt?', answer: 'Fold your fabric in quarters, mark the inner radius from the corner, then mark the outer radius. Cut along both arcs. For half/quarter circles, cut multiple pieces.' },
-  { question: 'Why is my waist opening too small?', answer: 'Make sure you\'re using your actual waist measurement, not your pants size. Add 1-2 inches for ease if using a non-stretch fabric.' },
-  { question: 'How much fabric do I need?', answer: 'For a full circle skirt, you typically need fabric at least as wide as twice the outer radius. The calculator shows exact requirements.' },
+  { question: 'Hva er forskjellen på sirkelskjørtene?', answer: 'Hel sirkel (360°) gir mest vidde og sving. Halv sirkel (180°) er litt smalere, men fortsatt vid. Kvart sirkel (90°) er smalest og ligner mer et A-skjørt.' },
+  { question: 'Hvordan klipper jeg et sirkelskjørt?', answer: 'Brett stoffet i fire, merk radien for midjen fra hjørnet og deretter radien for nedre kant. Klipp langs begge buene. Ved halv og kvart sirkel klipper du flere stykker.' },
+  { question: 'Hvorfor blir midjen for trang?', answer: 'Bruk det faktiske midjemålet ditt, ikke buksestørrelsen. Legg til 2–4 cm hvis stoffet ikke har strekk.' },
+  { question: 'Hvor mye stoff trenger jeg?', answer: 'Til hel sirkel trenger du stoff som er minst dobbelt så bredt som radien i fald. Kalkulatoren viser meter for 110 og 150 cm bredt stoff.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/crafts/fabric-yardage-calculator', title: 'Fabric Yardage Calculator', description: 'Calculate fabric for other garments.' },
-  { href: '/calculators/crafts/quilt-binding-calculator', title: 'Quilt Binding Calculator', description: 'Calculate binding strip requirements.' },
+  { href: '/calculators/crafts/fabric-yardage-calculator', title: 'Stoffbehov', description: 'Regn ut hvor mye stoff du trenger til et sy-prosjekt, i meter' },
+  { href: '/calculators/crafts/quilt-binding-calculator', title: 'Kantbånd til quilt', description: 'Regn ut hvor mye kantbånd du trenger til en quilt' },
 ];
 
 const skirtTypes = [
-  { type: 'Full Circle', angle: '360°', fullness: 'Maximum', panels: '1', best: 'Formal, dance, twirly skirts' },
-  { type: '3/4 Circle', angle: '270°', fullness: 'High', panels: '1-2', best: 'Semi-formal, everyday wear' },
-  { type: 'Half Circle', angle: '180°', fullness: 'Medium', panels: '2', best: 'Casual, office wear' },
-  { type: 'Quarter Circle', angle: '90°', fullness: 'Low', panels: '4', best: 'A-line look, less fabric' },
+  { type: 'Hel sirkel', angle: '360°', fullness: 'Størst', panels: '1', best: 'Festkjoler, dans og svingskjørt' },
+  { type: '3/4 sirkel', angle: '270°', fullness: 'Stor', panels: '1–2', best: 'Pent hverdagsskjørt' },
+  { type: 'Halv sirkel', angle: '180°', fullness: 'Middels', panels: '2', best: 'Hverdag og jobb' },
+  { type: 'Kvart sirkel', angle: '90°', fullness: 'Liten', panels: '4', best: 'A-formet skjørt som bruker mindre stoff' },
 ];
 
 export default function CircleSkirtCalculatorPage() {
@@ -54,17 +63,17 @@ export default function CircleSkirtCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="circle-skirt-calculator"
-          title="Circle Skirt Calculator"
-          description="Calculate the inner radius and fabric requirements for circle skirts. Supports full, 3/4, half, and quarter circle styles."
+          title="Sirkelskjørt"
+          description="Regn ut radius i midjen og i fald, og hvor mye stoff du trenger til hel-, tre-kvart-, halv- og kvartsirkelskjørt. Mål i cm og stoff i meter. Gratis og uten registrering."
           colorClass="bg-rose-100 text-rose-600"
         />
 
-        <section aria-label="Circle Skirt Calculator">
+        <section aria-label="Sirkelskjørt">
           <CircleSkirtCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Circle Skirt Types Comparison</h2>
+          <h2 className="text-xl font-semibold mb-4">Sammenligning av skjørttypene</h2>
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
@@ -72,10 +81,10 @@ export default function CircleSkirtCalculatorPage() {
                   <thead>
                     <tr className="border-b bg-muted/50">
                       <th className="text-left py-3 px-4 font-medium">Type</th>
-                      <th className="text-center py-3 px-4 font-medium">Angle</th>
-                      <th className="text-center py-3 px-4 font-medium">Fullness</th>
-                      <th className="text-center py-3 px-4 font-medium">Panels</th>
-                      <th className="text-left py-3 px-4 font-medium">Best For</th>
+                      <th className="text-center py-3 px-4 font-medium">Vinkel</th>
+                      <th className="text-center py-3 px-4 font-medium">Vidde</th>
+                      <th className="text-center py-3 px-4 font-medium">Stykker</th>
+                      <th className="text-left py-3 px-4 font-medium">Passer til</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -96,21 +105,21 @@ export default function CircleSkirtCalculatorPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">The Math Behind Circle Skirts</h2>
+          <h2 className="text-xl font-semibold mb-4">Regnestykket bak sirkelskjørt</h2>
           <Card>
             <CardContent className="p-6">
               <p className="text-sm text-muted-foreground mb-4">
-                Circle skirts use the relationship between circumference and radius:
+                Sirkelskjørt bruker sammenhengen mellom omkrets og radius:
               </p>
               <div className="bg-muted/50 p-4 rounded-lg font-mono text-sm mb-4">
-                Circumference = 2 × π × radius
+                Omkrets = 2 × π × radius
                 <br />
-                Therefore: radius = circumference ÷ (2 × π)
+                Altså: radius = omkrets ÷ (2 × π)
               </div>
               <p className="text-sm text-muted-foreground">
-                For a full circle skirt, your waist measurement IS the circumference of the inner circle.
-                For partial circles, we multiply the waist by a factor to get the same opening size
-                with less fabric.
+                I et skjørt med hel sirkel er midjemålet ditt omkretsen av den indre sirkelen.
+                Ved halv og kvart sirkel ganger vi midjemålet med en faktor for å få samme åpning
+                med mindre stoff.
               </p>
             </CardContent>
           </Card>

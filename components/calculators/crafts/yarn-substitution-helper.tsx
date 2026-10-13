@@ -9,12 +9,16 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
   calculateYarnSubstitution,
+  yarnWeightDetailsNo,
+  YARN_WEIGHT_NAMES_NO,
   YARN_WEIGHTS,
   type YarnWeight,
   type YarnSubstitutionResult,
 } from '@/lib/calculations/crafts';
+import { formatNumber } from '@/lib/utils/formatting';
 import { cn } from '@/lib/utils';
 
+// Merk: lengden regnes i meter. Beregningen er den samme uansett enhet.
 const yarnSubstitutionSchema = z.object({
   originalWeight: z.string(),
   originalYardage: z.number().min(1),
@@ -27,28 +31,60 @@ const yarnSubstitutionSchema = z.object({
 
 type YarnSubstitutionInputs = {
   originalWeight: YarnWeight;
+  /** Meter per nøste */
   originalYardage: number;
   originalGrams: number;
   skeinsNeeded: number;
   substituteWeight: YarnWeight;
+  /** Meter per nøste */
   substituteYardage: number;
   substituteGrams: number;
 };
 
 const INITIAL_INPUTS: YarnSubstitutionInputs = {
   originalWeight: 'medium',
-  originalYardage: 220,
-  originalGrams: 100,
-  skeinsNeeded: 5,
+  originalYardage: 100,
+  originalGrams: 50,
+  skeinsNeeded: 8,
   substituteWeight: 'medium',
-  substituteYardage: 200,
-  substituteGrams: 100,
+  substituteYardage: 90,
+  substituteGrams: 50,
 };
 
-const YARN_WEIGHT_OPTIONS = Object.entries(YARN_WEIGHTS).map(([key, info]) => ({
+const YARN_WEIGHT_OPTIONS = (Object.keys(YARN_WEIGHTS) as YarnWeight[]).map((key) => ({
   value: key,
-  label: `${info.cycNumber} - ${info.name} (${info.aliases[0]})`,
+  label: `${YARN_WEIGHTS[key].cycNumber} – ${YARN_WEIGHT_NAMES_NO[key].name} (${YARN_WEIGHT_NAMES_NO[key].alias})`,
 }));
+
+/** Norske tekster for råd om kompatibilitet og fasthet. */
+function compatibilityTextNo(
+  original: YarnWeight,
+  substitute: YarnWeight
+): { warning?: string; gauge: string } {
+  const a = YARN_WEIGHTS[original].cycNumber;
+  const b = YARN_WEIGHTS[substitute].cycNumber;
+  const diff = Math.abs(a - b);
+  if (diff === 0) {
+    return { gauge: 'Strikk en prøvelapp for å treffe oppskriftens fasthet. Det kan hende du må justere pinnestørrelsen litt.' };
+  }
+  if (diff === 1) {
+    return {
+      warning: 'Garntykkelsene er nesten like, men ikke helt. Strikk alltid en prøvelapp.',
+      gauge: b > a
+        ? 'Prøv en til to pinnestørrelser tynnere for å treffe fastheten.'
+        : 'Prøv en til to pinnestørrelser tykkere for å treffe fastheten.',
+    };
+  }
+  return {
+    warning: `Stor forskjell i garntykkelse (${diff} trinn). Resultatet kan bli ganske annerledes.`,
+    gauge: 'Du må justere pinnestørrelsen mye. Vurder et garn som ligger nærmere i tykkelse.',
+  };
+}
+
+function range(min: number, max: number, unit: string): string {
+  const f = (v: number) => formatNumber(v, { maximumFractionDigits: 2 });
+  return `${f(min)}–${f(max)}${' '}${unit}`;
+}
 
 export function YarnSubstitutionHelper() {
   const {
@@ -81,15 +117,16 @@ export function YarnSubstitutionHelper() {
     calculate();
   }, [calculate]);
 
-  const originalInfo = YARN_WEIGHTS[inputs.originalWeight];
-  const substituteInfo = YARN_WEIGHTS[inputs.substituteWeight];
+  const originalInfo = yarnWeightDetailsNo(inputs.originalWeight);
+  const substituteInfo = yarnWeightDetailsNo(inputs.substituteWeight);
+  const advice = compatibilityTextNo(inputs.originalWeight, inputs.substituteWeight);
 
   return (
     <CalculatorBase
-      title="Yarn Substitution Helper"
-      description="Calculate how much substitute yarn you need when swapping yarns in a pattern"
-      formula="Substitute Skeins = Total Yards ÷ Substitute Yardage"
-      formulaExplanation="Based on matching total yardage, not weight"
+      title="Garnbytte"
+      description="Regn ut hvor mye garn du trenger når du bytter garn i en oppskrift"
+      formula="Nye nøster = total lengde ÷ meter per nøste"
+      formulaExplanation="Regnet ut fra total lengde (meter) og ikke fra vekt"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -99,17 +136,17 @@ export function YarnSubstitutionHelper() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Substitute Skeins Needed"
+              label="Nøster du trenger av det nye garnet"
               value={results.substituteSkeinsNeeded}
-              unit="skeins"
+              unit="nøster"
               highlight
               copyable
             />
 
             <ResultDisplay
-              label="Total Yards Needed"
+              label="Total lengde som trengs"
               value={results.totalYardsNeeded}
-              unit="yards"
+              unit="m"
             />
 
             {/* Compatibility indicator */}
@@ -121,57 +158,55 @@ export function YarnSubstitutionHelper() {
                 'font-medium',
                 results.isCompatible ? 'text-green-700 dark:text-green-300' : 'text-yellow-700 dark:text-yellow-300'
               )}>
-                {results.isCompatible ? '✓ Compatible Weights' : '⚠ Weight Difference'}
+                {results.isCompatible ? '✓ Garntykkelsene passer sammen' : '⚠ Ulik garntykkelse'}
               </p>
-              {results.compatibilityWarning && (
+              {advice.warning && (
                 <p className="text-sm mt-1 text-muted-foreground">
-                  {results.compatibilityWarning}
+                  {advice.warning}
                 </p>
               )}
             </div>
 
-            {results.gaugeAdjustment && (
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <p className="text-sm font-medium mb-1">Gauge Recommendation</p>
-                <p className="text-sm text-muted-foreground">{results.gaugeAdjustment}</p>
-              </div>
-            )}
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <p className="text-sm font-medium mb-1">Råd om strikkefasthet</p>
+              <p className="text-sm text-muted-foreground">{advice.gauge}</p>
+            </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Yarn Comparison</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Sammenligning av garnene</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Original (yd/g)"
-                  value={results.originalYardsPerGram}
-                  unit="yd/g"
+                  label="Opprinnelig (m per 50 g)"
+                  value={Math.round((inputs.originalYardage / inputs.originalGrams) * 50)}
+                  unit="m/50 g"
                 />
                 <ResultDisplay
-                  label="Substitute (yd/g)"
-                  value={results.substituteYardsPerGram}
-                  unit="yd/g"
+                  label="Nytt garn (m per 50 g)"
+                  value={Math.round((inputs.substituteYardage / inputs.substituteGrams) * 50)}
+                  unit="m/50 g"
                 />
               </div>
             </div>
 
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Weight Details</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Om garntykkelsene</p>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="font-medium">Original: {originalInfo.name}</p>
+                  <p className="font-medium">Opprinnelig: {originalInfo.name}</p>
                   <p className="text-muted-foreground">
-                    Gauge: {originalInfo.gaugeRange.min}-{originalInfo.gaugeRange.max} st/4&quot;
+                    Fasthet: {range(originalInfo.gaugeMin, originalInfo.gaugeMax, 'masker/10 cm')}
                   </p>
                   <p className="text-muted-foreground">
-                    Needles: US {originalInfo.needleRange.min}-{originalInfo.needleRange.max}
+                    Pinner: {range(originalInfo.needleMinMm, originalInfo.needleMaxMm, 'mm')}
                   </p>
                 </div>
                 <div>
-                  <p className="font-medium">Substitute: {substituteInfo.name}</p>
+                  <p className="font-medium">Nytt garn: {substituteInfo.name}</p>
                   <p className="text-muted-foreground">
-                    Gauge: {substituteInfo.gaugeRange.min}-{substituteInfo.gaugeRange.max} st/4&quot;
+                    Fasthet: {range(substituteInfo.gaugeMin, substituteInfo.gaugeMax, 'masker/10 cm')}
                   </p>
                   <p className="text-muted-foreground">
-                    Needles: US {substituteInfo.needleRange.min}-{substituteInfo.needleRange.max}
+                    Pinner: {range(substituteInfo.needleMinMm, substituteInfo.needleMaxMm, 'mm')}
                   </p>
                 </div>
               </div>
@@ -181,11 +216,11 @@ export function YarnSubstitutionHelper() {
       }
     >
       <div className="border-b pb-4 mb-4">
-        <p className="text-sm font-medium mb-3">Original Yarn (Pattern Calls For)</p>
+        <p className="text-sm font-medium mb-3">Garnet i oppskriften</p>
 
         <SelectInput
           id="originalWeight"
-          label="Yarn Weight"
+          label="Garntykkelse"
           value={inputs.originalWeight}
           onChange={(v) => setInput('originalWeight', v as YarnWeight)}
           options={YARN_WEIGHT_OPTIONS}
@@ -194,7 +229,7 @@ export function YarnSubstitutionHelper() {
         <div className="grid grid-cols-3 gap-3 mt-3">
           <NumberInput
             id="originalYardage"
-            label="Yards/Skein"
+            label="Meter per nøste"
             value={inputs.originalYardage}
             onChange={(v) => setInput('originalYardage', v)}
             min={1}
@@ -203,7 +238,7 @@ export function YarnSubstitutionHelper() {
           />
           <NumberInput
             id="originalGrams"
-            label="Grams/Skein"
+            label="Gram per nøste"
             value={inputs.originalGrams}
             onChange={(v) => setInput('originalGrams', v)}
             min={1}
@@ -212,7 +247,7 @@ export function YarnSubstitutionHelper() {
           />
           <NumberInput
             id="skeinsNeeded"
-            label="Skeins Needed"
+            label="Antall nøster"
             value={inputs.skeinsNeeded}
             onChange={(v) => setInput('skeinsNeeded', v)}
             min={1}
@@ -223,11 +258,11 @@ export function YarnSubstitutionHelper() {
       </div>
 
       <div>
-        <p className="text-sm font-medium mb-3">Substitute Yarn (What You Have)</p>
+        <p className="text-sm font-medium mb-3">Garnet du vil bruke i stedet</p>
 
         <SelectInput
           id="substituteWeight"
-          label="Yarn Weight"
+          label="Garntykkelse"
           value={inputs.substituteWeight}
           onChange={(v) => setInput('substituteWeight', v as YarnWeight)}
           options={YARN_WEIGHT_OPTIONS}
@@ -236,7 +271,7 @@ export function YarnSubstitutionHelper() {
         <div className="grid grid-cols-2 gap-3 mt-3">
           <NumberInput
             id="substituteYardage"
-            label="Yards/Skein"
+            label="Meter per nøste"
             value={inputs.substituteYardage}
             onChange={(v) => setInput('substituteYardage', v)}
             min={1}
@@ -245,7 +280,7 @@ export function YarnSubstitutionHelper() {
           />
           <NumberInput
             id="substituteGrams"
-            label="Grams/Skein"
+            label="Gram per nøste"
             value={inputs.substituteGrams}
             onChange={(v) => setInput('substituteGrams', v)}
             min={1}

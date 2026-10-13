@@ -4,49 +4,56 @@ import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@
 import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Quilt Binding Calculator - Free Quilting Calculator',
-  description: 'Calculate how much binding fabric you need for your quilt. Supports double-fold and single-fold binding with standard quilt size presets.',
-  keywords: ['quilt binding calculator', 'quilting calculator', 'binding strips', 'quilt finishing', 'how much binding'],
+  title: 'Kantbånd til quilt – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye kantbånd du trenger til en quilt. Gratis og uten registrering.',
+  keywords: ['quilt', 'kantbånd', 'lappeteppe', 'kantebånd'],
   alternates: { canonical: '/calculators/crafts/quilt-binding-calculator' },
+  openGraph: {
+    title: 'Kantbånd til quilt',
+    description: 'Regn ut hvor mye kantbånd du trenger til en quilt',
+    url: '/calculators/crafts/quilt-binding-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Quilt Binding Calculator',
-  description: 'Calculate binding strip length and fabric requirements for quilts',
+  name: 'Kantbånd til quilt',
+  description: 'Regn ut hvor mye kantbånd du trenger til en quilt',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter quilt size', text: 'Select a preset size or enter custom width and height in inches.' },
-  { name: 'Choose binding type', text: 'Select double-fold (French) or single-fold binding.' },
-  { name: 'Set strip width', text: 'Enter your desired cut width (2.5" is standard for double-fold).' },
-  { name: 'Enter fabric width', text: 'Input your usable fabric width (typically 42" from 44/45" fabric).' },
-  { name: 'View results', text: 'See total binding length, number of strips, and fabric needed.' },
+  { name: 'Velg størrelse', text: 'Velg en vanlig størrelse eller legg inn egne mål i cm.' },
+  { name: 'Velg type kantbånd', text: 'Dobbelt kantbånd er vanligst.' },
+  { name: 'Legg inn stoffbredde', text: 'Brukbar bredde er litt mindre enn bredden på stoffet.' },
+  { name: 'Les av resultatet', text: 'Se antall strimler og hvor mange meter stoff du trenger.' },
 ];
 
 const faqs = [
-  { question: 'What\'s the difference between double-fold and single-fold binding?', answer: 'Double-fold (French) binding is folded in half lengthwise before attaching, creating a more durable edge. Single-fold binding uses less fabric but is less sturdy.' },
-  { question: 'Why do I need extra binding length?', answer: 'Extra length (typically 10-12") accounts for joining strips together, mitering corners, and finishing the binding ends.' },
-  { question: 'What width should I cut my binding strips?', answer: 'For double-fold binding, 2.5" is standard (finishes to about 5/8"). For single-fold, 2" is common. Adjust based on your preference.' },
-  { question: 'Should I cut binding on the bias?', answer: 'Bias binding is recommended for quilts with curved edges. For straight edges, straight-grain binding works well and uses less fabric.' },
+  { question: 'Hva er forskjellen på enkelt og dobbelt kantbånd?', answer: 'Dobbelt kantbånd brettes dobbelt og gir en kant som er sterkere og holder lenger. Enkelt kantbånd brukes til lettere prosjekter.' },
+  { question: 'Hvor bredt bør jeg klippe kantbåndet?', answer: 'Rundt 6,5 cm til dobbelt kantbånd og 5 cm til enkelt. Tykk vatt krever litt bredere strimler.' },
+  { question: 'Hvorfor er det lagt til ekstra lengde?', answer: 'Du trenger litt ekstra til skjøting av strimlene og til hjørnene. 30 cm er en trygg margin.' },
+  { question: 'Hva er skråbånd?', answer: 'Strimler klippet på skrå, slik at de er elastiske og kan følge runde kanter.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/crafts/fabric-yardage-calculator', title: 'Fabric Yardage Calculator', description: 'Calculate fabric for garments.' },
-  { href: '/calculators/crafts/circle-skirt-calculator', title: 'Circle Skirt Calculator', description: 'Calculate circle skirt measurements.' },
+  { href: '/calculators/crafts/fabric-yardage-calculator', title: 'Stoffbehov', description: 'Regn ut hvor mye stoff du trenger til et sy-prosjekt, i meter' },
+  { href: '/calculators/crafts/circle-skirt-calculator', title: 'Sirkelskjørt', description: 'Regn ut radius og stoffbehov til hel-, halv- og kvartsirkelskjørt' },
 ];
 
 const quiltSizes = [
-  { name: 'Crib', dimensions: '36" × 52"', perimeter: '176"', binding: '~0.375 yd' },
-  { name: 'Throw', dimensions: '50" × 65"', perimeter: '230"', binding: '~0.5 yd' },
-  { name: 'Twin', dimensions: '68" × 88"', perimeter: '312"', binding: '~0.625 yd' },
-  { name: 'Full', dimensions: '81" × 96"', perimeter: '354"', binding: '~0.75 yd' },
-  { name: 'Queen', dimensions: '90" × 108"', perimeter: '396"', binding: '~0.875 yd' },
-  { name: 'King', dimensions: '108" × 108"', perimeter: '432"', binding: '~1 yd' },
+  { name: 'Babyteppe', dimensions: '70 × 100 cm', perimeter: '340 cm', binding: '4 strimler, ca. 0,3 m' },
+  { name: 'Pledd', dimensions: '130 × 170 cm', perimeter: '600 cm', binding: '6 strimler, ca. 0,4 m' },
+  { name: 'Enkeltseng (90 cm)', dimensions: '140 × 210 cm', perimeter: '700 cm', binding: '7 strimler, ca. 0,5 m' },
+  { name: 'Dobbeltseng (140–160 cm)', dimensions: '200 × 230 cm', perimeter: '860 cm', binding: '9 strimler, ca. 0,6 m' },
+  { name: 'Kingsize (180–200 cm)', dimensions: '240 × 250 cm', perimeter: '980 cm', binding: '10 strimler, ca. 0,7 m' },
 ];
 
 export default function QuiltBindingCalculatorPage() {
@@ -56,27 +63,27 @@ export default function QuiltBindingCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="quilt-binding-calculator"
-          title="Quilt Binding Calculator"
-          description="Calculate how much binding fabric you need for your quilt. Includes standard size presets and supports both double-fold and single-fold binding."
+          title="Kantbånd til quilt"
+          description="Regn ut lengde på kantbånd, antall strimler og stoffbehov i meter til pledd og quilter. Gratis og uten registrering."
           colorClass="bg-amber-100 text-amber-600"
         />
 
-        <section aria-label="Quilt Binding Calculator">
+        <section aria-label="Kantbånd til quilt">
           <QuiltBindingCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Standard Quilt Sizes Reference</h2>
+          <h2 className="text-xl font-semibold mb-4">Typiske størrelser</h2>
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b bg-muted/50">
-                      <th className="text-left py-3 px-4 font-medium">Size</th>
-                      <th className="text-center py-3 px-4 font-medium">Dimensions</th>
-                      <th className="text-center py-3 px-4 font-medium">Perimeter</th>
-                      <th className="text-center py-3 px-4 font-medium">Binding (approx)</th>
+                      <th className="text-left py-3 px-4 font-medium">Størrelse</th>
+                      <th className="text-center py-3 px-4 font-medium">Mål</th>
+                      <th className="text-center py-3 px-4 font-medium">Omkrets</th>
+                      <th className="text-center py-3 px-4 font-medium">Kantbånd (omtrent)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -94,33 +101,33 @@ export default function QuiltBindingCalculatorPage() {
             </CardContent>
           </Card>
           <p className="text-sm text-muted-foreground mt-2">
-            * Binding estimates based on 2.5&quot; strips from 42&quot; wide fabric
+            * Regnet med 6,5 cm brede strimler fra stoff med 105 cm brukbar bredde og 30 cm ekstra til skjøter og hjørner. Størrelsene er typiske mål, og du kan legge inn egne.
           </p>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Binding Tips</h2>
+          <h2 className="text-xl font-semibold mb-4">Tips til kantbånd</h2>
           <Card>
             <CardContent className="p-6 space-y-4">
               <div>
-                <h3 className="font-medium mb-2">Joining Strips</h3>
+                <h3 className="font-medium mb-2">Skjøte strimlene</h3>
                 <p className="text-sm text-muted-foreground">
-                  Join binding strips at a 45° angle to reduce bulk. This diagonal seam distributes 
-                  the thickness more evenly around your quilt.
+                  Skjøt strimlene i 45° vinkel for å få mindre tykke skjøter. Den diagonale sømmen 
+                  fordeler tykkelsen jevnere rundt pleddet.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium mb-2">Mitered Corners</h3>
+                <h3 className="font-medium mb-2">Hjørner med gjæring</h3>
                 <p className="text-sm text-muted-foreground">
-                  Stop stitching 1/4&quot; from each corner, fold the binding up at 45°, then fold 
-                  back down to create a neat mitered corner.
+                  Stopp sømmen ca. 0,6 cm fra hvert hjørne, brett kantbåndet opp i 45° og deretter 
+                  ned igjen, så får du et pent hjørne med gjæring.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium mb-2">Finishing</h3>
+                <h3 className="font-medium mb-2">Avslutning</h3>
                 <p className="text-sm text-muted-foreground">
-                  Leave about 10&quot; unsewn at the start. When you reach the end, join the binding 
-                  ends with a diagonal seam for a seamless finish.
+                  La det være ca. 25 cm usydd i starten. Når du kommer rundt, skjøter du endene 
+                  med en diagonal søm, så blir avslutningen nesten usynlig.
                 </p>
               </div>
             </CardContent>

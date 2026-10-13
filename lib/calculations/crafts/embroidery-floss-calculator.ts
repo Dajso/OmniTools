@@ -36,38 +36,38 @@ export interface StitchInfo {
  */
 export const STITCH_TYPES: Record<StitchType, StitchInfo> = {
   'cross-stitch': {
-    name: 'Cross Stitch',
-    description: 'Standard X-shaped stitch',
+    name: 'Korssting',
+    description: 'Vanlig X-formet sting',
     threadMultiplier: 1.0,
     typicalStrands: 2,
   },
   'half-stitch': {
-    name: 'Half Stitch',
-    description: 'Single diagonal stitch',
+    name: 'Halvt korssting',
+    description: 'Enkelt skråstikk',
     threadMultiplier: 0.5,
     typicalStrands: 2,
   },
   'backstitch': {
-    name: 'Backstitch',
-    description: 'Outline stitch for details',
+    name: 'Bakstikk',
+    description: 'Konturstikk til detaljer',
     threadMultiplier: 0.75,
     typicalStrands: 1,
   },
   'french-knot': {
-    name: 'French Knot',
-    description: 'Small decorative knot',
+    name: 'Fransk knute',
+    description: 'Liten dekorativ knute',
     threadMultiplier: 0.3,
     typicalStrands: 2,
   },
   'satin-stitch': {
-    name: 'Satin Stitch',
-    description: 'Parallel stitches for filling',
+    name: 'Plattsøm',
+    description: 'Parallelle sting som fyller en flate',
     threadMultiplier: 1.2,
     typicalStrands: 2,
   },
   'long-stitch': {
-    name: 'Long Stitch',
-    description: 'Extended straight stitch',
+    name: 'Langsting',
+    description: 'Langt, rett sting',
     threadMultiplier: 1.5,
     typicalStrands: 2,
   },
@@ -77,16 +77,16 @@ export const STITCH_TYPES: Record<StitchType, StitchInfo> = {
  * Common fabric counts (stitches per inch)
  */
 export const FABRIC_COUNTS = [
-  { value: 11, label: '11 count Aida' },
-  { value: 14, label: '14 count Aida' },
-  { value: 16, label: '16 count Aida' },
-  { value: 18, label: '18 count Aida' },
-  { value: 22, label: '22 count Hardanger' },
-  { value: 25, label: '25 count Evenweave' },
-  { value: 28, label: '28 count Evenweave/Linen' },
-  { value: 32, label: '32 count Linen' },
-  { value: 36, label: '36 count Linen' },
-  { value: 40, label: '40 count Linen' },
+  { value: 11, label: '11 ct Aida (ca. 4,3 ruter/cm)' },
+  { value: 14, label: '14 ct Aida (ca. 5,5 ruter/cm)' },
+  { value: 16, label: '16 ct Aida (ca. 6,3 ruter/cm)' },
+  { value: 18, label: '18 ct Aida (ca. 7 ruter/cm)' },
+  { value: 22, label: '22 ct Hardangerduk' },
+  { value: 25, label: '25 ct jevnvevd stoff' },
+  { value: 28, label: '28 ct jevnvevd stoff / lin' },
+  { value: 32, label: '32 ct lin' },
+  { value: 36, label: '36 ct lin' },
+  { value: 40, label: '40 ct lin' },
 ];
 
 /**
@@ -191,13 +191,13 @@ export function calculateEmbroideryFloss(input: EmbroideryFlossInput): Embroider
 
   // Validate inputs
   if (stitchCount <= 0) {
-    throw new Error('Stitch count must be positive');
+    throw new Error('Antall sting må være større enn 0');
   }
   if (fabricCount <= 0) {
-    throw new Error('Fabric count must be positive');
+    throw new Error('Stoffets ct-tall må være større enn 0');
   }
   if (strandsUsed <= 0 || strandsUsed > 6) {
-    throw new Error('Strands must be between 1 and 6');
+    throw new Error('Antall tråder må være mellom 1 og 6');
   }
 
   // Calculate thread per stitch

@@ -4,49 +4,58 @@ import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@
 import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Fabric Yardage Calculator - Free Sewing Fabric Calculator',
-  description: 'Calculate how much fabric you need for your sewing project. Supports different garment types, sizes, and fabric widths.',
-  keywords: ['fabric calculator', 'yardage calculator', 'sewing calculator', 'fabric requirements', 'how much fabric'],
+  title: 'Stoffbehov – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye stoff du trenger til et sy-prosjekt, i meter. Gratis og uten registrering.',
+  keywords: ['stoffbehov', 'stoff', 'sying', 'meter stoff', 'plagg'],
   alternates: { canonical: '/calculators/crafts/fabric-yardage-calculator' },
+  openGraph: {
+    title: 'Stoffbehov',
+    description: 'Regn ut hvor mye stoff du trenger til et sy-prosjekt, i meter',
+    url: '/calculators/crafts/fabric-yardage-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Fabric Yardage Calculator',
-  description: 'Calculate fabric requirements for sewing projects based on garment type and size',
+  name: 'Stoffbehov',
+  description: 'Regn ut hvor mye stoff du trenger til et sy-prosjekt, i meter',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select garment type', text: 'Choose the type of garment you want to make (dress, skirt, pants, etc.).' },
-  { name: 'Choose your size', text: 'Select your size from XS to 3XL.' },
-  { name: 'Enter fabric width', text: 'Select the width of your fabric (36", 45", 54", or 60").' },
-  { name: 'Indicate directional fabric', text: 'Specify if your fabric has a nap or directional print.' },
-  { name: 'Add pattern repeat', text: 'If your fabric has a pattern, enter the repeat length for matching.' },
+  { name: 'Velg plagg', text: 'Kjole, skjørt, bukse, bluse, jakke eller kåpe.' },
+  { name: 'Velg størrelse', text: 'Fra XS til 3XL.' },
+  { name: 'Velg stoffbredde', text: 'Vanlige bredder er 110 og 150 cm.' },
+  { name: 'Angi retning og mønster', text: 'Stoff med retning eller mønsterraport krever litt ekstra.' },
 ];
 
 const faqs = [
-  { question: 'How do I know if my fabric is directional?', answer: 'Directional fabrics include velvet, corduroy, one-way prints, and fabrics with a nap. If the fabric looks different when viewed from different directions, it\'s directional.' },
-  { question: 'What is pattern repeat?', answer: 'Pattern repeat is the distance between identical points in a repeating pattern. You\'ll need extra fabric to match patterns at seams.' },
-  { question: 'Why does fabric width matter?', answer: 'Wider fabric allows pattern pieces to be laid out more efficiently, often requiring less total yardage than narrower fabric.' },
-  { question: 'Should I buy extra fabric?', answer: 'Yes! It\'s recommended to buy an extra 1/4 to 1/2 yard for mistakes, shrinkage, and pattern matching.' },
+  { question: 'Hvor mange meter stoff trenger jeg?', answer: 'Det avhenger av plagg, størrelse og stoffbredde. Sjekk alltid mønsterets egen oppgave når du har den.' },
+  { question: 'Hvorfor krever smalt stoff mer?', answer: 'Mønsterdelene skal ligge innenfor stoffbredden, så smalere stoff gir flere rader og dermed større lengde.' },
+  { question: 'Hva er retning i stoffet?', answer: 'Stoff med luv, for eksempel fløyel, eller mønster som peker én vei må klippes samme vei. Det gir omtrent 15 % ekstra.' },
+  { question: 'Hva er mønsterraport?', answer: 'Avstanden før mønsteret gjentar seg. Du må legge til litt stoff for å få mønsteret til å møtes i sømmene.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/crafts/circle-skirt-calculator', title: 'Circle Skirt Calculator', description: 'Calculate fabric for circle skirts.' },
-  { href: '/calculators/crafts/quilt-binding-calculator', title: 'Quilt Binding Calculator', description: 'Calculate binding strip requirements.' },
+  { href: '/calculators/crafts/circle-skirt-calculator', title: 'Sirkelskjørt', description: 'Regn ut radius og stoffbehov til hel-, halv- og kvartsirkelskjørt' },
+  { href: '/calculators/crafts/quilt-binding-calculator', title: 'Kantbånd til quilt', description: 'Regn ut hvor mye kantbånd du trenger til en quilt' },
+  { href: '/calculators/crafts/knitting-stitch-converter', title: 'Strikkeoppskrift til din strikkefasthet', description: 'Regn om oppskriften til din strikkefasthet og finn antall masker å legge opp' },
 ];
 
 const yardageChart = [
-  { garment: 'Short Dress', xs: '2.0', m: '2.5', xl: '3.0' },
-  { garment: 'Midi Dress', xs: '2.5', m: '3.0', xl: '3.5' },
-  { garment: 'Maxi Dress', xs: '3.5', m: '4.0', xl: '4.5' },
-  { garment: 'Pants', xs: '2.0', m: '2.5', xl: '3.0' },
-  { garment: 'Blouse', xs: '1.5', m: '2.0', xl: '2.5' },
-  { garment: 'Jacket', xs: '2.5', m: '3.0', xl: '3.5' },
+  { garment: 'Kort kjole', xs: '1,9', m: '2,3', xl: '2,8' },
+  { garment: 'Midikjole', xs: '2,3', m: '2,8', xl: '3,3' },
+  { garment: 'Maxikjole', xs: '3,3', m: '3,7', xl: '4,2' },
+  { garment: 'Bukse', xs: '1,9', m: '2,3', xl: '2,8' },
+  { garment: 'Bluse', xs: '1,4', m: '1,9', xl: '2,3' },
+  { garment: 'Jakke', xs: '2,3', m: '2,8', xl: '3,3' },
 ];
 
 export default function FabricYardageCalculatorPage() {
@@ -56,24 +65,24 @@ export default function FabricYardageCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="fabric-yardage-calculator"
-          title="Fabric Yardage Calculator"
-          description="Calculate how much fabric you need for your sewing project. Accounts for garment type, size, fabric width, and pattern matching."
+          title="Stoffbehov"
+          description="Regn ut hvor mange meter stoff du trenger til kjoler, skjørt, bukser, bluser og jakker, ut fra størrelse og stoffbredde. Gratis og uten registrering."
           colorClass="bg-pink-100 text-pink-600"
         />
 
-        <section aria-label="Fabric Yardage Calculator">
+        <section aria-label="Stoffbehov">
           <FabricYardageCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Quick Reference Chart (45" Fabric)</h2>
+          <h2 className="text-xl font-semibold mb-4">Hurtigtabell (110 cm bredt stoff)</h2>
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b bg-muted/50">
-                      <th className="text-left py-3 px-4 font-medium">Garment</th>
+                      <th className="text-left py-3 px-4 font-medium">Plagg</th>
                       <th className="text-center py-3 px-4 font-medium">XS</th>
                       <th className="text-center py-3 px-4 font-medium">M</th>
                       <th className="text-center py-3 px-4 font-medium">XL</th>
@@ -83,9 +92,9 @@ export default function FabricYardageCalculatorPage() {
                     {yardageChart.map((item, i) => (
                       <tr key={i} className="border-b last:border-b-0">
                         <td className="py-3 px-4 font-medium">{item.garment}</td>
-                        <td className="py-3 px-4 text-center">{item.xs} yd</td>
-                        <td className="py-3 px-4 text-center">{item.m} yd</td>
-                        <td className="py-3 px-4 text-center">{item.xl} yd</td>
+                        <td className="py-3 px-4 text-center">{item.xs} m</td>
+                        <td className="py-3 px-4 text-center">{item.m} m</td>
+                        <td className="py-3 px-4 text-center">{item.xl} m</td>
                       </tr>
                     ))}
                   </tbody>

@@ -118,7 +118,7 @@ export const STYLE_NEGATIVE_EASE: Record<HatStyle, number> = {
 export function calculateCrownDiameter(circumference: number): number {
   if (circumference <= 0) {
     throw new CrochetHatError(
-      'Circumference must be positive',
+      'Omkretsen må være større enn 0',
       'invalid_input',
       'circumference'
     );
@@ -139,14 +139,14 @@ export function calculateHatCircumference(
 ): number {
   if (headCircumference <= 0) {
     throw new CrochetHatError(
-      'Head circumference must be positive',
+      'Hodeomkretsen må være større enn 0',
       'invalid_input',
       'headCircumference'
     );
   }
   if (negativeEasePercent < 0 || negativeEasePercent > 50) {
     throw new CrochetHatError(
-      'Negative ease must be between 0 and 50 percent',
+      'Negativ ease må være mellom 0 og 50 prosent',
       'invalid_input',
       'negativeEase'
     );
@@ -219,7 +219,7 @@ export function calculateCrochetHat(input: CrochetHatInput): CrochetHatResult {
   // Validate inputs
   if (headCircumference <= 0) {
     throw new CrochetHatError(
-      'Head circumference must be positive',
+      'Hodeomkretsen må være større enn 0',
       'invalid_input',
       'headCircumference'
     );
@@ -255,7 +255,7 @@ export function calculateHatForAgeGroup(
   const sizeInfo = STANDARD_HEAD_SIZES[ageGroup];
   if (!sizeInfo) {
     throw new CrochetHatError(
-      `Unknown age group: ${ageGroup}`,
+      `Ukjent aldersgruppe: ${ageGroup}`,
       'invalid_input',
       'ageGroup'
     );
