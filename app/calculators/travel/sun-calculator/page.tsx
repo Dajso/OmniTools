@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { SunCalculator } from '@/components/calculators/travel/sun-calculator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Sun Calculator - Sunrise, Sunset & Golden Hour Times',
-  description: 'Calculate sunrise, sunset, golden hour, and blue hour times for any location. Perfect for photographers and travelers.',
-  keywords: ['sunrise calculator', 'sunset calculator', 'golden hour', 'blue hour', 'sun angle', 'photography times', 'solar calculator'],
+  title: 'Solhøyde og solnedgang – gratis kalkulator på nett',
+  description: 'Regn ut soloppgang, solnedgang, gylden time og solhøyde, også midnattssol og mørketid. Gratis og uten registrering.',
+  keywords: ['solnedgang', 'soloppgang', 'gylden time', 'solhøyde', 'fotografi'],
   alternates: { canonical: '/calculators/travel/sun-calculator' },
+  openGraph: {
+    title: 'Solhøyde og solnedgang',
+    description: 'Regn ut soloppgang, solnedgang, gylden time og solhøyde, også midnattssol og mørketid',
+    url: '/calculators/travel/sun-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Sun Calculator',
-  description: 'Calculate sunrise, sunset, golden hour, and blue hour times',
+  name: 'Solhøyde og solnedgang',
+  description: 'Regn ut soloppgang, solnedgang, gylden time og solhøyde, også midnattssol og mørketid',
   applicationCategory: 'TravelApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set your location', text: 'Use your current location, select a preset city, or enter coordinates manually.' },
-  { name: 'Choose a date', text: 'Select the date you want to calculate sun times for.' },
-  { name: 'View sun times', text: 'See sunrise, solar noon, and sunset times for your location.' },
-  { name: 'Plan photography', text: 'Check golden hour and blue hour times for optimal lighting.' },
-  { name: 'Check sun angle', text: 'See the sun angle at noon for shadow planning.' },
+  { name: 'Velg sted', text: 'Velg en by, bruk din posisjon, eller skriv inn breddegrad og lengdegrad.' },
+  { name: 'Velg dato', text: 'Velg datoen du vil se soltidene for.' },
+  { name: 'Les soltidene', text: 'Se soloppgang, solnedgang, dagens lengde og høyeste solhøyde, i lokal tid.' },
+  { name: 'Planlegg fotograferingen', text: 'Bruk tidene for gylden time og blå time til å finne det beste lyset.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is golden hour?', 
-    answer: 'Golden hour is the period shortly after sunrise and before sunset when the sun is low in the sky, producing warm, soft, golden light. It\'s ideal for photography as it creates flattering, dramatic lighting.' 
-  },
-  { 
-    question: 'What is blue hour?', 
-    answer: 'Blue hour occurs just before sunrise and after sunset when the sun is below the horizon but still illuminates the sky with a deep blue color. It\'s perfect for cityscape and landscape photography.' 
-  },
-  { 
-    question: 'How accurate are these calculations?', 
-    answer: 'The calculations are based on astronomical formulas and are accurate to within a few minutes. Actual times may vary slightly due to atmospheric conditions, elevation, and local terrain.' 
-  },
-  { 
-    question: 'What does sun angle at noon mean?', 
-    answer: 'The sun angle at noon is the maximum height the sun reaches in the sky that day. A higher angle means shorter shadows and more direct sunlight. This varies by latitude and season.' 
-  },
-  { 
-    question: 'Why do sunrise/sunset times change throughout the year?', 
-    answer: 'Earth\'s tilted axis causes the sun\'s path across the sky to change throughout the year. This results in longer days in summer and shorter days in winter for locations away from the equator.' 
-  },
+  { question: 'Hva er gylden time og blå time?', answer: 'Gylden time er tiden når sola står lavt, mellom −4° og 6° over horisonten, med varmt og mykt lys. Blå time er tiden like før soloppgang og etter solnedgang, når himmelen er dypblå.' },
+  { question: 'Hva er midnattssol og mørketid?', answer: 'Nord for polarsirkelen går ikke sola ned i en periode om sommeren (midnattssol), og den kommer ikke opp i en periode om vinteren (mørketid). Kalkulatoren viser det for datoer og steder der det gjelder, for eksempel Tromsø og Longyearbyen.' },
+  { question: 'Hvilken tid vises klokkeslettene i?', answer: 'Lokal tid for stedet, med sommertid der det gjelder. Hvis du skriver inn egne koordinater, vises tiden i nettleserens tidssone.' },
+  { question: 'Hvor nøyaktig er beregningen?', answer: 'Den er nøyaktig til noen få minutter. Fjell og horisonten rundt deg kan gjøre at sola oppleves å gå opp senere eller ned tidligere.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/timezone-planner', title: 'Time Zone Planner', description: 'Plan meetings across time zones.' },
-  { href: '/calculators/travel/flight-duration', title: 'Flight Duration Calculator', description: 'Estimate flight times.' },
-  { href: '/calculators/productivity/timestamp-converter', title: 'Timestamp Converter', description: 'Convert timestamps and dates.' },
+  { href: '/calculators/travel/timezone-planner', title: 'Møteplanlegger på tvers av tidssoner', description: 'Planlegg møter på tvers av tidssoner, med sommertid, og finn tidspunkt som passer for alle' },
+  { href: '/calculators/travel/packing-list', title: 'Pakkeliste', description: 'Lag en tilpasset pakkeliste ut fra reisemål, vær og varighet' },
 ];
 
 export default function SunCalculatorPage() {
@@ -63,12 +54,11 @@ export default function SunCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="sun-calculator"
-          title="Sun Calculator"
-          description="Calculate sunrise, sunset, golden hour, and blue hour times for any location. Perfect for photographers, travelers, and outdoor enthusiasts."
-          colorClass="bg-yellow-100 text-yellow-600"
+          title="Solhøyde og solnedgang"
+          description="Regn ut soloppgang, solnedgang, gylden time, blå time og solhøyde for et sted og en dato. Støtter midnattssol og mørketid. Gratis og uten registrering."
         />
 
-        <section aria-label="Sun Calculator">
+        <section aria-label="Solhøyde og solnedgang">
           <SunCalculator />
         </section>
 

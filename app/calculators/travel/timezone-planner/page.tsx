@@ -1,58 +1,49 @@
 import { Metadata } from 'next';
 import { TimezonePlanner } from '@/components/calculators/travel/timezone-planner';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Time Zone Meeting Planner - Find Best Meeting Times',
-  description: 'Plan meetings across multiple time zones. Find overlapping business hours and the best time for international calls and meetings.',
-  keywords: ['time zone planner', 'meeting planner', 'world clock', 'time zone converter', 'international meeting', 'business hours'],
+  title: 'Møteplanlegger på tvers av tidssoner – gratis kalkulator på nett',
+  description: 'Planlegg møter på tvers av tidssoner, med sommertid, og finn tidspunkt som passer for alle. Gratis og uten registrering.',
+  keywords: ['tidssone', 'møteplanlegger', 'verdensklokke', 'fjernarbeid', 'internasjonalt møte'],
   alternates: { canonical: '/calculators/travel/timezone-planner' },
+  openGraph: {
+    title: 'Møteplanlegger på tvers av tidssoner',
+    description: 'Planlegg møter på tvers av tidssoner, med sommertid, og finn tidspunkt som passer for alle',
+    url: '/calculators/travel/timezone-planner',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Time Zone Meeting Planner',
-  description: 'Find the best meeting time across multiple time zones',
+  name: 'Møteplanlegger på tvers av tidssoner',
+  description: 'Planlegg møter på tvers av tidssoner, med sommertid, og finn tidspunkt som passer for alle',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select your time zone', text: 'Choose your local time zone from the dropdown.' },
-  { name: 'Add participant time zones', text: 'Add the time zones of all meeting participants.' },
-  { name: 'Adjust the meeting time', text: 'Use the slider to select your preferred meeting time.' },
-  { name: 'Review the results', text: 'See the meeting time in all time zones and check if everyone is within business hours.' },
-  { name: 'Find overlapping hours', text: 'View the overlapping business hours when all participants are available.' },
+  { name: 'Velg din tidssone', text: 'Start med stedet du selv er på. Oslo er valgt som standard.' },
+  { name: 'Velg dato og klokkeslett', text: 'Sommertid og vintertid regnes ut for den datoen du velger. Dra i glidebryteren for å sette klokkeslettet hos deg.' },
+  { name: 'Legg til deltakere', text: 'Legg til byene deltakerne er i. Du ser lokal tid for hver av dem.' },
+  { name: 'Se hva som passer', text: 'Grønt betyr arbeidstid (08–16), gult utenfor arbeidstid og rødt natt. Under ser du tidsrommet der alle har arbeidstid.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What are considered business hours?', 
-    answer: 'Business hours are typically defined as 9 AM to 6 PM local time. The planner highlights when meeting times fall within or outside these hours for each participant.' 
-  },
-  { 
-    question: 'What does "overnight" mean?', 
-    answer: 'Overnight indicates times before 6 AM or after 10 PM, which are generally unsuitable for meetings as participants would need to wake up very early or stay up late.' 
-  },
-  { 
-    question: 'How do I find the best meeting time?', 
-    answer: 'Look for times when all participants show green (business hours). The overlapping business hours section shows UTC times when everyone is available during normal working hours.' 
-  },
-  { 
-    question: 'Does this account for daylight saving time?', 
-    answer: 'The current version uses fixed UTC offsets. For precise scheduling, verify times close to DST transitions as offsets may change.' 
-  },
-  { 
-    question: 'Can I add more than two time zones?', 
-    answer: 'Yes! You can add as many time zones as needed. The planner will show the meeting time in all selected zones and calculate overlapping business hours.' 
-  },
+  { question: 'Hvorfor endrer tidsforskjellen seg gjennom året?', answer: 'Norge, resten av Europa og USA skifter til sommertid på ulike datoer. I noen uker i mars og oktober er forskjellen til USA en time kortere eller lengre enn ellers. Velg derfor datoen møtet skal holdes.' },
+  { question: 'Hva regnes som arbeidstid?', answer: 'Kalkulatoren bruker 08:00–16:00 lokal tid, slik det er vanlig i Norge. Mange internasjonale kontorer har 09:00–17:00, så sjekk med motparten.' },
+  { question: 'Hva betyr natt?', answer: 'Klokkeslett mellom 22:00 og 06:00 lokal tid.' },
+  { question: 'Hvilken tid vises for Oslo?', answer: 'Norsk tid, altså CET om vinteren (UTC+1) og CEST om sommeren (UTC+2).' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/flight-duration', title: 'Flight Duration Calculator', description: 'Estimate flight times between cities.' },
-  { href: '/calculators/productivity/timestamp-converter', title: 'Timestamp Converter', description: 'Convert between timestamps and dates.' },
+  { href: '/calculators/travel/flight-duration', title: 'Flytid', description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser' },
 ];
 
 export default function TimezonePlannerPage() {
@@ -62,12 +53,11 @@ export default function TimezonePlannerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="timezone-planner"
-          title="Time Zone Meeting Planner"
-          description="Find the perfect meeting time for participants across different time zones. See at a glance who's in business hours and find overlapping availability."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Møteplanlegger på tvers av tidssoner"
+          description="Finn et møtetidspunkt som passer for deltakere i flere tidssoner, med riktig sommertid for datoen du velger. Gratis og uten registrering."
         />
 
-        <section aria-label="Time Zone Meeting Planner">
+        <section aria-label="Møteplanlegger på tvers av tidssoner">
           <TimezonePlanner />
         </section>
 

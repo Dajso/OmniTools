@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { CurrencyConverter } from '@/components/calculators/travel/currency-converter';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Currency Converter - Exchange Rate Calculator',
-  description: 'Convert between 30+ world currencies with offline support. Get exchange rates and quick reference tables for travel planning.',
-  keywords: ['currency converter', 'exchange rate', 'money converter', 'forex', 'travel currency', 'USD EUR GBP'],
+  title: 'Valuta på reise – gratis kalkulator på nett',
+  description: 'Regn om mellom norske kroner og andre valutaer, også uten nett, med veiledende kurser. Gratis og uten registrering.',
+  keywords: ['valuta', 'reise', 'valutakurs', 'vekslingskurs', 'uten nett'],
   alternates: { canonical: '/calculators/travel/currency-converter' },
+  openGraph: {
+    title: 'Valuta på reise',
+    description: 'Regn om mellom norske kroner og andre valutaer, også uten nett, med veiledende kurser',
+    url: '/calculators/travel/currency-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Currency Converter',
-  description: 'Convert between world currencies with offline support',
+  name: 'Valuta på reise',
+  description: 'Regn om mellom norske kroner og andre valutaer, også uten nett, med veiledende kurser',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter amount', text: 'Type the amount you want to convert or use quick amount buttons.' },
-  { name: 'Select currencies', text: 'Choose the source and target currencies from the dropdowns.' },
-  { name: 'View conversion', text: 'See the converted amount and exchange rate instantly.' },
-  { name: 'Use quick reference', text: 'Check the reference table for common amounts.' },
-  { name: 'Swap currencies', text: 'Click the swap button to reverse the conversion direction.' },
+  { name: 'Skriv inn beløpet', text: 'Skriv inn beløpet du vil regne om, eller bruk hurtigknappene.' },
+  { name: 'Velg valutaer', text: 'Velg valutaen du regner fra og til. Norske kroner er valgt som standard.' },
+  { name: 'Se resultatet', text: 'Du får beløpet og kursen begge veier med en gang.' },
+  { name: 'Bruk hurtigoppslaget', text: 'Tabellen viser vanlige beløp, praktisk når du skal vurdere priser i butikken.' },
+  { name: 'Bytt retning', text: 'Trykk på bytteknappen for å snu omregningen.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How accurate are the exchange rates?', 
-    answer: 'Exchange rates are cached and updated periodically. For large transactions, always verify rates with your bank or financial institution as actual rates may vary.' 
-  },
-  { 
-    question: 'Does this work offline?', 
-    answer: 'Yes! The converter caches exchange rates locally, so you can use it even without an internet connection. Offline rates may be slightly outdated.' 
-  },
-  { 
-    question: 'Which currencies are supported?', 
-    answer: 'We support 30+ major world currencies including USD, EUR, GBP, JPY, CHF, CAD, AUD, and many more popular travel currencies.' 
-  },
-  { 
-    question: 'Why might my bank rate be different?', 
-    answer: 'Banks and exchange services add their own margins and fees. The rates shown here are mid-market rates, which are the midpoint between buy and sell rates.' 
-  },
-  { 
-    question: 'How often are rates updated?', 
-    answer: 'Rates are cached for 24 hours. The rate date shown indicates when the rates were last updated.' 
-  },
+  { question: 'Hvor nøyaktige er kursene?', answer: 'Kursene i kalkulatoren er veiledende og ikke oppdatert i sanntid. De egner seg til å få et bilde av prisnivået. Sjekk kursen i bank- eller betalingsappen din før du veksler eller handler.' },
+  { question: 'Fungerer den uten nett?', answer: 'Ja. Kalkulatoren bruker lagrede kurser og trenger ikke internett.' },
+  { question: 'Hvilke valutaer støttes?', answer: 'Over 30, blant annet norske, svenske og danske kroner, euro, amerikanske dollar, britiske pund, sveitsiske franc, japanske yen og vanlige feriedestinasjoner som Thailand, Tyrkia og Polen.' },
+  { question: 'Hvorfor er kursen i banken en annen?', answer: 'Banker og vekslingskontor legger på et påslag og gebyrer. Kursen her er en midtkurs uten påslag. Vær også oppmerksom på påslag ved kortbetaling og uttak i utlandet.' },
+  { question: 'Bør jeg betale i norske kroner eller lokal valuta med kort i utlandet?', answer: 'Velg som regel lokal valuta. Hvis terminalen tilbyr å belaste i norske kroner, inneholder kursen ofte et høyt påslag.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/timezone-planner', title: 'Time Zone Planner', description: 'Plan meetings across time zones.' },
-  { href: '/calculators/finance/tip-calculator', title: 'Tip Calculator', description: 'Calculate tips in any currency.' },
+  { href: '/calculators/travel/budget-splitter', title: 'Del reiseutgifter', description: 'Del utgifter mellom reisefølget og se hvem som skylder hvem' },
 ];
 
 export default function CurrencyConverterPage() {
@@ -61,13 +54,12 @@ export default function CurrencyConverterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="currency-converter"
-          title="Currency Converter"
-          description="Convert between 30+ world currencies instantly. Features offline support with cached exchange rates, perfect for travel planning."
-          colorClass="bg-green-100 text-green-600"
+          toolId="travel-currency-converter"
+          title="Valuta på reise"
+          description="Regn om mellom norske kroner og over 30 valutaer, også uten nett. Veiledende kurser til planlegging av reisen. Gratis og uten registrering."
         />
 
-        <section aria-label="Currency Converter">
+        <section aria-label="Valuta på reise">
           <CurrencyConverter />
         </section>
 

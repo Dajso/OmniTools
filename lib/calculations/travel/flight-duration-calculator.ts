@@ -35,7 +35,22 @@ export interface FlightDurationResult {
  * Major world airports with coordinates
  */
 export const MAJOR_AIRPORTS: Airport[] = [
-  // North America
+  // Norge
+  { code: 'OSL', name: 'Oslo lufthavn, Gardermoen', city: 'Oslo', country: 'Norge', latitude: 60.1939, longitude: 11.1004 },
+  { code: 'BGO', name: 'Bergen lufthavn, Flesland', city: 'Bergen', country: 'Norge', latitude: 60.2934, longitude: 5.2181 },
+  { code: 'SVG', name: 'Stavanger lufthavn, Sola', city: 'Stavanger', country: 'Norge', latitude: 58.8767, longitude: 5.6378 },
+  { code: 'TRD', name: 'Trondheim lufthavn, Værnes', city: 'Trondheim', country: 'Norge', latitude: 63.4578, longitude: 10.9240 },
+  { code: 'TOS', name: 'Tromsø lufthavn, Langnes', city: 'Tromsø', country: 'Norge', latitude: 69.6833, longitude: 18.9189 },
+  { code: 'BOO', name: 'Bodø lufthavn', city: 'Bodø', country: 'Norge', latitude: 67.2692, longitude: 14.3653 },
+  { code: 'KRS', name: 'Kristiansand lufthavn, Kjevik', city: 'Kristiansand', country: 'Norge', latitude: 58.2042, longitude: 8.0854 },
+  { code: 'AES', name: 'Ålesund lufthavn, Vigra', city: 'Ålesund', country: 'Norge', latitude: 62.5625, longitude: 6.1197 },
+  { code: 'HAU', name: 'Haugesund lufthavn, Karmøy', city: 'Haugesund', country: 'Norge', latitude: 59.3453, longitude: 5.2084 },
+  { code: 'TRF', name: 'Sandefjord lufthavn, Torp', city: 'Sandefjord', country: 'Norge', latitude: 59.1867, longitude: 10.2586 },
+  { code: 'EVE', name: 'Harstad/Narvik lufthavn, Evenes', city: 'Evenes', country: 'Norge', latitude: 68.4913, longitude: 16.6781 },
+  { code: 'KKN', name: 'Kirkenes lufthavn, Høybuktmoen', city: 'Kirkenes', country: 'Norge', latitude: 69.7258, longitude: 29.8913 },
+  { code: 'LYR', name: 'Svalbard lufthavn, Longyear', city: 'Longyearbyen', country: 'Norge', latitude: 78.2461, longitude: 15.4656 },
+
+  // Nordamerika
   { code: 'JFK', name: 'John F. Kennedy International', city: 'New York', country: 'USA', latitude: 40.6413, longitude: -73.7781 },
   { code: 'LAX', name: 'Los Angeles International', city: 'Los Angeles', country: 'USA', latitude: 33.9425, longitude: -118.4081 },
   { code: 'ORD', name: "O'Hare International", city: 'Chicago', country: 'USA', latitude: 41.9742, longitude: -87.9073 },
@@ -48,66 +63,77 @@ export const MAJOR_AIRPORTS: Airport[] = [
   { code: 'DEN', name: 'Denver International', city: 'Denver', country: 'USA', latitude: 39.8561, longitude: -104.6737 },
   { code: 'YYZ', name: 'Toronto Pearson International', city: 'Toronto', country: 'Canada', latitude: 43.6777, longitude: -79.6248 },
   { code: 'YVR', name: 'Vancouver International', city: 'Vancouver', country: 'Canada', latitude: 49.1967, longitude: -123.1815 },
-  { code: 'MEX', name: 'Mexico City International', city: 'Mexico City', country: 'Mexico', latitude: 19.4363, longitude: -99.0721 },
+  { code: 'MEX', name: 'Mexico City International', city: 'Mexico by', country: 'Mexico', latitude: 19.4363, longitude: -99.0721 },
   
-  // Europe
-  { code: 'LHR', name: 'Heathrow', city: 'London', country: 'UK', latitude: 51.4700, longitude: -0.4543 },
-  { code: 'CDG', name: 'Charles de Gaulle', city: 'Paris', country: 'France', latitude: 49.0097, longitude: 2.5479 },
-  { code: 'FRA', name: 'Frankfurt Airport', city: 'Frankfurt', country: 'Germany', latitude: 50.0379, longitude: 8.5622 },
-  { code: 'AMS', name: 'Schiphol', city: 'Amsterdam', country: 'Netherlands', latitude: 52.3105, longitude: 4.7683 },
-  { code: 'MAD', name: 'Adolfo Suárez Madrid–Barajas', city: 'Madrid', country: 'Spain', latitude: 40.4983, longitude: -3.5676 },
-  { code: 'BCN', name: 'Barcelona–El Prat', city: 'Barcelona', country: 'Spain', latitude: 41.2974, longitude: 2.0833 },
-  { code: 'FCO', name: 'Leonardo da Vinci–Fiumicino', city: 'Rome', country: 'Italy', latitude: 41.8003, longitude: 12.2389 },
-  { code: 'MUC', name: 'Munich Airport', city: 'Munich', country: 'Germany', latitude: 48.3537, longitude: 11.7750 },
-  { code: 'ZRH', name: 'Zurich Airport', city: 'Zurich', country: 'Switzerland', latitude: 47.4647, longitude: 8.5492 },
-  { code: 'VIE', name: 'Vienna International', city: 'Vienna', country: 'Austria', latitude: 48.1103, longitude: 16.5697 },
-  { code: 'CPH', name: 'Copenhagen Airport', city: 'Copenhagen', country: 'Denmark', latitude: 55.6180, longitude: 12.6508 },
-  { code: 'OSL', name: 'Oslo Gardermoen', city: 'Oslo', country: 'Norway', latitude: 60.1939, longitude: 11.1004 },
-  { code: 'ARN', name: 'Stockholm Arlanda', city: 'Stockholm', country: 'Sweden', latitude: 59.6519, longitude: 17.9186 },
+  // Europa
+  { code: 'LHR', name: 'Heathrow', city: 'London', country: 'Storbritannia', latitude: 51.4700, longitude: -0.4543 },
+  { code: 'CDG', name: 'Charles de Gaulle', city: 'Paris', country: 'Frankrike', latitude: 49.0097, longitude: 2.5479 },
+  { code: 'FRA', name: 'Frankfurt lufthavn', city: 'Frankfurt', country: 'Tyskland', latitude: 50.0379, longitude: 8.5622 },
+  { code: 'AMS', name: 'Schiphol', city: 'Amsterdam', country: 'Nederland', latitude: 52.3105, longitude: 4.7683 },
+  { code: 'MAD', name: 'Adolfo Suárez Madrid–Barajas', city: 'Madrid', country: 'Spania', latitude: 40.4983, longitude: -3.5676 },
+  { code: 'BCN', name: 'Barcelona–El Prat', city: 'Barcelona', country: 'Spania', latitude: 41.2974, longitude: 2.0833 },
+  { code: 'FCO', name: 'Leonardo da Vinci–Fiumicino', city: 'Roma', country: 'Italia', latitude: 41.8003, longitude: 12.2389 },
+  { code: 'MUC', name: 'München lufthavn', city: 'München', country: 'Tyskland', latitude: 48.3537, longitude: 11.7750 },
+  { code: 'ZRH', name: 'Zürich lufthavn', city: 'Zürich', country: 'Sveits', latitude: 47.4647, longitude: 8.5492 },
+  { code: 'VIE', name: 'Wien-Schwechat', city: 'Wien', country: 'Østerrike', latitude: 48.1103, longitude: 16.5697 },
+  { code: 'CPH', name: 'København lufthavn, Kastrup', city: 'København', country: 'Danmark', latitude: 55.6180, longitude: 12.6508 },
+  { code: 'ARN', name: 'Stockholm Arlanda', city: 'Stockholm', country: 'Sverige', latitude: 59.6519, longitude: 17.9186 },
   { code: 'HEL', name: 'Helsinki-Vantaa', city: 'Helsinki', country: 'Finland', latitude: 60.3172, longitude: 24.9633 },
-  { code: 'DUB', name: 'Dublin Airport', city: 'Dublin', country: 'Ireland', latitude: 53.4264, longitude: -6.2499 },
-  { code: 'LIS', name: 'Lisbon Portela', city: 'Lisbon', country: 'Portugal', latitude: 38.7756, longitude: -9.1354 },
-  { code: 'ATH', name: 'Athens International', city: 'Athens', country: 'Greece', latitude: 37.9364, longitude: 23.9445 },
-  { code: 'IST', name: 'Istanbul Airport', city: 'Istanbul', country: 'Turkey', latitude: 41.2753, longitude: 28.7519 },
-  { code: 'SVO', name: 'Sheremetyevo International', city: 'Moscow', country: 'Russia', latitude: 55.9726, longitude: 37.4146 },
+  { code: 'DUB', name: 'Dublin lufthavn', city: 'Dublin', country: 'Irland', latitude: 53.4264, longitude: -6.2499 },
+  { code: 'LIS', name: 'Lisbon Portela', city: 'Lisboa', country: 'Portugal', latitude: 38.7756, longitude: -9.1354 },
+  { code: 'ATH', name: 'Athens International', city: 'Athen', country: 'Hellas', latitude: 37.9364, longitude: 23.9445 },
+  { code: 'IST', name: 'Istanbul Airport', city: 'Istanbul', country: 'Tyrkia', latitude: 41.2753, longitude: 28.7519 },
+  { code: 'SVO', name: 'Sheremetyevo International', city: 'Moskva', country: 'Russland', latitude: 55.9726, longitude: 37.4146 },
+  { code: 'KEF', name: 'Keflavik', city: 'Reykjavik', country: 'Island', latitude: 63.9850, longitude: -22.6056 },
+  { code: 'BER', name: 'Berlin Brandenburg', city: 'Berlin', country: 'Tyskland', latitude: 52.3667, longitude: 13.5033 },
+  { code: 'PRG', name: 'Václav Havel', city: 'Praha', country: 'Tsjekkia', latitude: 50.1008, longitude: 14.2600 },
+  { code: 'WAW', name: 'Chopin', city: 'Warszawa', country: 'Polen', latitude: 52.1657, longitude: 20.9671 },
+  { code: 'BUD', name: 'Ferenc Liszt', city: 'Budapest', country: 'Ungarn', latitude: 47.4394, longitude: 19.2619 },
+  { code: 'ALC', name: 'Alicante-Elche', city: 'Alicante', country: 'Spania', latitude: 38.2822, longitude: -0.5582 },
+  { code: 'AGP', name: 'Málaga-Costa del Sol', city: 'Málaga', country: 'Spania', latitude: 36.6749, longitude: -4.4991 },
+  { code: 'PMI', name: 'Palma de Mallorca', city: 'Palma', country: 'Spania', latitude: 39.5517, longitude: 2.7388 },
+  { code: 'LPA', name: 'Gran Canaria', city: 'Las Palmas', country: 'Spania', latitude: 27.9319, longitude: -15.3866 },
+  { code: 'TFS', name: 'Tenerife Sør', city: 'Tenerife', country: 'Spania', latitude: 28.0445, longitude: -16.5725 },
+  { code: 'AYT', name: 'Antalya', city: 'Antalya', country: 'Tyrkia', latitude: 36.8987, longitude: 30.8005 },
   
   // Asia
   { code: 'HND', name: 'Haneda', city: 'Tokyo', country: 'Japan', latitude: 35.5494, longitude: 139.7798 },
   { code: 'NRT', name: 'Narita International', city: 'Tokyo', country: 'Japan', latitude: 35.7720, longitude: 140.3929 },
-  { code: 'PEK', name: 'Beijing Capital International', city: 'Beijing', country: 'China', latitude: 40.0799, longitude: 116.6031 },
-  { code: 'PVG', name: 'Shanghai Pudong International', city: 'Shanghai', country: 'China', latitude: 31.1443, longitude: 121.8083 },
-  { code: 'HKG', name: 'Hong Kong International', city: 'Hong Kong', country: 'Hong Kong', latitude: 22.3080, longitude: 113.9185 },
+  { code: 'PEK', name: 'Beijing Capital International', city: 'Beijing', country: 'Kina', latitude: 40.0799, longitude: 116.6031 },
+  { code: 'PVG', name: 'Shanghai Pudong International', city: 'Shanghai', country: 'Kina', latitude: 31.1443, longitude: 121.8083 },
+  { code: 'HKG', name: 'Hong Kong International', city: 'Hongkong', country: 'Hongkong', latitude: 22.3080, longitude: 113.9185 },
   { code: 'SIN', name: 'Singapore Changi', city: 'Singapore', country: 'Singapore', latitude: 1.3644, longitude: 103.9915 },
-  { code: 'ICN', name: 'Incheon International', city: 'Seoul', country: 'South Korea', latitude: 37.4602, longitude: 126.4407 },
+  { code: 'ICN', name: 'Incheon International', city: 'Seoul', country: 'Sør-Korea', latitude: 37.4602, longitude: 126.4407 },
+  { code: 'HKT', name: 'Phuket', city: 'Phuket', country: 'Thailand', latitude: 8.1132, longitude: 98.3169 },
   { code: 'BKK', name: 'Suvarnabhumi', city: 'Bangkok', country: 'Thailand', latitude: 13.6900, longitude: 100.7501 },
   { code: 'DEL', name: 'Indira Gandhi International', city: 'Delhi', country: 'India', latitude: 28.5562, longitude: 77.1000 },
   { code: 'BOM', name: 'Chhatrapati Shivaji Maharaj International', city: 'Mumbai', country: 'India', latitude: 19.0896, longitude: 72.8656 },
-  { code: 'DXB', name: 'Dubai International', city: 'Dubai', country: 'UAE', latitude: 25.2532, longitude: 55.3657 },
+  { code: 'DXB', name: 'Dubai International', city: 'Dubai', country: 'De forente arabiske emirater', latitude: 25.2532, longitude: 55.3657 },
   { code: 'DOH', name: 'Hamad International', city: 'Doha', country: 'Qatar', latitude: 25.2731, longitude: 51.6081 },
   { code: 'KUL', name: 'Kuala Lumpur International', city: 'Kuala Lumpur', country: 'Malaysia', latitude: 2.7456, longitude: 101.7099 },
   { code: 'CGK', name: 'Soekarno-Hatta International', city: 'Jakarta', country: 'Indonesia', latitude: -6.1256, longitude: 106.6558 },
-  { code: 'MNL', name: 'Ninoy Aquino International', city: 'Manila', country: 'Philippines', latitude: 14.5086, longitude: 121.0194 },
+  { code: 'MNL', name: 'Ninoy Aquino International', city: 'Manila', country: 'Filippinene', latitude: 14.5086, longitude: 121.0194 },
   { code: 'TPE', name: 'Taiwan Taoyuan International', city: 'Taipei', country: 'Taiwan', latitude: 25.0797, longitude: 121.2342 },
   
-  // Oceania
+  // Oseania
   { code: 'SYD', name: 'Sydney Kingsford Smith', city: 'Sydney', country: 'Australia', latitude: -33.9399, longitude: 151.1753 },
-  { code: 'MEL', name: 'Melbourne Airport', city: 'Melbourne', country: 'Australia', latitude: -37.6690, longitude: 144.8410 },
-  { code: 'BNE', name: 'Brisbane Airport', city: 'Brisbane', country: 'Australia', latitude: -27.3942, longitude: 153.1218 },
-  { code: 'AKL', name: 'Auckland Airport', city: 'Auckland', country: 'New Zealand', latitude: -37.0082, longitude: 174.7850 },
+  { code: 'MEL', name: 'Melbourne lufthavn', city: 'Melbourne', country: 'Australia', latitude: -37.6690, longitude: 144.8410 },
+  { code: 'BNE', name: 'Brisbane lufthavn', city: 'Brisbane', country: 'Australia', latitude: -27.3942, longitude: 153.1218 },
+  { code: 'AKL', name: 'Auckland lufthavn', city: 'Auckland', country: 'New Zealand', latitude: -37.0082, longitude: 174.7850 },
   
-  // South America
+  // Sør-Amerika
   { code: 'GRU', name: 'São Paulo–Guarulhos International', city: 'São Paulo', country: 'Brazil', latitude: -23.4356, longitude: -46.4731 },
   { code: 'EZE', name: 'Ministro Pistarini International', city: 'Buenos Aires', country: 'Argentina', latitude: -34.8222, longitude: -58.5358 },
   { code: 'SCL', name: 'Arturo Merino Benítez International', city: 'Santiago', country: 'Chile', latitude: -33.3930, longitude: -70.7858 },
   { code: 'BOG', name: 'El Dorado International', city: 'Bogotá', country: 'Colombia', latitude: 4.7016, longitude: -74.1469 },
   { code: 'LIM', name: 'Jorge Chávez International', city: 'Lima', country: 'Peru', latitude: -12.0219, longitude: -77.1143 },
   
-  // Africa & Middle East
-  { code: 'JNB', name: 'O. R. Tambo International', city: 'Johannesburg', country: 'South Africa', latitude: -26.1392, longitude: 28.2460 },
-  { code: 'CPT', name: 'Cape Town International', city: 'Cape Town', country: 'South Africa', latitude: -33.9715, longitude: 18.6021 },
-  { code: 'CAI', name: 'Cairo International', city: 'Cairo', country: 'Egypt', latitude: 30.1219, longitude: 31.4056 },
+  // Afrika og Midtøsten
+  { code: 'JNB', name: 'O. R. Tambo International', city: 'Johannesburg', country: 'Sør-Afrika', latitude: -26.1392, longitude: 28.2460 },
+  { code: 'CPT', name: 'Cape Town International', city: 'Cape Town', country: 'Sør-Afrika', latitude: -33.9715, longitude: 18.6021 },
+  { code: 'CAI', name: 'Cairo International', city: 'Kairo', country: 'Egypt', latitude: 30.1219, longitude: 31.4056 },
   { code: 'NBO', name: 'Jomo Kenyatta International', city: 'Nairobi', country: 'Kenya', latitude: -1.3192, longitude: 36.9278 },
-  { code: 'CMN', name: 'Mohammed V International', city: 'Casablanca', country: 'Morocco', latitude: 33.3675, longitude: -7.5898 },
+  { code: 'CMN', name: 'Mohammed V International', city: 'Casablanca', country: 'Marokko', latitude: 33.3675, longitude: -7.5898 },
   { code: 'TLV', name: 'Ben Gurion', city: 'Tel Aviv', country: 'Israel', latitude: 32.0055, longitude: 34.8854 },
 ];
 
@@ -207,18 +233,18 @@ export function estimateFlightDuration(distanceKm: number): number {
  * Formats duration in minutes to a readable string
  * 
  * @param minutes - Duration in minutes
- * @returns Formatted duration string (e.g., "5h 30m")
+ * @returns Formatted duration string (f.eks. «5 t 30 min»)
  */
 export function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   
   if (hours === 0) {
-    return `${mins}m`;
+    return `${mins} min`;
   } else if (mins === 0) {
-    return `${hours}h`;
+    return `${hours} t`;
   } else {
-    return `${hours}h ${mins}m`;
+    return `${hours} t ${mins} min`;
   }
 }
 
@@ -237,11 +263,11 @@ export function calculateFlightDuration(
   const arrival = getAirportByCode(arrivalCode);
   
   if (!departure) {
-    throw new Error(`Unknown departure airport: ${departureCode}`);
+    throw new Error(`Ukjent avreiseflyplass: ${departureCode}`);
   }
   
   if (!arrival) {
-    throw new Error(`Unknown arrival airport: ${arrivalCode}`);
+    throw new Error(`Ukjent ankomstflyplass: ${arrivalCode}`);
   }
   
   const distanceKm = calculateGreatCircleDistance(

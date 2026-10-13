@@ -40,81 +40,81 @@ export interface ConversionResult {
  * List of supported currencies for travel
  */
 export const SUPPORTED_CURRENCIES: Currency[] = [
-  { code: 'USD', name: 'US Dollar', symbol: '$' },
+  { code: 'NOK', name: 'Norske kroner', symbol: 'kr' },
+  { code: 'USD', name: 'Amerikanske dollar', symbol: '$' },
   { code: 'EUR', name: 'Euro', symbol: '€' },
-  { code: 'GBP', name: 'British Pound', symbol: '£' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
-  { code: 'NZD', name: 'New Zealand Dollar', symbol: 'NZ$' },
-  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
-  { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$' },
-  { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$' },
-  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
-  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
-  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
-  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
-  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
-  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
-  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
-  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
-  { code: 'CZK', name: 'Czech Koruna', symbol: 'Kč' },
-  { code: 'HUF', name: 'Hungarian Forint', symbol: 'Ft' },
-  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
-  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
-  { code: 'AED', name: 'UAE Dirham', symbol: 'د.إ' },
-  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
-  { code: 'ILS', name: 'Israeli Shekel', symbol: '₪' },
-  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
-  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
-  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+  { code: 'GBP', name: 'Britiske pund', symbol: '£' },
+  { code: 'JPY', name: 'Japanske yen', symbol: '¥' },
+  { code: 'CHF', name: 'Sveitsiske franc', symbol: 'CHF' },
+  { code: 'CAD', name: 'Kanadiske dollar', symbol: 'C$' },
+  { code: 'AUD', name: 'Australske dollar', symbol: 'A$' },
+  { code: 'NZD', name: 'New Zealand-dollar', symbol: 'NZ$' },
+  { code: 'CNY', name: 'Kinesiske yuan', symbol: '¥' },
+  { code: 'HKD', name: 'Hongkong-dollar', symbol: 'HK$' },
+  { code: 'SGD', name: 'Singapore-dollar', symbol: 'S$' },
+  { code: 'SEK', name: 'Svenske kroner', symbol: 'kr' },
+  { code: 'DKK', name: 'Danske kroner', symbol: 'kr' },
+  { code: 'MXN', name: 'Meksikanske peso', symbol: '$' },
+  { code: 'BRL', name: 'Brasilianske real', symbol: 'R$' },
+  { code: 'INR', name: 'Indiske rupi', symbol: '₹' },
+  { code: 'KRW', name: 'Sørkoreanske won', symbol: '₩' },
+  { code: 'THB', name: 'Thailandske baht', symbol: '฿' },
+  { code: 'PLN', name: 'Polske zloty', symbol: 'zł' },
+  { code: 'CZK', name: 'Tsjekkiske kroner', symbol: 'Kč' },
+  { code: 'HUF', name: 'Ungarske forint', symbol: 'Ft' },
+  { code: 'TRY', name: 'Tyrkiske lira', symbol: '₺' },
+  { code: 'ZAR', name: 'Sørafrikanske rand', symbol: 'R' },
+  { code: 'AED', name: 'Emiratiske dirham', symbol: 'د.إ' },
+  { code: 'SAR', name: 'Saudiarabiske riyal', symbol: '﷼' },
+  { code: 'ILS', name: 'Israelske shekel', symbol: '₪' },
+  { code: 'PHP', name: 'Filippinske peso', symbol: '₱' },
+  { code: 'MYR', name: 'Malaysiske ringgit', symbol: 'RM' },
+  { code: 'IDR', name: 'Indonesiske rupiah', symbol: 'Rp' },
 ];
 
 /**
- * Default exchange rates (USD base) for offline fallback
- * These are approximate rates and should be updated periodically
+ * Veiledende valutakurser (USD som referanse) som brukes når ingen nyere kurser er lagret.
+ * Kursene er statiske og omtrentlige, og må oppdateres jevnlig. De egner seg ikke til faktiske vekslinger.
  */
 export const DEFAULT_RATES: ExchangeRates = {
   base: 'USD',
-  date: '2024-01-01',
+  date: '2026-01-01',
   rates: {
     USD: 1.0,
-    EUR: 0.92,
-    GBP: 0.79,
-    JPY: 148.5,
-    CHF: 0.86,
-    CAD: 1.35,
-    AUD: 1.53,
-    NZD: 1.62,
-    CNY: 7.15,
-    HKD: 7.82,
-    SGD: 1.34,
-    SEK: 10.35,
-    NOK: 10.45,
-    DKK: 6.85,
-    MXN: 17.15,
-    BRL: 4.95,
-    INR: 83.25,
-    KRW: 1305.0,
-    THB: 35.0,
-    PLN: 4.0,
-    CZK: 22.5,
-    HUF: 355.0,
-    TRY: 30.0,
-    ZAR: 18.75,
+    EUR: 0.855,
+    GBP: 0.745,
+    JPY: 150.0,
+    CHF: 0.8,
+    CAD: 1.38,
+    AUD: 1.52,
+    NZD: 1.68,
+    CNY: 7.1,
+    HKD: 7.8,
+    SGD: 1.3,
+    SEK: 9.4,
+    NOK: 10.1,
+    DKK: 6.4,
+    MXN: 18.3,
+    BRL: 5.4,
+    INR: 88.0,
+    KRW: 1400.0,
+    THB: 32.5,
+    PLN: 3.65,
+    CZK: 21.0,
+    HUF: 335.0,
+    TRY: 41.0,
+    ZAR: 17.5,
     AED: 3.67,
     SAR: 3.75,
-    ILS: 3.65,
-    PHP: 55.5,
-    MYR: 4.7,
-    IDR: 15500.0,
+    ILS: 3.4,
+    PHP: 58.0,
+    MYR: 4.2,
+    IDR: 16500.0,
   },
   lastUpdated: Date.now(),
 };
 
-const CACHE_KEY = 'omnitools_exchange_rates';
+const CACHE_KEY = 'kalkulator_valutakurser';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 /**
@@ -183,8 +183,8 @@ export function getExchangeRates(): { rates: ExchangeRates; isOffline: boolean }
  * Converts an amount from one currency to another
  * 
  * @param amount - The amount to convert
- * @param fromCurrency - Source currency code (e.g., 'USD')
- * @param toCurrency - Target currency code (e.g., 'EUR')
+ * @param fromCurrency - Source currency code (f.eks. 'USD')
+ * @param toCurrency - Target currency code (f.eks. 'EUR')
  * @param customRates - Optional custom exchange rates to use
  * @returns ConversionResult with converted amount and rate information
  */
@@ -195,7 +195,7 @@ export function convertCurrency(
   customRates?: ExchangeRates
 ): ConversionResult {
   if (amount < 0) {
-    throw new Error('Amount cannot be negative');
+    throw new Error('Beløpet kan ikke være negativt');
   }
   
   const { rates, isOffline } = customRates 
@@ -206,11 +206,11 @@ export function convertCurrency(
   const toCode = toCurrency.toUpperCase();
   
   if (!(fromCode in rates.rates)) {
-    throw new Error(`Unsupported currency: ${fromCurrency}`);
+    throw new Error(`Valutaen støttes ikke: ${fromCurrency}`);
   }
   
   if (!(toCode in rates.rates)) {
-    throw new Error(`Unsupported currency: ${toCurrency}`);
+    throw new Error(`Valutaen støttes ikke: ${toCurrency}`);
   }
   
   // Convert through base currency (USD)
@@ -290,16 +290,16 @@ export function getCurrencyInfo(code: string): Currency | undefined {
 export function formatCurrency(amount: number, currencyCode: string): string {
   const currency = getCurrencyInfo(currencyCode);
   const decimals = getDecimalPlaces(currencyCode);
-  const formattedAmount = amount.toLocaleString(undefined, {
+  const formattedAmount = amount.toLocaleString('nb-NO', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });
   
-  if (currency) {
-    return `${currency.symbol}${formattedAmount}`;
+  if (currencyCode.toUpperCase() === 'NOK') {
+    return `${formattedAmount} kr`;
   }
   
-  return `${formattedAmount} ${currencyCode}`;
+  return `${formattedAmount} ${currency ? currency.code : currencyCode}`;
 }
 
 /**

@@ -21,14 +21,21 @@ const FLIGHT_TYPE_COLORS = {
 };
 
 const FLIGHT_TYPE_LABELS = {
-  'short-haul': 'Short-haul (< 1,500 km)',
-  'medium-haul': 'Medium-haul (1,500 - 4,000 km)',
-  'long-haul': 'Long-haul (4,000 - 10,000 km)',
-  'ultra-long-haul': 'Ultra long-haul (> 10,000 km)',
+  'short-haul': 'Kort rute (under 1 500 km)',
+  'medium-haul': 'Mellomlang rute (1 500–4 000 km)',
+  'long-haul': 'Langdistanse (4 000–10 000 km)',
+  'ultra-long-haul': 'Ultralang rute (over 10 000 km)',
+};
+
+const FLIGHT_TYPE_SHORT = {
+  'short-haul': 'Kort',
+  'medium-haul': 'Mellomlang',
+  'long-haul': 'Lang',
+  'ultra-long-haul': 'Ultralang',
 };
 
 export function FlightDurationCalculator() {
-  const [departureCode, setDepartureCode] = React.useState<string>('JFK');
+  const [departureCode, setDepartureCode] = React.useState<string>('OSL');
   const [arrivalCode, setArrivalCode] = React.useState<string>('LHR');
   const [departureSearch, setDepartureSearch] = React.useState<string>('');
   const [arrivalSearch, setArrivalSearch] = React.useState<string>('');
@@ -47,7 +54,7 @@ export function FlightDurationCalculator() {
       }
 
       if (departureCode === arrivalCode) {
-        setError('Departure and arrival airports must be different');
+        setError('Avreise- og ankomstflyplass må være forskjellige');
         setResults(null);
         return;
       }
@@ -55,7 +62,7 @@ export function FlightDurationCalculator() {
       const result = calculateFlightDuration(departureCode, arrivalCode);
       setResults(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResults(null);
     }
   }, [departureCode, arrivalCode]);
@@ -66,7 +73,7 @@ export function FlightDurationCalculator() {
   };
 
   const reset = () => {
-    setDepartureCode('JFK');
+    setDepartureCode('OSL');
     setArrivalCode('LHR');
     setDepartureSearch('');
     setArrivalSearch('');
@@ -103,20 +110,20 @@ export function FlightDurationCalculator() {
     return airport ? `${airport.city} (${airport.code})` : code;
   };
 
-  // Popular routes
+  // Vanlige ruter
   const popularRoutes = [
-    { from: 'JFK', to: 'LHR' },
-    { from: 'LAX', to: 'NRT' },
-    { from: 'SFO', to: 'SIN' },
-    { from: 'LHR', to: 'DXB' },
-    { from: 'CDG', to: 'JFK' },
-    { from: 'SYD', to: 'LAX' },
+    { from: 'OSL', to: 'BGO' },
+    { from: 'OSL', to: 'TOS' },
+    { from: 'OSL', to: 'LHR' },
+    { from: 'OSL', to: 'AGP' },
+    { from: 'OSL', to: 'BKK' },
+    { from: 'OSL', to: 'JFK' },
   ];
 
   return (
     <CalculatorBase
-      title="Flight Duration Calculator"
-      description="Estimate flight times between major world airports"
+      title="Flytid"
+      description="Anslå flytid og avstand mellom norske og store internasjonale flyplasser"
       onReset={reset}
       error={error}
       results={results && (
@@ -141,7 +148,7 @@ export function FlightDurationCalculator() {
           {/* Main Result */}
           <div className="p-6 bg-primary/5 rounded-lg text-center">
             <Clock className="h-8 w-8 mx-auto mb-2 text-primary" />
-            <p className="text-sm text-muted-foreground mb-1">Estimated Flight Time</p>
+            <p className="text-sm text-muted-foreground mb-1">Anslått flytid</p>
             <p className="text-4xl font-bold text-primary">
               {results.estimatedDurationFormatted}
             </p>
@@ -157,28 +164,26 @@ export function FlightDurationCalculator() {
           {/* Distance */}
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Distance" 
-              value={results.distanceKm.toLocaleString()}
+              label="Avstand" 
+              value={results.distanceKm.toLocaleString('nb-NO')}
               unit="km"
               copyable 
             />
             <ResultDisplay 
-              label="Distance" 
-              value={results.distanceMiles.toLocaleString()}
-              unit="miles"
-              copyable 
+              label="Flytype" 
+              value={FLIGHT_TYPE_SHORT[results.flightType]}
             />
           </div>
 
           {/* Airport Details */}
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="p-3 bg-muted rounded-lg">
-              <p className="font-medium mb-1">Departure</p>
+              <p className="font-medium mb-1">Avreise</p>
               <p className="text-muted-foreground">{results.departureAirport.name}</p>
               <p className="text-muted-foreground">{results.departureAirport.country}</p>
             </div>
             <div className="p-3 bg-muted rounded-lg">
-              <p className="font-medium mb-1">Arrival</p>
+              <p className="font-medium mb-1">Ankomst</p>
               <p className="text-muted-foreground">{results.arrivalAirport.name}</p>
               <p className="text-muted-foreground">{results.arrivalAirport.country}</p>
             </div>
@@ -186,8 +191,8 @@ export function FlightDurationCalculator() {
 
           {/* Note */}
           <p className="text-xs text-muted-foreground text-center">
-            * Estimated time includes typical taxi, takeoff, and landing overhead. 
-            Actual flight times may vary based on weather, routing, and aircraft type.
+            * Anslått tid inkluderer vanlig taksing, avgang og landing. 
+            Faktisk flytid varierer med vær, rute og flytype.
           </p>
         </div>
       )}
@@ -197,7 +202,7 @@ export function FlightDurationCalculator() {
         <div className="grid grid-cols-[1fr,auto,1fr] gap-2 items-end">
           {/* Departure */}
           <div className="space-y-2 relative">
-            <label className="text-sm font-medium">From</label>
+            <label className="text-sm font-medium">Fra</label>
             <div 
               className="p-3 border rounded-md bg-background cursor-pointer hover:border-primary transition-colors"
               onClick={() => setShowDepartureSearch(!showDepartureSearch)}
@@ -217,7 +222,7 @@ export function FlightDurationCalculator() {
                       type="text"
                       value={departureSearch}
                       onChange={(e) => setDepartureSearch(e.target.value)}
-                      placeholder="Search airports..."
+                      placeholder="Søk etter flyplass …"
                       className="w-full pl-8 pr-3 py-1.5 text-sm border rounded bg-background"
                       autoFocus
                     />
@@ -245,14 +250,14 @@ export function FlightDurationCalculator() {
             size="icon"
             onClick={swapAirports}
             className="mb-0.5"
-            aria-label="Swap airports"
+            aria-label="Bytt flyplasser"
           >
             <ArrowRight className="h-4 w-4" />
           </Button>
 
           {/* Arrival */}
           <div className="space-y-2 relative">
-            <label className="text-sm font-medium">To</label>
+            <label className="text-sm font-medium">Til</label>
             <div 
               className="p-3 border rounded-md bg-background cursor-pointer hover:border-primary transition-colors"
               onClick={() => setShowArrivalSearch(!showArrivalSearch)}
@@ -272,7 +277,7 @@ export function FlightDurationCalculator() {
                       type="text"
                       value={arrivalSearch}
                       onChange={(e) => setArrivalSearch(e.target.value)}
-                      placeholder="Search airports..."
+                      placeholder="Søk etter flyplass …"
                       className="w-full pl-8 pr-3 py-1.5 text-sm border rounded bg-background"
                       autoFocus
                     />
@@ -294,9 +299,9 @@ export function FlightDurationCalculator() {
           </div>
         </div>
 
-        {/* Popular Routes */}
+        {/* Vanlige ruter */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">Popular Routes</p>
+          <p className="text-sm font-medium text-muted-foreground">Vanlige ruter</p>
           <div className="flex flex-wrap gap-2">
             {popularRoutes.map(route => (
               <Button

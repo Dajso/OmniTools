@@ -44,21 +44,48 @@ const CATEGORY_ICONS: Record<PackingCategory, React.ReactNode> = {
 };
 
 const CATEGORY_LABELS: Record<PackingCategory, string> = {
-  clothing: 'Clothing',
-  footwear: 'Footwear',
-  toiletries: 'Toiletries',
-  electronics: 'Electronics',
-  documents: 'Documents',
-  medical: 'Medical & Health',
-  accessories: 'Accessories',
-  'activity-specific': 'Activity Specific',
+  clothing: 'Klær',
+  footwear: 'Sko',
+  toiletries: 'Toalettsaker',
+  electronics: 'Elektronikk',
+  documents: 'Dokumenter',
+  medical: 'Helse og medisin',
+  accessories: 'Tilbehør',
+  'activity-specific': 'Til aktivitetene',
+};
+
+const TRIP_TYPE_LABELS: Record<TripDetails['tripType'], string> = {
+  business: 'Jobbreise',
+  leisure: 'Ferie',
+  adventure: 'Friluftsliv og eventyr',
+  beach: 'Strandferie',
+  city: 'Byferie',
+  winter: 'Vinterferie',
+};
+
+const WEATHER_LABELS: Record<TripDetails['weather'], string> = {
+  hot: 'Het',
+  warm: 'Varmt',
+  mild: 'Mildt',
+  cold: 'Kaldt',
+  rainy: 'Regn',
+  mixed: 'Skiftende',
+};
+
+const ACTIVITY_LABELS: Record<Activity, string> = {
+  hiking: 'Fotturer',
+  swimming: 'Bading',
+  skiing: 'Ski',
+  'formal-events': 'Fest og middag',
+  sightseeing: 'Sightseeing',
+  photography: 'Fotografering',
 };
 
 export function PackingListGenerator() {
   const [tripDetails, setTripDetails] = React.useState<TripDetails>({
     duration: 7,
     tripType: 'leisure',
-    weather: 'warm',
+    weather: 'mixed',
     activities: [],
     includeToiletries: true,
     includeElectronics: true,
@@ -77,7 +104,7 @@ export function PackingListGenerator() {
       setPackingList(list);
       setCheckedItems(new Set());
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation error');
+      setError(err instanceof Error ? err.message : 'Kunne ikke lage listen');
       setPackingList(null);
     }
   }, [tripDetails]);
@@ -86,7 +113,7 @@ export function PackingListGenerator() {
     setTripDetails({
       duration: 7,
       tripType: 'leisure',
-      weather: 'warm',
+      weather: 'mixed',
       activities: [],
       includeToiletries: true,
       includeElectronics: true,
@@ -139,7 +166,7 @@ export function PackingListGenerator() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setError('Failed to copy to clipboard');
+      setError('Kunne ikke kopiere til utklippstavlen');
     }
   };
 
@@ -150,8 +177,8 @@ export function PackingListGenerator() {
       ? getEssentialItems(packingList) 
       : packingList.items;
     
-    let text = `Packing List - ${tripDetails.duration} Day ${tripDetails.tripType} Trip\n`;
-    text += `Weather: ${tripDetails.weather}\n`;
+    let text = `Pakkeliste – ${tripDetails.duration} dager, ${TRIP_TYPE_LABELS[tripDetails.tripType].toLowerCase()}\n`;
+    text += `Vær: ${WEATHER_LABELS[tripDetails.weather].toLowerCase()}\n`;
     text += `=`.repeat(50) + '\n\n';
     
     packingList.categories.forEach(category => {
@@ -166,13 +193,13 @@ export function PackingListGenerator() {
       }
     });
     
-    text += `\nEstimated bag weight: ${estimateBagWeight(packingList)} kg`;
+    text += `\nAnslått vekt på bagasjen: ${estimateBagWeight(packingList)} kg`;
     
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'packing-list.txt';
+    link.download = 'pakkeliste.txt';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -189,8 +216,8 @@ export function PackingListGenerator() {
 
   return (
     <CalculatorBase
-      title="Packing List Generator"
-      description="Generate a customized packing list based on your trip details"
+      title="Pakkeliste"
+      description="Lag en pakkeliste som passer reisen din, ut fra varighet, vær og aktiviteter"
       onReset={reset}
       error={error}
       results={packingList && (
@@ -198,8 +225,8 @@ export function PackingListGenerator() {
           {/* Progress Bar */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Packing Progress</span>
-              <span>{checkedCount} / {totalCount} items</span>
+              <span>Fremdrift i pakkingen</span>
+              <span>{checkedCount} / {totalCount} ting</span>
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div 
@@ -217,7 +244,7 @@ export function PackingListGenerator() {
               size="sm"
               onClick={() => setShowEssentialsOnly(!showEssentialsOnly)}
             >
-              {showEssentialsOnly ? 'Show All' : 'Essentials Only'}
+              {showEssentialsOnly ? 'Vis alt' : 'Bare det viktigste'}
             </Button>
             <Button
               type="button"
@@ -226,7 +253,7 @@ export function PackingListGenerator() {
               onClick={copyList}
             >
               {copied ? <Check className="h-4 w-4 mr-1" /> : <Copy className="h-4 w-4 mr-1" />}
-              {copied ? 'Copied!' : 'Copy'}
+              {copied ? 'Kopiert!' : 'Kopier'}
             </Button>
             <Button
               type="button"
@@ -235,18 +262,18 @@ export function PackingListGenerator() {
               onClick={downloadList}
             >
               <Download className="h-4 w-4 mr-1" />
-              Download
+              Last ned
             </Button>
           </div>
 
           {/* Summary */}
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="p-3 bg-muted rounded-lg">
-              <p className="text-muted-foreground">Total Items</p>
+              <p className="text-muted-foreground">Antall ting</p>
               <p className="text-xl font-bold">{packingList.totalItems}</p>
             </div>
             <div className="p-3 bg-muted rounded-lg">
-              <p className="text-muted-foreground">Est. Weight</p>
+              <p className="text-muted-foreground">Anslått vekt</p>
               <p className="text-xl font-bold">{estimateBagWeight(packingList)} kg</p>
             </div>
           </div>
@@ -286,7 +313,7 @@ export function PackingListGenerator() {
                         <span className="text-sm text-muted-foreground">×{item.quantity}</span>
                         {item.essential && (
                           <span className="text-xs px-1.5 py-0.5 bg-primary/10 text-primary rounded">
-                            Essential
+                            Viktig
                           </span>
                         )}
                       </label>
@@ -303,7 +330,7 @@ export function PackingListGenerator() {
         {/* Trip Duration */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="duration">
-            Trip Duration: {tripDetails.duration} days
+            Reisens lengde: {tripDetails.duration} {tripDetails.duration === 1 ? 'dag' : 'dager'}
           </label>
           <input
             id="duration"
@@ -315,15 +342,15 @@ export function PackingListGenerator() {
             className="w-full"
           />
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>1 day</span>
-            <span>30 days</span>
+            <span>1 dag</span>
+            <span>30 dager</span>
           </div>
         </div>
 
         {/* Trip Type */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="trip-type">
-            Trip Type
+            Type reise
           </label>
           <select
             id="trip-type"
@@ -333,7 +360,7 @@ export function PackingListGenerator() {
           >
             {getTripTypes().map(type => (
               <option key={type} value={type}>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+                {TRIP_TYPE_LABELS[type]}
               </option>
             ))}
           </select>
@@ -342,7 +369,7 @@ export function PackingListGenerator() {
         {/* Weather */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="weather">
-            Expected Weather
+            Forventet vær
           </label>
           <select
             id="weather"
@@ -352,7 +379,7 @@ export function PackingListGenerator() {
           >
             {getWeatherOptions().map(weather => (
               <option key={weather} value={weather}>
-                {weather.charAt(0).toUpperCase() + weather.slice(1)}
+                {WEATHER_LABELS[weather]}
               </option>
             ))}
           </select>
@@ -360,7 +387,7 @@ export function PackingListGenerator() {
 
         {/* Activities */}
         <div className="space-y-2">
-          <p className="text-sm font-medium">Planned Activities</p>
+          <p className="text-sm font-medium">Planlagte aktiviteter</p>
           <div className="flex flex-wrap gap-2">
             {getActivities().map(activity => (
               <Button
@@ -370,7 +397,7 @@ export function PackingListGenerator() {
                 size="sm"
                 onClick={() => toggleActivity(activity)}
               >
-                {activity.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                {ACTIVITY_LABELS[activity]}
               </Button>
             ))}
           </div>
@@ -378,7 +405,7 @@ export function PackingListGenerator() {
 
         {/* Include Options */}
         <div className="space-y-2">
-          <p className="text-sm font-medium">Include Categories</p>
+          <p className="text-sm font-medium">Ta med</p>
           <div className="flex flex-wrap gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -387,7 +414,7 @@ export function PackingListGenerator() {
                 onChange={(e) => setTripDetails(prev => ({ ...prev, includeToiletries: e.target.checked }))}
                 className="rounded"
               />
-              <span className="text-sm">Toiletries</span>
+              <span className="text-sm">Toalettsaker</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -396,7 +423,7 @@ export function PackingListGenerator() {
                 onChange={(e) => setTripDetails(prev => ({ ...prev, includeElectronics: e.target.checked }))}
                 className="rounded"
               />
-              <span className="text-sm">Electronics</span>
+              <span className="text-sm">Elektronikk</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -405,7 +432,7 @@ export function PackingListGenerator() {
                 onChange={(e) => setTripDetails(prev => ({ ...prev, includeMedical: e.target.checked }))}
                 className="rounded"
               />
-              <span className="text-sm">Medical</span>
+              <span className="text-sm">Medisin og førstehjelp</span>
             </label>
           </div>
         </div>

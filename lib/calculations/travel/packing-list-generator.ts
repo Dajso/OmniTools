@@ -55,11 +55,11 @@ export interface PackingList {
  * Base clothing items for any trip
  */
 const BASE_CLOTHING: PackingItem[] = [
-  { name: 'Underwear', quantity: 1, category: 'clothing', essential: true },
-  { name: 'Socks', quantity: 1, category: 'clothing', essential: true },
-  { name: 'T-shirts/Tops', quantity: 1, category: 'clothing', essential: true },
-  { name: 'Pants/Shorts', quantity: 1, category: 'clothing', essential: true },
-  { name: 'Sleepwear', quantity: 1, category: 'clothing', essential: false },
+  { name: 'Undertøy', quantity: 1, category: 'clothing', essential: true },
+  { name: 'Sokker', quantity: 1, category: 'clothing', essential: true },
+  { name: 'T-skjorter/overdeler', quantity: 1, category: 'clothing', essential: true },
+  { name: 'Bukser/shorts', quantity: 1, category: 'clothing', essential: true },
+  { name: 'Nattøy', quantity: 1, category: 'clothing', essential: false },
 ];
 
 /**
@@ -68,38 +68,38 @@ const BASE_CLOTHING: PackingItem[] = [
 const WEATHER_CLOTHING: Record<Weather, PackingItem[]> = {
   hot: [
     { name: 'Shorts', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Light T-shirts', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Sunhat', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Sunglasses', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Tynne T-skjorter', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Solhatt', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Solbriller', quantity: 1, category: 'accessories', essential: true },
   ],
   warm: [
-    { name: 'Light layers', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Light jacket', quantity: 1, category: 'clothing', essential: false },
-    { name: 'Sunglasses', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Tynne lag (lette plagg)', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Lett jakke', quantity: 1, category: 'clothing', essential: false },
+    { name: 'Solbriller', quantity: 1, category: 'accessories', essential: true },
   ],
   mild: [
-    { name: 'Long-sleeve shirts', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Light sweater', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Light jacket', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Langermede skjorter', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Tynn genser', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Lett jakke', quantity: 1, category: 'clothing', essential: true },
   ],
   cold: [
-    { name: 'Warm sweaters', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Winter coat', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Thermal underwear', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Warm hat', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Gloves', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Scarf', quantity: 1, category: 'accessories', essential: false },
+    { name: 'Varme gensere', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Vinterjakke', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Ullundertøy', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Lue', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Votter/hansker', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Skjerf', quantity: 1, category: 'accessories', essential: false },
   ],
   rainy: [
-    { name: 'Rain jacket', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Umbrella', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Waterproof bag', quantity: 1, category: 'accessories', essential: false },
+    { name: 'Regnjakke', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Paraply', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Vanntett pose', quantity: 1, category: 'accessories', essential: false },
   ],
   mixed: [
-    { name: 'Layerable clothing', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Light jacket', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Rain jacket', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Umbrella', quantity: 1, category: 'accessories', essential: false },
+    { name: 'Klær til lagdeling', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Lett jakke', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Regnjakke', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Paraply', quantity: 1, category: 'accessories', essential: false },
   ],
 };
 
@@ -108,49 +108,49 @@ const WEATHER_CLOTHING: Record<Weather, PackingItem[]> = {
  */
 const TRIP_TYPE_ITEMS: Record<TripType, PackingItem[]> = {
   business: [
-    { name: 'Business suits/Formal wear', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Dress shirts', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Dress shoes', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Tie/Accessories', quantity: 2, category: 'accessories', essential: false },
-    { name: 'Business cards', quantity: 1, category: 'documents', essential: false },
-    { name: 'Laptop bag', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Dress/forretningsantrekk', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Pene skjorter', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Pene sko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Slips/tilbehør', quantity: 2, category: 'accessories', essential: false },
+    { name: 'Visittkort', quantity: 1, category: 'documents', essential: false },
+    { name: 'Datavesker', quantity: 1, category: 'accessories', essential: true },
   ],
   leisure: [
-    { name: 'Casual outfits', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Comfortable walking shoes', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Sandals/Flip-flops', quantity: 1, category: 'footwear', essential: false },
-    { name: 'Day bag/Backpack', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Hverdagsantrekk', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Gode gåsko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Sandaler/badesandaler', quantity: 1, category: 'footwear', essential: false },
+    { name: 'Dagstur-sekk', quantity: 1, category: 'accessories', essential: true },
   ],
   adventure: [
-    { name: 'Quick-dry clothing', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Hiking boots', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Hiking backpack', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Water bottle', quantity: 1, category: 'accessories', essential: true },
-    { name: 'First aid kit', quantity: 1, category: 'medical', essential: true },
-    { name: 'Headlamp/Flashlight', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Hurtigtørkende klær', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Tursko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Tursekk', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Drikkeflaske', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Førstehjelpsutstyr', quantity: 1, category: 'medical', essential: true },
+    { name: 'Hodelykt/lommelykt', quantity: 1, category: 'accessories', essential: true },
   ],
   beach: [
-    { name: 'Swimsuits', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Beach cover-up', quantity: 1, category: 'clothing', essential: false },
-    { name: 'Flip-flops', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Beach towel', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Sunscreen', quantity: 1, category: 'toiletries', essential: true },
-    { name: 'Beach bag', quantity: 1, category: 'accessories', essential: false },
+    { name: 'Badetøy', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Strandkjole/overtrekk', quantity: 1, category: 'clothing', essential: false },
+    { name: 'Badesandaler', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Badehåndkle', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Solkrem', quantity: 1, category: 'toiletries', essential: true },
+    { name: 'Strandbag', quantity: 1, category: 'accessories', essential: false },
   ],
   city: [
-    { name: 'Smart casual outfits', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Comfortable walking shoes', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Evening outfit', quantity: 1, category: 'clothing', essential: false },
-    { name: 'City map/Guidebook', quantity: 1, category: 'documents', essential: false },
-    { name: 'Day bag', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Pene hverdagsantrekk', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Gode gåsko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Antrekk til kvelden', quantity: 1, category: 'clothing', essential: false },
+    { name: 'Bykart/reiseguide', quantity: 1, category: 'documents', essential: false },
+    { name: 'Dagssekk', quantity: 1, category: 'accessories', essential: true },
   ],
   winter: [
-    { name: 'Ski jacket', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Ski pants', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Base layers', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Snow boots', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Ski goggles', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Hand/Toe warmers', quantity: 4, category: 'accessories', essential: false },
+    { name: 'Skijakke', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Skibukse', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Ullundertøy (innerste lag)', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Vinterstøvler', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Skibriller', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Varmeputer til hender/tær', quantity: 4, category: 'accessories', essential: false },
   ],
 };
 
@@ -159,43 +159,43 @@ const TRIP_TYPE_ITEMS: Record<TripType, PackingItem[]> = {
  */
 const ACTIVITY_ITEMS: Record<Activity, PackingItem[]> = {
   hiking: [
-    { name: 'Hiking boots', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Hiking socks', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Trekking poles', quantity: 1, category: 'activity-specific', essential: false },
-    { name: 'Trail snacks', quantity: 1, category: 'activity-specific', essential: true },
-    { name: 'Blister kit', quantity: 1, category: 'medical', essential: true },
+    { name: 'Tursko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Tursokker', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Turstaver', quantity: 1, category: 'activity-specific', essential: false },
+    { name: 'Niste', quantity: 1, category: 'activity-specific', essential: true },
+    { name: 'Gnagsårplaster', quantity: 1, category: 'medical', essential: true },
   ],
   swimming: [
-    { name: 'Swimsuit', quantity: 2, category: 'clothing', essential: true },
-    { name: 'Goggles', quantity: 1, category: 'activity-specific', essential: false },
-    { name: 'Swim cap', quantity: 1, category: 'activity-specific', essential: false },
-    { name: 'Quick-dry towel', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Badetøy', quantity: 2, category: 'clothing', essential: true },
+    { name: 'Svømmebriller', quantity: 1, category: 'activity-specific', essential: false },
+    { name: 'Badehette', quantity: 1, category: 'activity-specific', essential: false },
+    { name: 'Hurtigtørkende håndkle', quantity: 1, category: 'accessories', essential: true },
   ],
   skiing: [
-    { name: 'Ski gear (rent or bring)', quantity: 1, category: 'activity-specific', essential: true, notes: 'Consider renting at destination' },
-    { name: 'Ski socks', quantity: 3, category: 'clothing', essential: true },
-    { name: 'Neck gaiter', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Lip balm with SPF', quantity: 1, category: 'toiletries', essential: true },
+    { name: 'Skiutstyr (lei eller ta med)', quantity: 1, category: 'activity-specific', essential: true, notes: 'Vurder å leie på reisemålet' },
+    { name: 'Skisokker', quantity: 3, category: 'clothing', essential: true },
+    { name: 'Buff/halsvarmer', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Leppepomade med solfaktor', quantity: 1, category: 'toiletries', essential: true },
   ],
   'formal-events': [
-    { name: 'Formal attire', quantity: 1, category: 'clothing', essential: true },
-    { name: 'Dress shoes', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Jewelry/Accessories', quantity: 1, category: 'accessories', essential: false },
-    { name: 'Garment bag', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Festantrekk', quantity: 1, category: 'clothing', essential: true },
+    { name: 'Pene sko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Smykker/tilbehør', quantity: 1, category: 'accessories', essential: false },
+    { name: 'Draktpose', quantity: 1, category: 'accessories', essential: true },
   ],
   sightseeing: [
-    { name: 'Comfortable walking shoes', quantity: 1, category: 'footwear', essential: true },
-    { name: 'Day backpack', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Portable charger', quantity: 1, category: 'electronics', essential: true },
-    { name: 'Guidebook/Maps', quantity: 1, category: 'documents', essential: false },
+    { name: 'Gode gåsko', quantity: 1, category: 'footwear', essential: true },
+    { name: 'Dagssekk', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Powerbank', quantity: 1, category: 'electronics', essential: true },
+    { name: 'Reiseguide/kart', quantity: 1, category: 'documents', essential: false },
   ],
   photography: [
-    { name: 'Camera', quantity: 1, category: 'electronics', essential: true },
-    { name: 'Extra batteries', quantity: 2, category: 'electronics', essential: true },
-    { name: 'Memory cards', quantity: 2, category: 'electronics', essential: true },
-    { name: 'Camera bag', quantity: 1, category: 'accessories', essential: true },
-    { name: 'Tripod', quantity: 1, category: 'activity-specific', essential: false },
-    { name: 'Lens cleaning kit', quantity: 1, category: 'activity-specific', essential: false },
+    { name: 'Kamera', quantity: 1, category: 'electronics', essential: true },
+    { name: 'Ekstra batterier', quantity: 2, category: 'electronics', essential: true },
+    { name: 'Minnekort', quantity: 2, category: 'electronics', essential: true },
+    { name: 'Kamerabag', quantity: 1, category: 'accessories', essential: true },
+    { name: 'Stativ', quantity: 1, category: 'activity-specific', essential: false },
+    { name: 'Rengjøring til objektiv', quantity: 1, category: 'activity-specific', essential: false },
   ],
 };
 
@@ -203,57 +203,57 @@ const ACTIVITY_ITEMS: Record<Activity, PackingItem[]> = {
  * Standard toiletries
  */
 const TOILETRIES: PackingItem[] = [
-  { name: 'Toothbrush', quantity: 1, category: 'toiletries', essential: true },
-  { name: 'Toothpaste', quantity: 1, category: 'toiletries', essential: true },
+  { name: 'Tannbørste', quantity: 1, category: 'toiletries', essential: true },
+  { name: 'Tannkrem', quantity: 1, category: 'toiletries', essential: true },
   { name: 'Deodorant', quantity: 1, category: 'toiletries', essential: true },
-  { name: 'Shampoo (travel size)', quantity: 1, category: 'toiletries', essential: true },
-  { name: 'Conditioner (travel size)', quantity: 1, category: 'toiletries', essential: false },
-  { name: 'Body wash/Soap', quantity: 1, category: 'toiletries', essential: true },
-  { name: 'Razor', quantity: 1, category: 'toiletries', essential: false },
-  { name: 'Skincare products', quantity: 1, category: 'toiletries', essential: false },
-  { name: 'Sunscreen', quantity: 1, category: 'toiletries', essential: true },
-  { name: 'Lip balm', quantity: 1, category: 'toiletries', essential: false },
+  { name: 'Sjampo (reisestørrelse)', quantity: 1, category: 'toiletries', essential: true },
+  { name: 'Balsam (reisestørrelse)', quantity: 1, category: 'toiletries', essential: false },
+  { name: 'Dusjsåpe/såpe', quantity: 1, category: 'toiletries', essential: true },
+  { name: 'Barberhøvel', quantity: 1, category: 'toiletries', essential: false },
+  { name: 'Hudpleie', quantity: 1, category: 'toiletries', essential: false },
+  { name: 'Solkrem', quantity: 1, category: 'toiletries', essential: true },
+  { name: 'Leppepomade', quantity: 1, category: 'toiletries', essential: false },
 ];
 
 /**
  * Standard electronics
  */
 const ELECTRONICS: PackingItem[] = [
-  { name: 'Phone', quantity: 1, category: 'electronics', essential: true },
-  { name: 'Phone charger', quantity: 1, category: 'electronics', essential: true },
-  { name: 'Power adapter', quantity: 1, category: 'electronics', essential: true, notes: 'Check destination plug type' },
-  { name: 'Portable charger', quantity: 1, category: 'electronics', essential: true },
-  { name: 'Headphones', quantity: 1, category: 'electronics', essential: false },
-  { name: 'E-reader/Tablet', quantity: 1, category: 'electronics', essential: false },
-  { name: 'Laptop', quantity: 1, category: 'electronics', essential: false },
-  { name: 'Laptop charger', quantity: 1, category: 'electronics', essential: false },
+  { name: 'Mobil', quantity: 1, category: 'electronics', essential: true },
+  { name: 'Mobillader', quantity: 1, category: 'electronics', essential: true },
+  { name: 'Strømadapter', quantity: 1, category: 'electronics', essential: true, notes: 'Sjekk hvilken stikkontakt som brukes på reisemålet' },
+  { name: 'Powerbank', quantity: 1, category: 'electronics', essential: true },
+  { name: 'Hodetelefoner', quantity: 1, category: 'electronics', essential: false },
+  { name: 'Lesebrett/nettbrett', quantity: 1, category: 'electronics', essential: false },
+  { name: 'Bærbar PC', quantity: 1, category: 'electronics', essential: false },
+  { name: 'Lader til PC', quantity: 1, category: 'electronics', essential: false },
 ];
 
 /**
- * Medical/Health items
+ * Medical/Helseting
  */
 const MEDICAL: PackingItem[] = [
-  { name: 'Prescription medications', quantity: 1, category: 'medical', essential: true, notes: 'Bring extra supply' },
-  { name: 'Pain relievers', quantity: 1, category: 'medical', essential: true },
-  { name: 'Antihistamines', quantity: 1, category: 'medical', essential: false },
-  { name: 'Motion sickness medication', quantity: 1, category: 'medical', essential: false },
-  { name: 'Band-aids', quantity: 1, category: 'medical', essential: true },
-  { name: 'Hand sanitizer', quantity: 1, category: 'medical', essential: true },
-  { name: 'Insect repellent', quantity: 1, category: 'medical', essential: false },
+  { name: 'Faste medisiner', quantity: 1, category: 'medical', essential: true, notes: 'Ta med litt ekstra' },
+  { name: 'Smertestillende', quantity: 1, category: 'medical', essential: true },
+  { name: 'Allergitabletter', quantity: 1, category: 'medical', essential: false },
+  { name: 'Reisesyketabletter', quantity: 1, category: 'medical', essential: false },
+  { name: 'Plaster', quantity: 1, category: 'medical', essential: true },
+  { name: 'Antibac/håndsprit', quantity: 1, category: 'medical', essential: true },
+  { name: 'Myggmiddel', quantity: 1, category: 'medical', essential: false },
 ];
 
 /**
  * Essential documents
  */
 const DOCUMENTS: PackingItem[] = [
-  { name: 'Passport', quantity: 1, category: 'documents', essential: true },
-  { name: 'ID/Driver\'s license', quantity: 1, category: 'documents', essential: true },
-  { name: 'Travel insurance documents', quantity: 1, category: 'documents', essential: true },
-  { name: 'Flight/Hotel confirmations', quantity: 1, category: 'documents', essential: true },
-  { name: 'Credit/Debit cards', quantity: 1, category: 'documents', essential: true },
-  { name: 'Cash (local currency)', quantity: 1, category: 'documents', essential: true },
-  { name: 'Emergency contacts list', quantity: 1, category: 'documents', essential: false },
-  { name: 'Copies of important documents', quantity: 1, category: 'documents', essential: true },
+  { name: 'Pass', quantity: 1, category: 'documents', essential: true },
+  { name: 'Legitimasjon/førerkort', quantity: 1, category: 'documents', essential: true },
+  { name: 'Reiseforsikring (bevis)', quantity: 1, category: 'documents', essential: true },
+  { name: 'Bekreftelser på fly og hotell', quantity: 1, category: 'documents', essential: true },
+  { name: 'Bankkort/kredittkort', quantity: 1, category: 'documents', essential: true },
+  { name: 'Kontanter (lokal valuta)', quantity: 1, category: 'documents', essential: true },
+  { name: 'Liste over nødkontakter', quantity: 1, category: 'documents', essential: false },
+  { name: 'Kopi av viktige dokumenter', quantity: 1, category: 'documents', essential: true },
 ];
 
 /**
@@ -262,10 +262,10 @@ const DOCUMENTS: PackingItem[] = [
 function scaleQuantity(baseQuantity: number, duration: number, itemName: string): number {
   // Items that don't scale with duration
   const noScaleItems = [
-    'passport', 'id', 'license', 'insurance', 'confirmations', 'cards', 'cash',
-    'contacts', 'copies', 'phone', 'charger', 'adapter', 'laptop', 'camera',
-    'tripod', 'bag', 'backpack', 'umbrella', 'coat', 'jacket', 'boots', 'shoes',
-    'hat', 'sunglasses', 'goggles', 'poles', 'gear', 'kit'
+    'pass', 'legitimasjon', 'førerkort', 'forsikring', 'bekreftelser', 'kort', 'kontanter',
+    'kontakter', 'kopi', 'mobil', 'lader', 'adapter', 'pc', 'kamera',
+    'stativ', 'bag', 'veske', 'sekk', 'paraply', 'jakke', 'støvler', 'sko',
+    'hatt', 'lue', 'solbriller', 'briller', 'staver', 'utstyr', 'plaster', 'kit', 'førstehjelp'
   ];
 
   const lowerName = itemName.toLowerCase();
@@ -273,16 +273,16 @@ function scaleQuantity(baseQuantity: number, duration: number, itemName: string)
     return baseQuantity;
   }
 
-  // Items that scale with duration
-  if (lowerName.includes('underwear') || lowerName.includes('socks')) {
-    return Math.min(duration, 7); // Max 7 days worth
+  // Ting som skaleres med antall dager
+  if (lowerName.includes('undertøy') || lowerName.includes('sokker')) {
+    return Math.min(duration, 7); // maks en ukes forbruk
   }
 
-  if (lowerName.includes('shirt') || lowerName.includes('top') || lowerName.includes('t-shirt')) {
+  if (lowerName.includes('skjorte') || lowerName.includes('overdel')) {
     return Math.min(Math.ceil(duration * 0.7), 7);
   }
 
-  if (lowerName.includes('pants') || lowerName.includes('shorts')) {
+  if (lowerName.includes('bukser') || lowerName.includes('shorts')) {
     return Math.min(Math.ceil(duration * 0.4), 4);
   }
 

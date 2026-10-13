@@ -31,40 +31,27 @@ interface AirlineLimits {
   };
 }
 
+// Veiledende grenser per flyselskap (billigste billettype med håndbagasje). Kontroller alltid hos flyselskapet.
 const AIRLINE_LIMITS: AirlineLimits[] = [
   {
-    name: 'United Airlines',
-    code: 'UA',
-    carryOn: { length: 56, width: 35, height: 22, weight: 10 },
-    checked: { length: 157, width: 0, height: 0, weight: 23, linearTotal: 157 },
-    personalItem: { length: 43, width: 25, height: 22 },
+    name: 'SAS',
+    code: 'SK',
+    carryOn: { length: 55, width: 40, height: 23, weight: 8 },
+    checked: { length: 158, width: 0, height: 0, weight: 23, linearTotal: 158 },
+    personalItem: { length: 40, width: 30, height: 15 },
   },
   {
-    name: 'American Airlines',
-    code: 'AA',
-    carryOn: { length: 56, width: 36, height: 23, weight: 10 },
-    checked: { length: 157, width: 0, height: 0, weight: 23, linearTotal: 157 },
-    personalItem: { length: 45, width: 35, height: 20 },
+    name: 'Norwegian',
+    code: 'DY',
+    carryOn: { length: 55, width: 40, height: 23, weight: 10 },
+    checked: { length: 300, width: 0, height: 0, weight: 32, linearTotal: 300 },
+    personalItem: { length: 40, width: 30, height: 20 },
   },
   {
-    name: 'Delta Air Lines',
-    code: 'DL',
-    carryOn: { length: 56, width: 35, height: 23, weight: 10 },
-    checked: { length: 157, width: 0, height: 0, weight: 23, linearTotal: 157 },
-    personalItem: { length: 46, width: 36, height: 25 },
-  },
-  {
-    name: 'Southwest Airlines',
-    code: 'WN',
-    carryOn: { length: 61, width: 41, height: 25, weight: 10 },
-    checked: { length: 157, width: 0, height: 0, weight: 23, linearTotal: 157 },
-    personalItem: { length: 46, width: 36, height: 20 },
-  },
-  {
-    name: 'British Airways',
-    code: 'BA',
-    carryOn: { length: 56, width: 45, height: 25, weight: 23 },
-    checked: { length: 90, width: 75, height: 43, weight: 23, linearTotal: 208 },
+    name: 'Widerøe',
+    code: 'WF',
+    carryOn: { length: 55, width: 40, height: 20, weight: 8 },
+    checked: { length: 158, width: 0, height: 0, weight: 23, linearTotal: 158 },
     personalItem: { length: 40, width: 30, height: 15 },
   },
   {
@@ -72,45 +59,48 @@ const AIRLINE_LIMITS: AirlineLimits[] = [
     code: 'LH',
     carryOn: { length: 55, width: 40, height: 23, weight: 8 },
     checked: { length: 158, width: 0, height: 0, weight: 23, linearTotal: 158 },
+    personalItem: { length: 40, width: 30, height: 10 },
   },
   {
-    name: 'Air France',
-    code: 'AF',
+    name: 'KLM',
+    code: 'KL',
     carryOn: { length: 55, width: 35, height: 25, weight: 12 },
     checked: { length: 158, width: 0, height: 0, weight: 23, linearTotal: 158 },
     personalItem: { length: 40, width: 30, height: 15 },
   },
   {
-    name: 'Emirates',
-    code: 'EK',
-    carryOn: { length: 55, width: 38, height: 20, weight: 7 },
-    checked: { length: 150, width: 0, height: 0, weight: 30, linearTotal: 300 },
-  },
-  {
-    name: 'Singapore Airlines',
-    code: 'SQ',
-    carryOn: { length: 55, width: 36, height: 23, weight: 7 },
-    checked: { length: 158, width: 0, height: 0, weight: 30, linearTotal: 158 },
+    name: 'Finnair',
+    code: 'AY',
+    carryOn: { length: 55, width: 40, height: 23, weight: 8 },
+    checked: { length: 158, width: 0, height: 0, weight: 23, linearTotal: 158 },
+    personalItem: { length: 40, width: 30, height: 15 },
   },
   {
     name: 'Ryanair',
     code: 'FR',
     carryOn: { length: 55, width: 40, height: 20, weight: 10 },
     checked: { length: 81, width: 119, height: 119, weight: 20, linearTotal: 319 },
-    personalItem: { length: 40, width: 20, height: 25 },
+    personalItem: { length: 40, width: 30, height: 20 },
   },
   {
-    name: 'EasyJet',
+    name: 'Wizz Air',
+    code: 'W6',
+    carryOn: { length: 55, width: 40, height: 23, weight: 10 },
+    checked: { length: 158, width: 0, height: 0, weight: 20, linearTotal: 158 },
+    personalItem: { length: 40, width: 30, height: 20 },
+  },
+  {
+    name: 'easyJet',
     code: 'U2',
     carryOn: { length: 56, width: 45, height: 25, weight: 15 },
     checked: { length: 275, width: 0, height: 0, weight: 23, linearTotal: 275 },
   },
   {
-    name: 'JetBlue',
-    code: 'B6',
-    carryOn: { length: 56, width: 36, height: 23, weight: 10 },
-    checked: { length: 157, width: 0, height: 0, weight: 23, linearTotal: 157 },
-    personalItem: { length: 43, width: 33, height: 20 },
+    name: 'British Airways',
+    code: 'BA',
+    carryOn: { length: 56, width: 45, height: 25, weight: 23 },
+    checked: { length: 90, width: 75, height: 43, weight: 23, linearTotal: 208 },
+    personalItem: { length: 40, width: 30, height: 15 },
   },
 ];
 
@@ -157,11 +147,11 @@ export function LuggageSizeChecker() {
           const limits = airline.checked;
           // Check linear total for checked bags
           if (limits.linearTotal && linearTotal > limits.linearTotal) {
-            issues.push(`Linear total ${linearTotal}cm exceeds ${limits.linearTotal}cm limit`);
+            issues.push(`Sum av lengde, bredde og høyde (${linearTotal} cm) er over grensen på ${limits.linearTotal} cm`);
           }
           // Check weight
           if (limits.weight && weight > limits.weight) {
-            issues.push(`Weight ${weight}kg exceeds ${limits.weight}kg limit`);
+            issues.push(`Vekten ${weight} kg er over grensen på ${limits.weight} kg`);
           }
           checkResults.push({
             airline,
@@ -177,17 +167,17 @@ export function LuggageSizeChecker() {
           const limitDims = [limits.length, limits.width, limits.height].sort((a, b) => b - a);
 
           if (bagDims[0] > limitDims[0]) {
-            issues.push(`Length ${bagDims[0]}cm exceeds ${limitDims[0]}cm limit`);
+            issues.push(`Lengden ${bagDims[0]} cm er over grensen på ${limitDims[0]} cm`);
           }
           if (bagDims[1] > limitDims[1]) {
-            issues.push(`Width ${bagDims[1]}cm exceeds ${limitDims[1]}cm limit`);
+            issues.push(`Bredden ${bagDims[1]} cm er over grensen på ${limitDims[1]} cm`);
           }
           if (bagDims[2] > limitDims[2]) {
-            issues.push(`Height ${bagDims[2]}cm exceeds ${limitDims[2]}cm limit`);
+            issues.push(`Høyden ${bagDims[2]} cm er over grensen på ${limitDims[2]} cm`);
           }
           // Check weight
           if (limits.weight && weight > limits.weight) {
-            issues.push(`Weight ${weight}kg exceeds ${limits.weight}kg limit`);
+            issues.push(`Vekten ${weight} kg er over grensen på ${limits.weight} kg`);
           }
           checkResults.push({
             airline,
@@ -203,7 +193,7 @@ export function LuggageSizeChecker() {
               airline,
               bagType,
               fits: false,
-              issues: ['No personal item allowed or limits not specified'],
+              issues: ['Liten ekstragjenstand er ikke tillatt, eller grensene er ikke oppgitt'],
               linearTotal,
             });
             return;
@@ -213,13 +203,13 @@ export function LuggageSizeChecker() {
           const limitDims = [limits.length, limits.width, limits.height].sort((a, b) => b - a);
 
           if (bagDims[0] > limitDims[0]) {
-            issues.push(`Length ${bagDims[0]}cm exceeds ${limitDims[0]}cm limit`);
+            issues.push(`Lengden ${bagDims[0]} cm er over grensen på ${limitDims[0]} cm`);
           }
           if (bagDims[1] > limitDims[1]) {
-            issues.push(`Width ${bagDims[1]}cm exceeds ${limitDims[1]}cm limit`);
+            issues.push(`Bredden ${bagDims[1]} cm er over grensen på ${limitDims[1]} cm`);
           }
           if (bagDims[2] > limitDims[2]) {
-            issues.push(`Height ${bagDims[2]}cm exceeds ${limitDims[2]}cm limit`);
+            issues.push(`Høyden ${bagDims[2]} cm er over grensen på ${limitDims[2]} cm`);
           }
           checkResults.push({
             airline,
@@ -239,7 +229,7 @@ export function LuggageSizeChecker() {
 
       setResults(checkResults);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Check error');
+      setError(err instanceof Error ? err.message : 'Kontrollfeil');
       setResults([]);
     }
   }, [length, width, height, weight, bagType, selectedAirline]);
@@ -264,8 +254,8 @@ export function LuggageSizeChecker() {
 
   return (
     <CalculatorBase
-      title="Luggage Size Checker"
-      description="Check if your luggage meets airline size and weight limits"
+      title="Bagasjemål"
+      description="Sjekk om bagasjen oppfyller flyselskapenes mål- og vektgrenser"
       onReset={reset}
       error={error}
       results={results.length > 0 && (
@@ -273,12 +263,12 @@ export function LuggageSizeChecker() {
           {/* Summary */}
           <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
             <div>
-              <p className="text-sm text-muted-foreground">Your Bag</p>
+              <p className="text-sm text-muted-foreground">Din bagasje</p>
               <p className="font-bold">{length} × {width} × {height} cm, {weight} kg</p>
-              <p className="text-sm text-muted-foreground">Linear total: {length + width + height} cm</p>
+              <p className="text-sm text-muted-foreground">Sum av alle tre mål: {length + width + height} cm</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">Fits</p>
+              <p className="text-sm text-muted-foreground">Passer</p>
               <p className={`text-2xl font-bold ${fitsCount === totalCount ? 'text-green-600' : fitsCount > 0 ? 'text-yellow-600' : 'text-red-600'}`}>
                 {fitsCount}/{totalCount}
               </p>
@@ -305,7 +295,7 @@ export function LuggageSizeChecker() {
                     </div>
                   </div>
                   <span className={`px-2 py-1 rounded text-sm ${result.fits ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {result.fits ? 'Fits' : 'Too Large'}
+                    {result.fits ? 'Passer' : 'For stor'}
                   </span>
                 </div>
                 {result.issues.length > 0 && (
@@ -325,20 +315,20 @@ export function LuggageSizeChecker() {
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
-            * Limits may vary by fare class and route. Always verify with your airline before traveling.
+            * Grensene varierer med billettype og rute, og kan endres. Kontroller alltid hos flyselskapet før du reiser.
           </p>
         </div>
       )}
     >
       <div className="space-y-4">
-        {/* Bag Type */}
+        {/* Type bagasje */}
         <div className="space-y-2">
-          <p className="text-sm font-medium">Bag Type</p>
+          <p className="text-sm font-medium">Type bagasje</p>
           <div className="flex gap-2">
             {[
-              { value: 'carryOn', label: 'Carry-On' },
-              { value: 'checked', label: 'Checked' },
-              { value: 'personalItem', label: 'Personal Item' },
+              { value: 'carryOn', label: 'Håndbagasje' },
+              { value: 'checked', label: 'Innsjekket' },
+              { value: 'personalItem', label: 'Liten veske/sekk' },
             ].map(type => (
               <Button
                 key={type.value}
@@ -355,11 +345,11 @@ export function LuggageSizeChecker() {
 
         {/* Dimensions */}
         <div className="space-y-2">
-          <p className="text-sm font-medium">Dimensions (cm)</p>
+          <p className="text-sm font-medium">Mål (cm)</p>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground" htmlFor="length">
-                Length
+                Lengde
               </label>
               <input
                 id="length"
@@ -372,7 +362,7 @@ export function LuggageSizeChecker() {
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground" htmlFor="width">
-                Width
+                Bredde
               </label>
               <input
                 id="width"
@@ -385,7 +375,7 @@ export function LuggageSizeChecker() {
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground" htmlFor="height">
-                Height
+                Høyde
               </label>
               <input
                 id="height"
@@ -403,7 +393,7 @@ export function LuggageSizeChecker() {
         {bagType !== 'personalItem' && (
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="weight">
-              Weight (kg)
+              Vekt (kg)
             </label>
             <input
               id="weight"
@@ -420,7 +410,7 @@ export function LuggageSizeChecker() {
         {/* Airline Filter */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="airline">
-            Airline
+            Flyselskap
           </label>
           <select
             id="airline"
@@ -428,7 +418,7 @@ export function LuggageSizeChecker() {
             onChange={(e) => setSelectedAirline(e.target.value)}
             className="w-full px-3 py-2 border rounded-md bg-background"
           >
-            <option value="all">All Airlines</option>
+            <option value="all">Alle flyselskaper</option>
             {AIRLINE_LIMITS.map(airline => (
               <option key={airline.code} value={airline.code}>
                 {airline.name} ({airline.code})
@@ -439,13 +429,13 @@ export function LuggageSizeChecker() {
 
         {/* Common Bag Sizes */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">Common Sizes</p>
+          <p className="text-sm font-medium text-muted-foreground">Vanlige størrelser</p>
           <div className="flex flex-wrap gap-2">
             {[
-              { label: 'Cabin (55×35×20)', l: 55, w: 35, h: 20 },
-              { label: 'Medium (65×45×25)', l: 65, w: 45, h: 25 },
-              { label: 'Large (75×50×30)', l: 75, w: 50, h: 30 },
-              { label: 'Backpack (45×35×20)', l: 45, w: 35, h: 20 },
+              { label: 'Kabinkoffert (55×35×20)', l: 55, w: 35, h: 20 },
+              { label: 'Mellomstor (65×45×25)', l: 65, w: 45, h: 25 },
+              { label: 'Stor (75×50×30)', l: 75, w: 50, h: 30 },
+              { label: 'Ryggsekk (45×35×20)', l: 45, w: 35, h: 20 },
             ].map(size => (
               <Button
                 key={size.label}

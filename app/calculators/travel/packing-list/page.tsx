@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { PackingListGenerator } from '@/components/calculators/travel/packing-list-generator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Packing List Generator - Travel Checklist Creator',
-  description: 'Generate a customized packing list based on your trip type, duration, weather, and activities. Never forget essential items again.',
-  keywords: ['packing list', 'travel checklist', 'packing generator', 'travel essentials', 'trip planner', 'what to pack'],
+  title: 'Pakkeliste – gratis kalkulator på nett',
+  description: 'Lag en tilpasset pakkeliste ut fra reisemål, vær og varighet. Gratis og uten registrering.',
+  keywords: ['pakkeliste', 'reisesjekkliste', 'pakking', 'ferie'],
   alternates: { canonical: '/calculators/travel/packing-list' },
+  openGraph: {
+    title: 'Pakkeliste',
+    description: 'Lag en tilpasset pakkeliste ut fra reisemål, vær og varighet',
+    url: '/calculators/travel/packing-list',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Packing List Generator',
-  description: 'Generate customized packing lists for any trip',
+  name: 'Pakkeliste',
+  description: 'Lag en tilpasset pakkeliste ut fra reisemål, vær og varighet',
   applicationCategory: 'TravelApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set trip duration', text: 'Use the slider to select how many days your trip will be.' },
-  { name: 'Choose trip type', text: 'Select the type of trip: business, leisure, adventure, beach, city, or winter.' },
-  { name: 'Select weather', text: 'Choose the expected weather conditions at your destination.' },
-  { name: 'Add activities', text: 'Select any special activities you plan to do (hiking, swimming, etc.).' },
-  { name: 'Generate and customize', text: 'Review your list, check off items as you pack, and download or copy the list.' },
+  { name: 'Velg lengde og type reise', text: 'Fortell hvor lenge du skal være borte og hva slags reise det er.' },
+  { name: 'Velg vær og aktiviteter', text: 'Velg forventet vær og kryss av for aktivitetene du skal gjøre.' },
+  { name: 'Velg hva som skal være med', text: 'Du kan ta med toalettsaker, elektronikk og medisin eller la det ligge.' },
+  { name: 'Pakk og kryss av', text: 'Kryss av underveis, kopier listen eller last den ned som tekstfil.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How does the packing list adjust for trip length?', 
-    answer: 'The generator scales quantities based on your trip duration. Items like underwear and shirts increase with longer trips (up to a week\'s worth), while single items like jackets stay at one.' 
-  },
-  { 
-    question: 'What\'s the difference between essential and non-essential items?', 
-    answer: 'Essential items are must-haves for your trip type and conditions. Non-essential items are nice-to-have but optional. Use the "Essentials Only" filter to focus on what you really need.' 
-  },
-  { 
-    question: 'How accurate is the weight estimate?', 
-    answer: 'The weight estimate is approximate, based on average item weights. Actual weight will vary based on specific items you pack. Use it as a rough guide for airline weight limits.' 
-  },
-  { 
-    question: 'Can I save my packing list?', 
-    answer: 'Yes! You can download your list as a text file or copy it to your clipboard. Your checked items are saved in your browser session.' 
-  },
-  { 
-    question: 'Why are some items missing from my list?', 
-    answer: 'Items are included based on your trip type, weather, and activities. If you need something specific, you can always add it manually to your downloaded list.' 
-  },
+  { question: 'Hvor mange klesplagg bør jeg ta med?', answer: 'Listen regner med antall dager for undertøy, sokker og overdeler, men maks en ukes forbruk. For lengre reiser kan du vaske underveis.' },
+  { question: 'Hva er «bare det viktigste»?', answer: 'Et filter som bare viser tingene som er merket som viktige, praktisk når du bare har håndbagasje.' },
+  { question: 'Husker jeg alt med denne listen?', answer: 'Den er et godt utgangspunkt. Legg til det du trenger personlig, som fast medisin og barnas ting, og sjekk reglene for væsker og batterier hos flyselskapet.' },
+  { question: 'Hva med EHIC-kort og reiseforsikring?', answer: 'Husk helsekort for EØS (EHIC), reiseforsikring og pass eller nasjonalt ID-kort. Sjekk hva som kreves for landet du reiser til.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/luggage-size', title: 'Luggage Size Checker', description: 'Check airline luggage requirements.' },
-  { href: '/calculators/travel/currency-converter', title: 'Currency Converter', description: 'Convert currencies for your trip.' },
+  { href: '/calculators/travel/luggage-size', title: 'Bagasjemål', description: 'Sjekk om bagasjen oppfyller mål- og vektgrensene hos SAS, Norwegian, Widerøe og andre flyselskaper' },
+  { href: '/calculators/travel/flight-duration', title: 'Flytid', description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser' },
 ];
 
 export default function PackingListPage() {
@@ -61,13 +53,12 @@ export default function PackingListPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="packing-list-generator"
-          title="Packing List Generator"
-          description="Generate a customized packing list based on your trip details. Select your trip type, duration, weather, and activities to get a comprehensive checklist."
-          colorClass="bg-orange-100 text-orange-600"
+          toolId="packing-list"
+          title="Pakkeliste"
+          description="Lag en pakkeliste som passer reisen, ut fra varighet, type reise, vær og aktiviteter. Kan kopieres eller lastes ned. Gratis og uten registrering."
         />
 
-        <section aria-label="Packing List Generator">
+        <section aria-label="Pakkeliste">
           <PackingListGenerator />
         </section>
 

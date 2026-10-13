@@ -1,58 +1,49 @@
 import { Metadata } from 'next';
 import { FlightDurationCalculator } from '@/components/calculators/travel/flight-duration-calculator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Flight Duration Calculator - Estimate Flight Times',
-  description: 'Calculate estimated flight times between major world airports. Get distance in km and miles, plus flight type classification.',
-  keywords: ['flight duration', 'flight time calculator', 'flight distance', 'airport distance', 'travel time', 'how long is flight'],
+  title: 'Flytid – gratis kalkulator på nett',
+  description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser. Gratis og uten registrering.',
+  keywords: ['flytid', 'flytur', 'reisetid', 'flyreise'],
   alternates: { canonical: '/calculators/travel/flight-duration' },
+  openGraph: {
+    title: 'Flytid',
+    description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser',
+    url: '/calculators/travel/flight-duration',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Flight Duration Calculator',
-  description: 'Estimate flight times between major world airports',
+  name: 'Flytid',
+  description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser',
   applicationCategory: 'TravelApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select departure airport', text: 'Click on the departure field and search for your origin airport.' },
-  { name: 'Select arrival airport', text: 'Click on the arrival field and search for your destination airport.' },
-  { name: 'View results', text: 'See the estimated flight time, distance, and flight type classification.' },
-  { name: 'Try popular routes', text: 'Use the quick buttons to check common international routes.' },
-  { name: 'Swap direction', text: 'Click the arrow button to reverse your route.' },
+  { name: 'Velg avreiseflyplass', text: 'Søk etter by eller flyplasskode. Oslo er valgt som standard.' },
+  { name: 'Velg ankomstflyplass', text: 'Søk etter flyplassen du skal til, eller bruk en av de vanlige rutene.' },
+  { name: 'Les resultatet', text: 'Se anslått flytid og avstand i kilometer.' },
+  { name: 'Bytt retning', text: 'Trykk på pilen for å snu ruten.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How accurate are the flight time estimates?', 
-    answer: 'Estimates are based on great circle distance and typical cruise speeds for each flight type. Actual times may vary by 10-20% due to weather, routing, aircraft type, and air traffic.' 
-  },
-  { 
-    question: 'What do the flight types mean?', 
-    answer: 'Short-haul flights are under 1,500 km (typically 1-3 hours). Medium-haul is 1,500-4,000 km (3-6 hours). Long-haul is 4,000-10,000 km (6-14 hours). Ultra long-haul exceeds 10,000 km (14+ hours).' 
-  },
-  { 
-    question: 'Does this include layover time?', 
-    answer: 'No, this calculator shows direct flight time only. For connecting flights, add your layover time plus the duration of each flight segment.' 
-  },
-  { 
-    question: 'Why might my actual flight be longer?', 
-    answer: 'Actual flights may be longer due to headwinds, air traffic control routing, weather diversions, or using slower aircraft. Eastbound transatlantic flights are often faster than westbound due to jet streams.' 
-  },
-  { 
-    question: 'Which airports are included?', 
-    answer: 'We include 50+ major international airports across all continents. Search by city name, airport code, or country to find your airports.' 
-  },
+  { question: 'Hvor nøyaktig er flytiden?', answer: 'Dette er et overslag basert på luftlinjen mellom flyplassene og vanlig marsjfart. Virkelig flytid varierer med vind, rute og flytype, ofte med 15–30 minutter.' },
+  { question: 'Hva er inkludert i tiden?', answer: 'Anslaget inkluderer taksing, avgang og landing.' },
+  { question: 'Tar den hensyn til tidssoner?', answer: 'Nei, tiden er selve flytiden. Bruk møteplanleggeren for å finne klokkeslett i ankomststedet.' },
+  { question: 'Hvorfor flyr fly ikke rett linje?', answer: 'Ruter følger ofte store sirkler, men må ta hensyn til luftrom, vær og vind. Ved lange fly mot vest og øst kan flytiden være ulik i hver retning.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/timezone-planner', title: 'Time Zone Planner', description: 'Plan meetings across time zones.' },
-  { href: '/calculators/travel/packing-list', title: 'Packing List Generator', description: 'Generate a packing list for your trip.' },
+  { href: '/calculators/travel/timezone-planner', title: 'Møteplanlegger på tvers av tidssoner', description: 'Planlegg møter på tvers av tidssoner, med sommertid, og finn tidspunkt som passer for alle' },
 ];
 
 export default function FlightDurationPage() {
@@ -61,13 +52,12 @@ export default function FlightDurationPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="flight-duration-calculator"
-          title="Flight Duration Calculator"
-          description="Estimate flight times between major world airports. Get distance calculations and flight type classifications for your travel planning."
-          colorClass="bg-sky-100 text-sky-600"
+          toolId="flight-duration"
+          title="Flytid"
+          description="Anslå flytid og avstand mellom norske og store internasjonale flyplasser. Gratis og uten registrering."
         />
 
-        <section aria-label="Flight Duration Calculator">
+        <section aria-label="Flytid">
           <FlightDurationCalculator />
         </section>
 

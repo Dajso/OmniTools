@@ -13,8 +13,8 @@ import {
 import { ArrowRightLeft, Wifi, WifiOff, RefreshCw } from 'lucide-react';
 
 export function CurrencyConverter() {
-  const [amount, setAmount] = React.useState<number>(100);
-  const [fromCurrency, setFromCurrency] = React.useState<string>('USD');
+  const [amount, setAmount] = React.useState<number>(1000);
+  const [fromCurrency, setFromCurrency] = React.useState<string>('NOK');
   const [toCurrency, setToCurrency] = React.useState<string>('EUR');
   const [results, setResults] = React.useState<ConversionResult | null>(null);
   const [error, setError] = React.useState<string | undefined>();
@@ -31,7 +31,7 @@ export function CurrencyConverter() {
       const result = convertCurrency(amount, fromCurrency, toCurrency);
       setResults(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion error');
+      setError(err instanceof Error ? err.message : 'Omregningsfeil');
       setResults(null);
     }
   }, [amount, fromCurrency, toCurrency]);
@@ -42,8 +42,8 @@ export function CurrencyConverter() {
   };
 
   const reset = () => {
-    setAmount(100);
-    setFromCurrency('USD');
+    setAmount(1000);
+    setFromCurrency('NOK');
     setToCurrency('EUR');
     setResults(null);
     setError(undefined);
@@ -55,16 +55,16 @@ export function CurrencyConverter() {
 
   const getCurrencySymbol = (code: string): string => {
     const currency = SUPPORTED_CURRENCIES.find(c => c.code === code);
-    return currency?.symbol || code;
+    return currency ? (code === 'NOK' ? 'kr' : currency.code) : code;
   };
 
   // Quick amount buttons
-  const quickAmounts = [10, 50, 100, 500, 1000];
+  const quickAmounts = [100, 500, 1000, 5000, 10000];
 
   return (
     <CalculatorBase
-      title="Currency Converter"
-      description="Convert between world currencies with offline support"
+      title="Valutakalkulator"
+      description="Regn om mellom norske kroner og andre valutaer. Fungerer også uten nett."
       onReset={reset}
       error={error}
       results={results && (
@@ -76,16 +76,16 @@ export function CurrencyConverter() {
             {results.isOffline ? (
               <>
                 <WifiOff className="h-4 w-4" />
-                <span>Using cached rates (may be outdated)</span>
+                <span>Bruker lagrede kurser (kan være utdatert)</span>
               </>
             ) : (
               <>
                 <Wifi className="h-4 w-4" />
-                <span>Using latest rates</span>
+                <span>Bruker nyeste kurser</span>
               </>
             )}
             <span className="text-muted-foreground ml-auto">
-              Rate date: {results.rateDate}
+              Kursdato: {results.rateDate}
             </span>
           </div>
 
@@ -103,27 +103,27 @@ export function CurrencyConverter() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label={`1 ${results.fromCurrency} =`}
-              value={results.rate.toFixed(4)}
+              value={results.rate.toLocaleString('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
               unit={results.toCurrency}
               copyable 
             />
             <ResultDisplay 
               label={`1 ${results.toCurrency} =`}
-              value={results.inverseRate.toFixed(4)}
+              value={results.inverseRate.toLocaleString('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
               unit={results.fromCurrency}
               copyable 
             />
           </div>
 
-          {/* Quick Reference Table */}
+          {/* Hurtigoppslag Table */}
           <div className="mt-4">
-            <p className="text-sm font-medium text-muted-foreground mb-2">Quick Reference</p>
+            <p className="text-sm font-medium text-muted-foreground mb-2">Hurtigoppslag</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              {[1, 5, 10, 50, 100, 500].map(val => (
+              {[10, 50, 100, 500, 1000, 5000].map(val => (
                 <div key={val} className="flex justify-between p-2 bg-muted rounded">
-                  <span>{getCurrencySymbol(fromCurrency)}{val}</span>
+                  <span>{val} {getCurrencySymbol(fromCurrency)}</span>
                   <span className="font-medium">
-                    {getCurrencySymbol(toCurrency)}{(val * results.rate).toFixed(2)}
+                    {(val * results.rate).toLocaleString('nb-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {getCurrencySymbol(toCurrency)}
                   </span>
                 </div>
               ))}
@@ -136,10 +136,10 @@ export function CurrencyConverter() {
         {/* Amount Input */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="amount">
-            Amount
+            Beløp
           </label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
               {getCurrencySymbol(fromCurrency)}
             </span>
             <input
@@ -149,7 +149,7 @@ export function CurrencyConverter() {
               onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
               min="0"
               step="0.01"
-              className="w-full pl-10 pr-3 py-2 border rounded-md bg-background text-lg"
+              className="w-full pl-3 pr-14 py-2 border rounded-md bg-background text-lg"
             />
           </div>
           {/* Quick amount buttons */}
@@ -172,7 +172,7 @@ export function CurrencyConverter() {
         <div className="flex items-end gap-2">
           <div className="flex-1 space-y-2">
             <label className="text-sm font-medium" htmlFor="from-currency">
-              From
+              Fra
             </label>
             <select
               id="from-currency"
@@ -194,14 +194,14 @@ export function CurrencyConverter() {
             size="icon"
             onClick={swapCurrencies}
             className="mb-0.5"
-            aria-label="Swap currencies"
+            aria-label="Bytt valuta"
           >
             <ArrowRightLeft className="h-4 w-4" />
           </Button>
 
           <div className="flex-1 space-y-2">
             <label className="text-sm font-medium" htmlFor="to-currency">
-              To
+              Til
             </label>
             <select
               id="to-currency"
@@ -220,15 +220,15 @@ export function CurrencyConverter() {
 
         {/* Popular Currency Pairs */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-muted-foreground">Popular Pairs</p>
+          <p className="text-sm font-medium text-muted-foreground">Vanlige valutapar</p>
           <div className="flex flex-wrap gap-2">
             {[
-              { from: 'USD', to: 'EUR' },
-              { from: 'USD', to: 'GBP' },
-              { from: 'EUR', to: 'GBP' },
-              { from: 'USD', to: 'JPY' },
-              { from: 'USD', to: 'CAD' },
-              { from: 'EUR', to: 'CHF' },
+              { from: 'NOK', to: 'EUR' },
+              { from: 'NOK', to: 'USD' },
+              { from: 'NOK', to: 'SEK' },
+              { from: 'NOK', to: 'DKK' },
+              { from: 'NOK', to: 'GBP' },
+              { from: 'EUR', to: 'NOK' },
             ].map(pair => (
               <Button
                 key={`${pair.from}-${pair.to}`}

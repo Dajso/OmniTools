@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { TravelBudgetSplitter } from '@/components/calculators/travel/travel-budget-splitter';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Travel Budget Splitter - Split Group Expenses',
-  description: 'Split travel expenses fairly among your group. Track who paid what and calculate who owes whom to settle up.',
-  keywords: ['expense splitter', 'split bill', 'travel budget', 'group expenses', 'trip cost calculator', 'who owes whom'],
+  title: 'Del reiseutgifter – gratis kalkulator på nett',
+  description: 'Del utgifter mellom reisefølget og se hvem som skylder hvem. Gratis og uten registrering.',
+  keywords: ['del utgifter', 'reisebudsjett', 'felles utgifter', 'oppgjør'],
   alternates: { canonical: '/calculators/travel/budget-splitter' },
+  openGraph: {
+    title: 'Del reiseutgifter',
+    description: 'Del utgifter mellom reisefølget og se hvem som skylder hvem',
+    url: '/calculators/travel/budget-splitter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Travel Budget Splitter',
-  description: 'Split travel expenses fairly among your group',
+  name: 'Del reiseutgifter',
+  description: 'Del utgifter mellom reisefølget og se hvem som skylder hvem',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Add people', text: 'Enter the names of everyone in your travel group.' },
-  { name: 'Add expenses', text: 'Record each expense with description, amount, and who paid.' },
-  { name: 'Select who splits', text: 'Choose which people should split each expense.' },
-  { name: 'View balances', text: 'See who is owed money and who owes money.' },
-  { name: 'Settle up', text: 'Follow the settlement suggestions to balance everyone out.' },
+  { name: 'Legg inn personene', text: 'Skriv inn navn på alle som er med.' },
+  { name: 'Legg inn utgiftene', text: 'Skriv inn beskrivelse og beløp i kroner for hver utgift.' },
+  { name: 'Velg hvem som betalte', text: 'Velg hvem som la ut pengene, og hvem utgiften skal deles mellom.' },
+  { name: 'Se oppgjøret', text: 'Kalkulatoren viser saldo per person og hvem som bør overføre penger til hvem.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How does the splitting work?', 
-    answer: 'Each expense is divided equally among the people selected to split it. The person who paid gets credit, and everyone in the split owes their share. The calculator then figures out the minimum payments needed to settle up.' 
-  },
-  { 
-    question: 'Can I split expenses unequally?', 
-    answer: 'Currently, expenses are split equally among selected participants. For unequal splits, you can add separate expenses for each person\'s share.' 
-  },
-  { 
-    question: 'What if someone didn\'t participate in an expense?', 
-    answer: 'Simply uncheck that person from the "Split between" selection for that expense. They won\'t be included in that particular split.' 
-  },
-  { 
-    question: 'How are settlements calculated?', 
-    answer: 'The calculator uses a debt simplification algorithm to minimize the number of transactions needed. Instead of everyone paying everyone, it finds the most efficient way to settle all debts.' 
-  },
-  { 
-    question: 'Can I use different currencies?', 
-    answer: 'The calculator works with any currency, but all amounts should be in the same currency. Use our Currency Converter to convert amounts before entering them.' 
-  },
+  { question: 'Må alle dele på alle utgiftene?', answer: 'Nei. Per utgift kan du velge hvem den deles mellom, for eksempel hvis noen ikke var med på middagen.' },
+  { question: 'Hvordan regnes oppgjøret ut?', answer: 'Hver utgift deles likt mellom de valgte. Så regnes det ut hvor mye hver person har lagt ut og skylder, og oppgjøret settes opp med så få overføringer som mulig.' },
+  { question: 'Kan jeg bruke andre valutaer?', answer: 'Beløpene regnes som norske kroner. Regn om utenlandske beløp først med valutakalkulatoren.' },
+  { question: 'Lagres dataene?', answer: 'Nei. Alt beregnes i nettleseren din og forsvinner når du lukker siden.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/currency-converter', title: 'Currency Converter', description: 'Convert between currencies.' },
-  { href: '/calculators/finance/tip-calculator', title: 'Tip Calculator', description: 'Calculate tips for your group.' },
-  { href: '/calculators/travel/packing-list', title: 'Packing List Generator', description: 'Generate a packing list.' },
+  { href: '/calculators/travel/currency-converter', title: 'Valuta på reise', description: 'Regn om mellom norske kroner og andre valutaer, også uten nett, med veiledende kurser' },
+  { href: '/calculators/finance/tip-calculator', title: 'Drikkepengekalkulator', description: 'Regn ut drikkepenger og del regningen mellom flere' },
 ];
 
 export default function BudgetSplitterPage() {
@@ -62,13 +53,12 @@ export default function BudgetSplitterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="travel-budget-splitter"
-          title="Travel Budget Splitter"
-          description="Split travel expenses fairly among your group. Track who paid what, see individual balances, and get simple settlement suggestions."
-          colorClass="bg-emerald-100 text-emerald-600"
+          toolId="budget-splitter"
+          title="Del reiseutgifter"
+          description="Fordel reiseutgifter mellom deltakerne og se hvem som skylder hvem, med færrest mulig overføringer. Gratis og uten registrering."
         />
 
-        <section aria-label="Travel Budget Splitter">
+        <section aria-label="Del reiseutgifter">
           <TravelBudgetSplitter />
         </section>
 

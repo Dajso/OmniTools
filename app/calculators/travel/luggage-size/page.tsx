@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { LuggageSizeChecker } from '@/components/calculators/travel/luggage-size-checker';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Luggage Size Checker - Airline Baggage Limits',
-  description: 'Check if your luggage meets airline size and weight limits. Compare carry-on, checked bag, and personal item requirements across major airlines.',
-  keywords: ['luggage size', 'baggage limits', 'carry-on size', 'airline luggage', 'bag dimensions', 'checked baggage'],
+  title: 'Bagasjemål – gratis kalkulator på nett',
+  description: 'Sjekk om bagasjen oppfyller mål- og vektgrensene hos SAS, Norwegian, Widerøe og andre flyselskaper. Gratis og uten registrering.',
+  keywords: ['bagasje', 'håndbagasje', 'bagasjegrenser', 'flyselskap', 'kabinbagasje'],
   alternates: { canonical: '/calculators/travel/luggage-size' },
+  openGraph: {
+    title: 'Bagasjemål',
+    description: 'Sjekk om bagasjen oppfyller mål- og vektgrensene hos SAS, Norwegian, Widerøe og andre flyselskaper',
+    url: '/calculators/travel/luggage-size',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Luggage Size Checker',
-  description: 'Check if your luggage meets airline size and weight limits',
+  name: 'Bagasjemål',
+  description: 'Sjekk om bagasjen oppfyller mål- og vektgrensene hos SAS, Norwegian, Widerøe og andre flyselskaper',
   applicationCategory: 'TravelApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select bag type', text: 'Choose whether you\'re checking a carry-on, checked bag, or personal item.' },
-  { name: 'Enter dimensions', text: 'Input your bag\'s length, width, and height in centimeters.' },
-  { name: 'Enter weight', text: 'Add the weight of your packed bag in kilograms.' },
-  { name: 'Select airline', text: 'Choose a specific airline or check all airlines at once.' },
-  { name: 'Review results', text: 'See which airlines accept your bag and any size issues.' },
+  { name: 'Velg type bagasje', text: 'Velg håndbagasje, innsjekket bagasje eller liten veske/sekk.' },
+  { name: 'Mål bagasjen', text: 'Oppgi lengde, bredde og høyde i centimeter, og vekten i kilo.' },
+  { name: 'Velg flyselskap', text: 'Se alle flyselskapene samtidig, eller velg ett.' },
+  { name: 'Les resultatet', text: 'Se hvilke flyselskaper bagasjen passer hos, og hva som eventuelt er over grensen.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What\'s the difference between carry-on and personal item?', 
-    answer: 'A carry-on is your main cabin bag that goes in the overhead bin. A personal item is a smaller bag (like a purse, laptop bag, or small backpack) that fits under the seat in front of you. Most airlines allow both.' 
-  },
-  { 
-    question: 'What is linear total?', 
-    answer: 'Linear total is the sum of length + width + height. Many airlines use this measurement for checked bags instead of individual dimension limits. For example, a 157cm linear limit means L+W+H must not exceed 157cm.' 
-  },
-  { 
-    question: 'Do these limits include wheels and handles?', 
-    answer: 'Yes, airline limits typically include wheels, handles, and any external pockets. Measure your bag at its largest points with handles extended.' 
-  },
-  { 
-    question: 'What happens if my bag is too big?', 
-    answer: 'If your carry-on exceeds limits, you may be required to check it at the gate, often for an additional fee. For checked bags, oversized luggage typically incurs extra charges.' 
-  },
-  { 
-    question: 'Why do limits vary by airline?', 
-    answer: 'Each airline sets its own policies based on aircraft types, overhead bin sizes, and business decisions. Budget airlines often have stricter limits, while premium carriers may be more generous.' 
-  },
+  { question: 'Er grensene alltid riktige?', answer: 'De er veiledende og kan endres. Grensene varierer også med billettype og rute, så kontroller alltid hos flyselskapet før du reiser.' },
+  { question: 'Må jeg måle med hjul og håndtak?', answer: 'Ja. Mål ytterst, inkludert hjul, håndtak og utvendige lommer, slik flyselskapene gjør.' },
+  { question: 'Hva er forskjellen på håndbagasje og liten veske?', answer: 'Håndbagasje er en koffert eller bag som går i hyllen over setene. Liten veske eller sekk skal ligge under setet foran deg, og er ofte det eneste som er inkludert på de billigste billettene.' },
+  { question: 'Hva skjer hvis bagasjen er for stor eller for tung?', answer: 'Du må ofte betale et tillegg ved gate eller innsjekking, og det er vanligvis dyrere enn å bestille riktig bagasje på forhånd.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/packing-list', title: 'Packing List Generator', description: 'Generate a packing list for your trip.' },
-  { href: '/calculators/travel/flight-duration', title: 'Flight Duration Calculator', description: 'Estimate flight times.' },
-  { href: '/calculators/travel/currency-converter', title: 'Currency Converter', description: 'Convert currencies for your trip.' },
+  { href: '/calculators/travel/packing-list', title: 'Pakkeliste', description: 'Lag en tilpasset pakkeliste ut fra reisemål, vær og varighet' },
+  { href: '/calculators/travel/flight-duration', title: 'Flytid', description: 'Anslå flytid og avstand mellom norske og store internasjonale flyplasser' },
 ];
 
 export default function LuggageSizePage() {
@@ -62,13 +53,12 @@ export default function LuggageSizePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="luggage-size-checker"
-          title="Luggage Size Checker"
-          description="Check if your luggage meets airline size and weight limits. Compare requirements across 12+ major airlines for carry-on, checked bags, and personal items."
-          colorClass="bg-indigo-100 text-indigo-600"
+          toolId="luggage-size"
+          title="Bagasjemål"
+          description="Sjekk om bagasjen oppfyller mål- og vektgrensene hos SAS, Norwegian, Widerøe og andre flyselskaper. Gratis og uten registrering."
         />
 
-        <section aria-label="Luggage Size Checker">
+        <section aria-label="Bagasjemål">
           <LuggageSizeChecker />
         </section>
 

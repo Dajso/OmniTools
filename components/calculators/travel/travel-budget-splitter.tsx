@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Plus, Trash2, Users, Receipt, ArrowRight } from 'lucide-react';
+import { formatCurrency } from '@/lib/utils/formatting';
 
 interface Person {
   id: string;
@@ -182,7 +183,7 @@ export function TravelBudgetSplitter() {
         settlements,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResults(null);
     }
   }, [expenses, people]);
@@ -200,13 +201,13 @@ export function TravelBudgetSplitter() {
   }, [calculate]);
 
   const getPersonName = (id: string): string => {
-    return people.find(p => p.id === id)?.name || 'Unknown';
+    return people.find(p => p.id === id)?.name || 'Ukjent';
   };
 
   return (
     <CalculatorBase
-      title="Travel Budget Splitter"
-      description="Split travel expenses fairly among your group"
+      title="Del reiseutgifter"
+      description="Fordel utgiftene rettferdig i reisefølget og se hvem som skylder hvem"
       onReset={reset}
       error={error}
       results={results && (
@@ -214,21 +215,21 @@ export function TravelBudgetSplitter() {
           {/* Summary */}
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Total Expenses" 
-              value={`$${results.totalExpenses.toFixed(2)}`}
+              label="Utgifter totalt"
+              value={formatCurrency(results.totalExpenses)}
               highlight 
               copyable 
             />
             <ResultDisplay 
-              label="Per Person (Equal)" 
-              value={`$${results.perPersonShare.toFixed(2)}`}
+              label="Per person (likt fordelt)"
+              value={formatCurrency(results.perPersonShare)}
               copyable 
             />
           </div>
 
           {/* Individual Balances */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground">Individual Balances</p>
+            <p className="text-sm font-medium text-muted-foreground">Saldo per person</p>
             <div className="grid gap-2">
               {people.map(person => {
                 const balance = results.balances[person.id] || 0;
@@ -246,7 +247,7 @@ export function TravelBudgetSplitter() {
                   >
                     <span className="font-medium">{person.name}</span>
                     <span className="font-bold">
-                      {isPositive ? '+' : ''}{balance.toFixed(2)}
+                      {isPositive ? '+' : ''}{formatCurrency(balance)}
                     </span>
                   </div>
                 );
@@ -257,7 +258,7 @@ export function TravelBudgetSplitter() {
           {/* Settlements */}
           {results.settlements.length > 0 && (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">Who Pays Whom</p>
+              <p className="text-sm font-medium text-muted-foreground">Hvem betaler hvem</p>
               <div className="space-y-2">
                 {results.settlements.map((settlement, index) => (
                   <Card key={index} className="p-4">
@@ -272,7 +273,7 @@ export function TravelBudgetSplitter() {
                         </span>
                       </div>
                       <span className="text-xl font-bold">
-                        ${settlement.amount.toFixed(2)}
+                        {formatCurrency(settlement.amount)}
                       </span>
                     </div>
                   </Card>
@@ -283,7 +284,7 @@ export function TravelBudgetSplitter() {
 
           {results.settlements.length === 0 && (
             <div className="p-4 bg-green-50 text-green-700 rounded-lg text-center">
-              Everyone is settled up! No payments needed.
+              Alt er oppgjort. Ingen må betale noe.
             </div>
           )}
         </div>
@@ -295,7 +296,7 @@ export function TravelBudgetSplitter() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4" />
-              <p className="text-sm font-medium">People ({people.length})</p>
+              <p className="text-sm font-medium">Personer ({people.length})</p>
             </div>
           </div>
 
@@ -331,7 +332,7 @@ export function TravelBudgetSplitter() {
               type="text"
               value={newPersonName}
               onChange={(e) => setNewPersonName(e.target.value)}
-              placeholder="Add person..."
+              placeholder="Legg til person …"
               className="flex-1 px-3 py-1.5 text-sm border rounded-md bg-background"
               onKeyDown={(e) => e.key === 'Enter' && addPerson()}
             />
@@ -346,17 +347,17 @@ export function TravelBudgetSplitter() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Receipt className="h-4 w-4" />
-              <p className="text-sm font-medium">Expenses</p>
+              <p className="text-sm font-medium">Utgifter</p>
             </div>
             <Button type="button" variant="outline" size="sm" onClick={addExpense}>
               <Plus className="h-4 w-4 mr-1" />
-              Add Expense
+              Legg til utgift
             </Button>
           </div>
 
           {expenses.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              No expenses yet. Click "Add Expense" to start tracking.
+              Ingen utgifter ennå. Trykk «Legg til utgift» for å komme i gang.
             </p>
           )}
 
@@ -364,7 +365,7 @@ export function TravelBudgetSplitter() {
             <Card key={expense.id} className="p-3">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Expense {index + 1}</span>
+                  <span className="text-sm font-medium">Utgift {index + 1}</span>
                   <Button
                     type="button"
                     variant="ghost"
@@ -377,22 +378,22 @@ export function TravelBudgetSplitter() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Description</label>
+                    <label className="text-xs text-muted-foreground">Beskrivelse</label>
                     <input
                       type="text"
                       value={expense.description}
                       onChange={(e) => updateExpense(expense.id, 'description', e.target.value)}
-                      placeholder="e.g., Dinner"
+                      placeholder="f.eks. middag"
                       className="w-full px-3 py-1.5 text-sm border rounded-md bg-background"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs text-muted-foreground">Amount ($)</label>
+                    <label className="text-xs text-muted-foreground">Beløp (kr)</label>
                     <input
                       type="number"
                       value={expense.amount || ''}
                       onChange={(e) => updateExpense(expense.id, 'amount', parseFloat(e.target.value) || 0)}
-                      placeholder="0.00"
+                      placeholder="0,00"
                       min="0"
                       step="0.01"
                       className="w-full px-3 py-1.5 text-sm border rounded-md bg-background"
@@ -401,7 +402,7 @@ export function TravelBudgetSplitter() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">Paid by</label>
+                  <label className="text-xs text-muted-foreground">Betalt av</label>
                   <select
                     value={expense.paidBy}
                     onChange={(e) => updateExpense(expense.id, 'paidBy', e.target.value)}
@@ -416,7 +417,7 @@ export function TravelBudgetSplitter() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">Split between</label>
+                  <label className="text-xs text-muted-foreground">Delt mellom</label>
                   <div className="flex flex-wrap gap-2">
                     {people.map(person => (
                       <label 

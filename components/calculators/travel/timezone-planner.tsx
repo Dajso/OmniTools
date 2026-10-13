@@ -7,6 +7,8 @@ import { Card } from '@/components/ui/card';
 import { 
   COMMON_TIMEZONES,
   planMeeting,
+  zonesForDate,
+  formatUtcOffset,
   formatTime,
   formatTimeDifference,
   getTimeDifference,
@@ -15,25 +17,39 @@ import {
 } from '@/lib/calculations/travel/timezone-planner';
 import { Plus, Trash2, Clock, Sun, Moon, Check, X } from 'lucide-react';
 
+const DEFAULT_BASE_ID = 'Europe/Oslo';
+const DEFAULT_SELECTED_IDS = ['America/New_York', 'Asia/Tokyo'];
+
 export function TimezonePlanner() {
-  const [baseZone, setBaseZone] = React.useState<TimeZone>(COMMON_TIMEZONES[1]); // New York
-  const [selectedZones, setSelectedZones] = React.useState<TimeZone[]>([
-    COMMON_TIMEZONES[7], // London
-    COMMON_TIMEZONES[17], // Tokyo
-  ]);
+  const todayStr = React.useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const [dateStr, setDateStr] = React.useState<string>(todayStr);
+  const [baseZoneId, setBaseZoneId] = React.useState<string>(DEFAULT_BASE_ID);
+  const [selectedZoneIds, setSelectedZoneIds] = React.useState<string[]>(DEFAULT_SELECTED_IDS);
   const [selectedHour, setSelectedHour] = React.useState<number>(10);
+
+  // Forskyvninger regnes ut for valgt dato, så sommertid blir riktig
+  const zones = React.useMemo(() => {
+    const date = new Date(`${dateStr || todayStr}T12:00:00Z`);
+    return zonesForDate(COMMON_TIMEZONES, Number.isNaN(date.getTime()) ? new Date() : date);
+  }, [dateStr, todayStr]);
+  const baseZone = zones.find(z => z.id === baseZoneId) ?? zones[0];
+  const selectedZones = React.useMemo(
+    () => selectedZoneIds
+      .map(id => zones.find(z => z.id === id))
+      .filter((z): z is TimeZone => Boolean(z)),
+    [selectedZoneIds, zones]
+  );
   const [results, setResults] = React.useState<MeetingPlanResult | null>(null);
   const [error, setError] = React.useState<string | undefined>();
 
   const addZone = (zoneId: string) => {
-    const zone = COMMON_TIMEZONES.find(z => z.id === zoneId);
-    if (zone && !selectedZones.find(z => z.id === zone.id) && zone.id !== baseZone.id) {
-      setSelectedZones(prev => [...prev, zone]);
+    if (zoneId !== baseZoneId && !selectedZoneIds.includes(zoneId)) {
+      setSelectedZoneIds(prev => [...prev, zoneId]);
     }
   };
 
   const removeZone = (zoneId: string) => {
-    setSelectedZones(prev => prev.filter(z => z.id !== zoneId));
+    setSelectedZoneIds(prev => prev.filter(id => id !== zoneId));
   };
 
   const calculate = React.useCallback(() => {
@@ -53,14 +69,15 @@ export function TimezonePlanner() {
       );
       setResults(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResults(null);
     }
   }, [baseZone, selectedZones, selectedHour]);
 
   const reset = () => {
-    setBaseZone(COMMON_TIMEZONES[1]);
-    setSelectedZones([COMMON_TIMEZONES[7], COMMON_TIMEZONES[17]]);
+    setBaseZoneId(DEFAULT_BASE_ID);
+    setSelectedZoneIds(DEFAULT_SELECTED_IDS);
+    setDateStr(todayStr);
     setSelectedHour(10);
     setResults(null);
     setError(undefined);
@@ -83,14 +100,14 @@ export function TimezonePlanner() {
     return 'bg-yellow-100 border-yellow-300 text-yellow-700';
   };
 
-  const availableZones = COMMON_TIMEZONES.filter(
+  const availableZones = zones.filter(
     z => z.id !== baseZone.id && !selectedZones.find(sz => sz.id === z.id)
   );
 
   return (
     <CalculatorBase
-      title="Time Zone Meeting Planner"
-      description="Find the best meeting time across multiple time zones"
+      title="Møteplanlegger på tvers av tidssoner"
+      description="Finn et møtetidspunkt som passer for deltakere i flere tidssoner, med sommertid"
       onReset={reset}
       error={error}
       results={results && (
@@ -104,12 +121,12 @@ export function TimezonePlanner() {
             {results.allInBusinessHours ? (
               <>
                 <Check className="h-5 w-5" />
-                <span className="font-medium">All participants are within business hours!</span>
+                <span className="font-medium">Alle deltakerne er innenfor arbeidstid</span>
               </>
             ) : (
               <>
                 <X className="h-5 w-5" />
-                <span className="font-medium">Some participants are outside business hours</span>
+                <span className="font-medium">Noen deltakere er utenfor arbeidstid</span>
               </>
             )}
           </div>
@@ -127,23 +144,23 @@ export function TimezonePlanner() {
                     <div>
                       <p className="font-semibold">{zt.zone.city}</p>
                       <p className="text-sm opacity-75">
-                        {zt.zone.abbreviation} (UTC{zt.zone.offset >= 0 ? '+' : ''}{zt.zone.offset})
+                        {formatUtcOffset(zt.zone.offset)}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold">{formatTime(zt.time)}</p>
                     <p className="text-sm opacity-75">
-                      {index === 0 ? 'Base time' : formatTimeDifference(getTimeDifference(baseZone, zt.zone))}
+                      {index === 0 ? 'Din tid' : formatTimeDifference(getTimeDifference(baseZone, zt.zone))}
                     </p>
                   </div>
                 </div>
                 <div className="mt-2 flex gap-2">
                   {zt.isBusinessHours && (
-                    <span className="text-xs px-2 py-0.5 bg-white/50 rounded">Business hours</span>
+                    <span className="text-xs px-2 py-0.5 bg-white/50 rounded">Arbeidstid</span>
                   )}
                   {zt.isOvernight && (
-                    <span className="text-xs px-2 py-0.5 bg-white/50 rounded">Overnight</span>
+                    <span className="text-xs px-2 py-0.5 bg-white/50 rounded">Natt</span>
                   )}
                 </div>
               </Card>
@@ -153,14 +170,14 @@ export function TimezonePlanner() {
           {/* Overlapping Hours */}
           {results.overlappingHours.length > 0 && (
             <div className="mt-4 p-4 bg-muted rounded-lg">
-              <p className="text-sm font-medium mb-2">Overlapping Business Hours (UTC)</p>
+              <p className="text-sm font-medium mb-2">Felles arbeidstid (UTC)</p>
               <div className="flex flex-wrap gap-2">
                 {results.overlappingHours.map((slot, index) => (
                   <span 
                     key={index}
                     className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm"
                   >
-                    {slot.startHour}:00 - {slot.endHour}:00
+                    {String(slot.startHour).padStart(2, '0')}:00–{String(slot.endHour).padStart(2, '0')}:00
                   </span>
                 ))}
               </div>
@@ -173,29 +190,45 @@ export function TimezonePlanner() {
         {/* Base Time Zone */}
         <div className="space-y-2">
           <label className="text-sm font-medium" htmlFor="base-zone">
-            Your Time Zone
+            Din tidssone
           </label>
           <select
             id="base-zone"
             value={baseZone.id}
             onChange={(e) => {
-              const zone = COMMON_TIMEZONES.find(z => z.id === e.target.value);
-              if (zone) setBaseZone(zone);
+              const id = e.target.value;
+              setBaseZoneId(id);
+              setSelectedZoneIds(prev => prev.filter(z => z !== id));
             }}
             className="w-full px-3 py-2 border rounded-md bg-background"
           >
-            {COMMON_TIMEZONES.map(zone => (
+            {zones.map(zone => (
               <option key={zone.id} value={zone.id}>
-                {zone.city} ({zone.abbreviation}, UTC{zone.offset >= 0 ? '+' : ''}{zone.offset})
+                {zone.city} ({formatUtcOffset(zone.offset)})
               </option>
             ))}
           </select>
         </div>
 
+        {/* Dato */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium" htmlFor="meeting-date">
+            Dato for møtet
+          </label>
+          <input
+            id="meeting-date"
+            type="date"
+            value={dateStr}
+            onChange={(e) => setDateStr(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md bg-background"
+          />
+          <p className="text-xs text-muted-foreground">Sommertid og vintertid regnes ut for denne datoen.</p>
+        </div>
+
         {/* Time Slider */}
         <div className="space-y-2">
           <label className="text-sm font-medium">
-            Meeting Time: {formatTime({ hour: selectedHour, minute: 0 })}
+            Møtetidspunkt hos deg: kl. {formatTime({ hour: selectedHour, minute: 0 })}
           </label>
           <div className="relative pt-2">
             <input
@@ -207,11 +240,11 @@ export function TimezonePlanner() {
               className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
-              <span>12 AM</span>
-              <span>6 AM</span>
-              <span>12 PM</span>
-              <span>6 PM</span>
-              <span>11 PM</span>
+              <span>00</span>
+              <span>06</span>
+              <span>12</span>
+              <span>18</span>
+              <span>23</span>
             </div>
           </div>
           {/* Visual time indicator */}
@@ -226,7 +259,7 @@ export function TimezonePlanner() {
         {/* Selected Time Zones */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium">Participants' Time Zones</p>
+            <p className="text-sm font-medium">Deltakernes tidssoner</p>
           </div>
 
           {selectedZones.map(zone => (
@@ -238,7 +271,7 @@ export function TimezonePlanner() {
                 <Clock className="h-4 w-4 text-muted-foreground" />
                 <span>{zone.city}</span>
                 <span className="text-sm text-muted-foreground">
-                  ({zone.abbreviation})
+                  ({formatUtcOffset(zone.offset)})
                 </span>
               </div>
               <Button
@@ -246,7 +279,7 @@ export function TimezonePlanner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => removeZone(zone.id)}
-                aria-label={`Remove ${zone.city}`}
+                aria-label={`Fjern ${zone.city}`}
               >
                 <Trash2 className="h-4 w-4 text-destructive" />
               </Button>
@@ -267,10 +300,10 @@ export function TimezonePlanner() {
                   }
                 }}
               >
-                <option value="">Add a time zone...</option>
+                <option value="">Legg til tidssone …</option>
                 {availableZones.map(zone => (
                   <option key={zone.id} value={zone.id}>
-                    {zone.city} ({zone.abbreviation})
+                    {zone.city} ({formatUtcOffset(zone.offset)})
                   </option>
                 ))}
               </select>
