@@ -1,5 +1,6 @@
 'use client';
 
+import { labelNo, ABILITY_NAMES_NO } from '@/lib/calculations/rpg/labels';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,17 +22,17 @@ import {
 } from '@/lib/calculations/rpg/stat-roller';
 
 const METHOD_OPTIONS = [
-  { value: '4d6-drop-lowest', label: '4d6 Drop Lowest (Standard)' },
-  { value: '3d6-straight', label: '3d6 Straight (Classic)' },
-  { value: 'standard-array', label: 'Standard Array' },
-  { value: 'point-buy', label: 'Point Buy' },
+  { value: '4d6-drop-lowest', label: '4d6, dropp laveste (standard)' },
+  { value: '3d6-straight', label: '3d6 rett fram (klassisk)' },
+  { value: 'standard-array', label: 'Standardrekke' },
+  { value: 'point-buy', label: 'Poengkjøp' },
 ];
 
 const METHOD_DESCRIPTIONS: Record<StatMethod, string> = {
-  '4d6-drop-lowest': 'Roll 4d6, drop the lowest die. Most common method in D&D 5e.',
-  '3d6-straight': 'Roll 3d6 for each stat. Classic, more random method.',
-  'standard-array': 'Use the fixed array: 15, 14, 13, 12, 10, 8. Balanced and fair.',
-  'point-buy': 'Spend 27 points to customize your stats (8-15 range).',
+  '4d6-drop-lowest': 'Kast 4d6 og dropp laveste terning. Vanligste metode i D&D 5e.',
+  '3d6-straight': 'Kast 3d6 for hver egenskap. Klassisk og mer tilfeldig.',
+  'standard-array': 'Bruk den faste rekken: 15, 14, 13, 12, 10, 8. Balansert og rettferdig.',
+  'point-buy': 'Bruk 27 poeng for å tilpasse egenskapene (8–15).',
 };
 
 export function RPGStatRoller() {
@@ -142,15 +143,15 @@ export function RPGStatRoller() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>RPG Stat Roller</CardTitle>
+        <CardTitle>Egenskapskast</CardTitle>
         <CardDescription>
-          Generate ability scores for your D&D or RPG character
+          Lag egenskapsverdier til D&D- eller rollespillkarakteren din
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Method Selection */}
         <div className="space-y-2">
-          <Label htmlFor="method">Rolling Method</Label>
+          <Label htmlFor="method">Kastemetode</Label>
           <Select
             id="method"
             options={METHOD_OPTIONS}
@@ -166,7 +167,7 @@ export function RPGStatRoller() {
         {method !== 'point-buy' && (
           <Button onClick={handleRoll} disabled={isRolling} className="w-full">
             <RefreshCw className={`h-4 w-4 mr-2 ${isRolling ? 'animate-spin' : ''}`} />
-            {isRolling ? 'Rolling...' : 'Roll Stats'}
+            {isRolling ? 'Kaster …' : 'Kast egenskaper'}
           </Button>
         )}
 
@@ -174,7 +175,7 @@ export function RPGStatRoller() {
         {method === 'point-buy' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center bg-muted/50 rounded-lg p-3">
-              <span className="font-medium">Points Remaining</span>
+              <span className="font-medium">Poeng igjen</span>
               <span className={`text-2xl font-bold ${
                 pointBuyValidation?.remaining === 0 ? 'text-green-600' :
                 pointBuyValidation?.remaining && pointBuyValidation.remaining < 0 ? 'text-red-600' : ''
@@ -186,7 +187,7 @@ export function RPGStatRoller() {
             <div className="grid gap-3">
               {ABILITY_SCORES.map(ability => (
                 <div key={ability} className="flex items-center justify-between bg-muted/30 rounded-lg p-3">
-                  <span className="font-medium w-28">{ability}</span>
+                  <span className="font-medium w-28">{labelNo(ABILITY_NAMES_NO, ability)}</span>
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
@@ -211,7 +212,7 @@ export function RPGStatRoller() {
                       ({formatModifier(calculateModifier(pointBuyScores[ability]))})
                     </span>
                     <span className="w-16 text-xs text-muted-foreground">
-                      Cost: {POINT_BUY_COSTS[pointBuyScores[ability]]}
+                      Kostnad: {POINT_BUY_COSTS[pointBuyScores[ability]]}
                     </span>
                   </div>
                 </div>
@@ -224,17 +225,17 @@ export function RPGStatRoller() {
         {stats && method !== 'point-buy' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <p className="text-sm font-medium">Your Stats</p>
+              <p className="text-sm font-medium">Egenskapene dine</p>
               <Button variant="ghost" size="sm" onClick={handleCopy}>
                 {copied ? (
                   <>
                     <Check className="h-4 w-4 mr-1" />
-                    Copied!
+                    Kopiert!
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4 mr-1" />
-                    Copy
+                    Kopier
                   </>
                 )}
               </Button>
@@ -246,7 +247,7 @@ export function RPGStatRoller() {
                   key={roll.ability}
                   className="flex items-center justify-between bg-muted/50 rounded-lg p-3"
                 >
-                  <span className="font-medium w-28">{roll.ability}</span>
+                  <span className="font-medium w-28">{labelNo(ABILITY_NAMES_NO, roll.ability)}</span>
                   
                   {/* Dice breakdown (for rolled methods) */}
                   {method !== 'standard-array' && (
@@ -279,7 +280,7 @@ export function RPGStatRoller() {
 
             {/* Total Points */}
             <div className="flex justify-between items-center bg-primary/10 rounded-lg p-3">
-              <span className="font-medium">Total Points</span>
+              <span className="font-medium">Poeng totalt</span>
               <span className="text-xl font-bold">{stats.totalPoints}</span>
             </div>
           </div>
@@ -288,20 +289,20 @@ export function RPGStatRoller() {
         {/* Standard Array Reference */}
         {method === 'standard-array' && (
           <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-            <p className="font-medium mb-1">Standard Array Values:</p>
+            <p className="font-medium mb-1">Verdier i standardrekken:</p>
             <p>{STANDARD_ARRAY.join(', ')}</p>
-            <p className="mt-2">Assign these values to your abilities as you see fit.</p>
+            <p className="mt-2">Fordel verdiene på egenskapene slik du vil.</p>
           </div>
         )}
 
         {/* Point Buy Cost Reference */}
         {method === 'point-buy' && (
           <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-            <p className="font-medium mb-1">Point Buy Costs:</p>
+            <p className="font-medium mb-1">Poengkostnader:</p>
             <div className="grid grid-cols-4 gap-1 text-xs">
               {Object.entries(POINT_BUY_COSTS).map(([score, cost]) => (
                 <span key={score}>
-                  {score}: {cost} pts
+                  {score}: {cost} p
                 </span>
               ))}
             </div>
@@ -312,10 +313,10 @@ export function RPGStatRoller() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>4d6 drop lowest typically produces higher stats (avg ~12.2)</li>
-            <li>3d6 straight is more random and challenging (avg ~10.5)</li>
-            <li>Standard array ensures balanced parties</li>
-            <li>Point buy gives you full control over your build</li>
+            <li>4d6 med laveste droppet gir vanligvis høyere verdier (snitt ca. 12,2)</li>
+            <li>3d6 rett fram er mer tilfeldig og utfordrende (snitt ca. 10,5)</li>
+            <li>Standardrekken gir jevne grupper</li>
+            <li>Poengkjøp gir full kontroll over karakteren</li>
           </ul>
         </div>
       </CardContent>

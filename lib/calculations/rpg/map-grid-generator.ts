@@ -60,16 +60,16 @@ export const TERRAIN_COLORS: Record<TerrainType, string> = {
  * Terrain display names
  */
 export const TERRAIN_NAMES: Record<TerrainType, string> = {
-  empty: 'Empty',
-  grass: 'Grass',
-  water: 'Water',
-  forest: 'Forest',
-  mountain: 'Mountain',
-  road: 'Road',
-  building: 'Building',
-  wall: 'Wall',
-  door: 'Door',
-  difficult: 'Difficult Terrain',
+  empty: 'Tom',
+  grass: 'Gress',
+  water: 'Vann',
+  forest: 'Skog',
+  mountain: 'Fjell',
+  road: 'Vei',
+  building: 'Bygning',
+  wall: 'Vegg',
+  door: 'Dør',
+  difficult: 'Vanskelig terreng',
 };
 
 /**

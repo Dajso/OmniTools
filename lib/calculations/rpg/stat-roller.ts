@@ -204,7 +204,7 @@ export function calculatePointBuyCost(scores: number[]): number {
   let total = 0;
   for (const score of scores) {
     if (score < 8 || score > 15) {
-      throw new Error(`Score ${score} is outside point buy range (8-15)`);
+      throw new Error(`Verdien ${score} er utenfor poengkjøpets område (8–15)`);
     }
     total += POINT_BUY_COSTS[score];
   }
@@ -226,7 +226,7 @@ export function validatePointBuy(scores: number[]): {
   const errors: string[] = [];
   
   if (scores.length !== 6) {
-    errors.push('Must have exactly 6 ability scores');
+    errors.push('Må ha nøyaktig 6 egenskapsverdier');
   }
   
   for (const score of scores) {
@@ -300,7 +300,7 @@ export function generateStats(method: StatMethod): CharacterStats {
         modifier: modifier as Record<AbilityScore, number>,
       };
     default:
-      throw new Error(`Unknown stat generation method: ${method}`);
+      throw new Error(`Ukjent metode for egenskapskast: ${method}`);
   }
 }
 

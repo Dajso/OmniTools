@@ -59,7 +59,7 @@ export function DiceRoller() {
         ...prev.slice(0, 19), // Keep last 20 rolls
       ]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Invalid dice notation');
+      setError(err instanceof Error ? err.message : 'Ugyldig terningnotasjon');
       setCurrentRoll(null);
     } finally {
       setIsRolling(false);
@@ -81,7 +81,7 @@ export function DiceRoller() {
           ...prev.slice(0, 19),
         ]);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Roll failed');
+        setError(err instanceof Error ? err.message : 'Kastet mislyktes');
       } finally {
         setIsRolling(false);
       }
@@ -119,15 +119,15 @@ export function DiceRoller() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Dice Roller</CardTitle>
+        <CardTitle>Terningkast</CardTitle>
         <CardDescription>
-          Roll dice using standard notation (e.g., 2d6+3, 1d20, 4d6-2)
+          Kast terninger med vanlig notasjon (for eksempel 2d6+3, 1d20, 4d6-2)
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Quick Roll Buttons */}
         <div>
-          <Label className="text-sm text-muted-foreground mb-2 block">Quick Roll</Label>
+          <Label className="text-sm text-muted-foreground mb-2 block">Hurtigkast</Label>
           <div className="flex flex-wrap gap-2">
             {STANDARD_DICE.map(dice => (
               <Button
@@ -146,7 +146,7 @@ export function DiceRoller() {
 
         {/* Custom Notation Input */}
         <div className="space-y-2">
-          <Label htmlFor="notation">Custom Dice Notation</Label>
+          <Label htmlFor="notation">Egen terningnotasjon</Label>
           <div className="flex gap-2">
             <Input
               id="notation"
@@ -158,11 +158,11 @@ export function DiceRoller() {
               }}
             />
             <Button onClick={handleRoll} disabled={isRolling}>
-              {isRolling ? 'Rolling...' : 'Roll'}
+              {isRolling ? 'Kaster …' : 'Kast'}
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Format: [number]d[faces][+/-modifier] (e.g., 2d6+3, d20, 4d6-2)
+            Format: [antall]d[sider][+/-modifikator] (for eksempel 2d6+3, d20, 4d6-2)
           </p>
         </div>
 
@@ -219,8 +219,8 @@ export function DiceRoller() {
             {stats && (
               <div className="grid grid-cols-3 gap-3">
                 <ResultDisplay label="Minimum" value={stats.min} />
-                <ResultDisplay label="Average" value={formatFixed(stats.avg, 1)} />
-                <ResultDisplay label="Maximum" value={stats.max} />
+                <ResultDisplay label="Gjennomsnitt" value={formatFixed(stats.avg, 1)} />
+                <ResultDisplay label="Maksimum" value={stats.max} />
               </div>
             )}
           </div>
@@ -230,9 +230,9 @@ export function DiceRoller() {
         {history.length > 0 && (
           <div className="border-t pt-4">
             <div className="flex justify-between items-center mb-3">
-              <p className="text-sm font-medium">Roll History</p>
+              <p className="text-sm font-medium">Kasthistorikk</p>
               <Button variant="ghost" size="sm" onClick={clearHistory}>
-                Clear
+                Tøm
               </Button>
             </div>
             <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -260,12 +260,12 @@ export function DiceRoller() {
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Dice Notation Guide:</p>
+          <p className="font-medium mb-1">Guide til terningnotasjon:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li><code className="bg-muted px-1 rounded">d20</code> - Roll one 20-sided die</li>
-            <li><code className="bg-muted px-1 rounded">2d6</code> - Roll two 6-sided dice</li>
-            <li><code className="bg-muted px-1 rounded">2d6+3</code> - Roll 2d6 and add 3</li>
-            <li><code className="bg-muted px-1 rounded">4d6-2</code> - Roll 4d6 and subtract 2</li>
+            <li><code className="bg-muted px-1 rounded">d20</code> – kast én tjuesidet terning</li>
+            <li><code className="bg-muted px-1 rounded">2d6</code> – kast to sekssidede terninger</li>
+            <li><code className="bg-muted px-1 rounded">2d6+3</code> – kast 2d6 og legg til 3</li>
+            <li><code className="bg-muted px-1 rounded">4d6-2</code> – kast 4d6 og trekk fra 2</li>
           </ul>
         </div>
       </CardContent>

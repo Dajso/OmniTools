@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { RPGStatRoller } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'RPG Stat Roller - D&D Ability Score Generator',
-  description: 'Generate ability scores for D&D and other RPGs. Supports 4d6 drop lowest, 3d6 straight, standard array, and point buy methods.',
-  keywords: ['stat roller', 'd&d stats', 'ability scores', '4d6 drop lowest', 'point buy', 'standard array', 'character creation'],
+  title: 'Egenskaper (4d6) – gratis kalkulator på nett',
+  description: 'Trekk karakteregenskaper med 4d6, dropp laveste. Gratis og uten registrering.',
+  keywords: ['karakteregenskaper', '4d6', 'rollespill', 'DnD', 'attributter'],
   alternates: { canonical: '/calculators/rpg/stat-roller' },
+  openGraph: {
+    title: 'Egenskaper (4d6)',
+    description: 'Trekk karakteregenskaper med 4d6, dropp laveste',
+    url: '/calculators/rpg/stat-roller',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'RPG Stat Roller',
-  description: 'Generate ability scores for RPG characters',
+  name: 'Egenskaper (4d6)',
+  description: 'Trekk karakteregenskaper med 4d6, dropp laveste',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose method', text: 'Select your preferred stat generation method from the dropdown.' },
-  { name: 'Roll or customize', text: 'Click Roll Stats for random methods, or adjust scores for point buy.' },
-  { name: 'Review results', text: 'See your ability scores with their modifiers.' },
-  { name: 'Reroll if needed', text: 'Not happy? Roll again until you get stats you like.' },
-  { name: 'Copy your stats', text: 'Use the Copy button to save your stats for your character sheet.' },
+  { name: 'Velg metode', text: '4d6, 3d6, standardrekke eller poengkjøp.' },
+  { name: 'Kast egenskapene', text: 'Seks verdier lages for styrke, smidighet, utholdenhet, intelligens, visdom og sjarme.' },
+  { name: 'Se modifikatorene', text: 'Hver verdi får sin modifikator.' },
+  { name: 'Kopier resultatet', text: 'Bruk «Kopier» for å lime det inn på karakterarket.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is 4d6 drop lowest?',
-    answer: 'Roll four 6-sided dice, remove the lowest die, and sum the remaining three. This is the most common method in D&D 5e and typically produces above-average stats.',
-  },
-  {
-    question: 'What is the standard array?',
-    answer: 'The standard array is a fixed set of scores (15, 14, 13, 12, 10, 8) that you assign to your abilities. It ensures balanced characters and fair party composition.',
-  },
-  {
-    question: 'How does point buy work?',
-    answer: 'You have 27 points to spend on ability scores. Each score from 8-15 has a cost. Higher scores cost more points. This gives you full control over your character build.',
-  },
-  {
-    question: 'Which method should I use?',
-    answer: '4d6 drop lowest is great for heroic characters. Standard array ensures balance. Point buy is best for optimized builds. 3d6 straight is for old-school challenge.',
-  },
-  {
-    question: 'What do the modifiers mean?',
-    answer: 'Modifiers are added to d20 rolls. A score of 10-11 gives +0. Each 2 points above adds +1, each 2 below subtracts 1. So 14 gives +2, and 8 gives -1.',
-  },
+  { question: 'Hva er 4d6 dropp laveste?', answer: 'Du kaster fire sekssidede terninger og dropper den laveste. Den vanligste metoden i D&D 5e.' },
+  { question: 'Hva er standardrekken?', answer: 'Verdiene 15, 14, 13, 12, 10 og 8, som du fordeler selv.' },
+  { question: 'Hva er poengkjøp?', answer: 'Du har 27 poeng å bruke på verdier mellom 8 og 15. Høye verdier koster mer.' },
+  { question: 'Hva er en modifikator?', answer: '(verdi − 10) ÷ 2, rundet ned. Den legges til terningkast for den egenskapen.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/dice-roller', title: 'Dice Roller', description: 'Roll any dice for your RPG sessions.' },
-  { href: '/calculators/rpg/fantasy-name-generator', title: 'Name Generator', description: 'Generate fantasy names for your character.' },
-  { href: '/calculators/rpg/character-sheet-helper', title: 'Character Sheet Helper', description: 'Calculate modifiers and bonuses.' },
+  { href: '/calculators/rpg/dice-roller', title: 'Terningkast', description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3' },
+  { href: '/calculators/rpg/character-sheet-helper', title: 'Karakterark-hjelper', description: 'Regn ut egenskapsmodifikatorer og ferdighetsbonus til D&D 5e og lignende' },
+  { href: '/calculators/rpg/encounter-calculator', title: 'Møtevanskelighet (D&D 5e)', description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse' },
 ];
 
 export default function StatRollerPage() {
@@ -63,12 +55,11 @@ export default function StatRollerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="stat-roller"
-          title="RPG Stat Roller"
-          description="Generate ability scores for your D&D or RPG character using 4d6 drop lowest, standard array, point buy, or classic 3d6."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Egenskaper (4d6)"
+          description="Lag egenskapsverdier til D&D-karakteren din med 4d6 dropp laveste, 3d6, standardrekke eller poengkjøp. Gratis og uten registrering."
         />
 
-        <section aria-label="RPG Stat Roller">
+        <section aria-label="Egenskaper (4d6)">
           <RPGStatRoller />
         </section>
 

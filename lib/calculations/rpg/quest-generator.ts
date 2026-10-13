@@ -8,6 +8,7 @@
  */
 
 import { generateQuestHook } from './name-generator';
+import { QUEST_TYPE_NAMES_NO, DIFFICULTY_NAMES_NO, QUEST_GIVER_NAMES_NO, SEVERITY_NAMES_NO } from './labels';
 
 /**
  * Quest type categories
@@ -94,259 +95,259 @@ export interface Quest {
 
 const QUEST_TITLES = {
   fetch: [
-    'The Lost Artifact',
-    'Retrieve the Relic',
-    'The Missing Heirloom',
-    'Gather the Components',
-    'The Stolen Goods',
+    'Det tapte artefaktet',
+    'Skaff relikvien',
+    'Slektskatten som forsvant',
+    'Samle ingrediensene',
+    'Tyvegodset',
   ],
   rescue: [
-    'Save the Hostages',
-    'The Kidnapped Noble',
-    'Rescue Mission',
-    'Free the Prisoners',
-    'The Missing Child',
+    'Red gislene',
+    'Den bortførte adelsmannen',
+    'Redningsoppdrag',
+    'Frigjør fangene',
+    'Det savnede barnet',
   ],
   escort: [
-    'Safe Passage',
-    'The Caravan Guard',
-    'Protect the Witness',
-    'The Diplomatic Mission',
-    'Journey to Safety',
+    'Trygg ferd',
+    'Karavanevakten',
+    'Beskytt vitnet',
+    'Det diplomatiske oppdraget',
+    'Reisen mot trygghet',
   ],
   eliminate: [
-    'Hunt the Beast',
-    'Clear the Infestation',
-    'Bounty Hunter',
-    'Slay the Monster',
-    'End the Threat',
+    'Jakt på udyret',
+    'Rydd plagen',
+    'Dusørjeger',
+    'Drep monsteret',
+    'Stans trusselen',
   ],
   investigate: [
-    'The Mystery Deepens',
-    'Uncover the Truth',
-    'The Strange Occurrences',
-    'Find the Culprit',
-    'Solve the Puzzle',
+    'Mysteriet tykner',
+    'Avdekk sannheten',
+    'De merkelige hendelsene',
+    'Finn gjerningspersonen',
+    'Løs gåten',
   ],
   defend: [
-    'Hold the Line',
-    'Protect the Village',
-    'The Siege',
-    'Guard Duty',
-    'Last Stand',
+    'Hold stillingen',
+    'Beskytt landsbyen',
+    'Beleiringen',
+    'Vaktoppdrag',
+    'Siste forsvar',
   ],
   explore: [
-    'Into the Unknown',
-    'Map the Territory',
-    'The Lost Expedition',
-    'Discover the Ruins',
-    'Chart the Depths',
+    'Inn i det ukjente',
+    'Kartlegg området',
+    'Den forsvunne ekspedisjonen',
+    'Oppdag ruinene',
+    'Kartlegg dypet',
   ],
   negotiate: [
-    'Broker Peace',
-    'The Trade Agreement',
-    'Diplomatic Crisis',
-    'Settle the Dispute',
-    'Alliance Building',
+    'Mekle fred',
+    'Handelsavtalen',
+    'Diplomatisk krise',
+    'Avgjør striden',
+    'Bygg en allianse',
   ],
   heist: [
-    'The Big Score',
-    'Steal the Crown',
-    'The Impossible Job',
-    'Inside Job',
-    'The Perfect Crime',
+    'Det store kuppet',
+    'Stjel kronen',
+    'Den umulige jobben',
+    'Innsidejobb',
+    'Den perfekte forbrytelsen',
   ],
   competition: [
-    'The Grand Tournament',
-    'Prove Your Worth',
-    'The Contest',
-    'Race Against Time',
-    'The Challenge',
+    'Den store turneringen',
+    'Bevis hva du er verdt',
+    'Konkurransen',
+    'Kamp mot klokka',
+    'Utfordringen',
   ],
 };
 
 const QUEST_OBJECTIVES = {
   fetch: [
-    'Retrieve the ancient artifact from the dungeon',
-    'Collect rare ingredients for a powerful potion',
-    'Recover the stolen family heirloom',
-    'Find and return the lost shipment',
-    'Gather evidence of the conspiracy',
+    'Hent det eldgamle artefaktet fra fangehullet',
+    'Samle sjeldne ingredienser til en mektig trylledrikk',
+    'Skaff tilbake den stjålne slektskatten',
+    'Finn og lever tilbake den forsvunne leveransen',
+    'Samle bevis for sammensvergelsen',
   ],
   rescue: [
-    'Free the prisoners from the enemy stronghold',
-    'Save the kidnapped noble before the ransom deadline',
-    'Rescue survivors from the collapsed mine',
-    'Extract the spy from enemy territory',
-    'Find and return the missing children',
+    'Frigjør fangene fra fiendens festning',
+    'Red den bortførte adelsmannen før løsepengefristen går ut',
+    'Red overlevende fra den sammenrast gruva',
+    'Hent spionen ut av fiendeland',
+    'Finn og bring tilbake de savnede barna',
   ],
   escort: [
-    'Safely guide the merchant caravan through dangerous territory',
-    'Protect the diplomat during peace negotiations',
-    'Escort the witness to the capital for testimony',
-    'Guide refugees to the safe haven',
-    'Accompany the scholar to the ancient ruins',
+    'Led handelskaravanen trygt gjennom farlig land',
+    'Beskytt diplomaten under fredsforhandlingene',
+    'Eskorter vitnet til hovedstaden for å vitne',
+    'Led flyktningene til tilfluktsstedet',
+    'Følg læremesteren til de eldgamle ruinene',
   ],
   eliminate: [
-    'Hunt down the beast terrorizing the countryside',
-    'Clear the goblin infestation from the mines',
-    'Defeat the bandit leader and scatter their gang',
-    'Slay the dragon threatening the kingdom',
-    'Destroy the undead plaguing the cemetery',
+    'Jakt på udyret som skremmer bygda',
+    'Rens gruvene for goblinplagen',
+    'Beseir røverhøvdingen og spre banden',
+    'Drep dragen som truer riket',
+    'Ødelegg de udøde som herjer kirkegården',
   ],
   investigate: [
-    'Discover who is behind the mysterious disappearances',
-    'Uncover the source of the strange magical disturbances',
-    'Find out why the crops are failing',
-    'Investigate the haunted manor',
-    'Determine the cause of the plague',
+    'Finn ut hvem som står bak de mystiske forsvinningene',
+    'Avdekk kilden til de merkelige magiske forstyrrelsene',
+    'Finn ut hvorfor avlingene svikter',
+    'Undersøk herskapsgården som spøker',
+    'Finn årsaken til pesten',
   ],
   defend: [
-    'Hold the fortress against the approaching army',
-    'Protect the village from the monster attack',
-    'Guard the ritual until it is complete',
-    'Defend the caravan from ambush',
-    'Protect the sacred site from desecration',
+    'Hold festningen mot hæren som nærmer seg',
+    'Beskytt landsbyen mot monsterangrepet',
+    'Vokt ritualet til det er fullført',
+    'Forsvar karavanen mot bakhold',
+    'Beskytt det hellige stedet mot vanhelligelse',
   ],
   explore: [
-    'Map the uncharted caverns beneath the mountain',
-    'Explore the newly discovered island',
-    'Investigate the ancient ruins in the jungle',
-    'Chart the depths of the underwater temple',
-    'Survey the abandoned dwarven city',
+    'Kartlegg de ukjente hulene under fjellet',
+    'Utforsk den nyoppdagede øya',
+    'Undersøk de eldgamle ruinene i jungelen',
+    'Kartlegg dypet i undervannstempelet',
+    'Utforsk den forlatte dvergebyen',
   ],
   negotiate: [
-    'Broker a peace treaty between warring factions',
-    'Negotiate a trade agreement with the neighboring kingdom',
-    'Convince the dragon to leave peacefully',
-    'Mediate the dispute between rival guilds',
-    'Secure an alliance with the elven kingdom',
+    'Mekle en fredsavtale mellom stridende grupper',
+    'Forhandle frem en handelsavtale med naboriket',
+    'Overbevis dragen om å dra i fred',
+    'Mekle i striden mellom rivaliserende laug',
+    'Sikre en allianse med alverriket',
   ],
   heist: [
-    'Steal the crown jewels from the royal vault',
-    'Infiltrate the enemy fortress and steal their battle plans',
-    'Rob the corrupt merchant of his ill-gotten gains',
-    'Retrieve the artifact from the wizard\'s tower',
-    'Break into the prison and free the wrongly accused',
+    'Stjel kronjuvelene fra kongens hvelv',
+    'Snik deg inn i fiendens festning og stjel krigsplanene',
+    'Frarøv den korrupte kjøpmannen hans urettmessige vinning',
+    'Hent artefaktet fra trollmannens tårn',
+    'Bryt deg inn i fengselet og frigjør de uskyldig dømte',
   ],
   competition: [
-    'Win the grand tournament to earn the king\'s favor',
-    'Compete in the mage\'s trial to join the academy',
-    'Race against rival adventurers to find the treasure',
-    'Prove your worth in the arena',
-    'Complete the guild\'s initiation challenge',
+    'Vinn den store turneringen for å få kongens gunst',
+    'Delta i magikerprøven for å komme inn på akademiet',
+    'Kappløp mot rivaliserende eventyrere for å finne skatten',
+    'Bevis hva du duger til i arenaen',
+    'Fullfør lagets opptaksprøve',
   ],
 };
 
 const LOCATIONS = [
-  'the Darkwood Forest',
-  'the Misty Mountains',
-  'the Sunken Temple',
-  'the Burning Desert',
-  'the Frozen Wastes',
-  'the Haunted Castle',
-  'the Endless Caverns',
-  'the Floating Islands',
-  'the Shadow Realm',
-  'the City of Thieves',
-  'the Ancient Ruins',
-  'the Dragon\'s Lair',
-  'the Enchanted Grove',
-  'the Wizard\'s Tower',
-  'the Abandoned Mine',
-  'the Border Fortress',
-  'the Sunken Ship',
-  'the Cursed Swamp',
-  'the Crystal Caves',
-  'the Volcanic Island',
+  'Mørkeskogen',
+  'Tåkefjellene',
+  'det sunkne tempelet',
+  'den brennende ørkenen',
+  'de frosne ødemarkene',
+  'det hjemsøkte slottet',
+  'de endeløse hulene',
+  'de flytende øyene',
+  'skyggeriket',
+  'tyvenes by',
+  'de eldgamle ruinene',
+  'dragens hule',
+  'den fortryllede lunden',
+  'trollmannens tårn',
+  'den forlatte gruva',
+  'grensefestningen',
+  'det sunkne skipet',
+  'den forbannede myra',
+  'krystallhulene',
+  'vulkanøya',
 ];
 
 const QUEST_GIVER_NAMES = {
-  noble: ['Lord Aldric', 'Lady Elara', 'Baron Thorne', 'Duchess Mirabel', 'Count Varen'],
-  merchant: ['Garrick the Trader', 'Mira Goldweaver', 'Tobias Coinsworth', 'Helena Silkhand', 'Doran Ironpurse'],
-  priest: ['Father Marcus', 'Sister Celeste', 'High Priest Aldwin', 'Mother Superior Vera', 'Brother Finn'],
-  wizard: ['Archmage Zephyr', 'Sage Moira', 'The Mysterious Malachar', 'Enchantress Lyra', 'Wizard Thornwood'],
-  commoner: ['Old Tom', 'Farmer Giles', 'Widow Martha', 'Young Billy', 'Innkeeper Rosie'],
-  guard: ['Captain Steele', 'Sergeant Ironside', 'Watch Commander Vex', 'Guard Lieutenant Mira', 'Constable Bram'],
-  'mysterious-stranger': ['The Hooded Figure', 'A Cloaked Messenger', 'The Shadow', 'An Anonymous Note', 'The Masked One'],
-  child: ['Little Timmy', 'Young Sara', 'The Orphan Boy', 'A Crying Girl', 'The Street Urchin'],
+  noble: ['Herr Aldric', 'Frue Elara', 'Baron Thorne', 'Hertuginne Mirabel', 'Greve Varen'],
+  merchant: ['Garrick kjøpmannen', 'Mira Gullvever', 'Tobias Myntverd', 'Helena Silkehånd', 'Doran Jernpung'],
+  priest: ['Pater Marcus', 'Søster Celeste', 'Yppersteprest Aldwin', 'Abbedisse Vera', 'Bror Finn'],
+  wizard: ['Erkemagiker Zephyr', 'Vismann Moira', 'Den mystiske Malachar', 'Trollkvinne Lyra', 'Trollmann Tornskog'],
+  commoner: ['Gamle Tom', 'Bonde Gunnar', 'Enke Marta', 'Unge Bjørn', 'Vertinne Rosa'],
+  guard: ['Kaptein Stål', 'Sersjant Jernside', 'Vaktsjef Vex', 'Vaktløytnant Mira', 'Konstabel Bram'],
+  'mysterious-stranger': ['Den hettekledde skikkelsen', 'Et kappekledd bud', 'Skyggen', 'En anonym lapp', 'Den maskerte'],
+  child: ['Lille Tim', 'Unge Sara', 'Foreldreløse gutten', 'En gråtende jente', 'Gatebarnet'],
 };
 
 const QUEST_GIVER_MOTIVATIONS = {
-  noble: ['to protect their family honor', 'to expand their influence', 'to fulfill a dying wish', 'to prove their worth', 'to right an old wrong'],
-  merchant: ['to recover lost profits', 'to eliminate competition', 'to secure a trade route', 'to find new markets', 'to repay a debt'],
-  priest: ['to serve their deity', 'to protect the innocent', 'to cleanse evil', 'to recover a holy relic', 'to fulfill a prophecy'],
-  wizard: ['to acquire rare components', 'to test a theory', 'to recover lost knowledge', 'to prevent magical disaster', 'to complete their research'],
-  commoner: ['to save their family', 'to protect their home', 'to find justice', 'to escape poverty', 'to honor a promise'],
-  guard: ['to maintain order', 'to protect the city', 'to catch a criminal', 'to prevent war', 'to uphold the law'],
-  'mysterious-stranger': ['for reasons unknown', 'to test the worthy', 'to set events in motion', 'to fulfill an ancient pact', 'to balance the scales'],
-  child: ['to save a loved one', 'to find their parents', 'to protect their friends', 'to prove themselves', 'to right a wrong'],
+  noble: ['for å verne familiens ære', 'for å utvide innflytelsen sin', 'for å oppfylle et dødsønske', 'for å bevise hva de duger til', 'for å rette opp en gammel urett'],
+  merchant: ['for å vinne tilbake tapt fortjeneste', 'for å fjerne konkurrenter', 'for å sikre en handelsrute', 'for å finne nye markeder', 'for å betale tilbake gjeld'],
+  priest: ['for å tjene guden sin', 'for å beskytte de uskyldige', 'for å rense bort ondskap', 'for å skaffe tilbake en hellig relikvie', 'for å oppfylle en profeti'],
+  wizard: ['for å skaffe sjeldne ingredienser', 'for å teste en teori', 'for å gjenvinne tapt kunnskap', 'for å hindre en magisk katastrofe', 'for å fullføre forskningen sin'],
+  commoner: ['for å redde familien sin', 'for å verne hjemmet sitt', 'for å få rettferdighet', 'for å slippe unna fattigdom', 'for å holde et løfte'],
+  guard: ['for å opprettholde orden', 'for å beskytte byen', 'for å fange en forbryter', 'for å hindre krig', 'for å håndheve loven'],
+  'mysterious-stranger': ['av ukjente grunner', 'for å prøve de verdige', 'for å sette hendelser i gang', 'for å innfri en eldgammel pakt', 'for å bringe balanse'],
+  child: ['for å redde en kjær', 'for å finne foreldrene sine', 'for å beskytte vennene sine', 'for å bevise seg selv', 'for å rette opp en urett'],
 };
 
 const QUEST_GIVER_DESCRIPTIONS = {
-  noble: ['A well-dressed aristocrat with an air of authority', 'A worried noble pacing nervously', 'A proud lord with a stern demeanor'],
-  merchant: ['A shrewd businessperson with calculating eyes', 'A desperate trader wringing their hands', 'A wealthy merchant in fine clothes'],
-  priest: ['A serene cleric in ceremonial robes', 'A worried priest clutching a holy symbol', 'A stern religious figure'],
-  wizard: ['An eccentric mage surrounded by floating books', 'A mysterious spellcaster in flowing robes', 'An elderly sage with knowing eyes'],
-  commoner: ['A simple farmer with calloused hands', 'A worried parent with tears in their eyes', 'A humble villager in worn clothes'],
-  guard: ['A stern officer in polished armor', 'A weary soldier with battle scars', 'A determined lawkeeper'],
-  'mysterious-stranger': ['A cloaked figure whose face is hidden', 'A shadowy presence that speaks in whispers', 'An enigmatic messenger'],
-  child: ['A frightened child with wide eyes', 'A brave young one trying to be strong', 'A desperate youth seeking help'],
+  noble: ['En velkledd aristokrat med myndig framtoning', 'En bekymret adelsmann som går nervøst fram og tilbake', 'En stolt herre med streng framtoning'],
+  merchant: ['En skarp forretningsperson med regnende blikk', 'En desperat handelsmann som vrir hendene', 'En rik kjøpmann i fine klær'],
+  priest: ['En rolig prest i seremonikåpe', 'En bekymret prest som griper et hellig symbol', 'En streng religiøs skikkelse'],
+  wizard: ['En eksentrisk magiker omgitt av svevende bøker', 'En mystisk trollmann i flagrende kapper', 'En gammel vismann med vitende øyne'],
+  commoner: ['En enkel bonde med harde never', 'En bekymret forelder med tårer i øynene', 'En ydmyk landsbyboer i slitte klær'],
+  guard: ['En streng offiser i blank rustning', 'En sliten soldat med krigsarr', 'En fast lovhåndhever'],
+  'mysterious-stranger': ['En kappekledd skikkelse med skjult ansikt', 'En skyggeaktig skikkelse som snakker i hviskende toner', 'Et gåtefullt bud'],
+  child: ['Et redd barn med store øyne', 'En modig ung som prøver å være sterk', 'En desperat ungdom som søker hjelp'],
 };
 
 const COMPLICATIONS = [
-  { description: 'A rival group is also after the objective', severity: 'major' as const },
-  { description: 'The weather turns dangerous', severity: 'minor' as const },
-  { description: 'A key ally betrays the party', severity: 'critical' as const },
-  { description: 'The objective is not what it seems', severity: 'major' as const },
-  { description: 'Local authorities become suspicious', severity: 'minor' as const },
-  { description: 'The enemy has reinforcements', severity: 'major' as const },
-  { description: 'A natural disaster strikes', severity: 'critical' as const },
-  { description: 'The map/information was wrong', severity: 'minor' as const },
-  { description: 'An innocent is caught in the crossfire', severity: 'major' as const },
-  { description: 'The quest giver has hidden motives', severity: 'critical' as const },
-  { description: 'Equipment is lost or damaged', severity: 'minor' as const },
-  { description: 'A curse affects the party', severity: 'major' as const },
-  { description: 'Time runs shorter than expected', severity: 'minor' as const },
-  { description: 'The target has powerful protection', severity: 'major' as const },
-  { description: 'A third party intervenes', severity: 'minor' as const },
+  { description: 'En rivaliserende gruppe er også ute etter målet', severity: 'major' as const },
+  { description: 'Været blir farlig', severity: 'minor' as const },
+  { description: 'En viktig alliert forråder gruppen', severity: 'critical' as const },
+  { description: 'Målet er ikke det det ser ut til å være', severity: 'major' as const },
+  { description: 'Myndighetene blir mistenksomme', severity: 'minor' as const },
+  { description: 'Fienden har forsterkninger', severity: 'major' as const },
+  { description: 'En naturkatastrofe rammer', severity: 'critical' as const },
+  { description: 'Kartet eller opplysningene var feil', severity: 'minor' as const },
+  { description: 'En uskyldig havner midt i striden', severity: 'major' as const },
+  { description: 'Oppdragsgiveren har skjulte motiver', severity: 'critical' as const },
+  { description: 'Utstyr går tapt eller blir ødelagt', severity: 'minor' as const },
+  { description: 'En forbannelse rammer gruppen', severity: 'major' as const },
+  { description: 'Tiden går fortere enn ventet', severity: 'minor' as const },
+  { description: 'Målet har kraftig beskyttelse', severity: 'major' as const },
+  { description: 'En tredjepart griper inn', severity: 'minor' as const },
 ];
 
 const SECRET_TWISTS = [
-  'The quest giver is actually the villain',
-  'The objective is cursed',
-  'The "enemy" is actually innocent',
-  'There is no reward - it was a trap',
-  'The real threat is something else entirely',
-  'A party member has a secret connection to the quest',
-  'The objective has already been destroyed',
-  'Completing the quest will cause greater harm',
-  'The quest is a test by a powerful entity',
-  'The true objective is hidden within the false one',
+  'Oppdragsgiveren er egentlig skurken',
+  'Målet er forbannet',
+  '«Fienden» er egentlig uskyldig',
+  'Det er ingen belønning – det var en felle',
+  'Den virkelige trusselen er noe helt annet',
+  'Et gruppemedlem har en hemmelig forbindelse til oppdraget',
+  'Målet er allerede ødelagt',
+  'Å fullføre oppdraget vil gjøre større skade',
+  'Oppdraget er en prøve fra en mektig makt',
+  'Det egentlige målet er skjult bak det falske',
 ];
 
 const TIME_LIMITS = [
-  'before the next full moon',
-  'within three days',
-  'before the festival begins',
-  'by sunrise tomorrow',
-  'before the enemy arrives',
-  'within a fortnight',
-  'before winter sets in',
-  'by the end of the week',
+  'før neste fullmåne',
+  'innen tre dager',
+  'før festen begynner',
+  'innen soloppgang i morgen',
+  'før fienden kommer',
+  'innen fjorten dager',
+  'før vinteren setter inn',
+  'innen uka er omme',
 ];
 
 const REWARD_ITEMS = [
-  'a magical weapon',
-  'a rare potion',
-  'an enchanted ring',
-  'a spellbook',
-  'a map to greater treasure',
-  'a favor from a powerful ally',
-  'land and title',
-  'a magical artifact',
-  'rare crafting materials',
-  'a trained mount',
+  'et magisk våpen',
+  'en sjelden trylledrikk',
+  'en fortryllet ring',
+  'en trylleformelbok',
+  'et kart til en enda større skatt',
+  'en tjeneste fra en mektig alliert',
+  'land og tittel',
+  'et magisk artefakt',
+  'sjeldne håndverksmaterialer',
+  'en dressert ridehest',
 ];
 
 // ============================================
@@ -415,11 +416,11 @@ export function generateReward(difficulty: QuestDifficulty): QuestReward {
   // Maybe add reputation
   if (Math.random() < 0.5) {
     const reputations = [
-      'increased standing with the local guild',
-      'favor with the nobility',
-      'recognition from the temple',
-      'fame throughout the region',
-      'a powerful ally',
+      'bedre standing hos det lokale lauget',
+      'gunst hos adelen',
+      'anerkjennelse fra tempelet',
+      'berømmelse i hele regionen',
+      'en mektig alliert',
     ];
     reward.reputation = randomElement(reputations);
   }
@@ -466,7 +467,7 @@ export function generateQuest(options: {
 
   // Generate hook and description
   const hook = generateQuestHook();
-  const description = `${questGiver.description}. They seek adventurers ${questGiver.motivation}. The task: ${objective.toLowerCase()} in ${location}.`;
+  const description = `${questGiver.description}. Vedkommende søker eventyrere ${questGiver.motivation}. Oppdraget: ${objective.charAt(0).toLowerCase() + objective.slice(1)} (sted: ${location}).`;
 
   return {
     title,
@@ -491,31 +492,32 @@ export function generateQuest(options: {
  * @returns Formatted string
  */
 export function formatQuest(quest: Quest): string {
+  const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
   const lines: string[] = [
     `# ${quest.title}`,
-    `*${quest.type.charAt(0).toUpperCase() + quest.type.slice(1)} Quest - ${quest.difficulty.charAt(0).toUpperCase() + quest.difficulty.slice(1)} Difficulty*`,
+    `*${cap(QUEST_TYPE_NAMES_NO[quest.type] ?? quest.type)}-oppdrag – ${(DIFFICULTY_NAMES_NO[quest.difficulty] ?? quest.difficulty).toLowerCase()} vanskelighetsgrad*`,
     '',
-    `**Hook:** ${quest.hook}`,
+    `**Krok:** ${quest.hook}`,
     '',
     quest.description,
     '',
-    `**Objective:** ${quest.objective}`,
-    `**Location:** ${quest.location}`,
+    `**Mål:** ${quest.objective}`,
+    `**Sted:** ${quest.location}`,
     '',
-    '## Quest Giver',
-    `**${quest.questGiver.name}** (${quest.questGiver.type})`,
+    '## Oppdragsgiver',
+    `**${quest.questGiver.name}** (${QUEST_GIVER_NAMES_NO[quest.questGiver.type] ?? quest.questGiver.type})`,
     quest.questGiver.description,
-    `*Motivation: ${quest.questGiver.motivation}*`,
+    `*Motivasjon: ${quest.questGiver.motivation}*`,
     '',
-    '## Complications',
+    '## Komplikasjoner',
   ];
 
   for (const comp of quest.complications) {
-    lines.push(`- [${comp.severity}] ${comp.description}`);
+    lines.push(`- [${SEVERITY_NAMES_NO[comp.severity] ?? comp.severity}] ${comp.description}`);
   }
 
-  lines.push('', '## Reward');
-  lines.push(`- ${quest.reward.gold} gold pieces`);
+  lines.push('', '## Belønning');
+  lines.push(`- ${quest.reward.gold} gullstykker`);
   if (quest.reward.items) {
     for (const item of quest.reward.items) {
       lines.push(`- ${item}`);
@@ -526,11 +528,11 @@ export function formatQuest(quest: Quest): string {
   }
 
   if (quest.timeLimit) {
-    lines.push('', `**Time Limit:** ${quest.timeLimit}`);
+    lines.push('', `**Tidsfrist:** ${quest.timeLimit}`);
   }
 
   if (quest.secretTwist) {
-    lines.push('', `**Secret Twist (GM Only):** ${quest.secretTwist}`);
+    lines.push('', `**Hemmelig vri (kun for spilleder):** ${quest.secretTwist}`);
   }
 
   return lines.join('\n');

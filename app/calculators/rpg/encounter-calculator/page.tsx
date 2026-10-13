@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { EncounterDifficultyCalculator } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Encounter Difficulty Calculator - D&D 5e Encounter Builder',
-  description: 'Calculate encounter difficulty for D&D 5e. Enter party levels and monster CRs to determine if your encounter is easy, medium, hard, or deadly.',
-  keywords: ['encounter calculator', 'd&d encounter', 'cr calculator', 'encounter difficulty', 'dnd 5e', 'encounter builder'],
+  title: 'Møtevanskelighet (D&D 5e) – gratis kalkulator på nett',
+  description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse. Gratis og uten registrering.',
+  keywords: ['møtevanskelighet', 'encounter', 'CR', 'DnD', 'gruppenivå'],
   alternates: { canonical: '/calculators/rpg/encounter-calculator' },
+  openGraph: {
+    title: 'Møtevanskelighet (D&D 5e)',
+    description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse',
+    url: '/calculators/rpg/encounter-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Encounter Difficulty Calculator',
-  description: 'Calculate D&D 5e encounter difficulty',
+  name: 'Møtevanskelighet (D&D 5e)',
+  description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Add party members', text: 'Enter the level and count for each party member group.' },
-  { name: 'Add monsters', text: 'Select the CR and count for each monster type in the encounter.' },
-  { name: 'View difficulty', text: 'The calculator automatically shows the encounter difficulty.' },
-  { name: 'Check thresholds', text: 'Compare adjusted XP against party thresholds.' },
-  { name: 'Adjust as needed', text: 'Add or remove monsters to tune the difficulty.' },
+  { name: 'Legg inn gruppen', text: 'Antall spillere og nivå.' },
+  { name: 'Legg inn monstre', text: 'Velg CR og antall.' },
+  { name: 'Se vanskelighetsgraden', text: 'Lett, middels, vanskelig eller dødelig.' },
+  { name: 'Sjekk XP-grensene', text: 'Se hvor mye XP som skal til for hvert nivå.' },
 ];
 
 const faqs = [
-  {
-    question: 'How is encounter difficulty calculated?',
-    answer: 'The calculator uses D&D 5e DMG rules: sum monster XP, apply a multiplier based on monster count, then compare against party XP thresholds for each difficulty level.',
-  },
-  {
-    question: 'What is the XP multiplier?',
-    answer: 'Multiple monsters are more dangerous than their XP suggests. The multiplier ranges from 1× (single monster) to 4× (15+ monsters), adjusted for party size.',
-  },
-  {
-    question: 'Why is my encounter showing as deadly?',
-    answer: 'Deadly encounters can kill characters. Consider reducing monster count, using lower CR creatures, or ensuring your party has resources available.',
-  },
-  {
-    question: 'How many encounters per day?',
-    answer: 'The DMG suggests 6-8 medium/hard encounters per adventuring day. Fewer deadly encounters or more easy ones can substitute.',
-  },
-  {
-    question: 'Does this account for terrain and tactics?',
-    answer: 'No, this is a baseline calculation. Advantageous terrain, surprise, or clever tactics can make encounters easier or harder than calculated.',
-  },
+  { question: 'Hva er CR?', answer: 'Challenge Rating, utfordringsgrad. Den viser omtrent hvor sterkt et monster er.' },
+  { question: 'Hvorfor øker multiplikatoren med antall monstre?', answer: 'Flere monstre gjør møtet farligere enn summen av XP skulle tilsi.' },
+  { question: 'Er resultatet nøyaktig?', answer: 'Det er en veiledning. Terreng, taktikk og gruppens utstyr kan gjøre møtet lettere eller vanskeligere.' },
+  { question: 'Hvilke regler brukes?', answer: 'Utregningen følger veiledningen for møter i D&D 5e (2014).' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/initiative-tracker', title: 'Initiative Tracker', description: 'Track combat order for your encounter.' },
-  { href: '/calculators/rpg/loot-generator', title: 'Loot Generator', description: 'Generate treasure for defeated monsters.' },
-  { href: '/calculators/rpg/dice-roller', title: 'Dice Roller', description: 'Roll dice for combat.' },
+  { href: '/calculators/rpg/initiative-tracker', title: 'Initiativrekkefølge', description: 'Hold orden på initiativ og tur-rekkefølge i kamper' },
+  { href: '/calculators/rpg/loot-generator', title: 'Skattegenerator', description: 'Lag tilfeldig skatt og bytte til rollespill: gull, edelstener og gjenstander' },
+  { href: '/calculators/rpg/dice-roller', title: 'Terningkast', description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3' },
 ];
 
 export default function EncounterCalculatorPage() {
@@ -63,12 +55,11 @@ export default function EncounterCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="encounter-calculator"
-          title="Encounter Difficulty Calculator"
-          description="Calculate encounter difficulty for D&D 5e using official DMG rules. Balance your encounters for the perfect challenge."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Møtevanskelighet (D&D 5e)"
+          description="Regn ut hvor vanskelig et møte er i D&D 5e ut fra gruppens nivå og monstrenes CR. Gratis og uten registrering."
         />
 
-        <section aria-label="Encounter Difficulty Calculator">
+        <section aria-label="Møtevanskelighet (D&D 5e)">
           <EncounterDifficultyCalculator />
         </section>
 

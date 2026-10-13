@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { InitiativeTracker } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Initiative Tracker - D&D Combat Order Manager',
-  description: 'Track combat initiative order, HP, AC, and conditions for D&D and other tabletop RPGs. Perfect for DMs managing encounters.',
-  keywords: ['initiative tracker', 'd&d combat', 'turn order', 'combat tracker', 'rpg combat', 'encounter manager'],
+  title: 'Initiativrekkefølge – gratis kalkulator på nett',
+  description: 'Hold orden på initiativ og tur-rekkefølge i kamper. Gratis og uten registrering.',
+  keywords: ['initiativ', 'kampsporing', 'turrekkefølge', 'rollespill'],
   alternates: { canonical: '/calculators/rpg/initiative-tracker' },
+  openGraph: {
+    title: 'Initiativrekkefølge',
+    description: 'Hold orden på initiativ og tur-rekkefølge i kamper',
+    url: '/calculators/rpg/initiative-tracker',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Initiative Tracker',
-  description: 'Track combat initiative and conditions for tabletop RPGs',
+  name: 'Initiativrekkefølge',
+  description: 'Hold orden på initiativ og tur-rekkefølge i kamper',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Add combatants', text: 'Enter names, initiative (or auto-roll), HP, and AC for each creature.' },
-  { name: 'Mark players', text: 'Check "Player Character" for PCs to distinguish them from enemies.' },
-  { name: 'Start combat', text: 'Click Start Combat to begin tracking turns.' },
-  { name: 'Track turns', text: 'Use Next Turn to advance. Adjust HP and add conditions as needed.' },
-  { name: 'Mark defeated', text: 'Click the skull icon to mark creatures as defeated.' },
+  { name: 'Legg til deltakere', text: 'Skriv navn og eventuelt initiativ, HP og AC.' },
+  { name: 'Start kampen', text: 'Rekkefølgen sorteres etter initiativ.' },
+  { name: 'Gå gjennom rundene', text: 'Trykk på «Neste tur» for å flytte videre.' },
+  { name: 'Marker tilstander', text: 'Legg til tilstander som lammet eller forgiftet og fjern dem ved å klikke.' },
 ];
 
 const faqs = [
-  {
-    question: 'How is initiative order determined?',
-    answer: 'Combatants are sorted by initiative from highest to lowest. You can manually adjust initiative using the up/down arrows.',
-  },
-  {
-    question: 'What happens when a combatant reaches 0 HP?',
-    answer: 'They are automatically marked as defeated and will be skipped during turn order. You can revive them using the heart icon.',
-  },
-  {
-    question: 'Can I track conditions?',
-    answer: 'Yes! Use the Quick Add Conditions buttons to add conditions to the current combatant. Click on a condition to remove it.',
-  },
-  {
-    question: 'Is my data saved?',
-    answer: 'Currently, data is stored in your browser session. Refreshing the page will clear the tracker. Save important encounters manually.',
-  },
-  {
-    question: 'Can I use this for systems other than D&D?',
-    answer: 'Absolutely! The tracker works for any system that uses initiative order. Just ignore the conditions if they don\'t apply.',
-  },
+  { question: 'Hva om jeg ikke fyller ut initiativ?', answer: 'Da kaster kalkulatoren 1d20 automatisk.' },
+  { question: 'Hvordan skiller jeg spillere og fiender?', answer: 'Spillerkarakterer vises i blått og fiender i rødt.' },
+  { question: 'Lagres kampen?', answer: 'Nei, den ligger bare i nettleseren mens siden er åpen.' },
+  { question: 'Hvordan markerer jeg en beseiret deltaker?', answer: 'Trykk på hodeskallen ved navnet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/encounter-calculator', title: 'Encounter Calculator', description: 'Calculate encounter difficulty.' },
-  { href: '/calculators/rpg/dice-roller', title: 'Dice Roller', description: 'Roll dice for attacks and saves.' },
-  { href: '/calculators/rpg/loot-generator', title: 'Loot Generator', description: 'Generate treasure for defeated enemies.' },
+  { href: '/calculators/rpg/dice-roller', title: 'Terningkast', description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3' },
+  { href: '/calculators/rpg/encounter-calculator', title: 'Møtevanskelighet (D&D 5e)', description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse' },
+  { href: '/calculators/rpg/character-sheet-helper', title: 'Karakterark-hjelper', description: 'Regn ut egenskapsmodifikatorer og ferdighetsbonus til D&D 5e og lignende' },
 ];
 
 export default function InitiativeTrackerPage() {
@@ -63,12 +55,11 @@ export default function InitiativeTrackerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="initiative-tracker"
-          title="Initiative Tracker"
-          description="Track combat order, HP, conditions, and more for your D&D and RPG encounters. Perfect for DMs and players alike."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Initiativrekkefølge"
+          description="Hold styr på kamprekkefølge, HP, AC og tilstander i D&D-møter. Kast initiativ automatisk. Gratis og uten registrering."
         />
 
-        <section aria-label="Initiative Tracker">
+        <section aria-label="Initiativrekkefølge">
           <InitiativeTracker />
         </section>
 

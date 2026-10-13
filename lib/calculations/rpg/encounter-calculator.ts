@@ -136,7 +136,7 @@ export interface EncounterResult {
 export function getCRXP(cr: string): number {
   const xp = CR_XP_VALUES[cr];
   if (xp === undefined) {
-    throw new Error(`Unknown Challenge Rating: ${cr}`);
+    throw new Error(`Ukjent utfordringsgrad (CR): ${cr}`);
   }
   return xp;
 }
@@ -330,14 +330,14 @@ export function getRecommendedCR(party: PartyMember[], difficulty: DifficultyLev
 export function formatDifficulty(difficulty: DifficultyLevel): { label: string; color: string } {
   switch (difficulty) {
     case 'trivial':
-      return { label: 'Trivial', color: 'gray' };
+      return { label: 'Triviell', color: 'gray' };
     case 'easy':
-      return { label: 'Easy', color: 'green' };
+      return { label: 'Lett', color: 'green' };
     case 'medium':
-      return { label: 'Medium', color: 'yellow' };
+      return { label: 'Middels', color: 'yellow' };
     case 'hard':
-      return { label: 'Hard', color: 'orange' };
+      return { label: 'Vanskelig', color: 'orange' };
     case 'deadly':
-      return { label: 'Deadly', color: 'red' };
+      return { label: 'Dødelig', color: 'red' };
   }
 }

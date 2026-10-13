@@ -1,60 +1,51 @@
 import { Metadata } from 'next';
 import { TavernGenerator } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Tavern Generator - Random D&D Tavern Creator',
-  description: 'Generate random taverns with names, staff, menus, and rumors for your D&D or tabletop RPG campaign. Perfect for game masters.',
-  keywords: ['tavern generator', 'd&d tavern', 'rpg tavern', 'random tavern', 'inn generator', 'fantasy tavern'],
+  title: 'Vertshusgenerator – gratis kalkulator på nett',
+  description: 'Lag tilfeldige vertshus med navn, meny, personer og stemning. Gratis og uten registrering.',
+  keywords: ['vertshus', 'taverna', 'NPC', 'fantasy', 'rollespill'],
   alternates: { canonical: '/calculators/rpg/tavern-generator' },
+  openGraph: {
+    title: 'Vertshusgenerator',
+    description: 'Lag tilfeldige vertshus med navn, meny, personer og stemning',
+    url: '/calculators/rpg/tavern-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Tavern Generator',
-  description: 'Generate random taverns for tabletop RPGs',
+  name: 'Vertshusgenerator',
+  description: 'Lag tilfeldige vertshus med navn, meny, personer og stemning',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select quality', text: 'Choose a quality level (squalid to aristocratic) or leave as random for variety.' },
-  { name: 'Generate tavern', text: 'Click Generate Tavern to create a complete establishment.' },
-  { name: 'Review details', text: 'See the tavern name, description, atmosphere, and any special features.' },
-  { name: 'Meet the staff', text: 'Each tavern includes NPCs with names, roles, descriptions, and quirks.' },
-  { name: 'Check the menu', text: 'View food and drink options with prices in copper, silver, or gold.' },
-  { name: 'Gather rumors', text: 'Use the rumors as adventure hooks or local color for your campaign.' },
+  { name: 'Velg kvalitetsnivå', text: 'Fra elendig til aristokratisk, eller tilfeldig.' },
+  { name: 'Trykk på lag vertshus', text: 'Du får navn, beskrivelse, ansatte og meny.' },
+  { name: 'Les rykter', text: 'Ryktene kan brukes som oppdragskroker.' },
+  { name: 'Lag flere', text: 'Tidligere vertshus ligger i historikken.' },
 ];
 
 const faqs = [
-  {
-    question: 'What do the quality levels mean?',
-    answer: 'Quality levels follow D&D 5e lifestyle expenses: Squalid (1 sp/day) is dangerous and minimal, Poor (2 sp/day) is basic, Modest (1 gp/day) is decent, Comfortable (2 gp/day) is good quality, Wealthy (4 gp/day) is upscale, and Aristocratic (10+ gp/day) is luxury.',
-  },
-  {
-    question: 'How are menu prices determined?',
-    answer: 'Base prices are adjusted by quality level. Squalid taverns have 50% prices, while aristocratic establishments charge double. Prices are shown in the most appropriate denomination (cp, sp, or gp).',
-  },
-  {
-    question: 'What are NPC quirks?',
-    answer: 'Quirks are memorable personality traits or habits that make NPCs more interesting and memorable. Not every NPC has a quirk - about half will have one randomly assigned.',
-  },
-  {
-    question: 'Can I use the rumors as quest hooks?',
-    answer: 'Absolutely! Rumors are designed to spark adventure ideas. They range from local gossip to hints about dungeons, monsters, and mysteries that could become full quests.',
-  },
-  {
-    question: 'What are special features?',
-    answer: 'About 30% of taverns have a special feature - something unique like a secret room, resident ghost, fighting pit, or magical amenity that makes the establishment memorable.',
-  },
+  { question: 'Hva betyr prisene?', answer: 'De er oppgitt i D&D-myntene gp, sp og cp (gull, sølv og kobber).' },
+  { question: 'Hva koster overnatting?', answer: 'Fra 1 sp per natt i et elendig vertshus til over 10 gp i et aristokratisk.' },
+  { question: 'Kan jeg endre resultatet?', answer: 'Ja, bruk det som utgangspunkt og tilpass det til kampanjen din.' },
+  { question: 'Er navnene fra en bestemt verden?', answer: 'Nei, de er laget av tilfeldige deler og passer til de fleste fantasiverdener.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/quest-idea-generator', title: 'Quest Idea Generator', description: 'Generate adventure hooks and quest ideas.' },
-  { href: '/calculators/rpg/fantasy-name-generator', title: 'Fantasy Name Generator', description: 'Generate names for characters and places.' },
-  { href: '/calculators/rpg/loot-generator', title: 'Loot Generator', description: 'Generate treasure and loot for your adventures.' },
+  { href: '/calculators/rpg/fantasy-name-generator', title: 'Fantasynavn-generator', description: 'Lag fantasynavn til rollespillfigurer: alv, dverg, menneske, ork m.fl.' },
+  { href: '/calculators/rpg/quest-idea-generator', title: 'Oppdragsideer', description: 'Lag tilfeldige oppdrag og eventyrideer til rollespill' },
+  { href: '/calculators/rpg/loot-generator', title: 'Skattegenerator', description: 'Lag tilfeldig skatt og bytte til rollespill: gull, edelstener og gjenstander' },
 ];
 
 export default function TavernGeneratorPage() {
@@ -64,12 +55,11 @@ export default function TavernGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="tavern-generator"
-          title="Tavern Generator"
-          description="Generate random taverns with names, staff, menus, and rumors for your D&D or tabletop RPG campaign. Perfect for game masters who need quick inspiration."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Vertshusgenerator"
+          description="Lag tilfeldige vertshus med navn, ansatte, meny, rykter og særtrekk til rollespillet ditt. Gratis og uten registrering."
         />
 
-        <section aria-label="Tavern Generator">
+        <section aria-label="Vertshusgenerator">
           <TavernGenerator />
         </section>
 

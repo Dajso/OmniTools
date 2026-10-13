@@ -18,9 +18,9 @@ import {
 } from '@/lib/calculations/rpg/map-grid-generator';
 
 const GRID_TYPES: { value: GridType; label: string }[] = [
-  { value: 'square', label: 'Square Grid' },
-  { value: 'hex-flat', label: 'Hex (Flat Top)' },
-  { value: 'hex-pointy', label: 'Hex (Pointy Top)' },
+  { value: 'square', label: 'Kvadratrutenett' },
+  { value: 'hex-flat', label: 'Heks (flat topp)' },
+  { value: 'hex-pointy', label: 'Heks (spiss topp)' },
 ];
 
 export function MapGridGenerator() {
@@ -155,16 +155,16 @@ export function MapGridGenerator() {
   return (
     <Card className="w-full max-w-5xl">
       <CardHeader>
-        <CardTitle>Map Grid Generator</CardTitle>
+        <CardTitle>Rutenett til kart</CardTitle>
         <CardDescription>
-          Create hex or square grids for tabletop RPG battle maps
+          Lag heks- eller kvadratrutenett til kampkart for bordrollespill
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Grid Settings */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="gridType">Grid Type</Label>
+            <Label htmlFor="gridType">Rutenetttype</Label>
             <select
               id="gridType"
               value={gridType}
@@ -177,7 +177,7 @@ export function MapGridGenerator() {
             </select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="rows">Rows</Label>
+            <Label htmlFor="rows">Rader</Label>
             <Input
               id="rows"
               type="number"
@@ -188,7 +188,7 @@ export function MapGridGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="cols">Columns</Label>
+            <Label htmlFor="cols">Kolonner</Label>
             <Input
               id="cols"
               type="number"
@@ -199,7 +199,7 @@ export function MapGridGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="cellSize">Cell Size</Label>
+            <Label htmlFor="cellSize">Rutestørrelse</Label>
             <Input
               id="cellSize"
               type="number"
@@ -220,19 +220,19 @@ export function MapGridGenerator() {
               onChange={(e) => setShowCoordinates(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm">Show Coordinates</span>
+            <span className="text-sm">Vis koordinater</span>
           </label>
           <Button variant="outline" size="sm" onClick={clearGrid}>
-            Clear Grid
+            Tøm rutenettet
           </Button>
           <Button variant="outline" size="sm" onClick={downloadSVG}>
-            Download SVG
+            Last ned SVG
           </Button>
         </div>
 
         {/* Terrain Palette */}
         <div className="space-y-2">
-          <Label>Terrain (click to select, then paint on grid)</Label>
+          <Label>Terreng (klikk for å velge, og mal så på rutenettet)</Label>
           <div className="flex flex-wrap gap-2">
             {getAllTerrainTypes().map(terrain => (
               <button
@@ -273,10 +273,10 @@ export function MapGridGenerator() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Click and drag to paint terrain on multiple cells</li>
-            <li>Select "Empty" terrain to erase</li>
-            <li>Download as SVG for use in virtual tabletops or printing</li>
-            <li>Standard D&D grid: 1 square = 5 feet</li>
+            <li>Klikk og dra for å male terreng på flere ruter</li>
+            <li>Velg «Tom» for å viske ut</li>
+            <li>Last ned som SVG for bruk i virtuelle bord eller til utskrift</li>
+            <li>Vanlig D&D-rutenett: 1 rute = 5 fot (ca. 1,5 meter)</li>
           </ul>
         </div>
       </CardContent>

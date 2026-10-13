@@ -1,74 +1,65 @@
 import { Metadata } from 'next';
 import { MapGridGenerator } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Map Grid Generator - Hex & Square Battle Maps',
-  description: 'Create hex and square grids for tabletop RPG battle maps. Paint terrain, add coordinates, and export as SVG for virtual tabletops or printing.',
-  keywords: ['map grid', 'hex grid', 'battle map', 'd&d map', 'rpg map maker', 'tabletop map', 'dungeon map'],
+  title: 'Rutenett til kart – gratis kalkulator på nett',
+  description: 'Lag utskriftsklare heksagon- og rutenett til rollespillkart. Gratis og uten registrering.',
+  keywords: ['rutenett', 'hexgrid', 'kampkart', 'rollespillkart'],
   alternates: { canonical: '/calculators/rpg/map-grid-generator' },
+  openGraph: {
+    title: 'Rutenett til kart',
+    description: 'Lag utskriftsklare heksagon- og rutenett til rollespillkart',
+    url: '/calculators/rpg/map-grid-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Map Grid Generator',
-  description: 'Create hex and square grids for tabletop RPG battle maps',
+  name: 'Rutenett til kart',
+  description: 'Lag utskriftsklare heksagon- og rutenett til rollespillkart',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose grid type', text: 'Select square grid, flat-top hex, or pointy-top hex based on your game system.' },
-  { name: 'Set dimensions', text: 'Enter the number of rows and columns for your map. Adjust cell size for detail level.' },
-  { name: 'Select terrain', text: 'Click a terrain type from the palette (grass, water, forest, etc.).' },
-  { name: 'Paint the map', text: 'Click and drag on the grid to paint terrain. Select "Empty" to erase.' },
-  { name: 'Export your map', text: 'Download as SVG for use in virtual tabletops or for printing.' },
+  { name: 'Velg rutenett', text: 'Kvadrat eller heks (flat eller spiss topp).' },
+  { name: 'Velg størrelse', text: 'Antall rader, kolonner og rutestørrelse.' },
+  { name: 'Mal terreng', text: 'Velg terreng og klikk eller dra på rutenettet.' },
+  { name: 'Last ned', text: 'Lagre kartet som SVG til utskrift eller virtuelt bord.' },
 ];
 
 const faqs = [
-  {
-    question: 'What grid type should I use?',
-    answer: 'Square grids are standard for D&D 5e and most d20 systems. Hex grids are popular for wargames and some RPGs like GURPS. Flat-top hexes are common for overland maps, while pointy-top hexes work well for tactical combat.',
-  },
-  {
-    question: 'How big should my grid be?',
-    answer: 'For tactical combat, 20x20 squares covers most encounters. For dungeon rooms, 10x10 to 15x15 is typical. Larger grids (30x30) work for outdoor battles or complex dungeons.',
-  },
-  {
-    question: 'What does each terrain type represent?',
-    answer: 'Empty = clear terrain, Grass = normal outdoor, Water = swimming/difficult, Forest = cover/difficult, Mountain = impassable, Road = normal movement, Building = structures, Wall = impassable, Door = passage, Difficult = half movement speed.',
-  },
-  {
-    question: 'Can I use this with virtual tabletops?',
-    answer: 'Yes! Export as SVG and import into Roll20, Foundry VTT, or other virtual tabletops. SVG files scale perfectly to any size.',
-  },
-  {
-    question: 'What scale should I use?',
-    answer: 'Standard D&D scale is 1 square = 5 feet. For hex grids, each hex typically represents 5 feet across (flat side to flat side).',
-  },
+  { question: 'Hvor stor er en rute?', answer: 'I D&D er en rute 5 fot, omtrent 1,5 meter.' },
+  { question: 'Hva er forskjellen på heks og kvadrat?', answer: 'Heksruter gir jevnere avstand i alle retninger, mens kvadratruter er enklere å tegne og bruke.' },
+  { question: 'Kan jeg bruke kartet i et virtuelt bord?', answer: 'Ja, SVG fungerer i de fleste verktøy, men noen krever PNG.' },
+  { question: 'Hvordan visker jeg ut?', answer: 'Velg terrengtypen «Tom» og mal over.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/encounter-calculator', title: 'Encounter Calculator', description: 'Calculate encounter difficulty for your battle.' },
-  { href: '/calculators/rpg/initiative-tracker', title: 'Initiative Tracker', description: 'Track combat order during encounters.' },
-  { href: '/calculators/rpg/dice-roller', title: 'Dice Roller', description: 'Roll dice for combat and skill checks.' },
+  { href: '/calculators/rpg/encounter-calculator', title: 'Møtevanskelighet (D&D 5e)', description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse' },
+  { href: '/calculators/rpg/initiative-tracker', title: 'Initiativrekkefølge', description: 'Hold orden på initiativ og tur-rekkefølge i kamper' },
+  { href: '/calculators/rpg/tavern-generator', title: 'Vertshusgenerator', description: 'Lag tilfeldige vertshus med navn, meny, personer og stemning' },
 ];
 
 export default function MapGridGeneratorPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <main className="container mx-auto px-4 py-8 max-w-5xl">
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="map-grid-generator"
-          title="Map Grid Generator"
-          description="Create hex and square grids for tabletop RPG battle maps. Paint terrain, add coordinates, and export as SVG for virtual tabletops or printing."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Rutenett til kart"
+          description="Lag heks- eller kvadratrutenett til kampkart i bordrollespill, mal terreng og last ned som SVG. Gratis og uten registrering."
         />
 
-        <section aria-label="Map Grid Generator">
+        <section aria-label="Rutenett til kart">
           <MapGridGenerator />
         </section>
 

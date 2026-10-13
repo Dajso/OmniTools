@@ -1,5 +1,6 @@
 'use client';
 
+import { labelNo, RACE_NAMES_NO, GENDER_NAMES_NO } from '@/lib/calculations/rpg/labels';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,28 +18,28 @@ import {
 
 const RACE_OPTIONS = FANTASY_RACES.map(race => ({
   value: race,
-  label: race.charAt(0).toUpperCase() + race.slice(1),
+  label: labelNo(RACE_NAMES_NO, race),
 }));
 
 const GENDER_OPTIONS = GENDERS.map(gender => ({
   value: gender,
-  label: gender.charAt(0).toUpperCase() + gender.slice(1),
+  label: labelNo(GENDER_NAMES_NO, gender),
 }));
 
 const COUNT_OPTIONS = [
-  { value: '1', label: '1 name' },
-  { value: '5', label: '5 names' },
-  { value: '10', label: '10 names' },
-  { value: '20', label: '20 names' },
+  { value: '1', label: '1 navn' },
+  { value: '5', label: '5 navn' },
+  { value: '10', label: '10 navn' },
+  { value: '20', label: '20 navn' },
 ];
 
 const RACE_DESCRIPTIONS: Record<FantasyRace, string> = {
-  elf: 'Graceful and long-lived, with melodic names',
-  dwarf: 'Sturdy and proud, with strong consonant names',
-  human: 'Diverse and adaptable, with varied naming traditions',
-  orc: 'Fierce and powerful, with harsh guttural names',
-  halfling: 'Cheerful and nimble, with homey comfortable names',
-  dragonborn: 'Noble and draconic, with exotic sounding names',
+  elf: 'Grasiøse og langlivede, med melodiske navn',
+  dwarf: 'Solide og stolte, med hardt klingende navn',
+  human: 'Mangfoldige og tilpasningsdyktige, med ulike navnetradisjoner',
+  orc: 'Voldsomme og sterke, med harde strupelyder i navnene',
+  halfling: 'Blide og kvikke, med trivelige, hjemlige navn',
+  dragonborn: 'Edle og drakeaktige, med eksotisk klingende navn',
 };
 
 const RACE_EMOJIS: Record<FantasyRace, string> = {
@@ -100,16 +101,16 @@ export function FantasyNameGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Fantasy Name Generator</CardTitle>
+        <CardTitle>Fantasynavn</CardTitle>
         <CardDescription>
-          Generate culturally appropriate names for your RPG characters
+          Lag passende navn til rollespillkarakterene dine
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Configuration */}
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
-            <Label htmlFor="race">Race</Label>
+            <Label htmlFor="race">Rase</Label>
             <Select
               id="race"
               options={RACE_OPTIONS}
@@ -118,7 +119,7 @@ export function FantasyNameGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="gender">Gender</Label>
+            <Label htmlFor="gender">Kjønn</Label>
             <Select
               id="gender"
               options={GENDER_OPTIONS}
@@ -127,7 +128,7 @@ export function FantasyNameGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="count">Count</Label>
+            <Label htmlFor="count">Antall</Label>
             <Select
               id="count"
               options={COUNT_OPTIONS}
@@ -141,7 +142,7 @@ export function FantasyNameGenerator() {
         <div className="bg-muted/50 rounded-lg p-3 flex items-center gap-3">
           <span className="text-2xl">{RACE_EMOJIS[race]}</span>
           <div>
-            <p className="font-medium capitalize">{race}</p>
+            <p className="font-medium">{labelNo(RACE_NAMES_NO, race)}</p>
             <p className="text-sm text-muted-foreground">{RACE_DESCRIPTIONS[race]}</p>
           </div>
         </div>
@@ -149,24 +150,24 @@ export function FantasyNameGenerator() {
         {/* Generate Button */}
         <Button onClick={handleGenerate} disabled={isGenerating} className="w-full">
           <RefreshCw className={`h-4 w-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
-          {isGenerating ? 'Generating...' : 'Generate Names'}
+          {isGenerating ? 'Lager …' : 'Lag navn'}
         </Button>
 
         {/* Generated Names */}
         {names.length > 0 && (
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <p className="text-sm font-medium">Generated Names</p>
+              <p className="text-sm font-medium">Lagde navn</p>
               <Button variant="ghost" size="sm" onClick={handleCopyAll}>
                 {copiedIndex === -1 ? (
                   <>
                     <Check className="h-4 w-4 mr-1" />
-                    Copied All!
+                    Kopiert alle!
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4 mr-1" />
-                    Copy All
+                    Kopier alle
                   </>
                 )}
               </Button>
@@ -204,7 +205,7 @@ export function FantasyNameGenerator() {
 
         {/* Quick Race Buttons */}
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Quick Generate by Race</p>
+          <p className="text-sm font-medium mb-3">Hurtigvalg etter rase</p>
           <div className="flex flex-wrap gap-2">
             {FANTASY_RACES.map(r => (
               <Button
@@ -219,7 +220,7 @@ export function FantasyNameGenerator() {
                   }, 100);
                 }}
               >
-                {RACE_EMOJIS[r]} {r.charAt(0).toUpperCase() + r.slice(1)}
+                {RACE_EMOJIS[r]} {labelNo(RACE_NAMES_NO, r)}
               </Button>
             ))}
           </div>
@@ -229,10 +230,10 @@ export function FantasyNameGenerator() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Names are generated by combining race-specific prefixes and suffixes</li>
-            <li>Use &quot;Neutral&quot; gender for non-binary or androgynous names</li>
-            <li>Click on a name to copy it to your clipboard</li>
-            <li>Generate multiple names to find the perfect fit for your character</li>
+            <li>Navnene lages ved å kombinere forstavelser og endelser som passer til rasen</li>
+            <li>Bruk «Nøytral» for kjønnsnøytrale eller androgyne navn</li>
+            <li>Klikk på et navn for å kopiere det</li>
+            <li>Lag flere navn for å finne det som passer karakteren din best</li>
           </ul>
         </div>
       </CardContent>

@@ -21,9 +21,9 @@ interface Combatant {
 }
 
 const CONDITIONS = [
-  'Blinded', 'Charmed', 'Deafened', 'Frightened', 'Grappled',
-  'Incapacitated', 'Invisible', 'Paralyzed', 'Petrified', 'Poisoned',
-  'Prone', 'Restrained', 'Stunned', 'Unconscious', 'Exhaustion',
+  'Blendet', 'Sjarmert', 'Døv', 'Livredd', 'Grepet',
+  'Udyktig', 'Usynlig', 'Lammet', 'Forstenet', 'Forgiftet',
+  'Liggende', 'Fastholdt', 'Bedøvet', 'Bevisstløs', 'Utmattet',
 ];
 
 export function InitiativeTracker() {
@@ -165,9 +165,9 @@ export function InitiativeTracker() {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <CardTitle>Initiative Tracker</CardTitle>
+        <CardTitle>Initiativliste</CardTitle>
         <CardDescription>
-          Track combat order, HP, and conditions for your encounters
+          Hold styr på kamprekkefølge, HP og tilstander i møtene dine
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -175,23 +175,23 @@ export function InitiativeTracker() {
         <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <div className="space-y-1 lg:col-span-2">
-              <Label htmlFor="name" className="text-xs">Name</Label>
+              <Label htmlFor="name" className="text-xs">Navn</Label>
               <Input
                 id="name"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                placeholder="Goblin, Fighter, etc."
+                placeholder="Goblin, kriger osv."
                 onKeyDown={(e) => e.key === 'Enter' && addCombatant()}
               />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="initiative" className="text-xs">Initiative</Label>
+              <Label htmlFor="initiative" className="text-xs">Initiativ</Label>
               <Input
                 id="initiative"
                 type="number"
                 value={newInitiative}
                 onChange={(e) => setNewInitiative(e.target.value)}
-                placeholder="Auto-roll"
+                placeholder="Automatisk kast"
               />
             </div>
             <div className="space-y-1">
@@ -201,7 +201,7 @@ export function InitiativeTracker() {
                 type="number"
                 value={newHp}
                 onChange={(e) => setNewHp(e.target.value)}
-                placeholder="Optional"
+                placeholder="Valgfritt"
               />
             </div>
             <div className="space-y-1">
@@ -211,7 +211,7 @@ export function InitiativeTracker() {
                 type="number"
                 value={newAc}
                 onChange={(e) => setNewAc(e.target.value)}
-                placeholder="Optional"
+                placeholder="Valgfritt"
               />
             </div>
           </div>
@@ -223,11 +223,11 @@ export function InitiativeTracker() {
                 onChange={(e) => setIsPlayer(e.target.checked)}
                 className="rounded"
               />
-              Player Character
+              Spillerkarakter
             </label>
             <Button onClick={addCombatant} size="sm">
               <Plus className="h-4 w-4 mr-1" />
-              Add
+              Legg til
             </Button>
           </div>
         </div>
@@ -239,25 +239,25 @@ export function InitiativeTracker() {
               <>
                 <Button onClick={startCombat}>
                   <Play className="h-4 w-4 mr-2" />
-                  Start Combat
+                  Start kamp
                 </Button>
                 <Button variant="outline" onClick={rollAllInitiative}>
-                  Roll All Initiative
+                  Kast initiativ for alle
                 </Button>
               </>
             ) : (
               <>
                 <Button onClick={nextTurn}>
-                  Next Turn
+                  Neste tur
                 </Button>
                 <Button variant="outline" onClick={resetCombat}>
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  Reset
+                  Nullstill
                 </Button>
               </>
             )}
             <Button variant="ghost" onClick={clearAll}>
-              Clear All
+              Fjern alle
             </Button>
           </div>
         )}
@@ -265,7 +265,7 @@ export function InitiativeTracker() {
         {/* Round Counter */}
         {isInCombat && (
           <div className="text-center bg-primary/10 rounded-lg p-3">
-            <span className="text-lg font-bold">Round {round}</span>
+            <span className="text-lg font-bold">Runde {round}</span>
           </div>
         )}
 
@@ -368,7 +368,7 @@ export function InitiativeTracker() {
                     size="sm"
                     className="h-8 w-8 p-0"
                     onClick={() => toggleDefeated(combatant.id)}
-                    title={combatant.isDefeated ? 'Revive' : 'Defeat'}
+                    title={combatant.isDefeated ? 'Gjenopplive' : 'Beseir'}
                   >
                     {combatant.isDefeated ? (
                       <Heart className="h-4 w-4 text-green-600" />
@@ -390,14 +390,14 @@ export function InitiativeTracker() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground py-8">
-            Add combatants to start tracking initiative
+            Legg til deltakere for å begynne å følge initiativet
           </div>
         )}
 
         {/* Conditions Quick Add */}
         {combatants.length > 0 && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Quick Add Conditions</p>
+            <p className="text-sm font-medium mb-2">Legg til tilstand</p>
             <div className="flex flex-wrap gap-1">
               {CONDITIONS.map(condition => (
                 <Button
@@ -422,10 +422,10 @@ export function InitiativeTracker() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Leave initiative blank to auto-roll 1d20</li>
-            <li>Blue names are players, red are enemies</li>
-            <li>Click conditions to remove them</li>
-            <li>Use the skull icon to mark defeated combatants</li>
+            <li>La initiativ stå tomt for å kaste 1d20 automatisk</li>
+            <li>Blå navn er spillere, røde er fiender</li>
+            <li>Klikk på tilstander for å fjerne dem</li>
+            <li>Bruk hodeskallen for å markere beseirede deltakere</li>
           </ul>
         </div>
       </CardContent>

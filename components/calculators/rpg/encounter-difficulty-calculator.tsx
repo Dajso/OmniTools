@@ -23,7 +23,7 @@ const CR_OPTIONS = Object.keys(CR_XP_VALUES).map(cr => ({
 
 const LEVEL_OPTIONS = Array.from({ length: 20 }, (_, i) => ({
   value: String(i + 1),
-  label: `Level ${i + 1}`,
+  label: `Nivå ${i + 1}`,
 }));
 
 interface PartyEntry {
@@ -127,19 +127,19 @@ export function EncounterDifficultyCalculator() {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <CardTitle>Encounter Difficulty Calculator</CardTitle>
+        <CardTitle>Vanskelighetsgrad for møter</CardTitle>
         <CardDescription>
-          Calculate encounter difficulty based on party level and monster CR (D&D 5e rules)
+          Regn ut hvor vanskelig et møte er ut fra gruppens nivå og monstrenes CR (D&D 5e-regler)
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Party Section */}
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <Label className="text-base font-medium">Party ({totalPartySize} members)</Label>
+            <Label className="text-base font-medium">Gruppe ({totalPartySize} medlemmer)</Label>
             <Button variant="outline" size="sm" onClick={addPartyMember}>
               <Plus className="h-4 w-4 mr-1" />
-              Add
+              Legg til
             </Button>
           </div>
           
@@ -178,10 +178,10 @@ export function EncounterDifficultyCalculator() {
         {/* Monsters Section */}
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <Label className="text-base font-medium">Monsters ({totalMonsters} total)</Label>
+            <Label className="text-base font-medium">Monstre ({totalMonsters} totalt)</Label>
             <Button variant="outline" size="sm" onClick={addMonster}>
               <Plus className="h-4 w-4 mr-1" />
-              Add
+              Legg til
             </Button>
           </div>
           
@@ -189,7 +189,7 @@ export function EncounterDifficultyCalculator() {
             {monsters.map(monster => (
               <div key={monster.id} className="flex items-center gap-2 bg-red-50 rounded-lg p-2">
                 <Input
-                  placeholder="Name (optional)"
+                  placeholder="Navn (valgfritt)"
                   value={monster.name}
                   onChange={(e) => updateMonster(monster.id, 'name', e.target.value)}
                   className="flex-1"
@@ -231,7 +231,7 @@ export function EncounterDifficultyCalculator() {
               text-center p-4 rounded-lg border-2
               ${getDifficultyColor(result.difficulty)}
             `}>
-              <p className="text-sm uppercase tracking-wide mb-1">Encounter Difficulty</p>
+              <p className="text-sm uppercase tracking-wide mb-1">Møtets vanskelighetsgrad</p>
               <p className="text-3xl font-bold">
                 {formatDifficulty(result.difficulty).label}
               </p>
@@ -240,41 +240,41 @@ export function EncounterDifficultyCalculator() {
             {/* XP Breakdown */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="bg-muted/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-muted-foreground">Base XP</p>
+                <p className="text-xs text-muted-foreground">Grunn-XP</p>
                 <p className="text-lg font-bold">{result.totalXP.toLocaleString('nb-NO')}</p>
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-muted-foreground">Multiplier</p>
+                <p className="text-xs text-muted-foreground">Multiplikator</p>
                 <p className="text-lg font-bold">×{result.multiplier}</p>
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-muted-foreground">Adjusted XP</p>
+                <p className="text-xs text-muted-foreground">Justert XP</p>
                 <p className="text-lg font-bold">{result.adjustedXP.toLocaleString('nb-NO')}</p>
               </div>
               <div className="bg-muted/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-muted-foreground">XP per Player</p>
+                <p className="text-xs text-muted-foreground">XP per spiller</p>
                 <p className="text-lg font-bold">{result.xpPerPlayer.toLocaleString('nb-NO')}</p>
               </div>
             </div>
 
             {/* Party Thresholds */}
             <div className="space-y-2">
-              <p className="text-sm font-medium">Party XP Thresholds</p>
+              <p className="text-sm font-medium">Gruppens XP-grenser</p>
               <div className="grid grid-cols-4 gap-2 text-center text-sm">
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.easy ? 'bg-green-100' : 'bg-muted/30'}`}>
-                  <p className="text-xs text-muted-foreground">Easy</p>
+                  <p className="text-xs text-muted-foreground">Lett</p>
                   <p className="font-medium">{result.partyThresholds.easy.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.medium ? 'bg-yellow-100' : 'bg-muted/30'}`}>
-                  <p className="text-xs text-muted-foreground">Medium</p>
+                  <p className="text-xs text-muted-foreground">Middels</p>
                   <p className="font-medium">{result.partyThresholds.medium.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.hard ? 'bg-orange-100' : 'bg-muted/30'}`}>
-                  <p className="text-xs text-muted-foreground">Hard</p>
+                  <p className="text-xs text-muted-foreground">Vanskelig</p>
                   <p className="font-medium">{result.partyThresholds.hard.toLocaleString('nb-NO')}</p>
                 </div>
                 <div className={`p-2 rounded ${result.adjustedXP >= result.partyThresholds.deadly ? 'bg-red-100' : 'bg-muted/30'}`}>
-                  <p className="text-xs text-muted-foreground">Deadly</p>
+                  <p className="text-xs text-muted-foreground">Dødelig</p>
                   <p className="font-medium">{result.partyThresholds.deadly.toLocaleString('nb-NO')}</p>
                 </div>
               </div>
@@ -283,7 +283,7 @@ export function EncounterDifficultyCalculator() {
             {/* Monster Breakdown */}
             {result.monsters.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium">Monster XP Breakdown</p>
+                <p className="text-sm font-medium">XP per monster</p>
                 <div className="space-y-1">
                   {result.monsters.map((m, i) => (
                     <div key={i} className="flex justify-between text-sm bg-muted/30 rounded px-3 py-1">
@@ -299,12 +299,12 @@ export function EncounterDifficultyCalculator() {
 
         {/* Tips */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Difficulty Guide:</p>
+          <p className="font-medium mb-1">Vanskelighetsguide:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li><span className="text-green-600 font-medium">Easy:</span> Little risk, resources barely taxed</li>
-            <li><span className="text-yellow-600 font-medium">Medium:</span> Some risk, may need to use resources</li>
-            <li><span className="text-orange-600 font-medium">Hard:</span> Significant risk, could go badly</li>
-            <li><span className="text-red-600 font-medium">Deadly:</span> Could kill one or more characters</li>
+            <li><span className="text-green-600 font-medium">Lett:</span> Liten risiko, ressursene brukes knapt</li>
+            <li><span className="text-yellow-600 font-medium">Middels:</span> Noe risiko, kan kreve at ressurser brukes</li>
+            <li><span className="text-orange-600 font-medium">Vanskelig:</span> Stor risiko, kan gå galt</li>
+            <li><span className="text-red-600 font-medium">Dødelig:</span> Kan drepe én eller flere karakterer</li>
           </ul>
         </div>
       </CardContent>

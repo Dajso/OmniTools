@@ -556,7 +556,7 @@ describe('Fantasy Name Generator - Property 11: Fantasy Name Pool Membership', (
 
 describe('Tavern Name Generator - Property Tests', () => {
   /**
-   * Property: Tavern names should follow "The [Adjective] [Noun] [Suffix]" pattern
+   * Property: Tavern names should follow «[Suffix] «Den/Det [adjektiv] [substantiv]»» pattern
    * **Validates: Requirements 21.9**
    */
   it('tavern name should contain components from pools', () => {
@@ -567,8 +567,8 @@ describe('Tavern Name Generator - Property Tests', () => {
           const name = generateTavernName();
           const components = getTavernNameComponents();
           
-          // Should start with "The "
-          expect(name.startsWith('The ')).toBe(true);
+          // Skal ha formen «Vertshuset «Den gylne draken»»
+          expect(/^\S+ «(Den|Det) .+»$/.test(name)).toBe(true);
           
           // Should contain at least one adjective
           const hasAdjective = components.adjectives.some(adj => name.includes(adj));
@@ -578,8 +578,8 @@ describe('Tavern Name Generator - Property Tests', () => {
           const hasNoun = components.nouns.some(noun => name.includes(noun));
           expect(hasNoun).toBe(true);
           
-          // Should end with a suffix
-          const hasSuffix = components.suffixes.some(suffix => name.endsWith(suffix));
+          // Should start with a suffix
+          const hasSuffix = components.suffixes.some(suffix => name.startsWith(suffix));
           expect(hasSuffix).toBe(true);
           
           return true;

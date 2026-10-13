@@ -8,6 +8,8 @@
  * @see Requirements 21.7
  */
 
+import { SKILL_NAMES_NO, ABILITY_NAMES_NO } from './labels';
+
 /**
  * D&D 5e ability scores
  */
@@ -325,10 +327,13 @@ export function formatModifier(modifier: number): string {
  * @returns Formatted skill name
  */
 export function getSkillDisplayName(skill: string): string {
-  return skill
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  return (
+    SKILL_NAMES_NO[skill] ??
+    skill
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+  );
 }
 
 /**
@@ -338,7 +343,7 @@ export function getSkillDisplayName(skill: string): string {
  * @returns Formatted ability name
  */
 export function getAbilityDisplayName(ability: AbilityScore): string {
-  return ability.charAt(0).toUpperCase() + ability.slice(1);
+  return ABILITY_NAMES_NO[ability] ?? ability.charAt(0).toUpperCase() + ability.slice(1);
 }
 
 /**

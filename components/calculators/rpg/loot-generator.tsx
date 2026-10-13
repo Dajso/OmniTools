@@ -1,5 +1,6 @@
 'use client';
 
+import { labelNo, RARITY_NAMES_NO } from '@/lib/calculations/rpg/labels';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,17 +15,17 @@ import {
 } from '@/lib/calculations/rpg/loot-generator';
 
 const TIER_OPTIONS = [
-  { value: 'minor', label: 'Minor (CR 0-4)' },
-  { value: 'moderate', label: 'Moderate (CR 5-10)' },
-  { value: 'major', label: 'Major (CR 11-16)' },
-  { value: 'legendary', label: 'Legendary (CR 17+)' },
+  { value: 'minor', label: 'Liten (CR 0–4)' },
+  { value: 'moderate', label: 'Middels (CR 5–10)' },
+  { value: 'major', label: 'Stor (CR 11–16)' },
+  { value: 'legendary', label: 'Legendarisk (CR 17+)' },
 ];
 
 const TIER_DESCRIPTIONS: Record<TreasureTier, string> = {
-  minor: 'Small treasures suitable for low-level encounters. Common magic items possible.',
-  moderate: 'Decent hauls for mid-level parties. Uncommon magic items available.',
-  major: 'Significant treasure for high-level encounters. Rare magic items possible.',
-  legendary: 'Epic treasures for the mightiest heroes. Very rare and legendary items.',
+  minor: 'Små skatter til møter på lavt nivå. Vanlige magiske gjenstander kan forekomme.',
+  moderate: 'Solide funn til grupper på mellomnivå. Uvanlige magiske gjenstander er mulig.',
+  major: 'Betydelig skatt til møter på høyt nivå. Sjeldne magiske gjenstander er mulig.',
+  legendary: 'Episke skatter til de mektigste heltene. Svært sjeldne og legendariske gjenstander.',
 };
 
 const getItemIcon = (type: string) => {
@@ -83,7 +84,7 @@ export function LootGenerator() {
     const text = loot.items.map(item => {
       let line = item.name;
       if (item.value) line += ` (${item.value} gp)`;
-      if (item.rarity) line += ` [${item.rarity}]`;
+      if (item.rarity) line += ` [${labelNo(RARITY_NAMES_NO, item.rarity)}]`;
       if (item.description) line += ` - ${item.description}`;
       return line;
     }).join('\n');
@@ -112,16 +113,16 @@ export function LootGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Loot Generator</CardTitle>
+        <CardTitle>Skattegenerator</CardTitle>
         <CardDescription>
-          Generate random treasure and loot for your RPG encounters
+          Lag tilfeldig skatt og bytte til rollespillmøtene dine
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Configuration */}
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="tier">Treasure Tier</Label>
+            <Label htmlFor="tier">Skattenivå</Label>
             <Select
               id="tier"
               options={TIER_OPTIONS}
@@ -142,7 +143,7 @@ export function LootGenerator() {
                 className="rounded"
               />
               <Sparkles className="h-4 w-4 text-pink-600" />
-              Magic Items
+              Magiske gjenstander
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -152,7 +153,7 @@ export function LootGenerator() {
                 className="rounded"
               />
               <Gem className="h-4 w-4 text-cyan-600" />
-              Gems
+              Edelstener
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -162,7 +163,7 @@ export function LootGenerator() {
                 className="rounded"
               />
               <Palette className="h-4 w-4 text-purple-600" />
-              Art Objects
+              Kunstgjenstander
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -172,7 +173,7 @@ export function LootGenerator() {
                 className="rounded"
               />
               <Package className="h-4 w-4 text-gray-600" />
-              Mundane Items
+              Hverdagslige gjenstander
             </label>
           </div>
         </div>
@@ -180,7 +181,7 @@ export function LootGenerator() {
         {/* Generate Button */}
         <Button onClick={handleGenerate} disabled={isGenerating} className="w-full">
           <RefreshCw className={`h-4 w-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
-          {isGenerating ? 'Generating...' : 'Generate Loot'}
+          {isGenerating ? 'Lager …' : 'Lag skatt'}
         </Button>
 
         {/* Loot Display */}
@@ -190,7 +191,7 @@ export function LootGenerator() {
             <div className="flex justify-between items-center bg-yellow-50 rounded-lg p-4">
               <div className="flex items-center gap-2">
                 <Coins className="h-6 w-6 text-yellow-600" />
-                <span className="font-medium">Total Value</span>
+                <span className="font-medium">Total verdi</span>
               </div>
               <span className="text-2xl font-bold text-yellow-700">
                 {loot.totalValue.toLocaleString('nb-NO')} gp
@@ -203,12 +204,12 @@ export function LootGenerator() {
                 {copied ? (
                   <>
                     <Check className="h-4 w-4 mr-1" />
-                    Copied!
+                    Kopiert!
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4 mr-1" />
-                    Copy Loot
+                    Kopier skatten
                   </>
                 )}
               </Button>
@@ -221,7 +222,7 @@ export function LootGenerator() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Coins className="h-4 w-4 text-yellow-600" />
-                    Currency
+                    Mynter
                   </div>
                   {groupedItems.coins.map((item, i) => (
                     <div key={i} className="bg-yellow-50 rounded-lg px-4 py-2">
@@ -236,7 +237,7 @@ export function LootGenerator() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Gem className="h-4 w-4 text-cyan-600" />
-                    Gems
+                    Edelstener
                   </div>
                   <div className="grid gap-2">
                     {groupedItems.gems.map((item, i) => (
@@ -254,7 +255,7 @@ export function LootGenerator() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Palette className="h-4 w-4 text-purple-600" />
-                    Art Objects
+                    Kunstgjenstander
                   </div>
                   <div className="grid gap-2">
                     {groupedItems.art.map((item, i) => (
@@ -272,7 +273,7 @@ export function LootGenerator() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Sparkles className="h-4 w-4 text-pink-600" />
-                    Magic Items
+                    Magiske gjenstander
                   </div>
                   <div className="grid gap-2">
                     {groupedItems['magic-item'].map((item, i) => (
@@ -281,7 +282,7 @@ export function LootGenerator() {
                           <span className="font-medium">{item.name}</span>
                           {item.rarity && (
                             <span className={`text-xs px-2 py-0.5 rounded ${getRarityColor(item.rarity)}`}>
-                              {item.rarity}
+                              {labelNo(RARITY_NAMES_NO, item.rarity)}
                             </span>
                           )}
                         </div>
@@ -299,7 +300,7 @@ export function LootGenerator() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Package className="h-4 w-4 text-gray-600" />
-                    Mundane Items
+                    Hverdagslige gjenstander
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {groupedItems.mundane.map((item, i) => (
@@ -317,7 +318,7 @@ export function LootGenerator() {
         {/* History */}
         {history.length > 1 && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Recent Generations</p>
+            <p className="text-sm font-medium mb-2">Siste skatter</p>
             <div className="flex flex-wrap gap-2">
               {history.slice(1).map((h, i) => (
                 <Button
@@ -338,10 +339,10 @@ export function LootGenerator() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           <p className="font-medium mb-1">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Tier should match the CR of defeated monsters</li>
-            <li>Magic items are randomly included based on tier</li>
-            <li>Mundane items add flavor but little value</li>
-            <li>Click on history items to view previous loot</li>
+            <li>Nivået bør passe til CR-en til de beseirede monstrene</li>
+            <li>Magiske gjenstander tas med tilfeldig ut fra nivået</li>
+            <li>Hverdagslige gjenstander gir stemning, men lite verdi</li>
+            <li>Klikk på historikken for å se tidligere skatter</li>
           </ul>
         </div>
       </CardContent>

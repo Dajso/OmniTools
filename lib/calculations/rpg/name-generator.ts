@@ -65,11 +65,11 @@ function randomElement<T>(array: readonly T[]): T {
  */
 export function generateFantasyName(race: FantasyRace, gender: Gender = 'neutral'): GeneratedName {
   if (!isValidRace(race)) {
-    throw new Error(`Invalid race: ${race}. Valid races are: ${FANTASY_RACES.join(', ')}`);
+    throw new Error(`Ugyldig rase: ${race}. Gyldige raser er: ${FANTASY_RACES.join(', ')}`);
   }
 
   if (!isValidGender(gender)) {
-    throw new Error(`Invalid gender: ${gender}. Valid genders are: ${GENDERS.join(', ')}`);
+    throw new Error(`Ugyldig kjønn: ${gender}. Gyldige valg er: ${GENDERS.join(', ')}`);
   }
 
   const pool = getNamePool(race, gender);
@@ -100,7 +100,7 @@ export function generateFantasyNames(config: NameGeneratorConfig): GeneratedName
   const { race, gender = 'neutral', count = 1 } = config;
 
   if (count < 1 || count > 100) {
-    throw new Error('Count must be between 1 and 100');
+    throw new Error('Antall må være mellom 1 og 100');
   }
 
   const names: GeneratedName[] = [];
@@ -170,20 +170,23 @@ export function decomposeNameFromPool(
  * Tavern name components
  */
 const TAVERN_ADJECTIVES = [
-  'Golden', 'Silver', 'Rusty', 'Prancing', 'Sleeping', 'Dancing', 'Laughing',
-  'Weeping', 'Drunken', 'Merry', 'Jolly', 'Wandering', 'Lost', 'Hidden',
-  'Ancient', 'Broken', 'Crooked', 'Leaky', 'Dusty', 'Shady',
+  'gylne', 'sølvblanke', 'rustne', 'spretne', 'sovende', 'dansende', 'leende',
+  'gråtende', 'fulle', 'muntre', 'glade', 'omstreifende', 'tapte', 'skjulte',
+  'eldgamle', 'ødelagte', 'skjeve', 'lekke', 'støvete', 'lyssky',
 ];
 
+/** Substantiv i bestemt form. Intetkjønnsord er listet i NEUTER_NOUNS. */
 const TAVERN_NOUNS = [
-  'Dragon', 'Griffin', 'Unicorn', 'Phoenix', 'Goblin', 'Troll', 'Giant',
-  'Knight', 'Wizard', 'Bard', 'Rogue', 'Paladin', 'Ranger', 'Monk',
-  'Barrel', 'Tankard', 'Flagon', 'Cauldron', 'Sword', 'Shield',
+  'draken', 'griffen', 'enhjørningen', 'fønikset', 'goblinen', 'trollet', 'kjempen',
+  'ridderen', 'trollmannen', 'skalden', 'tyven', 'paladinen', 'jegeren', 'munken',
+  'tønna', 'kruset', 'kanna', 'gryta', 'sverdet', 'skjoldet',
 ];
+
+const NEUTER_NOUNS = ['fønikset', 'trollet', 'kruset', 'sverdet', 'skjoldet'];
 
 const TAVERN_SUFFIXES = [
-  'Inn', 'Tavern', 'Pub', 'Alehouse', 'Lodge', 'Rest', 'Haven',
-  'Retreat', 'House', 'Hall',
+  'Vertshuset', 'Kroa', 'Puben', 'Ølstua', 'Herberget', 'Gjestgiveriet',
+  'Rasteplassen', 'Tilfluktet', 'Huset', 'Hallen',
 ];
 
 /**
@@ -194,15 +197,16 @@ const TAVERN_SUFFIXES = [
  * @example
  * ```typescript
  * const name = generateTavernName();
- * // might return "The Golden Dragon Inn"
+ * // kan gi «Vertshuset «Den gylne draken»»
  * ```
  */
 export function generateTavernName(): string {
   const adjective = randomElement(TAVERN_ADJECTIVES);
   const noun = randomElement(TAVERN_NOUNS);
   const suffix = randomElement(TAVERN_SUFFIXES);
+  const article = NEUTER_NOUNS.includes(noun) ? 'Det' : 'Den';
 
-  return `The ${adjective} ${noun} ${suffix}`;
+  return `${suffix} «${article} ${adjective} ${noun}»`;
 }
 
 /**
@@ -224,39 +228,39 @@ export function getTavernNameComponents() {
  * Quest hook components
  */
 const QUEST_VERBS = [
-  'Find', 'Retrieve', 'Rescue', 'Defeat', 'Investigate', 'Escort', 'Deliver',
-  'Protect', 'Destroy', 'Steal', 'Discover', 'Explore', 'Hunt', 'Capture',
-  'Negotiate', 'Infiltrate', 'Sabotage', 'Defend', 'Avenge', 'Solve',
+  'Finn', 'Skaff', 'Red', 'Beseir', 'Etterforsk', 'Eskorter', 'Lever',
+  'Beskytt', 'Ødelegg', 'Stjel', 'Oppdag', 'Utforsk', 'Jakt på', 'Fang',
+  'Forhandle om', 'Infiltrer', 'Saboter', 'Forsvar', 'Hevn', 'Løs',
 ];
 
 const QUEST_OBJECTS = [
-  'the ancient artifact', 'the missing heir', 'the stolen treasure',
-  'the cursed amulet', 'the legendary sword', 'the sacred tome',
-  'the kidnapped merchant', 'the lost expedition', 'the mysterious stranger',
-  'the dragon\'s hoard', 'the goblin king', 'the undead army',
-  'the haunted ruins', 'the secret passage', 'the forbidden knowledge',
-  'the royal seal', 'the enchanted gem', 'the prophecy scroll',
-  'the bandit leader', 'the corrupt official',
+  'det eldgamle artefaktet', 'den savnede arvingen', 'den stjålne skatten',
+  'den forbannede amuletten', 'det legendariske sverdet', 'den hellige boka',
+  'den bortførte kjøpmannen', 'den forsvunne ekspedisjonen', 'den mystiske fremmede',
+  'dragens skatt', 'goblinkongen', 'den udøde hæren',
+  'de hjemsøkte ruinene', 'den hemmelige gangen', 'den forbudte kunnskapen',
+  'det kongelige seglet', 'den fortryllede edelsteinen', 'profetirullen',
+  'røverhøvdingen', 'den korrupte embetsmannen',
 ];
 
 const QUEST_LOCATIONS = [
-  'in the Darkwood Forest', 'beneath the Misty Mountains', 'within the Sunken Temple',
-  'across the Burning Desert', 'beyond the Frozen Wastes', 'inside the Haunted Castle',
-  'through the Endless Caverns', 'upon the Floating Islands', 'within the Shadow Realm',
-  'at the Edge of the World', 'in the City of Thieves', 'beneath the Ancient Ruins',
-  'within the Dragon\'s Lair', 'across the Stormy Seas', 'in the Enchanted Grove',
-  'at the Crossroads of Fate', 'within the Wizard\'s Tower', 'beneath the Graveyard',
-  'in the Abandoned Mine', 'at the Border Fortress',
+  'i Mørkeskogen', 'under Tåkefjellene', 'i det sunkne tempelet',
+  'over den brennende ørkenen', 'hinsides de frosne ødemarkene', 'i det hjemsøkte slottet',
+  'gjennom de endeløse hulene', 'på de flytende øyene', 'i skyggeriket',
+  'ved verdens ende', 'i tyvenes by', 'under de eldgamle ruinene',
+  'i dragens hule', 'over de stormfulle havene', 'i den fortryllede lunden',
+  'ved skjebnens veikryss', 'i trollmannens tårn', 'under kirkegården',
+  'i den forlatte gruva', 'ved grensefestningen',
 ];
 
 const QUEST_REWARDS = [
-  'for a handsome reward', 'to save the kingdom', 'before time runs out',
-  'to lift the curse', 'for eternal glory', 'to prevent war',
-  'to fulfill the prophecy', 'for the good of all', 'to restore balance',
-  'before the enemy strikes', 'to prove your worth', 'for honor and gold',
-  'to uncover the truth', 'before darkness falls', 'to earn the king\'s favor',
-  'for a noble cause', 'to right an ancient wrong', 'before it\'s too late',
-  'to claim your destiny', 'for the sake of the innocent',
+  'for en raus belønning', 'for å redde riket', 'før tiden går ut',
+  'for å løfte forbannelsen', 'for evig ære', 'for å hindre krig',
+  'for å oppfylle profetien', 'til det felles beste', 'for å gjenopprette balansen',
+  'før fienden slår til', 'for å bevise hva du duger til', 'for ære og gull',
+  'for å avdekke sannheten', 'før mørket faller på', 'for å vinne kongens gunst',
+  'for en edel sak', 'for å rette opp en gammel urett', 'før det er for sent',
+  'for å innfri skjebnen din', 'for de uskyldiges skyld',
 ];
 
 /**
@@ -267,7 +271,7 @@ const QUEST_REWARDS = [
  * @example
  * ```typescript
  * const quest = generateQuestHook();
- * // might return "Find the ancient artifact in the Darkwood Forest for a handsome reward"
+ * // kan gi «Finn det eldgamle artefaktet i Mørkeskogen for en raus belønning»
  * ```
  */
 export function generateQuestHook(): string {

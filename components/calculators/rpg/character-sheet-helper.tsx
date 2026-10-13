@@ -1,5 +1,6 @@
 'use client';
 
+import { labelNo, CLASS_NAMES_NO } from '@/lib/calculations/rpg/labels';
 import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -111,16 +112,16 @@ export function CharacterSheetHelper() {
   return (
     <Card className="w-full max-w-4xl">
       <CardHeader>
-        <CardTitle>Character Sheet Helper</CardTitle>
+        <CardTitle>Karakterark-hjelper</CardTitle>
         <CardDescription>
-          Calculate ability modifiers, skill bonuses, and other D&D 5e character stats
+          Regn ut egenskapsmodifikatorer, ferdighetsbonuser og andre verdier for D&D 5e-karakterer
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Basic Info */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="level">Character Level</Label>
+            <Label htmlFor="level">Karakternivå</Label>
             <Input
               id="level"
               type="number"
@@ -131,7 +132,7 @@ export function CharacterSheetHelper() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="class">Class</Label>
+            <Label htmlFor="class">Klasse</Label>
             <select
               id="class"
               value={selectedClass}
@@ -140,7 +141,7 @@ export function CharacterSheetHelper() {
             >
               {CLASSES.map(cls => (
                 <option key={cls} value={cls}>
-                  {cls.charAt(0).toUpperCase() + cls.slice(1)}
+                  {labelNo(CLASS_NAMES_NO, cls)}
                 </option>
               ))}
             </select>
@@ -150,19 +151,19 @@ export function CharacterSheetHelper() {
         {/* Quick Actions */}
         <div className="flex gap-2 flex-wrap">
           <Button variant="outline" size="sm" onClick={applyStandardArray}>
-            Apply Standard Array
+            Bruk standardrekken
           </Button>
           <Button variant="outline" size="sm" onClick={resetAll}>
-            Reset All
+            Nullstill alt
           </Button>
         </div>
 
         {/* Ability Scores */}
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <Label className="text-base font-semibold">Ability Scores</Label>
+            <Label className="text-base font-semibold">Egenskapsverdier</Label>
             <span className="text-sm text-muted-foreground">
-              Point Buy: {pointBuyCost}/27
+              Poengkjøp: {pointBuyCost}/27
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
@@ -189,22 +190,22 @@ export function CharacterSheetHelper() {
 
         {/* Core Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <ResultDisplay label="Proficiency Bonus" value={formatModifier(stats.proficiencyBonus)} />
-          <ResultDisplay label="Initiative" value={formatModifier(stats.initiative)} />
-          <ResultDisplay label="Armor Class" value={stats.armorClass} />
-          <ResultDisplay label="Hit Points" value={stats.hitPointMaximum} />
+          <ResultDisplay label="Ferdighetsbonus" value={formatModifier(stats.proficiencyBonus)} />
+          <ResultDisplay label="Initiativ" value={formatModifier(stats.initiative)} />
+          <ResultDisplay label="Rustningsklasse (AC)" value={stats.armorClass} />
+          <ResultDisplay label="Treffpoeng (HP)" value={stats.hitPointMaximum} />
         </div>
 
         {/* Passive Scores */}
         <div className="grid grid-cols-3 gap-3">
-          <ResultDisplay label="Passive Perception" value={stats.passivePerception} />
-          <ResultDisplay label="Passive Investigation" value={stats.passiveInvestigation} />
-          <ResultDisplay label="Passive Insight" value={stats.passiveInsight} />
+          <ResultDisplay label="Passiv oppmerksomhet" value={stats.passivePerception} />
+          <ResultDisplay label="Passiv undersøkelse" value={stats.passiveInvestigation} />
+          <ResultDisplay label="Passiv innsikt" value={stats.passiveInsight} />
         </div>
 
         {/* Saving Throws */}
         <div className="space-y-3">
-          <Label className="text-base font-semibold">Saving Throws</Label>
+          <Label className="text-base font-semibold">Redningskast</Label>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {ABILITIES.map(ability => {
               const isProficient = savingThrowProficiencies.includes(ability);
@@ -230,9 +231,9 @@ export function CharacterSheetHelper() {
 
         {/* Skills */}
         <div className="space-y-3">
-          <Label className="text-base font-semibold">Skills</Label>
+          <Label className="text-base font-semibold">Ferdigheter</Label>
           <p className="text-xs text-muted-foreground">
-            Click to cycle: None → Proficient (●) → Expertise (●●)
+            Klikk for å bytte: Ingen → Dyktig (●) → Ekspert (●●)
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ABILITIES.map(ability => (
@@ -273,12 +274,12 @@ export function CharacterSheetHelper() {
 
         {/* Reference Info */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md space-y-2">
-          <p className="font-medium">Quick Reference:</p>
+          <p className="font-medium">Hurtigoversikt:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Ability Modifier = (Score - 10) ÷ 2 (rounded down)</li>
-            <li>Proficiency Bonus: +2 at level 1, increases every 4 levels</li>
-            <li>Skill Check = d20 + Ability Mod + Proficiency (if proficient)</li>
-            <li>Expertise doubles your proficiency bonus for that skill</li>
+            <li>Egenskapsmodifikator = (verdi − 10) ÷ 2 (rundet ned)</li>
+            <li>Ferdighetsbonus: +2 på nivå 1, øker hvert fjerde nivå</li>
+            <li>Ferdighetsprøve = d20 + egenskapsmodifikator + ferdighetsbonus (hvis dyktig)</li>
+            <li>Ekspertise dobler ferdighetsbonusen for den ferdigheten</li>
           </ul>
         </div>
       </CardContent>

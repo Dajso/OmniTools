@@ -63,7 +63,7 @@ export function parseDiceNotation(notation: string): ParsedDiceNotation {
   const match = cleaned.match(/^(\d*)d(\d+)([+-]\d+)?$/);
   
   if (!match) {
-    throw new Error(`Invalid dice notation: "${notation}". Expected format like "2d6+3" or "d20"`);
+    throw new Error(`Ugyldig terningnotasjon: «${notation}». Forventet format som «2d6+3» eller «d20»`);
   }
   
   const [, numStr, facesStr, modStr] = match;
@@ -73,19 +73,19 @@ export function parseDiceNotation(notation: string): ParsedDiceNotation {
   const modifier = modStr ? parseInt(modStr, 10) : 0;
   
   if (numDice < 1) {
-    throw new Error('Number of dice must be at least 1');
+    throw new Error('Antall terninger må være minst 1');
   }
   
   if (numDice > 100) {
-    throw new Error('Number of dice cannot exceed 100');
+    throw new Error('Antall terninger kan ikke overstige 100');
   }
   
   if (faces < 2) {
-    throw new Error('Dice must have at least 2 faces');
+    throw new Error('Terninger må ha minst 2 sider');
   }
   
   if (faces > 1000) {
-    throw new Error('Dice cannot have more than 1000 faces');
+    throw new Error('Terninger kan ikke ha mer enn 1000 sider');
   }
   
   return { numDice, faces, modifier };
@@ -99,7 +99,7 @@ export function parseDiceNotation(notation: string): ParsedDiceNotation {
  */
 export function rollSingleDie(faces: number): number {
   if (faces < 2) {
-    throw new Error('Dice must have at least 2 faces');
+    throw new Error('Terninger må ha minst 2 sider');
   }
   return Math.floor(Math.random() * faces) + 1;
 }

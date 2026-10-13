@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { DiceRoller } from '@/components/calculators/rpg';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Dice Roller - D&D & RPG Dice Roller',
-  description: 'Roll dice for D&D, Pathfinder, and other tabletop RPGs. Supports standard notation like 2d6+3, d20, 4d6 drop lowest, and more.',
-  keywords: ['dice roller', 'd20', 'd&d dice', 'rpg dice', 'tabletop dice', 'virtual dice', 'dice simulator'],
+  title: 'Terningkast – gratis kalkulator på nett',
+  description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3. Gratis og uten registrering.',
+  keywords: ['terning', 'd20', 'rollespill', 'terningkast', 'DnD'],
   alternates: { canonical: '/calculators/rpg/dice-roller' },
+  openGraph: {
+    title: 'Terningkast',
+    description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3',
+    url: '/calculators/rpg/dice-roller',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Dice Roller',
-  description: 'Roll dice for tabletop RPGs using standard notation',
+  name: 'Terningkast',
+  description: 'Kast virtuelle terninger til rollespill: D4, D6, D8, D10, D12, D20 og notasjon som 2d6+3',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose dice type', text: 'Click a quick roll button (d4, d6, d8, d10, d12, d20, d100) or enter custom notation.' },
-  { name: 'Enter notation', text: 'Use standard dice notation like 2d6+3 (2 six-sided dice plus 3).' },
-  { name: 'Roll the dice', text: 'Click Roll or press Enter to roll your dice.' },
-  { name: 'View results', text: 'See individual dice results, modifiers, and total.' },
-  { name: 'Track history', text: 'Your roll history is saved for reference during your session.' },
+  { name: 'Skriv inn notasjon', text: 'For eksempel 2d6+3 for to sekssidede terninger pluss 3.' },
+  { name: 'Trykk på kast', text: 'Resultatet og de enkelte terningene vises.' },
+  { name: 'Bruk hurtigkast', text: 'Velg en vanlig terning som d20 eller d6.' },
+  { name: 'Se historikken', text: 'Tidligere kast ligger under resultatet.' },
 ];
 
 const faqs = [
-  {
-    question: 'What dice notation formats are supported?',
-    answer: 'Standard RPG notation is supported: [number]d[faces][+/-modifier]. Examples: d20 (one d20), 2d6 (two d6), 2d6+3 (two d6 plus 3), 4d6-2 (four d6 minus 2).',
-  },
-  {
-    question: 'What do the colored dice mean?',
-    answer: 'Green dice show maximum rolls (natural max), red dice show minimum rolls (natural 1), and blue shows modifiers. Regular dice are shown in gray.',
-  },
-  {
-    question: 'Is this roller truly random?',
-    answer: 'Yes, this roller uses JavaScript\'s Math.random() which provides cryptographically sufficient randomness for gaming purposes. Each roll is independent.',
-  },
-  {
-    question: 'Can I roll multiple different dice at once?',
-    answer: 'Currently, each roll uses a single dice notation. For multiple different dice, make separate rolls. Your history tracks all rolls.',
-  },
-  {
-    question: 'What\'s the maximum number of dice I can roll?',
-    answer: 'You can roll up to 100 dice at once with faces up to 1000. This covers all standard RPG needs and more.',
-  },
+  { question: 'Hva betyr 2d6+3?', answer: 'Kast to sekssidede terninger, legg øynene sammen og legg til 3.' },
+  { question: 'Er kastene tilfeldige?', answer: 'Ja, nettleseren trekker tilfeldige tall for hver terning.' },
+  { question: 'Hvor mange terninger kan jeg kaste?', answer: 'Opptil 100 terninger med opptil 1 000 sider per kast.' },
+  { question: 'Hva er gjennomsnittet?', answer: 'Forventet sum over mange kast, regnet ut fra notasjonen.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/rpg/stat-roller', title: 'RPG Stat Roller', description: 'Generate character ability scores using 4d6 drop lowest.' },
-  { href: '/calculators/rpg/fantasy-name-generator', title: 'Fantasy Name Generator', description: 'Generate names for elves, dwarves, and other races.' },
-  { href: '/calculators/rpg/encounter-calculator', title: 'Encounter Calculator', description: 'Calculate encounter difficulty for your party.' },
+  { href: '/calculators/rpg/stat-roller', title: 'Egenskaper (4d6)', description: 'Trekk karakteregenskaper med 4d6, dropp laveste' },
+  { href: '/calculators/rpg/initiative-tracker', title: 'Initiativrekkefølge', description: 'Hold orden på initiativ og tur-rekkefølge i kamper' },
+  { href: '/calculators/rpg/encounter-calculator', title: 'Møtevanskelighet (D&D 5e)', description: 'Regn ut vanskelighetsgraden på et møte ut fra gruppens nivå og størrelse' },
 ];
 
 export default function DiceRollerPage() {
@@ -63,12 +55,11 @@ export default function DiceRollerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="dice-roller"
-          title="Dice Roller"
-          description="Roll dice for D&D, Pathfinder, and other tabletop RPGs. Supports all standard dice types and custom notation with modifiers."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Terningkast"
+          description="Kast terninger med vanlig notasjon som 2d6+3, 1d20 eller 4d6-2. Se minimum, gjennomsnitt, maksimum og kasthistorikk. Gratis og uten registrering."
         />
 
-        <section aria-label="Dice Roller">
+        <section aria-label="Terningkast">
           <DiceRoller />
         </section>
 
