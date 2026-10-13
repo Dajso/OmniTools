@@ -87,15 +87,15 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/70">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8" aria-label="Hovedmeny">
         {/* Logo */}
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 font-display text-xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
+        <div className="flex shrink-0">
+          <Link href="/" className="whitespace-nowrap -m-1.5 p-1.5 flex items-center gap-2 font-display text-xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
             <Logo className="h-8 w-8" />
             <span>Kalkulator</span>
           </Link>
         </div>
 
         {/* Mobilmeny-knapp */}
-        <div className="flex lg:hidden">
+        <div className="flex xl:hidden">
           <Button
             variant="ghost"
             size="sm"
@@ -113,7 +113,7 @@ export function Header() {
         </div>
 
         {/* Navigasjon på stor skjerm */}
-        <div className="hidden lg:flex lg:gap-x-1">
+        <div className="hidden xl:flex xl:gap-x-1">
           {primaryCategories.map((category) => (
             <div
               key={category.name}
@@ -211,7 +211,7 @@ export function Header() {
         </div>
 
         {/* Søk og favoritter */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-1">
+        <div className="hidden xl:flex xl:shrink-0 xl:justify-end xl:gap-1">
           <Button
             variant="ghost"
             size="sm"
@@ -234,8 +234,8 @@ export function Header() {
             onClick={() => setSearchOpen(true)}
           >
             <Search className="h-5 w-5" aria-hidden="true" />
-            <span className="hidden xl:inline">Søk</span>
-            <kbd className="hidden xl:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+            <span className="hidden 2xl:inline">Søk</span>
+            <kbd className="hidden 2xl:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
               <span className="text-xs">Ctrl+</span>K
             </kbd>
           </Button>
@@ -250,7 +250,7 @@ export function Header() {
 
       {/* Mobilmeny */}
       {mobileMenuOpen && (
-        <div className="lg:hidden max-h-[calc(100vh-4rem)] overflow-y-auto" id="mobile-menu">
+        <div className="xl:hidden max-h-[calc(100vh-4rem)] overflow-y-auto" id="mobile-menu">
           <div className="space-y-1 px-4 pb-4 pt-2">
             {/* Søk på mobil */}
             <div className="mb-4 flex gap-2">
