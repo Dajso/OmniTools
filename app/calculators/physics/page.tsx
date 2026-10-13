@@ -2,16 +2,17 @@ import { Metadata } from 'next';
 import { CategoryPageLayout } from '@/components/layout/category-page-layout';
 
 export const metadata: Metadata = {
-  title: 'Physics Calculators',
-  description: 'Free online physics calculators for projectile motion, kinetic energy, density, pressure, torque, and more.',
+  title: 'Fysikkalkulatorer',
+  description: 'Gratis fysikkalkulatorer: kastbane, bevegelsesenergi, tetthet, trykk og dreiemoment, i SI-enheter.',
+  alternates: { canonical: '/calculators/physics' },
 };
 
 export default function PhysicsCalculatorsPage() {
   return (
     <CategoryPageLayout
       categoryId="physics"
-      title="Physics Calculators"
-      description="Essential physics calculation tools for students and enthusiasts. Calculate projectile motion, kinetic energy, density, pressure, torque, speed of sound, and explore physics concepts."
+      title="Fysikkalkulatorer"
+      description="Regn på kastbane, energi, tetthet, trykk og dreiemoment med SI-enheter."
     />
   );
 }

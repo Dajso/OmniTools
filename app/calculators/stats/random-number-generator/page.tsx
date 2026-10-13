@@ -63,33 +63,33 @@ export default function RandomNumberGeneratorPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Distribution Types</h2>
+          <h2 className="text-xl font-semibold mb-4">Typer fordelinger</h2>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <h3 className="font-semibold text-blue-700 mb-2">📊 Uniform</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                Equal probability for all values in range. Creates a flat histogram.
+                Like stor sannsynlighet for alle verdier i området. Gir et flatt histogram.
               </p>
               <p className="text-xs text-blue-600">
-                Use for: Random selection, shuffling, simulations
+                Bruk til: Tilfeldig trekning, stokking, simuleringer
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <h3 className="font-semibold text-green-700 mb-2">🔔 Normal</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                Bell curve centered at mean. Most values cluster near the center.
+                Klokkekurve rundt gjennomsnittet. De fleste verdiene havner nær midten.
               </p>
               <p className="text-xs text-green-600">
-                Use for: Natural phenomena, test scores, measurements
+                Bruk til: Naturfenomener, prøveresultater, målinger
               </p>
             </div>
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <h3 className="font-semibold text-orange-700 mb-2">📉 Exponential</h3>
+              <h3 className="font-semibold text-orange-700 mb-2">📉 Eksponentiell</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                Rapid decay from zero. Models time between random events.
+                Raskt fall fra null. Brukes til å modellere tid mellom tilfeldige hendelser.
               </p>
               <p className="text-xs text-orange-600">
-                Use for: Wait times, equipment failure, decay processes
+                Bruk til: Ventetider, feil på utstyr, nedbrytingsprosesser
               </p>
             </div>
           </div>

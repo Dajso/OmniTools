@@ -2,16 +2,17 @@ import { Metadata } from 'next';
 import { CategoryPageLayout } from '@/components/layout/category-page-layout';
 
 export const metadata: Metadata = {
-  title: 'Creator Economy & Small Business Calculators',
-  description: 'Free online business calculators for invoices, privacy policies, QR codes, paycheck calculations, YouTube earnings, Instagram engagement, and more.',
+  title: 'Kalkulatorer for innhold og nett',
+  description: 'Gratis verktøy for innholdsprodusenter: QR-koder, fakturaer, sosiale medier, YouTube-inntekter og personvernerklæring.',
+  alternates: { canonical: '/calculators/creator' },
 };
 
 export default function CreatorCalculatorsPage() {
   return (
     <CategoryPageLayout
       categoryId="creator"
-      title="Creator Economy & Small Business Calculators"
-      description="Essential business utilities for content creators and small business owners. Generate invoices, create legal documents, calculate earnings, and manage your business efficiently."
+      title="Kalkulatorer for innhold og nett"
+      description="Verktøy for deg som lager innhold eller driver egen virksomhet: QR-koder, PDF-faktura, engasjement, inntektsanslag og tekstverktøy."
     />
   );
 }

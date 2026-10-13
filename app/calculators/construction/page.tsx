@@ -2,16 +2,17 @@ import { Metadata } from 'next';
 import { CategoryPageLayout } from '@/components/layout/category-page-layout';
 
 export const metadata: Metadata = {
-  title: 'Construction Calculators',
-  description: 'Free online construction calculators for board foot, crown molding, concrete slabs, roof framing, and more building tools.',
+  title: 'Byggekalkulatorer',
+  description: 'Gratis byggekalkulatorer: betong, trapp, tak, kledning, rekkverk, gulv og materialmengder i metriske mål.',
+  alternates: { canonical: '/calculators/construction' },
 };
 
 export default function ConstructionCalculatorsPage() {
   return (
     <CategoryPageLayout
       categoryId="construction"
-      title="Construction Calculators"
-      description="Essential construction calculation tools for builders and contractors. Calculate board feet, crown molding angles, concrete volumes, roof framing, and plan your building projects."
+      title="Byggekalkulatorer"
+      description="Regn ut materialmengder og mål til byggeprosjektet, i meter, kvadratmeter og kubikkmeter."
     />
   );
 }

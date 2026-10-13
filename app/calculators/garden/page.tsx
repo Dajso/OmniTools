@@ -2,16 +2,17 @@ import { Metadata } from 'next';
 import { CategoryPageLayout } from '@/components/layout/category-page-layout';
 
 export const metadata: Metadata = {
-  title: 'Garden Calculators',
-  description: 'Free online gardening calculators for mulch, soil, plant spacing, hardiness zones, fertilizer, and more garden tools.',
+  title: 'Hagekalkulatorer',
+  description: 'Gratis hagekalkulatorer: jord og bark, plantavstand, gjødsel, pottejord, vanning, kompost og avling – i metriske mål.',
+  alternates: { canonical: '/calculators/garden' },
 };
 
 export default function GardenCalculatorsPage() {
   return (
     <CategoryPageLayout
       categoryId="garden"
-      title="Garden Calculators"
-      description="Essential gardening calculation tools for green thumbs. Calculate mulch and soil volumes, plant spacing, hardiness zones, fertilizer amounts, and plan your garden effectively."
+      title="Hagekalkulatorer"
+      description="Regn ut hvor mye jord, bark og gjødsel du trenger, hvor tett du bør plante og hvor mye du kan høste, i m², liter og kilo."
     />
   );
 }
