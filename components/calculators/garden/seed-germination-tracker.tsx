@@ -17,18 +17,26 @@ interface SeedEntry {
 }
 
 const COMMON_SEEDS = [
-  { value: 'tomato', label: 'Tomato (5-10 days)', days: 7 },
-  { value: 'pepper', label: 'Pepper (10-14 days)', days: 12 },
-  { value: 'lettuce', label: 'Lettuce (2-10 days)', days: 6 },
-  { value: 'cucumber', label: 'Cucumber (3-10 days)', days: 6 },
-  { value: 'squash', label: 'Squash (4-10 days)', days: 7 },
-  { value: 'beans', label: 'Beans (5-10 days)', days: 7 },
-  { value: 'peas', label: 'Peas (7-14 days)', days: 10 },
-  { value: 'carrot', label: 'Carrot (10-21 days)', days: 14 },
-  { value: 'spinach', label: 'Spinach (5-14 days)', days: 9 },
-  { value: 'basil', label: 'Basil (5-10 days)', days: 7 },
-  { value: 'other', label: 'Other', days: 7 },
+  { value: 'tomato', label: 'Tomat (5–10 dager)', days: 7 },
+  { value: 'pepper', label: 'Paprika og chili (10–14 dager)', days: 12 },
+  { value: 'lettuce', label: 'Salat (2–10 dager)', days: 6 },
+  { value: 'cucumber', label: 'Agurk (3–10 dager)', days: 6 },
+  { value: 'squash', label: 'Squash (4–10 dager)', days: 7 },
+  { value: 'beans', label: 'Bønner (5–10 dager)', days: 7 },
+  { value: 'peas', label: 'Erter (7–14 dager)', days: 10 },
+  { value: 'carrot', label: 'Gulrot (10–21 dager)', days: 14 },
+  { value: 'spinach', label: 'Spinat (5–14 dager)', days: 9 },
+  { value: 'basil', label: 'Basilikum (5–10 dager)', days: 7 },
+  { value: 'other', label: 'Annet', days: 7 },
 ];
+
+const NAME_BY_KEY: Record<string, string> = {
+  tomato: 'Tomat', pepper: 'Paprika og chili', lettuce: 'Salat', cucumber: 'Agurk',
+  squash: 'Squash', beans: 'Bønner', peas: 'Erter', carrot: 'Gulrot',
+  spinach: 'Spinat', basil: 'Basilikum',
+};
+
+const displayName = (name: string) => NAME_BY_KEY[name] ?? name;
 
 export function SeedGerminationTracker() {
   const [entries, setEntries] = React.useState<SeedEntry[]>(() => {
@@ -59,7 +67,7 @@ export function SeedGerminationTracker() {
   }, [entries]);
 
   const addEntry = () => {
-    const plantName = newEntry.plantName === 'other' ? newEntry.customName : newEntry.plantName;
+    const plantName = newEntry.plantName === 'other' ? (newEntry.customName.trim() || 'Annet') : displayName(newEntry.plantName);
     const seedInfo = COMMON_SEEDS.find(s => s.value === newEntry.plantName);
     
     const entry: SeedEntry = {
@@ -107,11 +115,11 @@ export function SeedGerminationTracker() {
     const days = getDaysSincePlanting(entry.datePlanted);
     const rate = getGerminationRate(entry);
     
-    if (rate >= 80) return { text: 'Excellent', color: 'text-green-600' };
-    if (rate >= 50) return { text: 'Good', color: 'text-yellow-600' };
-    if (days < entry.daysToGerminate) return { text: 'Waiting', color: 'text-blue-600' };
-    if (rate > 0) return { text: 'Partial', color: 'text-orange-600' };
-    return { text: 'No germination', color: 'text-red-600' };
+    if (rate >= 80) return { text: 'Svært bra', color: 'text-green-600' };
+    if (rate >= 50) return { text: 'Bra', color: 'text-yellow-600' };
+    if (days < entry.daysToGerminate) return { text: 'Venter', color: 'text-blue-600' };
+    if (rate > 0) return { text: 'Delvis', color: 'text-orange-600' };
+    return { text: 'Ingen spiring', color: 'text-red-600' };
   };
 
   // Calculate summary stats
@@ -121,24 +129,25 @@ export function SeedGerminationTracker() {
 
   return (
     <CalculatorBase
-      title="Seed Germination Tracker"
-      description="Track and log seed germination rates for your garden"
-      formula="Germination Rate = (Seeds Germinated / Seeds Planted) × 100%"
+      title="Spiringslogg"
+      description="Hold oversikt over hvor mange frø som spirer"
+      formula="Spiringsprosent = (frø som har spirt ÷ frø sådd) × 100 %"
+      formulaExplanation="Loggen lagres bare i nettleseren din"
       results={
         entries.length > 0 ? (
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-3 p-4 bg-muted/50 rounded-lg">
               <div className="text-center">
                 <p className="text-2xl font-bold">{entries.length}</p>
-                <p className="text-xs text-muted-foreground">Batches</p>
+                <p className="text-xs text-muted-foreground">Seriar</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold">{totalSeeds}</p>
-                <p className="text-xs text-muted-foreground">Seeds Planted</p>
+                <p className="text-xs text-muted-foreground">Frø sådd</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">{overallRate}%</p>
-                <p className="text-xs text-muted-foreground">Overall Rate</p>
+                <p className="text-2xl font-bold text-green-600">{overallRate}&nbsp;%</p>
+                <p className="text-xs text-muted-foreground">Spiringsprosent</p>
               </div>
             </div>
 
@@ -152,9 +161,9 @@ export function SeedGerminationTracker() {
                   <div key={entry.id} className="p-4 border rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-medium capitalize">{entry.plantName}</p>
+                        <p className="font-medium">{displayName(entry.plantName)}</p>
                         <p className="text-xs text-muted-foreground">
-                          Planted {entry.datePlanted} ({days} days ago)
+                          Sådd {new Date(entry.datePlanted).toLocaleDateString('nb-NO')} ({days} dager siden)
                         </p>
                       </div>
                       <span className={`text-sm font-medium ${status.color}`}>
@@ -165,8 +174,8 @@ export function SeedGerminationTracker() {
                     <div className="flex items-center gap-4 mt-3">
                       <div className="flex-1">
                         <div className="flex justify-between text-sm mb-1">
-                          <span>Germinated</span>
-                          <span>{entry.seedsGerminated} / {entry.seedsPlanted} ({rate}%)</span>
+                          <span>Spirt</span>
+                          <span>{entry.seedsGerminated} / {entry.seedsPlanted} ({rate}&nbsp;%)</span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div
@@ -204,18 +213,18 @@ export function SeedGerminationTracker() {
           </div>
         ) : (
           <div className="text-center py-8 text-muted-foreground">
-            <p>No seeds tracked yet.</p>
-            <p className="text-sm">Add your first batch below!</p>
+            <p>Ingen frø registrert ennå.</p>
+            <p className="text-sm">Legg til første sådd nedenfor!</p>
           </div>
         )
       }
     >
       <div className="space-y-4 border-t pt-4">
-        <p className="text-sm font-medium">Add New Seed Batch</p>
+        <p className="text-sm font-medium">Legg til ny sådd</p>
 
         <SelectInput
           id="plantName"
-          label="Plant Type"
+          label="Type plante"
           value={newEntry.plantName}
           onChange={(v) => setNewEntry({ ...newEntry, plantName: v })}
           options={COMMON_SEEDS.map(s => ({ value: s.value, label: s.label }))}
@@ -223,20 +232,20 @@ export function SeedGerminationTracker() {
 
         {newEntry.plantName === 'other' && (
           <div className="space-y-2">
-            <label className="text-sm font-medium">Plant Name</label>
+            <label className="text-sm font-medium">Navn på planten</label>
             <input
               type="text"
               value={newEntry.customName}
               onChange={(e) => setNewEntry({ ...newEntry, customName: e.target.value })}
               className="w-full px-3 py-2 border rounded-md"
-              placeholder="Enter plant name"
+              placeholder="Skriv inn navn"
             />
           </div>
         )}
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Date Planted</label>
+            <label className="text-sm font-medium">Såddato</label>
             <input
               type="date"
               value={newEntry.datePlanted}
@@ -246,7 +255,7 @@ export function SeedGerminationTracker() {
           </div>
           <NumberInput
             id="seedsPlanted"
-            label="Seeds Planted"
+            label="Antall frø sådd"
             value={newEntry.seedsPlanted}
             onChange={(v) => setNewEntry({ ...newEntry, seedsPlanted: v })}
             min={1}
@@ -256,18 +265,18 @@ export function SeedGerminationTracker() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Notes (optional)</label>
+          <label className="text-sm font-medium">Notat (valgfritt)</label>
           <input
             type="text"
             value={newEntry.notes}
             onChange={(e) => setNewEntry({ ...newEntry, notes: e.target.value })}
             className="w-full px-3 py-2 border rounded-md"
-            placeholder="Soil type, temperature, etc."
+            placeholder="Jordtype, temperatur osv."
           />
         </div>
 
         <Button onClick={addEntry} className="w-full">
-          Add Seed Batch
+          Legg til sådd
         </Button>
       </div>
     </CalculatorBase>

@@ -1,54 +1,51 @@
 import { Metadata } from 'next';
 import { VegetableYieldCalculator } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Vegetable Yield Calculator - Garden Harvest Estimator',
-  description: 'Estimate how much produce you can harvest from your vegetable garden. Free yield calculator for tomatoes, peppers, and more.',
-  keywords: ['vegetable yield calculator', 'garden harvest', 'tomato yield', 'garden planning', 'crop yield'],
+  title: 'Grønnsakavling – gratis kalkulator på nett',
+  description: 'Anslå avling av grønnsaker ut fra antall planter og sort. Gratis og uten registrering.',
+  keywords: ['avling', 'grønnsaker', 'høsting', 'kjøkkenhage'],
   alternates: { canonical: '/calculators/garden/vegetable-yield-calculator' },
+  openGraph: {
+    title: 'Grønnsakavling',
+    description: 'Anslå avling av grønnsaker ut fra antall planter og sort',
+    url: '/calculators/garden/vegetable-yield-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Vegetable Yield Calculator',
-  description: 'Estimate vegetable harvest yields from garden area',
+  name: 'Grønnsakavling',
+  description: 'Anslå avling av grønnsaker ut fra antall planter og sort',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select vegetable', text: 'Choose the vegetable you want to grow.' },
-  { name: 'Enter garden area', text: 'Input your garden bed size or number of plants.' },
-  { name: 'Set growing conditions', text: 'Rate your soil, water, and sun conditions.' },
-  { name: 'View yield estimate', text: 'See estimated harvest in pounds and per plant.' },
+  { name: 'Velg grønnsak', text: 'Velg plantene du skal dyrke.' },
+  { name: 'Oppgi areal eller antall planter', text: 'Størrelsen på bedet i m² eller radmeter, eller antall planter.' },
+  { name: 'Velg dyrkingsforhold', text: 'Fra dårlig til svært god jord, vanning og sol.' },
+  { name: 'Les av avlingen', text: 'Se forventet avling i kg totalt, per plante og per m².' },
 ];
 
 const faqs = [
-  {
-    question: 'How accurate are these yield estimates?',
-    answer: 'These are average yields based on typical growing conditions. Actual yields vary based on variety, weather, pest pressure, and care. Use as a planning guide.',
-  },
-  {
-    question: 'What affects vegetable yield?',
-    answer: 'Key factors include soil quality, consistent watering, sunlight (6+ hours), proper spacing, fertilization, and pest/disease management.',
-  },
-  {
-    question: 'How many tomato plants do I need for a family?',
-    answer: 'For fresh eating, 2-4 plants per person. For canning/preserving, 6-10 plants per person. Each plant yields about 10-15 lbs.',
-  },
-  {
-    question: 'What does "harvests per season" mean?',
-    answer: 'Some crops like lettuce and radishes can be replanted multiple times per season. The yield shown is total across all plantings.',
-  },
+  { question: 'Hvor nøyaktige er anslagene?', answer: 'De er gjennomsnittsverdier for vanlige dyrkingsforhold, bygget på internasjonale tall. I Norge med kort og lys sommer kan avlingen avvike, særlig for varmekrevende vekster utendørs. Bruk dem som en planleggingshjelp.' },
+  { question: 'Hva påvirker avlingen?', answer: 'Jordkvalitet, jevn vanning, sol (minst 6 timer), riktig plantavstand, gjødsling og skadedyr og sykdom.' },
+  { question: 'Hvor mange tomatplanter trenger en familie?', answer: 'Til ferskt forbruk 2–4 planter per person. Skal du sylte eller fryse, 6–10 planter per person. Hver plante gir omtrent 4–7 kg i godt drivhus.' },
+  { question: 'Hva betyr høstinger per sesong?', answer: 'Noen vekster som salat og reddik kan sås flere ganger. Avlingen som vises er samlet for alle såingene.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Calculate optimal plant spacing.' },
-  { href: '/calculators/garden/fertilizer-calculator', title: 'Fertilizer Calculator', description: 'Calculate fertilizer needs.' },
-  { href: '/calculators/garden/watering-schedule-generator', title: 'Watering Schedule', description: 'Generate watering schedules.' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/seed-germination-tracker', title: 'Spiringslogg', description: 'Følg spiring og spiringsprosent for frøene dine' },
+  { href: '/calculators/garden/fertilizer-calculator', title: 'Gjødsel (N-P-K)', description: 'Regn ut gjødselmengde ut fra N-P-K-forhold til plen eller hage' },
 ];
 
 export default function VegetableYieldCalculatorPage() {
@@ -58,12 +55,11 @@ export default function VegetableYieldCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="vegetable-yield-calculator"
-          title="Vegetable Yield Calculator"
-          description="Estimate how much produce you can harvest from your vegetable garden based on area and growing conditions."
-          colorClass="bg-green-100 text-green-600"
+          title="Grønnsakavling"
+          description="Anslå hvor mye du kan høste av grønnsakene i hagen, i kg, ut fra areal, antall planter og dyrkingsforhold. Gratis og uten registrering."
         />
 
-        <section aria-label="Vegetable Yield Calculator">
+        <section aria-label="Grønnsakavling">
           <VegetableYieldCalculator />
         </section>
 

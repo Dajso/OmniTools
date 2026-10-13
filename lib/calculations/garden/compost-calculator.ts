@@ -107,32 +107,32 @@ export interface CompostResult {
  */
 export const COMPOST_MATERIALS: Record<string, CompostMaterial> = {
   // Green materials (nitrogen-rich)
-  'grass-clippings': { name: 'Grass Clippings', cnRatio: 20, type: 'green', moistureContent: 80 },
-  'food-scraps': { name: 'Food Scraps', cnRatio: 15, type: 'green', moistureContent: 80 },
-  'coffee-grounds': { name: 'Coffee Grounds', cnRatio: 20, type: 'green', moistureContent: 60 },
-  'vegetable-waste': { name: 'Vegetable Waste', cnRatio: 25, type: 'green', moistureContent: 90 },
-  'fruit-waste': { name: 'Fruit Waste', cnRatio: 35, type: 'green', moistureContent: 80 },
-  'fresh-manure': { name: 'Fresh Manure', cnRatio: 15, type: 'green', moistureContent: 70 },
-  'seaweed': { name: 'Seaweed', cnRatio: 19, type: 'green', moistureContent: 80 },
-  'alfalfa': { name: 'Alfalfa', cnRatio: 12, type: 'green', moistureContent: 75 },
-  'clover': { name: 'Clover', cnRatio: 16, type: 'green', moistureContent: 80 },
-  'weeds': { name: 'Weeds (green)', cnRatio: 25, type: 'green', moistureContent: 80 },
+  'grass-clippings': { name: 'Gressklipp', cnRatio: 20, type: 'green', moistureContent: 80 },
+  'food-scraps': { name: 'Matavfall', cnRatio: 15, type: 'green', moistureContent: 80 },
+  'coffee-grounds': { name: 'Kaffegrut', cnRatio: 20, type: 'green', moistureContent: 60 },
+  'vegetable-waste': { name: 'Grønnsakrester', cnRatio: 25, type: 'green', moistureContent: 90 },
+  'fruit-waste': { name: 'Fruktrester', cnRatio: 35, type: 'green', moistureContent: 80 },
+  'fresh-manure': { name: 'Fersk husdyrgjødsel', cnRatio: 15, type: 'green', moistureContent: 70 },
+  'seaweed': { name: 'Tang og tare', cnRatio: 19, type: 'green', moistureContent: 80 },
+  'alfalfa': { name: 'Lusern', cnRatio: 12, type: 'green', moistureContent: 75 },
+  'clover': { name: 'Kløver', cnRatio: 16, type: 'green', moistureContent: 80 },
+  'weeds': { name: 'Ugress (grønt)', cnRatio: 25, type: 'green', moistureContent: 80 },
   
   // Brown materials (carbon-rich)
-  'dry-leaves': { name: 'Dry Leaves', cnRatio: 60, type: 'brown', moistureContent: 30 },
-  'straw': { name: 'Straw', cnRatio: 80, type: 'brown', moistureContent: 10 },
-  'sawdust': { name: 'Sawdust', cnRatio: 400, type: 'brown', moistureContent: 20 },
-  'wood-chips': { name: 'Wood Chips', cnRatio: 400, type: 'brown', moistureContent: 20 },
-  'cardboard': { name: 'Cardboard', cnRatio: 350, type: 'brown', moistureContent: 5 },
-  'newspaper': { name: 'Newspaper', cnRatio: 175, type: 'brown', moistureContent: 5 },
-  'paper': { name: 'Paper', cnRatio: 170, type: 'brown', moistureContent: 5 },
-  'corn-stalks': { name: 'Corn Stalks', cnRatio: 75, type: 'brown', moistureContent: 15 },
-  'pine-needles': { name: 'Pine Needles', cnRatio: 80, type: 'brown', moistureContent: 30 },
-  'hay': { name: 'Hay', cnRatio: 25, type: 'brown', moistureContent: 15 },
-  'aged-manure': { name: 'Aged Manure', cnRatio: 25, type: 'brown', moistureContent: 40 },
-  'shredded-bark': { name: 'Shredded Bark', cnRatio: 120, type: 'brown', moistureContent: 25 },
-  'dryer-lint': { name: 'Dryer Lint', cnRatio: 100, type: 'brown', moistureContent: 5 },
-  'egg-shells': { name: 'Egg Shells', cnRatio: 0, type: 'brown', moistureContent: 5 },
+  'dry-leaves': { name: 'Tørt løv', cnRatio: 60, type: 'brown', moistureContent: 30 },
+  'straw': { name: 'Halm', cnRatio: 80, type: 'brown', moistureContent: 10 },
+  'sawdust': { name: 'Sagflis', cnRatio: 400, type: 'brown', moistureContent: 20 },
+  'wood-chips': { name: 'Flis', cnRatio: 400, type: 'brown', moistureContent: 20 },
+  'cardboard': { name: 'Papp', cnRatio: 350, type: 'brown', moistureContent: 5 },
+  'newspaper': { name: 'Avispapir', cnRatio: 175, type: 'brown', moistureContent: 5 },
+  'paper': { name: 'Papir', cnRatio: 170, type: 'brown', moistureContent: 5 },
+  'corn-stalks': { name: 'Maisstengler', cnRatio: 75, type: 'brown', moistureContent: 15 },
+  'pine-needles': { name: 'Furunåler', cnRatio: 80, type: 'brown', moistureContent: 30 },
+  'hay': { name: 'Høy', cnRatio: 25, type: 'brown', moistureContent: 15 },
+  'aged-manure': { name: 'Lagret husdyrgjødsel', cnRatio: 25, type: 'brown', moistureContent: 40 },
+  'shredded-bark': { name: 'Oppmalt bark', cnRatio: 120, type: 'brown', moistureContent: 25 },
+  'dryer-lint': { name: 'Lo fra tørketrommel', cnRatio: 100, type: 'brown', moistureContent: 5 },
+  'egg-shells': { name: 'Eggeskall', cnRatio: 0, type: 'brown', moistureContent: 5 },
 };
 
 /**
@@ -192,7 +192,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
 
   if (materials.length === 0) {
     throw new CompostCalculationError(
-      'At least one material is required',
+      'Du må legge til minst ett materiale',
       'invalid_input',
       'materials'
     );
@@ -206,7 +206,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
   for (const item of materials) {
     if (item.amount <= 0) {
       throw new CompostCalculationError(
-        `Amount for ${item.material} must be positive`,
+        `Mengden for ${item.material} må være større enn null`,
         'invalid_input',
         'amount'
       );
@@ -218,7 +218,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
       const materialData = getMaterial(item.material);
       if (!materialData) {
         throw new CompostCalculationError(
-          `Unknown material: ${item.material}. Please provide a custom C:N ratio.`,
+          `Ukjent materiale: ${item.material}. Oppgi et eget C:N-forhold.`,
           'invalid_input',
           'material'
         );
@@ -228,7 +228,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
 
     if (cnRatio < 0) {
       throw new CompostCalculationError(
-        `C:N ratio for ${item.material} cannot be negative`,
+        `C:N-forholdet for ${item.material} kan ikke være negativt`,
         'invalid_input',
         'cnRatio'
       );
@@ -278,7 +278,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
   let suggestedAdditions: CompostResult['suggestedAdditions'];
 
   if (cnRatio < OPTIMAL_CN_RANGE.min) {
-    recommendation = `Your C:N ratio is too low (${Math.round(cnRatio)}:1). Add more brown/carbon-rich materials like dry leaves, straw, or cardboard.`;
+    recommendation = `C:N-forholdet er for lavt (${Math.round(cnRatio)}:1). Tilsett mer brunt, karbonrikt materiale som tørt løv, halm eller papp.`;
     // Calculate how much brown material to add
     const targetN = totalNitrogen;
     const targetC = targetN * targetRatio;
@@ -290,7 +290,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
       amount: Math.round(leavesNeeded * 10) / 10,
     };
   } else if (cnRatio > OPTIMAL_CN_RANGE.max) {
-    recommendation = `Your C:N ratio is too high (${Math.round(cnRatio)}:1). Add more green/nitrogen-rich materials like grass clippings, food scraps, or fresh manure.`;
+    recommendation = `C:N-forholdet er for høyt (${Math.round(cnRatio)}:1). Tilsett mer grønt, nitrogenrikt materiale som gressklipp, matavfall eller fersk husdyrgjødsel.`;
     // Calculate how much green material to add
     const targetC = totalCarbon;
     const targetN = targetC / targetRatio;
@@ -302,7 +302,7 @@ export function calculateCompostRatio(input: CompostInput): CompostResult {
       amount: Math.round(grassNeeded * 10) / 10,
     };
   } else {
-    recommendation = `Your C:N ratio of ${Math.round(cnRatio)}:1 is in the optimal range for composting!`;
+    recommendation = `C:N-forholdet på ${Math.round(cnRatio)}:1 ligger i det ideelle området for kompostering.`;
   }
 
   return {

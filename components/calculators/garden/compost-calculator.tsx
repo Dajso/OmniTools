@@ -23,7 +23,7 @@ interface MaterialEntry {
 
 const MATERIAL_OPTIONS = Object.entries(COMPOST_MATERIALS).map(([key, value]) => ({
   value: key,
-  label: `${value.name} (${value.cnRatio}:1) - ${value.type}`,
+  label: `${value.name} (${value.cnRatio}:1) – ${value.type === 'green' ? 'grønt' : 'brunt'}`,
 }));
 
 export function CompostCalculator() {
@@ -66,7 +66,7 @@ export function CompostCalculator() {
       });
       setResults(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResults(null);
     }
   }, [materials]);
@@ -86,10 +86,10 @@ export function CompostCalculator() {
 
   return (
     <CalculatorBase
-      title="Compost C:N Ratio Calculator"
-      description="Calculate the carbon to nitrogen ratio of your compost mix for optimal decomposition"
-      formula="C:N Ratio = Total Carbon / Total Nitrogen"
-      formulaExplanation={`Optimal range is ${OPTIMAL_CN_RANGE.min}:1 to ${OPTIMAL_CN_RANGE.max}:1`}
+      title="Kompost: C:N-forhold"
+      description="Regn ut forholdet mellom karbon og nitrogen i komposten for best mulig nedbryting"
+      formula="C:N-forhold = total karbon ÷ total nitrogen"
+      formulaExplanation={`Ideelt område er ${OPTIMAL_CN_RANGE.min}:1 til ${OPTIMAL_CN_RANGE.max}:1`}
       onCalculate={calculate}
       onReset={reset}
       error={error || undefined}
@@ -97,7 +97,7 @@ export function CompostCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="C:N Ratio"
+              label="C:N-forhold"
               value={`${results.cnRatio}:1`}
               highlight
               copyable
@@ -110,24 +110,24 @@ export function CompostCalculator() {
                 }`}
             >
               <p className="text-sm font-medium">
-                {results.isOptimal ? '✓ Optimal Range!' : '⚠ Adjustment Needed'}
+                {results.isOptimal ? '✓ Ideelt område' : '⚠ Bør justeres'}
               </p>
               <p className="text-sm mt-1">{results.recommendation}</p>
             </div>
 
             {results.suggestedAdditions && (
               <div className="bg-muted/50 p-4 rounded-lg">
-                <p className="text-sm font-medium mb-2">Suggested Addition</p>
+                <p className="text-sm font-medium mb-2">Forslag til tilsetning</p>
                 <p className="text-sm text-muted-foreground">
-                  Add ~{results.suggestedAdditions.amount} parts of{' '}
-                  {COMPOST_MATERIALS[results.suggestedAdditions.material]?.name ||
-                    results.suggestedAdditions.material}
+                  Tilsett ca. {formatFixed(results.suggestedAdditions.amount, 1)} deler{' '}
+                  {(COMPOST_MATERIALS[results.suggestedAdditions.material]?.name ||
+                    results.suggestedAdditions.material).toLowerCase()}
                 </p>
               </div>
             )}
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Material Breakdown</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Fordeling av materialer</p>
               <div className="space-y-2">
                 {results.breakdown.map((item, i) => (
                   <div
@@ -136,7 +136,7 @@ export function CompostCalculator() {
                   >
                     <span>{COMPOST_MATERIALS[item.material]?.name || item.material}</span>
                     <span className="text-muted-foreground">
-                      {item.amount} parts ({item.cnRatio}:1)
+                      {item.amount} deler ({item.cnRatio}:1)
                     </span>
                   </div>
                 ))}
@@ -145,14 +145,14 @@ export function CompostCalculator() {
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Total Carbon"
+                label="Total karbon"
                 value={formatFixed(results.totalCarbon, 2)}
-                unit="parts"
+                unit="deler"
               />
               <ResultDisplay
-                label="Total Nitrogen"
+                label="Total nitrogen"
                 value={formatFixed(results.totalNitrogen, 2)}
-                unit="parts"
+                unit="deler"
               />
             </div>
           </div>
@@ -161,7 +161,7 @@ export function CompostCalculator() {
     >
       <div className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Add your compost materials and their relative amounts (parts/buckets/wheelbarrows)
+          Legg inn materialene i komposten og mengden av hver (deler, bøtter eller trillebårlass – det er forholdet som teller)
         </p>
 
         {materials.map((entry, index) => (
@@ -169,7 +169,7 @@ export function CompostCalculator() {
             <div className="flex-1">
               <SelectInput
                 id={`material-${entry.id}`}
-                label={index === 0 ? 'Material' : undefined}
+                label={index === 0 ? 'Materiale' : undefined}
                 value={entry.material}
                 onChange={(v) => updateMaterial(entry.id, 'material', v)}
                 options={MATERIAL_OPTIONS}
@@ -178,7 +178,7 @@ export function CompostCalculator() {
             <div className="w-24">
               <NumberInput
                 id={`amount-${entry.id}`}
-                label={index === 0 ? 'Parts' : undefined}
+                label={index === 0 ? 'Deler' : undefined}
                 value={entry.amount}
                 onChange={(v) => updateMaterial(entry.id, 'amount', v)}
                 min={0.1}
@@ -200,7 +200,7 @@ export function CompostCalculator() {
         ))}
 
         <Button type="button" variant="outline" onClick={addMaterial} className="w-full">
-          + Add Material
+          + Legg til materiale
         </Button>
       </div>
     </CalculatorBase>

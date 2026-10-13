@@ -1,54 +1,51 @@
 import { Metadata } from 'next';
 import { PottingSoilCalculator } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Potting Soil Volume Calculator - Container Soil Calculator',
-  description: 'Calculate how much potting soil you need for containers and planters. Free soil volume calculator for pots.',
-  keywords: ['potting soil calculator', 'container soil', 'pot volume', 'planter calculator', 'soil volume'],
+  title: 'Pottejord – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye pottejord du trenger til potter og kasser. Gratis og uten registrering.',
+  keywords: ['pottejord', 'potter', 'planter i krukke', 'plantekasse', 'liter'],
   alternates: { canonical: '/calculators/garden/potting-soil-calculator' },
+  openGraph: {
+    title: 'Pottejord',
+    description: 'Regn ut hvor mye pottejord du trenger til potter og kasser',
+    url: '/calculators/garden/potting-soil-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Potting Soil Volume Calculator',
-  description: 'Calculate potting soil volume for containers using πr²h formula',
+  name: 'Pottejord',
+  description: 'Regn ut hvor mye pottejord du trenger til potter og kasser',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select container shape', text: 'Choose round, rectangular, or tapered pot shape.' },
-  { name: 'Enter dimensions', text: 'Input diameter/length, width, and height of your container.' },
-  { name: 'Adjust fill level', text: 'Set fill percentage (leave room for watering).' },
-  { name: 'View results', text: 'See volume in gallons, quarts, liters, and bags needed.' },
+  { name: 'Velg form', text: 'Rund potte, kasse eller potte som smalner av.' },
+  { name: 'Oppgi målene', text: 'Diameter eller lengde og bredde, og høyde, i cm.' },
+  { name: 'Velg fyllingsgrad', text: 'La det være 2–4 cm fra kanten så det er plass til vann.' },
+  { name: 'Les av volumet', text: 'Se liter og antall sekker du trenger.' },
 ];
 
 const faqs = [
-  {
-    question: 'How do I measure a tapered pot?',
-    answer: 'Measure the diameter at the top rim and at the bottom inside. The calculator uses the frustum formula to account for the taper.',
-  },
-  {
-    question: 'Should I fill the pot completely?',
-    answer: 'Leave 1-2 inches from the rim for watering. Use 90-95% fill for most containers.',
-  },
-  {
-    question: 'What size bag should I buy?',
-    answer: 'For small pots, 8-quart bags are convenient. For multiple large containers, 2 cubic foot bags are more economical.',
-  },
-  {
-    question: 'Do I need drainage material at the bottom?',
-    answer: 'Modern advice says no - it can actually impede drainage. Just ensure your pot has drainage holes and use quality potting mix.',
-  },
+  { question: 'Hvor høyt bør jeg fylle potten?', answer: 'La det være 2–4 cm igjen til kanten så vannet ikke renner over. 90 % fyllingsgrad er en grei start.' },
+  { question: 'Hvor mange liter er en potte?', answer: 'Volumet i liter regnes ut fra formen og målene. En 30 cm bred og 25 cm høy rund potte rommer ca. 16 liter ved 90 % fyll.' },
+  { question: 'Hvilke sekkestørrelser finnes?', answer: 'I Norge selges pottejord vanligvis i sekker på 10, 20, 50 og 70 liter, men dette varierer mellom produsenter.' },
+  { question: 'Trenger jeg drenering nederst?', answer: 'Legg gjerne lecakuler eller grov grus nederst i store potter, og bland perlitt inn i jorda for bedre drenering.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/mulch-soil-calculator', title: 'Mulch & Soil Calculator', description: 'Calculate mulch for garden beds.' },
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Plan your garden layout.' },
-  { href: '/calculators/garden/fertilizer-calculator', title: 'Fertilizer Calculator', description: 'Calculate fertilizer needs.' },
+  { href: '/calculators/garden/mulch-soil-calculator', title: 'Jord og barkflis', description: 'Regn ut hvor mye jord eller barkflis du trenger til bed, i liter og m³' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/watering-schedule-generator', title: 'Vanningsplan', description: 'Lag en tilpasset vanningsplan ut fra plante, klima og sesong' },
 ];
 
 export default function PottingSoilCalculatorPage() {
@@ -58,12 +55,11 @@ export default function PottingSoilCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="potting-soil-calculator"
-          title="Potting Soil Volume Calculator"
-          description="Calculate how much potting soil you need for containers and planters using the cylinder volume formula (πr²h)."
-          colorClass="bg-green-100 text-green-600"
+          title="Pottejord"
+          description="Regn ut hvor mye pottejord du trenger til runde potter, kasser og trau, i liter og antall sekker à 10, 20, 50 og 70 liter. Gratis og uten registrering."
         />
 
-        <section aria-label="Potting Soil Calculator">
+        <section aria-label="Pottejord">
           <PottingSoilCalculator />
         </section>
 

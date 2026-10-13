@@ -9,10 +9,10 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 
 const sunShadeSchema = z.object({
-  latitude: z.number().min(-90).max(90),
+  latitude: z.number().min(0).max(90),
   month: z.number().min(1).max(12),
-  obstacleHeight: z.number().min(0).max(200),
-  distanceFromObstacle: z.number().min(1).max(500),
+  obstacleHeight: z.number().min(0).max(100),
+  distanceFromObstacle: z.number().min(0.5).max(200),
   obstacleDirection: z.enum(['north', 'south', 'east', 'west']),
 });
 
@@ -29,41 +29,55 @@ interface SunShadeResult {
 }
 
 const INITIAL_INPUTS: SunShadeInputs = {
-  latitude: 40,
+  latitude: 58,
   month: 6,
-  obstacleHeight: 20,
-  distanceFromObstacle: 15,
+  obstacleHeight: 6,
+  distanceFromObstacle: 5,
   obstacleDirection: 'south',
 };
 
 const MONTH_OPTIONS = [
-  { value: '1', label: 'January' },
-  { value: '2', label: 'February' },
-  { value: '3', label: 'March' },
+  { value: '1', label: 'Januar' },
+  { value: '2', label: 'Februar' },
+  { value: '3', label: 'Mars' },
   { value: '4', label: 'April' },
-  { value: '5', label: 'May' },
-  { value: '6', label: 'June' },
-  { value: '7', label: 'July' },
+  { value: '5', label: 'Mai' },
+  { value: '6', label: 'Juni' },
+  { value: '7', label: 'Juli' },
   { value: '8', label: 'August' },
   { value: '9', label: 'September' },
-  { value: '10', label: 'October' },
+  { value: '10', label: 'Oktober' },
   { value: '11', label: 'November' },
-  { value: '12', label: 'December' },
+  { value: '12', label: 'Desember' },
 ];
 
 const DIRECTION_OPTIONS = [
-  { value: 'north', label: 'North of garden' },
-  { value: 'south', label: 'South of garden' },
-  { value: 'east', label: 'East of garden' },
-  { value: 'west', label: 'West of garden' },
+  { value: 'north', label: 'Nord for hagen' },
+  { value: 'south', label: 'Sør for hagen' },
+  { value: 'east', label: 'Øst for hagen' },
+  { value: 'west', label: 'Vest for hagen' },
 ];
 
-// Approximate sun angle at solar noon by month and latitude
+// Solens deklinasjon midt i måneden (grader)
+function getDeclination(month: number): number {
+  const dayOfYear = Math.round((month - 0.5) * 30.4);
+  return 23.44 * Math.sin((2 * Math.PI * (284 + dayOfYear)) / 365);
+}
+
+// Solhøyde ved solhøyeste punkt (grader), minimum 0,5° for å unngå uendelig skygge
 function getSunAngle(latitude: number, month: number): number {
-  // Simplified calculation - declination varies from -23.5 to +23.5 degrees
-  const declination = 23.5 * Math.cos((2 * Math.PI * (month - 6)) / 12);
-  const sunAngle = 90 - latitude + declination;
-  return Math.max(0, Math.min(90, sunAngle));
+  const sunAngle = 90 - Math.abs(latitude - getDeclination(month));
+  return Math.max(0.5, Math.min(90, sunAngle));
+}
+
+// Lengden på dagen i timer (inkluderer midnattssol og mørketid)
+function getDaylightHours(latitude: number, month: number): number {
+  const phi = (latitude * Math.PI) / 180;
+  const delta = (getDeclination(month) * Math.PI) / 180;
+  const x = -Math.tan(phi) * Math.tan(delta);
+  if (x >= 1) return 0;
+  if (x <= -1) return 24;
+  return (24 / Math.PI) * Math.acos(x);
 }
 
 function calculateSunShade(inputs: SunShadeInputs): SunShadeResult {
@@ -79,24 +93,24 @@ function calculateSunShade(inputs: SunShadeInputs): SunShadeResult {
   // Determine if garden is in shadow
   const inShadow = shadowLength > distanceFromObstacle;
 
-  // Estimate sun hours based on direction and shadow
-  let baseSunHours = 14 - Math.abs(month - 6); // Varies by season
+  // Anslå soltimer ut fra retning og skygge
+  let baseSunHours = Math.min(16, getDaylightHours(latitude, month));
 
   // Adjust for obstacle direction
-  let morningShade = 'None';
-  let afternoonShade = 'None';
+  let morningShade = 'Ingen';
+  let afternoonShade = 'Ingen';
 
   if (obstacleDirection === 'east') {
-    morningShade = inShadow ? 'Heavy shade until mid-morning' : 'Light shade early morning';
+    morningShade = inShadow ? 'Mye skygge til utpå formiddagen' : 'Litt skygge tidlig om morgenen';
     baseSunHours -= inShadow ? 3 : 1;
   } else if (obstacleDirection === 'west') {
-    afternoonShade = inShadow ? 'Heavy shade from mid-afternoon' : 'Light shade late afternoon';
+    afternoonShade = inShadow ? 'Mye skygge fra midt på ettermiddagen' : 'Litt skygge sent på ettermiddagen';
     baseSunHours -= inShadow ? 3 : 1;
   } else if (obstacleDirection === 'south' && latitude > 0) {
     // In northern hemisphere, south-facing obstacles block most sun
     baseSunHours -= inShadow ? 6 : 2;
-    morningShade = inShadow ? 'Partial shade' : 'None';
-    afternoonShade = inShadow ? 'Partial shade' : 'None';
+    morningShade = inShadow ? 'Delvis skygge' : 'Ingen';
+    afternoonShade = inShadow ? 'Delvis skygge' : 'Ingen';
   } else if (obstacleDirection === 'north' && latitude > 0) {
     // North obstacles have minimal impact in northern hemisphere
     baseSunHours -= 0.5;
@@ -111,20 +125,20 @@ function calculateSunShade(inputs: SunShadeInputs): SunShadeResult {
 
   if (sunHours >= 6) {
     sunCategory = 'full-sun';
-    recommendation = 'Excellent for sun-loving vegetables and flowers';
-    bestPlants = ['Tomatoes', 'Peppers', 'Squash', 'Roses', 'Lavender'];
+    recommendation = 'Utmerket for solkjære grønnsaker og blomster';
+    bestPlants = ['Tomat', 'Paprika', 'Squash', 'Roser', 'Lavendel'];
   } else if (sunHours >= 4) {
     sunCategory = 'partial-sun';
-    recommendation = 'Good for many vegetables and flowering plants';
-    bestPlants = ['Lettuce', 'Beans', 'Herbs', 'Impatiens', 'Begonias'];
+    recommendation = 'Passer for mange grønnsaker og blomsterplanter';
+    bestPlants = ['Salat', 'Bønner', 'Urter', 'Fuchsia', 'Begonia'];
   } else if (sunHours >= 2) {
     sunCategory = 'partial-shade';
-    recommendation = 'Best for shade-tolerant plants';
-    bestPlants = ['Spinach', 'Kale', 'Hostas', 'Ferns', 'Astilbe'];
+    recommendation = 'Best for planter som tåler skygge';
+    bestPlants = ['Spinat', 'Grønnkål', 'Hosta', 'Bregner', 'Prydspirea'];
   } else {
     sunCategory = 'full-shade';
-    recommendation = 'Limited to deep shade plants';
-    bestPlants = ['Moss', 'Ferns', 'Hostas', 'Lily of the Valley'];
+    recommendation = 'Bare skyggeplanter klarer seg';
+    bestPlants = ['Moser', 'Bregner', 'Hosta', 'Liljekonvall'];
   }
 
   return {
@@ -159,6 +173,13 @@ export function SunShadeMapper() {
     calculate();
   }, [calculate]);
 
+  const CATEGORY_LABELS: Record<SunShadeResult['sunCategory'], string> = {
+    'full-sun': 'Full sol',
+    'partial-sun': 'Mye sol',
+    'partial-shade': 'Halvskygge',
+    'full-shade': 'Full skygge',
+  };
+
   const categoryColors = {
     'full-sun': 'bg-yellow-100 text-yellow-800',
     'partial-sun': 'bg-orange-100 text-orange-800',
@@ -168,10 +189,10 @@ export function SunShadeMapper() {
 
   return (
     <CalculatorBase
-      title="Sun/Shade Mapper"
-      description="Estimate sun exposure in your garden based on nearby obstacles"
-      formula="Shadow Length = Obstacle Height / tan(Sun Angle)"
-      formulaExplanation="Calculates shadow cast by obstacles at different times of year"
+      title="Sol og skygge i hagen"
+      description="Anslå hvor mye sol hagen din får, ut fra trær, hus og andre hindringer i nærheten"
+      formula="Skyggelengde = høyde på hinderet ÷ tan(solhøyde)"
+      formulaExplanation="Regner ut skyggen hinderet kaster ved solhøyeste punkt gjennom året. Resultatet er et grovt anslag"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -181,39 +202,39 @@ export function SunShadeMapper() {
         results && (
           <div className="space-y-4">
             <div className={`p-4 rounded-lg ${categoryColors[results.sunCategory]}`}>
-              <p className="text-lg font-medium capitalize">
-                {results.sunCategory.replace('-', ' ')}
+              <p className="text-lg font-medium">
+                {CATEGORY_LABELS[results.sunCategory]}
               </p>
               <p className="text-sm mt-1">{results.recommendation}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Estimated Sun Hours"
+                label="Anslått soltid"
                 value={results.sunHours}
-                unit="hours/day"
+                unit="timer/dag"
                 highlight
               />
               <ResultDisplay
-                label="Shadow Length at Noon"
+                label="Skyggelengde ved middagstid"
                 value={results.shadowLength}
-                unit="feet"
+                unit="m"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Morning"
+                label="Morgen"
                 value={results.morningShade}
               />
               <ResultDisplay
-                label="Afternoon"
+                label="Ettermiddag"
                 value={results.afternoonShade}
               />
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Recommended Plants</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Passende planter</p>
               <div className="flex flex-wrap gap-2">
                 {results.bestPlants.map((plant) => (
                   <span
@@ -231,10 +252,10 @@ export function SunShadeMapper() {
     >
       <NumberInput
         id="latitude"
-        label="Your Latitude"
+        label="Breddegrad (Norge: ca. 58–71 °N)"
         value={inputs.latitude}
         onChange={(v) => setInput('latitude', v)}
-        min={-90}
+        min={0}
         max={90}
         step={1}
         unit="°"
@@ -244,7 +265,7 @@ export function SunShadeMapper() {
 
       <SelectInput
         id="month"
-        label="Month"
+        label="Måned"
         value={inputs.month.toString()}
         onChange={(v) => setInput('month', parseInt(v))}
         options={MONTH_OPTIONS}
@@ -253,31 +274,31 @@ export function SunShadeMapper() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="obstacleHeight"
-          label="Obstacle Height"
+          label="Høyde på hinderet"
           value={inputs.obstacleHeight}
           onChange={(v) => setInput('obstacleHeight', v)}
           min={0}
           max={200}
-          step={1}
-          unit="feet"
+          step={0.5}
+          unit="m"
           error={errors.obstacleHeight}
         />
         <NumberInput
           id="distanceFromObstacle"
-          label="Distance from Obstacle"
+          label="Avstand til hinderet"
           value={inputs.distanceFromObstacle}
           onChange={(v) => setInput('distanceFromObstacle', v)}
-          min={1}
-          max={500}
-          step={1}
-          unit="feet"
+          min={0.5}
+          max={200}
+          step={0.5}
+          unit="m"
           error={errors.distanceFromObstacle}
         />
       </div>
 
       <SelectInput
         id="obstacleDirection"
-        label="Obstacle Location"
+        label="Hinderet ligger"
         value={inputs.obstacleDirection}
         onChange={(v) => setInput('obstacleDirection', v as SunShadeInputs['obstacleDirection'])}
         options={DIRECTION_OPTIONS}

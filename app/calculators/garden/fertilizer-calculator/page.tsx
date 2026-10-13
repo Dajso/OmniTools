@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { FertilizerCalculator } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Fertilizer N-P-K Calculator - Garden Fertilizer Calculator',
-  description: 'Calculate how much fertilizer to apply based on N-P-K ratio. Free fertilizer calculator for lawns and gardens.',
-  keywords: ['fertilizer calculator', 'npk calculator', 'lawn fertilizer', 'garden fertilizer', 'nitrogen calculator'],
+  title: 'Gjødsel (N-P-K) – gratis kalkulator på nett',
+  description: 'Regn ut gjødselmengde ut fra N-P-K-forhold til plen eller hage. Gratis og uten registrering.',
+  keywords: ['gjødsel', 'NPK', 'nitrogen', 'plengjødsel', 'hagegjødsel'],
   alternates: { canonical: '/calculators/garden/fertilizer-calculator' },
+  openGraph: {
+    title: 'Gjødsel (N-P-K)',
+    description: 'Regn ut gjødselmengde ut fra N-P-K-forhold til plen eller hage',
+    url: '/calculators/garden/fertilizer-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Fertilizer N-P-K Calculator',
-  description: 'Calculate fertilizer application rates based on N-P-K ratios',
+  name: 'Gjødsel (N-P-K)',
+  description: 'Regn ut gjødselmengde ut fra N-P-K-forhold til plen eller hage',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select fertilizer type', text: 'Choose a common fertilizer or enter custom N-P-K values.' },
-  { name: 'Set nitrogen rate', text: 'Use quick-set buttons or enter your target nitrogen rate.' },
-  { name: 'Enter area', text: 'Input the size of the area you want to fertilize.' },
-  { name: 'Choose units', text: 'Select your preferred area and weight units.' },
-  { name: 'View results', text: 'See total fertilizer needed and nutrients applied.' },
+  { name: 'Velg gjødsel', text: 'Velg ferdig type eller legg inn N-P-K fra pakken.' },
+  { name: 'Velg ønsket nitrogenmengde', text: 'Bruk et hurtigvalg for plen, grønnsaker, blomster eller trær, eller sett egen verdi.' },
+  { name: 'Oppgi arealet', text: 'Arealet som skal gjødsles, i m².' },
+  { name: 'Les av mengden', text: 'Se kg gjødsel totalt, gram per m² og hvor mye N, P og K som tilføres.' },
 ];
 
 const faqs = [
-  {
-    question: 'What does N-P-K mean?',
-    answer: 'N-P-K stands for Nitrogen-Phosphorus-Potassium, the three primary nutrients in fertilizer. The numbers represent the percentage of each nutrient by weight.',
-  },
-  {
-    question: 'How much nitrogen should I apply to my lawn?',
-    answer: 'Cool-season lawns typically need 1 lb of nitrogen per 1,000 sq ft per application. Warm-season lawns need about 0.5 lb. Never exceed 1 lb N per application.',
-  },
-  {
-    question: 'What is the best N-P-K ratio for vegetables?',
-    answer: 'A balanced fertilizer like 10-10-10 works well for most vegetables. Leafy greens prefer higher nitrogen, while fruiting plants benefit from more phosphorus.',
-  },
-  {
-    question: 'When should I fertilize my lawn?',
-    answer: 'Cool-season lawns: early spring and fall. Warm-season lawns: late spring through summer. Avoid fertilizing during extreme heat or drought.',
-  },
-  {
-    question: 'Can I over-fertilize?',
-    answer: 'Yes! Over-fertilizing can burn plants, pollute waterways, and waste money. Always follow recommended rates and water in after application.',
-  },
+  { question: 'Hva betyr N-P-K?', answer: 'Prosent nitrogen (N), fosfor (P) og kalium (K) i gjødselen. 14-4-21 betyr 14 % nitrogen, 4 % fosfor og 21 % kalium. På gjødselsekker i Norge er fosfor og kalium oppgitt som P og K, ikke som oksider.' },
+  { question: 'Hvor mye gjødsel er for mye?', answer: 'Mer enn rundt 5–8 g nitrogen per m² om gangen gir fare for gjødselskade. Del heller opp i flere omganger.' },
+  { question: 'Er hurtigvalgene eksakte?', answer: 'Nei. De er veiledende verdier. Følg alltid anbefalingen på pakken til gjødselen du bruker.' },
+  { question: 'Når bør jeg gjødsle?', answer: 'Gjødsle i vekstsesongen, gjerne på fuktig jord, og vann inn gjødselen hvis det ikke ventes regn.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Calculate plant spacing for gardens.' },
-  { href: '/calculators/garden/compost-calculator', title: 'Compost C:N Calculator', description: 'Calculate compost ratios.' },
-  { href: '/calculators/garden/mulch-soil-calculator', title: 'Mulch & Soil Calculator', description: 'Calculate mulch and soil needs.' },
+  { href: '/calculators/garden/compost-calculator', title: 'Kompost (C:N-forhold)', description: 'Regn ut karbon–nitrogen-forholdet i komposten' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/vegetable-yield-calculator', title: 'Grønnsakavling', description: 'Anslå avling av grønnsaker ut fra antall planter og sort' },
 ];
 
 export default function FertilizerCalculatorPage() {
@@ -63,12 +55,11 @@ export default function FertilizerCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="fertilizer-calculator"
-          title="Fertilizer N-P-K Calculator"
-          description="Calculate how much fertilizer to apply based on N-P-K ratio and target nitrogen rate for lawns and gardens."
-          colorClass="bg-green-100 text-green-600"
+          title="Gjødsel (N-P-K)"
+          description="Regn ut hvor mye gjødsel du trenger ut fra N-P-K-innholdet og hvor mye nitrogen du vil gi. Resultat i kg og gram per m². Gratis og uten registrering."
         />
 
-        <section aria-label="Fertilizer Calculator">
+        <section aria-label="Gjødsel (N-P-K)">
           <FertilizerCalculator />
         </section>
 

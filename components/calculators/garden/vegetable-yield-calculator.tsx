@@ -7,6 +7,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import {
   calculateVegetableYield,
   VEGETABLE_YIELDS,
@@ -18,7 +19,7 @@ import {
 const vegetableYieldSchema = z.object({
   vegetable: z.string(),
   area: z.number().min(1).max(10000),
-  areaUnit: z.enum(['sqft', 'sqm', 'row_feet', 'row_meters']),
+  areaUnit: z.enum(['sqm', 'row_meters']),
   conditions: z.enum(['poor', 'average', 'good', 'excellent']),
   useCustomPlantCount: z.boolean(),
   plantCount: z.number().min(1).max(1000),
@@ -28,8 +29,8 @@ type VegetableYieldInputs = z.infer<typeof vegetableYieldSchema>;
 
 const INITIAL_INPUTS: VegetableYieldInputs = {
   vegetable: 'tomatoes',
-  area: 100,
-  areaUnit: 'sqft',
+  area: 10,
+  areaUnit: 'sqm',
   conditions: 'good',
   useCustomPlantCount: false,
   plantCount: 10,
@@ -41,28 +42,45 @@ const VEGETABLE_OPTIONS = Object.entries(VEGETABLE_YIELDS).map(([key, value]) =>
 }));
 
 const AREA_UNIT_OPTIONS = [
-  { value: 'sqft', label: 'Square Feet' },
-  { value: 'sqm', label: 'Square Meters' },
-  { value: 'row_feet', label: 'Row Feet' },
-  { value: 'row_meters', label: 'Row Meters' },
+  { value: 'sqm', label: 'Kvadratmeter (m²)' },
+  { value: 'row_meters', label: 'Radmeter (løpemeter)' },
 ];
 
 const CONDITION_OPTIONS = [
-  { value: 'poor', label: 'Poor (50% yield)' },
-  { value: 'average', label: 'Average (75% yield)' },
-  { value: 'good', label: 'Good (100% yield)' },
-  { value: 'excellent', label: 'Excellent (125% yield)' },
+  { value: 'poor', label: 'Dårlig (50 % av normal avling)' },
+  { value: 'average', label: 'Gjennomsnittlig (75 %)' },
+  { value: 'good', label: 'God (100 %)' },
+  { value: 'excellent', label: 'Svært god (125 %)' },
 ];
 
-function calculateYield(inputs: VegetableYieldInputs): VegetableYieldResult {
-  return calculateVegetableYield({
+const KG_PER_LB = 0.453592;
+const KG_PER_SQM_PER_LB_PER_SQFT = 4.882;
+
+interface VegetableYieldMetricResult extends VegetableYieldResult {
+  totalKg: number;
+  kgPerPlant: number;
+  kgPerSqm: number;
+  kgPerHarvest: number;
+}
+
+function calculateYield(inputs: VegetableYieldInputs): VegetableYieldMetricResult {
+  const r = calculateVegetableYield({
     vegetable: inputs.vegetable,
     area: inputs.area,
     areaUnit: inputs.areaUnit as YieldAreaUnit,
     conditions: inputs.conditions as GrowingCondition,
     plantCount: inputs.useCustomPlantCount ? inputs.plantCount : undefined,
   });
+  return {
+    ...r,
+    totalKg: r.totalYield * KG_PER_LB,
+    kgPerPlant: r.yieldPerPlant * KG_PER_LB,
+    kgPerSqm: r.yieldPerSqFt * KG_PER_SQM_PER_LB_PER_SQFT,
+    kgPerHarvest: r.yieldPerHarvest * KG_PER_LB,
+  };
 }
+
+const kg = (v: number) => formatNumber(v, { maximumFractionDigits: 2 });
 
 export function VegetableYieldCalculator() {
   const {
@@ -74,7 +92,7 @@ export function VegetableYieldCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<VegetableYieldInputs, VegetableYieldResult>({
+  } = useCalculator<VegetableYieldInputs, VegetableYieldMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: vegetableYieldSchema,
     calculate: calculateYield,
@@ -85,16 +103,14 @@ export function VegetableYieldCalculator() {
     calculate();
   }, [calculate]);
 
-  const areaLabel = inputs.areaUnit === 'sqft' ? 'sq ft' :
-    inputs.areaUnit === 'sqm' ? 'sq m' :
-      inputs.areaUnit === 'row_feet' ? 'row ft' : 'row m';
+  const areaLabel = inputs.areaUnit === 'sqm' ? 'm²' : 'radmeter';
 
   return (
     <CalculatorBase
-      title="Vegetable Yield Calculator"
-      description="Estimate how much produce you can harvest from your garden"
-      formula="Total Yield = Plants × Yield per Plant × Condition Multiplier"
-      formulaExplanation="Based on average yields adjusted for growing conditions"
+      title="Avlingskalkulator for grønnsaker"
+      description="Anslå hvor mye du kan høste av grønnsakene i hagen"
+      formula="Total avling = antall planter × avling per plante × dyrkingsfaktor"
+      formulaExplanation="Bygger på gjennomsnittlige avlinger, justert for dyrkingsforhold. Tallene er veiledende og kan variere mye med sort, sted og sesong"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -104,50 +120,50 @@ export function VegetableYieldCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label={`Estimated ${results.vegetable} Yield`}
-              value={results.totalYield}
-              unit="lbs"
+              label={`Forventet avling av ${results.vegetable.toLowerCase()}`}
+              value={kg(results.totalKg)}
+              unit="kg"
               highlight
               copyable
             />
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Number of Plants"
+                label="Antall planter"
                 value={results.plantCount}
-                unit="plants"
+                unit="planter"
               />
               <ResultDisplay
-                label="Yield per Plant"
-                value={results.yieldPerPlant}
-                unit="lbs"
+                label="Avling per plante"
+                value={kg(results.kgPerPlant)}
+                unit="kg"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Yield per Sq Ft"
-                value={results.yieldPerSqFt}
-                unit="lbs/sq ft"
+                label="Avling per m²"
+                value={kg(results.kgPerSqm)}
+                unit="kg/m²"
               />
               <ResultDisplay
-                label="Days to Harvest"
+                label="Dager til høsting"
                 value={results.daysToHarvest}
-                unit="days"
+                unit="dager"
               />
             </div>
 
             {results.harvestsPerSeason > 1 && (
               <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
-                <p className="text-sm font-medium mb-2">Multiple Harvests</p>
+                <p className="text-sm font-medium mb-2">Flere høstinger</p>
                 <p className="text-sm text-muted-foreground">
-                  {results.harvestsPerSeason} harvests per season, ~{results.yieldPerHarvest} lbs each
+                  {results.harvestsPerSeason} høstinger per sesong, ca. {kg(results.kgPerHarvest)}&nbsp;kg hver
                 </p>
               </div>
             )}
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Growing Tips</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Dyrketips</p>
               <ul className="text-sm text-muted-foreground space-y-2">
                 {results.tips.map((tip, i) => (
                   <li key={i} className="flex gap-2">
@@ -163,7 +179,7 @@ export function VegetableYieldCalculator() {
     >
       <SelectInput
         id="vegetable"
-        label="Vegetable"
+        label="Grønnsak"
         value={inputs.vegetable}
         onChange={(v) => setInput('vegetable', v)}
         options={VEGETABLE_OPTIONS}
@@ -178,14 +194,14 @@ export function VegetableYieldCalculator() {
           className="h-4 w-4 rounded border-gray-300"
         />
         <label htmlFor="useCustomPlantCount" className="text-sm">
-          I know how many plants I have
+          Jeg vet hvor mange planter jeg har
         </label>
       </div>
 
       {inputs.useCustomPlantCount ? (
         <NumberInput
           id="plantCount"
-          label="Number of Plants"
+          label="Antall planter"
           value={inputs.plantCount}
           onChange={(v) => setInput('plantCount', v)}
           min={1}
@@ -198,7 +214,7 @@ export function VegetableYieldCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="area"
-            label="Garden Area"
+            label="Dyrket areal"
             value={inputs.area}
             onChange={(v) => setInput('area', v)}
             min={1}
@@ -210,9 +226,9 @@ export function VegetableYieldCalculator() {
           />
           <SelectInput
             id="areaUnit"
-            label="Area Unit"
+            label="Enhet for areal"
             value={inputs.areaUnit}
-            onChange={(v) => setInput('areaUnit', v as YieldAreaUnit)}
+            onChange={(v) => setInput('areaUnit', v as 'sqm' | 'row_meters')}
             options={AREA_UNIT_OPTIONS}
           />
         </div>
@@ -220,7 +236,7 @@ export function VegetableYieldCalculator() {
 
       <SelectInput
         id="conditions"
-        label="Growing Conditions"
+        label="Dyrkingsforhold"
         value={inputs.conditions}
         onChange={(v) => setInput('conditions', v as GrowingCondition)}
         options={CONDITION_OPTIONS}

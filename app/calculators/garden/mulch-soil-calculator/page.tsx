@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { MulchSoilCalculator } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Mulch & Soil Calculator - Landscaping Volume Calculator',
-  description: 'Calculate how much mulch, topsoil, or gravel you need for your landscaping project. Free mulch calculator with bag estimates.',
-  keywords: ['mulch calculator', 'soil calculator', 'landscaping calculator', 'cubic yards', 'gravel calculator', 'garden soil'],
+  title: 'Jord og barkflis – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye jord eller barkflis du trenger til bed, i liter og m³. Gratis og uten registrering.',
+  keywords: ['jord', 'barkflis', 'bed', 'kubikkmeter', 'hage'],
   alternates: { canonical: '/calculators/garden/mulch-soil-calculator' },
+  openGraph: {
+    title: 'Jord og barkflis',
+    description: 'Regn ut hvor mye jord eller barkflis du trenger til bed, i liter og m³',
+    url: '/calculators/garden/mulch-soil-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Mulch & Soil Calculator',
-  description: 'Calculate mulch, soil, or gravel volume for landscaping projects',
+  name: 'Jord og barkflis',
+  description: 'Regn ut hvor mye jord eller barkflis du trenger til bed, i liter og m³',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select material type', text: 'Choose mulch, topsoil, or gravel based on your project needs.' },
-  { name: 'Choose area shape', text: 'Select rectangular for beds or circular for tree rings.' },
-  { name: 'Enter dimensions', text: 'Input the length, width (or diameter) of your area.' },
-  { name: 'Set desired depth', text: 'Enter how deep you want the material (typically 2-4 inches for mulch).' },
-  { name: 'View results', text: 'See cubic yards needed, bag counts, and weight estimates.' },
+  { name: 'Velg materiale', text: 'Bark/mulch, matjord eller grus og stein.' },
+  { name: 'Oppgi flaten', text: 'Lengde og bredde i meter, eller diameter hvis flaten er rund.' },
+  { name: 'Velg lagtykkelse', text: 'Bark: 5–10 cm, matjord: 10–20 cm, grus: 5–10 cm.' },
+  { name: 'Les av mengden', text: 'Se volum i m³ og liter, antall sekker og omtrentlig vekt.' },
 ];
 
 const faqs = [
-  {
-    question: 'How deep should mulch be?',
-    answer: '2-3 inches is ideal for weed suppression and moisture retention. 3-4 inches provides better insulation for winter. Avoid more than 4 inches as it can suffocate plant roots.',
-  },
-  {
-    question: 'Should I buy bags or bulk mulch?',
-    answer: 'For small projects under 3 cubic yards, bags are convenient. For larger areas, bulk delivery is more economical and easier to spread.',
-  },
-  {
-    question: 'How much does mulch weigh?',
-    answer: 'Mulch weighs about 400-800 lbs per cubic yard depending on moisture content. Dry mulch is lighter; wet mulch can be significantly heavier.',
-  },
-  {
-    question: 'How often should I replace mulch?',
-    answer: 'Most mulch should be refreshed annually. Add 1-2 inches each year to maintain proper depth as it decomposes.',
-  },
-  {
-    question: 'What\'s the difference between topsoil and garden soil?',
-    answer: 'Topsoil is natural soil from the ground. Garden soil is topsoil amended with compost and nutrients, better for planting beds.',
-  },
+  { question: 'Hvor tykt lag med bark bør jeg ha?', answer: '5–8 cm holder for å hindre ugress, og 8–10 cm gir bedre isolasjon rundt busker og trær. Hold barken litt unna stammen.' },
+  { question: 'Lønner det seg å bestille løs vekt?', answer: 'Ofte, når du trenger mer enn rundt 2 m³. Da er levering av løs masse som regel billigere enn sekker, men spør leverandøren om pris per m³ og leveringsgebyr.' },
+  { question: 'Hvorfor bør jeg legge til litt ekstra?', answer: 'Jord og bark setter seg, og noe går tapt ved utlegging. Legg til 5–10 %.' },
+  { question: 'Hvor nøyaktig er vekten?', answer: 'Vekten er et grovt anslag med 320 kg/m³ for bark, 1200 kg/m³ for jord og 1600 kg/m³ for grus. Fuktig masse veier mer.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Calculate plant spacing for gardens.' },
-  { href: '/calculators/garden/fertilizer-calculator', title: 'Fertilizer Calculator', description: 'Calculate N-P-K fertilizer needs.' },
-  { href: '/calculators/garden/potting-soil-calculator', title: 'Potting Soil Calculator', description: 'Calculate soil for containers.' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/compost-calculator', title: 'Kompost (C:N-forhold)', description: 'Regn ut karbon–nitrogen-forholdet i komposten' },
+  { href: '/calculators/garden/potting-soil-calculator', title: 'Pottejord', description: 'Regn ut hvor mye pottejord du trenger til potter og kasser' },
 ];
 
 export default function MulchSoilCalculatorPage() {
@@ -63,12 +55,11 @@ export default function MulchSoilCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="mulch-soil-calculator"
-          title="Mulch & Soil Calculator"
-          description="Calculate how much mulch, topsoil, or gravel you need for your landscaping project with bag and bulk estimates."
-          colorClass="bg-green-100 text-green-600"
+          title="Jord og barkflis"
+          description="Regn ut hvor mye bark, matjord eller grus du trenger til bed og gangstier, i liter, m³, sekker og kilo. Gratis og uten registrering."
         />
 
-        <section aria-label="Mulch & Soil Calculator">
+        <section aria-label="Jord og barkflis">
           <MulchSoilCalculator />
         </section>
 

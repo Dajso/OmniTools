@@ -119,7 +119,7 @@ export const CONDITION_MULTIPLIERS: Record<GrowingCondition, number> = {
  */
 export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
   'tomatoes': {
-    name: 'Tomatoes',
+    name: 'Tomat',
     yieldPerPlant: 10,
     plantSpacing: 24,
     rowSpacing: 36,
@@ -128,7 +128,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'tomatoes-cherry': {
-    name: 'Cherry Tomatoes',
+    name: 'Cherrytomat',
     yieldPerPlant: 8,
     plantSpacing: 24,
     rowSpacing: 36,
@@ -137,7 +137,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'peppers': {
-    name: 'Peppers',
+    name: 'Paprika',
     yieldPerPlant: 5,
     plantSpacing: 18,
     rowSpacing: 24,
@@ -146,7 +146,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'peppers-hot': {
-    name: 'Hot Peppers',
+    name: 'Chili',
     yieldPerPlant: 3,
     plantSpacing: 18,
     rowSpacing: 24,
@@ -155,7 +155,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'cucumbers': {
-    name: 'Cucumbers',
+    name: 'Agurk',
     yieldPerPlant: 10,
     plantSpacing: 12,
     rowSpacing: 48,
@@ -164,7 +164,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'zucchini': {
-    name: 'Zucchini',
+    name: 'Squash',
     yieldPerPlant: 10,
     plantSpacing: 24,
     rowSpacing: 36,
@@ -173,7 +173,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'squash-summer': {
-    name: 'Summer Squash',
+    name: 'Sommersquash',
     yieldPerPlant: 10,
     plantSpacing: 24,
     rowSpacing: 48,
@@ -182,7 +182,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'squash-winter': {
-    name: 'Winter Squash',
+    name: 'Vintersquash',
     yieldPerPlant: 12,
     plantSpacing: 36,
     rowSpacing: 72,
@@ -191,7 +191,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'beans-bush': {
-    name: 'Bush Beans',
+    name: 'Buskbønner',
     yieldPerPlant: 0.5,
     plantSpacing: 4,
     rowSpacing: 24,
@@ -200,7 +200,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'beans-pole': {
-    name: 'Pole Beans',
+    name: 'Stangbønner',
     yieldPerPlant: 1,
     plantSpacing: 6,
     rowSpacing: 36,
@@ -209,7 +209,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'peas': {
-    name: 'Peas',
+    name: 'Erter',
     yieldPerPlant: 0.25,
     plantSpacing: 3,
     rowSpacing: 24,
@@ -218,7 +218,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'lettuce': {
-    name: 'Lettuce',
+    name: 'Salat',
     yieldPerPlant: 0.5,
     plantSpacing: 6,
     rowSpacing: 12,
@@ -227,7 +227,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'spinach': {
-    name: 'Spinach',
+    name: 'Spinat',
     yieldPerPlant: 0.25,
     plantSpacing: 4,
     rowSpacing: 12,
@@ -236,7 +236,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'kale': {
-    name: 'Kale',
+    name: 'Grønnkål',
     yieldPerPlant: 1,
     plantSpacing: 12,
     rowSpacing: 18,
@@ -245,7 +245,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'carrots': {
-    name: 'Carrots',
+    name: 'Gulrot',
     yieldPerPlant: 0.15,
     plantSpacing: 2,
     rowSpacing: 12,
@@ -254,7 +254,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'beets': {
-    name: 'Beets',
+    name: 'Rødbeter',
     yieldPerPlant: 0.25,
     plantSpacing: 3,
     rowSpacing: 12,
@@ -263,7 +263,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'radishes': {
-    name: 'Radishes',
+    name: 'Reddik',
     yieldPerPlant: 0.05,
     plantSpacing: 2,
     rowSpacing: 6,
@@ -272,7 +272,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'onions': {
-    name: 'Onions',
+    name: 'Løk',
     yieldPerPlant: 0.5,
     plantSpacing: 4,
     rowSpacing: 12,
@@ -281,7 +281,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'garlic': {
-    name: 'Garlic',
+    name: 'Hvitløk',
     yieldPerPlant: 0.1,
     plantSpacing: 4,
     rowSpacing: 12,
@@ -290,7 +290,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'potatoes': {
-    name: 'Potatoes',
+    name: 'Potet',
     yieldPerPlant: 3,
     plantSpacing: 12,
     rowSpacing: 30,
@@ -299,7 +299,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'corn': {
-    name: 'Corn',
+    name: 'Mais',
     yieldPerPlant: 1,
     plantSpacing: 12,
     rowSpacing: 30,
@@ -308,7 +308,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'broccoli': {
-    name: 'Broccoli',
+    name: 'Brokkoli',
     yieldPerPlant: 1,
     plantSpacing: 18,
     rowSpacing: 24,
@@ -317,7 +317,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'cabbage': {
-    name: 'Cabbage',
+    name: 'Kål',
     yieldPerPlant: 3,
     plantSpacing: 18,
     rowSpacing: 24,
@@ -326,7 +326,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'cauliflower': {
-    name: 'Cauliflower',
+    name: 'Blomkål',
     yieldPerPlant: 2,
     plantSpacing: 18,
     rowSpacing: 24,
@@ -335,7 +335,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'cool',
   },
   'eggplant': {
-    name: 'Eggplant',
+    name: 'Aubergine',
     yieldPerPlant: 8,
     plantSpacing: 24,
     rowSpacing: 30,
@@ -344,7 +344,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'melons': {
-    name: 'Melons',
+    name: 'Meloner',
     yieldPerPlant: 8,
     plantSpacing: 36,
     rowSpacing: 72,
@@ -353,7 +353,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'watermelon': {
-    name: 'Watermelon',
+    name: 'Vannmelon',
     yieldPerPlant: 20,
     plantSpacing: 48,
     rowSpacing: 96,
@@ -362,7 +362,7 @@ export const VEGETABLE_YIELDS: Record<string, VegetableYieldData> = {
     season: 'warm',
   },
   'pumpkins': {
-    name: 'Pumpkins',
+    name: 'Gresskar',
     yieldPerPlant: 15,
     plantSpacing: 48,
     rowSpacing: 96,
@@ -448,24 +448,24 @@ export function generateTips(vegetable: VegetableYieldData, conditions: GrowingC
   const tips: string[] = [];
 
   if (conditions === 'poor' || conditions === 'average') {
-    tips.push('Consider improving soil with compost to increase yields.');
-    tips.push('Ensure consistent watering, especially during fruit development.');
+    tips.push('Bland inn kompost i jorda for å øke avlingen.');
+    tips.push('Vann jevnlig, særlig når frukten utvikler seg.');
   }
 
   if (vegetable.season === 'cool') {
-    tips.push('Plant in early spring or fall for best results.');
-    tips.push('Provide shade during hot weather to prevent bolting.');
+    tips.push('Så tidlig på våren eller sent på sommeren for best resultat.');
+    tips.push('Gi skygge i varme perioder så plantene ikke går i blomst.');
   } else if (vegetable.season === 'warm') {
-    tips.push('Wait until soil is warm before planting.');
-    tips.push('Mulch around plants to retain moisture and warmth.');
+    tips.push('Vent til jorda er varm før du planter ut.');
+    tips.push('Dekk jorda rundt plantene med mulch for å holde på fukt og varme.');
   }
 
   if (vegetable.harvestsPerSeason > 1) {
-    tips.push(`Succession plant every 2-3 weeks for continuous harvest.`);
+    tips.push(`Så på nytt hver 2.–3. uke for jevn innhøsting.`);
   }
 
   if (vegetable.yieldPerPlant > 5) {
-    tips.push('High-yielding plant - consider preserving excess harvest.');
+    tips.push('Rikt bærende plante – tenk på å fryse eller sylte det som blir til overs.');
   }
 
   return tips;
@@ -501,7 +501,7 @@ export function calculateVegetableYield(input: VegetableYieldInput): VegetableYi
   // Validate inputs
   if (area <= 0 && !inputPlantCount) {
     throw new VegetableYieldCalculationError(
-      'Area must be positive',
+      'Arealet må være større enn null',
       'invalid_input',
       'area'
     );
@@ -511,7 +511,7 @@ export function calculateVegetableYield(input: VegetableYieldInput): VegetableYi
   const vegData = getVegetable(vegetable);
   if (!vegData) {
     throw new VegetableYieldCalculationError(
-      `Unknown vegetable: ${vegetable}`,
+      `Ukjent grønnsak: ${vegetable}`,
       'invalid_input',
       'vegetable'
     );
@@ -522,7 +522,7 @@ export function calculateVegetableYield(input: VegetableYieldInput): VegetableYi
   if (inputPlantCount !== undefined) {
     if (inputPlantCount <= 0) {
       throw new VegetableYieldCalculationError(
-        'Plant count must be positive',
+        'Antall planter må være større enn null',
         'invalid_input',
         'plantCount'
       );

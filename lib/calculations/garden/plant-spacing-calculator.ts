@@ -234,28 +234,28 @@ export function calculatePlantSpacing(input: PlantSpacingInput): PlantSpacingRes
   // Validate inputs
   if (gardenLength <= 0) {
     throw new PlantSpacingCalculationError(
-      'Garden length must be positive',
+      'Lengden på bedet må være større enn null',
       'invalid_input',
       'gardenLength'
     );
   }
   if (gardenWidth <= 0) {
     throw new PlantSpacingCalculationError(
-      'Garden width must be positive',
+      'Bredden på bedet må være større enn null',
       'invalid_input',
       'gardenWidth'
     );
   }
   if (plantSpacing <= 0) {
     throw new PlantSpacingCalculationError(
-      'Plant spacing must be positive',
+      'Plantavstanden må være større enn null',
       'invalid_input',
       'plantSpacing'
     );
   }
   if (edgeBuffer < 0) {
     throw new PlantSpacingCalculationError(
-      'Edge buffer cannot be negative',
+      'Avstanden til kanten kan ikke være negativ',
       'invalid_input',
       'edgeBuffer'
     );
@@ -293,7 +293,7 @@ export function calculatePlantSpacing(input: PlantSpacingInput): PlantSpacingRes
     }
     default:
       throw new PlantSpacingCalculationError(
-        'Invalid planting pattern',
+        'Ugyldig plantemønster',
         'invalid_input',
         'pattern'
       );

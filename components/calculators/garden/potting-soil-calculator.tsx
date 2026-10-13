@@ -7,54 +7,54 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import {
   calculatePottingSoil,
   type PottingSoilResult,
   type ContainerShape,
-  type LengthUnit,
 } from '@/lib/calculations/garden';
 
 const pottingSoilSchema = z.object({
   shape: z.enum(['cylinder', 'rectangular', 'tapered']),
-  diameter: z.number().min(1).max(100),
-  topDiameter: z.number().min(1).max(100),
-  bottomDiameter: z.number().min(1).max(100),
-  length: z.number().min(1).max(200),
-  width: z.number().min(1).max(200),
-  height: z.number().min(1).max(100),
-  lengthUnit: z.enum(['inches', 'cm', 'feet', 'meters']),
+  diameter: z.number().min(1).max(250),
+  topDiameter: z.number().min(1).max(250),
+  bottomDiameter: z.number().min(1).max(250),
+  length: z.number().min(1).max(500),
+  width: z.number().min(1).max(500),
+  height: z.number().min(1).max(250),
   fillPercentage: z.number().min(50).max(100),
 });
 
 type PottingSoilInputs = z.infer<typeof pottingSoilSchema>;
 
+interface PottingSoilMetricResult extends PottingSoilResult {
+  bagsNorway: {
+    l10: number;
+    l20: number;
+    l50: number;
+    l70: number;
+  };
+}
+
 const INITIAL_INPUTS: PottingSoilInputs = {
   shape: 'cylinder',
-  diameter: 12,
-  topDiameter: 14,
-  bottomDiameter: 10,
-  length: 24,
-  width: 12,
-  height: 10,
-  lengthUnit: 'inches',
-  fillPercentage: 100,
+  diameter: 30,
+  topDiameter: 35,
+  bottomDiameter: 25,
+  length: 60,
+  width: 30,
+  height: 25,
+  fillPercentage: 90,
 };
 
 const SHAPE_OPTIONS = [
-  { value: 'cylinder', label: 'Round Pot (Cylinder)' },
-  { value: 'rectangular', label: 'Rectangular Planter' },
-  { value: 'tapered', label: 'Tapered Pot (Frustum)' },
+  { value: 'cylinder', label: 'Rund potte (sylinder)' },
+  { value: 'rectangular', label: 'Kasse eller trau' },
+  { value: 'tapered', label: 'Potte som smalner av nedover' },
 ];
 
-const UNIT_OPTIONS = [
-  { value: 'inches', label: 'Inches' },
-  { value: 'cm', label: 'Centimeters' },
-  { value: 'feet', label: 'Feet' },
-  { value: 'meters', label: 'Meters' },
-];
-
-function calculateSoil(inputs: PottingSoilInputs): PottingSoilResult {
-  return calculatePottingSoil({
+function calculateSoil(inputs: PottingSoilInputs): PottingSoilMetricResult {
+  const result = calculatePottingSoil({
     shape: inputs.shape as ContainerShape,
     diameter: inputs.diameter,
     topDiameter: inputs.topDiameter,
@@ -62,9 +62,20 @@ function calculateSoil(inputs: PottingSoilInputs): PottingSoilResult {
     length: inputs.length,
     width: inputs.width,
     height: inputs.height,
-    lengthUnit: inputs.lengthUnit as LengthUnit,
+    lengthUnit: 'cm',
     fillPercentage: inputs.fillPercentage,
   });
+
+  const liters = result.volumeLiters;
+  return {
+    ...result,
+    bagsNorway: {
+      l10: Math.ceil(liters / 10),
+      l20: Math.ceil(liters / 20),
+      l50: Math.ceil(liters / 50),
+      l70: Math.ceil(liters / 70),
+    },
+  };
 }
 
 export function PottingSoilCalculator() {
@@ -77,7 +88,7 @@ export function PottingSoilCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<PottingSoilInputs, PottingSoilResult>({
+  } = useCalculator<PottingSoilInputs, PottingSoilMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: pottingSoilSchema,
     calculate: calculateSoil,
@@ -88,16 +99,12 @@ export function PottingSoilCalculator() {
     calculate();
   }, [calculate]);
 
-  const unitLabel = inputs.lengthUnit === 'inches' ? 'in' :
-    inputs.lengthUnit === 'cm' ? 'cm' :
-      inputs.lengthUnit === 'feet' ? 'ft' : 'm';
-
   return (
     <CalculatorBase
-      title="Potting Soil Volume Calculator"
-      description="Calculate how much potting soil you need for containers and planters"
-      formula="V = πr²h (cylinder) or V = L×W×H (rectangular)"
-      formulaExplanation="Volume calculated based on container shape and dimensions"
+      title="Pottejord"
+      description="Regn ut hvor mye pottejord du trenger til potter, kasser og plantekasser"
+      formula="V = π × r² × h (sylinder) eller V = l × b × h (kasse)"
+      formulaExplanation="Volumet regnes ut ut fra formen og målene på karet"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -108,55 +115,41 @@ export function PottingSoilCalculator() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Volume (Gallons)"
-                value={results.volumeGallons}
-                unit="gal"
+                label="Jord som trengs"
+                value={formatNumber(results.volumeLiters, { maximumFractionDigits: 1 })}
+                unit="liter"
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Volume (Quarts)"
-                value={results.volumeQuarts}
-                unit="qt"
-                copyable
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay
-                label="Volume (Liters)"
-                value={results.volumeLiters}
-                unit="L"
-              />
-              <ResultDisplay
-                label="Cubic Feet"
-                value={results.volumeCubicFeet}
-                unit="cu ft"
+                label="Volum"
+                value={formatNumber(results.volumeLiters / 1000, { maximumFractionDigits: 3 })}
+                unit="m³"
               />
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Bags Needed</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Sekker som trengs</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="8-Quart Bags"
-                  value={results.bagsNeeded.small8qt}
-                  unit="bags"
+                  label="Sekker à 10 liter"
+                  value={results.bagsNorway.l10}
+                  unit="sekker"
                 />
                 <ResultDisplay
-                  label="16-Quart Bags"
-                  value={results.bagsNeeded.medium16qt}
-                  unit="bags"
+                  label="Sekker à 20 liter"
+                  value={results.bagsNorway.l20}
+                  unit="sekker"
                 />
                 <ResultDisplay
-                  label="1 Cu Ft Bags"
-                  value={results.bagsNeeded.large1cuft}
-                  unit="bags"
+                  label="Sekker à 50 liter"
+                  value={results.bagsNorway.l50}
+                  unit="sekker"
                 />
                 <ResultDisplay
-                  label="2 Cu Ft Bags"
-                  value={results.bagsNeeded.xlarge2cuft}
-                  unit="bags"
+                  label="Sekker à 70 liter"
+                  value={results.bagsNorway.l70}
+                  unit="sekker"
                 />
               </div>
             </div>
@@ -164,9 +157,9 @@ export function PottingSoilCalculator() {
             <div className="bg-muted/50 p-4 rounded-lg">
               <p className="text-sm font-medium mb-2">Tips</p>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Leave 1-2 inches from rim for watering</li>
-                <li>• Add drainage material at bottom for large pots</li>
-                <li>• Mix in perlite for better drainage</li>
+                <li>• La det være 2–4&nbsp;cm fra kanten, så det er plass til vann</li>
+                <li>• Legg lecakuler eller grov grus nederst i store potter</li>
+                <li>• Bland inn perlitt for bedre drenering</li>
               </ul>
             </div>
           </div>
@@ -175,18 +168,10 @@ export function PottingSoilCalculator() {
     >
       <SelectInput
         id="shape"
-        label="Container Shape"
+        label="Form på karet"
         value={inputs.shape}
         onChange={(v) => setInput('shape', v as ContainerShape)}
         options={SHAPE_OPTIONS}
-      />
-
-      <SelectInput
-        id="lengthUnit"
-        label="Measurement Unit"
-        value={inputs.lengthUnit}
-        onChange={(v) => setInput('lengthUnit', v as LengthUnit)}
-        options={UNIT_OPTIONS}
       />
 
       {inputs.shape === 'cylinder' && (
@@ -196,9 +181,9 @@ export function PottingSoilCalculator() {
           value={inputs.diameter}
           onChange={(v) => setInput('diameter', v)}
           min={1}
-          max={100}
-          step={0.5}
-          unit={unitLabel}
+          max={250}
+          step={1}
+          unit="cm"
           error={errors.diameter}
           required
         />
@@ -208,25 +193,25 @@ export function PottingSoilCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="topDiameter"
-            label="Top Diameter"
+            label="Diameter øverst"
             value={inputs.topDiameter}
             onChange={(v) => setInput('topDiameter', v)}
             min={1}
-            max={100}
-            step={0.5}
-            unit={unitLabel}
+            max={250}
+            step={1}
+            unit="cm"
             error={errors.topDiameter}
             required
           />
           <NumberInput
             id="bottomDiameter"
-            label="Bottom Diameter"
+            label="Diameter nederst"
             value={inputs.bottomDiameter}
             onChange={(v) => setInput('bottomDiameter', v)}
             min={1}
-            max={100}
-            step={0.5}
-            unit={unitLabel}
+            max={250}
+            step={1}
+            unit="cm"
             error={errors.bottomDiameter}
             required
           />
@@ -237,25 +222,25 @@ export function PottingSoilCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="length"
-            label="Length"
+            label="Lengde"
             value={inputs.length}
             onChange={(v) => setInput('length', v)}
             min={1}
-            max={200}
-            step={0.5}
-            unit={unitLabel}
+            max={500}
+            step={1}
+            unit="cm"
             error={errors.length}
             required
           />
           <NumberInput
             id="width"
-            label="Width"
+            label="Bredde"
             value={inputs.width}
             onChange={(v) => setInput('width', v)}
             min={1}
-            max={200}
-            step={0.5}
-            unit={unitLabel}
+            max={500}
+            step={1}
+            unit="cm"
             error={errors.width}
             required
           />
@@ -264,20 +249,20 @@ export function PottingSoilCalculator() {
 
       <NumberInput
         id="height"
-        label="Height / Depth"
+        label="Høyde / dybde"
         value={inputs.height}
         onChange={(v) => setInput('height', v)}
         min={1}
-        max={100}
-        step={0.5}
-        unit={unitLabel}
+        max={250}
+        step={1}
+        unit="cm"
         error={errors.height}
         required
       />
 
       <NumberInput
         id="fillPercentage"
-        label="Fill Percentage"
+        label="Fyllingsgrad"
         value={inputs.fillPercentage}
         onChange={(v) => setInput('fillPercentage', v)}
         min={50}

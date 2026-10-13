@@ -9,64 +9,87 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
   calculatePlantSpacing,
-  PLANT_SPACING_GUIDE,
   type PlantSpacingResult,
   type PlantingPattern,
-  type SpacingUnit,
 } from '@/lib/calculations/garden';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const plantSpacingSchema = z.object({
-  gardenLength: z.number().min(0.5).max(1000),
-  gardenWidth: z.number().min(0.5).max(1000),
-  plantSpacing: z.number().min(1).max(120),
-  rowSpacing: z.number().min(1).max(120),
-  unit: z.enum(['inches', 'feet', 'cm', 'meters']),
+  gardenLength: z.number().min(0.1).max(1000),
+  gardenWidth: z.number().min(0.1).max(1000),
+  plantSpacing: z.number().min(1).max(300),
+  rowSpacing: z.number().min(1).max(300),
   pattern: z.enum(['square', 'triangular', 'row']),
   plantType: z.string(),
 });
 
 type PlantSpacingInputs = z.infer<typeof plantSpacingSchema>;
 
+interface SpacingMetricResult extends PlantSpacingResult {
+  areaSqM: number;
+  areaPerPlantSqM: number;
+  plantsPerSqM: number;
+}
+
 const INITIAL_INPUTS: PlantSpacingInputs = {
-  gardenLength: 10,
-  gardenWidth: 4,
-  plantSpacing: 12,
-  rowSpacing: 12,
-  unit: 'feet',
+  gardenLength: 3,
+  gardenWidth: 1.2,
+  plantSpacing: 30,
+  rowSpacing: 30,
   pattern: 'square',
   plantType: '',
 };
 
-const UNIT_OPTIONS = [
-  { value: 'feet', label: 'Feet' },
-  { value: 'inches', label: 'Inches' },
-  { value: 'meters', label: 'Meters' },
-  { value: 'cm', label: 'Centimeters' },
+const PATTERN_OPTIONS = [
+  { value: 'square', label: 'Rutenett' },
+  { value: 'triangular', label: 'Forskjøvet (trekantmønster, ca. 15 % flere planter)' },
+  { value: 'row', label: 'Vanlige rader' },
 ];
 
-const PATTERN_OPTIONS = [
-  { value: 'square', label: 'Square Grid' },
-  { value: 'triangular', label: 'Triangular/Offset (15% more plants)' },
-  { value: 'row', label: 'Traditional Rows' },
-];
+/** Veiledende avstander i cm: mellom plantene i raden og mellom radene. */
+const PLANT_SPACING_CM: Record<string, { label: string; spacing: number; rowSpacing: number }> = {
+  tomatoes: { label: 'Tomat', spacing: 60, rowSpacing: 90 },
+  peppers: { label: 'Paprika og chili', spacing: 45, rowSpacing: 60 },
+  lettuce: { label: 'Salat', spacing: 15, rowSpacing: 30 },
+  carrots: { label: 'Gulrot', spacing: 5, rowSpacing: 30 },
+  beans: { label: 'Bønner', spacing: 10, rowSpacing: 60 },
+  corn: { label: 'Mais', spacing: 30, rowSpacing: 75 },
+  cucumbers: { label: 'Agurk', spacing: 30, rowSpacing: 120 },
+  squash: { label: 'Squash og gresskar', spacing: 60, rowSpacing: 150 },
+  onions: { label: 'Løk', spacing: 10, rowSpacing: 30 },
+  potatoes: { label: 'Potet', spacing: 30, rowSpacing: 75 },
+  broccoli: { label: 'Brokkoli', spacing: 45, rowSpacing: 60 },
+  cabbage: { label: 'Kål', spacing: 45, rowSpacing: 60 },
+  spinach: { label: 'Spinat', spacing: 10, rowSpacing: 30 },
+  radishes: { label: 'Reddik', spacing: 5, rowSpacing: 15 },
+  herbs: { label: 'Urter', spacing: 30, rowSpacing: 30 },
+};
 
 const PLANT_TYPE_OPTIONS = [
-  { value: '', label: 'Custom spacing...' },
-  ...Object.entries(PLANT_SPACING_GUIDE).map(([key, value]) => ({
+  { value: '', label: 'Egen avstand ...' },
+  ...Object.entries(PLANT_SPACING_CM).map(([key, value]) => ({
     value: key,
-    label: `${key.charAt(0).toUpperCase() + key.slice(1)} (${value.spacing}" × ${value.rowSpacing}")`,
+    label: `${value.label} (${value.spacing} × ${value.rowSpacing} cm)`,
   })),
 ];
 
-function calculateSpacing(inputs: PlantSpacingInputs): PlantSpacingResult {
-  return calculatePlantSpacing({
-    gardenLength: inputs.gardenLength,
-    gardenWidth: inputs.gardenWidth,
+function calculateSpacing(inputs: PlantSpacingInputs): SpacingMetricResult {
+  // Hagen oppgis i meter og avstandene i cm. Beregningen gjøres i cm.
+  const result = calculatePlantSpacing({
+    gardenLength: inputs.gardenLength * 100,
+    gardenWidth: inputs.gardenWidth * 100,
     plantSpacing: inputs.plantSpacing,
     rowSpacing: inputs.rowSpacing,
-    unit: inputs.unit as SpacingUnit,
+    unit: 'cm',
     pattern: inputs.pattern as PlantingPattern,
   });
+  const areaSqM = inputs.gardenLength * inputs.gardenWidth;
+  return {
+    ...result,
+    areaSqM: Math.round(areaSqM * 100) / 100,
+    areaPerPlantSqM: result.totalPlants > 0 ? Math.round((areaSqM / result.totalPlants) * 1000) / 1000 : 0,
+    plantsPerSqM: areaSqM > 0 ? Math.round((result.totalPlants / areaSqM) * 10) / 10 : 0,
+  };
 }
 
 export function PlantSpacingCalculator() {
@@ -79,7 +102,7 @@ export function PlantSpacingCalculator() {
     calculate,
     reset,
     isCalculating,
-  } = useCalculator<PlantSpacingInputs, PlantSpacingResult>({
+  } = useCalculator<PlantSpacingInputs, SpacingMetricResult>({
     initialInputs: INITIAL_INPUTS,
     schema: plantSpacingSchema,
     calculate: calculateSpacing,
@@ -92,24 +115,19 @@ export function PlantSpacingCalculator() {
 
   // Update spacing when plant type changes
   React.useEffect(() => {
-    if (inputs.plantType && PLANT_SPACING_GUIDE[inputs.plantType]) {
-      const guide = PLANT_SPACING_GUIDE[inputs.plantType];
+    if (inputs.plantType && PLANT_SPACING_CM[inputs.plantType]) {
+      const guide = PLANT_SPACING_CM[inputs.plantType];
       setInput('plantSpacing', guide.spacing);
       setInput('rowSpacing', guide.rowSpacing);
-      setInput('unit', 'inches');
     }
   }, [inputs.plantType, setInput]);
 
-  const unitLabel = inputs.unit === 'feet' ? 'ft' :
-    inputs.unit === 'inches' ? 'in' :
-      inputs.unit === 'meters' ? 'm' : 'cm';
-
   return (
     <CalculatorBase
-      title="Plant Spacing Calculator"
-      description="Calculate how many plants fit in your garden bed with optimal spacing"
-      formula="Total Plants = Rows × Plants per Row"
-      formulaExplanation="Based on garden dimensions, plant spacing, and planting pattern"
+      title="Plantavstand"
+      description="Regn ut hvor mange planter som får plass i bedet med riktig avstand"
+      formula="Antall planter = rader × planter per rad"
+      formulaExplanation="Regnet ut fra størrelsen på bedet, avstand mellom plantene og plantemønster"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -119,49 +137,49 @@ export function PlantSpacingCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Total Plants"
+              label="Antall planter"
               value={results.totalPlants}
-              unit="plants"
+              unit="planter"
               highlight
               copyable
             />
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Rows"
+                label="Rader"
                 value={results.rows}
               />
               <ResultDisplay
-                label="Plants per Row"
+                label="Planter per rad"
                 value={results.plantsPerRow}
               />
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Area Details</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Areal</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Garden Area"
-                  value={results.gardenArea}
-                  unit={`sq ${unitLabel}`}
+                  label="Areal på bedet"
+                  value={results.areaSqM}
+                  unit="m²"
                 />
                 <ResultDisplay
-                  label="Area per Plant"
-                  value={results.areaPerPlant}
-                  unit={`sq ${unitLabel}`}
+                  label="Areal per plante"
+                  value={results.areaPerPlantSqM}
+                  unit="m²"
                 />
               </div>
             </div>
 
             <ResultDisplay
-              label="Planting Density"
-              value={results.plantingDensity}
-              unit="plants/sq ft"
+              label="Plantetetthet"
+              value={results.plantsPerSqM}
+              unit="planter/m²"
             />
 
             {/* Visual Grid Preview */}
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Layout Preview</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Skisse av bedet</p>
               <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg overflow-auto">
                 <div
                   className="grid gap-1"
@@ -174,12 +192,12 @@ export function PlantSpacingCalculator() {
                     <div
                       key={i}
                       className="w-4 h-4 rounded-full bg-green-500 dark:bg-green-400"
-                      title={`Plant ${i + 1}`}
+                      title={`Plante ${i + 1}`}
                     />
                   ))}
                   {results.totalPlants > 75 && (
                     <div className="col-span-full text-xs text-muted-foreground mt-2">
-                      +{results.totalPlants - 75} more plants...
+                      +{formatNumber(results.totalPlants - 75, { maximumFractionDigits: 0 })} flere planter ...
                     </div>
                   )}
                 </div>
@@ -191,42 +209,34 @@ export function PlantSpacingCalculator() {
     >
       <SelectInput
         id="plantType"
-        label="Plant Type (Optional)"
+        label="Planter (valgfritt)"
         value={inputs.plantType}
         onChange={(v) => setInput('plantType', v)}
         options={PLANT_TYPE_OPTIONS}
       />
 
-      <SelectInput
-        id="unit"
-        label="Measurement Unit"
-        value={inputs.unit}
-        onChange={(v) => setInput('unit', v as SpacingUnit)}
-        options={UNIT_OPTIONS}
-      />
-
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="gardenLength"
-          label="Garden Length"
+          label="Lengde på bedet"
           value={inputs.gardenLength}
           onChange={(v) => setInput('gardenLength', v)}
-          min={0.5}
+          min={0.1}
           max={1000}
-          step={0.5}
-          unit={unitLabel}
+          step={0.1}
+          unit="m"
           error={errors.gardenLength}
           required
         />
         <NumberInput
           id="gardenWidth"
-          label="Garden Width"
+          label="Bredde på bedet"
           value={inputs.gardenWidth}
           onChange={(v) => setInput('gardenWidth', v)}
-          min={0.5}
+          min={0.1}
           max={1000}
-          step={0.5}
-          unit={unitLabel}
+          step={0.1}
+          unit="m"
           error={errors.gardenWidth}
           required
         />
@@ -234,7 +244,7 @@ export function PlantSpacingCalculator() {
 
       <SelectInput
         id="pattern"
-        label="Planting Pattern"
+        label="Plantemønster"
         value={inputs.pattern}
         onChange={(v) => setInput('pattern', v as PlantingPattern)}
         options={PATTERN_OPTIONS}
@@ -243,26 +253,26 @@ export function PlantSpacingCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <NumberInput
           id="plantSpacing"
-          label="Plant Spacing"
+          label="Avstand mellom planter"
           value={inputs.plantSpacing}
           onChange={(v) => setInput('plantSpacing', v)}
           min={1}
-          max={120}
+          max={300}
           step={1}
-          unit={unitLabel}
+          unit="cm"
           error={errors.plantSpacing}
           required
         />
         {inputs.pattern === 'row' && (
           <NumberInput
             id="rowSpacing"
-            label="Row Spacing"
+            label="Avstand mellom rader"
             value={inputs.rowSpacing}
             onChange={(v) => setInput('rowSpacing', v)}
             min={1}
-            max={120}
+            max={300}
             step={1}
-            unit={unitLabel}
+            unit="cm"
             error={errors.rowSpacing}
           />
         )}

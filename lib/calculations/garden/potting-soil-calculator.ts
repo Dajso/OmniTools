@@ -119,14 +119,14 @@ export function convertToInches(value: number, unit: LengthUnit): number {
 export function calculateCylinderVolume(diameter: number, height: number): number {
   if (diameter <= 0) {
     throw new PottingSoilCalculationError(
-      'Diameter must be positive',
+      'Diameteren må være større enn null',
       'invalid_input',
       'diameter'
     );
   }
   if (height <= 0) {
     throw new PottingSoilCalculationError(
-      'Height must be positive',
+      'Høyden må være større enn null',
       'invalid_input',
       'height'
     );
@@ -151,21 +151,21 @@ export function calculateRectangularVolume(
 ): number {
   if (length <= 0) {
     throw new PottingSoilCalculationError(
-      'Length must be positive',
+      'Lengden må være større enn null',
       'invalid_input',
       'length'
     );
   }
   if (width <= 0) {
     throw new PottingSoilCalculationError(
-      'Width must be positive',
+      'Bredden må være større enn null',
       'invalid_input',
       'width'
     );
   }
   if (height <= 0) {
     throw new PottingSoilCalculationError(
-      'Height must be positive',
+      'Høyden må være større enn null',
       'invalid_input',
       'height'
     );
@@ -190,21 +190,21 @@ export function calculateTaperedVolume(
 ): number {
   if (topDiameter <= 0) {
     throw new PottingSoilCalculationError(
-      'Top diameter must be positive',
+      'Diameteren øverst må være større enn null',
       'invalid_input',
       'topDiameter'
     );
   }
   if (bottomDiameter <= 0) {
     throw new PottingSoilCalculationError(
-      'Bottom diameter must be positive',
+      'Diameteren nederst må være større enn null',
       'invalid_input',
       'bottomDiameter'
     );
   }
   if (height <= 0) {
     throw new PottingSoilCalculationError(
-      'Height must be positive',
+      'Høyden må være større enn null',
       'invalid_input',
       'height'
     );
@@ -278,7 +278,7 @@ export function calculatePottingSoil(input: PottingSoilInput): PottingSoilResult
   // Validate fill percentage
   if (fillPercentage <= 0 || fillPercentage > 100) {
     throw new PottingSoilCalculationError(
-      'Fill percentage must be between 1 and 100',
+      'Fyllingsgraden må være mellom 1 og 100',
       'invalid_input',
       'fillPercentage'
     );
@@ -293,7 +293,7 @@ export function calculatePottingSoil(input: PottingSoilInput): PottingSoilResult
     case 'cylinder':
       if (!diameter) {
         throw new PottingSoilCalculationError(
-          'Diameter is required for cylinder containers',
+          'Diameter må oppgis for runde potter',
           'invalid_input',
           'diameter'
         );
@@ -305,7 +305,7 @@ export function calculatePottingSoil(input: PottingSoilInput): PottingSoilResult
     case 'rectangular':
       if (!length || !width) {
         throw new PottingSoilCalculationError(
-          'Length and width are required for rectangular containers',
+          'Lengde og bredde må oppgis for kasser',
           'invalid_input',
           'length'
         );
@@ -318,7 +318,7 @@ export function calculatePottingSoil(input: PottingSoilInput): PottingSoilResult
     case 'tapered':
       if (!topDiameter || !bottomDiameter) {
         throw new PottingSoilCalculationError(
-          'Top and bottom diameters are required for tapered containers',
+          'Diameter øverst og nederst må oppgis',
           'invalid_input',
           'topDiameter'
         );
@@ -330,7 +330,7 @@ export function calculatePottingSoil(input: PottingSoilInput): PottingSoilResult
 
     default:
       throw new PottingSoilCalculationError(
-        'Invalid container shape',
+        'Ugyldig form på karet',
         'invalid_input',
         'shape'
       );

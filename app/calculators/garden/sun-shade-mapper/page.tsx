@@ -1,54 +1,50 @@
 import { Metadata } from 'next';
 import { SunShadeMapper } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Sun/Shade Mapper - Garden Sun Exposure Calculator',
-  description: 'Estimate sun exposure in your garden based on nearby obstacles. Free sun/shade calculator for garden planning.',
-  keywords: ['sun shade mapper', 'garden sun exposure', 'shadow calculator', 'garden planning', 'sun hours'],
+  title: 'Sol og skygge i hagen – gratis kalkulator på nett',
+  description: 'Kartlegg sol og skygge i hagen gjennom dagen. Gratis og uten registrering.',
+  keywords: ['sol og skygge', 'solforhold', 'skyggekart', 'hageplanlegging'],
   alternates: { canonical: '/calculators/garden/sun-shade-mapper' },
+  openGraph: {
+    title: 'Sol og skygge i hagen',
+    description: 'Kartlegg sol og skygge i hagen gjennom dagen',
+    url: '/calculators/garden/sun-shade-mapper',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Sun/Shade Mapper',
-  description: 'Estimate sun exposure based on obstacles and location',
+  name: 'Sol og skygge i hagen',
+  description: 'Kartlegg sol og skygge i hagen gjennom dagen',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your latitude', text: 'Input your approximate latitude (use a map or GPS).' },
-  { name: 'Select the month', text: 'Choose the month you want to analyze.' },
-  { name: 'Measure obstacles', text: 'Enter the height and distance of nearby buildings or trees.' },
-  { name: 'Set obstacle direction', text: 'Indicate which direction the obstacle is from your garden.' },
-  { name: 'View results', text: 'See estimated sun hours and plant recommendations.' },
+  { name: 'Oppgi breddegrad', text: 'Kristiansand ligger på ca. 58 °N, Oslo på 60 °N, Trondheim på 63 °N og Tromsø på 69 °N.' },
+  { name: 'Velg måned', text: 'Solhøyden og dagslengden endrer seg mye gjennom året.' },
+  { name: 'Legg inn hinderet', text: 'Høyde og avstand i meter, og hvilken retning hinderet ligger.' },
+  { name: 'Se resultatet', text: 'Få anslag på soltimer, skyggelengde og passende planter.' },
 ];
 
 const faqs = [
-  {
-    question: 'How do I find my latitude?',
-    answer: 'Search your address on Google Maps and look at the URL or use your phone\'s GPS. Most of the continental US is between 25° and 49° latitude.',
-  },
-  {
-    question: 'What counts as full sun?',
-    answer: 'Full sun means 6 or more hours of direct sunlight per day. Most vegetables and flowering plants need full sun.',
-  },
-  {
-    question: 'How accurate is this calculator?',
-    answer: 'This provides estimates based on sun angle calculations. Actual conditions vary with weather, multiple obstacles, and terrain.',
-  },
-  {
-    question: 'Does obstacle direction matter?',
-    answer: 'Yes! In the northern hemisphere, obstacles to the south block the most sun. East obstacles affect morning sun, west affects afternoon.',
-  },
+  { question: 'Hvor mye sol trenger planter?', answer: 'Solkjære planter som tomat og roser trenger over 6 timer. Mange grønnsaker greier seg med 4–6 timer, mens planter som hosta og bregner trives i skygge.' },
+  { question: 'Hvorfor er skyggen så lang om vinteren?', answer: 'Sola står lavt på himmelen i Norge, så skyggene blir mange ganger lengre enn om sommeren.' },
+  { question: 'Hva med midnattssol og mørketid?', answer: 'Nord for polarsirkelen står sola over horisonten hele døgnet om sommeren og under horisonten om vinteren. Kalkulatoren tar hensyn til dette i dagslengden.' },
+  { question: 'Hvor nøyaktig er kartleggingen?', answer: 'Det er et grovt anslag. For nøyaktige målinger bør du observere hagen gjennom en solrik dag.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Plan your garden layout.' },
-  { href: '/calculators/garden/watering-schedule-generator', title: 'Watering Schedule', description: 'Generate watering schedules.' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/watering-schedule-generator', title: 'Vanningsplan', description: 'Lag en tilpasset vanningsplan ut fra plante, klima og sesong' },
 ];
 
 export default function SunShadeMapperPage() {
@@ -58,12 +54,11 @@ export default function SunShadeMapperPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="sun-shade-mapper"
-          title="Sun/Shade Mapper"
-          description="Estimate sun exposure in your garden based on nearby obstacles like buildings and trees."
-          colorClass="bg-yellow-100 text-yellow-600"
+          title="Sol og skygge i hagen"
+          description="Anslå hvor mange timer sol hagen din får, ut fra breddegrad, måned og hvor høye trær eller bygninger som står i nærheten. Gratis og uten registrering."
         />
 
-        <section aria-label="Sun/Shade Mapper">
+        <section aria-label="Sol og skygge i hagen">
           <SunShadeMapper />
         </section>
 

@@ -1,55 +1,51 @@
 import { Metadata } from 'next';
 import { WateringScheduleGenerator } from '@/components/calculators/garden';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Watering Schedule Generator - Plant Watering Guide',
-  description: 'Generate a customized watering schedule for your plants based on type, soil, sun exposure, and season.',
-  keywords: ['watering schedule', 'plant watering', 'garden watering', 'irrigation schedule', 'when to water plants'],
+  title: 'Vanningsplan – gratis kalkulator på nett',
+  description: 'Lag en tilpasset vanningsplan ut fra plante, klima og sesong. Gratis og uten registrering.',
+  keywords: ['vanningsplan', 'vanning', 'plantestell', 'vanningshyppighet'],
   alternates: { canonical: '/calculators/garden/watering-schedule-generator' },
+  openGraph: {
+    title: 'Vanningsplan',
+    description: 'Lag en tilpasset vanningsplan ut fra plante, klima og sesong',
+    url: '/calculators/garden/watering-schedule-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Watering Schedule Generator',
-  description: 'Generate customized watering schedules for plants',
+  name: 'Vanningsplan',
+  description: 'Lag en tilpasset vanningsplan ut fra plante, klima og sesong',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select plant type', text: 'Choose what type of plants you are growing.' },
-  { name: 'Choose growing location', text: 'Select in-ground, raised bed, container, or hanging basket.' },
-  { name: 'Specify soil type', text: 'Indicate your soil type for drainage considerations.' },
-  { name: 'Set sun exposure', text: 'Choose full sun, partial sun, or shade.' },
-  { name: 'Select season', text: 'Pick the current season for accurate recommendations.' },
+  { name: 'Velg plantetype', text: 'Grønnsaker, blomster, stauder, urter, plen, trær eller stueplanter.' },
+  { name: 'Velg dyrkingssted', text: 'Åpent bed, høybed, potte eller hengende potte.' },
+  { name: 'Velg jord og sol', text: 'Sandjord tørker raskere ut enn leire, og full sol gir mer fordamping.' },
+  { name: 'Les av planen', text: 'Se hvor ofte du bør vanne, hvor mye og hvilke dager.' },
 ];
 
 const faqs = [
-  {
-    question: 'How do I know if my plants need water?',
-    answer: 'Stick your finger 1-2 inches into the soil. If it feels dry, it\'s time to water. Wilting leaves can also indicate thirst, but check soil first.',
-  },
-  {
-    question: 'Is it better to water in the morning or evening?',
-    answer: 'Morning is best - it allows foliage to dry during the day, reducing disease risk. Evening watering can promote fungal growth.',
-  },
-  {
-    question: 'How much water do plants need?',
-    answer: 'Most gardens need 1-2 inches of water per week. Deep, infrequent watering encourages deeper root growth than frequent shallow watering.',
-  },
-  {
-    question: 'Should I water every day in summer?',
-    answer: 'Not necessarily. Deep watering every 2-3 days is often better than daily shallow watering. Container plants may need daily watering in hot weather.',
-  },
+  { question: 'Hvor mye vann trenger hagen?', answer: 'Som en tommelfinger-regel 10–20 mm i uka, tilsvarende 10–20 liter per m², medregnet regn. Potter vannes til vannet renner ut i bunnen.' },
+  { question: 'Når på dagen bør jeg vanne?', answer: 'Tidlig om morgenen er best. Da har plantene vann gjennom den varmeste delen av dagen, og mindre vann fordamper.' },
+  { question: 'Hvordan vet jeg om det er tørt nok?', answer: 'Stikk en finger 3–5 cm ned i jorda. Er den tørr, er det tid for å vanne.' },
+  { question: 'Er planen nøyaktig?', answer: 'Nei, den er veiledende. Regn, vind og temperatur endrer behovet. Ta hensyn til været og kjenn alltid etter i jorda.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Plan your garden layout.' },
-  { href: '/calculators/garden/fertilizer-calculator', title: 'Fertilizer Calculator', description: 'Calculate fertilizer needs.' },
-  { href: '/calculators/garden/vegetable-yield-calculator', title: 'Vegetable Yield Calculator', description: 'Estimate harvest yields.' },
+  { href: '/calculators/garden/plant-spacing-calculator', title: 'Plantavstand', description: 'Regn ut avstand mellom planter og hvor mange som får plass i bedet' },
+  { href: '/calculators/garden/vegetable-yield-calculator', title: 'Grønnsakavling', description: 'Anslå avling av grønnsaker ut fra antall planter og sort' },
+  { href: '/calculators/garden/sun-shade-mapper', title: 'Sol og skygge i hagen', description: 'Kartlegg sol og skygge i hagen gjennom dagen' },
 ];
 
 export default function WateringScheduleGeneratorPage() {
@@ -59,12 +55,11 @@ export default function WateringScheduleGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="watering-schedule-generator"
-          title="Watering Schedule Generator"
-          description="Generate a customized watering schedule based on your plants, soil, sun exposure, and season."
-          colorClass="bg-blue-100 text-blue-600"
+          title="Vanningsplan"
+          description="Lag en vanningsplan tilpasset plantene, jorda, solforholdene og årstiden. Gratis og uten registrering."
         />
 
-        <section aria-label="Watering Schedule Generator">
+        <section aria-label="Vanningsplan">
           <WateringScheduleGenerator />
         </section>
 

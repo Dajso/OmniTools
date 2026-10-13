@@ -34,41 +34,41 @@ const INITIAL_INPUTS: WateringInputs = {
 };
 
 const PLANT_TYPE_OPTIONS = [
-  { value: 'vegetables', label: 'Vegetables' },
-  { value: 'flowers', label: 'Annual Flowers' },
-  { value: 'perennials', label: 'Perennials' },
-  { value: 'succulents', label: 'Succulents/Cacti' },
-  { value: 'herbs', label: 'Herbs' },
-  { value: 'lawn', label: 'Lawn/Grass' },
-  { value: 'trees', label: 'Trees & Shrubs' },
-  { value: 'houseplants', label: 'Houseplants' },
+  { value: 'vegetables', label: 'Grønnsaker' },
+  { value: 'flowers', label: 'Ettårige blomster' },
+  { value: 'perennials', label: 'Stauder' },
+  { value: 'succulents', label: 'Sukkulenter og kaktus' },
+  { value: 'herbs', label: 'Urter' },
+  { value: 'lawn', label: 'Plen' },
+  { value: 'trees', label: 'Trær og busker' },
+  { value: 'houseplants', label: 'Stueplanter' },
 ];
 
 const SOIL_TYPE_OPTIONS = [
-  { value: 'sandy', label: 'Sandy (drains fast)' },
-  { value: 'loam', label: 'Loam (balanced)' },
-  { value: 'clay', label: 'Clay (retains water)' },
-  { value: 'potting-mix', label: 'Potting Mix' },
+  { value: 'sandy', label: 'Sandjord (tørker raskt ut)' },
+  { value: 'loam', label: 'Matjord (balansert)' },
+  { value: 'clay', label: 'Leirjord (holder på vannet)' },
+  { value: 'potting-mix', label: 'Pottejord' },
 ];
 
 const SUN_EXPOSURE_OPTIONS = [
-  { value: 'full-sun', label: 'Full Sun (6+ hours)' },
-  { value: 'partial-sun', label: 'Partial Sun (3-6 hours)' },
-  { value: 'shade', label: 'Shade (< 3 hours)' },
+  { value: 'full-sun', label: 'Full sol (over 6 timer)' },
+  { value: 'partial-sun', label: 'Halvskygge (3–6 timer sol)' },
+  { value: 'shade', label: 'Skygge (under 3 timer sol)' },
 ];
 
 const SEASON_OPTIONS = [
-  { value: 'spring', label: 'Spring' },
-  { value: 'summer', label: 'Summer' },
-  { value: 'fall', label: 'Fall' },
-  { value: 'winter', label: 'Winter' },
+  { value: 'spring', label: 'Vår' },
+  { value: 'summer', label: 'Sommer' },
+  { value: 'fall', label: 'Høst' },
+  { value: 'winter', label: 'Vinter' },
 ];
 
 const CONTAINER_OPTIONS = [
-  { value: 'ground', label: 'In-Ground' },
-  { value: 'raised-bed', label: 'Raised Bed' },
-  { value: 'container', label: 'Container/Pot' },
-  { value: 'hanging', label: 'Hanging Basket' },
+  { value: 'ground', label: 'Åpent bed' },
+  { value: 'raised-bed', label: 'Plantekasse / høybed' },
+  { value: 'container', label: 'Potte eller kasse' },
+  { value: 'hanging', label: 'Hengende potte' },
 ];
 
 function generateWateringSchedule(inputs: WateringInputs): WateringResult {
@@ -121,35 +121,35 @@ function generateWateringSchedule(inputs: WateringInputs): WateringResult {
 
   // Generate frequency string
   let frequency: string;
-  if (baseDays === 1) frequency = 'Daily';
-  else if (baseDays === 2) frequency = 'Every other day';
-  else if (baseDays <= 4) frequency = `Every ${baseDays} days`;
-  else if (baseDays <= 7) frequency = 'Once a week';
-  else frequency = `Every ${baseDays} days`;
+  if (baseDays === 1) frequency = 'Hver dag';
+  else if (baseDays === 2) frequency = 'Annenhver dag';
+  else if (baseDays <= 4) frequency = `Hver ${baseDays}. dag`;
+  else if (baseDays <= 7) frequency = 'Én gang i uka';
+  else frequency = `Hver ${baseDays}. dag`;
 
   // Amount recommendation
   let amount: string;
   if (containerType === 'ground' || containerType === 'raised-bed') {
-    amount = '1-2 inches per week';
+    amount = '10–20 mm (10–20 liter per m²) per uke, medregnet regn';
   } else {
-    amount = 'Until water drains from bottom';
+    amount = 'Til vannet renner ut i bunnen';
   }
 
   // Best time
-  const bestTime = season === 'summer' ? 'Early morning (6-10 AM)' : 'Morning (8-11 AM)';
+  const bestTime = season === 'summer' ? 'Tidlig morgen (kl. 06–10)' : 'Formiddag (kl. 08–11)';
 
   // Tips based on conditions
   const tips: string[] = [];
-  if (soilType === 'sandy') tips.push('Sandy soil drains quickly - water more frequently but less at a time');
-  if (soilType === 'clay') tips.push('Clay soil retains water - let it dry between waterings to prevent root rot');
-  if (sunExposure === 'full-sun') tips.push('Full sun plants lose water faster through transpiration');
-  if (containerType === 'hanging') tips.push('Hanging baskets dry out fastest - check daily in summer');
-  if (plantType === 'succulents') tips.push('Let soil dry completely between waterings');
-  if (season === 'winter') tips.push('Reduce watering in winter when plants are dormant');
-  tips.push('Always check soil moisture before watering - stick finger 1-2 inches deep');
+  if (soilType === 'sandy') tips.push('Sandjord tørker raskt ut – vann oftere, men mindre om gangen');
+  if (soilType === 'clay') tips.push('Leirjord holder på vannet – la jorda tørke litt mellom hver vanning så ikke røttene råtner');
+  if (sunExposure === 'full-sun') tips.push('Planter i full sol mister vann raskere gjennom fordamping');
+  if (containerType === 'hanging') tips.push('Hengende potter tørker raskest ut – sjekk hver dag om sommeren');
+  if (plantType === 'succulents') tips.push('La jorda tørke helt ut mellom hver vanning');
+  if (season === 'winter') tips.push('Vann mindre om vinteren når plantene hviler');
+  tips.push('Kjenn alltid etter i jorda før du vanner – stikk en finger 3–5 cm ned');
 
   // Generate weekly schedule
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
   const schedule = days.map((day, i) => ({
     day,
     water: i % baseDays === 0,
@@ -187,9 +187,10 @@ export function WateringScheduleGenerator() {
 
   return (
     <CalculatorBase
-      title="Watering Schedule Generator"
-      description="Generate a customized watering schedule based on your plants and conditions"
-      formula="Frequency adjusted for plant type, soil, sun, season, and container"
+      title="Vanningsplan"
+      description="Lag en vanningsplan tilpasset plantene og forholdene dine"
+      formula="Hyppighet justert for planter, jord, sol, årstid og dyrkingssted"
+      formulaExplanation="Veiledende anbefaling. Ta hensyn til nedbør, og kjenn alltid etter i jorda før du vanner"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -200,23 +201,23 @@ export function WateringScheduleGenerator() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Watering Frequency"
+                label="Hvor ofte"
                 value={results.frequency}
                 highlight
               />
               <ResultDisplay
-                label="Amount"
+                label="Mengde"
                 value={results.amount}
               />
             </div>
 
             <ResultDisplay
-              label="Best Time to Water"
+              label="Beste tidspunkt"
               value={results.bestTime}
             />
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Weekly Schedule</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Ukeplan</p>
               <div className="flex gap-2 justify-between">
                 {results.schedule.map((day) => (
                   <div
@@ -232,7 +233,7 @@ export function WateringScheduleGenerator() {
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Tips for Your Conditions</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Tips for dine forhold</p>
               <ul className="text-sm text-muted-foreground space-y-2">
                 {results.tips.map((tip, i) => (
                   <li key={i} className="flex gap-2">
@@ -248,7 +249,7 @@ export function WateringScheduleGenerator() {
     >
       <SelectInput
         id="plantType"
-        label="Plant Type"
+        label="Type planter"
         value={inputs.plantType}
         onChange={(v) => setInput('plantType', v)}
         options={PLANT_TYPE_OPTIONS}
@@ -256,7 +257,7 @@ export function WateringScheduleGenerator() {
 
       <SelectInput
         id="containerType"
-        label="Growing Location"
+        label="Dyrkingssted"
         value={inputs.containerType}
         onChange={(v) => setInput('containerType', v)}
         options={CONTAINER_OPTIONS}
@@ -264,7 +265,7 @@ export function WateringScheduleGenerator() {
 
       <SelectInput
         id="soilType"
-        label="Soil Type"
+        label="Jordtype"
         value={inputs.soilType}
         onChange={(v) => setInput('soilType', v)}
         options={SOIL_TYPE_OPTIONS}
@@ -272,7 +273,7 @@ export function WateringScheduleGenerator() {
 
       <SelectInput
         id="sunExposure"
-        label="Sun Exposure"
+        label="Solforhold"
         value={inputs.sunExposure}
         onChange={(v) => setInput('sunExposure', v)}
         options={SUN_EXPOSURE_OPTIONS}
@@ -280,7 +281,7 @@ export function WateringScheduleGenerator() {
 
       <SelectInput
         id="season"
-        label="Current Season"
+        label="Årstid"
         value={inputs.season}
         onChange={(v) => setInput('season', v)}
         options={SEASON_OPTIONS}

@@ -155,7 +155,7 @@ export function parseNPKString(npkString: string): NPKRatio {
   
   if (parts.length !== 3 || parts.some(isNaN)) {
     throw new FertilizerCalculationError(
-      'Invalid N-P-K format. Use format like "10-10-10"',
+      'Ugyldig N-P-K-format. Bruk for eksempel "10-10-10"',
       'invalid_input',
       'npkRatio'
     );
@@ -181,28 +181,28 @@ export function formatNPKRatio(ratio: NPKRatio): string {
 export function validateNPKRatio(ratio: NPKRatio): void {
   if (ratio.nitrogen < 0 || ratio.nitrogen > 100) {
     throw new FertilizerCalculationError(
-      'Nitrogen percentage must be between 0 and 100',
+      'Nitrogenprosenten må være mellom 0 og 100',
       'invalid_input',
       'nitrogen'
     );
   }
   if (ratio.phosphorus < 0 || ratio.phosphorus > 100) {
     throw new FertilizerCalculationError(
-      'Phosphorus percentage must be between 0 and 100',
+      'Fosforprosenten må være mellom 0 og 100',
       'invalid_input',
       'phosphorus'
     );
   }
   if (ratio.potassium < 0 || ratio.potassium > 100) {
     throw new FertilizerCalculationError(
-      'Potassium percentage must be between 0 and 100',
+      'Kaliumprosenten må være mellom 0 og 100',
       'invalid_input',
       'potassium'
     );
   }
   if (ratio.nitrogen + ratio.phosphorus + ratio.potassium > 100) {
     throw new FertilizerCalculationError(
-      'Total N-P-K percentage cannot exceed 100%',
+      'Samlet N-P-K-prosent kan ikke overstige 100 %',
       'invalid_input',
       'npkRatio'
     );

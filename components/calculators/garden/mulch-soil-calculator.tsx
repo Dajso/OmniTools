@@ -7,6 +7,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 
 const mulchSoilSchema = z.object({
   calculationType: z.enum(['mulch', 'soil', 'gravel']),
@@ -14,100 +15,68 @@ const mulchSoilSchema = z.object({
   length: z.number().min(0.1).max(1000),
   width: z.number().min(0.1).max(1000),
   diameter: z.number().min(0.1).max(500),
-  depth: z.number().min(0.5).max(24),
-  unit: z.enum(['feet', 'meters']),
+  depth: z.number().min(1).max(60),
 });
 
 type MulchSoilInputs = z.infer<typeof mulchSoilSchema>;
 
 interface MulchSoilResults {
-  volumeCubicFeet: number;
-  volumeCubicYards: number;
+  areaSqM: number;
   volumeCubicMeters: number;
-  bagsNeeded2cuft: number;
-  bagsNeeded3cuft: number;
-  weightLbs: number;
+  volumeLiters: number;
+  bags50: number;
+  bags70: number;
   weightKg: number;
-  coverage: string;
+  weightTonnes: number;
 }
 
 const INITIAL_INPUTS: MulchSoilInputs = {
   calculationType: 'mulch',
   areaShape: 'rectangular',
-  length: 10,
-  width: 10,
-  diameter: 10,
-  depth: 3,
-  unit: 'feet',
+  length: 5,
+  width: 3,
+  diameter: 3,
+  depth: 7,
 };
 
 const CALCULATION_TYPE_OPTIONS = [
-  { value: 'mulch', label: 'Mulch' },
-  { value: 'soil', label: 'Topsoil / Garden Soil' },
-  { value: 'gravel', label: 'Gravel / Stone' },
+  { value: 'mulch', label: 'Bark / mulch' },
+  { value: 'soil', label: 'Matjord / hagejord' },
+  { value: 'gravel', label: 'Grus / stein' },
 ];
 
 const AREA_SHAPE_OPTIONS = [
-  { value: 'rectangular', label: 'Rectangular / Square' },
-  { value: 'circular', label: 'Circular' },
+  { value: 'rectangular', label: 'Rektangel / kvadrat' },
+  { value: 'circular', label: 'Sirkel' },
 ];
 
-const UNIT_OPTIONS = [
-  { value: 'feet', label: 'Feet' },
-  { value: 'meters', label: 'Meters' },
-];
-
-// Weight per cubic foot (approximate)
-const WEIGHT_PER_CUFT = {
-  mulch: 20, // lbs per cubic foot
-  soil: 75,
-  gravel: 100,
+// Omtrentlig tetthet i kg per m³ (løst lagt)
+const DENSITY_KG_PER_M3 = {
+  mulch: 320,
+  soil: 1200,
+  gravel: 1600,
 };
 
 function calculateMulchSoil(inputs: MulchSoilInputs): MulchSoilResults {
-  const { calculationType, areaShape, length, width, diameter, depth, unit } = inputs;
+  const { calculationType, areaShape, length, width, diameter, depth } = inputs;
 
-  // Convert to feet if in meters
-  const lengthFt = unit === 'meters' ? length * 3.28084 : length;
-  const widthFt = unit === 'meters' ? width * 3.28084 : width;
-  const diameterFt = unit === 'meters' ? diameter * 3.28084 : diameter;
-  const depthFt = depth / 12; // depth is always in inches
+  const areaSqM =
+    areaShape === 'rectangular'
+      ? length * width
+      : Math.PI * (diameter / 2) ** 2;
 
-  // Calculate area in square feet
-  let areaSqFt: number;
-  if (areaShape === 'rectangular') {
-    areaSqFt = lengthFt * widthFt;
-  } else {
-    const radius = diameterFt / 2;
-    areaSqFt = Math.PI * radius * radius;
-  }
-
-  // Calculate volume
-  const volumeCubicFeet = areaSqFt * depthFt;
-  const volumeCubicYards = volumeCubicFeet / 27;
-  const volumeCubicMeters = volumeCubicFeet * 0.0283168;
-
-  // Calculate bags needed
-  const bagsNeeded2cuft = Math.ceil(volumeCubicFeet / 2);
-  const bagsNeeded3cuft = Math.ceil(volumeCubicFeet / 3);
-
-  // Calculate weight
-  const weightPerCuft = WEIGHT_PER_CUFT[calculationType];
-  const weightLbs = volumeCubicFeet * weightPerCuft;
-  const weightKg = weightLbs * 0.453592;
-
-  // Coverage description
-  const coverage = `${Math.round(areaSqFt)} sq ft at ${depth}" deep`;
+  const volumeCubicMeters = areaSqM * (depth / 100);
+  const volumeLiters = volumeCubicMeters * 1000;
+  const weightKg = volumeCubicMeters * DENSITY_KG_PER_M3[calculationType];
 
   return {
-    volumeCubicFeet: Math.round(volumeCubicFeet * 100) / 100,
-    volumeCubicYards: Math.round(volumeCubicYards * 100) / 100,
+    areaSqM: Math.round(areaSqM * 100) / 100,
     volumeCubicMeters: Math.round(volumeCubicMeters * 100) / 100,
-    bagsNeeded2cuft,
-    bagsNeeded3cuft,
-    weightLbs: Math.round(weightLbs),
+    volumeLiters: Math.round(volumeLiters),
+    bags50: Math.ceil(volumeLiters / 50),
+    bags70: Math.ceil(volumeLiters / 70),
     weightKg: Math.round(weightKg),
-    coverage,
+    weightTonnes: Math.round((weightKg / 1000) * 100) / 100,
   };
 }
 
@@ -132,16 +101,16 @@ export function MulchSoilCalculator() {
     calculate();
   }, [calculate]);
 
-  const unitLabel = inputs.unit === 'feet' ? 'ft' : 'm';
-  const materialName = inputs.calculationType === 'mulch' ? 'Mulch' :
-    inputs.calculationType === 'soil' ? 'Soil' : 'Gravel';
+  const materialName =
+    inputs.calculationType === 'mulch' ? 'Bark eller mulch' :
+    inputs.calculationType === 'soil' ? 'Jord' : 'Grus eller stein';
 
   return (
     <CalculatorBase
-      title="Mulch & Soil Calculator"
-      description="Calculate how much mulch, soil, or gravel you need for your landscaping project"
-      formula="Volume = Area × Depth"
-      formulaExplanation="Calculate cubic feet/yards needed based on coverage area and desired depth"
+      title="Bark, jord og grus"
+      description="Regn ut hvor mye bark, jord eller grus du trenger til hagen"
+      formula="Volum = areal × lagtykkelse"
+      formulaExplanation="Regner ut kubikkmeter ut fra flaten du skal dekke og ønsket tykkelse"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -151,65 +120,65 @@ export function MulchSoilCalculator() {
         results && (
           <div className="space-y-4">
             <ResultDisplay
-              label="Coverage"
-              value={results.coverage}
+              label="Dekker"
+              value={`${formatNumber(results.areaSqM, { maximumFractionDigits: 1 })} m² med ${formatNumber(inputs.depth, { maximumFractionDigits: 1 })} cm lag`}
               highlight
             />
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Cubic Yards"
-                value={results.volumeCubicYards}
-                unit="cu yd"
+                label="Volum"
+                value={results.volumeCubicMeters}
+                unit="m³"
                 highlight
                 copyable
               />
               <ResultDisplay
-                label="Cubic Feet"
-                value={results.volumeCubicFeet}
-                unit="cu ft"
+                label="Volum"
+                value={results.volumeLiters}
+                unit="liter"
                 copyable
               />
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Bags Needed</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Sekker</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="2 cu ft bags"
-                  value={results.bagsNeeded2cuft}
-                  unit="bags"
+                  label="Sekker à 50 liter"
+                  value={results.bags50}
+                  unit="sekker"
                 />
                 <ResultDisplay
-                  label="3 cu ft bags"
-                  value={results.bagsNeeded3cuft}
-                  unit="bags"
+                  label="Sekker à 70 liter"
+                  value={results.bags70}
+                  unit="sekker"
                 />
               </div>
             </div>
 
             <div className="border-t pt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Estimated Weight</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Omtrentlig vekt</p>
               <div className="grid grid-cols-2 gap-3">
                 <ResultDisplay
-                  label="Weight"
-                  value={results.weightLbs.toLocaleString('nb-NO')}
-                  unit="lbs"
+                  label="Vekt"
+                  value={results.weightKg}
+                  unit="kg"
                 />
                 <ResultDisplay
-                  label="Weight"
-                  value={results.weightKg.toLocaleString('nb-NO')}
-                  unit="kg"
+                  label="Vekt"
+                  value={results.weightTonnes}
+                  unit="tonn"
                 />
               </div>
             </div>
 
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-2">Buying Tips</p>
+              <p className="text-sm font-medium mb-2">Tips til innkjøp</p>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Bulk delivery is usually cheaper for orders over 3 cubic yards</li>
-                <li>• Add 5-10% extra for settling and waste</li>
-                <li>• {materialName} depth: 2-3" for weed control, 3-4" for insulation</li>
+                <li>• Løs vekt med levering er ofte billigere enn sekker når du trenger mer enn ca. 2&nbsp;m³</li>
+                <li>• Legg til 5–10&nbsp;% ekstra til setning og svinn</li>
+                <li>• {materialName}: 5–8&nbsp;cm lag mot ugress, 8–10&nbsp;cm som isolasjon</li>
               </ul>
             </div>
           </div>
@@ -218,23 +187,15 @@ export function MulchSoilCalculator() {
     >
       <SelectInput
         id="calculationType"
-        label="Material Type"
+        label="Materiale"
         value={inputs.calculationType}
         onChange={(v) => setInput('calculationType', v as MulchSoilInputs['calculationType'])}
         options={CALCULATION_TYPE_OPTIONS}
       />
 
       <SelectInput
-        id="unit"
-        label="Measurement Unit"
-        value={inputs.unit}
-        onChange={(v) => setInput('unit', v as 'feet' | 'meters')}
-        options={UNIT_OPTIONS}
-      />
-
-      <SelectInput
         id="areaShape"
-        label="Area Shape"
+        label="Form på flaten"
         value={inputs.areaShape}
         onChange={(v) => setInput('areaShape', v as 'rectangular' | 'circular')}
         options={AREA_SHAPE_OPTIONS}
@@ -244,25 +205,25 @@ export function MulchSoilCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="length"
-            label="Length"
+            label="Lengde"
             value={inputs.length}
             onChange={(v) => setInput('length', v)}
             min={0.1}
             max={1000}
             step={0.5}
-            unit={unitLabel}
+            unit="m"
             error={errors.length}
             required
           />
           <NumberInput
             id="width"
-            label="Width"
+            label="Bredde"
             value={inputs.width}
             onChange={(v) => setInput('width', v)}
             min={0.1}
             max={1000}
             step={0.5}
-            unit={unitLabel}
+            unit="m"
             error={errors.width}
             required
           />
@@ -276,7 +237,7 @@ export function MulchSoilCalculator() {
           min={0.1}
           max={500}
           step={0.5}
-          unit={unitLabel}
+          unit="m"
           error={errors.diameter}
           required
         />
@@ -284,13 +245,13 @@ export function MulchSoilCalculator() {
 
       <NumberInput
         id="depth"
-        label="Depth"
+        label="Lagtykkelse"
         value={inputs.depth}
         onChange={(v) => setInput('depth', v)}
-        min={0.5}
-        max={24}
-        step={0.5}
-        unit="inches"
+        min={1}
+        max={60}
+        step={1}
+        unit="cm"
         error={errors.depth}
         required
       />
