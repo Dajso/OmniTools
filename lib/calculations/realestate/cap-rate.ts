@@ -1,27 +1,29 @@
 /**
- * Cap Rate Calculator  
- * Cap Rate = Net Operating Income / Current Market Value × 100
+ * Yield-kalkulator
+ * Nettoyield = (leie − kostnader) ÷ kjøpesum × 100
  * @module lib/calculations/realestate/cap-rate
  */
 export interface CapRateInput {
     purchasePrice: number;
     annualGrossRent: number;
-    annualExpenses: number; // taxes, insurance, maintenance, vacancy
+    annualExpenses: number; // felleskostnader, eiendomsskatt, forsikring, vedlikehold, ledighet
 }
 export interface CapRateResult {
     noi: number;
-    capRate: number;
+    capRate: number; // nettoyield
+    grossYield: number;
     rating: string;
 }
 export function calculateCapRate(input: CapRateInput): CapRateResult {
     const { purchasePrice, annualGrossRent, annualExpenses } = input;
-    if (purchasePrice <= 0) throw new Error('Purchase price must be positive');
+    if (purchasePrice <= 0) throw new Error('Kjøpesummen må være større enn null');
     const noi = annualGrossRent - annualExpenses;
     const capRate = (noi / purchasePrice) * 100;
+    const grossYield = (annualGrossRent / purchasePrice) * 100;
     let rating: string;
-    if (capRate < 4) rating = 'Low return — typical of premium locations';
-    else if (capRate < 8) rating = 'Average return — most residential properties';
-    else if (capRate < 12) rating = 'Good return — value-add opportunities';
-    else rating = 'High return — may indicate higher risk';
-    return { noi: Math.round(noi), capRate: Math.round(capRate * 100) / 100, rating };
+    if (capRate < 2) rating = 'Lav yield: leien dekker lite av kjøpesummen';
+    else if (capRate < 4) rating = 'Vanlig for utleiebolig i store byer';
+    else if (capRate < 6) rating = 'God yield for bolig';
+    else rating = 'Høy yield: sjekk risiko, ledighet og vedlikeholdsbehov';
+    return { noi: Math.round(noi), capRate: Math.round(capRate * 100) / 100, grossYield: Math.round(grossYield * 100) / 100, rating };
 }

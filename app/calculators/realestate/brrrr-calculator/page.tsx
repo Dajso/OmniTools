@@ -1,54 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { BRRRRCalculator } from '@/components/calculators/realestate';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'BRRRR Calculator - Buy Rehab Rent Refinance Repeat',
-    description: 'Analyze BRRRR strategy deals step by step. Calculate renovation costs, after-repair value, refinance amounts, and cash left in the deal.',
-    keywords: ['BRRRR calculator', 'BRRRR strategy', 'buy rehab rent refinance', 'real estate BRRRR', 'house flipping calculator'],
-    alternates: { canonical: '/calculators/realestate/brrrr-calculator' },
+  title: 'BRRRR-kalkulator – gratis kalkulator på nett',
+  description: 'Regn ut avkastning på kjøp–oppussing–utleie–refinansiering–gjenta. Gratis og uten registrering.',
+  keywords: ['BRRRR', 'oppussing', 'utleie', 'refinansiering', 'boliginvestering'],
+  alternates: { canonical: '/calculators/realestate/brrrr-calculator' },
+  openGraph: {
+    title: 'BRRRR-kalkulator',
+    description: 'Regn ut avkastning på kjøp–oppussing–utleie–refinansiering–gjenta',
+    url: '/calculators/realestate/brrrr-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'BRRRR Calculator', description: 'Analyze BRRRR strategy deals.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'BRRRR-kalkulator',
+  description: 'Regn ut avkastning på kjøp–oppussing–utleie–refinansiering–gjenta',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter purchase price', text: 'Input the property purchase price (typically below market value).' },
-    { name: 'Enter rehab costs', text: 'Estimate total renovation costs to bring the property to target condition.' },
-    { name: 'Enter after-repair value (ARV)', text: 'Input the estimated value after renovations are complete.' },
-    { name: 'Set refinance terms', text: 'Enter expected LTV ratio and interest rate for the refinance loan.' },
-    { name: 'See BRRRR analysis', text: 'View cash left in the deal, monthly cash flow, and whether you can recoup your investment.' },
+  { name: 'Fyll inn kjøp og oppussing', text: 'Kjøpesum, oppussingskostnad og omkostninger.' },
+  { name: 'Anslå ny verdi og leie', text: 'Oppgi forventet verdi etter oppussing og leie per måned.' },
+  { name: 'Sett belåningsgrad', text: 'Maks 85 % av boligverdien i Norge.' },
+  { name: 'Les resultatet', text: 'Se hvor mye kapital som er bundet, og kontantstrømmen din.' },
 ];
 
 const faqs = [
-    { question: 'What is the BRRRR strategy?', answer: 'BRRRR stands for Buy, Rehab, Rent, Refinance, Repeat. You buy undervalue property, renovate it, rent it out, refinance to pull cash out, then repeat with another property.' },
-    { question: 'What is the 70% rule in BRRRR?', answer: 'Buy at or below 70% of ARV minus repair costs. Example: $200K ARV, $30K repairs → Max purchase = ($200K × 70%) − $30K = $110K.' },
-    { question: 'How much cash should I leave in a BRRRR deal?', answer: 'Ideally zero — a perfect BRRRR recovers all your cash on refinance. In practice, leaving $5-15K in the deal is common and still considered successful.' },
-    { question: 'What LTV do banks offer for BRRRR refinance?', answer: 'Most banks offer 70-80% LTV on investment property refinances. Some portfolio lenders go to 80%. The higher the LTV, the more cash you recover.' },
+  { question: 'Hva står BRRRR for?', answer: 'Buy, rehab, rent, refinance, repeat: kjøp, pusse opp, leie ut, refinansiere og gjenta med frigjort kapital.' },
+  { question: 'Kan jeg refinansiere opptil 85 %?', answer: 'Utlånsforskriften krever minst 15 % egenkapital, så banken kan normalt gi deg opptil 85 % av verdien. Banken avgjør ut fra egen vurdering og taksten.' },
+  { question: 'Er renter og avdrag med?', answer: 'Nei, kontantstrømmen er leie minus kostnader. Husk å trekke fra renter og avdrag på det nye lånet.' },
+  { question: 'Er strategien risikabel?', answer: 'Ja. Oppussing kan bli dyrere enn planlagt, og taksten kan bli lavere enn forventet. Legg inn buffer.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/realestate/renovation-roi-estimator', title: 'Renovation ROI', description: 'Calculate renovation return.' },
-    { href: '/calculators/realestate/cap-rate-calculator', title: 'Cap Rate Calculator', description: 'Calculate property cap rate.' },
-    { href: '/calculators/realestate/cash-on-cash-calculator', title: 'Cash-on-Cash Return', description: 'Calculate return on invested cash.' },
+  { href: '/calculators/realestate/renovation-roi-estimator', title: 'Verdiøkning ved oppussing', description: 'Anslå hvor mye kjøkken, bad og annen oppussing øker boligverdien' },
+  { href: '/calculators/realestate/cash-on-cash-calculator', title: 'Egenkapitalavkastning', description: 'Regn ut avkastningen på egenkapitalen i en belånt utleiebolig' },
 ];
 
 export default function BRRRRCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="brrrr-calculator" title="BRRRR Calculator"
-                    description="Analyze Buy-Rehab-Rent-Refinance-Repeat deals." category="Real Estate Investing" />
-                <section aria-label="BRRRR Calculator"><BRRRRCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="brrrr-calculator"
+          title="BRRRR-kalkulator"
+          description="Regn ut hvor mye kapital som er bundet etter kjøp, oppussing og refinansiering av en utleiebolig. Gratis og uten registrering."
+        />
+
+        <section aria-label="BRRRR-kalkulator">
+          <BRRRRCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

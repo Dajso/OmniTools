@@ -1,10 +1,10 @@
 /**
- * Cash on Cash Return Calculator
- * CoC = Annual Pre-Tax Cash Flow / Total Cash Invested × 100
+ * Egenkapitalavkastning
+ * = årlig kontantstrøm før skatt ÷ investert egenkapital × 100
  */
 export interface CashOnCashInput {
-    annualCashFlow: number; // rental income - expenses - mortgage
-    totalCashInvested: number; // down payment + closing + repairs
+    annualCashFlow: number; // leieinntekter − kostnader − renter og avdrag
+    totalCashInvested: number; // egenkapital + omkostninger + oppussing
 }
 export interface CashOnCashResult {
     cocReturn: number;
@@ -12,12 +12,12 @@ export interface CashOnCashResult {
 }
 export function calculateCashOnCash(input: CashOnCashInput): CashOnCashResult {
     const { annualCashFlow, totalCashInvested } = input;
-    if (totalCashInvested <= 0) throw new Error('Total cash invested must be positive');
+    if (totalCashInvested <= 0) throw new Error('Investert egenkapital må være større enn null');
     const cocReturn = (annualCashFlow / totalCashInvested) * 100;
     let rating: string;
-    if (cocReturn < 4) rating = 'Below average — consider other investments';
-    else if (cocReturn < 8) rating = 'Decent return for stable markets';
-    else if (cocReturn < 12) rating = 'Good return — solid investment';
-    else rating = 'Excellent return';
+    if (cocReturn < 4) rating = 'Lav avkastning: vurder alternativer som sparing og fond';
+    else if (cocReturn < 8) rating = 'Grei avkastning';
+    else if (cocReturn < 12) rating = 'God avkastning';
+    else rating = 'Svært høy avkastning: kontroller forutsetningene';
     return { cocReturn: Math.round(cocReturn * 100) / 100, rating };
 }

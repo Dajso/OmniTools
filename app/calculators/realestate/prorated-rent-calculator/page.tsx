@@ -1,53 +1,70 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { ProratedRentCalculator } from '@/components/calculators/realestate';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Prorated Rent Calculator - Daily Rent & Move-In Cost',
-    description: 'Calculate prorated rent for partial month occupancy. Get exact daily rate and amount due for mid-month move-ins.',
-    keywords: ['prorated rent calculator', 'daily rent calculator', 'partial month rent', 'move-in cost', 'rent proration'],
-    alternates: { canonical: '/calculators/realestate/prorated-rent-calculator' },
+  title: 'Forholdsmessig husleie – gratis kalkulator på nett',
+  description: 'Regn ut husleie når leietaker flytter inn eller ut midt i måneden. Gratis og uten registrering.',
+  keywords: ['husleie', 'forholdsmessig leie', 'innflytting', 'dagsleie'],
+  alternates: { canonical: '/calculators/realestate/prorated-rent-calculator' },
+  openGraph: {
+    title: 'Forholdsmessig husleie',
+    description: 'Regn ut husleie når leietaker flytter inn eller ut midt i måneden',
+    url: '/calculators/realestate/prorated-rent-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Prorated Rent Calculator', description: 'Calculate prorated rent for partial months.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Forholdsmessig husleie',
+  description: 'Regn ut husleie når leietaker flytter inn eller ut midt i måneden',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter monthly rent', text: 'Input your total monthly rent amount.' },
-    { name: 'Select move-in date', text: 'Choose the day you move in during the month.' },
-    { name: 'Select proration method', text: 'Choose calendar days (most common) or 30-day month method.' },
-    { name: 'See prorated amount', text: 'View the exact prorated rent due for the partial month.' },
+  { name: 'Oppgi husleien', text: 'Husleie per måned i kroner.' },
+  { name: 'Sett innflyttingsdag', text: 'Dagen du flytter inn, og antall dager i måneden.' },
+  { name: 'Les resultatet', text: 'Se pris per dag og hva du skal betale for resten av måneden.' },
 ];
 
 const faqs = [
-    { question: 'How is prorated rent calculated?', answer: 'Monthly rent ÷ days in month × days occupied. For example: $1,500 rent, moving in on the 15th of a 30-day month = $1,500 ÷ 30 × 16 = $800.' },
-    { question: 'Do landlords have to prorate rent?', answer: 'Most states do not require proration by law, but it is standard practice. Check your lease agreement — proration terms should be specified.' },
-    { question: 'Which proration method is most common?', answer: 'Calendar days (actual days in the month) is most common. Some landlords use a flat 30-day month or a banker\'s month (360 day year).' },
-    { question: 'Is first month rent always prorated?', answer: 'Only if you move in mid-month. If your lease starts on the 1st, you pay full rent. Some landlords charge full first month regardless.' },
+  { question: 'Hvordan regnes forholdsmessig husleie ut?', answer: 'Månedsleien deles på antall dager i måneden og ganges med dagene du bor der.' },
+  { question: 'Er innflyttingsdagen med?', answer: 'Ja, innflyttingsdagen telles som en hel dag.' },
+  { question: 'Må jeg bruke denne metoden?', answer: 'Nei, det avtales i leiekontrakten. Noen bruker 30 dager i alle måneder, andre faktisk antall dager.' },
+  { question: 'Hva med depositum?', answer: 'Depositum er ikke med. Det kan maksimalt tilsvare seks måneders husleie og skal settes på en depositumskonto.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/realestate/house-affordability-calculator', title: 'Affordability Calculator', description: 'How much rent/home can you afford?' },
-    { href: '/calculators/realestate/closing-cost-estimator', title: 'Closing Costs', description: 'Estimate property closing costs.' },
-    { href: '/calculators/realestate/gross-rent-multiplier-calculator', title: 'GRM Calculator', description: 'Compare rental properties.' },
+  { href: '/calculators/realestate/cap-rate-calculator', title: 'Yield-kalkulator (direkteavkastning)', description: 'Regn ut direkteavkastning (yield) for å vurdere en utleiebolig' },
+  { href: '/calculators/realestate/gross-rent-multiplier-calculator', title: 'Brutto leiemultiplikator', description: 'Regn ut multiplikator (pris / årlig leie) for å sammenligne utleieboliger' },
 ];
 
 export default function ProratedRentCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="prorated-rent-calculator" title="Prorated Rent Calculator"
-                    description="Calculate prorated rent for partial months." category="Real Estate Investing" />
-                <section aria-label="Prorated Rent Calculator"><ProratedRentCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="prorated-rent-calculator"
+          title="Forholdsmessig husleie"
+          description="Regn ut husleie for en delvis måned når du flytter inn eller ut midt i måneden. Gratis og uten registrering."
+        />
+
+        <section aria-label="Forholdsmessig husleie">
+          <ProratedRentCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

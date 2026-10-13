@@ -1,5 +1,5 @@
 /**
- * BRRRR Calculator: Buy, Rehab, Rent, Refinance, Repeat
+ * BRRRR: kjøp, pusse opp, leie ut, refinansiere, gjenta
  */
 export interface BRRRRInput {
     purchasePrice: number;
@@ -7,7 +7,7 @@ export interface BRRRRInput {
     afterRepairValue: number;
     monthlyRent: number;
     monthlyExpenses: number;
-    refinanceLTV: number; // loan-to-value e.g. 75
+    refinanceLTV: number; // belåningsgrad, f.eks. 85 (maks 85 % i Norge)
     closingCosts: number;
 }
 export interface BRRRRResult {

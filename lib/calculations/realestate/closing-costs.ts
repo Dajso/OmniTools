@@ -1,43 +1,54 @@
 /**
- * Closing Cost Estimator
+ * Omkostninger ved boligkjøp (dokumentavgift, tinglysing, etableringsgebyr)
+ * @module lib/calculations/realestate/closing-costs
  */
+export type OwnershipType = 'selveier' | 'andel';
+
 export interface ClosingCostInput {
     purchasePrice: number;
+    /** Egenkapital i prosent av kjøpesummen (minst 15 % ved lån) */
     downPaymentPercent: number;
-    state?: string;
+    /** Selveier (dokumentavgift 2,5 %) eller borettslag/aksjeleilighet (ingen dokumentavgift) */
+    ownership?: OwnershipType;
+    /** Etableringsgebyr til banken i kr */
+    establishmentFee?: number;
 }
+
 export interface ClosingCostResult {
     loanAmount: number;
-    loanOrigination: number;      // 0.5-1% of loan
-    appraisal: number;            // $300-$500
-    titleInsurance: number;       // 0.5% of price
-    escrowFees: number;           // $750-$1500
-    recordingFees: number;        // $50-$250
-    inspectionFee: number;        // $200-$500
-    prepaidInsurance: number;     // ~$1200/yr
-    prepaidTaxes: number;         // 1.1% of price for ~2 months
+    downPayment: number;
+    documentFee: number;
+    titleRegistration: number;
+    mortgageRegistration: number;
+    establishmentFee: number;
     totalClosingCosts: number;
     totalCashNeeded: number;
     percentOfPrice: number;
 }
+
+export const DOCUMENT_FEE_RATE = 0.025;
+export const REGISTRATION_FEE = 585;
+
 export function calculateClosingCosts(input: ClosingCostInput): ClosingCostResult {
-    const { purchasePrice, downPaymentPercent } = input;
-    if (purchasePrice <= 0) throw new Error('Price must be positive');
+    const { purchasePrice, downPaymentPercent, ownership = 'selveier', establishmentFee = 1000 } = input;
+    if (!(purchasePrice > 0)) throw new Error('Kjøpesummen må være større enn null');
+    if (downPaymentPercent < 0 || downPaymentPercent > 100) throw new Error('Egenkapitalen må være mellom 0 og 100 %');
+
     const downPayment = purchasePrice * (downPaymentPercent / 100);
     const loanAmount = purchasePrice - downPayment;
-    const loanOrigination = loanAmount * 0.01;
-    const appraisal = 450;
-    const titleInsurance = purchasePrice * 0.005;
-    const escrowFees = 1200;
-    const recordingFees = 150;
-    const inspectionFee = 400;
-    const prepaidInsurance = 1200;
-    const prepaidTaxes = purchasePrice * 0.011 / 6;
-    const totalClosingCosts = loanOrigination + appraisal + titleInsurance + escrowFees + recordingFees + inspectionFee + prepaidInsurance + prepaidTaxes;
+    const documentFee = ownership === 'selveier' ? purchasePrice * DOCUMENT_FEE_RATE : 0;
+    const titleRegistration = ownership === 'selveier' ? REGISTRATION_FEE : 0;
+    const mortgageRegistration = loanAmount > 0 ? REGISTRATION_FEE : 0;
+    const fee = loanAmount > 0 ? Math.max(0, establishmentFee) : 0;
+
+    const totalClosingCosts = documentFee + titleRegistration + mortgageRegistration + fee;
     return {
-        loanAmount: Math.round(loanAmount), loanOrigination: Math.round(loanOrigination),
-        appraisal, titleInsurance: Math.round(titleInsurance), escrowFees, recordingFees,
-        inspectionFee, prepaidInsurance, prepaidTaxes: Math.round(prepaidTaxes),
+        loanAmount: Math.round(loanAmount),
+        downPayment: Math.round(downPayment),
+        documentFee: Math.round(documentFee),
+        titleRegistration,
+        mortgageRegistration,
+        establishmentFee: fee,
         totalClosingCosts: Math.round(totalClosingCosts),
         totalCashNeeded: Math.round(downPayment + totalClosingCosts),
         percentOfPrice: Math.round((totalClosingCosts / purchasePrice) * 10000) / 100,

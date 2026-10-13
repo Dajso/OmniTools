@@ -1,5 +1,5 @@
 /**
- * Prorated Rent Calculator
+ * Forholdsmessig husleie
  */
 export interface ProratedRentInput {
     monthlyRent: number;
@@ -13,8 +13,8 @@ export interface ProratedRentResult {
 }
 export function calculateProratedRent(input: ProratedRentInput): ProratedRentResult {
     const { monthlyRent, moveInDay, daysInMonth } = input;
-    if (monthlyRent <= 0) throw new Error('Monthly rent must be positive');
-    if (moveInDay < 1 || moveInDay > daysInMonth) throw new Error('Invalid move-in day');
+    if (monthlyRent <= 0) throw new Error('Husleia må være større enn null');
+    if (moveInDay < 1 || moveInDay > daysInMonth) throw new Error('Ugyldig innflyttingsdag');
     const dailyRate = monthlyRent / daysInMonth;
     const remainingDays = daysInMonth - moveInDay + 1;
     const proratedAmount = dailyRate * remainingDays;
