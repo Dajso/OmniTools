@@ -16,7 +16,6 @@ export default function HeatSinkPage() {
         toolId="heat-sink"
         title="Heat Sink Calculator"
         description="Calculate required thermal resistance for heat sinks. Includes junction, case, and heat sink temperature calculations."
-        category="Electronics"
       />
       <HeatSinkCalculator />
     </main>

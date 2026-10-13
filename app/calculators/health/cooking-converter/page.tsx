@@ -1,35 +1,48 @@
 import { Metadata } from 'next';
 import { CookingConverter } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Cooking Unit Converter - Cups to Grams Calculator',
-  description: 'Convert cooking measurements between cups, tablespoons, teaspoons, grams, ounces, and milliliters. Free cooking converter with ingredient support.',
-  keywords: ['cooking converter', 'cups to grams', 'tablespoon to ml', 'cooking measurement converter', 'recipe converter', 'baking converter'],
+  title: 'Kjøkkenomregner – gratis kalkulator på nett',
+  description: 'Regn om mellom dl, ss, ts, gram og amerikanske mål som cups. Gratis og uten registrering.',
+  keywords: ['kjøkkenomregner', 'dl', 'spiseskje', 'teskje', 'cups', 'gram', 'oppskrift'],
   alternates: { canonical: '/calculators/health/cooking-converter' },
+  openGraph: {
+    title: 'Kjøkkenomregner',
+    description: 'Regn om mellom dl, ss, ts, gram og amerikanske mål som cups',
+    url: '/calculators/health/cooking-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Cooking Unit Converter',
-  description: 'Convert between cooking measurements',
+  name: 'Kjøkkenomregner',
+  description: 'Regn om mellom dl, ss, ts, gram og amerikanske mål som cups',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter the amount', text: 'Input the quantity you want to convert.' },
-  { name: 'Select units', text: 'Choose your source and target units (cups, tbsp, tsp, ml, grams, oz, etc.).' },
-  { name: 'Select ingredient (if needed)', text: 'For volume-to-weight conversions, select the ingredient for accurate results.' },
-  { name: 'View conversion', text: 'See your converted measurement instantly.' },
+  { name: 'Skriv inn mengden', text: 'For eksempel 1.' },
+  { name: 'Velg enheter', text: 'Fra og til.' },
+  { name: 'Velg ingrediens', text: 'Kreves når du går mellom volum og vekt.' },
 ];
 
 const faqs = [
-  { question: 'Why do I need to select an ingredient?', answer: 'Different ingredients have different densities. A cup of flour weighs less than a cup of sugar. Selecting the ingredient ensures accurate volume-to-weight conversions.' },
-  { question: 'What\'s the difference between fluid oz and weight oz?', answer: 'Fluid ounces measure volume (like water), while ounces measure weight. They\'re only equal for water. Our converter handles both correctly.' },
-  { question: 'How many tablespoons in a cup?', answer: 'There are 16 tablespoons in 1 cup, 48 teaspoons in 1 cup, and 3 teaspoons in 1 tablespoon.' },
+  { question: 'Hvor mange ml er en spiseskje?', answer: 'I Norge er 1 ss 15 ml, 1 ts er 5 ml og 1 krm er 1 ml.' },
+  { question: 'Hvor mange dl er en cup?', answer: 'En amerikansk cup er 2,37 dl.' },
+  { question: 'Hvor mange gram er 1 dl mel?', answer: 'Ca. 60 g. Sukker veier ca. 85 g per dl.' },
+  { question: 'Hvorfor må jeg velge ingrediens?', answer: 'Fordi vekten av 1 dl varierer mellom ingredienser.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/oven-temperature-converter', title: 'Ovnstemperatur', description: 'Regn om ovnstemperatur mellom Celsius, Fahrenheit og gassmerke' },
 ];
 
 export default function CookingConverterPage() {
@@ -38,34 +51,18 @@ export default function CookingConverterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="cooking-unit-converter"
-          title="Cooking Unit Converter"
-          description="Convert between cooking measurements like cups, tablespoons, grams, and more. Perfect for scaling recipes."
-          colorClass="bg-red-100 text-red-700"
+          toolId="cooking-converter"
+          title="Kjøkkenomregner"
+          description="Regn om mellom dl, ss, ts, krm, gram og utenlandske mål som cups og ounces. Gratis og uten registrering."
         />
-        <section aria-label="Cooking Converter"><CookingConverter /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Converter</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Kjøkkenomregner">
+          <CookingConverter />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

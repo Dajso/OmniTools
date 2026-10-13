@@ -66,7 +66,6 @@ export default function SongStructureBuilderPage() {
           title="Song Structure Builder"
           description="Plan and visualize your song arrangement. Add sections, adjust lengths, and calculate total duration based on your tempo."
           colorClass="bg-emerald-100 text-emerald-600"
-          category="Audio"
         />
 
         <section aria-label="Song Structure Builder">

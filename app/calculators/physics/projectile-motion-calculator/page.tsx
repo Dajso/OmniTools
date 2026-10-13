@@ -16,7 +16,6 @@ export default function ProjectileMotionCalculatorPage() {
         toolId="projectile-motion-calculator"
         title="Projectile Motion Calculator"
         description="Calculate projectile motion trajectory, range, maximum height, and flight time."
-        category="Physics"
       />
       <ProjectileMotionCalculator />
     </main>

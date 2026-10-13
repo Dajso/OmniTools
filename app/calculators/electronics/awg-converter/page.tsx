@@ -16,7 +16,6 @@ export default function AWGConverterPage() {
         toolId="awg-converter"
         title="AWG to mm Converter"
         description="Convert American Wire Gauge (AWG) to metric measurements. Includes diameter, area, and resistance per length."
-        category="Electronics"
       />
       <AWGConverter />
     </main>

@@ -81,7 +81,6 @@ export default function BalusterCalculatorPage() {
           title="Baluster Spacing Calculator"
           description="Calculate the optimal number of balusters and spacing for code-compliant railings. Ensures compliance with the 4-inch sphere rule (IRC R312.1.3)."
           colorClass="bg-amber-100 text-amber-600"
-          category="Construction"
         />
 
         <section aria-label="Baluster Spacing Calculator">

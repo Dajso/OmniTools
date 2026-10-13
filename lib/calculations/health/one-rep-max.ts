@@ -43,7 +43,7 @@ export function calculateOneRepMax(inputs: OneRepMaxInputs): OneRepMaxResults {
   const { weight, reps } = inputs;
 
   if (weight <= 0 || reps <= 0 || reps > 30) {
-    throw new Error('Invalid input: weight must be positive and reps between 1-30');
+    throw new Error('Ugyldig inndata: vekt må være positiv og repetisjoner mellom 1 og 30');
   }
 
   const brzyckiResult = brzycki(weight, reps);

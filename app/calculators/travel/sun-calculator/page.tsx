@@ -66,7 +66,6 @@ export default function SunCalculatorPage() {
           title="Sun Calculator"
           description="Calculate sunrise, sunset, golden hour, and blue hour times for any location. Perfect for photographers, travelers, and outdoor enthusiasts."
           colorClass="bg-yellow-100 text-yellow-600"
-          category="Travel"
         />
 
         <section aria-label="Sun Calculator">

@@ -16,7 +16,6 @@ export default function ZeroSixtyEstimatorPage() {
         toolId="zero-sixty-estimator"
         title="0-60 Time Estimator"
         description="Estimate 0-60 mph and quarter mile times based on horsepower, weight, drivetrain, and transmission."
-        category="Auto"
       />
       <ZeroSixtyEstimator />
     </main>

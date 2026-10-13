@@ -66,7 +66,6 @@ export default function StatRollerPage() {
           title="RPG Stat Roller"
           description="Generate ability scores for your D&D or RPG character using 4d6 drop lowest, standard array, point buy, or classic 3d6."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="RPG Stat Roller">

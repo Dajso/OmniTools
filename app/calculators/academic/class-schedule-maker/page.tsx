@@ -64,7 +64,6 @@ export default function ClassScheduleMakerPage() {
           title="Class Schedule Maker"
           description="Create your weekly class schedule with custom colors and times. Export as PDF or image for easy printing and sharing."
           colorClass="bg-teal-100 text-teal-600"
-          category="Academic"
         />
 
         <section aria-label="Class Schedule Maker">

@@ -16,7 +16,6 @@ export default function PCBTracePage() {
         toolId="pcb-trace"
         title="PCB Trace Width Calculator"
         description="Calculate minimum PCB trace width for a given current using IPC-2221 standard. Includes voltage drop and power loss."
-        category="Electronics"
       />
       <PCBTraceCalculator />
     </main>

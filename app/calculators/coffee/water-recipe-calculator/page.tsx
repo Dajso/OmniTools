@@ -63,7 +63,6 @@ export default function WaterRecipeCalculatorPage() {
           title="Water Recipe Calculator"
           description="Calculate mineral additions to create SCA-standard brewing water for optimal coffee extraction."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Water Recipe Calculator">

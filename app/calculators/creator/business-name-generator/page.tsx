@@ -66,7 +66,6 @@ export default function BusinessNameGeneratorPage() {
           title="Business Name Generator"
           description="Generate creative business name ideas for your startup, company, or brand."
           colorClass="bg-amber-100 text-amber-600"
-          category="Creator"
         />
 
         <section aria-label="Business Name Generator">

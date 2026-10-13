@@ -66,7 +66,6 @@ export default function GuitarTunerPage() {
           title="Guitar Tuner"
           description="Free online guitar tuner using your microphone. Supports multiple tunings including standard, drop D, half step down, and more."
           colorClass="bg-orange-100 text-orange-600"
-          category="Audio"
         />
 
         <section aria-label="Guitar Tuner">

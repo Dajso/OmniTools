@@ -66,7 +66,6 @@ export default function AimTrainerPage() {
           title="Aim Trainer"
           description="Practice your aim with this browser-based target trainer. Click targets as fast as you can to improve your accuracy and reaction time for FPS games."
           colorClass="bg-red-100 text-red-600"
-          category="Gaming"
         />
 
         <section aria-label="Aim Trainer">

@@ -16,7 +16,6 @@ export default function LEDResistorPage() {
         toolId="led-resistor"
         title="LED Resistor Calculator"
         description="Calculate the required series resistor for LED circuits. Includes presets for common LED colors and power rating recommendations."
-        category="Electronics"
       />
       <LEDResistorCalculator />
     </main>

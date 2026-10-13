@@ -20,34 +20,34 @@ export function CatAgeCalculator() {
 
   return (
     <CalculatorBase
-      title="Cat Age Calculator"
-      description="Convert your cat's age to human years"
+      title="Kattealder i menneskeår"
+      description="Regn kattens alder om til menneskeår"
       onCalculate={calculate}
       onReset={() => { setYears(5); setMonths(0); }}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Human Years Equivalent" value={results.humanYears} unit="years" highlight copyable />
+          <ResultDisplay label="Tilsvarer menneskeår" value={results.humanYears} unit="år" highlight copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Life Stage" value={results.lifeStage} />
-            <ResultDisplay label="Avg Lifespan" value={`${results.averageLifespan.min}-${results.averageLifespan.max} years`} />
+            <ResultDisplay label="Livsfase" value={results.lifeStage} />
+            <ResultDisplay label="Gjennomsnittlig levealder" value={`${results.averageLifespan.min}–${results.averageLifespan.max} år`} />
           </div>
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">Cat Life Stages</h4>
+            <h4 className="text-sm font-medium mb-2">Livsfaser for katt</h4>
             <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
-              <div>Kitten: 0-6 months</div>
-              <div>Junior: 6 months - 2 years</div>
-              <div>Prime: 2-7 years</div>
-              <div>Mature: 7-11 years</div>
-              <div>Senior: 11-15 years</div>
-              <div>Geriatric: 15+ years</div>
+              <div>Kattunge: 0–6 måneder</div>
+              <div>Ungdom: 6 måneder – 2 år</div>
+              <div>Voksen: 2–7 år</div>
+              <div>Moden: 7–11 år</div>
+              <div>Senior: 11–15 år</div>
+              <div>Gammel: over 15 år</div>
             </div>
           </div>
         </div>
       )}
     >
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="years" label="Years" value={years} onChange={setYears} min={0} max={30} required />
-        <NumberInput id="months" label="Months" value={months} onChange={setMonths} min={0} max={11} />
+        <NumberInput id="years" label="År" value={years} onChange={setYears} min={0} max={30} required />
+        <NumberInput id="months" label="Måneder" value={months} onChange={setMonths} min={0} max={11} />
       </div>
     </CalculatorBase>
   );

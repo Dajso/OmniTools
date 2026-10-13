@@ -16,7 +16,6 @@ export default function KineticEnergyCalculatorPage() {
         toolId="kinetic-energy-calculator"
         title="Kinetic Energy Calculator"
         description="Calculate kinetic energy, mass, or velocity using the formula KE = ½mv². Includes energy unit conversions."
-        category="Physics"
       />
       <KineticEnergyCalculator />
     </main>

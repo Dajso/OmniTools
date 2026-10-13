@@ -61,7 +61,6 @@ export default function SunShadeMapperPage() {
           title="Sun/Shade Mapper"
           description="Estimate sun exposure in your garden based on nearby obstacles like buildings and trees."
           colorClass="bg-yellow-100 text-yellow-600"
-          category="Garden"
         />
 
         <section aria-label="Sun/Shade Mapper">

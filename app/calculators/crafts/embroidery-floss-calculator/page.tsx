@@ -61,7 +61,6 @@ export default function EmbroideryFlossCalculatorPage() {
           title="Embroidery Floss Calculator"
           description="Calculate how much embroidery floss you need for your cross stitch or embroidery project based on stitch count and fabric type."
           colorClass="bg-pink-100 text-pink-600"
-          category="Crafts"
         />
 
         <section aria-label="Embroidery Floss Calculator">

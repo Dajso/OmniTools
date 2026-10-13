@@ -66,7 +66,6 @@ export default function NoteFrequencyPage() {
           title="Note to Frequency Converter"
           description="Convert musical notes to frequencies in Hz and vice versa. Supports all octaves and different concert pitches."
           colorClass="bg-cyan-100 text-cyan-600"
-          category="Audio"
         />
 
         <section aria-label="Note to Frequency Converter">

@@ -1,34 +1,48 @@
 import { Metadata } from 'next';
 import { RingSizeConverter } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Ring Size Converter - International Ring Size Chart',
-  description: 'Convert ring sizes between US, UK, EU, and Japanese systems. Free ring size converter with diameter and circumference measurements.',
-  keywords: ['ring size converter', 'ring size chart', 'ring size calculator', 'US to UK ring size', 'EU ring size', 'ring measurement'],
+  title: 'Ringstørrelse – gratis kalkulator på nett',
+  description: 'Regn om ringstørrelser mellom omkrets, EU, UK og US. Gratis og uten registrering.',
+  keywords: ['ringstørrelse', 'ring', 'smykke', 'omkrets', 'ringmål'],
   alternates: { canonical: '/calculators/health/ring-size-converter' },
+  openGraph: {
+    title: 'Ringstørrelse',
+    description: 'Regn om ringstørrelser mellom omkrets, EU, UK og US',
+    url: '/calculators/health/ring-size-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Ring Size Converter',
-  description: 'Convert ring sizes between international systems',
+  name: 'Ringstørrelse',
+  description: 'Regn om ringstørrelser mellom omkrets, EU, UK og US',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select your size system', text: 'Choose US/Canada, UK/Australia, Europe, or Japan.' },
-  { name: 'Enter your ring size', text: 'Input your known ring size in the selected system.' },
-  { name: 'View conversions', text: 'See your ring size in all international systems plus diameter and circumference.' },
+  { name: 'Velg system', text: 'Europa/Norge er vanligvis innvendig omkrets i mm.' },
+  { name: 'Skriv inn størrelsen', text: 'For eksempel 54.' },
+  { name: 'Les resultatet', text: 'Se størrelser i alle systemer, diameter og omkrets.' },
 ];
 
 const faqs = [
-  { question: 'How do I measure my ring size?', answer: 'Wrap a string around your finger at the base, mark where it meets, and measure the length in mm (circumference). Or measure the inner diameter of a ring that fits well.' },
-  { question: 'What if I\'m between sizes?', answer: 'If between sizes, choose the larger size. Fingers swell throughout the day and in warm weather, so a slightly larger ring is usually more comfortable.' },
-  { question: 'Do ring sizes differ by country?', answer: 'Yes, each country uses different sizing systems. US uses numbers (3-13), UK uses letters (A-Z), EU uses circumference in mm (40-70), and Japan uses numbers (1-27).' },
+  { question: 'Hvordan måler jeg ringstørrelse?', answer: 'Legg en papirstrimmel rundt fingeren, marker, og mål lengden i mm. Det er omkretsen.' },
+  { question: 'Hva er vanlige størrelser?', answer: 'Kvinner ofte 50–58, menn 58–66.' },
+  { question: 'Hvordan bruker norske gullsmeder størrelse?', answer: 'De fleste angir innvendig omkrets i mm.' },
+  { question: 'Hvorfor varierer det?', answer: 'Fingeren er størst på ettermiddagen eller når det er varmt.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/shoe-size-converter', title: 'Skostørrelse', description: 'Regn om skostørrelser mellom EU, UK og US' },
 ];
 
 export default function RingSizeConverterPage() {
@@ -38,33 +52,17 @@ export default function RingSizeConverterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="ring-size-converter"
-          title="Ring Size Converter"
-          description="Convert ring sizes between US, UK, EU, and Japanese sizing systems. Get diameter and circumference measurements."
-          colorClass="bg-red-100 text-red-700"
+          title="Ringstørrelse"
+          description="Regn om ringstørrelse mellom Europa/Norge (omkrets i mm), USA og Storbritannia. Gratis og uten registrering."
         />
-        <section aria-label="Ring Size Converter"><RingSizeConverter /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Converter</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Ringstørrelse">
+          <RingSizeConverter />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

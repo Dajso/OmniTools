@@ -66,7 +66,6 @@ export default function KeyScaleFinderPage() {
           title="Key/Scale Finder"
           description="Identify the key and scale of a song by selecting notes. Find matching major, minor, pentatonic, blues, and modal scales."
           colorClass="bg-amber-100 text-amber-600"
-          category="Audio"
         />
 
         <section aria-label="Key/Scale Finder">

@@ -65,7 +65,6 @@ export default function AspectRatioCalculatorPage() {
           title="Aspect Ratio Calculator"
           description="Calculate and convert aspect ratios for video and photography. Scale dimensions while maintaining proportions for YouTube, Instagram, TikTok, and more."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Aspect Ratio Calculator">

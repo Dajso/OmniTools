@@ -82,7 +82,6 @@ export default function RoofFramingCalculatorPage() {
           title="Roof Framing Calculator"
           description="Calculate rafter length, ridge height, cut angles, and number of rafters for roof framing projects."
           colorClass="bg-amber-100 text-amber-600"
-          category="Construction"
         />
 
         <section aria-label="Roof Framing Calculator">

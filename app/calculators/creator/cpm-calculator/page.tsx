@@ -66,7 +66,6 @@ export default function CPMCalculatorPage() {
           title="CPM Calculator"
           description="Calculate Cost Per Mille (cost per thousand impressions) for your advertising campaigns."
           colorClass="bg-orange-100 text-orange-600"
-          category="Creator"
         />
 
         <section aria-label="CPM Calculator">

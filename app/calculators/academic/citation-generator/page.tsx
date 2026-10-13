@@ -65,7 +65,6 @@ export default function CitationGeneratorPage() {
           title="Citation Generator"
           description="Generate properly formatted APA and MLA citations for books, websites, and journal articles. Copy citations directly to your clipboard."
           colorClass="bg-amber-100 text-amber-600"
-          category="Academic"
         />
 
         <section aria-label="Citation Generator">

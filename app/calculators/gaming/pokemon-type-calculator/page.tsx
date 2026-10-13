@@ -65,7 +65,6 @@ export default function PokemonTypeCalculatorPage() {
           title="Pokemon Type Calculator"
           description="Calculate type effectiveness for Pokemon battles. Find weaknesses, resistances, and immunities for any single or dual type combination."
           colorClass="bg-yellow-100 text-yellow-600"
-          category="Gaming"
         />
 
         <section aria-label="Pokemon Type Calculator">

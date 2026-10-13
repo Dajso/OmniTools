@@ -65,7 +65,6 @@ export default function GoldenRatioOverlayPage() {
           title="Golden Ratio Overlay Generator"
           description="Generate composition overlays based on the golden ratio (φ = 1.618). Create golden spiral, phi grid, and golden triangle guides for naturally pleasing photography compositions."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Golden Ratio Overlay Generator">

@@ -47,7 +47,6 @@ export default function WordCounterPage() {
           title="Word Counter"
           description="Count words, characters, sentences, and paragraphs instantly. Perfect for essays, articles, and social media posts."
           colorClass="bg-purple-100 text-purple-600"
-          category="Productivity"
         />
 
         <section aria-label="Word Counter Tool">

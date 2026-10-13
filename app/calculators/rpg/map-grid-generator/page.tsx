@@ -66,7 +66,6 @@ export default function MapGridGeneratorPage() {
           title="Map Grid Generator"
           description="Create hex and square grids for tabletop RPG battle maps. Paint terrain, add coordinates, and export as SVG for virtual tabletops or printing."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Map Grid Generator">

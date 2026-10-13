@@ -65,7 +65,6 @@ export default function CompostCalculatorPage() {
           title="Compost C:N Ratio Calculator"
           description="Calculate the carbon to nitrogen ratio of your compost mix for optimal decomposition (ideal: 25-30:1)."
           colorClass="bg-amber-100 text-amber-600"
-          category="Garden"
         />
 
         <section aria-label="Compost Calculator">

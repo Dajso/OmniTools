@@ -1,7 +1,7 @@
 /**
- * Oven Temperature Converter
- * 
- * Converts between Fahrenheit, Celsius, and gas marks.
+ * Ovnstemperatur
+ *
+ * Gjør om mellom Fahrenheit, Celsius og gas mark (britiske oppskrifter).
  * 
  * @module lib/calculations/health/oven-temperature
  * @see Requirements 6.19
@@ -17,6 +17,8 @@ export interface OvenTempInputs {
 export interface OvenTempResults {
   fahrenheit: number;
   celsius: number;
+  /** Anbefalt temperatur ved varmluft (ca. 20 °C lavere) */
+  fanCelsius: number;
   gasMark: number | string;
   description: string;
 }
@@ -28,13 +30,13 @@ const GAS_MARK_TO_F: Record<number, number> = {
 };
 
 const TEMP_DESCRIPTIONS: Array<{ maxF: number; description: string }> = [
-  { maxF: 250, description: 'Very Low / Warming' },
-  { maxF: 300, description: 'Low / Slow' },
-  { maxF: 350, description: 'Moderate' },
-  { maxF: 400, description: 'Moderately Hot' },
-  { maxF: 450, description: 'Hot' },
-  { maxF: 500, description: 'Very Hot' },
-  { maxF: 600, description: 'Extremely Hot / Broil' },
+  { maxF: 250, description: 'Svært lav / holde varm' },
+  { maxF: 300, description: 'Lav / langtidssteking' },
+  { maxF: 350, description: 'Middels' },
+  { maxF: 400, description: 'Middels høy' },
+  { maxF: 450, description: 'Høy' },
+  { maxF: 500, description: 'Svært høy' },
+  { maxF: 600, description: 'Ekstremt høy / grill' },
 ];
 
 function fahrenheitToCelsius(f: number): number {
@@ -88,11 +90,12 @@ export function convertOvenTemperature(inputs: OvenTempInputs): OvenTempResults 
   const celsius = fahrenheitToCelsius(fahrenheit);
   const gasMark = fahrenheitToGasMark(fahrenheit);
   
-  const description = TEMP_DESCRIPTIONS.find(d => fahrenheit <= d.maxF)?.description || 'Extremely Hot';
+  const description = TEMP_DESCRIPTIONS.find(d => fahrenheit <= d.maxF)?.description || 'Ekstremt høy';
 
   return {
     fahrenheit: Math.round(fahrenheit),
     celsius: Math.round(celsius),
+    fanCelsius: Math.round(celsius - 20),
     gasMark,
     description,
   };
@@ -100,14 +103,14 @@ export function convertOvenTemperature(inputs: OvenTempInputs): OvenTempResults 
 
 export function getCommonTemperatures(): Array<{ fahrenheit: number; celsius: number; use: string }> {
   return [
-    { fahrenheit: 250, celsius: 120, use: 'Slow roasting, drying' },
-    { fahrenheit: 300, celsius: 150, use: 'Slow cooking, braising' },
-    { fahrenheit: 325, celsius: 165, use: 'Roasting meats' },
-    { fahrenheit: 350, celsius: 175, use: 'Baking cakes, cookies' },
-    { fahrenheit: 375, celsius: 190, use: 'Baking bread, pastries' },
-    { fahrenheit: 400, celsius: 200, use: 'Roasting vegetables' },
-    { fahrenheit: 425, celsius: 220, use: 'Pizza, high-heat roasting' },
-    { fahrenheit: 450, celsius: 230, use: 'Searing, crispy crusts' },
-    { fahrenheit: 500, celsius: 260, use: 'Pizza stone, broiling' },
+    { fahrenheit: 250, celsius: 120, use: 'Langtidssteking, tørking' },
+    { fahrenheit: 300, celsius: 150, use: 'Langtidskoking, grytestek' },
+    { fahrenheit: 325, celsius: 165, use: 'Steking av kjøtt' },
+    { fahrenheit: 350, celsius: 175, use: 'Kaker og kjeks' },
+    { fahrenheit: 375, celsius: 190, use: 'Brød og bakverk' },
+    { fahrenheit: 400, celsius: 200, use: 'Ovnsbakte grønnsaker' },
+    { fahrenheit: 425, celsius: 220, use: 'Pizza, sterk varme' },
+    { fahrenheit: 450, celsius: 230, use: 'Sprø skorper, avsvidning' },
+    { fahrenheit: 500, celsius: 260, use: 'Pizzastein, grilling' },
   ];
 }

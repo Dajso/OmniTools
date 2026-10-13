@@ -65,7 +65,6 @@ export default function PackingListPage() {
           title="Packing List Generator"
           description="Generate a customized packing list based on your trip details. Select your trip type, duration, weather, and activities to get a comprehensive checklist."
           colorClass="bg-orange-100 text-orange-600"
-          category="Travel"
         />
 
         <section aria-label="Packing List Generator">

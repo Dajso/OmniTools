@@ -78,7 +78,6 @@ export default function CrownMoldingCalculatorPage() {
           title="Crown Molding Angle Calculator"
           description="Calculate miter and bevel angles for crown molding cuts. Get precise compound miter saw settings for inside and outside corners."
           colorClass="bg-amber-100 text-amber-600"
-          category="Construction"
         />
 
         <section aria-label="Crown Molding Angle Calculator">

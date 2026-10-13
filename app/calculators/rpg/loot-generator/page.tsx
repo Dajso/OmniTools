@@ -66,7 +66,6 @@ export default function LootGeneratorPage() {
           title="Loot Generator"
           description="Generate random treasure hoards with coins, gems, art objects, and magic items for your D&D and RPG encounters."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Loot Generator">

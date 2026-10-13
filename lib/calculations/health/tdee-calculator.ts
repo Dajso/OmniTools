@@ -38,28 +38,28 @@ export type ActivityLevel =
 export const ACTIVITY_LEVELS: Record<ActivityLevel, { multiplier: number; label: string; description: string }> = {
   sedentary: {
     multiplier: 1.2,
-    label: 'Sedentary',
-    description: 'Little or no exercise, desk job',
+    label: 'Stillesittende',
+    description: 'Lite eller ingen trening, kontorjobb',
   },
   light: {
     multiplier: 1.375,
-    label: 'Lightly Active',
-    description: 'Light exercise 1-3 days/week',
+    label: 'Lett aktiv',
+    description: 'Lett trening 1–3 dager i uken',
   },
   moderate: {
     multiplier: 1.55,
-    label: 'Moderately Active',
-    description: 'Moderate exercise 3-5 days/week',
+    label: 'Moderat aktiv',
+    description: 'Trening 3–5 dager i uken',
   },
   active: {
     multiplier: 1.725,
-    label: 'Very Active',
-    description: 'Hard exercise 6-7 days/week',
+    label: 'Svært aktiv',
+    description: 'Hard trening 6–7 dager i uken',
   },
   very_active: {
     multiplier: 1.9,
-    label: 'Extra Active',
-    description: 'Very hard exercise, physical job',
+    label: 'Ekstremt aktiv',
+    description: 'Svært hard trening eller fysisk tungt arbeid',
   },
 };
 
@@ -223,21 +223,21 @@ export function calculateTDEE(inputs: TDEEInputs): TDEEResults {
   // Validate inputs
   if (age < 15 || age > 120) {
     throw new TDEECalculationError(
-      'Age must be between 15 and 120 years',
+      'Alderen må være mellom 15 og 120 år',
       'out_of_range',
       'age'
     );
   }
   if (weight <= 0) {
     throw new TDEECalculationError(
-      'Weight must be a positive number',
+      'Vekten må være større enn null',
       'invalid_input',
       'weight'
     );
   }
   if (height <= 0) {
     throw new TDEECalculationError(
-      'Height must be a positive number',
+      'Høyden må være større enn null',
       'invalid_input',
       'height'
     );
@@ -258,14 +258,14 @@ export function calculateTDEE(inputs: TDEEInputs): TDEEResults {
   // Validate reasonable ranges
   if (weightKg < 30 || weightKg > 300) {
     throw new TDEECalculationError(
-      'Weight is outside reasonable range',
+      'Vekten er utenfor det rimelige området (30–300 kg)',
       'out_of_range',
       'weight'
     );
   }
   if (heightCm < 100 || heightCm > 250) {
     throw new TDEECalculationError(
-      'Height is outside reasonable range',
+      'Høyden er utenfor det rimelige området (100–250 cm)',
       'out_of_range',
       'height'
     );

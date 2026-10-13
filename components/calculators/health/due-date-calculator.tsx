@@ -8,13 +8,13 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateDueDate, type CalculationMethod, type DueDateResults } from '@/lib/calculations/health/due-date';
 
 const METHOD_OPTIONS = [
-  { value: 'lmp', label: 'Last Menstrual Period (LMP)' },
-  { value: 'conception', label: 'Conception Date' },
-  { value: 'ultrasound', label: 'Ultrasound Due Date' },
+  { value: 'lmp', label: 'Første dag i siste menstruasjon' },
+  { value: 'conception', label: 'Unnfangelsesdato' },
+  { value: 'ultrasound', label: 'Termin fra ultralyd' },
 ];
 
 function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  return date.toLocaleDateString('nb-NO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 export function DueDateCalculator() {
@@ -36,25 +36,25 @@ export function DueDateCalculator() {
 
   return (
     <CalculatorBase
-      title="Due Date Calculator"
-      description="Calculate your estimated due date and pregnancy milestones"
+      title="Termindato-kalkulator"
+      description="Regn ut forventet termin og viktige milepæler i svangerskapet"
       onCalculate={calculate}
       onReset={() => { setDateStr(new Date().toISOString().split('T')[0]); setMethod('lmp'); setCycleLength(28); }}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Estimated Due Date" value={formatDate(results.dueDate)} highlight copyable />
+          <ResultDisplay label="Beregnet termin" value={formatDate(results.dueDate)} highlight copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Current Week" value={`Week ${results.currentWeek}, Day ${results.currentDay}`} />
+            <ResultDisplay label="Nåværende uke" value={`Uke ${results.currentWeek}, dag ${results.currentDay}`} />
             <ResultDisplay label="Trimester" value={`${results.trimester}${results.trimester === 1 ? 'st' : results.trimester === 2 ? 'nd' : 'rd'}`} />
-            <ResultDisplay label="Days Remaining" value={results.daysRemaining} unit="days" />
-            <ResultDisplay label="Conception Date" value={formatDate(results.conceptionDate)} />
+            <ResultDisplay label="Dager igjen" value={results.daysRemaining} unit="dager" />
+            <ResultDisplay label="Unnfangelsesdato" value={formatDate(results.conceptionDate)} />
           </div>
           <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2">Pregnancy Milestones</h4>
+            <h4 className="text-sm font-medium mb-2">Milepæler i svangerskapet</h4>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {results.milestones.map((m, i) => (
                 <div key={i} className={`flex justify-between text-sm p-2 rounded ${results.currentWeek >= m.week ? 'bg-green-50' : 'bg-muted/50'}`}>
-                  <span>Week {m.week}: {m.description}</span>
+                  <span>Uke {m.week}: {m.description}</span>
                   <span className="text-muted-foreground">{m.date.toLocaleDateString()}</span>
                 </div>
               ))}
@@ -63,9 +63,9 @@ export function DueDateCalculator() {
         </div>
       )}
     >
-      <SelectInput id="method" label="Calculation Method" value={method} onChange={(v) => setMethod(v as CalculationMethod)} options={METHOD_OPTIONS} required />
+      <SelectInput id="method" label="Beregningsmåte" value={method} onChange={(v) => setMethod(v as CalculationMethod)} options={METHOD_OPTIONS} required />
       <div className="space-y-2">
-        <label htmlFor="date" className="text-sm font-medium">Date</label>
+        <label htmlFor="date" className="text-sm font-medium">Dato</label>
         <input
           type="date"
           id="date"
@@ -75,7 +75,7 @@ export function DueDateCalculator() {
         />
       </div>
       {method === 'lmp' && (
-        <NumberInput id="cycleLength" label="Average Cycle Length" value={cycleLength} onChange={setCycleLength} min={21} max={40} unit="days" />
+        <NumberInput id="cycleLength" label="Gjennomsnittlig sykluslengde" value={cycleLength} onChange={setCycleLength} min={21} max={40} unit="dager" />
       )}
     </CalculatorBase>
   );

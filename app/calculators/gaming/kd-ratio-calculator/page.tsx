@@ -65,7 +65,6 @@ export default function KDRatioCalculatorPage() {
           title="KD Ratio Calculator"
           description="Calculate your Kill/Death ratio and KDA. See how your stats compare and get personalized tips to improve your gaming performance."
           colorClass="bg-red-100 text-red-600"
-          category="Gaming"
         />
 
         <section aria-label="KD Ratio Calculator">

@@ -63,7 +63,6 @@ export default function CostPerCupCalculatorPage() {
           title="Cost Per Cup Calculator"
           description="Calculate the actual cost per cup from your coffee bag price with budget projections."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Cost Per Cup Calculator">

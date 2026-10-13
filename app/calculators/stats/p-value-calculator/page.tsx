@@ -66,7 +66,6 @@ export default function PValueCalculatorPage() {
           title="P-Value Calculator"
           description="Calculate p-values for hypothesis testing. Supports Z-test, T-test, and Chi-square test with interpretation of statistical significance."
           colorClass="bg-purple-100 text-purple-600"
-          category="Statistics"
         />
 
         <section aria-label="P-Value Calculator">

@@ -65,7 +65,6 @@ export default function FlightDurationPage() {
           title="Flight Duration Calculator"
           description="Estimate flight times between major world airports. Get distance calculations and flight type classifications for your travel planning."
           colorClass="bg-sky-100 text-sky-600"
-          category="Travel"
         />
 
         <section aria-label="Flight Duration Calculator">

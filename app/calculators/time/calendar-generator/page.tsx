@@ -66,7 +66,6 @@ export default function CalendarGeneratorPage() {
           title="Printable Calendar Generator"
           description="Generate beautiful, printable calendars in PDF format. Create monthly or full-year calendars with customizable options including week start day and holiday highlighting."
           colorClass="bg-orange-100 text-orange-600"
-          category="Time & Date"
         />
 
         <section aria-label="Calendar Generator">

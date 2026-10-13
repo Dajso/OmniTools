@@ -65,7 +65,6 @@ export default function MonitorHzTesterPage() {
           title="Monitor Refresh Rate Tester"
           description="Test your monitor's actual refresh rate. Verify if your display is running at 60Hz, 144Hz, 240Hz, or any other refresh rate."
           colorClass="bg-cyan-100 text-cyan-600"
-          category="Gaming"
         />
 
         <section aria-label="Monitor Hz Tester">

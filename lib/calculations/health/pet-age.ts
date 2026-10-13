@@ -52,10 +52,10 @@ export function calculateDogAge(inputs: DogAgeInputs): PetAgeResults {
   }
 
   let lifeStage: string;
-  if (totalYears < 0.5) lifeStage = 'Puppy';
-  else if (totalYears < 2) lifeStage = 'Junior';
-  else if (totalYears < 7) lifeStage = 'Adult';
-  else if (totalYears < 10) lifeStage = 'Mature';
+  if (totalYears < 0.5) lifeStage = 'Valp';
+  else if (totalYears < 2) lifeStage = 'Ungdom';
+  else if (totalYears < 7) lifeStage = 'Voksen';
+  else if (totalYears < 10) lifeStage = 'Moden';
   else lifeStage = 'Senior';
 
   return {
@@ -81,12 +81,12 @@ export function calculateCatAge(inputs: CatAgeInputs): PetAgeResults {
   }
 
   let lifeStage: string;
-  if (totalYears < 0.5) lifeStage = 'Kitten';
-  else if (totalYears < 2) lifeStage = 'Junior';
-  else if (totalYears < 7) lifeStage = 'Prime';
-  else if (totalYears < 11) lifeStage = 'Mature';
+  if (totalYears < 0.5) lifeStage = 'Kattunge';
+  else if (totalYears < 2) lifeStage = 'Ungdom';
+  else if (totalYears < 7) lifeStage = 'Voksen';
+  else if (totalYears < 11) lifeStage = 'Moden';
   else if (totalYears < 15) lifeStage = 'Senior';
-  else lifeStage = 'Geriatric';
+  else lifeStage = 'Gammel';
 
   return {
     humanYears: Math.round(humanYears),

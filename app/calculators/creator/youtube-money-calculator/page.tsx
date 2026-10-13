@@ -65,7 +65,6 @@ export default function YouTubeMoneyCalculatorPage() {
           title="YouTube Money Calculator"
           description="Estimate how much money you can make on YouTube based on views and content category."
           colorClass="bg-red-100 text-red-600"
-          category="Creator"
         />
 
         <section aria-label="YouTube Money Calculator">

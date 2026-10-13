@@ -59,7 +59,6 @@ export default function FabricYardageCalculatorPage() {
           title="Fabric Yardage Calculator"
           description="Calculate how much fabric you need for your sewing project. Accounts for garment type, size, fabric width, and pattern matching."
           colorClass="bg-pink-100 text-pink-600"
-          category="Crafts"
         />
 
         <section aria-label="Fabric Yardage Calculator">

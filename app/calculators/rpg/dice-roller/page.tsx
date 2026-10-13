@@ -66,7 +66,6 @@ export default function DiceRollerPage() {
           title="Dice Roller"
           description="Roll dice for D&D, Pathfinder, and other tabletop RPGs. Supports all standard dice types and custom notation with modifiers."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Dice Roller">

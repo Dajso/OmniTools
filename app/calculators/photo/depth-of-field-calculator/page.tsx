@@ -65,7 +65,6 @@ export default function DepthOfFieldCalculatorPage() {
           title="Depth of Field Calculator"
           description="Calculate depth of field for your photography. Find near focus, far focus, hyperfocal distance, and understand how aperture, focal length, and sensor size affect your images."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Depth of Field Calculator">

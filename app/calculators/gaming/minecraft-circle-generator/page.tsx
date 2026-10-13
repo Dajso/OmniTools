@@ -66,7 +66,6 @@ export default function MinecraftCircleGeneratorPage() {
           title="Minecraft Circle Generator"
           description="Generate pixel-perfect circles, ovals, and spheres for Minecraft building. Get a visual block-by-block guide for any diameter."
           colorClass="bg-emerald-100 text-emerald-600"
-          category="Gaming"
         />
 
         <section aria-label="Minecraft Circle Generator">

@@ -59,7 +59,6 @@ export default function KnittingStitchConverterPage() {
           title="Knitting Stitch Converter"
           description="Convert pattern stitches to your gauge or calculate how many stitches to cast on for a specific width."
           colorClass="bg-purple-100 text-purple-600"
-          category="Crafts"
         />
 
         <section aria-label="Knitting Stitch Converter">

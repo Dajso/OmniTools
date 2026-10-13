@@ -66,7 +66,6 @@ export default function BudgetSplitterPage() {
           title="Travel Budget Splitter"
           description="Split travel expenses fairly among your group. Track who paid what, see individual balances, and get simple settlement suggestions."
           colorClass="bg-emerald-100 text-emerald-600"
-          category="Travel"
         />
 
         <section aria-label="Travel Budget Splitter">

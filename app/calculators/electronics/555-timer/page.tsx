@@ -16,7 +16,6 @@ export default function Timer555Page() {
         toolId="555-timer"
         title="555 Timer Calculator"
         description="Calculate frequency and timing for 555 timer circuits. Supports astable (oscillator) and monostable (one-shot) modes."
-        category="Electronics"
       />
       <Timer555Calculator />
     </main>

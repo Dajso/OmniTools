@@ -66,7 +66,6 @@ export default function BPMTapperPage() {
           title="BPM Tapper"
           description="Tap to the beat to detect tempo and calculate delay times for music production. Perfect for syncing effects with your music."
           colorClass="bg-purple-100 text-purple-600"
-          category="Audio"
         />
 
         <section aria-label="BPM Tapper">

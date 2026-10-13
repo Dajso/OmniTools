@@ -64,7 +64,6 @@ export default function FractionCalculatorPage() {
           title="Fraction Calculator"
           description="Add, subtract, multiply, divide, and simplify fractions. All results are automatically reduced to lowest terms with decimal equivalents."
           colorClass="bg-orange-100 text-orange-600"
-          category="Academic"
         />
 
         <section aria-label="Fraction Calculator">

@@ -48,7 +48,6 @@ export default function JSONFormatterPage() {
           title="JSON Formatter"
           description="Format, validate, and beautify JSON data instantly. Syntax highlighting and real-time error detection included."
           colorClass="bg-purple-100 text-purple-600"
-          category="Productivity"
         />
 
         <section aria-label="JSON Formatter Tool">

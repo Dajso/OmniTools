@@ -65,7 +65,6 @@ export default function AgeInDaysPage() {
           title="Age in Days Calculator"
           description="Ever wondered exactly how many days you've been alive? Find out your age in days, hours, minutes, and even seconds!"
           colorClass="bg-amber-100 text-amber-600"
-          category="Fun"
         />
 
         <section aria-label="Age in Days Calculator">

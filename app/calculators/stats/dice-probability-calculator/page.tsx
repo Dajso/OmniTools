@@ -65,7 +65,6 @@ export default function DiceProbabilityCalculatorPage() {
           title="Dice Probability Calculator"
           description="Calculate the probability of rolling specific sums with multiple dice. Perfect for RPG players, board gamers, and probability students."
           colorClass="bg-red-100 text-red-600"
-          category="Statistics"
         />
 
         <section aria-label="Dice Probability Calculator">

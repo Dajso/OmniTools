@@ -66,7 +66,6 @@ export default function MouseSensitivityConverterPage() {
           title="Mouse Sensitivity Converter"
           description="Convert your mouse sensitivity between different FPS games while preserving your cm/360. Supports Valorant, CS2, Apex Legends, Overwatch 2, Fortnite, and more."
           colorClass="bg-purple-100 text-purple-600"
-          category="Gaming"
         />
 
         <section aria-label="Mouse Sensitivity Converter">

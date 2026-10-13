@@ -1,22 +1,23 @@
 /**
- * Cooking Unit Converter
- * 
- * Converts between cooking measurements.
- * 
+ * Målkonverterer for matlaging
+ *
+ * Gjør om mellom norske mål (dl, ss, ts, krm, g, kg) og utenlandske
+ * (cups, fl oz, oz, lb), slik at du kan bruke oppskrifter fra andre land.
+ *
  * @module lib/calculations/health/cooking-converter
- * @see Requirements 6.18
  */
 
-export type CookingUnit = 
-  | 'cups' | 'tablespoons' | 'teaspoons' 
-  | 'fluid_oz' | 'ml' | 'liters'
-  | 'grams' | 'oz' | 'pounds';
+export type CookingUnit =
+  | 'ml' | 'dl' | 'liters' | 'krm' | 'teaspoons' | 'tablespoons'
+  | 'cups' | 'fluid_oz'
+  | 'grams' | 'kg' | 'oz' | 'pounds';
 
 export interface CookingConversionInputs {
   value: number;
   fromUnit: CookingUnit;
   toUnit: CookingUnit;
-  ingredient?: string; // For weight-to-volume conversions
+  /** Trengs når du går mellom volum og vekt */
+  ingredient?: string;
 }
 
 export interface CookingConversionResults {
@@ -26,43 +27,50 @@ export interface CookingConversionResults {
   formatted: string;
 }
 
-// Volume conversions to ml
-const VOLUME_TO_ML: Record<string, number> = {
-  cups: 236.588,
-  tablespoons: 14.787,
-  teaspoons: 4.929,
-  fluid_oz: 29.574,
+/** Volumenheter i ml. Norsk ss = 15 ml, ts = 5 ml, krm = 1 ml. Amerikansk cup = 236,588 ml. */
+export const VOLUME_TO_ML: Record<string, number> = {
   ml: 1,
+  dl: 100,
   liters: 1000,
+  krm: 1,
+  teaspoons: 5,
+  tablespoons: 15,
+  cups: 236.588,
+  fluid_oz: 29.5735,
 };
 
-// Weight conversions to grams
-const WEIGHT_TO_GRAMS: Record<string, number> = {
+/** Vektenheter i gram */
+export const WEIGHT_TO_GRAMS: Record<string, number> = {
   grams: 1,
+  kg: 1000,
   oz: 28.3495,
   pounds: 453.592,
 };
 
-// Common ingredient densities (grams per cup)
-const INGREDIENT_DENSITY: Record<string, number> = {
-  flour: 125,
-  sugar: 200,
-  brown_sugar: 220,
-  butter: 227,
-  milk: 245,
-  water: 237,
-  oil: 218,
-  honey: 340,
-  rice: 185,
-  oats: 90,
+/** Tetthet i gram per dl for vanlige ingredienser */
+export const INGREDIENT_G_PER_DL: Record<string, { label: string; gPerDl: number }> = {
+  flour: { label: 'Hvetemel', gPerDl: 60 },
+  sugar: { label: 'Sukker', gPerDl: 85 },
+  powdered_sugar: { label: 'Melis', gPerDl: 60 },
+  brown_sugar: { label: 'Brunt sukker', gPerDl: 90 },
+  butter: { label: 'Smør', gPerDl: 95 },
+  milk: { label: 'Melk', gPerDl: 100 },
+  water: { label: 'Vann', gPerDl: 100 },
+  oil: { label: 'Matolje', gPerDl: 90 },
+  honey: { label: 'Honning', gPerDl: 140 },
+  syrup: { label: 'Sirup', gPerDl: 140 },
+  rice: { label: 'Ris (ukokt)', gPerDl: 80 },
+  oats: { label: 'Havregryn', gPerDl: 40 },
+  cocoa: { label: 'Kakaopulver', gPerDl: 45 },
+  salt: { label: 'Salt', gPerDl: 120 },
 };
 
 function isVolumeUnit(unit: CookingUnit): boolean {
-  return ['cups', 'tablespoons', 'teaspoons', 'fluid_oz', 'ml', 'liters'].includes(unit);
+  return unit in VOLUME_TO_ML;
 }
 
 function isWeightUnit(unit: CookingUnit): boolean {
-  return ['grams', 'oz', 'pounds'].includes(unit);
+  return unit in WEIGHT_TO_GRAMS;
 }
 
 export function convertCookingUnit(inputs: CookingConversionInputs): CookingConversionResults {
@@ -70,55 +78,34 @@ export function convertCookingUnit(inputs: CookingConversionInputs): CookingConv
 
   let result: number;
 
-  // Same type conversion (volume to volume or weight to weight)
   if (isVolumeUnit(fromUnit) && isVolumeUnit(toUnit)) {
-    const ml = value * VOLUME_TO_ML[fromUnit];
-    result = ml / VOLUME_TO_ML[toUnit];
+    result = (value * VOLUME_TO_ML[fromUnit]) / VOLUME_TO_ML[toUnit];
   } else if (isWeightUnit(fromUnit) && isWeightUnit(toUnit)) {
-    const grams = value * WEIGHT_TO_GRAMS[fromUnit];
-    result = grams / WEIGHT_TO_GRAMS[toUnit];
-  } else if (ingredient && INGREDIENT_DENSITY[ingredient]) {
-    // Cross-type conversion requires ingredient
-    const density = INGREDIENT_DENSITY[ingredient];
-    
-    if (isVolumeUnit(fromUnit) && isWeightUnit(toUnit)) {
-      // Volume to weight
-      const cups = value * VOLUME_TO_ML[fromUnit] / VOLUME_TO_ML.cups;
-      const grams = cups * density;
+    result = (value * WEIGHT_TO_GRAMS[fromUnit]) / WEIGHT_TO_GRAMS[toUnit];
+  } else if (ingredient && INGREDIENT_G_PER_DL[ingredient]) {
+    const gPerMl = INGREDIENT_G_PER_DL[ingredient].gPerDl / 100;
+    if (isVolumeUnit(fromUnit)) {
+      const grams = value * VOLUME_TO_ML[fromUnit] * gPerMl;
       result = grams / WEIGHT_TO_GRAMS[toUnit];
     } else {
-      // Weight to volume
-      const grams = value * WEIGHT_TO_GRAMS[fromUnit];
-      const cups = grams / density;
-      result = cups * VOLUME_TO_ML.cups / VOLUME_TO_ML[toUnit];
+      const ml = (value * WEIGHT_TO_GRAMS[fromUnit]) / gPerMl;
+      result = ml / VOLUME_TO_ML[toUnit];
     }
   } else {
-    throw new Error('Ingredient required for volume-to-weight conversion');
+    throw new Error('Velg ingrediens når du går mellom volum og vekt');
   }
 
-  // Format result
-  let formatted: string;
-  if (result < 0.01) {
-    formatted = result.toExponential(2);
-  } else if (result < 1) {
-    formatted = result.toFixed(3);
-  } else if (result < 100) {
-    formatted = result.toFixed(2);
-  } else {
-    formatted = result.toFixed(1);
-  }
+  let decimals = 1;
+  if (result < 0.01) decimals = 3;
+  else if (result < 1) decimals = 2;
+  else if (result < 100) decimals = 2;
+  const formatted = result < 0.001
+    ? result.toExponential(2).replace('.', ',')
+    : new Intl.NumberFormat('nb-NO', { maximumFractionDigits: decimals }).format(result);
 
-  return {
-    value: result,
-    fromUnit,
-    toUnit,
-    formatted,
-  };
+  return { value: result, fromUnit, toUnit, formatted };
 }
 
 export function getIngredientOptions(): Array<{ value: string; label: string }> {
-  return Object.keys(INGREDIENT_DENSITY).map(key => ({
-    value: key,
-    label: key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-  }));
+  return Object.entries(INGREDIENT_G_PER_DL).map(([value, v]) => ({ value, label: v.label }));
 }

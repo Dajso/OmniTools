@@ -66,7 +66,6 @@ export default function MetronomePage() {
           title="Visual Metronome"
           description="Free online metronome with visual and audio cues. Supports multiple time signatures and tempo presets for music practice."
           colorClass="bg-rose-100 text-rose-600"
-          category="Audio"
         />
 
         <section aria-label="Visual Metronome">

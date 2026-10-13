@@ -1,35 +1,48 @@
 import { Metadata } from 'next';
 import { PaceCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Pace Calculator - Running Pace Calculator',
-  description: 'Calculate your running or walking pace, time, or distance. Free pace calculator with split times in min/mile and min/km.',
-  keywords: ['pace calculator', 'running pace calculator', 'running time calculator', 'marathon pace calculator', 'speed calculator', 'split time calculator'],
+  title: 'Tempokalkulator – gratis kalkulator på nett',
+  description: 'Regn ut løpetempo i min/km og sluttid. Gratis og uten registrering.',
+  keywords: ['tempo', 'løpetempo', 'min/km', 'maraton', 'sluttid'],
   alternates: { canonical: '/calculators/health/pace-calculator' },
+  openGraph: {
+    title: 'Tempokalkulator',
+    description: 'Regn ut løpetempo i min/km og sluttid',
+    url: '/calculators/health/pace-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Pace Calculator',
-  description: 'Calculate running or walking pace, time, or distance',
+  name: 'Tempokalkulator',
+  description: 'Regn ut løpetempo i min/km og sluttid',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose what to calculate', text: 'Select whether you want to calculate pace, time, or distance.' },
-  { name: 'Enter known values', text: 'Input the values you know (distance and time for pace, etc.).' },
-  { name: 'Select units', text: 'Choose miles, kilometers, or meters for distance.' },
-  { name: 'View results', text: 'See your pace in min/mile and min/km, plus split times.' },
+  { name: 'Velg hva du vil regne ut', text: 'Tempo, tid eller distanse.' },
+  { name: 'Fyll inn kjente verdier', text: 'For eksempel distanse og tid.' },
+  { name: 'Les resultatet', text: 'Se tempo, fart i km/t og mellomtider.' },
 ];
 
 const faqs = [
-  { question: 'What is a good running pace?', answer: 'Pace varies by fitness level. Beginners often run 10-12 min/mile, recreational runners 8-10 min/mile, and competitive runners under 7 min/mile. Focus on your own progress.' },
-  { question: 'How do I calculate marathon pace?', answer: 'Enter 26.2 miles (or 42.195 km) as distance and your target finish time. The calculator will show your required pace per mile/km.' },
-  { question: 'What are negative splits?', answer: 'Negative splits mean running the second half faster than the first. Many coaches recommend this strategy for races to avoid early fatigue.' },
+  { question: 'Hva er tempo?', answer: 'Hvor lang tid du bruker per kilometer, oppgitt i minutter og sekunder.' },
+  { question: 'Hvordan regner jeg om tempo til km/t?', answer: '60 delt på minutter per kilometer. Tempo 5:00 per km er 12 km/t.' },
+  { question: 'Hva er et normalt tempo?', answer: 'Nybegynnere løper ofte på 6–7 min/km. Mosjonister ligger gjerne på 4:30–5:30.' },
+  { question: 'Kan jeg bruke kalkulatoren til gange?', answer: 'Ja, den fungerer for alt som har en jevn fart.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/tdee-calculator', title: 'Kalorikalkulator (TDEE)', description: 'Beregn hvor mange kalorier du forbruker per dag' },
 ];
 
 export default function PaceCalculatorPage() {
@@ -39,33 +52,17 @@ export default function PaceCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="pace-calculator"
-          title="Pace Calculator"
-          description="Calculate your running or walking pace, time, or distance. Get split times and speed in multiple units."
-          colorClass="bg-red-100 text-red-700"
+          title="Tempokalkulator"
+          description="Regn ut løpetempo i min/km, sluttid eller distanse, med mellomtider. Gratis og uten registrering."
         />
-        <section aria-label="Pace Calculator"><PaceCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Tempokalkulator">
+          <PaceCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

@@ -1,98 +1,97 @@
 /**
- * BAC (Blood Alcohol Content) Calculator
- * 
- * Estimates blood alcohol content based on drinks consumed.
- * 
+ * Promillekalkulator
+ *
+ * Anslår promille i blodet ut fra drikke, vekt og tid med Widmarks formel.
+ * Den norske promillegrensen for å føre kjøretøy er 0,2 promille.
+ *
  * @module lib/calculations/health/bac-calculator
- * @see Requirements 6.9
  */
 
 export type BiologicalSex = 'male' | 'female';
 
 export interface BACInputs {
+  /** Kroppsvekt i kg */
   weight: number;
-  unit: 'imperial' | 'metric';
   sex: BiologicalSex;
+  /** Antall drinker (eller alkoholenheter à 12 g når typen er «unit») */
   drinks: number;
+  /** Timer siden første drink */
   hours: number;
-  drinkType: 'beer' | 'wine' | 'spirits' | 'custom';
-  customAlcoholOz?: number;
+  drinkType: 'beer' | 'wine' | 'spirits' | 'unit';
 }
 
 export interface BACResults {
+  /** Anslått promille (‰) */
   bac: number;
   status: 'sober' | 'buzzed' | 'impaired' | 'drunk' | 'dangerous';
-  timeToSober: number; // hours
+  /** Timer til promillen er null */
+  timeToSober: number;
+  /** Timer til promillen er under 0,2 */
+  hoursUntilLegal: number;
+  /** Under promillegrensen på 0,2 */
   legalToDrive: boolean;
   effects: string;
+  /** Gram ren alkohol totalt */
+  alcoholGrams: number;
+  /** Antall alkoholenheter (12 g) */
+  units: number;
 }
 
-// Widmark factors
-const WIDMARK_FACTOR = {
+/** Widmark-faktorer: andel av kroppsvekten alkoholen fordeles i */
+export const WIDMARK_FACTOR = {
   male: 0.68,
   female: 0.55,
 };
 
-// Standard drink alcohol content in oz
-const DRINK_ALCOHOL_OZ = {
-  beer: 0.6,      // 12oz at 5%
-  wine: 0.6,      // 5oz at 12%
-  spirits: 0.6,   // 1.5oz at 40%
-  custom: 0,
+/** Gram ren alkohol per servering */
+export const DRINK_ALCOHOL_GRAMS = {
+  /** 0,5 liter øl, 4,7 % */
+  beer: 18.5,
+  /** 15 cl vin, 12,5 % */
+  wine: 14.8,
+  /** 4 cl sprit, 40 % */
+  spirits: 12.6,
+  /** Én alkoholenhet i Norge */
+  unit: 12,
 };
 
-const BAC_EFFECTS: Array<{ threshold: number; status: BACResults['status']; effects: string }> = [
-  { threshold: 0.02, status: 'sober', effects: 'Minimal effects, slight relaxation' },
-  { threshold: 0.05, status: 'buzzed', effects: 'Lowered inhibitions, mild euphoria, slight impairment' },
-  { threshold: 0.08, status: 'impaired', effects: 'Legally impaired, reduced coordination and judgment' },
-  { threshold: 0.15, status: 'drunk', effects: 'Significant impairment, slurred speech, poor balance' },
-  { threshold: 1.0, status: 'dangerous', effects: 'Severe impairment, risk of alcohol poisoning' },
+/** Forbrenning i promille per time (norsk veiledning: 0,10–0,15). Vi bruker nedre verdi. */
+export const ELIMINATION_PER_HOUR = 0.1;
+
+/** Promillegrensen i vegtrafikkloven */
+export const LEGAL_LIMIT = 0.2;
+
+const EFFECTS: Array<{ threshold: number; status: BACResults['status']; effects: string }> = [
+  { threshold: 0, status: 'sober', effects: 'Ingen eller svært liten påvirkning.' },
+  { threshold: 0.2, status: 'buzzed', effects: 'Over promillegrensen. Lett påvirkning, redusert dømmekraft og reaksjonsevne.' },
+  { threshold: 0.5, status: 'impaired', effects: 'Tydelig påvirket, dårligere koordinasjon og synsfelt. Straffbart å kjøre.' },
+  { threshold: 1.2, status: 'drunk', effects: 'Kraftig påvirket, sløret tale og dårlig balanse. Over grensen for grov ruspåvirkning.' },
+  { threshold: 2.5, status: 'dangerous', effects: 'Svært kraftig påvirket, fare for hukommelsestap og alkoholforgiftning. Søk hjelp ved bevisstløshet.' },
 ];
 
 export function calculateBAC(inputs: BACInputs): BACResults {
-  const { weight, unit, sex, drinks, hours, drinkType, customAlcoholOz } = inputs;
+  const { weight, sex, drinks, hours, drinkType } = inputs;
 
-  // Convert weight to grams
-  const weightLbs = unit === 'imperial' ? weight : weight * 2.20462;
-  const weightGrams = weightLbs * 453.592;
+  if (!(weight > 0)) throw new Error('Vekten må være større enn null');
+  if (drinks < 0 || hours < 0) throw new Error('Antall drinker og timer kan ikke være negative');
 
-  // Calculate total alcohol consumed in grams
-  const alcoholOz = drinkType === 'custom' ? (customAlcoholOz || 0) : DRINK_ALCOHOL_OZ[drinkType];
-  const totalAlcoholOz = alcoholOz * drinks;
-  const alcoholGrams = totalAlcoholOz * 28.3495 * 0.789; // Convert oz to grams, alcohol density
+  const alcoholGrams = DRINK_ALCOHOL_GRAMS[drinkType] * drinks;
 
-  // Widmark formula: BAC = (A / (W × r)) - (β × t)
-  // A = alcohol consumed in grams
-  // W = body weight in grams
-  // r = Widmark factor
-  // β = alcohol elimination rate (~0.015 per hour)
-  // t = time in hours
-  const r = WIDMARK_FACTOR[sex];
-  const eliminationRate = 0.015;
+  // Widmark: C (‰) = A / (m × r) − β × t
+  const peak = alcoholGrams / (weight * WIDMARK_FACTOR[sex]);
+  const bac = Math.round(Math.max(0, peak - ELIMINATION_PER_HOUR * hours) * 100) / 100;
 
-  let bac = (alcoholGrams / (weightGrams * r)) * 100;
-  bac = Math.max(0, bac - (eliminationRate * hours));
-  bac = Math.round(bac * 1000) / 1000;
-
-  // Determine status and effects
-  let status: BACResults['status'] = 'sober';
-  let effects = BAC_EFFECTS[0].effects;
-  
-  for (const level of BAC_EFFECTS) {
-    if (bac >= level.threshold) {
-      status = level.status;
-      effects = level.effects;
-    }
-  }
-
-  // Calculate time to sober (BAC < 0.02)
-  const timeToSober = bac > 0.02 ? Math.ceil((bac - 0.02) / eliminationRate) : 0;
+  let level = EFFECTS[0];
+  for (const e of EFFECTS) if (bac >= e.threshold) level = e;
 
   return {
     bac,
-    status,
-    timeToSober,
-    legalToDrive: bac < 0.08,
-    effects,
+    status: level.status,
+    effects: level.effects,
+    timeToSober: bac > 0 ? Math.ceil((bac / ELIMINATION_PER_HOUR) * 2) / 2 : 0,
+    hoursUntilLegal: bac >= LEGAL_LIMIT ? Math.ceil(((bac - LEGAL_LIMIT) / ELIMINATION_PER_HOUR) * 2) / 2 : 0,
+    legalToDrive: bac < LEGAL_LIMIT,
+    alcoholGrams: Math.round(alcoholGrams * 10) / 10,
+    units: Math.round((alcoholGrams / DRINK_ALCOHOL_GRAMS.unit) * 10) / 10,
   };
 }

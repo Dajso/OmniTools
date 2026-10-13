@@ -61,7 +61,6 @@ export default function PottingSoilCalculatorPage() {
           title="Potting Soil Volume Calculator"
           description="Calculate how much potting soil you need for containers and planters using the cylinder volume formula (πr²h)."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Potting Soil Calculator">

@@ -63,7 +63,6 @@ export default function CaffeineHalfLifeTrackerPage() {
           title="Caffeine Half-Life Tracker"
           description="Track your caffeine intake and see current blood levels for better sleep quality."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Caffeine Half-Life Tracker">

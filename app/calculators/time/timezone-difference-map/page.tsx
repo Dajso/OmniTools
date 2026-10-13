@@ -66,7 +66,6 @@ export default function TimeZoneDifferenceMapPage() {
           title="Time Zone Difference Map"
           description="Compare times across different time zones with visual display. See current times, calculate differences, and find overlapping business hours for international collaboration."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Time & Date"
         />
 
         <section aria-label="Time Zone Difference Map">

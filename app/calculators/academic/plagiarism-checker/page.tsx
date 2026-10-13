@@ -65,7 +65,6 @@ export default function PlagiarismCheckerPage() {
           title="Plagiarism Checker"
           description="Compare two texts to find similarities and potential plagiarism. See matching phrases, unique words, and get a similarity percentage score."
           colorClass="bg-red-100 text-red-600"
-          category="Academic"
         />
 
         <section aria-label="Plagiarism Checker">

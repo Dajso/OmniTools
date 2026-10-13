@@ -66,7 +66,6 @@ export default function SampleSizeCalculatorPage() {
           title="Sample Size Calculator"
           description="Calculate the required sample size for surveys and statistical studies. Determine how many responses you need for statistically reliable results."
           colorClass="bg-purple-100 text-purple-600"
-          category="Statistics"
         />
 
         <section aria-label="Sample Size Calculator">

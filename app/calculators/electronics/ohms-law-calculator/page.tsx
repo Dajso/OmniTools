@@ -16,7 +16,6 @@ export default function OhmsLawCalculatorPage() {
         toolId="ohms-law-calculator"
         title="Ohm's Law Calculator"
         description="Calculate voltage, current, resistance, and power using Ohm's Law. Enter any two values to find the others."
-        category="Electronics"
       />
       <OhmsLawCalculator />
     </main>

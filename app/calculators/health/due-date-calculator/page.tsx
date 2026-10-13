@@ -1,35 +1,48 @@
 import { Metadata } from 'next';
 import { DueDateCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Due Date Calculator - Pregnancy Due Date Calculator',
-  description: 'Calculate your pregnancy due date and track milestones. Supports LMP, conception date, and ultrasound methods. Free pregnancy calculator.',
-  keywords: ['due date calculator', 'pregnancy calculator', 'due date estimator', 'pregnancy due date', 'conception calculator', 'pregnancy weeks calculator'],
+  title: 'Termindato-kalkulator – gratis kalkulator på nett',
+  description: 'Beregn termindato ut fra siste menstruasjon eller unnfangelse. Gratis og uten registrering.',
+  keywords: ['termin', 'termindato', 'svangerskap', 'gravid', 'beregnet fødsel'],
   alternates: { canonical: '/calculators/health/due-date-calculator' },
+  openGraph: {
+    title: 'Termindato-kalkulator',
+    description: 'Beregn termindato ut fra siste menstruasjon eller unnfangelse',
+    url: '/calculators/health/due-date-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Due Date Calculator',
-  description: 'Calculate your estimated due date and pregnancy milestones',
+  name: 'Termindato-kalkulator',
+  description: 'Beregn termindato ut fra siste menstruasjon eller unnfangelse',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose calculation method', text: 'Select LMP (last menstrual period), conception date, or ultrasound due date.' },
-  { name: 'Enter the date', text: 'Input the relevant date based on your chosen method.' },
-  { name: 'Adjust cycle length', text: 'If using LMP, enter your average cycle length for more accuracy.' },
-  { name: 'View your results', text: 'See your due date, current week, trimester, and pregnancy milestones.' },
+  { name: 'Velg beregningsmåte', text: 'Siste menstruasjon, unnfangelsesdato eller termin fra ultralyd.' },
+  { name: 'Oppgi datoen', text: 'Skriv inn riktig dato.' },
+  { name: 'Les resultatet', text: 'Se beregnet termin, uke nå og milepæler.' },
 ];
 
 const faqs = [
-  { question: 'How is the due date calculated?', answer: 'Using LMP, the due date is 280 days (40 weeks) from the first day of your last period. From conception, it\'s 266 days. These are estimates - only 5% of babies arrive on their due date.' },
-  { question: 'What are the trimesters?', answer: 'First trimester: weeks 1-12. Second trimester: weeks 13-26. Third trimester: weeks 27-40. Each trimester has different developmental milestones.' },
-  { question: 'When should I see a doctor?', answer: 'Schedule your first prenatal visit around 8 weeks. Contact your healthcare provider immediately if you experience severe pain, heavy bleeding, or other concerning symptoms.' },
+  { question: 'Hvordan regnes termindatoen ut?', answer: 'Fra første dag i siste menstruasjon legges det til 280 dager (40 uker). Det er Naegeles regel, som brukes i svangerskapsomsorgen.' },
+  { question: 'Er termindatoen sikker?', answer: 'Nei. Kun en liten andel føder på termin. De fleste føder mellom uke 37 og 42.' },
+  { question: 'Hva er bestemmende for termin hos jordmor og lege?', answer: 'Rutineultralyd i uke 17–19 brukes som grunnlag. Jordmor eller lege fastsetter termin.' },
+  { question: 'Kan jeg bruke kalkulatoren til svangerskapsomsorg?', answer: 'Nei. Bruk den som veiledning. Følg opp svangerskapet hos jordmor eller fastlege.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/ovulation-calculator', title: 'Eggløsningskalender', description: 'Beregn eggløsning og fruktbare dager' },
 ];
 
 export default function DueDateCalculatorPage() {
@@ -39,33 +52,17 @@ export default function DueDateCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="due-date-calculator"
-          title="Due Date Calculator"
-          description="Calculate your estimated due date and track pregnancy milestones. Supports multiple calculation methods."
-          colorClass="bg-red-100 text-red-700"
+          title="Termindato-kalkulator"
+          description="Regn ut termindato og viktige milepæler i svangerskapet ut fra siste menstruasjon, unnfangelse eller ultralyd. Gratis og uten registrering."
         />
-        <section aria-label="Due Date Calculator"><DueDateCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Termindato-kalkulator">
+          <DueDateCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

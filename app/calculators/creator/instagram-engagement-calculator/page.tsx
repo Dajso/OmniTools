@@ -65,7 +65,6 @@ export default function InstagramEngagementCalculatorPage() {
           title="Instagram Engagement Calculator"
           description="Calculate your Instagram engagement rate and see how you compare to industry benchmarks."
           colorClass="bg-pink-100 text-pink-600"
-          category="Creator"
         />
 
         <section aria-label="Instagram Engagement Calculator">

@@ -65,7 +65,6 @@ export default function SoundboardPage() {
           title="Soundboard"
           description="Play fun sound effects instantly! Perfect for reactions, streaming, video calls, and entertainment. Click any button to play."
           colorClass="bg-gradient-to-r from-orange-100 to-red-100 text-orange-600"
-          category="Fun"
         />
 
         <section aria-label="Soundboard" className="bg-card rounded-lg border p-6">

@@ -63,7 +63,6 @@ export default function GrindSizeConverterPage() {
           title="Grind Size Converter"
           description="Convert grind settings between different coffee grinder models."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Grind Size Converter">

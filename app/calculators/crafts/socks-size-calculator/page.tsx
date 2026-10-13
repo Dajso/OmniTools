@@ -66,7 +66,6 @@ export default function SocksSizeCalculatorPage() {
           title="Socks Size Calculator"
           description="Calculate sock dimensions and stitch counts from your foot measurements for knitting or crocheting custom-fit socks."
           colorClass="bg-pink-100 text-pink-600"
-          category="Crafts"
         />
 
         <section aria-label="Socks Size Calculator">

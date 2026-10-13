@@ -65,7 +65,6 @@ export default function CoinFlipSimulatorPage() {
           title="Coin Flip Simulator"
           description="Simulate coin flips and visualize the distribution of heads and tails. Perfect for learning about probability and the law of large numbers."
           colorClass="bg-yellow-100 text-yellow-600"
-          category="Statistics"
         />
 
         <section aria-label="Coin Flip Simulator">

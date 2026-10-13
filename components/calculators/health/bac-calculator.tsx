@@ -4,21 +4,32 @@ import * as React from 'react';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
-import { UnitToggle } from '@/components/ui/unit-toggle';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateBAC, type BiologicalSex, type BACResults } from '@/lib/calculations/health/bac-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import { cn } from '@/lib/utils';
 
+type DrinkType = 'beer' | 'wine' | 'spirits' | 'unit';
+
 const SEX_OPTIONS = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: 'male', label: 'Mann' },
+  { value: 'female', label: 'Kvinne' },
 ];
 
 const DRINK_OPTIONS = [
-  { value: 'beer', label: 'Beer (12oz, 5%)' },
-  { value: 'wine', label: 'Wine (5oz, 12%)' },
-  { value: 'spirits', label: 'Spirits (1.5oz, 40%)' },
+  { value: 'beer', label: 'Øl (0,5 l, 4,7 %)' },
+  { value: 'wine', label: 'Vin (15 cl, 12,5 %)' },
+  { value: 'spirits', label: 'Sprit (4 cl, 40 %)' },
+  { value: 'unit', label: 'Alkoholenhet (12 g ren alkohol)' },
 ];
+
+const STATUS_LABELS: Record<BACResults['status'], string> = {
+  sober: 'Edru',
+  buzzed: 'Lett påvirket',
+  impaired: 'Påvirket',
+  drunk: 'Kraftig påvirket',
+  dangerous: 'Farlig høy',
+};
 
 const STATUS_COLORS: Record<string, string> = {
   sober: 'bg-green-100 text-green-800',
@@ -29,69 +40,72 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export function BACCalculator() {
-  const [weight, setWeight] = React.useState(160);
-  const [unit, setUnit] = React.useState<'imperial' | 'metric'>('imperial');
+  const [weight, setWeight] = React.useState(75);
   const [sex, setSex] = React.useState<BiologicalSex>('male');
-  const [drinks, setDrinks] = React.useState(2);
-  const [hours, setHours] = React.useState(1);
-  const [drinkType, setDrinkType] = React.useState<'beer' | 'wine' | 'spirits'>('beer');
+  const [drinks, setDrinks] = React.useState(3);
+  const [hours, setHours] = React.useState(2);
+  const [drinkType, setDrinkType] = React.useState<DrinkType>('beer');
   const [results, setResults] = React.useState<BACResults | null>(null);
+  const [error, setError] = React.useState<string | undefined>();
 
   const calculate = React.useCallback(() => {
-    const result = calculateBAC({ weight, unit, sex, drinks, hours, drinkType });
-    setResults(result);
-  }, [weight, unit, sex, drinks, hours, drinkType]);
+    try {
+      setResults(calculateBAC({ weight, sex, drinks, hours, drinkType }));
+      setError(undefined);
+    } catch (e) {
+      setResults(null);
+      setError(e instanceof Error ? e.message : 'Ugyldig inndata');
+    }
+  }, [weight, sex, drinks, hours, drinkType]);
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
-  const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
-    const converted = newUnit === 'metric' ? Math.round(weight * 0.453592) : Math.round(weight / 0.453592);
-    setWeight(converted);
-    setUnit(newUnit);
-  };
-
   return (
     <CalculatorBase
-      title="BAC Calculator"
-      description="Estimate your Blood Alcohol Content based on drinks consumed"
-      formula="Widmark Formula: BAC = (A / (W × r)) - (β × t)"
+      title="Promillekalkulator"
+      description="Anslå promillen din ut fra hva du har drukket, vekt og tid"
+      formula="Widmark: promille = alkohol (g) ÷ (vekt (kg) × r) − 0,10 × timer"
+      formulaExplanation="r er 0,68 for menn og 0,55 for kvinner. Forbrenningen settes til 0,10 promille per time, nederst i det normale området."
       onCalculate={calculate}
-      onReset={() => { setWeight(160); setDrinks(2); setHours(1); }}
+      onReset={() => { setWeight(75); setDrinks(3); setHours(2); setSex('male'); setDrinkType('beer'); }}
+      error={error}
       results={results && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <ResultDisplay label="Estimated BAC" value={results.bac.toFixed(3)} unit="%" highlight copyable />
+            <ResultDisplay label="Anslått promille" value={formatNumber(results.bac, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} unit="‰" highlight copyable />
             <span className={cn('px-3 py-1 rounded-full text-sm font-medium', STATUS_COLORS[results.status])}>
-              {results.status.charAt(0).toUpperCase() + results.status.slice(1)}
+              {STATUS_LABELS[results.status]}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Legal to Drive" value={results.legalToDrive ? 'Yes' : 'No'} />
-            <ResultDisplay label="Time to Sober" value={results.timeToSober} unit="hours" />
+            <ResultDisplay label="Under promillegrensen (0,2)" value={results.legalToDrive ? 'Ja' : 'Nei'} />
+            <ResultDisplay label="Tid til under 0,2" value={results.hoursUntilLegal} unit="timer" />
+            <ResultDisplay label="Tid til null promille" value={results.timeToSober} unit="timer" />
+            <ResultDisplay label="Alkoholenheter" value={formatNumber(results.units, { maximumFractionDigits: 1 })} />
           </div>
           <div className="bg-muted/50 p-4 rounded-lg">
             <p className="text-sm">{results.effects}</p>
           </div>
           <div className="bg-red-50 p-4 rounded-lg border border-red-200">
             <p className="text-sm text-red-800">
-              ⚠️ This is an estimate only. Never drink and drive. BAC can vary based on many factors including food intake, medications, and individual metabolism.
+              ⚠️ Dette er bare et anslag. Kjør aldri etter at du har drukket alkohol. Faktisk promille avhenger av mat, kroppssammensetning, medisiner og forbrenning. Du kan også være over grensen dagen derpå.
             </p>
           </div>
         </div>
       )}
     >
-      <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} />
+      <div className="grid grid-cols-2 gap-4">
+        <NumberInput id="weight" label="Kroppsvekt" value={weight} onChange={setWeight} min={30} max={250} unit="kg" required />
+        <SelectInput id="sex" label="Biologisk kjønn" value={sex} onChange={(v) => setSex(v as BiologicalSex)} options={SEX_OPTIONS} required />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="weight" label="Body Weight" value={weight} onChange={setWeight} min={80} max={400} unit={unit === 'imperial' ? 'lbs' : 'kg'} required />
-        <SelectInput id="sex" label="Biological Sex" value={sex} onChange={(v) => setSex(v as BiologicalSex)} options={SEX_OPTIONS} required />
+        <NumberInput id="drinks" label="Antall drinker" value={drinks} onChange={setDrinks} min={0} max={30} required />
+        <SelectInput id="drinkType" label="Type drikke" value={drinkType} onChange={(v) => setDrinkType(v as DrinkType)} options={DRINK_OPTIONS} required />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="drinks" label="Number of Drinks" value={drinks} onChange={setDrinks} min={0} max={20} required />
-        <SelectInput id="drinkType" label="Drink Type" value={drinkType} onChange={(v) => setDrinkType(v as 'beer' | 'wine' | 'spirits')} options={DRINK_OPTIONS} required />
-      </div>
-      <NumberInput id="hours" label="Hours Since First Drink" value={hours} onChange={setHours} min={0} max={24} step={0.5} unit="hours" />
+      <NumberInput id="hours" label="Timer siden første drink" value={hours} onChange={setHours} min={0} max={48} step={0.5} unit="timer" />
+      <p className="text-xs text-muted-foreground">
+        Promillegrensen for å føre motorkjøretøy i Norge er 0,2. Én alkoholenhet er 12 gram ren alkohol, omtrent en liten flaske øl.
+      </p>
     </CalculatorBase>
   );
 }

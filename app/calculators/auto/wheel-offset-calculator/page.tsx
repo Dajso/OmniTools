@@ -16,7 +16,6 @@ export default function WheelOffsetCalculatorPage() {
         toolId="wheel-offset-calculator"
         title="Wheel Offset Calculator"
         description="Calculate wheel offset, backspacing, and fitment changes when changing wheel specifications."
-        category="Auto"
       />
       <WheelOffsetCalculator />
     </main>

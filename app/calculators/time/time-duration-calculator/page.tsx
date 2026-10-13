@@ -61,7 +61,6 @@ export default function TimeDurationCalculatorPage() {
           title="Time Duration Calculator"
           description="Add or subtract time durations, or calculate the time between two times. Perfect for tracking work hours, project time, or any time-based calculations."
           colorClass="bg-blue-100 text-blue-600"
-          category="Time & Date"
         />
 
         <section aria-label="Time Duration Calculator">

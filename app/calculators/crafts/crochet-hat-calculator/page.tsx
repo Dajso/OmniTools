@@ -64,7 +64,6 @@ export default function CrochetHatCalculatorPage() {
           title="Crochet Hat Size Calculator"
           description="Calculate hat dimensions from head circumference. Get crown diameter, hat height, and yarn estimates for your crochet project."
           colorClass="bg-amber-100 text-amber-600"
-          category="Crafts"
         />
 
         <section aria-label="Crochet Hat Size Calculator">

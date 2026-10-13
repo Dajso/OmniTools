@@ -16,7 +16,6 @@ export default function FuelConsumptionConverterPage() {
         toolId="fuel-consumption-converter"
         title="Fuel Consumption Converter"
         description="Convert fuel economy between MPG (US), MPG (UK), L/100km, and km/L. Compare fuel efficiency across different measurement systems."
-        category="Auto"
       />
       <FuelConsumptionConverter />
     </main>

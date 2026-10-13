@@ -69,7 +69,6 @@ export default function PressureConverterPage() {
           title="Pressure Converter"
           description="Convert pressure between Bar, PSI, Pascal, Atmosphere, Torr, mmHg, and 12 other units. Instant, accurate conversions for engineering, science, and everyday use."
           colorClass="bg-blue-100 text-blue-600"
-          category="Physics"
         />
 
         <section aria-label="Pressure Converter">

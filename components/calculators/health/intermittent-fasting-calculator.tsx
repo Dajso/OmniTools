@@ -14,7 +14,7 @@ const PROTOCOL_OPTIONS = getProtocolOptions().map(p => ({
 }));
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  return date.toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 export function IntermittentFastingCalculator() {
@@ -45,16 +45,16 @@ export function IntermittentFastingCalculator() {
 
   return (
     <CalculatorBase
-      title="Intermittent Fasting Timer"
-      description="Track your fasting window and see when you can eat"
+      title="Tidsstyrt spising (intermittent faste)"
+      description="Følg fastevinduet ditt og se når du kan spise"
       onCalculate={calculate}
       onReset={() => { setProtocol('16:8'); setStartTimeStr('20:00'); setCustomHours(16); }}
       results={results && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <ResultDisplay label="Current Status" value={results.currentStatus === 'fasting' ? 'Fasting' : 'Eating Window'} highlight />
+            <ResultDisplay label="Status nå" value={results.currentStatus === 'fasting' ? 'Faster' : 'Spisevindu'} highlight />
             <span className={cn('px-3 py-1 rounded-full text-sm font-medium', statusColors[results.currentStatus])}>
-              {results.hoursRemaining}h {results.minutesRemaining}m remaining
+              {results.hoursRemaining}h {results.minutesRemaining}min igjen
             </span>
           </div>
 
@@ -64,17 +64,17 @@ export function IntermittentFastingCalculator() {
               style={{ width: `${results.percentComplete}%` }}
             />
           </div>
-          <p className="text-sm text-center text-muted-foreground">{results.percentComplete}% complete</p>
+          <p className="text-sm text-center text-muted-foreground">{results.percentComplete}% fullført</p>
 
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Fast Ends" value={formatTime(results.fastEndTime)} />
-            <ResultDisplay label="Eating Window Ends" value={formatTime(results.eatingWindowEnd)} />
-            <ResultDisplay label="Fasting Hours" value={results.fastingHours} unit="hours" />
-            <ResultDisplay label="Eating Hours" value={results.eatingHours} unit="hours" />
+            <ResultDisplay label="Fasten slutter" value={formatTime(results.fastEndTime)} />
+            <ResultDisplay label="Spisevinduet slutter" value={formatTime(results.eatingWindowEnd)} />
+            <ResultDisplay label="Timer faste" value={results.fastingHours} unit="timer" />
+            <ResultDisplay label="Timer med spising" value={results.eatingHours} unit="timer" />
           </div>
 
           <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2">Fasting Phases</h4>
+            <h4 className="text-sm font-medium mb-2">Faser i fasten</h4>
             <div className="space-y-2">
               {results.phases.filter(p => p.startHour <= results.fastingHours).map((phase, i) => (
                 <div key={i} className={cn('flex justify-between text-sm p-2 rounded', phase.reached ? 'bg-green-50' : 'bg-muted/50')}>
@@ -87,10 +87,10 @@ export function IntermittentFastingCalculator() {
         </div>
       )}
     >
-      <SelectInput id="protocol" label="Fasting Protocol" value={protocol} onChange={(v) => setProtocol(v as FastingProtocol)} options={PROTOCOL_OPTIONS} required />
+      <SelectInput id="protocol" label="Fasteprotokoll" value={protocol} onChange={(v) => setProtocol(v as FastingProtocol)} options={PROTOCOL_OPTIONS} required />
 
       <div className="space-y-2">
-        <label htmlFor="startTime" className="text-sm font-medium">Fast Start Time (last meal)</label>
+        <label htmlFor="startTime" className="text-sm font-medium">Starttid for fasten (siste måltid)</label>
         <input
           type="time"
           id="startTime"
@@ -101,7 +101,7 @@ export function IntermittentFastingCalculator() {
       </div>
 
       {protocol === 'custom' && (
-        <NumberInput id="customHours" label="Custom Fasting Hours" value={customHours} onChange={setCustomHours} min={12} max={23} unit="hours" />
+        <NumberInput id="customHours" label="Egendefinerte timer faste" value={customHours} onChange={setCustomHours} min={12} max={23} unit="timer" />
       )}
     </CalculatorBase>
   );

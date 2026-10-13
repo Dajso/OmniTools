@@ -16,7 +16,6 @@ export default function EVChargingCalculatorPage() {
         toolId="ev-charging-calculator"
         title="EV Charging Time Calculator"
         description="Calculate how long it takes to charge your electric vehicle. Compare Level 1, Level 2, and DC fast charging times with cost estimates."
-        category="Auto"
       />
       <EVChargingCalculator />
     </main>

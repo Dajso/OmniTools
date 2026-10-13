@@ -63,7 +63,6 @@ export default function IcedCoffeeDilutionCalculatorPage() {
                     title="Iced Coffee Dilution Calculator"
                     description="Calculate the perfect hot coffee and ice amounts for iced coffee that maintains target strength."
                     colorClass="bg-amber-100 text-amber-700"
-                    category="Coffee"
                 />
 
                 <section aria-label="Iced Coffee Dilution Calculator">

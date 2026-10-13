@@ -66,7 +66,6 @@ export default function ReactionTimeTestPage() {
           title="Reaction Time Test"
           description="Test your reaction speed with this visual stimulus test. Click when the screen turns green and measure your reflexes in milliseconds."
           colorClass="bg-green-100 text-green-600"
-          category="Gaming"
         />
 
         <section aria-label="Reaction Time Test">

@@ -65,7 +65,6 @@ export default function CorrelationCalculatorPage() {
           title="Correlation Coefficient Calculator"
           description="Calculate Pearson correlation coefficient (r), R-squared, and linear regression. Visualize relationships with interactive scatter plots."
           colorClass="bg-purple-100 text-purple-600"
-          category="Statistics"
         />
 
         <section aria-label="Correlation Calculator">

@@ -4,26 +4,25 @@ import * as React from 'react';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
-import { UnitToggle } from '@/components/ui/unit-toggle';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateWaterIntake, type ActivityLevel, type WaterIntakeResults } from '@/lib/calculations/health/water-intake';
 
 const ACTIVITY_OPTIONS = [
-  { value: 'sedentary', label: 'Sedentary (little exercise)' },
-  { value: 'light', label: 'Light (1-3 days/week)' },
-  { value: 'moderate', label: 'Moderate (3-5 days/week)' },
-  { value: 'active', label: 'Active (6-7 days/week)' },
-  { value: 'very_active', label: 'Very Active (intense daily)' },
+  { value: 'sedentary', label: 'Stillesittende (lite trening)' },
+  { value: 'light', label: 'Lett (1–3 dager i uken)' },
+  { value: 'moderate', label: 'Moderat (3–5 dager i uken)' },
+  { value: 'active', label: 'Aktiv (6–7 dager i uken)' },
+  { value: 'very_active', label: 'Svært aktiv (hard trening daglig)' },
 ];
 
 const CLIMATE_OPTIONS = [
-  { value: 'normal', label: 'Normal/Temperate' },
-  { value: 'hot', label: 'Hot/Humid' },
+  { value: 'normal', label: 'Norsk klima / temperert' },
+  { value: 'hot', label: 'Varmt og fuktig' },
 ];
 
 export function WaterIntakeCalculator() {
-  const [weight, setWeight] = React.useState(150);
-  const [unit, setUnit] = React.useState<'imperial' | 'metric'>('imperial');
+  const [weight, setWeight] = React.useState(70);
+  const unit = 'metric' as const;
   const [activity, setActivity] = React.useState<ActivityLevel>('moderate');
   const [climate, setClimate] = React.useState<'normal' | 'hot'>('normal');
   const [results, setResults] = React.useState<WaterIntakeResults | null>(null);
@@ -35,39 +34,30 @@ export function WaterIntakeCalculator() {
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
-  const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
-    const converted = newUnit === 'metric' ? Math.round(weight * 0.453592) : Math.round(weight / 0.453592);
-    setWeight(converted);
-    setUnit(newUnit);
-  };
 
   return (
     <CalculatorBase
-      title="Water Intake Calculator"
-      description="Calculate your recommended daily water intake based on weight and activity"
+      title="Vannbehov"
+      description="Anslå hvor mye du bør drikke per dag ut fra vekt og aktivitet"
       onCalculate={calculate}
-      onReset={() => { setWeight(150); setActivity('moderate'); setClimate('normal'); }}
+      onReset={() => { setWeight(70); setActivity('moderate'); setClimate('normal'); }}
       results={results && (
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Daily Water" value={results.liters.toFixed(1)} unit="liters" highlight copyable />
-            <ResultDisplay label="Daily Water" value={results.ounces} unit="oz" copyable />
+            <ResultDisplay label="Vann per dag" value={results.liters.toFixed(1).replace('.', ',')} unit="liter" highlight copyable />
           </div>
-          <ResultDisplay label="8oz Glasses" value={results.glasses} unit="glasses/day" />
+          <ResultDisplay label="Glass à 2 dl" value={Math.ceil(results.liters * 5)} unit="glass/dag" />
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-blue-800">
-              💧 Tip: Drink water throughout the day, not all at once. Increase intake during exercise or hot weather.
+              💧 Tips: Drikk jevnt utover dagen, ikke alt på en gang. Drikk mer når du trener eller det er varmt. Mat og andre drikker dekker en del av behovet.
             </p>
           </div>
         </div>
       )}
     >
-      <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} />
-      </div>
-      <NumberInput id="weight" label="Body Weight" value={weight} onChange={setWeight} min={50} max={500} unit={unit === 'imperial' ? 'lbs' : 'kg'} required />
-      <SelectInput id="activity" label="Activity Level" value={activity} onChange={(v) => setActivity(v as ActivityLevel)} options={ACTIVITY_OPTIONS} required />
-      <SelectInput id="climate" label="Climate" value={climate} onChange={(v) => setClimate(v as 'normal' | 'hot')} options={CLIMATE_OPTIONS} />
+      <NumberInput id="weight" label="Kroppsvekt" value={weight} onChange={setWeight} min={30} max={300} unit="kg" required />
+      <SelectInput id="activity" label="Aktivitetsnivå" value={activity} onChange={(v) => setActivity(v as ActivityLevel)} options={ACTIVITY_OPTIONS} required />
+      <SelectInput id="climate" label="Klima" value={climate} onChange={(v) => setClimate(v as 'normal' | 'hot')} options={CLIMATE_OPTIONS} />
     </CalculatorBase>
   );
 }

@@ -6,34 +6,22 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { SelectInput } from '@/components/ui/select-input';
-import { UnitToggle } from '@/components/ui/unit-toggle';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
   calculateTDEE,
   getActivityLevelOptions,
-  ACTIVITY_LEVELS,
-  type TDEEInputs,
   type TDEEResults,
   type ActivityLevel,
   type BiologicalSex,
 } from '@/lib/calculations/health/tdee-calculator';
-import {
-  feetInchesToInches,
-  inchesToFeetInches,
-} from '@/lib/calculations/health/bmi-calculator';
+import { formatNumber } from '@/lib/utils/formatting';
 import { cn } from '@/lib/utils';
 
-/**
- * Zod schema for TDEE calculator inputs
- */
 const tdeeSchema = z.object({
-  age: z.number().min(15, 'Age must be at least 15').max(120, 'Age must be under 120'),
+  age: z.number().min(15, 'Alderen må være minst 15 år').max(120, 'Alderen må være under 120 år'),
   sex: z.enum(['male', 'female']),
-  weight: z.number().min(1, 'Weight must be positive'),
-  heightFeet: z.number().min(0).max(9).optional(),
-  heightInches: z.number().min(0).max(11).optional(),
-  heightCm: z.number().min(1).optional(),
-  unit: z.enum(['imperial', 'metric']),
+  weight: z.number().min(30, 'Vekten må være minst 30 kg').max(300, 'Vekten er for høy'),
+  heightCm: z.number().min(100, 'Høyden må være minst 100 cm').max(250, 'Høyden er for stor'),
   activityLevel: z.enum(['sedentary', 'light', 'moderate', 'active', 'very_active']),
 });
 
@@ -41,56 +29,38 @@ type TDEEFormInputs = {
   age: number;
   sex: BiologicalSex;
   weight: number;
-  heightFeet: number;
-  heightInches: number;
   heightCm: number;
-  unit: 'imperial' | 'metric';
   activityLevel: ActivityLevel;
 };
 
 const INITIAL_INPUTS: TDEEFormInputs = {
-  age: 30,
+  age: 35,
   sex: 'male',
-  weight: 170,
-  heightFeet: 5,
-  heightInches: 10,
-  heightCm: 178,
-  unit: 'imperial',
+  weight: 78,
+  heightCm: 180,
   activityLevel: 'moderate',
 };
 
 const SEX_OPTIONS = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: 'male', label: 'Mann' },
+  { value: 'female', label: 'Kvinne' },
 ];
 
-/**
- * Macro breakdown visualization component
- */
-function MacroBreakdown({ macros, tdee }: { macros: TDEEResults['macros']; tdee: number }) {
+function MacroBreakdown({ macros }: { macros: TDEEResults['macros'] }) {
   const items = [
     { label: 'Protein', grams: macros.protein, calories: macros.proteinCalories, color: 'bg-blue-500', percent: 30 },
-    { label: 'Carbs', grams: macros.carbs, calories: macros.carbCalories, color: 'bg-green-500', percent: 40 },
-    { label: 'Fat', grams: macros.fat, calories: macros.fatCalories, color: 'bg-yellow-500', percent: 30 },
+    { label: 'Karbohydrater', grams: macros.carbs, calories: macros.carbCalories, color: 'bg-green-500', percent: 40 },
+    { label: 'Fett', grams: macros.fat, calories: macros.fatCalories, color: 'bg-yellow-500', percent: 30 },
   ];
 
   return (
     <div className="space-y-4">
-      <h4 className="text-sm font-medium text-muted-foreground">Daily Macro Breakdown (Maintenance)</h4>
-
-      {/* Visual bar */}
+      <h4 className="text-sm font-medium text-muted-foreground">Fordeling av næringsstoffer (vedlikehold)</h4>
       <div className="h-4 rounded-full overflow-hidden flex">
         {items.map((item) => (
-          <div
-            key={item.label}
-            className={cn(item.color)}
-            style={{ width: `${item.percent}%` }}
-            title={`${item.label}: ${item.percent}%`}
-          />
+          <div key={item.label} className={cn(item.color)} style={{ width: `${item.percent}%` }} title={`${item.label}: ${item.percent} %`} />
         ))}
       </div>
-
-      {/* Details */}
       <div className="grid grid-cols-3 gap-4">
         {items.map((item) => (
           <div key={item.label} className="text-center">
@@ -98,8 +68,8 @@ function MacroBreakdown({ macros, tdee }: { macros: TDEEResults['macros']; tdee:
               <div className={cn('w-3 h-3 rounded-full', item.color)} />
               <span className="text-sm font-medium">{item.label}</span>
             </div>
-            <p className="text-lg font-semibold">{item.grams}g</p>
-            <p className="text-xs text-muted-foreground">{item.calories} cal ({item.percent}%)</p>
+            <p className="text-lg font-semibold">{formatNumber(item.grams)} g</p>
+            <p className="text-xs text-muted-foreground">{formatNumber(item.calories)} kcal ({item.percent} %)</p>
           </div>
         ))}
       </div>
@@ -107,27 +77,22 @@ function MacroBreakdown({ macros, tdee }: { macros: TDEEResults['macros']; tdee:
   );
 }
 
-/**
- * Calorie goals component
- */
 function CalorieGoals({ results }: { results: TDEEResults }) {
   const goals = [
-    { label: 'Weight Loss', value: results.weightLoss, description: '~1 lb/week', color: 'text-red-600' },
-    { label: 'Mild Loss', value: results.mildWeightLoss, description: '~0.5 lb/week', color: 'text-orange-600' },
-    { label: 'Maintain', value: results.tdee, description: 'Current weight', color: 'text-green-600' },
-    { label: 'Mild Gain', value: results.mildWeightGain, description: '~0.5 lb/week', color: 'text-blue-600' },
-    { label: 'Weight Gain', value: results.weightGain, description: '~1 lb/week', color: 'text-purple-600' },
+    { label: 'Raskere vektnedgang', value: results.weightLoss, description: 'ca. 0,45 kg/uke', color: 'text-red-600' },
+    { label: 'Rolig vektnedgang', value: results.mildWeightLoss, description: 'ca. 0,22 kg/uke', color: 'text-orange-600' },
+    { label: 'Vedlikehold', value: results.tdee, description: 'Holde vekten', color: 'text-green-600' },
+    { label: 'Rolig vektøkning', value: results.mildWeightGain, description: 'ca. 0,22 kg/uke', color: 'text-blue-600' },
+    { label: 'Raskere vektøkning', value: results.weightGain, description: 'ca. 0,45 kg/uke', color: 'text-purple-600' },
   ];
 
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-medium text-muted-foreground">Daily Calorie Goals</h4>
-      <div className="grid grid-cols-5 gap-2">
+      <h4 className="text-sm font-medium text-muted-foreground">Kaloribehov per dag etter mål</h4>
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
         {goals.map((goal) => (
           <div key={goal.label} className="text-center p-2 bg-muted/50 rounded-lg">
-            <p className={cn('text-lg font-semibold', goal.color)}>
-              {goal.value.toLocaleString()}
-            </p>
+            <p className={cn('text-lg font-semibold', goal.color)}>{formatNumber(goal.value)}</p>
             <p className="text-xs font-medium">{goal.label}</p>
             <p className="text-xs text-muted-foreground">{goal.description}</p>
           </div>
@@ -137,238 +102,69 @@ function CalorieGoals({ results }: { results: TDEEResults }) {
   );
 }
 
-/**
- * TDEE Calculator Component
- * 
- * Calculates Total Daily Energy Expenditure based on BMR and activity level.
- * Provides macro breakdown and calorie goals for different objectives.
- * 
- * Features:
- * - Mifflin-St Jeor equation for accurate BMR
- * - 5 activity levels
- * - Macro nutrient breakdown
- * - Calorie goals for weight loss/gain
- * - Imperial/Metric unit support
- * 
- * @see Requirements 6.2
- */
-
-function calculateTDEEFn(formInputs: TDEEFormInputs): TDEEResults {
-  let height: number;
-
-  if (formInputs.unit === 'imperial') {
-    height = feetInchesToInches(formInputs.heightFeet, formInputs.heightInches);
-  } else {
-    height = formInputs.heightCm;
-  }
-
-  const tdeeInputs: TDEEInputs = {
-    age: formInputs.age,
-    sex: formInputs.sex,
-    weight: formInputs.weight,
-    height,
-    unit: formInputs.unit,
-    activityLevel: formInputs.activityLevel,
-  };
-  return calculateTDEE(tdeeInputs);
+function calculateTDEEFn(f: TDEEFormInputs): TDEEResults {
+  return calculateTDEE({
+    age: f.age,
+    sex: f.sex,
+    weight: f.weight,
+    height: f.heightCm,
+    unit: 'metric',
+    activityLevel: f.activityLevel,
+  });
 }
 
 export function TDEECalculator() {
-  const {
-    inputs,
-    setInput,
-    results,
-    errors,
-    isValid,
-    calculate,
-    reset,
-    isCalculating,
-  } = useCalculator<TDEEFormInputs, TDEEResults>({
-    initialInputs: INITIAL_INPUTS,
-    schema: tdeeSchema as unknown as z.ZodType<TDEEFormInputs>,
-    calculate: calculateTDEEFn,
-    storageKey: 'tdee-calculator',
-  });
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<TDEEFormInputs, TDEEResults>({
+      initialInputs: INITIAL_INPUTS,
+      schema: tdeeSchema as unknown as z.ZodType<TDEEFormInputs>,
+      calculate: calculateTDEEFn,
+      storageKey: 'tdee-calculator-no',
+    });
 
-  // Handle unit toggle
-  const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
-    setInput('unit', newUnit);
+  React.useEffect(() => { calculate(); }, [calculate]);
 
-    if (newUnit === 'metric' && inputs.unit === 'imperial') {
-      const weightKg = Math.round(inputs.weight * 0.453592 * 10) / 10;
-      setInput('weight', weightKg);
-      const totalInches = feetInchesToInches(inputs.heightFeet, inputs.heightInches);
-      const heightCm = Math.round(totalInches * 2.54);
-      setInput('heightCm', heightCm);
-    } else if (newUnit === 'imperial' && inputs.unit === 'metric') {
-      const weightLbs = Math.round(inputs.weight / 0.453592);
-      setInput('weight', weightLbs);
-      const totalInches = inputs.heightCm / 2.54;
-      const { feet, inches } = inchesToFeetInches(totalInches);
-      setInput('heightFeet', feet);
-      setInput('heightInches', inches);
-    }
-  };
-
-  // Calculate on mount
-  React.useEffect(() => {
-    calculate();
-  }, [calculate]);
-
-  const activityOptions = getActivityLevelOptions().map(opt => ({
+  const activityOptions = getActivityLevelOptions().map((opt) => ({
     value: opt.value,
-    label: `${opt.label} - ${opt.description}`,
+    label: `${opt.label} – ${opt.description}`,
   }));
-
-  const formula = 'TDEE = BMR × Activity Multiplier';
-  const formulaExplanation = 'BMR (Mifflin-St Jeor): Male = 10×weight + 6.25×height - 5×age + 5, Female = 10×weight + 6.25×height - 5×age - 161';
 
   return (
     <CalculatorBase
-      title="TDEE Calculator"
-      description="Calculate your Total Daily Energy Expenditure to understand your daily calorie needs"
-      formula={formula}
-      formulaExplanation={formulaExplanation}
+      title="Kalorikalkulator (TDEE)"
+      description="Regn ut hvor mange kilokalorier du forbrenner per dag, og hva du bør spise for å gå ned, holde eller øke vekten"
+      formula="TDEE = BMR × aktivitetsfaktor"
+      formulaExplanation="BMR (Mifflin-St Jeor): menn = 10 × vekt + 6,25 × høyde − 5 × alder + 5, kvinner = 10 × vekt + 6,25 × høyde − 5 × alder − 161. Vekt i kg og høyde i cm."
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
       onReset={reset}
       error={(errors as Record<string, string>)._calculation}
-      results={
-        results && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <ResultDisplay
-                label="BMR (Basal Metabolic Rate)"
-                value={results.bmr.toLocaleString()}
-                unit="cal/day"
-                copyable
-              />
-              <ResultDisplay
-                label="TDEE (Maintenance)"
-                value={results.tdee.toLocaleString()}
-                unit="cal/day"
-                highlight
-                copyable
-              />
-            </div>
-
-            <CalorieGoals results={results} />
-
-            <MacroBreakdown macros={results.macros} tdee={results.tdee} />
-
-            <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                <strong>Note:</strong> These calculations are estimates based on the Mifflin-St Jeor equation.
-                Individual metabolism varies. Adjust your intake based on actual results over 2-4 weeks.
-              </p>
-            </div>
+      results={results && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <ResultDisplay label="BMR (hvilemetabolisme)" value={formatNumber(results.bmr)} unit="kcal/dag" copyable />
+            <ResultDisplay label="TDEE (vedlikehold)" value={formatNumber(results.tdee)} unit="kcal/dag" highlight copyable />
           </div>
-        )
-      }
-    >
-      {/* Unit Toggle */}
-      <div className="flex justify-end mb-2">
-        <UnitToggle
-          value={inputs.unit}
-          onChange={handleUnitChange}
-        />
-      </div>
-
-      {/* Age and Sex */}
-      <div className="grid grid-cols-2 gap-4">
-        <NumberInput
-          id="age"
-          label="Age"
-          value={inputs.age}
-          onChange={(v) => setInput('age', v)}
-          min={15}
-          max={120}
-          step={1}
-          unit="years"
-          error={errors.age}
-          required
-        />
-        <SelectInput
-          id="sex"
-          label="Biological Sex"
-          value={inputs.sex}
-          onChange={(v) => setInput('sex', v as BiologicalSex)}
-          options={SEX_OPTIONS}
-          error={errors.sex}
-          required
-        />
-      </div>
-
-      {/* Weight */}
-      <NumberInput
-        id="weight"
-        label="Weight"
-        value={inputs.weight}
-        onChange={(v) => setInput('weight', v)}
-        min={inputs.unit === 'imperial' ? 66 : 30}
-        max={inputs.unit === 'imperial' ? 660 : 300}
-        step={inputs.unit === 'imperial' ? 1 : 0.1}
-        unit={inputs.unit === 'imperial' ? 'lbs' : 'kg'}
-        error={errors.weight}
-        required
-      />
-
-      {/* Height - Imperial */}
-      {inputs.unit === 'imperial' && (
-        <div className="grid grid-cols-2 gap-4">
-          <NumberInput
-            id="heightFeet"
-            label="Height (feet)"
-            value={inputs.heightFeet}
-            onChange={(v) => setInput('heightFeet', v)}
-            min={3}
-            max={8}
-            step={1}
-            unit="ft"
-            error={errors.heightFeet}
-            required
-          />
-          <NumberInput
-            id="heightInches"
-            label="Height (inches)"
-            value={inputs.heightInches}
-            onChange={(v) => setInput('heightInches', v)}
-            min={0}
-            max={11}
-            step={1}
-            unit="in"
-            error={errors.heightInches}
-          />
+          <CalorieGoals results={results} />
+          <MacroBreakdown macros={results.macros} />
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground">
+              <strong>Merk:</strong> Tallene er anslag basert på Mifflin-St Jeor-formelen. Stoffskiftet varierer fra person til person. Juster inntaket ut fra hva som faktisk skjer over 2–4 uker. Ved sykdom eller store vektendringer bør du snakke med lege eller klinisk ernæringsfysiolog.
+            </p>
+          </div>
         </div>
       )}
-
-      {/* Height - Metric */}
-      {inputs.unit === 'metric' && (
-        <NumberInput
-          id="heightCm"
-          label="Height"
-          value={inputs.heightCm}
-          onChange={(v) => setInput('heightCm', v)}
-          min={100}
-          max={250}
-          step={1}
-          unit="cm"
-          error={errors.heightCm}
-          required
-        />
-      )}
-
-      {/* Activity Level */}
-      <SelectInput
-        id="activityLevel"
-        label="Activity Level"
-        value={inputs.activityLevel}
-        onChange={(v) => setInput('activityLevel', v as ActivityLevel)}
-        options={activityOptions}
-        error={errors.activityLevel}
-        required
-      />
+    >
+      <div className="grid grid-cols-2 gap-4">
+        <NumberInput id="age" label="Alder" value={inputs.age} onChange={(v) => setInput('age', v)} min={15} max={120} step={1} unit="år" error={errors.age} required />
+        <SelectInput id="sex" label="Biologisk kjønn" value={inputs.sex} onChange={(v) => setInput('sex', v as BiologicalSex)} options={SEX_OPTIONS} error={errors.sex} required />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <NumberInput id="weight" label="Vekt" value={inputs.weight} onChange={(v) => setInput('weight', v)} min={30} max={300} step={0.1} unit="kg" error={errors.weight} required />
+        <NumberInput id="heightCm" label="Høyde" value={inputs.heightCm} onChange={(v) => setInput('heightCm', v)} min={100} max={250} step={1} unit="cm" error={errors.heightCm} required />
+      </div>
+      <SelectInput id="activityLevel" label="Aktivitetsnivå" value={inputs.activityLevel} onChange={(v) => setInput('activityLevel', v as ActivityLevel)} options={activityOptions} error={errors.activityLevel} required />
     </CalculatorBase>
   );
 }

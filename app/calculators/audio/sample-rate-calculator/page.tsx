@@ -66,7 +66,6 @@ export default function SampleRateCalculatorPage() {
           title="Sample Rate Calculator"
           description="Calculate audio file sizes and durations based on sample rate, bit depth, and channels. View technical specifications like Nyquist frequency and dynamic range."
           colorClass="bg-teal-100 text-teal-600"
-          category="Audio"
         />
 
         <section aria-label="Sample Rate Calculator">

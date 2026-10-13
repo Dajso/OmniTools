@@ -9,7 +9,7 @@ import { formatCurrency } from '@/lib/utils/formatting';
 
 export function SmokingCostCalculator() {
   const [cigarettesPerDay, setCigarettesPerDay] = React.useState(10);
-  const [pricePerPack, setPricePerPack] = React.useState(8);
+  const [pricePerPack, setPricePerPack] = React.useState(140);
   const [cigarettesPerPack, setCigarettesPerPack] = React.useState(20);
   const [yearsSmoked, setYearsSmoked] = React.useState(5);
   const [results, setResults] = React.useState<SmokingCostResults | null>(null);
@@ -30,33 +30,33 @@ export function SmokingCostCalculator() {
 
   return (
     <CalculatorBase
-      title="Smoking Cost Calculator"
-      description="Calculate how much smoking costs you over time"
+      title="Røykekostnad"
+      description="Regn ut hva røyking koster deg i kroner, per dag, måned og år"
       onCalculate={calculate}
-      onReset={() => { setCigarettesPerDay(10); setPricePerPack(8); setCigarettesPerPack(20); setYearsSmoked(5); }}
+      onReset={() => { setCigarettesPerDay(10); setPricePerPack(140); setCigarettesPerPack(20); setYearsSmoked(5); }}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Yearly Cost" value={formatCurrency(results.yearly)} highlight copyable />
+          <ResultDisplay label="Kostnad per år" value={formatCurrency(results.yearly, { decimals: 0 })} highlight copyable />
 
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Daily" value={formatCurrency(results.daily)} />
-            <ResultDisplay label="Weekly" value={formatCurrency(results.weekly)} />
-            <ResultDisplay label="Monthly" value={formatCurrency(results.monthly)} />
-            <ResultDisplay label="5 Years" value={formatCurrency(results.fiveYear)} />
-            <ResultDisplay label="10 Years" value={formatCurrency(results.tenYear)} />
-            <ResultDisplay label="30 Years" value={formatCurrency(results.lifetime)} />
+            <ResultDisplay label="Per dag" value={formatCurrency(results.daily, { decimals: 0 })} />
+            <ResultDisplay label="Per uke" value={formatCurrency(results.weekly, { decimals: 0 })} />
+            <ResultDisplay label="Per måned" value={formatCurrency(results.monthly, { decimals: 0 })} />
+            <ResultDisplay label="På 5 år" value={formatCurrency(results.fiveYear, { decimals: 0 })} />
+            <ResultDisplay label="På 10 år" value={formatCurrency(results.tenYear, { decimals: 0 })} />
+            <ResultDisplay label="På 30 år" value={formatCurrency(results.lifetime, { decimals: 0 })} />
           </div>
 
           {results.totalSpent && (
             <div className="bg-red-50 p-4 rounded-lg border border-red-200">
               <p className="text-lg font-semibold text-red-800">
-                You&apos;ve already spent approximately {formatCurrency(results.totalSpent)} on smoking
+                Du har allerede brukt ca. {formatCurrency(results.totalSpent, { decimals: 0 })} på røyking
               </p>
             </div>
           )}
 
           <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2">What You Could Buy Instead (Yearly)</h4>
+            <h4 className="text-sm font-medium mb-2">Hva du kunne fått for pengene (per år)</h4>
             <div className="grid grid-cols-2 gap-2">
               {results.alternativeUses.map((alt, i) => (
                 <div key={i} className="p-2 bg-green-50 rounded text-sm">
@@ -67,7 +67,7 @@ export function SmokingCostCalculator() {
           </div>
 
           <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2">Health Benefits of Quitting</h4>
+            <h4 className="text-sm font-medium mb-2">Dette skjer når du slutter</h4>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {healthBenefits.map((benefit, i) => (
                 <div key={i} className="flex gap-4 text-sm p-2 bg-muted/50 rounded">
@@ -80,12 +80,12 @@ export function SmokingCostCalculator() {
         </div>
       )}
     >
-      <NumberInput id="cigarettesPerDay" label="Cigarettes Per Day" value={cigarettesPerDay} onChange={setCigarettesPerDay} min={1} max={100} required />
+      <NumberInput id="cigarettesPerDay" label="Sigaretter per dag" value={cigarettesPerDay} onChange={setCigarettesPerDay} min={1} max={100} required />
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="pricePerPack" label="Price Per Pack" value={pricePerPack} onChange={setPricePerPack} min={1} max={50} step={0.5} unit="$" required />
-        <NumberInput id="cigarettesPerPack" label="Cigarettes Per Pack" value={cigarettesPerPack} onChange={setCigarettesPerPack} min={10} max={30} required />
+        <NumberInput id="pricePerPack" label="Pris per pakke" value={pricePerPack} onChange={setPricePerPack} min={1} max={500} step={5} unit="kr" required />
+        <NumberInput id="cigarettesPerPack" label="Sigaretter per pakke" value={cigarettesPerPack} onChange={setCigarettesPerPack} min={10} max={30} required />
       </div>
-      <NumberInput id="yearsSmoked" label="Years Smoked (optional)" value={yearsSmoked} onChange={setYearsSmoked} min={0} max={70} unit="years" />
+      <NumberInput id="yearsSmoked" label="Antall år du har røykt (valgfritt)" value={yearsSmoked} onChange={setYearsSmoked} min={0} max={70} unit="år" />
     </CalculatorBase>
   );
 }

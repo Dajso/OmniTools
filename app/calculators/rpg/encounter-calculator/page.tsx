@@ -66,7 +66,6 @@ export default function EncounterCalculatorPage() {
           title="Encounter Difficulty Calculator"
           description="Calculate encounter difficulty for D&D 5e using official DMG rules. Balance your encounters for the perfect challenge."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Encounter Difficulty Calculator">

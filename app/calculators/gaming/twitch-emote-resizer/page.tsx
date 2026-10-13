@@ -65,7 +65,6 @@ export default function TwitchEmoteResizerPage() {
           title="Twitch Emote Resizer"
           description="Resize your images to standard Twitch emote dimensions. Supports Twitch, BTTV, and FFZ emote sizes with instant preview and download."
           colorClass="bg-purple-100 text-purple-600"
-          category="Gaming"
         />
 
         <section aria-label="Twitch Emote Resizer">

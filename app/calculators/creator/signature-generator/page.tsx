@@ -65,7 +65,6 @@ export default function SignatureGeneratorPage() {
           title="Signature Generator"
           description="Generate handwriting-style digital signatures for documents, emails, and personal use."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Creator"
         />
 
         <section aria-label="Signature Generator">

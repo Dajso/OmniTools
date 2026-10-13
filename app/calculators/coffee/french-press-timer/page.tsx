@@ -63,7 +63,6 @@ export default function FrenchPressTimerPage() {
                     title="French Press Timer"
                     description="Timer with bloom and stir reminders for perfect French press coffee brewing."
                     colorClass="bg-amber-100 text-amber-700"
-                    category="Coffee"
                 />
 
                 <section aria-label="French Press Timer">

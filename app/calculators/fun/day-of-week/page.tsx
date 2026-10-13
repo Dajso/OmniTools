@@ -65,7 +65,6 @@ export default function DayOfWeekPage() {
           title="Day of the Week Calculator"
           description="Curious what day of the week you were born? Or what day a future event falls on? Find out instantly with our day of the week calculator."
           colorClass="bg-cyan-100 text-cyan-600"
-          category="Fun"
         />
 
         <section aria-label="Day of the Week Calculator">

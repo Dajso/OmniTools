@@ -67,7 +67,6 @@ export default function TavernGeneratorPage() {
           title="Tavern Generator"
           description="Generate random taverns with names, staff, menus, and rumors for your D&D or tabletop RPG campaign. Perfect for game masters who need quick inspiration."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Tavern Generator">

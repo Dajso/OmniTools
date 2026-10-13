@@ -66,7 +66,6 @@ export default function LuggageSizePage() {
           title="Luggage Size Checker"
           description="Check if your luggage meets airline size and weight limits. Compare requirements across 12+ major airlines for carry-on, checked bags, and personal items."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Travel"
         />
 
         <section aria-label="Luggage Size Checker">

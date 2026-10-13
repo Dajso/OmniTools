@@ -65,7 +65,6 @@ export default function NumerologyPage() {
           title="Numerology Calculator"
           description="Discover the hidden meaning in your numbers. Calculate your Life Path, Expression, Soul Urge, and other core numerology numbers."
           colorClass="bg-purple-100 text-purple-600"
-          category="Fun"
         />
 
         <section aria-label="Numerology Calculator">

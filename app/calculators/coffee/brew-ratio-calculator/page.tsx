@@ -63,7 +63,6 @@ export default function BrewRatioCalculatorPage() {
                     title="Brew Ratio Calculator"
                     description="Calculate the perfect water amount for your coffee brew ratio with strength profiles."
                     colorClass="bg-amber-100 text-amber-700"
-                    category="Coffee"
                 />
 
                 <section aria-label="Brew Ratio Calculator">

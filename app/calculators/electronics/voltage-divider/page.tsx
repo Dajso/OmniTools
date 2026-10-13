@@ -16,7 +16,6 @@ export default function VoltageDividerPage() {
         toolId="voltage-divider"
         title="Voltage Divider Calculator"
         description="Calculate output voltage for a resistive voltage divider circuit. Find the right resistor values for your project."
-        category="Electronics"
       />
       <VoltageDividerCalculator />
     </main>

@@ -16,7 +16,6 @@ export default function SoundSpeedCalculatorPage() {
         toolId="sound-speed-calculator"
         title="Sound Speed Calculator"
         description="Calculate the speed of sound in air, water, steel, and other media based on temperature."
-        category="Physics"
       />
       <SoundSpeedCalculator />
     </main>

@@ -66,7 +66,6 @@ export default function BusinessDaysCalculatorPage() {
           title="Business Days Calculator"
           description="Calculate business days between two dates or add business days to a date. Automatically excludes weekends and optionally US federal holidays."
           colorClass="bg-blue-100 text-blue-600"
-          category="Time & Date"
         />
 
         <section aria-label="Business Days Calculator">

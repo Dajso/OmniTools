@@ -65,7 +65,6 @@ export default function EDPICalculatorPage() {
           title="eDPI Calculator"
           description="Calculate your effective DPI (eDPI) and compare your sensitivity settings with professional players. Find the optimal mouse settings for competitive gaming."
           colorClass="bg-purple-100 text-purple-600"
-          category="Gaming"
         />
 
         <section aria-label="eDPI Calculator">

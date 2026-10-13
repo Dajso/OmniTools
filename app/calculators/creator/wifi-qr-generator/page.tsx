@@ -64,7 +64,6 @@ export default function WifiQRGeneratorPage() {
           title="WiFi QR Code Generator"
           description="Generate a QR code for your WiFi network. Guests can scan to connect instantly without typing passwords."
           colorClass="bg-cyan-100 text-cyan-600"
-          category="Creator"
         />
 
         <section aria-label="WiFi QR Code Generator">

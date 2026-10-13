@@ -65,7 +65,6 @@ export default function BiorhythmPage() {
           title="Biorhythm Calculator"
           description="Track your physical, emotional, and intellectual cycles with our interactive biorhythm calculator. Visualize your patterns over time."
           colorClass="bg-gradient-to-r from-red-100 via-green-100 to-blue-100 text-gray-700"
-          category="Fun"
         />
 
         <section aria-label="Biorhythm Calculator">

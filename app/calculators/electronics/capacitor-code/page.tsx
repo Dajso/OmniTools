@@ -16,7 +16,6 @@ export default function CapacitorCodePage() {
         toolId="capacitor-code"
         title="Capacitor Code Converter"
         description="Convert capacitor codes (like 104) to actual values in pF, nF, and µF. Includes common code reference."
-        category="Electronics"
       />
       <CapacitorCodeConverter />
     </main>

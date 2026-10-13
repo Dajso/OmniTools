@@ -65,7 +65,6 @@ export default function ZodiacSignPage() {
           title="Zodiac Sign Calculator"
           description="Discover your zodiac sign and explore your astrological personality. Learn about your element, ruling planet, and compatible signs."
           colorClass="bg-purple-100 text-purple-600"
-          category="Fun"
         />
 
         <section aria-label="Zodiac Sign Calculator">

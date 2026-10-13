@@ -65,7 +65,6 @@ export default function PreciseAgeCalculatorPage() {
           title="Precise Age Calculator"
           description="Calculate your exact age down to the second. Find out how many years, months, days, hours, minutes, and seconds you have lived, plus your zodiac sign and days until your next birthday."
           colorClass="bg-purple-100 text-purple-600"
-          category="Time & Date"
         />
 
         <section aria-label="Precise Age Calculator">

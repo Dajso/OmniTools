@@ -66,7 +66,6 @@ export default function CharacterSheetHelperPage() {
           title="Character Sheet Helper"
           description="Calculate ability modifiers, skill bonuses, saving throws, and other D&D 5e character stats. Perfect for building and managing your RPG characters."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Character Sheet Helper">

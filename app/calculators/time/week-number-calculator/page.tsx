@@ -64,7 +64,6 @@ export default function WeekNumberCalculatorPage() {
           title="Week Number Calculator"
           description="Find the ISO week number for any date, or discover which dates fall within a specific week. Includes day of year, quarter information, and more."
           colorClass="bg-green-100 text-green-600"
-          category="Time & Date"
         />
 
         <section aria-label="Week Number Calculator">

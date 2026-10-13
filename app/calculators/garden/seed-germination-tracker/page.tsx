@@ -62,7 +62,6 @@ export default function SeedGerminationTrackerPage() {
           title="Seed Germination Tracker"
           description="Track and log seed germination rates for your garden to improve your seed starting success."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Seed Germination Tracker">

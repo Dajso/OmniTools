@@ -1,35 +1,48 @@
 import { Metadata } from 'next';
 import { SleepCycleCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Sleep Cycle Calculator - Best Time to Sleep & Wake Up',
-  description: 'Calculate the best times to sleep or wake up based on 90-minute sleep cycles. Free sleep calculator for better rest and energy.',
-  keywords: ['sleep cycle calculator', 'sleep calculator', 'bedtime calculator', 'wake up time calculator', 'sleep schedule calculator', 'REM sleep calculator'],
+  title: 'Søvnsyklus-kalkulator – gratis kalkulator på nett',
+  description: 'Finn de beste tidspunktene for leggetid og oppvåkning ut fra søvnsykluser. Gratis og uten registrering.',
+  keywords: ['søvn', 'søvnsyklus', 'leggetid', 'våkne', 'søvnkalkulator'],
   alternates: { canonical: '/calculators/health/sleep-cycle-calculator' },
+  openGraph: {
+    title: 'Søvnsyklus-kalkulator',
+    description: 'Finn de beste tidspunktene for leggetid og oppvåkning ut fra søvnsykluser',
+    url: '/calculators/health/sleep-cycle-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Sleep Cycle Calculator',
-  description: 'Find the best times to sleep or wake up based on sleep cycles',
+  name: 'Søvnsyklus-kalkulator',
+  description: 'Finn de beste tidspunktene for leggetid og oppvåkning ut fra søvnsykluser',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose your mode', text: 'Select whether you need to wake up at a specific time or want to go to bed at a specific time.' },
-  { name: 'Enter your time', text: 'Input your target wake-up time or bedtime.' },
-  { name: 'Adjust fall asleep time', text: 'Enter how long it typically takes you to fall asleep (default 15 minutes).' },
-  { name: 'View recommended times', text: 'See optimal sleep/wake times based on complete 90-minute cycles.' },
+  { name: 'Velg hva du vil regne ut', text: 'Når du må våkne, eller når du legger deg.' },
+  { name: 'Sett klokkeslett', text: 'Oppgi tidspunktet.' },
+  { name: 'Les forslagene', text: 'Se tidspunkter som gir hele søvnsykluser.' },
 ];
 
 const faqs = [
-  { question: 'What is a sleep cycle?', answer: 'A sleep cycle lasts about 90 minutes and includes light sleep, deep sleep, and REM sleep. Waking at the end of a cycle (rather than mid-cycle) helps you feel more refreshed.' },
-  { question: 'How many sleep cycles do I need?', answer: 'Most adults need 4-6 complete cycles (6-9 hours) per night. 5-6 cycles is optimal for most people. Quality matters as much as quantity.' },
-  { question: 'Why do I feel tired after 8 hours of sleep?', answer: 'You may be waking mid-cycle. Try adjusting your sleep time by 15-30 minutes to align with cycle completion. Sleep quality, consistency, and sleep disorders also affect how rested you feel.' },
+  { question: 'Hva er en søvnsyklus?', answer: 'Et mønster av lett søvn, dyp søvn og drømmesøvn som varer ca. 90 minutter.' },
+  { question: 'Hvor mye søvn trenger jeg?', answer: 'De fleste voksne trenger 7–9 timer.' },
+  { question: 'Hvorfor våkne mellom sykluser?', answer: 'Man våkner ofte lettere og kjenner seg mer uthvilt.' },
+  { question: 'Er dette en eksakt vitenskap?', answer: 'Nei. Syklusene varierer fra 70 til 120 minutter. Resultatene er veiledende.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/tdee-calculator', title: 'Kalorikalkulator (TDEE)', description: 'Beregn hvor mange kalorier du forbruker per dag' },
 ];
 
 export default function SleepCycleCalculatorPage() {
@@ -39,33 +52,17 @@ export default function SleepCycleCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="sleep-cycle-calculator"
-          title="Sleep Cycle Calculator"
-          description="Find the best times to sleep or wake up based on 90-minute sleep cycles. Wake up feeling refreshed by completing full cycles."
-          colorClass="bg-red-100 text-red-700"
+          title="Søvnsyklus-kalkulator"
+          description="Finn de beste tidspunktene å legge seg eller våkne ut fra søvnsykluser på 90 minutter. Gratis og uten registrering."
         />
-        <section aria-label="Sleep Cycle Calculator"><SleepCycleCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Søvnsyklus-kalkulator">
+          <SleepCycleCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

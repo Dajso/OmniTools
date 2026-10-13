@@ -64,7 +64,6 @@ export default function PomodoroTimerPage() {
           title="Pomodoro Timer"
           description="Boost your productivity with the Pomodoro technique. Work in focused intervals with customizable work and break durations."
           colorClass="bg-rose-100 text-rose-600"
-          category="Academic"
         />
 
         <section aria-label="Pomodoro Timer">

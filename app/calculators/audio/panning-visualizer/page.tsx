@@ -66,7 +66,6 @@ export default function PanningVisualizerPage() {
           title="Audio Panning Visualizer"
           description="Visualize and test stereo panning. Hear how sound moves between left and right channels. Perfect for testing speakers and headphones."
           colorClass="bg-violet-100 text-violet-600"
-          category="Audio"
         />
 
         <section aria-label="Audio Panning Visualizer">

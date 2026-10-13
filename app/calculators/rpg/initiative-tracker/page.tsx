@@ -66,7 +66,6 @@ export default function InitiativeTrackerPage() {
           title="Initiative Tracker"
           description="Track combat order, HP, conditions, and more for your D&D and RPG encounters. Perfect for DMs and players alike."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Initiative Tracker">

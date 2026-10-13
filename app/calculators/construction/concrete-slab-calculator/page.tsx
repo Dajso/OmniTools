@@ -83,7 +83,6 @@ export default function ConcreteSlabCalculatorPage() {
           title="Concrete Slab Calculator"
           description="Calculate concrete volume, bags needed, and rebar estimation for slab projects. Includes waste percentage and ready-mix truck recommendations."
           colorClass="bg-gray-100 text-gray-600"
-          category="Construction"
         />
 
         <section aria-label="Concrete Slab Calculator">

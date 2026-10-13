@@ -65,7 +65,6 @@ export default function DecisionWheelPage() {
           title="Decision Maker Wheel"
           description="Can't decide? Let the wheel choose for you! Add your options, spin the wheel, and let fate make the decision."
           colorClass="bg-gradient-to-r from-pink-100 to-purple-100 text-purple-600"
-          category="Fun"
         />
 
         <section aria-label="Decision Maker Wheel" className="bg-card rounded-lg border p-6">

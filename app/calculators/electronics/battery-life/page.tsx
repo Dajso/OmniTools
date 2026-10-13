@@ -16,7 +16,6 @@ export default function BatteryLifePage() {
         toolId="battery-life"
         title="Battery Life Calculator"
         description="Calculate how long a battery will last based on capacity and current draw. Includes presets for common battery types."
-        category="Electronics"
       />
       <BatteryLifeCalculator />
     </main>

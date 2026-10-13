@@ -65,7 +65,6 @@ export default function ABTestCalculatorPage() {
           title="A/B Test Significance Calculator"
           description="Determine if your A/B test results are statistically significant. Calculate p-values, confidence intervals, and conversion rate lift."
           colorClass="bg-green-100 text-green-600"
-          category="Statistics"
         />
 
         <section aria-label="A/B Test Calculator">

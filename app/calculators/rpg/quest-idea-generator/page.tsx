@@ -67,7 +67,6 @@ export default function QuestIdeaGeneratorPage() {
           title="Quest Idea Generator"
           description="Generate random quest ideas and adventure hooks for your D&D or tabletop RPG campaign. Includes objectives, NPCs, complications, and rewards."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Quest Idea Generator">

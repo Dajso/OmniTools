@@ -63,7 +63,6 @@ export default function EspressoDialInLogPage() {
           title="Espresso Dial-in Log"
           description="Track your espresso shots with extraction ratio, flow rate, and taste notes to perfect your recipe."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Espresso Dial-in Log">

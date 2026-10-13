@@ -59,7 +59,6 @@ export default function QuiltBindingCalculatorPage() {
           title="Quilt Binding Calculator"
           description="Calculate how much binding fabric you need for your quilt. Includes standard size presets and supports both double-fold and single-fold binding."
           colorClass="bg-amber-100 text-amber-600"
-          category="Crafts"
         />
 
         <section aria-label="Quilt Binding Calculator">

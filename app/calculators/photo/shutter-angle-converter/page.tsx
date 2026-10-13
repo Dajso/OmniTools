@@ -65,7 +65,6 @@ export default function ShutterAngleConverterPage() {
           title="Shutter Angle Converter"
           description="Convert between cinema shutter angle and photography shutter speed. Understand the 180-degree rule and achieve the perfect cinematic motion blur for your videos."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Shutter Angle Converter">

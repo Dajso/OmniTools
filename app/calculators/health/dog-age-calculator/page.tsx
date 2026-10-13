@@ -1,34 +1,48 @@
 import { Metadata } from 'next';
 import { DogAgeCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Dog Age Calculator - Dog Years to Human Years',
-  description: 'Convert your dog\'s age to human years based on size. Free dog age calculator with life stage information and average lifespan.',
-  keywords: ['dog age calculator', 'dog years calculator', 'dog to human years', 'puppy age calculator', 'dog life expectancy', 'dog age chart'],
+  title: 'Hundealder i menneskeår – gratis kalkulator på nett',
+  description: 'Regn om hundens alder til menneskeår. Gratis og uten registrering.',
+  keywords: ['hundealder', 'hundeår', 'menneskeår', 'kjæledyr'],
   alternates: { canonical: '/calculators/health/dog-age-calculator' },
+  openGraph: {
+    title: 'Hundealder i menneskeår',
+    description: 'Regn om hundens alder til menneskeår',
+    url: '/calculators/health/dog-age-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Dog Age Calculator',
-  description: 'Convert your dog\'s age to human years based on size',
+  name: 'Hundealder i menneskeår',
+  description: 'Regn om hundens alder til menneskeår',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your dog\'s age', text: 'Input your dog\'s age in years and months.' },
-  { name: 'Select dog size', text: 'Choose small (under 20 lbs), medium (20-50 lbs), large (50-100 lbs), or giant (over 100 lbs).' },
-  { name: 'View human age equivalent', text: 'See your dog\'s age in human years, life stage, and average lifespan for their size.' },
+  { name: 'Velg størrelse', text: 'Liten, middels, stor eller kjempestor.' },
+  { name: 'Oppgi alder', text: 'År og måneder.' },
+  { name: 'Les resultatet', text: 'Se alder i menneskeår og livsfase.' },
 ];
 
 const faqs = [
-  { question: 'Is 1 dog year really 7 human years?', answer: 'No, this is a myth. Dogs age faster in their first two years, then slow down. Size also matters - larger dogs age faster than smaller ones. Our calculator uses more accurate formulas.' },
-  { question: 'Why does size affect dog aging?', answer: 'Larger dogs have shorter lifespans and age faster. A Great Dane is considered senior at 6-7 years, while a Chihuahua might not be senior until 10-11 years.' },
-  { question: 'What are the dog life stages?', answer: 'Puppy (0-6 months), Junior (6 months-2 years), Adult (2-7 years), Mature (7-10 years), and Senior (10+ years). These vary by size.' },
+  { question: 'Er 1 hundeår lik 7 menneskeår?', answer: 'Nei, det er en forenkling. Hunder eldes raskere de første årene, og store raser eldes raskere enn små.' },
+  { question: 'Hvor gammel blir en hund?', answer: 'Små raser blir ofte 13–16 år, store 8–12 år.' },
+  { question: 'Hvor mye veier en middels stor hund?', answer: 'Rundt 9–23 kg.' },
+  { question: 'Er resultatet nøyaktig?', answer: 'Det er et anslag. Rase, helse og gener har stor betydning.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/cat-age-calculator', title: 'Kattealder i menneskeår', description: 'Regn om kattens alder til menneskeår' },
 ];
 
 export default function DogAgeCalculatorPage() {
@@ -38,33 +52,17 @@ export default function DogAgeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="dog-age-calculator"
-          title="Dog Age Calculator"
-          description="Convert your dog's age to human years. Our calculator accounts for size, which significantly affects how dogs age."
-          colorClass="bg-red-100 text-red-700"
+          title="Hundealder i menneskeår"
+          description="Regn hundens alder om til menneskeår etter størrelse. Gratis og uten registrering."
         />
-        <section aria-label="Dog Age Calculator"><DogAgeCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Hundealder i menneskeår">
+          <DogAgeCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

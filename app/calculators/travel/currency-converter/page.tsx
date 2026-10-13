@@ -65,7 +65,6 @@ export default function CurrencyConverterPage() {
           title="Currency Converter"
           description="Convert between 30+ world currencies instantly. Features offline support with cached exchange rates, perfect for travel planning."
           colorClass="bg-green-100 text-green-600"
-          category="Travel"
         />
 
         <section aria-label="Currency Converter">

@@ -65,7 +65,6 @@ export default function GoldenHourCalculatorPage() {
           title="Golden Hour Calculator"
           description="Calculate golden hour and blue hour times for any location. Plan your photography shoots to capture the perfect natural lighting conditions."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Golden Hour Calculator">

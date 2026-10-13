@@ -1,35 +1,48 @@
 import { Metadata } from 'next';
 import { IntermittentFastingCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Intermittent Fasting Timer - Free IF Calculator',
-  description: 'Track your intermittent fasting window with our free timer. Supports 16:8, 18:6, 20:4, and custom fasting protocols. See fasting phases and progress.',
-  keywords: ['intermittent fasting timer', 'IF calculator', '16:8 fasting', '18:6 fasting', 'fasting tracker', 'fasting window calculator'],
+  title: 'Tidsstyrt spising (intermittent faste) – gratis kalkulator på nett',
+  description: 'Hold oversikt over fastevinduet ditt med 16:8 og 18:6. Gratis og uten registrering.',
+  keywords: ['intermittent faste', 'fastetimer', '16:8', 'tidsbegrenset spising'],
   alternates: { canonical: '/calculators/health/intermittent-fasting-calculator' },
+  openGraph: {
+    title: 'Tidsstyrt spising (intermittent faste)',
+    description: 'Hold oversikt over fastevinduet ditt med 16:8 og 18:6',
+    url: '/calculators/health/intermittent-fasting-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Intermittent Fasting Timer',
-  description: 'Track your fasting window and see when you can eat',
+  name: 'Tidsstyrt spising (intermittent faste)',
+  description: 'Hold oversikt over fastevinduet ditt med 16:8 og 18:6',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose your protocol', text: 'Select from popular fasting protocols like 16:8, 18:6, 20:4, or set a custom duration.' },
-  { name: 'Set your start time', text: 'Enter the time of your last meal to begin tracking your fast.' },
-  { name: 'Track your progress', text: 'Watch your fasting progress and see which metabolic phases you\'ve reached.' },
-  { name: 'Know when to eat', text: 'See exactly when your eating window opens and closes.' },
+  { name: 'Velg protokoll', text: '16:8 er mest brukt. Du kan også velge egne timer.' },
+  { name: 'Sett starttid', text: 'Oppgi klokkeslettet for siste måltid.' },
+  { name: 'Se status', text: 'Se når fasten slutter og hvilken fase kroppen er i.' },
 ];
 
 const faqs = [
-  { question: 'What is 16:8 intermittent fasting?', answer: 'The 16:8 method involves fasting for 16 hours and eating within an 8-hour window. For example, eating between 12pm-8pm and fasting from 8pm-12pm the next day.' },
-  { question: 'What happens during fasting?', answer: 'During fasting, your body depletes glycogen stores (4-8 hours), begins burning fat for fuel (12+ hours), and may enter ketosis (16+ hours). Autophagy (cellular cleanup) increases after 18-24 hours.' },
-  { question: 'Can I drink water while fasting?', answer: 'Yes! Water, black coffee, and plain tea are generally allowed during fasting as they don\'t trigger an insulin response. Avoid anything with calories or sweeteners.' },
+  { question: 'Hva er intervallfasting?', answer: 'Et spisemønster der du bytter mellom perioder med faste og perioder der du spiser.' },
+  { question: 'Er det trygt for alle?', answer: 'Nei. Gravide, ammende, barn og unge, personer med diabetes eller spiseforstyrrelser bør ikke faste uten råd fra lege.' },
+  { question: 'Er tidslinjen for fastefasene eksakt?', answer: 'Tidspunktene er veiledende. Kroppens reaksjoner varierer mye fra person til person.' },
+  { question: 'Kan jeg drikke under fasten?', answer: 'Vann, svart kaffe og usøtet te regnes vanligvis som greit.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/tdee-calculator', title: 'Kalorikalkulator (TDEE)', description: 'Beregn hvor mange kalorier du forbruker per dag' },
 ];
 
 export default function IntermittentFastingCalculatorPage() {
@@ -38,34 +51,18 @@ export default function IntermittentFastingCalculatorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="intermittent-fasting-timer"
-          title="Intermittent Fasting Timer"
-          description="Track your fasting window with our free timer. Supports popular protocols like 16:8, 18:6, and 20:4 with real-time progress tracking."
-          colorClass="bg-red-100 text-red-700"
+          toolId="intermittent-fasting-calculator"
+          title="Tidsstyrt spising (intermittent faste)"
+          description="Planlegg fastevinduet ditt med 16:8, 18:6 og andre protokoller, og se når du kan spise igjen. Gratis og uten registrering."
         />
-        <section aria-label="Intermittent Fasting Timer"><IntermittentFastingCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Timer</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Tidsstyrt spising (intermittent faste)">
+          <IntermittentFastingCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

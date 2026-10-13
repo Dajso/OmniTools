@@ -65,7 +65,6 @@ export default function StandardDeviationCalculatorPage() {
           title="Standard Deviation Calculator"
           description="Calculate standard deviation, variance, mean, median, mode, and other descriptive statistics from your dataset."
           colorClass="bg-purple-100 text-purple-600"
-          category="Statistics"
         />
 
         <section aria-label="Standard Deviation Calculator">

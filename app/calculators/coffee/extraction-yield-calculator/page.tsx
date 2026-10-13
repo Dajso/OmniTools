@@ -63,7 +63,6 @@ export default function ExtractionYieldCalculatorPage() {
           title="Coffee Extraction Yield Calculator"
           description="Calculate extraction yield from TDS measurements to determine if your coffee is properly extracted."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Coffee Extraction Yield Calculator">

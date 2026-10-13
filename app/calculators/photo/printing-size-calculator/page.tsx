@@ -65,7 +65,6 @@ export default function PrintingSizeCalculatorPage() {
           title="Printing Size Calculator"
           description="Calculate maximum print size from your image resolution, or find out how many pixels you need for a specific print size. Ensure sharp, professional-quality prints every time."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Printing Size Calculator">

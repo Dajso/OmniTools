@@ -66,7 +66,6 @@ export default function FertilizerCalculatorPage() {
           title="Fertilizer N-P-K Calculator"
           description="Calculate how much fertilizer to apply based on N-P-K ratio and target nitrogen rate for lawns and gardens."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Fertilizer Calculator">

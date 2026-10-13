@@ -1,34 +1,48 @@
 import { Metadata } from 'next';
 import { ShoeSizeConverter } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Shoe Size Converter - US UK EU Size Chart',
-  description: 'Convert shoe sizes between US, UK, EU, and centimeters. Free shoe size converter for men\'s and women\'s sizes.',
-  keywords: ['shoe size converter', 'shoe size chart', 'US to UK shoe size', 'EU shoe size', 'shoe size calculator', 'foot size converter'],
+  title: 'Skostørrelse – gratis kalkulator på nett',
+  description: 'Regn om skostørrelser mellom EU, UK og US. Gratis og uten registrering.',
+  keywords: ['skostørrelse', 'sko', 'EU', 'UK', 'US', 'fotlengde'],
   alternates: { canonical: '/calculators/health/shoe-size-converter' },
+  openGraph: {
+    title: 'Skostørrelse',
+    description: 'Regn om skostørrelser mellom EU, UK og US',
+    url: '/calculators/health/shoe-size-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Shoe Size Converter',
-  description: 'Convert shoe sizes between international systems',
+  name: 'Skostørrelse',
+  description: 'Regn om skostørrelser mellom EU, UK og US',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select your size system', text: 'Choose US Men\'s, US Women\'s, UK, EU, or foot length in cm.' },
-  { name: 'Enter your shoe size', text: 'Input your known shoe size in the selected system.' },
-  { name: 'View conversions', text: 'See your shoe size in all systems plus foot length in centimeters.' },
+  { name: 'Velg system', text: 'Europa er standard i Norge.' },
+  { name: 'Skriv inn størrelse', text: 'For eksempel 42.' },
+  { name: 'Les resultatet', text: 'Se størrelser i alle systemer og fotlengde.' },
 ];
 
 const faqs = [
-  { question: 'What\'s the difference between US Men\'s and Women\'s sizes?', answer: 'US Women\'s sizes are typically 1.5 sizes larger than Men\'s. For example, a Men\'s 8 equals a Women\'s 9.5.' },
-  { question: 'How do I measure my foot?', answer: 'Stand on paper, trace your foot, and measure from heel to longest toe. Measure in the afternoon when feet are largest. Add about 1cm for toe room.' },
-  { question: 'Why do shoe sizes vary by brand?', answer: 'Sizing isn\'t standardized. Use this converter as a guide, but always try shoes on when possible. Width also varies - some brands run narrow or wide.' },
+  { question: 'Hvordan henger europeisk størrelse og fotlengde sammen?', answer: 'Én størrelse tilsvarer 2/3 cm. Skoens innvendige lengde er fotlengden pluss ca. 1,5 cm.' },
+  { question: 'Er størrelsene like hos alle merker?', answer: 'Nei. Produsenter varierer. Se merkets egen tabell.' },
+  { question: 'Hvor mye plass bør det være foran tærne?', answer: 'Ca. 1–1,5 cm.' },
+  { question: 'Når bør jeg måle foten?', answer: 'På ettermiddagen, når foten er størst.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/ring-size-converter', title: 'Ringstørrelse', description: 'Regn om ringstørrelser mellom omkrets, EU, UK og US' },
 ];
 
 export default function ShoeSizeConverterPage() {
@@ -38,33 +52,17 @@ export default function ShoeSizeConverterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="shoe-size-converter"
-          title="Shoe Size Converter"
-          description="Convert shoe sizes between US, UK, EU, and centimeters. Works for both men's and women's sizes."
-          colorClass="bg-red-100 text-red-700"
+          title="Skostørrelse"
+          description="Regn om skostørrelse mellom Europa/Norge, USA, Storbritannia og fotlengde i cm. Gratis og uten registrering."
         />
-        <section aria-label="Shoe Size Converter"><ShoeSizeConverter /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Converter</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Skostørrelse">
+          <ShoeSizeConverter />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

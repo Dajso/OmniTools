@@ -65,7 +65,6 @@ export default function NDFilterCalculatorPage() {
           title="ND Filter Calculator"
           description="Calculate the correct shutter speed when using neutral density filters. Perfect for long exposure photography with silky water, cloud streaks, and motion blur effects."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="ND Filter Calculator">

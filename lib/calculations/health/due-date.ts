@@ -26,16 +26,16 @@ export interface DueDateResults {
 }
 
 const MILESTONES = [
-  { week: 4, description: 'Implantation complete' },
-  { week: 6, description: 'Heartbeat detectable' },
-  { week: 8, description: 'All major organs forming' },
-  { week: 12, description: 'End of first trimester' },
-  { week: 16, description: 'Gender may be visible' },
-  { week: 20, description: 'Halfway point, anatomy scan' },
-  { week: 24, description: 'Viability milestone' },
-  { week: 28, description: 'Third trimester begins' },
-  { week: 37, description: 'Full term' },
-  { week: 40, description: 'Due date' },
+  { week: 4, description: 'Implantasjonen er ferdig' },
+  { week: 6, description: 'Hjerteslag kan påvises' },
+  { week: 8, description: 'Alle hovedorganer dannes' },
+  { week: 12, description: 'Slutten av første trimester' },
+  { week: 16, description: 'Kjønn kan være synlig' },
+  { week: 20, description: 'Halvveis, rutineultralyd' },
+  { week: 24, description: 'Fosteret kan overleve utenfor livmoren' },
+  { week: 28, description: 'Tredje trimester begynner' },
+  { week: 37, description: 'Fullbåren' },
+  { week: 40, description: 'Termin' },
 ];
 
 export function calculateDueDate(inputs: DueDateInputs): DueDateResults {

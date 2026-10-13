@@ -65,7 +65,6 @@ export default function BreathingBubblePage() {
           title="Visual Breathing Bubble"
           description="Take a moment to breathe. Follow the calming bubble animation to reduce stress, lower anxiety, and find your center."
           colorClass="bg-gradient-to-r from-blue-100 to-purple-100 text-purple-600"
-          category="Fun"
         />
 
         <section aria-label="Breathing Exercise" className="bg-card rounded-lg border p-6">

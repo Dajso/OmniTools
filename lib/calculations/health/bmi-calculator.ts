@@ -71,10 +71,10 @@ const BMI_THRESHOLDS = {
  * Recommendations for each BMI category
  */
 const RECOMMENDATIONS: Record<BMICategory, string> = {
-  underweight: 'Your BMI suggests you may be underweight. Consider consulting a healthcare provider about healthy weight gain strategies.',
-  normal: 'Your BMI is within the healthy range. Maintain your current lifestyle with balanced nutrition and regular exercise.',
-  overweight: 'Your BMI suggests you may be overweight. Consider adopting healthier eating habits and increasing physical activity.',
-  obese: 'Your BMI indicates obesity. We recommend consulting a healthcare provider for personalized guidance on weight management.',
+  underweight: 'KMI-en din tyder på undervekt. Snakk med fastlegen din om hvordan du kan gå opp i vekt på en sunn måte.',
+  normal: 'KMI-en din er innenfor normalområdet. Fortsett med et variert kosthold og regelmessig fysisk aktivitet.',
+  overweight: 'KMI-en din tyder på overvekt. Et sunnere kosthold og mer fysisk aktivitet kan hjelpe.',
+  obese: 'KMI-en din tyder på fedme. Snakk med fastlegen din om råd og oppfølging tilpasset deg.',
 };
 
 /**
@@ -183,14 +183,14 @@ export function calculateBMI(inputs: BMIInputs): BMIResults {
   // Validate inputs
   if (weight <= 0) {
     throw new BMICalculationError(
-      'Weight must be a positive number',
+      'Vekten må være større enn null',
       'invalid_input',
       'weight'
     );
   }
   if (height <= 0) {
     throw new BMICalculationError(
-      'Height must be a positive number',
+      'Høyden må være større enn null',
       'invalid_input',
       'height'
     );
@@ -200,14 +200,14 @@ export function calculateBMI(inputs: BMIInputs): BMIResults {
   if (unit === 'imperial') {
     if (weight < 50 || weight > 1000) {
       throw new BMICalculationError(
-        'Weight must be between 50 and 1000 lbs',
+        'Vekten må være mellom 50 og 1000 lbs',
         'out_of_range',
         'weight'
       );
     }
     if (height < 36 || height > 108) {
       throw new BMICalculationError(
-        'Height must be between 36 and 108 inches (3-9 feet)',
+        'Høyden må være mellom 36 og 108 tommer',
         'out_of_range',
         'height'
       );
@@ -215,14 +215,14 @@ export function calculateBMI(inputs: BMIInputs): BMIResults {
   } else {
     if (weight < 20 || weight > 500) {
       throw new BMICalculationError(
-        'Weight must be between 20 and 500 kg',
+        'Vekten må være mellom 20 og 500 kg',
         'out_of_range',
         'weight'
       );
     }
     if (height < 90 || height > 275) {
       throw new BMICalculationError(
-        'Height must be between 90 and 275 cm',
+        'Høyden må være mellom 90 og 275 cm',
         'out_of_range',
         'height'
       );

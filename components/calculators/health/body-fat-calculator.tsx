@@ -4,85 +4,73 @@ import * as React from 'react';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
-import { UnitToggle } from '@/components/ui/unit-toggle';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateBodyFat, type BiologicalSex, type BodyFatResults } from '@/lib/calculations/health/body-fat';
 import { cn } from '@/lib/utils';
 
 const SEX_OPTIONS = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
+  { value: 'male', label: 'Mann' },
+  { value: 'female', label: 'Kvinne' },
 ];
 
 export function BodyFatCalculator() {
   const [sex, setSex] = React.useState<BiologicalSex>('male');
-  const [height, setHeight] = React.useState(70);
-  const [waist, setWaist] = React.useState(34);
-  const [neck, setNeck] = React.useState(15);
-  const [hip, setHip] = React.useState(38);
-  const [unit, setUnit] = React.useState<'imperial' | 'metric'>('imperial');
+  const [height, setHeight] = React.useState(180);
+  const [waist, setWaist] = React.useState(86);
+  const [neck, setNeck] = React.useState(38);
+  const [hip, setHip] = React.useState(98);
   const [results, setResults] = React.useState<BodyFatResults | null>(null);
   const [error, setError] = React.useState('');
 
   const calculate = React.useCallback(() => {
     try {
       setError('');
-      const result = calculateBodyFat({ sex, height, waist, neck, hip: sex === 'female' ? hip : undefined, unit });
+      const result = calculateBodyFat({ sex, height, waist, neck, hip: sex === 'female' ? hip : undefined, unit: 'metric' });
       setResults(result);
     } catch (e) {
+      setResults(null);
       setError((e as Error).message);
     }
-  }, [sex, height, waist, neck, hip, unit]);
+  }, [sex, height, waist, neck, hip]);
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
-  const handleUnitChange = (newUnit: 'imperial' | 'metric') => {
-    const factor = newUnit === 'metric' ? 2.54 : 1 / 2.54;
-    setHeight(Math.round(height * factor * 10) / 10);
-    setWaist(Math.round(waist * factor * 10) / 10);
-    setNeck(Math.round(neck * factor * 10) / 10);
-    setHip(Math.round(hip * factor * 10) / 10);
-    setUnit(newUnit);
-  };
-
   return (
     <CalculatorBase
-      title="Body Fat Calculator"
-      description="Estimate your body fat percentage using the US Navy method"
-      formula="Navy Method: Uses height, waist, neck (and hip for women)"
+      title="Kroppsfettkalkulator"
+      description="Anslå kroppsfettprosenten din med Navy-metoden"
+      formula="Navy-metoden bruker høyde, livvidde og halsomkrets (og hofter for kvinner)"
+      formulaExplanation="Alle mål oppgis i cm. Metoden er et anslag og kan avvike fra målinger med DEXA eller bioimpedans."
       onCalculate={calculate}
-      onReset={() => { setHeight(70); setWaist(34); setNeck(15); setHip(38); }}
+      onReset={() => { setHeight(180); setWaist(86); setNeck(38); setHip(98); }}
       error={error}
       results={results && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <ResultDisplay label="Body Fat" value={results.bodyFatPercent} unit="%" highlight copyable />
+            <ResultDisplay label="Kroppsfett" value={results.bodyFatPercent} unit="%" highlight copyable />
             <span className={cn('px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary')}>
               {results.category}
             </span>
           </div>
-          <ResultDisplay label="Ideal Range" value={`${results.idealRange.min}% - ${results.idealRange.max}%`} />
+          <ResultDisplay label="Typisk sunt område" value={`${results.idealRange.min} % – ${results.idealRange.max} %`} />
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">Body Fat Categories ({sex === 'male' ? 'Men' : 'Women'})</h4>
+            <h4 className="text-sm font-medium mb-2">Kategorier for kroppsfett ({sex === 'male' ? 'menn' : 'kvinner'})</h4>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <div>Essential: {sex === 'male' ? '2-6%' : '10-14%'}</div>
-              <div>Athletes: {sex === 'male' ? '6-14%' : '14-21%'}</div>
-              <div>Fitness: {sex === 'male' ? '14-18%' : '21-25%'}</div>
-              <div>Average: {sex === 'male' ? '18-25%' : '25-32%'}</div>
+              <div>Essensielt: {sex === 'male' ? '2–6 %' : '10–14 %'}</div>
+              <div>Atlet: {sex === 'male' ? '6–14 %' : '14–21 %'}</div>
+              <div>Godt trent: {sex === 'male' ? '14–18 %' : '21–25 %'}</div>
+              <div>Gjennomsnitt: {sex === 'male' ? '18–25 %' : '25–32 %'}</div>
             </div>
           </div>
         </div>
       )}
     >
-      <div className="flex justify-end mb-2">
-        <UnitToggle value={unit} onChange={handleUnitChange} />
-      </div>
-      <SelectInput id="sex" label="Biological Sex" value={sex} onChange={(v) => setSex(v as BiologicalSex)} options={SEX_OPTIONS} required />
-      <NumberInput id="height" label="Height" value={height} onChange={setHeight} min={36} max={96} unit={unit === 'imperial' ? 'in' : 'cm'} required />
-      <NumberInput id="waist" label="Waist (at navel)" value={waist} onChange={setWaist} min={20} max={60} unit={unit === 'imperial' ? 'in' : 'cm'} required />
-      <NumberInput id="neck" label="Neck" value={neck} onChange={setNeck} min={10} max={30} unit={unit === 'imperial' ? 'in' : 'cm'} required />
+      <SelectInput id="sex" label="Biologisk kjønn" value={sex} onChange={(v) => setSex(v as BiologicalSex)} options={SEX_OPTIONS} required />
+      <NumberInput id="height" label="Høyde" value={height} onChange={setHeight} min={90} max={250} unit="cm" required />
+      <NumberInput id="waist" label="Livvidde (ved navlen)" value={waist} onChange={setWaist} min={40} max={200} unit="cm" required />
+      <NumberInput id="neck" label="Halsomkrets" value={neck} onChange={setNeck} min={20} max={70} unit="cm" required />
       {sex === 'female' && (
-        <NumberInput id="hip" label="Hip (widest point)" value={hip} onChange={setHip} min={25} max={70} unit={unit === 'imperial' ? 'in' : 'cm'} required />
+        <NumberInput id="hip" label="Hofteomkrets (bredeste punkt)" value={hip} onChange={setHip} min={50} max={200} unit="cm" required />
       )}
     </CalculatorBase>
   );

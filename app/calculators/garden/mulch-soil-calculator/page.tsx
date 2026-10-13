@@ -66,7 +66,6 @@ export default function MulchSoilCalculatorPage() {
           title="Mulch & Soil Calculator"
           description="Calculate how much mulch, topsoil, or gravel you need for your landscaping project with bag and bulk estimates."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Mulch & Soil Calculator">

@@ -1,10 +1,10 @@
 /**
- * Pace Calculator
- * 
- * Calculates running/walking pace, time, and distance.
- * 
+ * Tempokalkulator
+ *
+ * Regner ut tempo (min/km), tid og distanse for løping og gange.
+ * Beregningene gjøres i kilometer.
+ *
  * @module lib/calculations/health/pace-calculator
- * @see Requirements 6.10
  */
 
 export type CalculationType = 'pace' | 'time' | 'distance';
@@ -28,6 +28,8 @@ export interface PaceResults {
   speed: { mph: number; kmh: number };
   splits: Array<{ distance: string; time: string }>;
 }
+
+const KM_PER_MILE = 1.609344;
 
 function formatTime(totalSeconds: number): string {
   const hours = Math.floor(totalSeconds / 3600);
@@ -59,65 +61,62 @@ export function calculatePace(inputs: PaceInputs): PaceResults {
     paceUnit,
   } = inputs;
 
-  // Convert distance to miles
-  let distanceMiles: number;
-  if (distanceUnit === 'miles') distanceMiles = distance;
-  else if (distanceUnit === 'km') distanceMiles = distance * 0.621371;
-  else distanceMiles = distance * 0.000621371;
+  // Distanse i km
+  let distanceKmInput: number;
+  if (distanceUnit === 'km') distanceKmInput = distance;
+  else if (distanceUnit === 'miles') distanceKmInput = distance * KM_PER_MILE;
+  else distanceKmInput = distance / 1000;
 
-  // Convert time to seconds
   const totalTimeSeconds = hours * 3600 + minutes * 60 + seconds;
 
-  // Convert pace to seconds per mile
-  let paceSecondsPerMile: number;
+  // Tempo i sekunder per km
   const inputPaceSeconds = paceMinutes * 60 + paceSeconds;
-  if (paceUnit === 'min/mile') {
-    paceSecondsPerMile = inputPaceSeconds;
-  } else {
-    paceSecondsPerMile = inputPaceSeconds * 1.60934;
-  }
+  const paceSecondsPerKm = paceUnit === 'min/mile' ? inputPaceSeconds / KM_PER_MILE : inputPaceSeconds;
 
-  let resultDistance: number;
+  let resultKm: number;
   let resultTime: number;
-  let resultPace: number;
+  let resultPacePerKm: number;
 
   if (calculationType === 'pace') {
-    resultDistance = distanceMiles;
+    resultKm = distanceKmInput;
     resultTime = totalTimeSeconds;
-    resultPace = distanceMiles > 0 ? totalTimeSeconds / distanceMiles : 0;
+    resultPacePerKm = distanceKmInput > 0 ? totalTimeSeconds / distanceKmInput : 0;
   } else if (calculationType === 'time') {
-    resultDistance = distanceMiles;
-    resultPace = paceSecondsPerMile;
-    resultTime = distanceMiles * paceSecondsPerMile;
+    resultKm = distanceKmInput;
+    resultPacePerKm = paceSecondsPerKm;
+    resultTime = distanceKmInput * paceSecondsPerKm;
   } else {
-    resultPace = paceSecondsPerMile;
+    resultPacePerKm = paceSecondsPerKm;
     resultTime = totalTimeSeconds;
-    resultDistance = paceSecondsPerMile > 0 ? totalTimeSeconds / paceSecondsPerMile : 0;
+    resultKm = paceSecondsPerKm > 0 ? totalTimeSeconds / paceSecondsPerKm : 0;
   }
 
-  const distanceKm = resultDistance * 1.60934;
-  const pacePerKm = resultPace / 1.60934;
-  const speedMph = resultPace > 0 ? 3600 / resultPace : 0;
-  const speedKmh = speedMph * 1.60934;
+  const speedKmh = resultPacePerKm > 0 ? 3600 / resultPacePerKm : 0;
+  const pacePerMile = resultPacePerKm * KM_PER_MILE;
 
-  // Generate splits
+  // Mellomtider på vanlige distanser
+  const splitDistances: Array<{ km: number; label: string }> = [
+    { km: 1, label: '1 km' },
+    { km: 3, label: '3 km' },
+    { km: 5, label: '5 km' },
+    { km: 10, label: '10 km' },
+    { km: 15, label: '15 km' },
+    { km: 21.0975, label: 'Halvmaraton' },
+    { km: 42.195, label: 'Maraton' },
+  ];
   const splits: Array<{ distance: string; time: string }> = [];
-  const splitDistances = [0.25, 0.5, 1, 2, 3, 5, 10];
   for (const d of splitDistances) {
-    if (d <= resultDistance) {
-      splits.push({
-        distance: `${d} mi`,
-        time: formatTime(d * resultPace),
-      });
+    if (d.km <= resultKm + 1e-9) {
+      splits.push({ distance: d.label, time: formatTime(d.km * resultPacePerKm) });
     }
   }
 
   return {
     pace: {
-      minutes: Math.floor(resultPace / 60),
-      seconds: Math.round(resultPace % 60),
-      perMile: formatPace(resultPace),
-      perKm: formatPace(pacePerKm),
+      minutes: Math.floor(resultPacePerKm / 60),
+      seconds: Math.round(resultPacePerKm % 60),
+      perMile: formatPace(pacePerMile),
+      perKm: formatPace(resultPacePerKm),
     },
     time: {
       hours: Math.floor(resultTime / 3600),
@@ -126,12 +125,12 @@ export function calculatePace(inputs: PaceInputs): PaceResults {
       total: formatTime(resultTime),
     },
     distance: {
-      miles: Math.round(resultDistance * 100) / 100,
-      km: Math.round(distanceKm * 100) / 100,
-      meters: Math.round(distanceKm * 1000),
+      miles: Math.round((resultKm / KM_PER_MILE) * 100) / 100,
+      km: Math.round(resultKm * 100) / 100,
+      meters: Math.round(resultKm * 1000),
     },
     speed: {
-      mph: Math.round(speedMph * 10) / 10,
+      mph: Math.round((speedKmh / KM_PER_MILE) * 10) / 10,
       kmh: Math.round(speedKmh * 10) / 10,
     },
     splits,

@@ -16,7 +16,6 @@ export default function HorsepowerKwConverterPage() {
         toolId="horsepower-kw-converter"
         title="Horsepower to kW Converter"
         description="Convert between horsepower (HP), kilowatts (kW), metric horsepower (PS), and brake horsepower (BHP)."
-        category="Auto"
       />
       <HorsepowerKwConverter />
     </main>

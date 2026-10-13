@@ -1,7 +1,7 @@
 /**
- * Smoking Cost Calculator
- * 
- * Calculates the financial cost of smoking over time.
+ * Røykekalkulator
+ *
+ * Regner ut hva røyking koster i kroner over tid.
  * 
  * @module lib/calculations/health/smoking-cost
  * @see Requirements 6.20
@@ -45,12 +45,12 @@ export function calculateSmokingCost(inputs: SmokingCostInputs): SmokingCostResu
 
   // Alternative uses for yearly cost
   const alternativeUses = [
-    { item: 'Vacation days', quantity: Math.floor(yearly / 200) },
-    { item: 'Nice dinners', quantity: Math.floor(yearly / 75) },
-    { item: 'Movie tickets', quantity: Math.floor(yearly / 15) },
-    { item: 'Books', quantity: Math.floor(yearly / 20) },
-    { item: 'Gym memberships (months)', quantity: Math.floor(yearly / 50) },
-    { item: 'Streaming subscriptions (months)', quantity: Math.floor(yearly / 15) },
+    { item: 'helgeturer med fly (à ca. 4 000 kr)', quantity: Math.floor(yearly / 4000) },
+    { item: 'middager på restaurant (à ca. 600 kr)', quantity: Math.floor(yearly / 600) },
+    { item: 'kinobilletter (à ca. 170 kr)', quantity: Math.floor(yearly / 170) },
+    { item: 'bøker (à ca. 300 kr)', quantity: Math.floor(yearly / 300) },
+    { item: 'måneder på treningssenter (à ca. 500 kr)', quantity: Math.floor(yearly / 500) },
+    { item: 'måneder med strømmetjeneste (à ca. 150 kr)', quantity: Math.floor(yearly / 150) },
   ];
 
   return {
@@ -70,13 +70,13 @@ export function calculateSmokingCost(inputs: SmokingCostInputs): SmokingCostResu
 
 export function getHealthBenefitsTimeline(): Array<{ time: string; benefit: string }> {
   return [
-    { time: '20 minutes', benefit: 'Heart rate and blood pressure drop' },
-    { time: '12 hours', benefit: 'Carbon monoxide level in blood drops to normal' },
-    { time: '2-12 weeks', benefit: 'Circulation improves and lung function increases' },
-    { time: '1-9 months', benefit: 'Coughing and shortness of breath decrease' },
-    { time: '1 year', benefit: 'Risk of coronary heart disease is half that of a smoker' },
-    { time: '5 years', benefit: 'Stroke risk reduced to that of a non-smoker' },
-    { time: '10 years', benefit: 'Lung cancer death rate is half that of a smoker' },
-    { time: '15 years', benefit: 'Risk of coronary heart disease equals non-smoker' },
+    { time: '20 minutter', benefit: 'Puls og blodtrykk går ned' },
+    { time: '12 timer', benefit: 'Nivået av karbonmonoksid i blodet er normalt' },
+    { time: '2–12 uker', benefit: 'Blodsirkulasjonen bedres og lungefunksjonen øker' },
+    { time: '1–9 måneder', benefit: 'Hoste og tungpusthet avtar' },
+    { time: '1 år', benefit: 'Risikoen for hjerteinfarkt er halvert sammenlignet med en røyker' },
+    { time: '5 år', benefit: 'Risikoen for hjerneslag nærmer seg risikoen hos en som aldri har røykt' },
+    { time: '10 år', benefit: 'Risikoen for å dø av lungekreft er omtrent halvert' },
+    { time: '15 år', benefit: 'Risikoen for hjerteinfarkt er omtrent som hos en som aldri har røykt' },
   ];
 }

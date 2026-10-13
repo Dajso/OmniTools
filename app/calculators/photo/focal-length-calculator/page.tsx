@@ -65,7 +65,6 @@ export default function FocalLengthCalculatorPage() {
           title="Focal Length Calculator"
           description="Calculate equivalent focal lengths across different sensor sizes. Understand how crop factor affects field of view when comparing full-frame, APS-C, and Micro Four Thirds cameras."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Focal Length Calculator">

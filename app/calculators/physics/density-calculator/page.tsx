@@ -16,7 +16,6 @@ export default function DensityCalculatorPage() {
         toolId="density-calculator"
         title="Density Calculator"
         description="Calculate density, mass, or volume using the density formula ρ = m/V. Includes material presets and buoyancy calculations."
-        category="Physics"
       />
       <DensityCalculator />
     </main>

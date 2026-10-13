@@ -8,10 +8,10 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateDogAge, type DogSize, type PetAgeResults } from '@/lib/calculations/health/pet-age';
 
 const SIZE_OPTIONS = [
-  { value: 'small', label: 'Small (under 20 lbs)' },
-  { value: 'medium', label: 'Medium (20-50 lbs)' },
-  { value: 'large', label: 'Large (50-100 lbs)' },
-  { value: 'giant', label: 'Giant (over 100 lbs)' },
+  { value: 'small', label: 'Liten (under 9 kg)' },
+  { value: 'medium', label: 'Middels (9–23 kg)' },
+  { value: 'large', label: 'Stor (23–45 kg)' },
+  { value: 'giant', label: 'Kjempestor (over 45 kg)' },
 ];
 
 export function DogAgeCalculator() {
@@ -29,35 +29,35 @@ export function DogAgeCalculator() {
 
   return (
     <CalculatorBase
-      title="Dog Age Calculator"
-      description="Convert your dog's age to human years based on size"
+      title="Hundealder i menneskeår"
+      description="Regn hundens alder om til menneskeår etter størrelse"
       onCalculate={calculate}
       onReset={() => { setYears(5); setMonths(0); setSize('medium'); }}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Human Years Equivalent" value={results.humanYears} unit="years" highlight copyable />
+          <ResultDisplay label="Tilsvarer menneskeår" value={results.humanYears} unit="år" highlight copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Life Stage" value={results.lifeStage} />
-            <ResultDisplay label="Avg Lifespan" value={`${results.averageLifespan.min}-${results.averageLifespan.max} years`} />
+            <ResultDisplay label="Livsfase" value={results.lifeStage} />
+            <ResultDisplay label="Gjennomsnittlig levealder" value={`${results.averageLifespan.min}–${results.averageLifespan.max} år`} />
           </div>
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">Dog Life Stages</h4>
+            <h4 className="text-sm font-medium mb-2">Livsfaser for hund</h4>
             <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
-              <div>Puppy: 0-6 months</div>
-              <div>Junior: 6 months - 2 years</div>
-              <div>Adult: 2-7 years</div>
-              <div>Mature: 7-10 years</div>
-              <div>Senior: 10+ years</div>
+              <div>Valp: 0–6 måneder</div>
+              <div>Ungdom: 6 måneder – 2 år</div>
+              <div>Voksen: 2–7 år</div>
+              <div>Moden: 7–10 år</div>
+              <div>Senior: over 10 år</div>
             </div>
           </div>
         </div>
       )}
     >
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="years" label="Years" value={years} onChange={setYears} min={0} max={25} required />
-        <NumberInput id="months" label="Months" value={months} onChange={setMonths} min={0} max={11} />
+        <NumberInput id="years" label="År" value={years} onChange={setYears} min={0} max={25} required />
+        <NumberInput id="months" label="Måneder" value={months} onChange={setMonths} min={0} max={11} />
       </div>
-      <SelectInput id="size" label="Dog Size" value={size} onChange={(v) => setSize(v as DogSize)} options={SIZE_OPTIONS} required />
+      <SelectInput id="size" label="Hundens størrelse" value={size} onChange={(v) => setSize(v as DogSize)} options={SIZE_OPTIONS} required />
     </CalculatorBase>
   );
 }

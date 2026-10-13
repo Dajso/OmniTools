@@ -61,7 +61,6 @@ export default function LoveCompatibilityPage() {
           title="Love Compatibility Test"
           description="Discover your love compatibility using the classic FLAMES method and numerology. Enter two names to see if you're meant to be!"
           colorClass="bg-pink-100 text-pink-600"
-          category="Fun"
         />
 
         <section aria-label="Love Compatibility Calculator">

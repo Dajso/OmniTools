@@ -65,7 +65,6 @@ export default function TimezonePlannerPage() {
           title="Time Zone Meeting Planner"
           description="Find the perfect meeting time for participants across different time zones. See at a glance who's in business hours and find overlapping availability."
           colorClass="bg-purple-100 text-purple-600"
-          category="Travel"
         />
 
         <section aria-label="Time Zone Meeting Planner">

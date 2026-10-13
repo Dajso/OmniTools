@@ -65,7 +65,6 @@ export default function TimeLapseCalculatorPage() {
           title="Time Lapse Calculator"
           description="Plan your timelapse photography with precision. Calculate shooting intervals, total frames needed, storage requirements, and equipment estimates."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Time Lapse Calculator">

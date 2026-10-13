@@ -66,7 +66,6 @@ export default function PlantSpacingCalculatorPage() {
           title="Plant Spacing Calculator"
           description="Calculate how many plants fit in your garden bed with optimal spacing for maximum yield."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Plant Spacing Calculator">

@@ -9,11 +9,11 @@ import { calculateMacros, type MacroGoal, type MacroResults } from '@/lib/calcul
 import { cn } from '@/lib/utils';
 
 const GOAL_OPTIONS = [
-  { value: 'weight_loss', label: 'Weight Loss (High Protein)' },
-  { value: 'maintenance', label: 'Maintenance (Balanced)' },
-  { value: 'muscle_gain', label: 'Muscle Gain (High Carb)' },
-  { value: 'keto', label: 'Keto (Very Low Carb)' },
-  { value: 'low_carb', label: 'Low Carb' },
+  { value: 'weight_loss', label: 'Vektnedgang (mye protein)' },
+  { value: 'maintenance', label: 'Vedlikehold (balansert)' },
+  { value: 'muscle_gain', label: 'Muskelvekst (mye karbohydrater)' },
+  { value: 'keto', label: 'Keto (svært lite karbohydrater)' },
+  { value: 'low_carb', label: 'Lavkarbo' },
 ];
 
 export function MacroCalculator() {
@@ -31,33 +31,33 @@ export function MacroCalculator() {
 
   return (
     <CalculatorBase
-      title="Macro Calculator"
-      description="Calculate your daily macro nutrient targets based on your goals"
+      title="Makrokalkulator"
+      description="Regn ut daglig behov for protein, karbohydrater og fett ut fra målet ditt"
       onCalculate={calculate}
       onReset={() => { setCalories(2000); setGoal('maintenance'); setWeight(70); }}
       results={results && (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <p className="text-2xl font-bold text-blue-600">{results.protein.grams}g</p>
-              <p className="text-sm text-muted-foreground">Protein ({results.protein.percent}%)</p>
+              <p className="text-2xl font-bold text-blue-600">{results.protein.grams} g</p>
+              <p className="text-sm text-muted-foreground">Protein ({results.protein.percent} %)</p>
             </div>
             <div className="text-center p-4 bg-green-50 rounded-lg">
-              <p className="text-2xl font-bold text-green-600">{results.carbs.grams}g</p>
-              <p className="text-sm text-muted-foreground">Carbs ({results.carbs.percent}%)</p>
+              <p className="text-2xl font-bold text-green-600">{results.carbs.grams} g</p>
+              <p className="text-sm text-muted-foreground">Karbohydrater ({results.carbs.percent} %)</p>
             </div>
             <div className="text-center p-4 bg-yellow-50 rounded-lg">
-              <p className="text-2xl font-bold text-yellow-600">{results.fat.grams}g</p>
-              <p className="text-sm text-muted-foreground">Fat ({results.fat.percent}%)</p>
+              <p className="text-2xl font-bold text-yellow-600">{results.fat.grams} g</p>
+              <p className="text-sm text-muted-foreground">Fett ({results.fat.percent} %)</p>
             </div>
           </div>
-          <ResultDisplay label="Recommended Fiber" value={`${results.fiber}g`} />
+          <ResultDisplay label="Anbefalt fiber" value={`${results.fiber} g`} />
         </div>
       )}
     >
-      <NumberInput id="calories" label="Daily Calories" value={calories} onChange={setCalories} min={1000} max={10000} unit="cal" required />
-      <SelectInput id="goal" label="Goal" value={goal} onChange={(v) => setGoal(v as MacroGoal)} options={GOAL_OPTIONS} required />
-      <NumberInput id="weight" label="Body Weight" value={weight} onChange={setWeight} min={30} max={300} unit="kg" />
+      <NumberInput id="calories" label="Kalorier per dag" value={calories} onChange={setCalories} min={1000} max={10000} unit="kcal" required />
+      <SelectInput id="goal" label="Mål" value={goal} onChange={(v) => setGoal(v as MacroGoal)} options={GOAL_OPTIONS} required />
+      <NumberInput id="weight" label="Kroppsvekt" value={weight} onChange={setWeight} min={30} max={300} unit="kg" />
     </CalculatorBase>
   );
 }

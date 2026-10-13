@@ -66,7 +66,6 @@ export default function DelayReverbCalculatorPage() {
           title="Delay & Reverb Time Calculator"
           description="Calculate tempo-synced delay and reverb times for your music production. Get precise millisecond values for all note divisions."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Audio"
         />
 
         <section aria-label="Delay & Reverb Time Calculator">

@@ -48,7 +48,6 @@ export default function PasswordGeneratorPage() {
           title="Password Generator"
           description="Generate strong, secure passwords instantly. Customize length and character types to meet any password requirements."
           colorClass="bg-purple-100 text-purple-600"
-          category="Productivity"
         />
 
         <section aria-label="Password Generator Tool">

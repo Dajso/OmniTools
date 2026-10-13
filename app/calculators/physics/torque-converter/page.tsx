@@ -69,7 +69,6 @@ export default function TorqueConverterPage() {
           title="Torque Converter"
           description="Convert torque between Newton-meter (N·m), Foot-pound (ft-lb), Kilogram-meter (kg·m), Inch-pound (in-lb), and 5 other units. Instant, accurate conversions for automotive, engineering, and mechanical applications."
           colorClass="bg-blue-100 text-blue-600"
-          category="Physics"
         />
 
         <section aria-label="Torque Converter">

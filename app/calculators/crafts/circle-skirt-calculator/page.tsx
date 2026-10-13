@@ -57,7 +57,6 @@ export default function CircleSkirtCalculatorPage() {
           title="Circle Skirt Calculator"
           description="Calculate the inner radius and fabric requirements for circle skirts. Supports full, 3/4, half, and quarter circle styles."
           colorClass="bg-rose-100 text-rose-600"
-          category="Crafts"
         />
 
         <section aria-label="Circle Skirt Calculator">

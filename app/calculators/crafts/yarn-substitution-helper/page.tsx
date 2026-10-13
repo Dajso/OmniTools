@@ -61,7 +61,6 @@ export default function YarnSubstitutionHelperPage() {
           title="Yarn Substitution Helper"
           description="Calculate how much substitute yarn you need when swapping yarns in a pattern. Compare weights and get gauge recommendations."
           colorClass="bg-violet-100 text-violet-600"
-          category="Crafts"
         />
 
         <section aria-label="Yarn Substitution Helper">

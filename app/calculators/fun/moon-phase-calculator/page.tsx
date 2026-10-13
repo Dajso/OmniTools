@@ -65,7 +65,6 @@ export default function MoonPhaseCalculatorPage() {
           title="Moon Phase Calculator"
           description="Discover the moon phase for any date with a beautiful visual display. See illumination percentage, moon age, and upcoming lunar events."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Fun"
         />
 
         <section aria-label="Moon Phase Calculator">

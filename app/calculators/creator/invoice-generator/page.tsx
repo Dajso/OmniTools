@@ -66,7 +66,6 @@ export default function InvoiceGeneratorPage() {
           title="Invoice Generator"
           description="Create professional invoices with PDF export. Perfect for freelancers, contractors, and small businesses."
           colorClass="bg-blue-100 text-blue-600"
-          category="Creator"
         />
 
         <section aria-label="Invoice Generator">

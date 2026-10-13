@@ -60,7 +60,6 @@ export default function MortgageCalculatorPage() {
           title="Boliglånskalkulator"
           description="Beregn terminbeløp, renter, gebyrer og effektiv rente på boliglånet, med annuitetslån eller serielån. Se også hva som skjer om renten stiger 3 prosentpoeng."
           colorClass="bg-green-100 text-green-600"
-          category="Finance"
         />
 
         <section aria-label="Boliglånskalkulator">

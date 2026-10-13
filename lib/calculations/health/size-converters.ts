@@ -1,63 +1,67 @@
 /**
- * Size Converters (Bra, Ring, Shoe)
- * 
- * Converts between international sizing systems.
- * 
+ * Størrelseskonvertere: BH, ring og sko
+ *
+ * Norge bruker europeiske størrelser (EU). Konverteringene mot UK og USA er
+ * veiledende, og størrelsene varierer mellom produsenter.
+ *
  * @module lib/calculations/health/size-converters
- * @see Requirements 6.15, 6.16, 6.17
  */
 
-// ============ BRA SIZE CALCULATOR ============
+// ============ BH-STØRRELSE ============
 
 export interface BraSizeInputs {
-  bandMeasurement: number; // inches
-  bustMeasurement: number; // inches
-  unit: 'imperial' | 'metric';
+  /** Mål rett under brystet, i cm */
+  bandMeasurement: number;
+  /** Mål rundt brystets fyldigste punkt, i cm */
+  bustMeasurement: number;
 }
 
 export interface BraSizeResults {
-  us: string;
-  uk: string;
+  /** Europeisk størrelse, f.eks. 75C */
   eu: string;
+  uk: string;
+  us: string;
+  /** Underbrystmål i europeisk størrelse (cm) */
   bandSize: number;
+  /** Skålstørrelse (EU) */
   cupSize: string;
 }
 
-const CUP_SIZES = ['AA', 'A', 'B', 'C', 'D', 'DD', 'DDD', 'G', 'H', 'I', 'J'];
+const EU_CUPS = ['AA', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const UK_CUPS = ['AA', 'A', 'B', 'C', 'D', 'DD', 'E', 'F', 'FF'];
+const US_CUPS = ['AA', 'A', 'B', 'C', 'D', 'DD', 'DDD', 'G', 'H'];
 
 export function calculateBraSize(inputs: BraSizeInputs): BraSizeResults {
-  let { bandMeasurement, bustMeasurement, unit } = inputs;
-
-  // Convert to inches if metric
-  if (unit === 'metric') {
-    bandMeasurement = bandMeasurement / 2.54;
-    bustMeasurement = bustMeasurement / 2.54;
+  const { bandMeasurement, bustMeasurement } = inputs;
+  if (!(bandMeasurement > 0) || !(bustMeasurement > 0)) {
+    throw new Error('Målene må være større enn null');
+  }
+  if (bustMeasurement < bandMeasurement) {
+    throw new Error('Brystmålet må være minst like stort som underbrystmålet');
   }
 
-  // Calculate band size (round to nearest even number)
-  let bandSize = Math.round(bandMeasurement);
-  if (bandSize % 2 !== 0) bandSize += 1;
+  // Underbrystmål rundes til nærmeste 5 cm
+  const bandSize = Math.max(60, Math.round(bandMeasurement / 5) * 5);
 
-  // Calculate cup size (difference between bust and band)
-  const difference = Math.round(bustMeasurement - bandMeasurement);
-  const cupIndex = Math.max(0, Math.min(difference, CUP_SIZES.length - 1));
-  const cupSize = CUP_SIZES[cupIndex];
+  // Forskjellen mellom bryst og underbryst gir skål: 12 cm = A, 14 cm = B, 16 cm = C …
+  const difference = bustMeasurement - bandMeasurement;
+  const cupIndex = Math.max(0, Math.min(EU_CUPS.length - 1, Math.round((difference - 10) / 2)));
 
-  // EU band size conversion
-  const euBand = bandSize + 10;
+  // UK/US-bånd i tommer: 65 → 30, 70 → 32, 75 → 34 …
+  const inchBand = 30 + ((bandSize - 65) / 5) * 2;
 
   return {
-    us: `${bandSize}${cupSize}`,
-    uk: `${bandSize}${cupSize}`,
-    eu: `${euBand}${cupSize}`,
+    eu: `${bandSize}${EU_CUPS[cupIndex]}`,
+    uk: `${inchBand}${UK_CUPS[cupIndex]}`,
+    us: `${inchBand}${US_CUPS[cupIndex]}`,
     bandSize,
-    cupSize,
+    cupSize: EU_CUPS[cupIndex],
   };
 }
 
-// ============ RING SIZE CONVERTER ============
+// ============ RINGSTØRRELSE ============
 
-export type RingSizeSystem = 'us' | 'uk' | 'eu' | 'jp';
+export type RingSizeSystem = 'eu' | 'us' | 'uk';
 
 export interface RingSizeInputs {
   size: number | string;
@@ -65,68 +69,64 @@ export interface RingSizeInputs {
 }
 
 export interface RingSizeResults {
+  /** Europeisk ringstørrelse = innvendig omkrets i mm */
+  eu: number;
   us: number;
   uk: string;
-  eu: number;
-  jp: number;
-  diameter: number; // mm
-  circumference: number; // mm
+  /** Innvendig diameter i mm */
+  diameter: number;
+  /** Innvendig omkrets i mm */
+  circumference: number;
 }
 
-// US size to diameter (mm) mapping
-const US_TO_DIAMETER: Record<number, number> = {
-  3: 14.1, 3.5: 14.5, 4: 14.9, 4.5: 15.3, 5: 15.7, 5.5: 16.1,
-  6: 16.5, 6.5: 16.9, 7: 17.3, 7.5: 17.7, 8: 18.1, 8.5: 18.5,
-  9: 18.9, 9.5: 19.4, 10: 19.8, 10.5: 20.2, 11: 20.6, 11.5: 21.0,
-  12: 21.4, 12.5: 21.8, 13: 22.2,
-};
+/** Innvendig diameter (mm) for amerikansk størrelse */
+const usToDiameter = (us: number) => 11.63 + 0.8128 * us;
+const diameterToUs = (d: number) => (d - 11.63) / 0.8128;
+
+/** Gjør om britisk bokstavstørrelse (f.eks. «N½») til en tallverdi der A = 1 */
+function ukToIndex(size: number | string): number {
+  if (typeof size === 'number') return size;
+  const s = size.trim().toUpperCase();
+  const letter = s.charCodeAt(0) - 64;
+  if (letter < 1 || letter > 26) throw new Error('Ugyldig britisk ringstørrelse');
+  return letter + (s.includes('½') || s.includes('.5') || s.includes('1/2') ? 0.5 : 0);
+}
 
 export function convertRingSize(inputs: RingSizeInputs): RingSizeResults {
   const { size, fromSystem } = inputs;
-  let usSize: number;
+  let diameter: number;
 
-  // Convert to US size first
-  if (fromSystem === 'us') {
-    usSize = typeof size === 'string' ? parseFloat(size) : size;
-  } else if (fromSystem === 'uk') {
-    // UK uses letters A-Z, convert to US
-    const ukLetter = typeof size === 'string' ? size.toUpperCase() : String.fromCharCode(64 + size);
-    usSize = (ukLetter.charCodeAt(0) - 64) / 2 + 0.5;
-  } else if (fromSystem === 'eu') {
-    const euSize = typeof size === 'string' ? parseFloat(size) : size;
-    usSize = (euSize - 40) / 1.25;
+  if (fromSystem === 'eu') {
+    const circumference = typeof size === 'string' ? parseFloat(size.replace(',', '.')) : size;
+    if (!(circumference > 0)) throw new Error('Størrelsen må være større enn null');
+    diameter = circumference / Math.PI;
+  } else if (fromSystem === 'us') {
+    const us = typeof size === 'string' ? parseFloat(size.replace(',', '.')) : size;
+    if (!(us > 0)) throw new Error('Størrelsen må være større enn null');
+    diameter = usToDiameter(us);
   } else {
-    const jpSize = typeof size === 'string' ? parseFloat(size) : size;
-    usSize = (jpSize - 1) / 2 + 3;
+    const idx = ukToIndex(size);
+    diameter = usToDiameter((idx - 0.5) / 2);
   }
 
-  // Round to nearest 0.5
-  usSize = Math.round(usSize * 2) / 2;
-  usSize = Math.max(3, Math.min(13, usSize));
-
-  // Get diameter
-  const diameter = US_TO_DIAMETER[usSize] || 17.3;
   const circumference = diameter * Math.PI;
-
-  // Convert to other systems
-  const ukIndex = Math.round((usSize - 0.5) * 2);
-  const ukLetter = String.fromCharCode(64 + ukIndex);
-  const euSize = Math.round(usSize * 1.25 + 40);
-  const jpSize = Math.round((usSize - 3) * 2 + 1);
+  const us = Math.round(diameterToUs(diameter) * 2) / 2;
+  const ukIdx = Math.round((us * 2 + 0.5) * 2) / 2;
+  const letter = String.fromCharCode(64 + Math.max(1, Math.min(26, Math.floor(ukIdx))));
+  const uk = `${letter}${ukIdx % 1 ? '½' : ''}`;
 
   return {
-    us: usSize,
-    uk: ukLetter,
-    eu: euSize,
-    jp: jpSize,
+    eu: Math.round(circumference),
+    us,
+    uk,
     diameter: Math.round(diameter * 10) / 10,
     circumference: Math.round(circumference * 10) / 10,
   };
 }
 
-// ============ SHOE SIZE CONVERTER ============
+// ============ SKOSTØRRELSE ============
 
-export type ShoeSizeSystem = 'us_men' | 'us_women' | 'uk' | 'eu' | 'cm';
+export type ShoeSizeSystem = 'eu' | 'us_men' | 'us_women' | 'uk' | 'cm';
 
 export interface ShoeSizeInputs {
   size: number;
@@ -134,49 +134,38 @@ export interface ShoeSizeInputs {
 }
 
 export interface ShoeSizeResults {
+  eu: number;
   us_men: number;
   us_women: number;
   uk: number;
-  eu: number;
+  /** Fotlengde i cm */
   cm: number;
 }
 
+/** Fotlengde i cm ut fra europeisk størrelse (1 størrelse = 2/3 cm, 1,5 cm plass foran tåen) */
+const euToFootCm = (eu: number) => (eu * 2) / 3 - 1.5;
+const footCmToEu = (cm: number) => (cm + 1.5) * 1.5;
+const halfStep = (v: number) => Math.round(v * 2) / 2;
+
 export function convertShoeSize(inputs: ShoeSizeInputs): ShoeSizeResults {
   const { size, fromSystem } = inputs;
-  let cm: number;
+  if (!(size > 0)) throw new Error('Størrelsen må være større enn null');
 
-  // Convert to cm first (foot length)
+  let eu: number;
   switch (fromSystem) {
-    case 'us_men':
-      cm = (size + 23) * 0.847;
-      break;
-    case 'us_women':
-      cm = (size + 21.5) * 0.847;
-      break;
-    case 'uk':
-      cm = (size + 23) * 0.847;
-      break;
-    case 'eu':
-      cm = (size + 2) * 0.667;
-      break;
-    case 'cm':
-      cm = size;
-      break;
-    default:
-      cm = 25;
+    case 'eu': eu = size; break;
+    case 'us_men': eu = size + 33; break;
+    case 'us_women': eu = size + 31.5; break;
+    case 'uk': eu = size + 34; break;
+    case 'cm': eu = footCmToEu(size); break;
+    default: eu = size;
   }
 
-  // Convert from cm to all systems
-  const usMen = Math.round((cm / 0.847 - 23) * 2) / 2;
-  const usWomen = Math.round((cm / 0.847 - 21.5) * 2) / 2;
-  const uk = Math.round((cm / 0.847 - 23) * 2) / 2;
-  const eu = Math.round(cm / 0.667 - 2);
-
   return {
-    us_men: Math.max(1, usMen),
-    us_women: Math.max(1, usWomen),
-    uk: Math.max(0, uk),
-    eu: Math.max(30, eu),
-    cm: Math.round(cm * 10) / 10,
+    eu: halfStep(eu),
+    us_men: Math.max(0, halfStep(eu - 33)),
+    us_women: Math.max(0, halfStep(eu - 31.5)),
+    uk: Math.max(0, halfStep(eu - 34)),
+    cm: Math.round(euToFootCm(eu) * 10) / 10,
   };
 }

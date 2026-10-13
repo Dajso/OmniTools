@@ -16,7 +16,6 @@ export default function TireSizeCalculatorPage() {
         toolId="tire-size-calculator"
         title="Tire Size Calculator"
         description="Compare tire sizes and calculate speedometer error, diameter difference, and ground clearance change."
-        category="Auto"
       />
       <TireSizeCalculator />
     </main>

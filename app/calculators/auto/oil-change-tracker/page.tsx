@@ -16,7 +16,6 @@ export default function OilChangeTrackerPage() {
         toolId="oil-change-tracker"
         title="Oil Change Tracker"
         description="Track your oil changes and get reminders when service is due. Log your maintenance history and see average intervals."
-        category="Auto"
       />
       <OilChangeTracker />
     </main>

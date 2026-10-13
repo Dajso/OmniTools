@@ -1,37 +1,49 @@
 import { Metadata } from 'next';
 import { BodyFatCalculator } from '@/components/calculators/health';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Body Fat Calculator - Navy Method Body Fat Percentage',
-  description: 'Calculate your body fat percentage using the US Navy method. Free body fat calculator with measurements for men and women.',
-  keywords: ['body fat calculator', 'body fat percentage calculator', 'navy body fat calculator', 'body composition calculator', 'fat percentage calculator'],
+  title: 'Kroppsfettkalkulator – gratis kalkulator på nett',
+  description: 'Beregn fettprosent med Navy-formelen. Gratis og uten registrering.',
+  keywords: ['fettprosent', 'kroppsfett', 'Navy-formelen', 'kroppssammensetning'],
   alternates: { canonical: '/calculators/health/body-fat-calculator' },
+  openGraph: {
+    title: 'Kroppsfettkalkulator',
+    description: 'Beregn fettprosent med Navy-formelen',
+    url: '/calculators/health/body-fat-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Body Fat Calculator',
-  description: 'Estimate your body fat percentage using the US Navy method',
+  name: 'Kroppsfettkalkulator',
+  description: 'Beregn fettprosent med Navy-formelen',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select biological sex', text: 'Choose male or female (different formulas and measurements required).' },
-  { name: 'Enter your height', text: 'Input your height in inches or centimeters.' },
-  { name: 'Measure and enter waist', text: 'Measure at navel level for men, narrowest point for women.' },
-  { name: 'Measure and enter neck', text: 'Measure around the narrowest part of your neck.' },
-  { name: 'For women: measure hips', text: 'Measure at the widest point of your hips.' },
-  { name: 'View your results', text: 'See your body fat percentage and fitness category.' },
+  { name: 'Velg kjønn', text: 'Formelen er ulik for menn og kvinner.' },
+  { name: 'Mål deg', text: 'Høyde, livvidde, halsomkrets (og hofter for kvinner) i cm.' },
+  { name: 'Les resultatet', text: 'Se fettprosent og kategori.' },
 ];
 
 const faqs = [
-  { question: 'How accurate is the Navy method?', answer: 'The Navy method is reasonably accurate (within 3-4% of more precise methods like DEXA) and is used by the US military. It\'s more accurate than BMI for assessing body composition.' },
-  { question: 'What is a healthy body fat percentage?', answer: 'For men: 10-20% is fitness range, 18-25% is average. For women: 18-28% is fitness range, 25-32% is average. Athletes may be lower, but essential fat (2-5% men, 10-13% women) is necessary for health.' },
-  { question: 'How do I measure correctly?', answer: 'Use a flexible tape measure. Keep it level and snug but not tight. Measure in the morning before eating. Take multiple measurements and average them for accuracy.' },
+  { question: 'Hva er Navy-metoden?', answer: 'En enkel formel utviklet av det amerikanske forsvaret for å anslå kroppsfett ut fra kroppsmål.' },
+  { question: 'Hvor nøyaktig er den?', answer: 'Avviket kan være flere prosentpoeng. DEXA-skanning eller bioimpedans gir mer presise tall.' },
+  { question: 'Hvordan måler jeg riktig?', answer: 'Mål livvidden ved navlen etter at du har pustet ut, og halsen under strupehodet.' },
+  { question: 'Hva er sunt kroppsfett?', answer: 'Typisk 10–20 % for menn og 18–28 % for kvinner, men det varierer med alder og aktivitet.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/health/bmi-calculator', title: 'KMI-kalkulator (BMI)', description: 'Beregn kroppsmasseindeks (KMI) i kilo og centimeter' },
+  { href: '/calculators/health/tdee-calculator', title: 'Kalorikalkulator (TDEE)', description: 'Beregn hvor mange kalorier du forbruker per dag' },
 ];
 
 export default function BodyFatCalculatorPage() {
@@ -41,33 +53,17 @@ export default function BodyFatCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="body-fat-calculator"
-          title="Body Fat Calculator"
-          description="Estimate your body fat percentage using the US Navy method. More accurate than BMI for assessing body composition."
-          colorClass="bg-red-100 text-red-700"
+          title="Kroppsfettkalkulator"
+          description="Anslå kroppsfettprosenten din med Navy-metoden. Gratis og uten registrering."
         />
-        <section aria-label="Body Fat Calculator"><BodyFatCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading">
-          <h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2>
-          <ol className="space-y-4">
-            {howToSteps.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span>
-                <div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div>
-              </li>
-            ))}
-          </ol>
+
+        <section aria-label="Kroppsfettkalkulator">
+          <BodyFatCalculator />
         </section>
-        <section className="mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border-b pb-6 last:border-b-0">
-                <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

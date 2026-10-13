@@ -65,7 +65,6 @@ export default function RandomNumberGeneratorPage() {
           title="Random Number Generator"
           description="Generate random numbers with uniform, normal (Gaussian), or exponential distributions. Visualize the distribution with histograms."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Statistics"
         />
 
         <section aria-label="Random Number Generator">

@@ -8,60 +8,66 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { convertRingSize, type RingSizeSystem, type RingSizeResults } from '@/lib/calculations/health/size-converters';
 
 const SYSTEM_OPTIONS = [
-  { value: 'us', label: 'US/Canada' },
-  { value: 'uk', label: 'UK/Australia' },
-  { value: 'eu', label: 'Europe' },
-  { value: 'jp', label: 'Japan' },
+  { value: 'eu', label: 'Europa / Norge (omkrets i mm)' },
+  { value: 'us', label: 'USA / Canada' },
+  { value: 'uk', label: 'Storbritannia (tall: A = 1, B = 2 …)' },
 ];
 
 export function RingSizeConverter() {
-  const [size, setSize] = React.useState(7);
-  const [system, setSystem] = React.useState<RingSizeSystem>('us');
+  const [size, setSize] = React.useState(54);
+  const [system, setSystem] = React.useState<RingSizeSystem>('eu');
   const [results, setResults] = React.useState<RingSizeResults | null>(null);
+  const [error, setError] = React.useState('');
 
   const calculate = React.useCallback(() => {
     try {
-      const result = convertRingSize({ size, fromSystem: system });
-      setResults(result);
+      setError('');
+      setResults(convertRingSize({ size, fromSystem: system }));
     } catch (e) {
-      console.error(e);
+      setResults(null);
+      setError((e as Error).message);
     }
   }, [size, system]);
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
+  const changeSystem = (next: RingSizeSystem) => {
+    setSystem(next);
+    setSize(next === 'eu' ? 54 : next === 'us' ? 7 : 14);
+  };
+
   return (
     <CalculatorBase
-      title="Ring Size Converter"
-      description="Convert ring sizes between US, UK, EU, and Japanese systems"
+      title="Ringstørrelse"
+      description="Gjør om ringstørrelse mellom Norge/Europa, USA og Storbritannia"
       onCalculate={calculate}
-      onReset={() => { setSize(7); setSystem('us'); }}
+      onReset={() => { setSize(54); setSystem('eu'); }}
+      error={error}
       results={results && (
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="US/Canada" value={results.us} highlight />
-            <ResultDisplay label="UK/Australia" value={results.uk} />
-            <ResultDisplay label="Europe" value={results.eu} />
-            <ResultDisplay label="Japan" value={results.jp} />
+            <ResultDisplay label="Europa / Norge" value={results.eu} highlight />
+            <ResultDisplay label="USA / Canada" value={results.us} />
+            <ResultDisplay label="Storbritannia" value={results.uk} />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Inner Diameter" value={results.diameter} unit="mm" />
-            <ResultDisplay label="Circumference" value={results.circumference} unit="mm" />
+            <ResultDisplay label="Innvendig diameter" value={results.diameter} unit="mm" />
+            <ResultDisplay label="Innvendig omkrets" value={results.circumference} unit="mm" />
           </div>
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">How to Measure</h4>
+            <h4 className="text-sm font-medium mb-2">Slik måler du</h4>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Wrap string around your finger at the base</li>
-              <li>• Mark where the string meets</li>
-              <li>• Measure the length in mm (circumference)</li>
-              <li>• Or measure the inner diameter of a ring that fits</li>
+              <li>• Legg en tråd eller en papirstrimmel rundt fingeren der ringen skal sitte</li>
+              <li>• Marker der endene møtes og mål lengden i mm. Det er ringstørrelsen i Norge</li>
+              <li>• Eller mål innvendig diameter på en ring som passer</li>
+              <li>• Mål helst når fingeren er varm og midt på dagen</li>
             </ul>
           </div>
         </div>
       )}
     >
-      <SelectInput id="system" label="Size System" value={system} onChange={(v) => setSystem(v as RingSizeSystem)} options={SYSTEM_OPTIONS} required />
-      <NumberInput id="size" label="Ring Size" value={size} onChange={setSize} min={1} max={20} step={0.5} required />
+      <SelectInput id="system" label="Størrelsessystem" value={system} onChange={(v) => changeSystem(v as RingSizeSystem)} options={SYSTEM_OPTIONS} required />
+      <NumberInput id="size" label="Ringstørrelse" value={size} onChange={setSize} min={1} max={90} step={system === 'eu' ? 1 : 0.5} unit={system === 'eu' ? 'mm' : undefined} required />
     </CalculatorBase>
   );
 }

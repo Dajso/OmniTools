@@ -66,7 +66,6 @@ export default function FantasyNameGeneratorPage() {
           title="Fantasy Name Generator"
           description="Generate culturally appropriate names for elves, dwarves, humans, orcs, halflings, and dragonborn characters."
           colorClass="bg-purple-100 text-purple-600"
-          category="RPG"
         />
 
         <section aria-label="Fantasy Name Generator">

@@ -61,7 +61,6 @@ export default function VegetableYieldCalculatorPage() {
           title="Vegetable Yield Calculator"
           description="Estimate how much produce you can harvest from your vegetable garden based on area and growing conditions."
           colorClass="bg-green-100 text-green-600"
-          category="Garden"
         />
 
         <section aria-label="Vegetable Yield Calculator">

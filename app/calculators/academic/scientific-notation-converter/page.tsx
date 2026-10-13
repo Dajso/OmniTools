@@ -61,7 +61,6 @@ export default function ScientificNotationConverterPage() {
           title="Scientific Notation Converter"
           description="Convert numbers to and from scientific notation. View results in multiple formats including e notation, engineering notation, and SI prefixes."
           colorClass="bg-indigo-100 text-indigo-600"
-          category="Academic"
         />
 
         <section aria-label="Scientific Notation Converter">

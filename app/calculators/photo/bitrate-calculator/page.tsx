@@ -65,7 +65,6 @@ export default function BitrateCalculatorPage() {
           title="Video Bitrate Calculator"
           description="Calculate video bitrate and file size based on resolution, frame rate, and codec. Get platform-specific recommendations for YouTube, Vimeo, and streaming."
           colorClass="bg-amber-100 text-amber-600"
-          category="Photography"
         />
 
         <section aria-label="Video Bitrate Calculator">

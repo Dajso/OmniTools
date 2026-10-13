@@ -63,7 +63,6 @@ export default function PourOverTimerPage() {
           title="Pour Over Timer"
           description="Multi-stage pour over timer with 4:6 method and custom pour schedules."
           colorClass="bg-amber-100 text-amber-700"
-          category="Coffee"
         />
 
         <section aria-label="Pour Over Timer">

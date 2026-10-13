@@ -16,7 +16,6 @@ export default function CarLoanPayoffCalculatorPage() {
         toolId="car-loan-payoff-calculator"
         title="Car Loan Early Payoff Calculator"
         description="Calculate how extra payments can help you pay off your car loan faster and save money on interest."
-        category="Auto"
       />
       <CarLoanPayoffCalculator />
     </main>

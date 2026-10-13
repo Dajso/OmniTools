@@ -62,7 +62,6 @@ export default function WateringScheduleGeneratorPage() {
           title="Watering Schedule Generator"
           description="Generate a customized watering schedule based on your plants, soil, sun exposure, and season."
           colorClass="bg-blue-100 text-blue-600"
-          category="Garden"
         />
 
         <section aria-label="Watering Schedule Generator">

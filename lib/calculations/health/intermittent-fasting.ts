@@ -36,13 +36,13 @@ const PROTOCOL_HOURS: Record<FastingProtocol, { fast: number; eat: number }> = {
 };
 
 const FASTING_PHASES = [
-  { name: 'Fed State', startHour: 0, description: 'Body digesting and absorbing nutrients' },
-  { name: 'Early Fasting', startHour: 4, description: 'Blood sugar levels stabilizing' },
-  { name: 'Fasting State', startHour: 8, description: 'Glycogen stores depleting' },
-  { name: 'Fat Burning', startHour: 12, description: 'Body switching to fat for energy' },
-  { name: 'Ketosis Begins', startHour: 16, description: 'Ketone production increasing' },
-  { name: 'Deep Ketosis', startHour: 18, description: 'Enhanced fat burning and autophagy' },
-  { name: 'Autophagy Peak', startHour: 24, description: 'Cellular cleanup at maximum' },
+  { name: 'Mett fase', startHour: 0, description: 'Kroppen fordøyer og tar opp næring' },
+  { name: 'Tidlig faste', startHour: 4, description: 'Blodsukkeret stabiliserer seg' },
+  { name: 'Fastefase', startHour: 8, description: 'Glykogenlagrene tømmes' },
+  { name: 'Fettforbrenning', startHour: 12, description: 'Kroppen går over til å bruke fett som energi' },
+  { name: 'Ketose begynner', startHour: 16, description: 'Produksjonen av ketoner øker' },
+  { name: 'Dyp ketose', startHour: 18, description: 'Økt fettforbrenning og autofagi' },
+  { name: 'Autofagi på topp', startHour: 24, description: 'Cellene rydder opp på høyt nivå' },
 ];
 
 export function calculateFasting(inputs: FastingInputs): FastingResults {
@@ -108,10 +108,10 @@ export function calculateFasting(inputs: FastingInputs): FastingResults {
 
 export function getProtocolOptions(): Array<{ value: FastingProtocol; label: string; description: string }> {
   return [
-    { value: '16:8', label: '16:8', description: '16 hours fasting, 8 hours eating (most popular)' },
-    { value: '18:6', label: '18:6', description: '18 hours fasting, 6 hours eating' },
-    { value: '20:4', label: '20:4', description: '20 hours fasting, 4 hours eating (Warrior Diet)' },
-    { value: '5:2', label: '5:2', description: '5 days normal eating, 2 days fasting' },
-    { value: 'custom', label: 'Custom', description: 'Set your own fasting window' },
+    { value: '16:8', label: '16:8', description: '16 timer faste og 8 timer spising (mest brukt)' },
+    { value: '18:6', label: '18:6', description: '18 timer faste og 6 timer spising' },
+    { value: '20:4', label: '20:4', description: '20 timer faste og 4 timer spising (krigerdiett)' },
+    { value: '5:2', label: '5:2', description: '5 dager med vanlig spising og 2 dager med faste' },
+    { value: 'custom', label: 'Egendefinert', description: 'Velg ditt eget fastevindu' },
   ];
 }

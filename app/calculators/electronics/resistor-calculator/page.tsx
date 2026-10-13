@@ -16,7 +16,6 @@ export default function ResistorCalculatorPage() {
         toolId="resistor-calculator"
         title="Resistor Color Code Calculator"
         description="Calculate resistance values from color bands. Supports 4-band and 5-band resistors with visual color selector."
-        category="Electronics"
       />
       <ResistorCalculator />
     </main>

@@ -1,7 +1,7 @@
 /**
- * Body Fat Percentage Calculator (Navy Method)
+ * Kroppsfettkalkulator (Navy-metoden)
  * 
- * Estimates body fat percentage using the US Navy formula.
+ * Anslår kroppsfettprosent med formelen fra US Navy. Mål oppgis i cm.
  * 
  * @module lib/calculations/health/body-fat
  * @see Requirements 6.11
@@ -27,19 +27,19 @@ export interface BodyFatResults {
 }
 
 const CATEGORIES_MALE = [
-  { max: 6, label: 'Essential Fat' },
-  { max: 14, label: 'Athletes' },
-  { max: 18, label: 'Fitness' },
-  { max: 25, label: 'Average' },
-  { max: 100, label: 'Obese' },
+  { max: 6, label: 'Essensielt fett' },
+  { max: 14, label: 'Atlet' },
+  { max: 18, label: 'Godt trent' },
+  { max: 25, label: 'Gjennomsnitt' },
+  { max: 100, label: 'Høyt' },
 ];
 
 const CATEGORIES_FEMALE = [
-  { max: 14, label: 'Essential Fat' },
-  { max: 21, label: 'Athletes' },
-  { max: 25, label: 'Fitness' },
-  { max: 32, label: 'Average' },
-  { max: 100, label: 'Obese' },
+  { max: 14, label: 'Essensielt fett' },
+  { max: 21, label: 'Atlet' },
+  { max: 25, label: 'Godt trent' },
+  { max: 32, label: 'Gjennomsnitt' },
+  { max: 100, label: 'Høyt' },
 ];
 
 export function calculateBodyFat(inputs: BodyFatInputs): BodyFatResults {
@@ -58,7 +58,7 @@ export function calculateBodyFat(inputs: BodyFatInputs): BodyFatResults {
     bodyFatPercent = 86.010 * Math.log10(waistIn - neckIn) - 70.041 * Math.log10(heightIn) + 36.76;
   } else {
     // Navy formula for women: 163.205 × log10(waist + hip - neck) - 97.684 × log10(height) - 78.387
-    if (!hipIn) throw new Error('Hip measurement required for women');
+    if (!hipIn) throw new Error('Hoftemål må oppgis for kvinner');
     bodyFatPercent = 163.205 * Math.log10(waistIn + hipIn - neckIn) - 97.684 * Math.log10(heightIn) - 78.387;
   }
 
@@ -66,7 +66,7 @@ export function calculateBodyFat(inputs: BodyFatInputs): BodyFatResults {
 
   // Determine category
   const categories = sex === 'male' ? CATEGORIES_MALE : CATEGORIES_FEMALE;
-  const category = categories.find(c => bodyFatPercent <= c.max)?.label || 'Unknown';
+  const category = categories.find(c => bodyFatPercent <= c.max)?.label || 'Ukjent';
 
   // Ideal range
   const idealRange = sex === 'male' 

@@ -10,7 +10,7 @@ import { convertOvenTemperature, getCommonTemperatures, type TemperatureUnit, ty
 const UNIT_OPTIONS = [
   { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
   { value: 'celsius', label: 'Celsius (°C)' },
-  { value: 'gas_mark', label: 'Gas Mark' },
+  { value: 'gas_mark', label: 'Gas mark (britisk)' },
 ];
 
 export function OvenTemperatureConverter() {
@@ -29,22 +29,23 @@ export function OvenTemperatureConverter() {
 
   return (
     <CalculatorBase
-      title="Oven Temperature Converter"
-      description="Convert between Fahrenheit, Celsius, and Gas Mark"
+      title="Ovnstemperatur"
+      description="Gjør om ovnstemperatur mellom Fahrenheit, Celsius og gas mark, med varmluft"
       onCalculate={calculate}
       onReset={() => { setValue(350); setFromUnit('fahrenheit'); }}
       results={results && (
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
+            <ResultDisplay label="Celsius (vanlig ovn)" value={results.celsius} unit="°C" highlight={fromUnit !== 'celsius'} copyable />
+            <ResultDisplay label="Celsius (varmluft)" value={results.fanCelsius} unit="°C" copyable />
             <ResultDisplay label="Fahrenheit" value={results.fahrenheit} unit="°F" highlight={fromUnit !== 'fahrenheit'} copyable />
-            <ResultDisplay label="Celsius" value={results.celsius} unit="°C" highlight={fromUnit !== 'celsius'} copyable />
-            <ResultDisplay label="Gas Mark" value={results.gasMark} highlight={fromUnit !== 'gas_mark'} />
+            <ResultDisplay label="Gas mark" value={results.gasMark} highlight={fromUnit !== 'gas_mark'} />
           </div>
 
-          <ResultDisplay label="Heat Level" value={results.description} />
+          <ResultDisplay label="Varmenivå" value={results.description} />
 
           <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2">Common Oven Temperatures</h4>
+            <h4 className="text-sm font-medium mb-2">Vanlige ovnstemperaturer</h4>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {commonTemps.map((temp, i) => (
                 <div
@@ -61,10 +62,10 @@ export function OvenTemperatureConverter() {
         </div>
       )}
     >
-      <SelectInput id="fromUnit" label="Temperature Unit" value={fromUnit} onChange={(v) => setFromUnit(v as TemperatureUnit)} options={UNIT_OPTIONS} required />
+      <SelectInput id="fromUnit" label="Enhet" value={fromUnit} onChange={(v) => setFromUnit(v as TemperatureUnit)} options={UNIT_OPTIONS} required />
       <NumberInput
         id="value"
-        label="Temperature"
+        label="Temperatur"
         value={value}
         onChange={setValue}
         min={fromUnit === 'gas_mark' ? 0.25 : 100}
