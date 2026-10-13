@@ -13,27 +13,27 @@ export function SeatingCalculator() {
     const [error, setError] = React.useState<string | undefined>();
     const calculate = React.useCallback(() => {
         try { setError(undefined); setResult(calculateSeating({ guests: parseInt(guests), seatsPerTable: parseInt(seats), headTableGuests: parseInt(headTable) })); }
-        catch (e) { setError(e instanceof Error ? e.message : 'Error'); setResult(null); }
+        catch (e) { setError(e instanceof Error ? e.message : 'Beregningsfeil'); setResult(null); }
     }, [guests, seats, headTable]);
     const reset = () => { setGuests('100'); setSeats('10'); setHeadTable('8'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
     return (
-        <CalculatorBase title="Seating Arrangement Calculator" description="How many tables do you need?"
-            formula="Tables = (Guests − Head Table) / Seats Per Table" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Bordplassering" description="Hvor mange bord trenger dere?"
+            formula="Bord = (gjester − æresbord) ÷ plasser per bord" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Tables Needed" value={`${result.tablesNeeded}`} copyable />
+                    <ResultDisplay label="Antall bord" value={`${result.tablesNeeded}`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Total Seats" value={`${result.totalSeats}`} />
-                        <ResultDisplay label="Empty Seats" value={`${result.emptySeats}`} />
+                        <ResultDisplay label="Plasser totalt" value={`${result.totalSeats}`} />
+                        <ResultDisplay label="Ledige plasser" value={`${result.emptySeats}`} />
                     </div>
                 </div>
             )}>
             <div className="space-y-4">
-                <NumberInput id="guests" label="Total Guests" value={guests} onChange={v => setGuests(String(v))} min={1} step={10} />
+                <NumberInput id="guests" label="Antall gjester" value={guests} onChange={v => setGuests(String(v))} min={1} step={10} />
                 <div className="grid grid-cols-2 gap-4">
-                    <NumberInput id="seats" label="Seats Per Table" value={seats} onChange={v => setSeats(String(v))} min={4} max={12} step={1} />
-                    <NumberInput id="head" label="Head Table Guests" value={headTable} onChange={v => setHeadTable(String(v))} min={0} max={20} step={1} />
+                    <NumberInput id="seats" label="Plasser per bord" value={seats} onChange={v => setSeats(String(v))} min={4} max={12} step={1} />
+                    <NumberInput id="head" label="Gjester ved æresbordet" value={headTable} onChange={v => setHeadTable(String(v))} min={0} max={20} step={1} />
                 </div>
             </div>
         </CalculatorBase>

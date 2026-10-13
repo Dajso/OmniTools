@@ -23,20 +23,20 @@ export function FlowerStemCalculator() {
         setItems(items.map((item, idx) => idx === i ? { ...item, [field]: value } : item));
     const calculate = React.useCallback(() => {
         try { setError(undefined); setResult(calculateFlowerStems({ items })); }
-        catch (e) { setError(e instanceof Error ? e.message : 'Error'); setResult(null); }
+        catch (e) { setError(e instanceof Error ? e.message : 'Beregningsfeil'); setResult(null); }
     }, [items]);
     const reset = () => { setItems([{ type: 'bridal-bouquet', quantity: 1 }]); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
     return (
-        <CalculatorBase title="Flower Stem Counter" description="How many stems to buy"
-            formula="Based on average stems per arrangement type" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Antall blomsterstilker" description="Hvor mange stilker du må kjøpe"
+            formula="Basert på gjennomsnittlig antall stilker per type arrangement" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Total Stems Needed" value={`${result.grandTotal} stems`} copyable />
+                    <ResultDisplay label="Stilker totalt" value={`${result.grandTotal} stilker`} copyable />
                     <div className="space-y-2">
                         {result.breakdown.map((b, i) => (
                             <div key={i} className="flex justify-between text-sm border-b border-gray-100 py-1">
-                                <span>{b.label} × {b.quantity}</span><span className="font-mono">{b.totalStems} stems</span>
+                                <span>{b.label} × {b.quantity}</span><span className="font-mono">{b.totalStems} stilker</span>
                             </div>
                         ))}
                     </div>
@@ -50,7 +50,7 @@ export function FlowerStemCalculator() {
                         {items.length > 1 && <button onClick={() => removeItem(i)} className="text-red-500 hover:text-red-700 text-sm px-2">✕</button>}
                     </div>
                 ))}
-                <button onClick={addItem} className="text-sm text-blue-600 hover:text-blue-800">+ Add Arrangement</button>
+                <button onClick={addItem} className="text-sm text-blue-600 hover:text-blue-800">+ Legg til arrangement</button>
             </div>
         </CalculatorBase>
     );

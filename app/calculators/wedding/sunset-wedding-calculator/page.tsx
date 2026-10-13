@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { SunsetTimeCalculator } from '@/components/calculators/wedding';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Sunset Time for Wedding - Golden Hour Planning',
-    description: 'Find the sunset time for your wedding date and location. Plan golden hour photos and ceremony timing perfectly.',
-    keywords: ['sunset time wedding', 'golden hour calculator', 'wedding sunset photos', 'ceremony timing', 'sunset time calculator'],
-    alternates: { canonical: '/calculators/wedding/sunset-wedding-calculator' },
+  title: 'Solnedgang til bryllupet – gratis kalkulator på nett',
+  description: 'Slå opp omtrentlig solnedgang og gylden time for dato og sted. Gratis og uten registrering.',
+  keywords: ['solnedgang', 'gylden time', 'bryllup', 'seremoni', 'tidspunkt'],
+  alternates: { canonical: '/calculators/wedding/sunset-wedding-calculator' },
+  openGraph: {
+    title: 'Solnedgang til bryllupet',
+    description: 'Slå opp omtrentlig solnedgang og gylden time for dato og sted',
+    url: '/calculators/wedding/sunset-wedding-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Sunset Time for Wedding', description: 'Plan your wedding around golden hour.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Solnedgang til bryllupet',
+  description: 'Slå opp omtrentlig solnedgang og gylden time for dato og sted',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter your location', text: 'Input the latitude and longitude of your wedding venue.' },
-    { name: 'Enter wedding date', text: 'Select the date of your wedding.' },
-    { name: 'See sunset time', text: 'View the exact sunset time, golden hour start, and blue hour times.' },
-    { name: 'Plan your schedule', text: 'Schedule ceremony, photos, and reception transitions around golden hour.' },
+  { name: 'Velg dato', text: 'Datoen for bryllupet.' },
+  { name: 'Velg sted', text: 'Velg en by, eller legg inn egne koordinater.' },
+  { name: 'Les av solnedgangen', text: 'Se klokkeslett for solnedgang og gylden time.' },
+  { name: 'Planlegg bildene', text: 'Legg portrettbildene i den gylne timen, før solnedgangen.' },
 ];
 
 const faqs = [
-    { question: 'What is golden hour?', answer: 'Golden hour is the period shortly before sunset (and after sunrise) when sunlight is warm and soft. It lasts roughly 30-60 minutes and produces the most beautiful photos.' },
-    { question: 'When should I schedule ceremony for sunset photos?', answer: 'End the ceremony 60-90 minutes before sunset. This gives time for post-ceremony photos during golden hour while guests enjoy cocktail hour.' },
-    { question: 'What is blue hour?', answer: 'Blue hour is the 20-30 minutes after sunset when the sky has a deep blue tone. It is beautiful for dramatic portraits with venue lights.' },
-    { question: 'Does cloud cover affect golden hour?', answer: 'Overcast skies can eliminate golden hour direct light but create beautiful soft, even lighting. Partly cloudy skies often produce the most dramatic golden hour.' },
+  { question: 'Hva er den gylde timen?', answer: 'Timen før solnedgang, når lyset er mykt og varmt og passer godt til bilder.' },
+  { question: 'Er klokkeslettene nøyaktige?', answer: 'De er omtrentlige og gjelder norsk tid. Terreng og horisont kan gjøre at solen forsvinner noen minutter tidligere.' },
+  { question: 'Hva er midnattssol?', answer: 'Perioder om sommeren nord for polarsirkelen da solen ikke går ned. Kalkulatoren viser da en melding i stedet for et klokkeslett.' },
+  { question: 'Tar kalkulatoren hensyn til sommertid?', answer: 'Ja, den bruker norsk tid, også når sommertid gjelder.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/wedding/save-the-date-timeline', title: 'Save the Date Timeline', description: 'Plan your wedding schedule.' },
-    { href: '/calculators/wedding/tent-size-calculator', title: 'Tent Size Calculator', description: 'Plan outdoor reception.' },
-    { href: '/calculators/wedding/budget-allocator', title: 'Budget Allocator', description: 'Plan your wedding budget.' },
+  { href: '/calculators/wedding/save-the-date-timeline', title: 'Tidslinje for bryllupsplanlegging', description: 'Lag en tidslinje med datoer for «lagre datoen», invitasjoner og svarfrist' },
+  { href: '/calculators/wedding/tent-size-calculator', title: 'Teltstørrelse', description: 'Regn ut størrelsen på teltet til utebryllup eller arrangement' },
 ];
 
 export default function SunsetWeddingCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="sunset-wedding-calculator" title="Sunset Time for Wedding"
-                    description="Plan your wedding around golden hour." category="Wedding & Events" />
-                <section aria-label="Sunset Wedding Calculator"><SunsetTimeCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="sunset-wedding-calculator"
+          title="Solnedgang til bryllupet"
+          description="Slå opp omtrentlig solnedgang og gylden time for bryllupsdagen din, for steder i Norge. Gratis og uten registrering."
+        />
+
+        <section aria-label="Solnedgang til bryllupet">
+          <SunsetTimeCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

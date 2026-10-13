@@ -1,21 +1,25 @@
 /**
- * Catering Quantity Estimator
- * Rule of thumb: main protein 6-8 oz per guest, sides 4 oz, etc.
+ * Mengdeberegning til bryllupsmiddag
+ * Tommelfingerregel (ferdig tilberedt vekt per gjest): hovedrett med kjøtt/fisk
+ * ca. 200 g, tilbehør (poteter, ris, grønnsaker) ca. 150 g, salat ca. 70 g.
  */
 export interface CateringInput { guests: number; appetizerCount: number; }
 export interface CateringResult {
-    mainProteinLbs: number; sideDishLbs: number; saladLbs: number;
+    mainProteinKg: number; sideDishKg: number; saladKg: number;
     breadRolls: number; dessertServings: number; appetizerPieces: number;
 }
+export const GRAMS_PER_GUEST = { mainProtein: 200, sideDish: 150, salad: 70 } as const;
+/** Runder opp til nærmeste 0,1 kg */
+const kg = (guests: number, gramsPerGuest: number) => Math.ceil((guests * gramsPerGuest) / 100) / 10;
 export function calculateCatering(input: CateringInput): CateringResult {
     const { guests, appetizerCount } = input;
-    if (guests <= 0) throw new Error('Guests must be positive');
+    if (!(guests > 0)) throw new Error('Antall gjester må være større enn 0');
     return {
-        mainProteinLbs: Math.ceil((guests * 7) / 16), // 7 oz per person, 16 oz/lb
-        sideDishLbs: Math.ceil((guests * 4) / 16),
-        saladLbs: Math.ceil((guests * 2.5) / 16),
+        mainProteinKg: kg(guests, GRAMS_PER_GUEST.mainProtein),
+        sideDishKg: kg(guests, GRAMS_PER_GUEST.sideDish),
+        saladKg: kg(guests, GRAMS_PER_GUEST.salad),
         breadRolls: Math.ceil(guests * 1.5),
-        dessertServings: guests, // 1 per person
-        appetizerPieces: guests * appetizerCount, // e.g. 6 pieces per person
+        dessertServings: guests, // 1 per gjest
+        appetizerPieces: guests * appetizerCount, // f.eks. 6 biter per gjest
     };
 }

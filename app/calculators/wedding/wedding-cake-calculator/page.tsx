@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { WeddingCakeCalculator } from '@/components/calculators/wedding';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Wedding Cake Serving Calculator - Cake Size Guide',
-    description: 'Calculate how big your wedding cake needs to be. Get tier sizes and serving counts for your guest list.',
-    keywords: ['wedding cake calculator', 'cake serving calculator', 'wedding cake size', 'how many servings', 'cake tier size'],
-    alternates: { canonical: '/calculators/wedding/wedding-cake-calculator' },
+  title: 'Bryllupskake – gratis kalkulator på nett',
+  description: 'Regn ut størrelse og antall etasjer på kaken ut fra antall gjester. Gratis og uten registrering.',
+  keywords: ['bryllupskake', 'kakeporsjoner', 'etasjer', 'kakestørrelse'],
+  alternates: { canonical: '/calculators/wedding/wedding-cake-calculator' },
+  openGraph: {
+    title: 'Bryllupskake',
+    description: 'Regn ut størrelse og antall etasjer på kaken ut fra antall gjester',
+    url: '/calculators/wedding/wedding-cake-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Wedding Cake Serving Calculator', description: 'Calculate wedding cake size for your guest count.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Bryllupskake',
+  description: 'Regn ut størrelse og antall etasjer på kaken ut fra antall gjester',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter guest count', text: 'Input the number of guests who will be served cake.' },
-    { name: 'Choose serving style', text: 'Select wedding servings (thin slices) or party servings (larger slices).' },
-    { name: 'Select tier count', text: 'Choose how many tiers you want for your cake design.' },
-    { name: 'See tier sizes', text: 'View recommended tier diameters and total servings per configuration.' },
+  { name: 'Oppgi antall gjester', text: 'Hvor mange som skal ha kake.' },
+  { name: 'Se anbefalt oppsett', text: 'Antall etasjer og diameter på hvert lag.' },
+  { name: 'Sjekk porsjonene', text: 'Se hvor mange porsjoner hvert lag gir.' },
+  { name: 'Snakk med konditoren', text: 'Avtal størrelse og smak, og husk at stykkene er små bryllupsstykker.' },
 ];
 
 const faqs = [
-    { question: 'How big should a wedding cake be for 150 guests?', answer: 'A 3-tier cake with 6", 10", and 14" round tiers provides about 150 wedding-size servings. Exact counts depend on serving size.' },
-    { question: 'Wedding serving vs party serving?', answer: 'Wedding cake slices are 1"×2"×4" (thin). Party servings are 2"×2"×4" (generous). Wedding servings yield double the slices from the same cake.' },
-    { question: 'Do all guests eat cake?', answer: 'Typically 70-85% of guests eat cake. You can plan for fewer servings, but having extra is better than running short.' },
-    { question: 'Can I have a display cake and sheet cake?', answer: 'Yes! A small beautiful display cake with sheet cake in the kitchen is a popular and cost-effective approach.' },
+  { question: 'Hvor mange porsjoner gir en bryllupskake?', answer: 'Det avhenger av størrelsen. Kalkulatoren viser porsjoner per lag, regnet som små bryllupsstykker.' },
+  { question: 'Hva om kaken er hoveddessert?', answer: 'Da bør du regne med større stykker og velge en større kake eller et ekstra lag.' },
+  { question: 'Kan jeg ha litt kake til overs?', answer: 'Ja, og det er lurt. Kaken kan fryses, eller gjestene kan ta med seg et stykke hjem.' },
+  { question: 'Passer kalkulatoren til kransekake?', answer: 'Nei, den gjelder lagkake i flere etasjer. Spør bakeren hvor mange ringer du trenger til kransekake.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/wedding/wedding-alcohol-calculator', title: 'Alcohol Calculator', description: 'Calculate drinks for reception.' },
-    { href: '/calculators/wedding/catering-quantity-estimator', title: 'Catering Quantity', description: 'Plan food quantities.' },
-    { href: '/calculators/wedding/budget-allocator', title: 'Budget Allocator', description: 'Allocate your wedding budget.' },
+  { href: '/calculators/wedding/wedding-alcohol-calculator', title: 'Drikke til bryllupet', description: 'Regn ut hvor mye vin, øl og sprit du trenger til bryllupsfesten' },
+  { href: '/calculators/wedding/catering-quantity-estimator', title: 'Matmengde til selskap', description: 'Regn ut hvor mye mat du trenger til buffet: kjøtt, tilbehør, salat og dessert' },
 ];
 
 export default function WeddingCakeCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="wedding-cake-calculator" title="Wedding Cake Serving Calculator"
-                    description="Calculate how big your wedding cake needs to be." category="Wedding & Events" />
-                <section aria-label="Wedding Cake Calculator"><WeddingCakeCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="wedding-cake-calculator"
+          title="Bryllupskake"
+          description="Finn ut hvor mange etasjer og porsjoner bryllupskaken bør ha ut fra antall gjester, med størrelse på hvert lag i cm. Gratis og uten registrering."
+        />
+
+        <section aria-label="Bryllupskake">
+          <WeddingCakeCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

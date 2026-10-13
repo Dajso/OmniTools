@@ -10,13 +10,13 @@ export function SaveTheDateCalculator() {
     const [error, setError] = React.useState<string | undefined>();
     const calculate = React.useCallback(() => {
         try { setError(undefined); setResult(calculateSaveTheDate({ weddingDate })); }
-        catch (e) { setError(e instanceof Error ? e.message : 'Error'); setResult(null); }
+        catch (e) { setError(e instanceof Error ? e.message : 'Beregningsfeil'); setResult(null); }
     }, [weddingDate]);
     const reset = () => { setWeddingDate(defaultDate.toISOString().split('T')[0]); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
     return (
-        <CalculatorBase title="Save the Date Timeline" description="Wedding planning milestone timeline"
-            formula="Based on standard wedding planning timeline" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Tidslinje for bryllupsplanleggingen" description="Se når hver oppgave bør være gjort"
+            formula="Veiledende tidslinje fra 12 måneder før bryllupet" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-3">
                     {result.events.map((e, i) => (
@@ -26,14 +26,14 @@ export function SaveTheDateCalculator() {
                                 <div className="text-xs">{e.date}</div>
                             </div>
                             <span className={`text-xs font-mono ${e.daysFromNow < 0 ? 'text-gray-400' : e.daysFromNow <= 7 ? 'text-red-600 font-bold' : ''}`}>
-                                {e.daysFromNow < 0 ? 'Passed' : e.daysFromNow === 0 ? 'Today!' : `${e.daysFromNow}d`}
+                                {e.daysFromNow < 0 ? 'Ferdig' : e.daysFromNow === 0 ? 'I dag!' : `${e.daysFromNow} d`}
                             </span>
                         </div>
                     ))}
                 </div>
             )}>
             <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700">Wedding Date</label>
+                <label className="block text-sm font-medium text-gray-700">Bryllupsdato</label>
                 <input type="date" value={weddingDate} onChange={e => setWeddingDate(e.target.value)}
                     className="w-full rounded-md border border-gray-300 px-3 py-2" />
             </div>

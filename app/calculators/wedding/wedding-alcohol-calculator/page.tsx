@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { WeddingAlcoholCalculator } from '@/components/calculators/wedding';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Wedding Alcohol Calculator - How Much Booze Do You Need?',
-    description: 'Calculate how much beer, wine, and liquor you need for your wedding reception based on guest count and event duration.',
-    keywords: ['wedding alcohol calculator', 'wedding bar calculator', 'how much alcohol for wedding', 'reception drinks', 'open bar calculator'],
-    alternates: { canonical: '/calculators/wedding/wedding-alcohol-calculator' },
+  title: 'Drikke til bryllupet – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye vin, øl og sprit du trenger til bryllupsfesten. Gratis og uten registrering.',
+  keywords: ['bryllup', 'drikke', 'bryllupsdrikke', 'vin', 'fest'],
+  alternates: { canonical: '/calculators/wedding/wedding-alcohol-calculator' },
+  openGraph: {
+    title: 'Drikke til bryllupet',
+    description: 'Regn ut hvor mye vin, øl og sprit du trenger til bryllupsfesten',
+    url: '/calculators/wedding/wedding-alcohol-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Wedding Alcohol Calculator', description: 'Calculate alcohol quantities for your wedding.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Drikke til bryllupet',
+  description: 'Regn ut hvor mye vin, øl og sprit du trenger til bryllupsfesten',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter guest count', text: 'Input the number of guests at your reception (typically 80-85% of invites).' },
-    { name: 'Set event duration', text: 'Enter how many hours your reception will last.' },
-    { name: 'Choose drink types', text: 'Select which drinks to serve: beer, wine, cocktails, or all three.' },
-    { name: 'Get shopping list', text: 'See exactly how many bottles, cases, and kegs to purchase.' },
+  { name: 'Oppgi gjester og varighet', text: 'Antall gjester og hvor mange timer selskapet varer.' },
+  { name: 'Angi andel som drikker', text: 'Hvor mange prosent av gjestene som drikker alkohol.' },
+  { name: 'Fordel på vin, øl og sterkt', text: 'Hvordan drikkene fordeler seg i prosent.' },
+  { name: 'Les av innkjøpslisten', text: 'Se antall flasker og kasser, og legg gjerne på litt buffer.' },
 ];
 
 const faqs = [
-    { question: 'How much alcohol per person at a wedding?', answer: 'Plan for about 1 drink per person per hour for the first hour, then 0.5-0.75 drinks per hour after. A 5-hour reception averages 4-5 drinks per guest.' },
-    { question: 'What is the beer/wine/liquor ratio?', answer: 'A common split is 50% wine, 30% beer, 20% liquor. Adjust based on your guest preferences and season.' },
-    { question: 'Should I buy more alcohol than calculated?', answer: 'Yes, buy 10-15% extra. Most liquor stores allow returns of unopened bottles, so overbuying is safer than running out.' },
-    { question: 'How many bottles of wine for 100 guests?', answer: 'For 100 guests at a 5-hour reception with wine as primary drink: approximately 50-65 bottles (750ml each).' },
+  { question: 'Hvor mye alkohol trenger jeg per gjest?', answer: 'Som tommelfingerregel regner man med omtrent én drikke per drikkende gjest per time. Til en fest på fem timer blir det altså rundt fem drikker hver.' },
+  { question: 'Hvor mange glass er det i en vinflaske?', answer: 'Omtrent fem glass à 15 cl i en flaske på 0,75 liter.' },
+  { question: 'Hvor mange drinker er det i en flaske sterkt?', answer: 'Rundt 17 drinker à 4 cl i en flaske på 0,7 liter.' },
+  { question: 'Trenger jeg alkoholfrie alternativer?', answer: 'Ja. Ha alkoholfri musserende, øl og vann tilgjengelig for dem som ikke drikker, og for sjåfører og gravide.' },
+  { question: 'Bør jeg kjøpe litt ekstra?', answer: 'Ja, 10 % ekstra gir en buffer. Husk at du kan levere tilbake uåpnede flasker hvis butikken tillater det, så avtal det på forhånd.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/wedding/catering-quantity-estimator', title: 'Catering Quantity', description: 'Calculate food quantities.' },
-    { href: '/calculators/wedding/budget-allocator', title: 'Budget Allocator', description: 'Allocate your wedding budget.' },
-    { href: '/calculators/wedding/seating-arrangement-calculator', title: 'Seating Calculator', description: 'Plan guest seating.' },
+  { href: '/calculators/wedding/catering-quantity-estimator', title: 'Matmengde til selskap', description: 'Regn ut hvor mye mat du trenger til buffet: kjøtt, tilbehør, salat og dessert' },
+  { href: '/calculators/wedding/wedding-cake-calculator', title: 'Bryllupskake', description: 'Regn ut størrelse og antall etasjer på kaken ut fra antall gjester' },
 ];
 
 export default function WeddingAlcoholCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="wedding-alcohol-calculator" title="Wedding Alcohol Calculator"
-                    description="How much alcohol do you need for your wedding?" category="Wedding & Events" />
-                <section aria-label="Wedding Alcohol Calculator"><WeddingAlcoholCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="wedding-alcohol-calculator"
+          title="Drikke til bryllupet"
+          description="Regn ut hvor mange flasker vin, kasser øl og flasker sterkt du bør kjøpe til bryllupsselskapet ut fra antall gjester og hvor lenge festen varer. Gratis og uten registrering."
+        />
+
+        <section aria-label="Drikke til bryllupet">
+          <WeddingAlcoholCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }
