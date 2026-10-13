@@ -74,7 +74,7 @@ export function HeatSinkCalculator() {
       const res = calculateHeatSink(p, tjMax, ta, rjc, rcs, rsa);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [powerDissipation, maxJunctionTemp, ambientTemp, thermalResistanceJC, thermalResistanceCS, heatSinkResistance]);
@@ -102,8 +102,8 @@ export function HeatSinkCalculator() {
 
   return (
     <CalculatorBase
-      title="Heat Sink Calculator"
-      description="Calculate required thermal resistance for heat sinks"
+      title="Kjøleribbe"
+      description="Regn ut nødvendig termisk motstand for kjøleribbe"
       formula="Tj = Ta + P × (Rjc + Rcs + Rsa)"
       onCalculate={calculate}
       onReset={reset}
@@ -111,16 +111,16 @@ export function HeatSinkCalculator() {
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Required Heat Sink Thermal Resistance"
+            label="Nødvendig termisk motstand for kjøleribben"
             value={`≤ ${formatFixed(result.requiredThermalResistance, 2)} °C/W`}
             copyable
           />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Junction Temp" value={`${formatFixed(result.junctionTemp, 1)}°C`} />
-            <ResultDisplay label="Case Temp" value={`${formatFixed(result.caseTemp, 1)}°C`} />
-            <ResultDisplay label="Heat Sink Temp" value={`${formatFixed(result.heatSinkTemp, 1)}°C`} />
+            <ResultDisplay label="Temperatur i halvlederen" value={`${formatFixed(result.junctionTemp, 1)}°C`} />
+            <ResultDisplay label="Kapslingstemperatur" value={`${formatFixed(result.caseTemp, 1)}°C`} />
+            <ResultDisplay label="Kjøleribbetemperatur" value={`${formatFixed(result.heatSinkTemp, 1)}°C`} />
             <ResultDisplay
-              label="Safety Margin"
+              label="Sikkerhetsmargin"
               value={`${formatFixed(result.safetyMargin, 1)}°C`}
               highlight={result.safetyMargin < 0}
             />
@@ -128,7 +128,7 @@ export function HeatSinkCalculator() {
           {result.safetyMargin < 0 && (
             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-3">
               <p className="text-sm text-red-700 dark:text-red-300">
-                ⚠️ Warning: Junction temperature exceeds maximum! Use a better heat sink.
+                ⚠️ Advarsel: Temperaturen i halvlederen overstiger maksimum! Bruk en bedre kjøleribbe.
               </p>
             </div>
           )}
@@ -136,18 +136,18 @@ export function HeatSinkCalculator() {
       )}
     >
       <div className="space-y-4">
-        <NumberInput id="power" label="Power Dissipation (W)" value={powerDissipation} onChange={handlePowerChange} min={0.1} step={1} />
+        <NumberInput id="power" label="Avgitt effekt (W)" value={powerDissipation} onChange={handlePowerChange} min={0.1} step={1} />
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="tj-max" label="Max Junction Temp (°C)" value={maxJunctionTemp} onChange={handleTjMaxChange} min={50} max={200} step={5} />
-          <NumberInput id="ambient" label="Ambient Temp (°C)" value={ambientTemp} onChange={handleAmbientChange} min={-40} max={85} step={5} />
+          <NumberInput id="tj-max" label="Maks temperatur i halvlederen (°C)" value={maxJunctionTemp} onChange={handleTjMaxChange} min={50} max={200} step={5} />
+          <NumberInput id="ambient" label="Omgivelsestemperatur (°C)" value={ambientTemp} onChange={handleAmbientChange} min={-40} max={85} step={5} />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="rjc" label="Rjc - Junction to Case (°C/W)" value={thermalResistanceJC} onChange={handleRjcChange} min={0} step={0.1} />
-          <NumberInput id="rcs" label="Rcs - Case to Sink (°C/W)" value={thermalResistanceCS} onChange={handleRcsChange} min={0} step={0.1} />
+          <NumberInput id="rjc" label="Rjc – halvleder til kapsling (°C/W)" value={thermalResistanceJC} onChange={handleRjcChange} min={0} step={0.1} />
+          <NumberInput id="rcs" label="Rcs – kapsling til kjøleribbe (°C/W)" value={thermalResistanceCS} onChange={handleRcsChange} min={0} step={0.1} />
         </div>
         <NumberInput
           id="rsa"
-          label="Heat Sink Resistance (°C/W) - Optional"
+          label="Kjøleribbens motstand (°C/W) – valgfritt"
           value={heatSinkResistance}
           onChange={handleRsaChange}
           min={0}
@@ -155,11 +155,11 @@ export function HeatSinkCalculator() {
         />
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Thermal Interface Materials</p>
+          <p className="text-sm font-medium mb-2">Varmeledende materialer</p>
           <div className="text-xs text-muted-foreground space-y-1">
-            <p><strong>Thermal paste:</strong> ~0.2-0.5 °C/W</p>
-            <p><strong>Thermal pad:</strong> ~0.5-2 °C/W</p>
-            <p><strong>Mica + grease:</strong> ~0.4-0.9 °C/W</p>
+            <p><strong>Varmepasta:</strong> ~0,2–0,5 °C/W</p>
+            <p><strong>Varmepute:</strong> ~0,5–2 °C/W</p>
+            <p><strong>Glimmer og fett:</strong> ~0,4–0,9 °C/W</p>
           </div>
         </div>
       </div>

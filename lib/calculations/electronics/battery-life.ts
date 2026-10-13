@@ -12,18 +12,18 @@
  * Common battery types with typical capacities
  */
 export const BATTERY_TYPES: Record<string, { capacity: number; voltage: number; name: string }> = {
-  'aaa-alkaline': { capacity: 1200, voltage: 1.5, name: 'AAA Alkaline' },
-  'aa-alkaline': { capacity: 2800, voltage: 1.5, name: 'AA Alkaline' },
-  'c-alkaline': { capacity: 8000, voltage: 1.5, name: 'C Alkaline' },
-  'd-alkaline': { capacity: 12000, voltage: 1.5, name: 'D Alkaline' },
-  '9v-alkaline': { capacity: 565, voltage: 9, name: '9V Alkaline' },
-  'cr2032': { capacity: 225, voltage: 3, name: 'CR2032 Coin Cell' },
-  'cr2025': { capacity: 165, voltage: 3, name: 'CR2025 Coin Cell' },
-  '18650': { capacity: 2600, voltage: 3.7, name: '18650 Li-ion' },
-  '21700': { capacity: 4000, voltage: 3.7, name: '21700 Li-ion' },
-  'lipo-1s-1000': { capacity: 1000, voltage: 3.7, name: '1S 1000mAh LiPo' },
-  'lipo-2s-2200': { capacity: 2200, voltage: 7.4, name: '2S 2200mAh LiPo' },
-  'lipo-3s-2200': { capacity: 2200, voltage: 11.1, name: '3S 2200mAh LiPo' },
+  'aaa-alkaline': { capacity: 1200, voltage: 1.5, name: 'AAA alkalisk' },
+  'aa-alkaline': { capacity: 2800, voltage: 1.5, name: 'AA alkalisk' },
+  'c-alkaline': { capacity: 8000, voltage: 1.5, name: 'C alkalisk' },
+  'd-alkaline': { capacity: 12000, voltage: 1.5, name: 'D alkalisk' },
+  '9v-alkaline': { capacity: 565, voltage: 9, name: '9 V alkalisk' },
+  'cr2032': { capacity: 225, voltage: 3, name: 'CR2032 knappcelle' },
+  'cr2025': { capacity: 165, voltage: 3, name: 'CR2025 knappcelle' },
+  '18650': { capacity: 2600, voltage: 3.7, name: '18650 litiumion' },
+  '21700': { capacity: 4000, voltage: 3.7, name: '21700 litiumion' },
+  'lipo-1s-1000': { capacity: 1000, voltage: 3.7, name: '1S 1000 mAh LiPo' },
+  'lipo-2s-2200': { capacity: 2200, voltage: 7.4, name: '2S 2200 mAh LiPo' },
+  'lipo-3s-2200': { capacity: 2200, voltage: 11.1, name: '3S 2200 mAh LiPo' },
 };
 
 /**
@@ -68,19 +68,19 @@ export function calculateBatteryLife(input: BatteryLifeInput): BatteryLifeResult
   const { capacityMah, currentMa, efficiency = 0.8, dutyCycle = 1 } = input;
   
   if (capacityMah <= 0) {
-    throw new Error('Battery capacity must be positive');
+    throw new Error('Batterikapasiteten må være større enn null');
   }
   
   if (currentMa <= 0) {
-    throw new Error('Current draw must be positive');
+    throw new Error('Strømforbruket må være større enn null');
   }
   
   if (efficiency <= 0 || efficiency > 1) {
-    throw new Error('Efficiency must be between 0 and 1');
+    throw new Error('Virkningsgraden må være mellom 0 og 1');
   }
   
   if (dutyCycle <= 0 || dutyCycle > 1) {
-    throw new Error('Duty cycle must be between 0 and 1');
+    throw new Error('Driftsandelen må være mellom 0 og 1');
   }
   
   // Effective capacity considering efficiency

@@ -42,7 +42,7 @@ export function Timer555Calculator() {
         setAstableResult(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setAstableResult(null);
       setMonostableResult(null);
     }
@@ -62,8 +62,8 @@ export function Timer555Calculator() {
 
   return (
     <CalculatorBase
-      title="555 Timer Calculator"
-      description="Calculate frequency and timing for 555 timer circuits"
+      title="555-timer"
+      description="Regn ut frekvens og tider for 555-timer-kretser"
       formula={mode === 'astable' ? 'f = 1.44 / ((R1 + 2×R2) × C)' : 't = 1.1 × R × C'}
       onCalculate={calculate}
       onReset={reset}
@@ -71,17 +71,17 @@ export function Timer555Calculator() {
       results={
         astableResult ? (
           <div className="space-y-4">
-            <ResultDisplay label="Frequency" value={astableResult.formattedFrequency} copyable />
+            <ResultDisplay label="Frekvens" value={astableResult.formattedFrequency} copyable />
             <div className="grid grid-cols-2 gap-4">
-              <ResultDisplay label="Period" value={astableResult.formattedPeriod} />
-              <ResultDisplay label="Duty Cycle" value={`${formatFixed(astableResult.dutyCycle, 1)}%`} />
-              <ResultDisplay label="High Time" value={`${formatFixed((astableResult.highTime * 1000), 3)}ms`} />
-              <ResultDisplay label="Low Time" value={`${formatFixed((astableResult.lowTime * 1000), 3)}ms`} />
+              <ResultDisplay label="Periode" value={astableResult.formattedPeriod} />
+              <ResultDisplay label="Driftsandel" value={`${formatFixed(astableResult.dutyCycle, 1)}%`} />
+              <ResultDisplay label="Tid høy" value={`${formatFixed((astableResult.highTime * 1000), 3)}ms`} />
+              <ResultDisplay label="Tid lav" value={`${formatFixed((astableResult.lowTime * 1000), 3)}ms`} />
             </div>
           </div>
         ) : monostableResult ? (
           <div className="space-y-4">
-            <ResultDisplay label="Pulse Duration" value={monostableResult.formattedDuration} copyable />
+            <ResultDisplay label="Pulslengde" value={monostableResult.formattedDuration} copyable />
           </div>
         ) : null
       }
@@ -89,12 +89,12 @@ export function Timer555Calculator() {
       <div className="space-y-4">
         <SelectInput
           id="mode"
-          label="Mode"
+          label="Modus"
           value={mode}
           onChange={(v) => setMode(v as Mode)}
           options={[
-            { value: 'astable', label: 'Astable (Oscillator)' },
-            { value: 'monostable', label: 'Monostable (One-Shot)' },
+            { value: 'astable', label: 'Astabil (oscillator)' },
+            { value: 'monostable', label: 'Monostabil (enkeltpuls)' },
           ]}
         />
 
@@ -102,10 +102,10 @@ export function Timer555Calculator() {
         {mode === 'astable' && (
           <NumberInput id="r2" label="R2 (Ω)" value={r2} onChange={setR2} min={1} step={1000} />
         )}
-        <NumberInput id="capacitor" label="Capacitor (F)" value={capacitor} onChange={setCapacitor} min={0.000000001} step={0.000001} />
+        <NumberInput id="capacitor" label="Kondensator (F)" value={capacitor} onChange={setCapacitor} min={0.000000001} step={0.000001} />
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Common Capacitor Values</p>
+          <p className="text-sm font-medium mb-2">Vanlige kondensatorverdier</p>
           <div className="grid grid-cols-3 gap-2 text-xs">
             <button type="button" onClick={() => setCapacitor('0.0000001')} className="p-1 hover:bg-muted rounded">100nF</button>
             <button type="button" onClick={() => setCapacitor('0.000001')} className="p-1 hover:bg-muted rounded">1µF</button>

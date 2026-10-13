@@ -83,19 +83,19 @@ export const COLOR_TOLERANCES: Record<string, number> = {
  * Color display names and hex values for UI
  */
 export const COLOR_DISPLAY: Record<string, { name: string; hex: string }> = {
-  black: { name: 'Black', hex: '#000000' },
-  brown: { name: 'Brown', hex: '#8B4513' },
-  red: { name: 'Red', hex: '#FF0000' },
-  orange: { name: 'Orange', hex: '#FFA500' },
-  yellow: { name: 'Yellow', hex: '#FFFF00' },
-  green: { name: 'Green', hex: '#008000' },
-  blue: { name: 'Blue', hex: '#0000FF' },
-  violet: { name: 'Violet', hex: '#EE82EE' },
-  gray: { name: 'Gray', hex: '#808080' },
-  white: { name: 'White', hex: '#FFFFFF' },
-  gold: { name: 'Gold', hex: '#FFD700' },
-  silver: { name: 'Silver', hex: '#C0C0C0' },
-  none: { name: 'None', hex: 'transparent' },
+  black: { name: 'Svart', hex: '#000000' },
+  brown: { name: 'Brun', hex: '#8B4513' },
+  red: { name: 'Rød', hex: '#FF0000' },
+  orange: { name: 'Oransje', hex: '#FFA500' },
+  yellow: { name: 'Gul', hex: '#FFFF00' },
+  green: { name: 'Grønn', hex: '#008000' },
+  blue: { name: 'Blå', hex: '#0000FF' },
+  violet: { name: 'Fiolett', hex: '#EE82EE' },
+  gray: { name: 'Grå', hex: '#808080' },
+  white: { name: 'Hvit', hex: '#FFFFFF' },
+  gold: { name: 'Gull', hex: '#FFD700' },
+  silver: { name: 'Sølv', hex: '#C0C0C0' },
+  none: { name: 'Ingen', hex: 'transparent' },
 };
 
 
@@ -183,7 +183,7 @@ export function formatResistance(ohms: number): string {
 function validateDigitColor(color: BandColor, bandName: string): void {
   if (!(color in COLOR_VALUES)) {
     throw new ResistorError(
-      `Invalid color for ${bandName}: ${color}. Must be black through white.`,
+      `Ugyldig farge for ${bandName}: ${color}. Velg fra svart til hvit.`,
       'invalid_color',
       bandName
     );
@@ -198,7 +198,7 @@ function validateDigitColor(color: BandColor, bandName: string): void {
 function validateMultiplierColor(color: BandColor): void {
   if (!(color in COLOR_MULTIPLIERS)) {
     throw new ResistorError(
-      `Invalid multiplier color: ${color}`,
+      `Ugyldig farge for multiplikator: ${color}`,
       'invalid_color',
       'multiplier'
     );
@@ -213,7 +213,7 @@ function validateMultiplierColor(color: BandColor): void {
 function validateToleranceColor(color: BandColor): void {
   if (!(color in COLOR_TOLERANCES)) {
     throw new ResistorError(
-      `Invalid tolerance color: ${color}`,
+      `Ugyldig farge for toleranse: ${color}`,
       'invalid_color',
       'tolerance'
     );
@@ -236,7 +236,7 @@ export function calculate4BandResistor(bands: FourBandResistor): ResistorValue {
   // First band cannot be black (would be leading zero)
   if (bands.band1 === 'black') {
     throw new ResistorError(
-      'First band cannot be black (leading zero)',
+      'Første bånd kan ikke være svart (ledende null)',
       'invalid_color',
       'band1'
     );
@@ -279,7 +279,7 @@ export function calculate5BandResistor(bands: FiveBandResistor): ResistorValue {
   // First band cannot be black (would be leading zero)
   if (bands.band1 === 'black') {
     throw new ResistorError(
-      'First band cannot be black (leading zero)',
+      'Første bånd kan ikke være svart (ledende null)',
       'invalid_color',
       'band1'
     );
@@ -377,7 +377,7 @@ export function resistanceToColors(
 ): ResistorColors {
   if (resistance <= 0) {
     throw new ResistorError(
-      'Resistance must be positive',
+      'Motstanden må være større enn null',
       'invalid_value',
       'resistance'
     );

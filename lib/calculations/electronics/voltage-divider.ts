@@ -72,7 +72,7 @@ export function calculateVoltageDivider(input: VoltageDividerInput): VoltageDivi
   // Validate inputs
   if (inputVoltage < 0) {
     throw new VoltageDividerError(
-      'Input voltage cannot be negative',
+      'Inngangsspenningen kan ikke være negativ',
       'invalid_input',
       'inputVoltage'
     );
@@ -80,7 +80,7 @@ export function calculateVoltageDivider(input: VoltageDividerInput): VoltageDivi
   
   if (r1 < 0) {
     throw new VoltageDividerError(
-      'R1 cannot be negative',
+      'R1 kan ikke være negativ',
       'invalid_input',
       'r1'
     );
@@ -88,7 +88,7 @@ export function calculateVoltageDivider(input: VoltageDividerInput): VoltageDivi
   
   if (r2 < 0) {
     throw new VoltageDividerError(
-      'R2 cannot be negative',
+      'R2 kan ikke være negativ',
       'invalid_input',
       'r2'
     );
@@ -98,7 +98,7 @@ export function calculateVoltageDivider(input: VoltageDividerInput): VoltageDivi
   
   if (totalResistance === 0) {
     throw new VoltageDividerError(
-      'Total resistance cannot be zero',
+      'Samlet motstand kan ikke være null',
       'division_by_zero'
     );
   }
@@ -139,7 +139,7 @@ export function calculateR2ForOutput(
 ): number {
   if (outputVoltage >= inputVoltage) {
     throw new VoltageDividerError(
-      'Output voltage must be less than input voltage',
+      'Utgangsspenningen må være lavere enn inngangsspenningen',
       'invalid_input',
       'outputVoltage'
     );
@@ -147,7 +147,7 @@ export function calculateR2ForOutput(
   
   if (outputVoltage <= 0) {
     throw new VoltageDividerError(
-      'Output voltage must be positive',
+      'Utgangsspenningen må være større enn null',
       'invalid_input',
       'outputVoltage'
     );
@@ -178,7 +178,7 @@ export function calculateR1ForOutput(
 ): number {
   if (outputVoltage >= inputVoltage) {
     throw new VoltageDividerError(
-      'Output voltage must be less than input voltage',
+      'Utgangsspenningen må være lavere enn inngangsspenningen',
       'invalid_input',
       'outputVoltage'
     );
@@ -186,7 +186,7 @@ export function calculateR1ForOutput(
   
   if (outputVoltage <= 0) {
     throw new VoltageDividerError(
-      'Output voltage must be positive',
+      'Utgangsspenningen må være større enn null',
       'invalid_input',
       'outputVoltage'
     );

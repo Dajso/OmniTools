@@ -26,14 +26,14 @@ export class LEDResistorError extends Error {
  * Common LED colors with typical forward voltage and current
  */
 export const LED_COLORS: Record<string, { vf: number; ifTypical: number; name: string }> = {
-  red: { vf: 2.0, ifTypical: 0.020, name: 'Red' },
-  orange: { vf: 2.1, ifTypical: 0.020, name: 'Orange' },
-  yellow: { vf: 2.1, ifTypical: 0.020, name: 'Yellow' },
-  green: { vf: 2.2, ifTypical: 0.020, name: 'Green' },
-  blue: { vf: 3.2, ifTypical: 0.020, name: 'Blue' },
-  white: { vf: 3.2, ifTypical: 0.020, name: 'White' },
+  red: { vf: 2.0, ifTypical: 0.020, name: 'Rød' },
+  orange: { vf: 2.1, ifTypical: 0.020, name: 'Oransje' },
+  yellow: { vf: 2.1, ifTypical: 0.020, name: 'Gul' },
+  green: { vf: 2.2, ifTypical: 0.020, name: 'Grønn' },
+  blue: { vf: 3.2, ifTypical: 0.020, name: 'Blå' },
+  white: { vf: 3.2, ifTypical: 0.020, name: 'Hvit' },
   uv: { vf: 3.4, ifTypical: 0.020, name: 'UV' },
-  infrared: { vf: 1.5, ifTypical: 0.020, name: 'Infrared' },
+  infrared: { vf: 1.5, ifTypical: 0.020, name: 'Infrarød' },
 };
 
 /**
@@ -122,7 +122,7 @@ export function calculateLEDResistor(input: LEDResistorInput): LEDResistorResult
   // Validate inputs
   if (supplyVoltage <= 0) {
     throw new LEDResistorError(
-      'Supply voltage must be positive',
+      'Forsyningsspenningen må være større enn null',
       'invalid_input',
       'supplyVoltage'
     );
@@ -130,7 +130,7 @@ export function calculateLEDResistor(input: LEDResistorInput): LEDResistorResult
   
   if (forwardVoltage <= 0) {
     throw new LEDResistorError(
-      'Forward voltage must be positive',
+      'Framspenningen må være større enn null',
       'invalid_input',
       'forwardVoltage'
     );
@@ -138,7 +138,7 @@ export function calculateLEDResistor(input: LEDResistorInput): LEDResistorResult
   
   if (forwardCurrent <= 0) {
     throw new LEDResistorError(
-      'Forward current must be positive',
+      'Framstrømmen må være større enn null',
       'invalid_input',
       'forwardCurrent'
     );
@@ -146,7 +146,7 @@ export function calculateLEDResistor(input: LEDResistorInput): LEDResistorResult
   
   if (ledsInSeries < 1) {
     throw new LEDResistorError(
-      'Number of LEDs must be at least 1',
+      'Du må ha minst én LED',
       'invalid_input',
       'ledsInSeries'
     );
@@ -156,7 +156,7 @@ export function calculateLEDResistor(input: LEDResistorInput): LEDResistorResult
   
   if (totalLEDVoltage >= supplyVoltage) {
     throw new LEDResistorError(
-      `Supply voltage (${supplyVoltage}V) must be greater than total LED voltage (${totalLEDVoltage}V)`,
+      `Forsyningsspenningen (${supplyVoltage} V) må være høyere enn samlet spenning over LED-ene (${totalLEDVoltage} V)`,
       'insufficient_voltage'
     );
   }

@@ -29,7 +29,7 @@ export function VoltageDividerCalculator() {
       const res = calculateVoltageDivider({ inputVoltage: vin, r1: r1Val, r2: r2Val });
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [inputVoltage, r1, r2]);
@@ -46,26 +46,26 @@ export function VoltageDividerCalculator() {
 
   return (
     <CalculatorBase
-      title="Voltage Divider Calculator"
-      description="Calculate output voltage for a resistive voltage divider"
-      formula="Vout = Vin × (R2 / (R1 + R2))"
+      title="Spenningsdeler"
+      description="Regn ut utgangsspenningen til en spenningsdeler med motstander"
+      formula="Vut = Vinn × (R2 ÷ (R1 + R2))"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Output Voltage" value={result.formattedOutput} copyable />
+          <ResultDisplay label="Utgangsspenning" value={result.formattedOutput} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Division Ratio" value={`${formatFixed((result.divisionRatio * 100), 1)}%`} />
-            <ResultDisplay label="Current" value={`${formatFixed((result.current * 1000), 3)} mA`} />
-            <ResultDisplay label="Power (R1)" value={`${formatFixed((result.powerR1 * 1000), 3)} mW`} />
-            <ResultDisplay label="Power (R2)" value={`${formatFixed((result.powerR2 * 1000), 3)} mW`} />
+            <ResultDisplay label="Delingsforhold" value={`${formatFixed((result.divisionRatio * 100), 1)}%`} />
+            <ResultDisplay label="Strøm" value={`${formatFixed((result.current * 1000), 3)} mA`} />
+            <ResultDisplay label="Effekt (R1)" value={`${formatFixed((result.powerR1 * 1000), 3)} mW`} />
+            <ResultDisplay label="Effekt (R2)" value={`${formatFixed((result.powerR2 * 1000), 3)} mW`} />
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <NumberInput id="input-voltage" label="Input Voltage (V)" value={inputVoltage} onChange={setInputVoltage} min={0} step={0.1} />
+        <NumberInput id="input-voltage" label="Inngangsspenning (V)" value={inputVoltage} onChange={setInputVoltage} min={0} step={0.1} />
         <div className="grid grid-cols-2 gap-4">
           <NumberInput id="r1" label="R1 (Ω)" value={r1} onChange={setR1} min={0} step={100} />
           <NumberInput id="r2" label="R2 (Ω)" value={r2} onChange={setR2} min={0} step={100} />
@@ -73,15 +73,7 @@ export function VoltageDividerCalculator() {
 
         <div className="bg-muted/50 p-3 rounded-md text-center">
           <pre className="text-xs">
-{`    Vin
-     │
-    [R1]
-     │
-     ├──── Vout
-     │
-    [R2]
-     │
-    GND`}
+{`Vinn │ [R1] │ ├──── Vut │ [R2] │ GND`}
           </pre>
         </div>
       </div>

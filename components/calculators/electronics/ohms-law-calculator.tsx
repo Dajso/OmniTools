@@ -35,7 +35,7 @@ export function OhmsLawCalculator() {
       const res = calculateOhmsLaw(input);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [voltage, current, resistance, power]);
@@ -59,10 +59,10 @@ export function OhmsLawCalculator() {
 
   return (
     <CalculatorBase
-      title="Ohm's Law Calculator"
-      description="Calculate voltage, current, resistance, and power"
+      title="Ohms lov"
+      description="Regn ut spenning, strøm, motstand og effekt"
       formula="V = I × R, P = V × I"
-      formulaExplanation="Enter any two values to calculate the others"
+      formulaExplanation="Fyll inn to verdier for å regne ut de andre"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -70,79 +70,79 @@ export function OhmsLawCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Voltage (V)"
+              label="Spenning (V)"
               value={result.formattedVoltage}
               highlight={result.calculated.includes('voltage')}
               copyable
             />
             <ResultDisplay
-              label="Current (I)"
+              label="Strøm (I)"
               value={result.formattedCurrent}
               highlight={result.calculated.includes('current')}
               copyable
             />
             <ResultDisplay
-              label="Resistance (R)"
+              label="Motstand (R)"
               value={result.formattedResistance}
               highlight={result.calculated.includes('resistance')}
               copyable
             />
             <ResultDisplay
-              label="Power (P)"
+              label="Effekt (P)"
               value={result.formattedPower}
               highlight={result.calculated.includes('power')}
               copyable
             />
           </div>
           <p className="text-xs text-muted-foreground text-center">
-            Highlighted values were calculated from your inputs
+            Uthevede verdier er regnet ut fra det du la inn
           </p>
         </div>
       )}
     >
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">Enter any two values:</p>
+        <p className="text-sm text-muted-foreground">Fyll inn to verdier:</p>
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="voltage"
-            label="Voltage"
+            label="Spenning"
             value={voltage}
             onChange={handleVoltageChange}
-            placeholder="Volts (V)"
+            placeholder="Volt (V)"
             min={0}
             step={0.1}
           />
           <NumberInput
             id="current"
-            label="Current"
+            label="Strøm"
             value={current}
             onChange={handleCurrentChange}
-            placeholder="Amperes (A)"
+            placeholder="Ampere (A)"
             min={0}
             step={0.001}
           />
           <NumberInput
             id="resistance"
-            label="Resistance"
+            label="Motstand"
             value={resistance}
             onChange={handleResistanceChange}
-            placeholder="Ohms (Ω)"
+            placeholder="Ohm (Ω)"
             min={0.001}
             step={1}
           />
           <NumberInput
             id="power"
-            label="Power"
+            label="Effekt"
             value={power}
             onChange={handlePowerChange}
-            placeholder="Watts (W)"
+            placeholder="Watt (W)"
             min={0}
             step={0.1}
           />
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Ohm's Law Formulas</p>
+          <p className="text-sm font-medium mb-2">Formler for Ohms lov</p>
           <div className="grid grid-cols-2 gap-2 text-xs font-mono">
             <div>V = I × R</div>
             <div>I = V / R</div>

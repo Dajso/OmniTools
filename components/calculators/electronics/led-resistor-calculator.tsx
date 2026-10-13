@@ -52,7 +52,7 @@ export function LEDResistorCalculator() {
       });
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [supplyVoltage, forwardVoltage, forwardCurrent, ledsInSeries]);
@@ -71,32 +71,32 @@ export function LEDResistorCalculator() {
 
   return (
     <CalculatorBase
-      title="LED Resistor Calculator"
-      description="Calculate the series resistor needed for an LED circuit"
-      formula="R = (Vs - Vf) / If"
+      title="LED-motstand"
+      description="Regn ut seriemotstanden du trenger til en lysdiode (LED)"
+      formula="R = (Vs − Vf) ÷ If"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Required Resistor" value={result.formattedResistance} copyable />
+          <ResultDisplay label="Nødvendig motstand" value={result.formattedResistance} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Calculated Value" value={`${formatFixed(result.resistance, 1)}Ω`} />
-            <ResultDisplay label="Nearest Standard" value={`${result.nearestStandard}Ω`} />
-            <ResultDisplay label="Power Rating" value={`≥${result.recommendedPowerRating}W`} />
-            <ResultDisplay label="Actual Current" value={`${formatFixed((result.actualCurrent * 1000), 1)}mA`} />
+            <ResultDisplay label="Utregnet verdi" value={`${formatFixed(result.resistance, 1)}Ω`} />
+            <ResultDisplay label="Nærmeste standardverdi" value={`${result.nearestStandard}Ω`} />
+            <ResultDisplay label="Effektrating" value={`≥${result.recommendedPowerRating}W`} />
+            <ResultDisplay label="Faktisk strøm" value={`${formatFixed((result.actualCurrent * 1000), 1)}mA`} />
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <NumberInput id="supply-voltage" label="Supply Voltage (V)" value={supplyVoltage} onChange={setSupplyVoltage} min={0} step={0.5} />
-        <SelectInput id="led-color" label="LED Color (Preset)" value={ledColor} onChange={handleLedColorChange} options={LED_OPTIONS} />
+        <NumberInput id="supply-voltage" label="Forsyningsspenning (V)" value={supplyVoltage} onChange={setSupplyVoltage} min={0} step={0.5} />
+        <SelectInput id="led-color" label="LED-farge (forhåndsvalg)" value={ledColor} onChange={handleLedColorChange} options={LED_OPTIONS} />
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="forward-voltage" label="Forward Voltage (V)" value={forwardVoltage} onChange={setForwardVoltage} min={0} step={0.1} />
-          <NumberInput id="forward-current" label="Forward Current (mA)" value={forwardCurrent} onChange={setForwardCurrent} min={0} step={1} />
+          <NumberInput id="forward-voltage" label="Framspenning (V)" value={forwardVoltage} onChange={setForwardVoltage} min={0} step={0.1} />
+          <NumberInput id="forward-current" label="Framstrøm (mA)" value={forwardCurrent} onChange={setForwardCurrent} min={0} step={1} />
         </div>
-        <NumberInput id="leds-series" label="LEDs in Series" value={ledsInSeries} onChange={setLedsInSeries} min={1} step={1} />
+        <NumberInput id="leds-series" label="LED-er i serie" value={ledsInSeries} onChange={setLedsInSeries} min={1} step={1} />
       </div>
     </CalculatorBase>
   );

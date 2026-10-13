@@ -84,7 +84,7 @@ export function decodeCapacitorCode(code: string): CapacitorValue {
   // Extract numeric part (first 3 digits)
   const numericMatch = cleanCode.match(/^(\d{3})/);
   if (!numericMatch) {
-    throw new Error(`Invalid capacitor code: ${code}. Expected 3-digit format like 104.`);
+    throw new Error(`Ugyldig kondensatorkode: ${code}. Bruk tre sifre, for eksempel 104.`);
   }
   
   const numericCode = numericMatch[1];
@@ -168,7 +168,7 @@ function formatNumber(value: number): string {
  */
 export function encodeCapacitorCode(picofarads: number): string {
   if (picofarads <= 0) {
-    throw new Error('Capacitance must be positive');
+    throw new Error('Kapasitansen må være større enn null');
   }
   
   // Handle very small values (< 10 pF) with R notation

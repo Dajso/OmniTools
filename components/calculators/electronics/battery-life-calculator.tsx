@@ -9,7 +9,7 @@ import { calculateBatteryLife, BATTERY_TYPES, type BatteryLifeResult } from '@/l
 import { formatFixed } from '@/lib/utils/formatting';
 
 const BATTERY_OPTIONS = [
-  { value: 'custom', label: 'Custom' },
+  { value: 'custom', label: 'Egendefinert' },
   ...Object.entries(BATTERY_TYPES).map(([value, data]) => ({
     value,
     label: `${data.name} (${data.capacity}mAh)`,
@@ -53,7 +53,7 @@ export function BatteryLifeCalculator() {
       });
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [capacity, current, efficiency, dutyCycle]);
@@ -78,31 +78,31 @@ export function BatteryLifeCalculator() {
 
   return (
     <CalculatorBase
-      title="Battery Life Calculator"
-      description="Calculate how long a battery will last"
-      formula="Time (hours) = Capacity (mAh) / Current (mA)"
+      title="Batterilevetid"
+      description="Regn ut hvor lenge et batteri varer"
+      formula="Tid (timer) = kapasitet (mAh) ÷ strøm (mA)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Battery Life" value={result.formatted} copyable />
+          <ResultDisplay label="Batterilevetid" value={result.formatted} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Hours" value={formatFixed(result.hours, 2)} />
-            <ResultDisplay label="Days" value={formatFixed(result.days, 2)} />
-            <ResultDisplay label="Minutes" value={formatFixed(result.minutes, 0)} />
-            <ResultDisplay label="Effective Capacity" value={`${formatFixed(result.effectiveCapacity, 0)}mAh`} />
+            <ResultDisplay label="Timer" value={formatFixed(result.hours, 2)} />
+            <ResultDisplay label="Dager" value={formatFixed(result.days, 2)} />
+            <ResultDisplay label="Minutter" value={formatFixed(result.minutes, 0)} />
+            <ResultDisplay label="Effektiv kapasitet" value={`${formatFixed(result.effectiveCapacity, 0)}mAh`} />
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <SelectInput id="battery-type" label="Battery Type" value={batteryType} onChange={handleBatteryTypeChange} options={BATTERY_OPTIONS} />
-        <NumberInput id="capacity" label="Capacity (mAh)" value={capacity} onChange={handleCapacityChange} min={1} step={100} />
-        <NumberInput id="current" label="Current Draw (mA)" value={current} onChange={handleCurrentChange} min={0.1} step={10} />
+        <SelectInput id="battery-type" label="Batteritype" value={batteryType} onChange={handleBatteryTypeChange} options={BATTERY_OPTIONS} />
+        <NumberInput id="capacity" label="Kapasitet (mAh)" value={capacity} onChange={handleCapacityChange} min={1} step={100} />
+        <NumberInput id="current" label="Strømforbruk (mA)" value={current} onChange={handleCurrentChange} min={0.1} step={10} />
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="efficiency" label="Efficiency (%)" value={efficiency} onChange={handleEfficiencyChange} min={1} max={100} step={5} />
-          <NumberInput id="duty-cycle" label="Duty Cycle (%)" value={dutyCycle} onChange={handleDutyCycleChange} min={1} max={100} step={10} />
+          <NumberInput id="efficiency" label="Virkningsgrad (%)" value={efficiency} onChange={handleEfficiencyChange} min={1} max={100} step={5} />
+          <NumberInput id="duty-cycle" label="Driftsandel (%)" value={dutyCycle} onChange={handleDutyCycleChange} min={1} max={100} step={10} />
         </div>
       </div>
     </CalculatorBase>

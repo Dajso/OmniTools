@@ -47,7 +47,7 @@ interface AWGResult {
 
 function calculateAWG(awg: number): AWGResult {
   const data = AWG_DATA[awg];
-  if (!data) throw new Error('Invalid AWG');
+  if (!data) throw new Error('Ugyldig AWG-verdi');
 
   return {
     awg,
@@ -78,7 +78,7 @@ export function AWGConverter() {
       const res = calculateAWG(awgNum);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [awg]);
@@ -93,43 +93,40 @@ export function AWGConverter() {
 
   return (
     <CalculatorBase
-      title="AWG to mm Converter"
-      description="Convert American Wire Gauge to metric measurements"
+      title="AWG til mm²"
+      description="Regn om amerikansk trådtykkelse (AWG) til mm² og diameter i mm"
       formula="d(mm) = 0.127 × 92^((36-AWG)/39)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Wire Gauge" value={`AWG ${result.awg}`} />
+          <ResultDisplay label="Trådtykkelse" value={`AWG ${result.awg}`} />
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay label="Diameter (mm)" value={formatFixed(result.diameterMm, 3)} copyable />
-            <ResultDisplay label="Diameter (inch)" value={formatFixed(result.diameterInch, 4)} />
-            <ResultDisplay label="Area (mm²)" value={formatFixed(result.areaMm2, 3)} copyable />
-            <ResultDisplay label="Area (circular mils)" value={formatFixed(result.areaCircularMils, 0)} />
-            <ResultDisplay label="Resistance (Ω/km)" value={formatFixed(result.resistancePerKm, 3)} />
-            <ResultDisplay label="Resistance (Ω/1000ft)" value={formatFixed(result.resistancePer1000ft, 3)} />
+            <ResultDisplay label="Tverrsnitt (mm²)" value={formatFixed(result.areaMm2, 3)} copyable />
+            <ResultDisplay label="Motstand (Ω/km)" value={formatFixed(result.resistancePerKm, 3)} />
           </div>
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Estimated Max Current</p>
+            <p className="text-sm font-medium mb-2">Anslått maksimal strøm</p>
             <div className="grid grid-cols-2 gap-4">
-              <ResultDisplay label="Chassis Wiring" value={`~${formatFixed(result.maxCurrentChassis, 1)} A`} />
-              <ResultDisplay label="Power Transmission" value={`~${formatFixed(result.maxCurrentPowerTrans, 1)} A`} />
+              <ResultDisplay label="Intern ledning i apparater" value={`~${formatFixed(result.maxCurrentChassis, 1)} A`} />
+              <ResultDisplay label="Kraftoverføring" value={`~${formatFixed(result.maxCurrentPowerTrans, 1)} A`} />
             </div>
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <SelectInput id="awg" label="Wire Gauge (AWG)" value={awg} onChange={setAwg} options={AWG_OPTIONS} />
+        <SelectInput id="awg" label="Trådtykkelse (AWG)" value={awg} onChange={setAwg} options={AWG_OPTIONS} />
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Common Uses</p>
+          <p className="text-sm font-medium mb-2">Vanlig bruk</p>
           <div className="text-xs text-muted-foreground space-y-1">
-            <p><strong>AWG 10-12:</strong> House wiring, high-current circuits</p>
-            <p><strong>AWG 14-16:</strong> Extension cords, automotive</p>
-            <p><strong>AWG 18-22:</strong> Low-voltage electronics, speakers</p>
-            <p><strong>AWG 24-30:</strong> Signal wires, breadboard jumpers</p>
+            <p><strong>AWG 10–12:</strong> Kraftkretser og høy strøm</p>
+            <p><strong>AWG 14–16:</strong> Skjøteledninger og bil</p>
+            <p><strong>AWG 18–22:</strong> Lavspent elektronikk og høyttalere</p>
+            <p><strong>AWG 24–30:</strong> Signalledninger og koblingsledninger til koblingsbrett</p>
           </div>
         </div>
       </div>

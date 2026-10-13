@@ -22,7 +22,7 @@ export function CapacitorCodeConverter() {
       const res = decodeCapacitorCode(inputCode);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Invalid code');
+      setError(err instanceof Error ? err.message : 'Ugyldig kode');
       setResult(null);
     }
   }, [inputCode]);
@@ -46,29 +46,29 @@ export function CapacitorCodeConverter() {
 
   return (
     <CalculatorBase
-      title="Capacitor Code Converter"
-      description="Convert capacitor codes (e.g., 104) to actual values"
-      formula="Value = (D1×10 + D2) × 10^M pF"
+      title="Kondensatorkode"
+      description="Regn om kondensatorkoder (for eksempel 104) til faktisk verdi"
+      formula="Verdi = (S1×10 + S2) × 10^M pF"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Capacitance" value={result.formatted} copyable />
+          <ResultDisplay label="Kapasitans" value={result.formatted} copyable />
           <div className="grid grid-cols-3 gap-4">
-            <ResultDisplay label="Picofarads" value={`${result.picofarads.toLocaleString('nb-NO')} pF`} />
-            <ResultDisplay label="Nanofarads" value={`${result.nanofarads} nF`} />
-            <ResultDisplay label="Microfarads" value={`${result.microfarads} µF`} />
+            <ResultDisplay label="Pikofarad" value={`${result.picofarads.toLocaleString('nb-NO')} pF`} />
+            <ResultDisplay label="Nanofarad" value={`${result.nanofarads} nF`} />
+            <ResultDisplay label="Mikrofarad" value={`${result.microfarads} µF`} />
           </div>
           {result.tolerance && (
-            <ResultDisplay label="Tolerance" value={`±${result.tolerance}%`} />
+            <ResultDisplay label="Toleranse" value={`±${result.tolerance}%`} />
           )}
         </div>
       )}
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="input-code">Capacitor Code</Label>
+          <Label htmlFor="input-code">Kondensatorkode</Label>
           <Input
             id="input-code"
             value={inputCode}
@@ -79,7 +79,7 @@ export function CapacitorCodeConverter() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Common Codes</p>
+          <p className="text-sm font-medium mb-2">Vanlige koder</p>
           <div className="grid grid-cols-3 gap-2">
             {commonCodes.map(({ code, desc }) => (
               <button
@@ -96,12 +96,12 @@ export function CapacitorCodeConverter() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">How to Read</p>
+          <p className="text-sm font-medium mb-2">Slik leser du koden</p>
           <p className="text-xs text-muted-foreground">
-            A 3-digit code like <span className="font-mono">104</span> means:
-            <br />• First two digits (10) = significant figures
-            <br />• Third digit (4) = number of zeros to add
-            <br />• Result: 10 + 0000 = 100,000 pF = 100 nF
+            En tresifret kode som <span className="font-mono">104</span> betyr:
+            <br />• De to første sifrene (10) = gjeldende siffer
+            <br />• Tredje siffer (4) = antall nuller som legges til
+            <br />• Resultat: 10 + 0000 = 100 000 pF = 100 nF
           </p>
         </div>
       </div>

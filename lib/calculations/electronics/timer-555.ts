@@ -83,9 +83,9 @@ export interface MonostableResult {
 export function calculateAstable(input: AstableInput): AstableResult {
   const { r1, r2, capacitor } = input;
   
-  if (r1 <= 0) throw new Error('R1 must be positive');
-  if (r2 <= 0) throw new Error('R2 must be positive');
-  if (capacitor <= 0) throw new Error('Capacitor must be positive');
+  if (r1 <= 0) throw new Error('R1 må være større enn null');
+  if (r2 <= 0) throw new Error('R2 må være større enn null');
+  if (capacitor <= 0) throw new Error('Kondensatoren må være større enn null');
   
   const highTime = 0.693 * (r1 + r2) * capacitor;
   const lowTime = 0.693 * r2 * capacitor;
@@ -115,8 +115,8 @@ export function calculateAstable(input: AstableInput): AstableResult {
 export function calculateMonostable(input: MonostableInput): MonostableResult {
   const { resistance, capacitor } = input;
   
-  if (resistance <= 0) throw new Error('Resistance must be positive');
-  if (capacitor <= 0) throw new Error('Capacitor must be positive');
+  if (resistance <= 0) throw new Error('Motstanden må være større enn null');
+  if (capacitor <= 0) throw new Error('Kondensatoren må være større enn null');
   
   const pulseDuration = 1.1 * resistance * capacitor;
   
@@ -139,11 +139,11 @@ export function calculateAstableComponents(
   dutyCycle: number,
   capacitor: number
 ): { r1: number; r2: number } {
-  if (frequency <= 0) throw new Error('Frequency must be positive');
+  if (frequency <= 0) throw new Error('Frekvensen må være større enn null');
   if (dutyCycle < 50 || dutyCycle > 100) {
-    throw new Error('Duty cycle must be between 50% and 100% for standard 555 astable');
+    throw new Error('Driftsandelen må være mellom 50 % og 100 % for en vanlig astabil 555-timer');
   }
-  if (capacitor <= 0) throw new Error('Capacitor must be positive');
+  if (capacitor <= 0) throw new Error('Kondensatoren må være større enn null');
   
   // From duty cycle: D = (R1 + R2) / (R1 + 2R2)
   // Let x = R1/R2, then D = (x + 1) / (x + 2)
@@ -187,8 +187,8 @@ export function calculateMonostableResistance(
   pulseDuration: number,
   capacitor: number
 ): number {
-  if (pulseDuration <= 0) throw new Error('Pulse duration must be positive');
-  if (capacitor <= 0) throw new Error('Capacitor must be positive');
+  if (pulseDuration <= 0) throw new Error('Pulslengden må være større enn null');
+  if (capacitor <= 0) throw new Error('Kondensatoren må være større enn null');
   
   // t = 1.1 × R × C
   // R = t / (1.1 × C)

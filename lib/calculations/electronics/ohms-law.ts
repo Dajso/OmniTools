@@ -123,28 +123,28 @@ function countProvided(input: OhmsLawInput): number {
 function validateInput(input: OhmsLawInput): void {
   if (input.voltage !== undefined && input.voltage < 0) {
     throw new OhmsLawError(
-      'Voltage cannot be negative',
+      'Spenningen kan ikke være negativ',
       'invalid_input',
       'voltage'
     );
   }
   if (input.current !== undefined && input.current < 0) {
     throw new OhmsLawError(
-      'Current cannot be negative',
+      'Strømmen kan ikke være negativ',
       'invalid_input',
       'current'
     );
   }
   if (input.resistance !== undefined && input.resistance <= 0) {
     throw new OhmsLawError(
-      'Resistance must be positive',
+      'Motstanden må være større enn null',
       'invalid_input',
       'resistance'
     );
   }
   if (input.power !== undefined && input.power < 0) {
     throw new OhmsLawError(
-      'Power cannot be negative',
+      'Effekten kan ikke være negativ',
       'invalid_input',
       'power'
     );
@@ -167,7 +167,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
   
   if (providedCount < 2) {
     throw new OhmsLawError(
-      'At least two values must be provided',
+      'Du må oppgi minst to verdier',
       'insufficient_data'
     );
   }
@@ -192,7 +192,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
     if (!isProvided(resistance)) {
       if (current === 0) {
         throw new OhmsLawError(
-          'Cannot calculate resistance when current is zero',
+          'Kan ikke regne ut motstand når strømmen er null',
           'division_by_zero',
           'current'
         );
@@ -219,7 +219,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
     if (!isProvided(current)) {
       if (voltage === 0) {
         throw new OhmsLawError(
-          'Cannot calculate current when voltage is zero',
+          'Kan ikke regne ut strøm når spenningen er null',
           'division_by_zero',
           'voltage'
         );
@@ -230,7 +230,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
     if (!isProvided(resistance)) {
       if (power === 0) {
         throw new OhmsLawError(
-          'Cannot calculate resistance when power is zero',
+          'Kan ikke regne ut motstand når effekten er null',
           'division_by_zero',
           'power'
         );
@@ -253,7 +253,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
     if (!isProvided(voltage)) {
       if (current === 0) {
         throw new OhmsLawError(
-          'Cannot calculate voltage when current is zero',
+          'Kan ikke regne ut spenning når strømmen er null',
           'division_by_zero',
           'current'
         );
@@ -264,7 +264,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
     if (!isProvided(resistance)) {
       if (current === 0) {
         throw new OhmsLawError(
-          'Cannot calculate resistance when current is zero',
+          'Kan ikke regne ut motstand når strømmen er null',
           'division_by_zero',
           'current'
         );
@@ -288,7 +288,7 @@ export function calculateOhmsLaw(input: OhmsLawInput): OhmsLawResult {
   if (!isProvided(voltage) || !isProvided(current) || 
       !isProvided(resistance) || !isProvided(power)) {
     throw new OhmsLawError(
-      'Unable to calculate all values from provided inputs',
+      'Kan ikke regne ut alle verdiene ut fra det du har oppgitt',
       'insufficient_data'
     );
   }
@@ -330,7 +330,7 @@ export function calculateVoltage(current: number, resistance: number): number {
 export function calculateCurrent(voltage: number, resistance: number): number {
   if (resistance === 0) {
     throw new OhmsLawError(
-      'Resistance cannot be zero',
+      'Motstanden kan ikke være null',
       'division_by_zero',
       'resistance'
     );
@@ -349,7 +349,7 @@ export function calculateCurrent(voltage: number, resistance: number): number {
 export function calculateResistance(voltage: number, current: number): number {
   if (current === 0) {
     throw new OhmsLawError(
-      'Current cannot be zero',
+      'Strømmen kan ikke være null',
       'division_by_zero',
       'current'
     );
@@ -392,7 +392,7 @@ export function calculatePowerFromIR(current: number, resistance: number): numbe
 export function calculatePowerFromVR(voltage: number, resistance: number): number {
   if (resistance === 0) {
     throw new OhmsLawError(
-      'Resistance cannot be zero',
+      'Motstanden kan ikke være null',
       'division_by_zero',
       'resistance'
     );

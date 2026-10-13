@@ -81,7 +81,7 @@ export function PCBTraceCalculator() {
       const res = calculatePCBTrace(i, dt, oz, len, layer === 'external');
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResult(null);
     }
   }, [current, tempRise, copperWeight, traceLength, layer]);
@@ -100,50 +100,50 @@ export function PCBTraceCalculator() {
 
   return (
     <CalculatorBase
-      title="PCB Trace Width Calculator"
-      description="Calculate minimum trace width for a given current (IPC-2221)"
-      formula="Based on IPC-2221 standard"
+      title="Sporbredde på kretskort"
+      description="Regn ut minste sporbredde for en gitt strøm (IPC-2221)"
+      formula="Bygger på standarden IPC-2221"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Minimum Trace Width" value={`${formatFixed(result.width, 3)} mm (${formatFixed(result.widthMils, 1)} mils)`} copyable />
+          <ResultDisplay label="Minste sporbredde" value={`${formatFixed(result.width, 3)} mm`} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Cross-Section Area" value={`${formatFixed(result.area, 1)} mils²`} />
-            <ResultDisplay label="Trace Resistance" value={`${formatFixed((result.resistance * 1000), 3)} mΩ`} />
-            <ResultDisplay label="Voltage Drop" value={`${formatFixed((result.voltageDrop * 1000), 2)} mV`} />
-            <ResultDisplay label="Power Loss" value={`${formatFixed((result.powerLoss * 1000), 3)} mW`} />
+            <ResultDisplay label="Tverrsnitt" value={`${formatFixed(result.area * 0.00064516, 4)} mm²`} />
+            <ResultDisplay label="Motstand i sporet" value={`${formatFixed((result.resistance * 1000), 3)} mΩ`} />
+            <ResultDisplay label="Spenningsfall" value={`${formatFixed((result.voltageDrop * 1000), 2)} mV`} />
+            <ResultDisplay label="Effekttap" value={`${formatFixed((result.powerLoss * 1000), 3)} mW`} />
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <NumberInput id="current" label="Current (A)" value={current} onChange={setCurrent} min={0.1} step={0.5} />
-        <NumberInput id="temp-rise" label="Temperature Rise (°C)" value={tempRise} onChange={setTempRise} min={1} max={100} step={5} />
+        <NumberInput id="current" label="Strøm (A)" value={current} onChange={setCurrent} min={0.1} step={0.5} />
+        <NumberInput id="temp-rise" label="Temperaturøkning (°C)" value={tempRise} onChange={setTempRise} min={1} max={100} step={5} />
         <SelectInput
           id="copper-weight"
-          label="Copper Weight"
+          label="Kobbertykkelse"
           value={copperWeight}
           onChange={setCopperWeight}
           options={[
-            { value: '0.5', label: '0.5 oz/ft² (17µm)' },
-            { value: '1', label: '1 oz/ft² (35µm)' },
-            { value: '2', label: '2 oz/ft² (70µm)' },
-            { value: '3', label: '3 oz/ft² (105µm)' },
+            { value: '0.5', label: '17 µm (½ oz/ft²)' },
+            { value: '1', label: '35 µm (1 oz/ft²)' },
+            { value: '2', label: '70 µm (2 oz/ft²)' },
+            { value: '3', label: '105 µm (3 oz/ft²)' },
           ]}
         />
         <SelectInput
           id="layer"
-          label="Layer Type"
+          label="Lagtype"
           value={layer}
           onChange={setLayer}
           options={[
-            { value: 'external', label: 'External (outer layer)' },
-            { value: 'internal', label: 'Internal (inner layer)' },
+            { value: 'external', label: 'Utvendig (ytre lag)' },
+            { value: 'internal', label: 'Innvendig (indre lag)' },
           ]}
         />
-        <NumberInput id="trace-length" label="Trace Length (mm)" value={traceLength} onChange={setTraceLength} min={1} step={10} />
+        <NumberInput id="trace-length" label="Sporlengde (mm)" value={traceLength} onChange={setTraceLength} min={1} step={10} />
       </div>
     </CalculatorBase>
   );
