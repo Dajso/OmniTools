@@ -30,8 +30,8 @@ import { formatFixed } from '@/lib/utils/formatting';
  * Zod schema for biorhythm inputs
  */
 const biorhythmSchema = z.object({
-  birthDate: z.string().min(1, 'Birth date is required'),
-  targetDate: z.string().min(1, 'Target date is required'),
+  birthDate: z.string().min(1, 'Fødselsdato må fylles ut'),
+  targetDate: z.string().min(1, 'Måldato må fylles ut'),
 });
 
 type BiorhythmInputs = {
@@ -175,8 +175,8 @@ export function BiorhythmCalculator() {
 
   return (
     <CalculatorBase
-      title="Biorhythm Calculator"
-      description="Track your physical, emotional, and intellectual cycles based on your birth date"
+      title="Biorytme"
+      description="Følg de fysiske, følelsesmessige og intellektuelle syklusene dine ut fra fødselsdatoen"
       isCalculateDisabled={!isValid || !inputs.birthDate}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -187,21 +187,21 @@ export function BiorhythmCalculator() {
           <div className="space-y-6">
             {/* Current values */}
             <div className="space-y-3">
-              <h3 className="font-medium text-center">Your Biorhythm Today</h3>
+              <h3 className="font-medium text-center">Biorytmen din i dag</h3>
               <CycleIndicator
-                label="Physical"
+                label="Fysisk"
                 value={results.current.physical}
                 color="#ef4444"
                 emoji="💪"
               />
               <CycleIndicator
-                label="Emotional"
+                label="Følelsesmessig"
                 value={results.current.emotional}
                 color="#22c55e"
                 emoji="💚"
               />
               <CycleIndicator
-                label="Intellectual"
+                label="Intellektuell"
                 value={results.current.intellectual}
                 color="#3b82f6"
                 emoji="🧠"
@@ -210,7 +210,7 @@ export function BiorhythmCalculator() {
             
             {/* Chart */}
             <div className="bg-muted/30 p-4 rounded-lg">
-              <h4 className="font-medium mb-4 text-center">30-Day Biorhythm Chart</h4>
+              <h4 className="font-medium mb-4 text-center">Biorytme de neste 30 dagene</h4>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={results.chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
@@ -262,16 +262,16 @@ export function BiorhythmCalculator() {
             
             {/* Days since birth */}
             <div className="text-center text-sm text-muted-foreground">
-              <p>Days since birth: <span className="font-medium text-foreground">{results.current.daysSinceBirth.toLocaleString('nb-NO')}</span></p>
+              <p>Dager siden fødselen: <span className="font-medium text-foreground">{results.current.daysSinceBirth.toLocaleString('nb-NO')}</span></p>
             </div>
             
             {/* Legend explanation */}
             <div className="bg-muted/30 p-4 rounded-lg text-sm">
-              <h4 className="font-medium mb-2">Understanding Your Cycles</h4>
+              <h4 className="font-medium mb-2">Slik forstår du syklusene</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li><span className="text-red-500">●</span> <strong>Physical (23 days):</strong> Energy, strength, endurance</li>
-                <li><span className="text-green-500">●</span> <strong>Emotional (28 days):</strong> Mood, creativity, sensitivity</li>
-                <li><span className="text-blue-500">●</span> <strong>Intellectual (33 days):</strong> Alertness, memory, reasoning</li>
+                <li><span className="text-red-500">●</span> <strong>Fysisk (23 dager):</strong> Energi, styrke og utholdenhet</li>
+                <li><span className="text-green-500">●</span> <strong>Følelsesmessig (28 dager):</strong> Humør, kreativitet og følsomhet</li>
+                <li><span className="text-blue-500">●</span> <strong>Intellektuell (33 dager):</strong> Våkenhet, hukommelse og tankevirksomhet</li>
               </ul>
             </div>
           </div>
@@ -280,7 +280,7 @@ export function BiorhythmCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="birthDate">Your Birth Date</Label>
+          <Label htmlFor="birthDate">Fødselsdatoen din</Label>
           <Input
             id="birthDate"
             type="date"
@@ -294,7 +294,7 @@ export function BiorhythmCalculator() {
         </div>
         
         <div>
-          <Label htmlFor="targetDate">View Date</Label>
+          <Label htmlFor="targetDate">Vis dato</Label>
           <Input
             id="targetDate"
             type="date"

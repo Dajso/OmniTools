@@ -16,8 +16,8 @@ import { cn } from '@/lib/utils';
  * Zod schema for numerology inputs
  */
 const numerologySchema = z.object({
-  fullName: z.string().min(1, 'Full name is required').max(100, 'Name too long'),
-  birthDate: z.string().min(1, 'Birth date is required'),
+  fullName: z.string().min(1, 'Fullt navn må fylles ut').max(100, 'Navnet er for langt'),
+  birthDate: z.string().min(1, 'Fødselsdato må fylles ut'),
 });
 
 type NumerologyInputs = {
@@ -59,7 +59,7 @@ function NumberCard({
           <span className="text-2xl font-bold">{number}</span>
           {isMasterNumber && (
             <span className="text-xs bg-yellow-200 text-yellow-800 px-1.5 py-0.5 rounded">
-              Master
+              Mester
             </span>
           )}
         </div>
@@ -119,8 +119,8 @@ export function NumerologyCalculator() {
 
   return (
     <CalculatorBase
-      title="Numerology Calculator"
-      description="Discover your numerology numbers and their meanings based on your name and birth date"
+      title="Numerologi"
+      description="Finn tallene dine i numerologi og hva de betyr, ut fra navn og fødselsdato"
       isCalculateDisabled={!isValid || !inputs.fullName || !inputs.birthDate}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -132,7 +132,7 @@ export function NumerologyCalculator() {
             {/* Main numbers */}
             <div className="space-y-4">
               <NumberCard
-                title="Life Path Number"
+                title="Livsveitall"
                 number={results.lifePathNumber}
                 meaning={results.lifePathMeaning}
                 icon="🛤️"
@@ -140,7 +140,7 @@ export function NumerologyCalculator() {
               />
               
               <NumberCard
-                title="Expression Number"
+                title="Uttrykkstall"
                 number={results.expressionNumber}
                 meaning={results.expressionMeaning}
                 icon="✨"
@@ -148,7 +148,7 @@ export function NumerologyCalculator() {
               />
               
               <NumberCard
-                title="Soul Urge Number"
+                title="Sjelstall"
                 number={results.soulUrgeNumber}
                 meaning={results.soulUrgeMeaning}
                 icon="💖"
@@ -158,29 +158,29 @@ export function NumerologyCalculator() {
             
             {/* Secondary numbers */}
             <div className="grid grid-cols-2 gap-4">
-              <NumberBadge label="Personality Number" number={results.personalityNumber} />
-              <NumberBadge label="Birthday Number" number={results.birthdayNumber} />
+              <NumberBadge label="Personlighetstall" number={results.personalityNumber} />
+              <NumberBadge label="Fødselsdagstall" number={results.birthdayNumber} />
             </div>
             
             {/* Master numbers explanation */}
             {[results.lifePathNumber, results.expressionNumber, results.soulUrgeNumber].some(n => [11, 22, 33].includes(n)) && (
               <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-                <h4 className="font-medium text-yellow-800 mb-2">✨ You have a Master Number!</h4>
+                <h4 className="font-medium text-yellow-800 mb-2">✨ Du har et mestertall!</h4>
                 <p className="text-sm text-yellow-700">
-                  Master numbers (11, 22, 33) are considered powerful in numerology. They carry higher spiritual significance and greater potential, but also greater challenges.
+                  Mestertall (11, 22, 33) regnes som sterke i numerologien. De har større åndelig betydning og større potensial, men også større utfordringer.
                 </p>
               </div>
             )}
             
             {/* How it works */}
             <div className="bg-muted/30 p-4 rounded-lg text-sm">
-              <h4 className="font-medium mb-2">How Numerology Works</h4>
+              <h4 className="font-medium mb-2">Slik fungerer numerologi</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• <strong>Life Path:</strong> Derived from your birth date</li>
-                <li>• <strong>Expression:</strong> Calculated from all letters in your name</li>
-                <li>• <strong>Soul Urge:</strong> Based on vowels in your name</li>
-                <li>• <strong>Personality:</strong> Based on consonants in your name</li>
-                <li>• <strong>Birthday:</strong> Simply your birth day reduced</li>
+                <li>• <strong>Livsvei:</strong> Regnes ut fra fødselsdatoen din</li>
+                <li>• <strong>Uttrykk:</strong> Regnes ut fra alle bokstavene i navnet ditt</li>
+                <li>• <strong>Sjelsdrift:</strong> Bygger på vokalene i navnet ditt</li>
+                <li>• <strong>Personlighet:</strong> Bygger på konsonantene i navnet ditt</li>
+                <li>• <strong>Fødselsdag:</strong> Bare fødselsdagen din, redusert til ett siffer</li>
               </ul>
             </div>
           </div>
@@ -189,11 +189,11 @@ export function NumerologyCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="fullName">Your Full Name</Label>
+          <Label htmlFor="fullName">Fullt navn</Label>
           <Input
             id="fullName"
             type="text"
-            placeholder="Enter your full birth name"
+            placeholder="Skriv inn hele fødselsnavnet ditt"
             value={inputs.fullName}
             onChange={(e) => setInput('fullName', e.target.value)}
             className={cn(errors.fullName && 'border-destructive')}
@@ -202,12 +202,12 @@ export function NumerologyCalculator() {
             <p className="text-sm text-destructive mt-1">{errors.fullName}</p>
           )}
           <p className="text-xs text-muted-foreground mt-1">
-            Use your full name as it appears on your birth certificate
+            Bruk hele navnet slik det står i fødselsattesten
           </p>
         </div>
         
         <div>
-          <Label htmlFor="birthDate">Your Birth Date</Label>
+          <Label htmlFor="birthDate">Fødselsdatoen din</Label>
           <Input
             id="birthDate"
             type="date"

@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
  * Zod schema for day of week inputs
  */
 const dayOfWeekSchema = z.object({
-  date: z.string().min(1, 'Date is required'),
+  date: z.string().min(1, 'Dato må fylles ut'),
 });
 
 type DayOfWeekInputs = {
@@ -38,60 +38,60 @@ interface DayOfWeekResult {
  */
 const DAY_DATA: Record<number, { name: string; emoji: string; meaning: string; funFact: string }> = {
   0: {
-    name: 'Sunday',
+    name: 'Søndag',
     emoji: '☀️',
-    meaning: 'Named after the Sun. A day of rest and reflection in many cultures.',
-    funFact: 'Sunday is the first day of the week in many countries, but the last in others!',
+    meaning: 'Oppkalt etter solen (norrønt «sunnudagr»). En hviledag i mange kulturer.',
+    funFact: 'I Norge og resten av Europa regnes mandag som første dag i uken, mens søndag er første dag i USA.',
   },
   1: {
-    name: 'Monday',
+    name: 'Mandag',
     emoji: '🌙',
-    meaning: 'Named after the Moon. Traditionally the start of the work week.',
-    funFact: 'The word Monday comes from Old English "Mōnandæg" meaning "Moon\'s day".',
+    meaning: 'Oppkalt etter månen (norrønt «mánadagr»). Tradisjonelt starten på arbeidsuken.',
+    funFact: 'Mandag betyr «månens dag», og det engelske Monday har samme opphav.',
   },
   2: {
-    name: 'Tuesday',
+    name: 'Tirsdag',
     emoji: '⚔️',
-    meaning: 'Named after Tiw/Tyr, the Norse god of war and combat.',
-    funFact: 'In Spanish, Tuesday is "Martes", named after Mars, the Roman god of war.',
+    meaning: 'Oppkalt etter Tyr, den norrøne krigsguden («Tysdagr»).',
+    funFact: 'På spansk heter tirsdag «martes», etter krigsguden Mars hos romerne.',
   },
   3: {
-    name: 'Wednesday',
+    name: 'Onsdag',
     emoji: '🧙',
-    meaning: 'Named after Odin/Woden, the chief Norse god of wisdom.',
-    funFact: 'Wednesday is often called "hump day" as it\'s the middle of the work week.',
+    meaning: 'Oppkalt etter Odin («Óðinsdagr»), visdommens og krigens gud i norrøn mytologi.',
+    funFact: 'På fransk heter onsdag «mercredi», oppkalt etter guden Merkur.',
   },
   4: {
-    name: 'Thursday',
+    name: 'Torsdag',
     emoji: '⚡',
-    meaning: 'Named after Thor, the Norse god of thunder.',
-    funFact: 'In German, Thursday is "Donnerstag" which literally means "Thunder\'s day".',
+    meaning: 'Oppkalt etter Tor, tordenguden («Þórsdagr»).',
+    funFact: 'På tysk heter torsdag «Donnerstag», som betyr «tordenens dag».',
   },
   5: {
-    name: 'Friday',
+    name: 'Fredag',
     emoji: '💕',
-    meaning: 'Named after Frigg/Freya, the Norse goddess of love and beauty.',
-    funFact: 'TGIF! Friday is statistically the happiest day of the week for workers.',
+    meaning: 'Oppkalt etter Frigg eller Freyja, gudinner knyttet til kjærlighet og frodighet.',
+    funFact: 'Fredagstaco er blitt en kjent norsk tradisjon, og mange spiser taco hver fredag.',
   },
   6: {
-    name: 'Saturday',
+    name: 'Lørdag',
     emoji: '🪐',
-    meaning: 'Named after Saturn, the Roman god of agriculture and time.',
-    funFact: 'Saturday is the only day of the week named after a Roman god in English.',
+    meaning: 'Kommer av norrønt «laugardagr», som betyr «bade- eller vaskedag».',
+    funFact: 'I Norge er lørdag tradisjonelt dagen for lørdagsgodt.',
   },
 };
 
 /**
- * Historical events by day of week (sample data)
+ * Kjente hendelser (norske og internasjonale) etter ukedag. Ukedagene er kontrollert mot kalenderen.
  */
 const HISTORICAL_EVENTS: Record<number, string[]> = {
-  0: ['First Super Bowl (1967)', 'Moon landing broadcast (1969)', 'Many historic speeches'],
-  1: ['Stock market crash (1929)', 'First email sent (1971)', 'Many product launches'],
-  2: ['D-Day planning began', 'Mars rover landings', 'Election days in many countries'],
-  3: ['First transatlantic flight', 'Many space launches', 'Historic treaties signed'],
-  4: ['Thanksgiving (US)', 'Many historic battles', 'First Thanksgiving (1621)'],
-  5: ['Black Friday shopping', 'Many historic discoveries', 'Good Friday observances'],
-  6: ['Weekend celebrations', 'Many sporting events', 'Historic coronations'],
+  0: ['Første menneske på månen (20. juli 1969)', 'Mange store taler og gudstjenester'],
+  1: ['Norge blir medlem av NATO (4. april 1949)', 'Folkeavstemning om EU-medlemskap (28. november 1994)'],
+  2: ['Tyskland angriper Norge (9. april 1940)', 'Frigjøringen etter andre verdenskrig (8. mai 1945)'],
+  3: ['Unionsoppløsningen med Sverige vedtas (7. juni 1905)', 'Mange viktige avtaler er undertegnet på onsdager'],
+  4: ['Roald Amundsen og følget når Sørpolen (14. desember 1911)', 'Mange store oppdagelser'],
+  5: ['Andre verdenskrig begynner (1. september 1939)', 'Fredagstaco og helgestart for mange'],
+  6: ['Vinter-OL åpnes på Lillehammer (12. februar 1994)', 'Mange idrettsarrangementer'],
 };
 
 /**
@@ -140,14 +140,15 @@ export function DayOfWeekCalculator() {
     initialInputs: INITIAL_INPUTS,
     schema: dayOfWeekSchema as unknown as z.ZodType<DayOfWeekInputs>,
     calculate: (formInputs) => {
-      const date = new Date(formInputs.date);
-      return calculateDayOfWeek(date);
+      const [y, m, d] = formInputs.date.split('-').map(Number);
+      return calculateDayOfWeek(new Date(y, m - 1, d));
     },
     storageKey: 'day-of-week-calculator',
   });
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
     return date.toLocaleDateString('nb-NO', {
       year: 'numeric',
       month: 'long',
@@ -157,8 +158,8 @@ export function DayOfWeekCalculator() {
 
   return (
     <CalculatorBase
-      title="Day of the Week Calculator"
-      description="Find out what day of the week any date falls on"
+      title="Ukedag-kalkulator"
+      description="Finn ut hvilken ukedag en dato faller på"
       isCalculateDisabled={!isValid || !inputs.date}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -171,7 +172,7 @@ export function DayOfWeekCalculator() {
             <div className="text-center py-6 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg">
               <span className="text-5xl mb-3 block">{results.dayEmoji}</span>
               <p className="text-sm text-muted-foreground mb-1">
-                {formatDate(inputs.date)} was a
+                {formatDate(inputs.date)} faller på en
               </p>
               <h3 className="text-3xl font-bold">{results.dayName}</h3>
             </div>
@@ -179,7 +180,7 @@ export function DayOfWeekCalculator() {
             {/* Day meaning */}
             <div className="bg-muted/30 p-4 rounded-lg">
               <h4 className="font-medium mb-2 flex items-center gap-2">
-                <span>📚</span> Origin & Meaning
+                <span>📚</span> Opphav og betydning
               </h4>
               <p className="text-sm text-muted-foreground">{results.dayMeaning}</p>
             </div>
@@ -187,7 +188,7 @@ export function DayOfWeekCalculator() {
             {/* Fun fact */}
             <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
               <h4 className="font-medium text-yellow-800 mb-2 flex items-center gap-2">
-                <span>💡</span> Fun Fact
+                <span>💡</span> Visste du?
               </h4>
               <p className="text-sm text-yellow-700">{results.funFact}</p>
             </div>
@@ -195,7 +196,7 @@ export function DayOfWeekCalculator() {
             {/* Historical events */}
             <div className="bg-muted/30 p-4 rounded-lg">
               <h4 className="font-medium mb-2 flex items-center gap-2">
-                <span>📜</span> Notable {results.dayName} Events in History
+                <span>📜</span> Kjente hendelser på en {results.dayName.toLowerCase()}
               </h4>
               <ul className="space-y-1">
                 {results.historicalEvents.map((event, index) => (
@@ -209,7 +210,7 @@ export function DayOfWeekCalculator() {
             
             {/* Days of the week reference */}
             <div className="bg-muted/30 p-4 rounded-lg">
-              <h4 className="font-medium mb-3">All Days of the Week</h4>
+              <h4 className="font-medium mb-3">Alle ukedager</h4>
               <div className="grid grid-cols-7 gap-2">
                 {Object.entries(DAY_DATA).map(([num, data]) => (
                   <div
@@ -233,7 +234,7 @@ export function DayOfWeekCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="date">Select a Date</Label>
+          <Label htmlFor="date">Velg en dato</Label>
           <Input
             id="date"
             type="date"
@@ -245,7 +246,7 @@ export function DayOfWeekCalculator() {
             <p className="text-sm text-destructive mt-1">{errors.date}</p>
           )}
           <p className="text-xs text-muted-foreground mt-1">
-            Enter any date to find out what day of the week it was
+            Skriv inn en dato for å se hvilken ukedag det var eller blir
           </p>
         </div>
       </div>

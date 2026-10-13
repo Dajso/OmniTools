@@ -3,56 +3,46 @@ import { Soundboard } from '@/components/calculators/fun/soundboard';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Soundboard - Free Online Sound Effects | Meme Sounds',
-  description: 'Play fun sound effects instantly with our free online soundboard. Perfect for reactions, streaming, video calls, and entertainment.',
-  keywords: ['soundboard', 'sound effects', 'meme sounds', 'reaction sounds', 'online soundboard', 'free sounds'],
+  title: 'Lydbrett – gratis kalkulator på nett',
+  description: 'Spill av morsomme lydeffekter umiddelbart. Gratis og uten registrering.',
+  keywords: ['lydbrett', 'lydeffekter', 'meme-lyder', 'soundboard'],
   alternates: { canonical: '/calculators/fun/soundboard' },
+  openGraph: {
+    title: 'Lydbrett',
+    description: 'Spill av morsomme lydeffekter umiddelbart',
+    url: '/calculators/fun/soundboard',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Online Soundboard',
-  description: 'Play fun sound effects instantly with our free online soundboard',
+  name: 'Lydbrett',
+  description: 'Spill av morsomme lydeffekter umiddelbart',
   applicationCategory: 'EntertainmentApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Browse sounds', text: 'Look through the available sound effects organized by category.' },
-  { name: 'Filter by category', text: 'Use the category buttons to filter sounds by type (reaction, music, nature, funny).' },
-  { name: 'Click to play', text: 'Click any sound button to play it instantly.' },
-  { name: 'Use in your content', text: 'Perfect for video calls, streaming, presentations, or just for fun!' },
+  { name: 'Velg kategori', text: 'Filtrer lydene på reaksjon, musikk, natur eller morsomt.' },
+  { name: 'Trykk på en lyd', text: 'Lyden spilles av med en gang.' },
+  { name: 'Trykk flere ganger', text: 'Du kan spille lydene så mange ganger du vil.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How do the sounds work?', 
-    answer: 'Our soundboard uses the Web Audio API to generate sounds programmatically in your browser. This means no audio files need to be downloaded - sounds are created instantly!' 
-  },
-  { 
-    question: 'Can I use these sounds in my videos?', 
-    answer: 'Yes! The sounds are generated using mathematical formulas and are free to use. They\'re perfect for YouTube videos, TikToks, streams, and other content.' 
-  },
-  { 
-    question: 'Why is there no sound?', 
-    answer: 'Make sure your device volume is turned up and not muted. Some browsers require user interaction before playing audio, so try clicking a sound button directly.' 
-  },
-  { 
-    question: 'Can I add my own sounds?', 
-    answer: 'Currently, the soundboard uses pre-programmed sounds generated with Web Audio API. Custom sound uploads may be added in a future update.' 
-  },
-  { 
-    question: 'Does this work on mobile?', 
-    answer: 'Yes! The soundboard works on most modern mobile browsers. Just tap the sound buttons to play.' 
-  },
+  { question: 'Hvor kommer lydene fra?', answer: 'De lages av nettleseren din med Web Audio, så ingen lydfiler lastes ned.' },
+  { question: 'Hvorfor hører jeg ingenting?', answer: 'Sjekk at lyden på enheten er på, og at nettleseren har tillatt lyd. Noen nettlesere krever et trykk på siden først.' },
+  { question: 'Fungerer det på mobil?', answer: 'Ja, i de fleste moderne nettlesere.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/decision-wheel', title: 'Decision Wheel', description: 'Spin to make random decisions.' },
-  { href: '/calculators/audio/metronome', title: 'Metronome', description: 'Keep time with a visual metronome.' },
-  { href: '/calculators/audio/bpm-tapper', title: 'BPM Tapper', description: 'Find the tempo of any song.' },
+  { href: '/calculators/fun/decision-wheel', title: 'Avgjørelseshjul', description: 'Spinn hjulet og la tilfeldighetene bestemme' },
+  { href: '/calculators/audio/bpm-tapper', title: 'BPM-tapper', description: 'Tapp i takt for å finne tempo og delay-tider i musikkproduksjon' },
 ];
 
 export default function SoundboardPage() {
@@ -62,80 +52,80 @@ export default function SoundboardPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="soundboard"
-          title="Soundboard"
-          description="Play fun sound effects instantly! Perfect for reactions, streaming, video calls, and entertainment. Click any button to play."
+          title="Lydbrett"
+          description="Et enkelt lydbrett med korte lydeffekter laget direkte i nettleseren. Gratis og uten registrering."
           colorClass="bg-gradient-to-r from-orange-100 to-red-100 text-orange-600"
         />
 
-        <section aria-label="Soundboard" className="bg-card rounded-lg border p-6">
+        <section aria-label="Lydbrett" className="bg-card rounded-lg border p-6">
           <Soundboard />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Sound Categories</h2>
+          <h2 className="text-xl font-semibold mb-4">Lydkategorier</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-              <h3 className="font-medium text-green-700 mb-2">✅ Reaction Sounds</h3>
+              <h3 className="font-medium text-green-700 mb-2">✅ Reaksjonslyder</h3>
               <p className="text-sm text-green-600">
-                Success, fail, ding, alarm - perfect for reacting to moments in games, streams, or conversations.
+                Suksess, bom, ding og alarm. Passer til å reagere på øyeblikk i spill, strømminger eller samtaler.
               </p>
             </div>
             <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg">
-              <h3 className="font-medium text-orange-700 mb-2">🎵 Music Sounds</h3>
+              <h3 className="font-medium text-orange-700 mb-2">🎵 Musikklyder</h3>
               <p className="text-sm text-orange-600">
-                Drums, bells, and musical tones for adding rhythm and melody to your content.
+                Trommer, bjeller og toner som gir rytme og melodi.
               </p>
             </div>
             <div className="bg-cyan-50 border border-cyan-200 p-4 rounded-lg">
-              <h3 className="font-medium text-cyan-700 mb-2">🌿 Nature Sounds</h3>
+              <h3 className="font-medium text-cyan-700 mb-2">🌿 Naturlyder</h3>
               <p className="text-sm text-cyan-600">
-                Whoosh and ambient sounds for transitions and atmospheric effects.
+                Svisj og lyder til overganger og stemning.
               </p>
             </div>
             <div className="bg-pink-50 border border-pink-200 p-4 rounded-lg">
-              <h3 className="font-medium text-pink-700 mb-2">😄 Funny Sounds</h3>
+              <h3 className="font-medium text-pink-700 mb-2">😄 Morsomme lyder</h3>
               <p className="text-sm text-pink-600">
-                Coins, lasers, pops, and boops - classic sound effects for comedy and fun.
+                Mynter, lasere, pop og bopp. Klassiske lydeffekter til humor og moro.
               </p>
             </div>
           </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Use Cases</h2>
+          <h2 className="text-xl font-semibold mb-4">Bruksområder</h2>
           <div className="bg-muted/50 rounded-lg p-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="p-3">
                 <span className="text-3xl block mb-2">🎮</span>
-                <span className="text-sm font-medium">Gaming</span>
+                <span className="text-sm font-medium">Spill</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">📺</span>
-                <span className="text-sm font-medium">Streaming</span>
+                <span className="text-sm font-medium">Strømming</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">💼</span>
-                <span className="text-sm font-medium">Presentations</span>
+                <span className="text-sm font-medium">Presentasjoner</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">📹</span>
-                <span className="text-sm font-medium">Video Calls</span>
+                <span className="text-sm font-medium">Videomøter</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">🎬</span>
-                <span className="text-sm font-medium">Content Creation</span>
+                <span className="text-sm font-medium">Innholdsproduksjon</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">🎉</span>
-                <span className="text-sm font-medium">Parties</span>
+                <span className="text-sm font-medium">Fester</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">📚</span>
-                <span className="text-sm font-medium">Teaching</span>
+                <span className="text-sm font-medium">Undervisning</span>
               </div>
               <div className="p-3">
                 <span className="text-3xl block mb-2">😂</span>
-                <span className="text-sm font-medium">Just for Fun</span>
+                <span className="text-sm font-medium">Bare for moro</span>
               </div>
             </div>
           </div>

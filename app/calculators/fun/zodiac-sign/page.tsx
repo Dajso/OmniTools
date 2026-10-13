@@ -3,56 +3,48 @@ import { ZodiacSignCalculator } from '@/components/calculators/fun/zodiac-sign-c
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Zodiac Sign Calculator - Find Your Astrological Sign',
-  description: 'Discover your zodiac sign based on your birth date. Learn about your personality traits, strengths, weaknesses, and compatible signs.',
-  keywords: ['zodiac sign calculator', 'horoscope', 'astrology', 'birth sign', 'star sign', 'zodiac compatibility'],
+  title: 'Stjernetegn – gratis kalkulator på nett',
+  description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn. Gratis og uten registrering.',
+  keywords: ['stjernetegn', 'horoskop', 'astrologi', 'tegn'],
   alternates: { canonical: '/calculators/fun/zodiac-sign' },
+  openGraph: {
+    title: 'Stjernetegn',
+    description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn',
+    url: '/calculators/fun/zodiac-sign',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Zodiac Sign Calculator',
-  description: 'Find your zodiac sign and learn about your astrological personality traits',
+  name: 'Stjernetegn',
+  description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn',
   applicationCategory: 'EntertainmentApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your birth date', text: 'Select your date of birth using the date picker.' },
-  { name: 'Calculate your sign', text: 'Click the Calculate button to discover your zodiac sign.' },
-  { name: 'Explore your traits', text: 'Learn about your personality traits, strengths, and weaknesses.' },
-  { name: 'Check compatibility', text: 'See which zodiac signs are most compatible with yours.' },
+  { name: 'Velg fødselsdato', text: 'Dag og måned avgjør tegnet.' },
+  { name: 'Se stjernetegnet', text: 'Du får tegn, element, kvalitet og planet.' },
+  { name: 'Les egenskapene', text: 'Egenskaper, styrker og svakheter er tradisjonell tolkning.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How is my zodiac sign determined?', 
-    answer: 'Your zodiac sign is determined by the position of the Sun at the time of your birth. Each sign corresponds to a specific date range in the year.' 
-  },
-  { 
-    question: 'What are the 12 zodiac signs?', 
-    answer: 'The 12 zodiac signs are: Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, and Pisces.' 
-  },
-  { 
-    question: 'What are the four elements in astrology?', 
-    answer: 'The four elements are Fire (Aries, Leo, Sagittarius), Earth (Taurus, Virgo, Capricorn), Air (Gemini, Libra, Aquarius), and Water (Cancer, Scorpio, Pisces). Each element represents different personality characteristics.' 
-  },
-  { 
-    question: 'What does my ruling planet mean?', 
-    answer: 'Each zodiac sign has a ruling planet that influences its characteristics. For example, Mars rules Aries (energy and action), Venus rules Taurus and Libra (love and beauty), and Mercury rules Gemini and Virgo (communication and intellect).' 
-  },
-  { 
-    question: 'How accurate is zodiac compatibility?', 
-    answer: 'Zodiac compatibility is based on traditional astrological beliefs about how different signs interact. While many find it insightful, it should be viewed as entertainment rather than a definitive guide to relationships.' 
-  },
+  { question: 'Hvilke datoer gjelder for hvert tegn?', answer: 'Datogrensene er omtrent og kan variere med én dag fra år til år. Er du født på en grense, kan tegnet være det ved siden av.' },
+  { question: 'Er stjernetegn vitenskap?', answer: 'Nei. Astrologi har ikke vitenskapelig støtte, og siden er laget som underholdning.' },
+  { question: 'Hva er element og kvalitet?', answer: 'Hvert tegn hører til ett av fire elementer (ild, jord, luft, vann) og én av tre kvaliteter (kardinal, fast, foranderlig).' },
+  { question: 'Brukes fødselstidspunktet?', answer: 'Nei. Kalkulatoren bruker bare datoen.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/love-compatibility', title: 'Love Compatibility Test', description: 'Test your compatibility with someone special.' },
-  { href: '/calculators/fun/moon-phase-calculator', title: 'Moon Phase Calculator', description: 'See the current moon phase.' },
-  { href: '/calculators/fun/numerology', title: 'Numerology Calculator', description: 'Calculate your life path number.' },
+  { href: '/calculators/fun/love-compatibility', title: 'Kjærlighetstest', description: 'Test kjærlighetskompatibilitet med FLAMES-metoden og navnenumerologi' },
+  { href: '/calculators/fun/moon-phase-calculator', title: 'Månefase', description: 'Se månefasen for en hvilken som helst dato, med synlig andel og kommende hendelser' },
+  { href: '/calculators/fun/numerology', title: 'Numerologi', description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato' },
 ];
 
 export default function ZodiacSignPage() {
@@ -62,32 +54,32 @@ export default function ZodiacSignPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="zodiac-sign"
-          title="Zodiac Sign Calculator"
-          description="Discover your zodiac sign and explore your astrological personality. Learn about your element, ruling planet, and compatible signs."
+          title="Stjernetegn"
+          description="Finn stjernetegnet ditt ut fra fødselsdato, med element, kvalitet, styrende planet og typiske egenskaper. Bare for moro skyld. Gratis og uten registrering."
           colorClass="bg-purple-100 text-purple-600"
         />
 
-        <section aria-label="Zodiac Sign Calculator">
+        <section aria-label="Stjernetegn">
           <ZodiacSignCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">The 12 Zodiac Signs</h2>
+          <h2 className="text-xl font-semibold mb-4">De 12 stjernetegnene</h2>
           <div className="bg-muted/50 rounded-lg p-6">
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {[
-                { sign: 'Aries', symbol: '♈', dates: 'Mar 21 - Apr 19' },
-                { sign: 'Taurus', symbol: '♉', dates: 'Apr 20 - May 20' },
-                { sign: 'Gemini', symbol: '♊', dates: 'May 21 - Jun 20' },
-                { sign: 'Cancer', symbol: '♋', dates: 'Jun 21 - Jul 22' },
-                { sign: 'Leo', symbol: '♌', dates: 'Jul 23 - Aug 22' },
-                { sign: 'Virgo', symbol: '♍', dates: 'Aug 23 - Sep 22' },
-                { sign: 'Libra', symbol: '♎', dates: 'Sep 23 - Oct 22' },
-                { sign: 'Scorpio', symbol: '♏', dates: 'Oct 23 - Nov 21' },
-                { sign: 'Sagittarius', symbol: '♐', dates: 'Nov 22 - Dec 21' },
-                { sign: 'Capricorn', symbol: '♑', dates: 'Dec 22 - Jan 19' },
-                { sign: 'Aquarius', symbol: '♒', dates: 'Jan 20 - Feb 18' },
-                { sign: 'Pisces', symbol: '♓', dates: 'Feb 19 - Mar 20' },
+                { sign: 'Væren', symbol: '♈', dates: '21. mars – 19. april' },
+                { sign: 'Tyren', symbol: '♉', dates: '20. april – 20. mai' },
+                { sign: 'Tvillingene', symbol: '♊', dates: '21. mai – 20. juni' },
+                { sign: 'Krepsen', symbol: '♋', dates: '21. juni – 22. juli' },
+                { sign: 'Løven', symbol: '♌', dates: '23. juli – 22. august' },
+                { sign: 'Jomfruen', symbol: '♍', dates: '23. august – 22. september' },
+                { sign: 'Vekten', symbol: '♎', dates: '23. september – 22. oktober' },
+                { sign: 'Skorpionen', symbol: '♏', dates: '23. oktober – 21. november' },
+                { sign: 'Skytten', symbol: '♐', dates: '22. november – 21. desember' },
+                { sign: 'Steinbukken', symbol: '♑', dates: '22. desember – 19. januar' },
+                { sign: 'Vannmannen', symbol: '♒', dates: '20. januar – 18. februar' },
+                { sign: 'Fiskene', symbol: '♓', dates: '19. februar – 20. mars' },
               ].map(({ sign, symbol, dates }) => (
                 <div key={sign} className="text-center p-3 bg-background rounded-lg">
                   <span className="text-2xl block mb-1">{symbol}</span>

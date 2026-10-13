@@ -196,17 +196,17 @@ function generateAlarm(ctx: AudioContext) {
  * Sound effects library
  */
 const SOUND_EFFECTS: SoundEffect[] = [
-  { id: 'success', name: 'Success!', emoji: '✅', category: 'reaction', color: 'bg-green-500', generate: generateSuccess },
-  { id: 'fail', name: 'Fail', emoji: '❌', category: 'reaction', color: 'bg-red-500', generate: generateFail },
-  { id: 'coin', name: 'Coin', emoji: '🪙', category: 'funny', color: 'bg-yellow-500', generate: generateCoin },
+  { id: 'success', name: 'Suksess!', emoji: '✅', category: 'reaction', color: 'bg-green-500', generate: generateSuccess },
+  { id: 'fail', name: 'Bom', emoji: '❌', category: 'reaction', color: 'bg-red-500', generate: generateFail },
+  { id: 'coin', name: 'Mynt', emoji: '🪙', category: 'funny', color: 'bg-yellow-500', generate: generateCoin },
   { id: 'laser', name: 'Laser', emoji: '🔫', category: 'funny', color: 'bg-purple-500', generate: generateLaser },
-  { id: 'drum', name: 'Drum', emoji: '🥁', category: 'music', color: 'bg-orange-500', generate: generateDrum },
+  { id: 'drum', name: 'Tromme', emoji: '🥁', category: 'music', color: 'bg-orange-500', generate: generateDrum },
   { id: 'pop', name: 'Pop', emoji: '💥', category: 'funny', color: 'bg-pink-500', generate: generatePop },
-  { id: 'whoosh', name: 'Whoosh', emoji: '💨', category: 'nature', color: 'bg-cyan-500', generate: generateWhoosh },
-  { id: 'bell', name: 'Bell', emoji: '🔔', category: 'music', color: 'bg-amber-500', generate: generateBell },
+  { id: 'whoosh', name: 'Svisj', emoji: '💨', category: 'nature', color: 'bg-cyan-500', generate: generateWhoosh },
+  { id: 'bell', name: 'Bjelle', emoji: '🔔', category: 'music', color: 'bg-amber-500', generate: generateBell },
   { id: 'alarm', name: 'Alarm', emoji: '🚨', category: 'reaction', color: 'bg-red-600', generate: generateAlarm },
-  { id: 'beep', name: 'Beep', emoji: '📟', category: 'reaction', color: 'bg-blue-500', generate: (ctx) => generateBeep(ctx, 800, 0.2, 'sine') },
-  { id: 'boop', name: 'Boop', emoji: '👆', category: 'funny', color: 'bg-indigo-500', generate: (ctx) => generateBeep(ctx, 400, 0.15, 'sine') },
+  { id: 'beep', name: 'Pip', emoji: '📟', category: 'reaction', color: 'bg-blue-500', generate: (ctx) => generateBeep(ctx, 800, 0.2, 'sine') },
+  { id: 'boop', name: 'Bopp', emoji: '👆', category: 'funny', color: 'bg-indigo-500', generate: (ctx) => generateBeep(ctx, 400, 0.15, 'sine') },
   { id: 'ding', name: 'Ding', emoji: '🛎️', category: 'reaction', color: 'bg-yellow-400', generate: (ctx) => generateBeep(ctx, 1200, 0.3, 'sine') },
 ];
 
@@ -258,6 +258,7 @@ export function Soundboard() {
     : SOUND_EFFECTS.filter(s => s.category === filter);
 
   const categories = ['all', 'reaction', 'music', 'nature', 'funny'];
+  const CATEGORY_NAMES: Record<string, string> = { reaction: 'reaksjon', music: 'musikk', nature: 'natur', funny: 'morsomt' };
 
   return (
     <div className="space-y-6">
@@ -271,7 +272,7 @@ export function Soundboard() {
             onClick={() => setFilter(cat)}
             className="capitalize"
           >
-            {cat === 'all' ? '🎵 All' : cat}
+            {cat === 'all' ? '🎵 Alle' : CATEGORY_NAMES[cat]}
           </Button>
         ))}
       </div>
@@ -299,21 +300,21 @@ export function Soundboard() {
       {/* Instructions */}
       <div className="bg-muted/30 p-4 rounded-lg text-center">
         <p className="text-sm text-muted-foreground">
-          🔊 Click any button to play a sound effect!
+          🔊 Trykk på en knapp for å spille av en lydeffekt!
         </p>
         <p className="text-xs text-muted-foreground mt-1">
-          Sounds are generated using the Web Audio API - no files needed!
+          Lydene lages med Web Audio API, så det trengs ingen lydfiler!
         </p>
       </div>
 
       {/* Fun ideas */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 p-4 rounded-lg">
-        <h4 className="font-medium text-purple-800 mb-2">💡 Fun Ideas</h4>
+        <h4 className="font-medium text-purple-800 mb-2">💡 Morsomme ideer</h4>
         <ul className="text-sm text-purple-700 space-y-1">
-          <li>• Use during video calls for reactions</li>
-          <li>• Add sound effects to presentations</li>
-          <li>• Create your own game show atmosphere</li>
-          <li>• Perfect for streaming and content creation</li>
+          <li>• Bruk under videomøter til reaksjoner</li>
+          <li>• Legg lydeffekter til presentasjoner</li>
+          <li>• Skap stemning som i et spillprogram</li>
+          <li>• Perfekt til strømming og innholdsproduksjon</li>
         </ul>
       </div>
     </div>

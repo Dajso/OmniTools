@@ -35,7 +35,7 @@ interface WheelSegment {
  * @see Requirements 19.8
  */
 export function DecisionWheel() {
-  const [options, setOptions] = React.useState<string[]>(['Option 1', 'Option 2', 'Option 3']);
+  const [options, setOptions] = React.useState<string[]>(['Alternativ 1', 'Alternativ 2', 'Alternativ 3']);
   const [newOption, setNewOption] = React.useState('');
   const [isSpinning, setIsSpinning] = React.useState(false);
   const [rotation, setRotation] = React.useState(0);
@@ -188,43 +188,43 @@ export function DecisionWheel() {
           size="lg"
           className="mt-6 px-8"
         >
-          {isSpinning ? '🎰 Spinning...' : '🎯 Spin the Wheel!'}
+          {isSpinning ? '🎰 Snurrer …' : '🎯 Snurr hjulet!'}
         </Button>
       </div>
 
       {/* Result display */}
       {showResult && result && (
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 p-6 rounded-lg text-center animate-in fade-in zoom-in duration-300">
-          <p className="text-sm text-green-600 mb-2">🎉 The wheel has spoken!</p>
+          <p className="text-sm text-green-600 mb-2">🎉 Hjulet har talt!</p>
           <p className="text-2xl font-bold text-green-700">{result}</p>
           <Button variant="outline" size="sm" onClick={reset} className="mt-4">
-            Spin Again
+            Snurr igjen
           </Button>
         </div>
       )}
 
       {/* Options management */}
       <div className="bg-muted/30 p-4 rounded-lg space-y-4">
-        <h3 className="font-medium">Customize Your Options</h3>
+        <h3 className="font-medium">Tilpass alternativene</h3>
         
         {/* Add new option */}
         <div className="flex gap-2">
           <Input
-            placeholder="Add an option..."
+            placeholder="Legg til et alternativ …"
             value={newOption}
             onChange={(e) => setNewOption(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addOption()}
             maxLength={30}
           />
           <Button onClick={addOption} disabled={!newOption.trim() || options.length >= 15}>
-            Add
+            Legg til
           </Button>
         </div>
         
         {/* Current options */}
         <div className="space-y-2">
           <Label className="text-sm text-muted-foreground">
-            Current options ({options.length}/15):
+            Nåværende alternativer ({options.length}/15):
           </Label>
           <div className="flex flex-wrap gap-2">
             {options.map((option, index) => (
@@ -253,35 +253,35 @@ export function DecisionWheel() {
         
         {/* Preset options */}
         <div className="pt-2 border-t">
-          <Label className="text-sm text-muted-foreground mb-2 block">Quick presets:</Label>
+          <Label className="text-sm text-muted-foreground mb-2 block">Hurtigvalg:</Label>
           <div className="flex flex-wrap gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setOptions(['Yes', 'No'])}
+              onClick={() => setOptions(['Ja', 'Nei'])}
             >
-              Yes/No
+              Ja/Nei
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setOptions(['Pizza', 'Burger', 'Sushi', 'Tacos', 'Salad'])}
+              onClick={() => setOptions(['Pizza', 'Burger', 'Sushi', 'Taco', 'Salat'])}
             >
-              Food
+              Mat
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setOptions(['Movie', 'Game Night', 'Go Out', 'Stay In', 'Exercise'])}
+              onClick={() => setOptions(['Kino', 'Spillkveld', 'Gå ut', 'Bli hjemme', 'Trening'])}
             >
-              Activities
+              Aktiviteter
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setOptions(['1', '2', '3', '4', '5', '6'])}
             >
-              Numbers
+              Tall
             </Button>
           </div>
         </div>

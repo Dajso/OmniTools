@@ -17,8 +17,8 @@ import { cn } from '@/lib/utils';
  * Zod schema for love compatibility inputs
  */
 const loveCompatibilitySchema = z.object({
-  name1: z.string().min(1, 'First name is required').max(50, 'Name too long'),
-  name2: z.string().min(1, 'Second name is required').max(50, 'Name too long'),
+  name1: z.string().min(1, 'Det første navnet må fylles ut').max(50, 'Navnet er for langt'),
+  name2: z.string().min(1, 'Det andre navnet må fylles ut').max(50, 'Navnet er for langt'),
 });
 
 type LoveCompatibilityInputs = {
@@ -73,8 +73,8 @@ function CompatibilityMeter({ percentage }: { percentage: number }) {
   return (
     <div className="w-full">
       <div className="flex justify-between text-sm mb-1">
-        <span className="text-muted-foreground">Compatibility</span>
-        <span className="font-bold text-lg">{percentage}%</span>
+        <span className="text-muted-foreground">Kompatibilitet</span>
+        <span className="font-bold text-lg">{percentage} %</span>
       </div>
       <div className="h-4 bg-muted rounded-full overflow-hidden">
         <div
@@ -145,8 +145,8 @@ export function LoveCompatibilityCalculator() {
 
   return (
     <CalculatorBase
-      title="Love Compatibility Test"
-      description="Enter two names to discover your love compatibility using the classic FLAMES method and numerology"
+      title="Kjærlighetstest"
+      description="Skriv inn to navn og se kjærlighetskompatibiliteten med den klassiske FLAMES-metoden og numerologi"
       isCalculateDisabled={!isValid || !inputs.name1 || !inputs.name2}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -169,18 +169,18 @@ export function LoveCompatibilityCalculator() {
             <FlamesBadge result={results.flamesResult} />
             
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-sm font-medium mb-1">💡 Advice</p>
+              <p className="text-sm font-medium mb-1">💡 Råd</p>
               <p className="text-sm text-muted-foreground">{results.advice}</p>
             </div>
             
             <div className="grid grid-cols-2 gap-4 text-center text-sm">
               <div className="bg-muted/30 p-3 rounded-lg">
-                <p className="text-muted-foreground">Numerology Match</p>
-                <p className="font-semibold text-lg">{results.numerologyMatch}%</p>
+                <p className="text-muted-foreground">Numerologi-match</p>
+                <p className="font-semibold text-lg">{results.numerologyMatch} %</p>
               </div>
               <div className="bg-muted/30 p-3 rounded-lg">
-                <p className="text-muted-foreground">Overall Score</p>
-                <p className="font-semibold text-lg">{results.percentage}%</p>
+                <p className="text-muted-foreground">Samlet resultat</p>
+                <p className="font-semibold text-lg">{results.percentage} %</p>
               </div>
             </div>
           </div>
@@ -189,11 +189,11 @@ export function LoveCompatibilityCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="name1">First Name</Label>
+          <Label htmlFor="name1">Første navn</Label>
           <Input
             id="name1"
             type="text"
-            placeholder="Enter first name"
+            placeholder="Skriv inn første navn"
             value={inputs.name1}
             onChange={(e) => setInput('name1', e.target.value)}
             className={cn(errors.name1 && 'border-destructive')}
@@ -208,11 +208,11 @@ export function LoveCompatibilityCalculator() {
         </div>
         
         <div>
-          <Label htmlFor="name2">Second Name</Label>
+          <Label htmlFor="name2">Andre navn</Label>
           <Input
             id="name2"
             type="text"
-            placeholder="Enter second name"
+            placeholder="Skriv inn andre navn"
             value={inputs.name2}
             onChange={(e) => setInput('name2', e.target.value)}
             className={cn(errors.name2 && 'border-destructive')}

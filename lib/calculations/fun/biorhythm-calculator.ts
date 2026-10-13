@@ -45,7 +45,7 @@ export function daysBetween(startDate: Date, endDate: Date): number {
   const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
   const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
   const diffTime = end.getTime() - start.getTime();
-  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return Math.round(diffTime / (1000 * 60 * 60 * 24));
 }
 
 /**

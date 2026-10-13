@@ -3,56 +3,49 @@ import { NumerologyCalculator } from '@/components/calculators/fun/numerology-ca
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Numerology Calculator - Find Your Life Path Number',
-  description: 'Calculate your numerology numbers including Life Path, Expression, Soul Urge, and more. Discover the meaning behind your numbers.',
-  keywords: ['numerology calculator', 'life path number', 'expression number', 'soul urge number', 'numerology reading', 'master numbers'],
+  title: 'Numerologi – gratis kalkulator på nett',
+  description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato. Gratis og uten registrering.',
+  keywords: ['numerologi', 'livsveitall', 'uttrykkstall', 'sjelstall'],
   alternates: { canonical: '/calculators/fun/numerology' },
+  openGraph: {
+    title: 'Numerologi',
+    description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato',
+    url: '/calculators/fun/numerology',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Numerology Calculator',
-  description: 'Calculate your numerology numbers and discover their meanings',
+  name: 'Numerologi',
+  description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato',
   applicationCategory: 'EntertainmentApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your full name', text: 'Type your full birth name as it appears on your birth certificate.' },
-  { name: 'Enter your birth date', text: 'Select your date of birth using the date picker.' },
-  { name: 'Calculate your numbers', text: 'Click Calculate to reveal your numerology profile.' },
-  { name: 'Explore meanings', text: 'Read the interpretations for each of your core numbers.' },
+  { name: 'Skriv inn fullt navn', text: 'Bruk navnet slik det står i dokumenter.' },
+  { name: 'Velg fødselsdato', text: 'Brukes til livsveitallet.' },
+  { name: 'Se tallene', text: 'Du får livsveitall, uttrykkstall og sjelstall.' },
+  { name: 'Les tolkningen', text: 'Hver tall har en tradisjonell beskrivelse.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is numerology?', 
-    answer: 'Numerology is the study of numbers and their symbolic meanings. It suggests that numbers derived from your name and birth date can reveal insights about your personality, life purpose, and destiny.' 
-  },
-  { 
-    question: 'What is a Life Path Number?', 
-    answer: 'Your Life Path Number is the most important number in numerology. It\'s calculated from your birth date and represents your life\'s purpose, the path you\'re meant to walk, and the lessons you\'ll learn.' 
-  },
-  { 
-    question: 'What are Master Numbers?', 
-    answer: 'Master Numbers are 11, 22, and 33. They are not reduced to single digits because they carry special significance. They represent higher spiritual purpose and greater potential, but also greater challenges.' 
-  },
-  { 
-    question: 'Should I use my birth name or current name?', 
-    answer: 'For the most accurate reading, use your full name as it appears on your birth certificate. This is considered your "true" name in numerology, even if you\'ve changed it since.' 
-  },
-  { 
-    question: 'How is the Expression Number different from Life Path?', 
-    answer: 'While Life Path comes from your birth date and shows your life purpose, Expression Number comes from your name and reveals your natural talents, abilities, and the way you express yourself to the world.' 
-  },
+  { question: 'Hvordan regnes livsveitallet ut?', answer: 'Sifrene i fødselsdatoen summeres til du står igjen med ett siffer. Mestertallene 11, 22 og 33 reduseres ikke videre.' },
+  { question: 'Hva er uttrykkstall og sjelstall?', answer: 'Uttrykkstallet kommer fra alle bokstavene i navnet, og sjelstallet fra vokalene.' },
+  { question: 'Hva betyr mestertall?', answer: '11, 22 og 33 regnes som særlige tall i numerologi og reduseres ikke videre.' },
+  { question: 'Har numerologi vitenskapelig støtte?', answer: 'Nei, det er underholdning.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/zodiac-sign', title: 'Zodiac Sign Calculator', description: 'Find your zodiac sign and horoscope.' },
-  { href: '/calculators/fun/love-compatibility', title: 'Love Compatibility Test', description: 'Test your compatibility with someone special.' },
-  { href: '/calculators/fun/biorhythm', title: 'Biorhythm Calculator', description: 'Track your physical, emotional, and intellectual cycles.' },
+  { href: '/calculators/fun/zodiac-sign', title: 'Stjernetegn', description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn' },
+  { href: '/calculators/fun/love-compatibility', title: 'Kjærlighetstest', description: 'Test kjærlighetskompatibilitet med FLAMES-metoden og navnenumerologi' },
+  { href: '/calculators/fun/biorhythm', title: 'Biorytme', description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato' },
 ];
 
 export default function NumerologyPage() {
@@ -62,49 +55,49 @@ export default function NumerologyPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="numerology"
-          title="Numerology Calculator"
-          description="Discover the hidden meaning in your numbers. Calculate your Life Path, Expression, Soul Urge, and other core numerology numbers."
+          title="Numerologi"
+          description="Regn ut livsveitall, uttrykkstall og sjelstall fra navn og fødselsdato. Bare for moro skyld. Gratis og uten registrering."
           colorClass="bg-purple-100 text-purple-600"
         />
 
-        <section aria-label="Numerology Calculator">
+        <section aria-label="Numerologi">
           <NumerologyCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">The Core Numerology Numbers</h2>
+          <h2 className="text-xl font-semibold mb-4">Tallene i numerologi</h2>
           <div className="bg-muted/50 rounded-lg p-6 space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="p-4 bg-background rounded-lg">
                 <h3 className="font-medium flex items-center gap-2 mb-2">
-                  <span>🛤️</span> Life Path Number
+                  <span>🛤️</span> Livsveitall
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Your most important number, revealing your life purpose and the path you're meant to follow.
+                  Det viktigste tallet, som skal si noe om livsoppgaven din og veien du er ment å gå.
                 </p>
               </div>
               <div className="p-4 bg-background rounded-lg">
                 <h3 className="font-medium flex items-center gap-2 mb-2">
-                  <span>✨</span> Expression Number
+                  <span>✨</span> Uttrykkstall
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Also called Destiny Number, it reveals your natural talents and how you express yourself.
+                  Kalles også skjebnetall. Skal si noe om talentene dine og hvordan du uttrykker deg.
                 </p>
               </div>
               <div className="p-4 bg-background rounded-lg">
                 <h3 className="font-medium flex items-center gap-2 mb-2">
-                  <span>💖</span> Soul Urge Number
+                  <span>💖</span> Sjelstall
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Also called Heart's Desire, it reveals your inner motivations and what truly drives you.
+                  Kalles også hjertets ønske. Skal si noe om indre motivasjon og hva som driver deg.
                 </p>
               </div>
               <div className="p-4 bg-background rounded-lg">
                 <h3 className="font-medium flex items-center gap-2 mb-2">
-                  <span>🎭</span> Personality Number
+                  <span>🎭</span> Personlighetstall
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Shows how others perceive you and the impression you make on the world.
+                  Skal vise hvordan andre oppfatter deg og hvilket inntrykk du gir.
                 </p>
               </div>
             </div>
@@ -112,19 +105,19 @@ export default function NumerologyPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Number Meanings</h2>
+          <h2 className="text-xl font-semibold mb-4">Hva tallene står for</h2>
           <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
             {[
-              { num: 1, trait: 'Leadership' },
-              { num: 2, trait: 'Cooperation' },
-              { num: 3, trait: 'Creativity' },
-              { num: 4, trait: 'Stability' },
-              { num: 5, trait: 'Freedom' },
-              { num: 6, trait: 'Nurturing' },
-              { num: 7, trait: 'Wisdom' },
-              { num: 8, trait: 'Abundance' },
-              { num: 9, trait: 'Compassion' },
-              { num: 11, trait: 'Intuition' },
+              { num: 1, trait: 'Lederskap' },
+              { num: 2, trait: 'Samarbeid' },
+              { num: 3, trait: 'Kreativitet' },
+              { num: 4, trait: 'Stabilitet' },
+              { num: 5, trait: 'Frihet' },
+              { num: 6, trait: 'Omsorg' },
+              { num: 7, trait: 'Visdom' },
+              { num: 8, trait: 'Overflod' },
+              { num: 9, trait: 'Medfølelse' },
+              { num: 11, trait: 'Intuisjon' },
             ].map(({ num, trait }) => (
               <div key={num} className="text-center p-3 bg-muted/50 rounded-lg">
                 <span className="text-2xl font-bold block">{num}</span>

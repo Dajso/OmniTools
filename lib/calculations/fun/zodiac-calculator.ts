@@ -1,5 +1,5 @@
 /**
- * Zodiac Sign Calculator
+ * Stjernetegn-kalkulator
  * 
  * Calculates the zodiac sign based on birth date and provides
  * basic horoscope information.
@@ -84,159 +84,159 @@ const ZODIAC_DATES: Record<ZodiacSign, DateRange> = {
  */
 const ZODIAC_DATA: Record<ZodiacSign, Omit<ZodiacInfo, 'sign'>> = {
   aries: {
-    name: 'Aries',
+    name: 'Væren',
     symbol: '♈',
     emoji: '🐏',
     element: 'fire',
     modality: 'cardinal',
     rulingPlanet: 'Mars',
-    dateRange: 'March 21 - April 19',
-    traits: ['Courageous', 'Determined', 'Confident', 'Enthusiastic', 'Optimistic'],
-    strengths: ['Leadership', 'Initiative', 'Passion'],
-    weaknesses: ['Impatience', 'Impulsiveness', 'Short temper'],
+    dateRange: '21. mars – 19. april',
+    traits: ['Modig', 'Bestemt', 'Selvsikker', 'Entusiastisk', 'Optimistisk'],
+    strengths: ['Lederskap', 'Initiativ', 'Lidenskap'],
+    weaknesses: ['Utålmodighet', 'Impulsivitet', 'Kort lunte'],
     compatibility: ['leo', 'sagittarius', 'gemini', 'aquarius'],
   },
   taurus: {
-    name: 'Taurus',
+    name: 'Tyren',
     symbol: '♉',
     emoji: '🐂',
     element: 'earth',
     modality: 'fixed',
     rulingPlanet: 'Venus',
-    dateRange: 'April 20 - May 20',
-    traits: ['Reliable', 'Patient', 'Practical', 'Devoted', 'Responsible'],
-    strengths: ['Dependability', 'Persistence', 'Loyalty'],
-    weaknesses: ['Stubbornness', 'Possessiveness', 'Uncompromising'],
+    dateRange: '20. april – 20. mai',
+    traits: ['Pålitelig', 'Tålmodig', 'Praktisk', 'Hengiven', 'Ansvarsfull'],
+    strengths: ['Pålitelighet', 'Utholdenhet', 'Lojalitet'],
+    weaknesses: ['Sta', 'Eiesyke', 'Lite kompromissvillig'],
     compatibility: ['virgo', 'capricorn', 'cancer', 'pisces'],
   },
   gemini: {
-    name: 'Gemini',
+    name: 'Tvillingene',
     symbol: '♊',
     emoji: '👯',
     element: 'air',
     modality: 'mutable',
-    rulingPlanet: 'Mercury',
-    dateRange: 'May 21 - June 20',
-    traits: ['Gentle', 'Affectionate', 'Curious', 'Adaptable', 'Quick learner'],
-    strengths: ['Communication', 'Versatility', 'Wit'],
-    weaknesses: ['Nervousness', 'Inconsistency', 'Indecisiveness'],
+    rulingPlanet: 'Merkur',
+    dateRange: '21. mai – 20. juni',
+    traits: ['Mild', 'Kjærlig', 'Nysgjerrig', 'Tilpasningsdyktig', 'Rask til å lære'],
+    strengths: ['Kommunikasjon', 'Allsidighet', 'Vidd'],
+    weaknesses: ['Nervøsitet', 'Ustadighet', 'Ubesluttsomhet'],
     compatibility: ['libra', 'aquarius', 'aries', 'leo'],
   },
   cancer: {
-    name: 'Cancer',
+    name: 'Krepsen',
     symbol: '♋',
     emoji: '🦀',
     element: 'water',
     modality: 'cardinal',
-    rulingPlanet: 'Moon',
-    dateRange: 'June 21 - July 22',
-    traits: ['Tenacious', 'Highly imaginative', 'Loyal', 'Emotional', 'Sympathetic'],
-    strengths: ['Nurturing', 'Intuition', 'Protectiveness'],
-    weaknesses: ['Moodiness', 'Pessimism', 'Suspiciousness'],
+    rulingPlanet: 'Månen',
+    dateRange: '21. juni – 22. juli',
+    traits: ['Seig', 'Svært fantasifull', 'Lojal', 'Følsom', 'Medfølende'],
+    strengths: ['Omsorgsfull', 'Intuisjon', 'Beskyttende'],
+    weaknesses: ['Humørsvingninger', 'Pessimisme', 'Mistenksomhet'],
     compatibility: ['scorpio', 'pisces', 'taurus', 'virgo'],
   },
   leo: {
-    name: 'Leo',
+    name: 'Løven',
     symbol: '♌',
     emoji: '🦁',
     element: 'fire',
     modality: 'fixed',
-    rulingPlanet: 'Sun',
-    dateRange: 'July 23 - August 22',
-    traits: ['Creative', 'Passionate', 'Generous', 'Warm-hearted', 'Cheerful'],
-    strengths: ['Leadership', 'Creativity', 'Generosity'],
-    weaknesses: ['Arrogance', 'Stubbornness', 'Self-centeredness'],
+    rulingPlanet: 'Solen',
+    dateRange: '23. juli – 22. august',
+    traits: ['Kreativ', 'Lidenskapelig', 'Raus', 'Varmhjertet', 'Munter'],
+    strengths: ['Lederskap', 'Kreativitet', 'Raushet'],
+    weaknesses: ['Arroganse', 'Sta', 'Selvsentrert'],
     compatibility: ['aries', 'sagittarius', 'gemini', 'libra'],
   },
   virgo: {
-    name: 'Virgo',
+    name: 'Jomfruen',
     symbol: '♍',
     emoji: '👧',
     element: 'earth',
     modality: 'mutable',
-    rulingPlanet: 'Mercury',
-    dateRange: 'August 23 - September 22',
-    traits: ['Loyal', 'Analytical', 'Kind', 'Hardworking', 'Practical'],
-    strengths: ['Attention to detail', 'Organization', 'Reliability'],
-    weaknesses: ['Shyness', 'Worry', 'Overcritical'],
+    rulingPlanet: 'Merkur',
+    dateRange: '23. august – 22. september',
+    traits: ['Lojal', 'Analytisk', 'Snill', 'Arbeidsom', 'Praktisk'],
+    strengths: ['Sans for detaljer', 'Organisering', 'Pålitelighet'],
+    weaknesses: ['Sjenanse', 'Bekymring', 'Overkritisk'],
     compatibility: ['taurus', 'capricorn', 'cancer', 'scorpio'],
   },
   libra: {
-    name: 'Libra',
+    name: 'Vekten',
     symbol: '♎',
     emoji: '⚖️',
     element: 'air',
     modality: 'cardinal',
     rulingPlanet: 'Venus',
-    dateRange: 'September 23 - October 22',
-    traits: ['Cooperative', 'Diplomatic', 'Gracious', 'Fair-minded', 'Social'],
-    strengths: ['Diplomacy', 'Balance', 'Charm'],
-    weaknesses: ['Indecisiveness', 'Avoidance of confrontation', 'Self-pity'],
+    dateRange: '23. september – 22. oktober',
+    traits: ['Samarbeidsvillig', 'Diplomatisk', 'Elskverdig', 'Rettferdig', 'Sosial'],
+    strengths: ['Diplomati', 'Balanse', 'Sjarm'],
+    weaknesses: ['Ubesluttsomhet', 'Unngår konfrontasjoner', 'Selvmedlidenhet'],
     compatibility: ['gemini', 'aquarius', 'leo', 'sagittarius'],
   },
   scorpio: {
-    name: 'Scorpio',
+    name: 'Skorpionen',
     symbol: '♏',
     emoji: '🦂',
     element: 'water',
     modality: 'fixed',
     rulingPlanet: 'Pluto',
-    dateRange: 'October 23 - November 21',
-    traits: ['Resourceful', 'Brave', 'Passionate', 'Stubborn', 'True friend'],
-    strengths: ['Determination', 'Loyalty', 'Resourcefulness'],
-    weaknesses: ['Jealousy', 'Secretiveness', 'Resentfulness'],
+    dateRange: '23. oktober – 21. november',
+    traits: ['Ressurssterk', 'Tapper', 'Lidenskapelig', 'Sta', 'Ekte venn'],
+    strengths: ['Besluttsomhet', 'Lojalitet', 'Oppfinnsomhet'],
+    weaknesses: ['Sjalusi', 'Hemmelighetsfull', 'Nag'],
     compatibility: ['cancer', 'pisces', 'virgo', 'capricorn'],
   },
   sagittarius: {
-    name: 'Sagittarius',
+    name: 'Skytten',
     symbol: '♐',
     emoji: '🏹',
     element: 'fire',
     modality: 'mutable',
     rulingPlanet: 'Jupiter',
-    dateRange: 'November 22 - December 21',
-    traits: ['Generous', 'Idealistic', 'Great sense of humor', 'Adventurous'],
-    strengths: ['Optimism', 'Freedom-loving', 'Honesty'],
-    weaknesses: ['Impatience', 'Tactlessness', 'Overconfidence'],
+    dateRange: '22. november – 21. desember',
+    traits: ['Raus', 'Idealistisk', 'Stor humoristisk sans', 'Eventyrlysten'],
+    strengths: ['Optimisme', 'Frihetselskende', 'Ærlighet'],
+    weaknesses: ['Utålmodighet', 'Mangler takt', 'Overmodig'],
     compatibility: ['aries', 'leo', 'libra', 'aquarius'],
   },
   capricorn: {
-    name: 'Capricorn',
+    name: 'Steinbukken',
     symbol: '♑',
     emoji: '🐐',
     element: 'earth',
     modality: 'cardinal',
     rulingPlanet: 'Saturn',
-    dateRange: 'December 22 - January 19',
-    traits: ['Responsible', 'Disciplined', 'Self-control', 'Good managers'],
-    strengths: ['Ambition', 'Persistence', 'Practicality'],
-    weaknesses: ['Know-it-all', 'Unforgiving', 'Condescending'],
+    dateRange: '22. desember – 19. januar',
+    traits: ['Ansvarsfull', 'Disiplinert', 'Selvkontroll', 'Gode ledere'],
+    strengths: ['Ambisjoner', 'Utholdenhet', 'Praktisk sans'],
+    weaknesses: ['Vet best selv', 'Ettertraktende', 'Nedlatende'],
     compatibility: ['taurus', 'virgo', 'scorpio', 'pisces'],
   },
   aquarius: {
-    name: 'Aquarius',
+    name: 'Vannmannen',
     symbol: '♒',
     emoji: '🏺',
     element: 'air',
     modality: 'fixed',
     rulingPlanet: 'Uranus',
-    dateRange: 'January 20 - February 18',
-    traits: ['Progressive', 'Original', 'Independent', 'Humanitarian'],
-    strengths: ['Innovation', 'Humanitarianism', 'Independence'],
-    weaknesses: ['Emotional detachment', 'Temperamental', 'Uncompromising'],
+    dateRange: '20. januar – 18. februar',
+    traits: ['Fremtidsrettet', 'Original', 'Selvstendig', 'Humanitær'],
+    strengths: ['Innovasjon', 'Humanisme', 'Uavhengighet'],
+    weaknesses: ['Følelsesmessig avstand', 'Temperamentsfull', 'Lite kompromissvillig'],
     compatibility: ['gemini', 'libra', 'aries', 'sagittarius'],
   },
   pisces: {
-    name: 'Pisces',
+    name: 'Fiskene',
     symbol: '♓',
     emoji: '🐟',
     element: 'water',
     modality: 'mutable',
-    rulingPlanet: 'Neptune',
-    dateRange: 'February 19 - March 20',
-    traits: ['Compassionate', 'Artistic', 'Intuitive', 'Gentle', 'Wise'],
-    strengths: ['Empathy', 'Creativity', 'Intuition'],
-    weaknesses: ['Fearfulness', 'Overly trusting', 'Escapism'],
+    rulingPlanet: 'Neptun',
+    dateRange: '19. februar – 20. mars',
+    traits: ['Medfølende', 'Kunstnerisk', 'Intuitiv', 'Mild', 'Klok'],
+    strengths: ['Empati', 'Kreativitet', 'Intuisjon'],
+    weaknesses: ['Frykt', 'For godtroende', 'Virkelighetsflukt'],
     compatibility: ['cancer', 'scorpio', 'taurus', 'capricorn'],
   },
 };
@@ -326,7 +326,7 @@ export function checkCompatibility(
   if (sign1 === sign2) {
     return {
       score: 75,
-      description: 'Same sign - you understand each other well but may clash on similar traits.',
+      description: 'Samme tegn – dere forstår hverandre godt, men kan kollidere på lignende trekk.',
     };
   }
   
@@ -334,7 +334,7 @@ export function checkCompatibility(
   if (sign1Compatible && sign2Compatible) {
     return {
       score: 95,
-      description: 'Excellent match! You complement each other beautifully.',
+      description: 'Utmerket match! Dere utfyller hverandre godt.',
     };
   }
   
@@ -342,7 +342,7 @@ export function checkCompatibility(
   if (sign1Compatible || sign2Compatible) {
     return {
       score: 70,
-      description: 'Good potential! With effort, this can be a rewarding relationship.',
+      description: 'Godt potensial! Med innsats kan dette bli et givende forhold.',
     };
   }
   
@@ -350,7 +350,7 @@ export function checkCompatibility(
   if (info1.element === info2.element) {
     return {
       score: 80,
-      description: 'Same element - natural understanding and shared values.',
+      description: 'Samme element – naturlig forståelse og felles verdier.',
     };
   }
   
@@ -365,14 +365,14 @@ export function checkCompatibility(
   if (compatibleElements[info1.element] === info2.element) {
     return {
       score: 65,
-      description: 'Complementary elements - you can balance each other well.',
+      description: 'Utfyllende elementer – dere kan balansere hverandre godt.',
     };
   }
   
   // Default - challenging but possible
   return {
     score: 45,
-    description: 'Challenging match - requires understanding and compromise.',
+    description: 'Utfordrende match – krever forståelse og kompromisser.',
   };
 }
 

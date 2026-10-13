@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
  * Zod schema for age inputs
  */
 const ageSchema = z.object({
-  birthDate: z.string().min(1, 'Birth date is required'),
+  birthDate: z.string().min(1, 'Fødselsdato må fylles ut'),
   birthTime: z.string().optional(),
 });
 
@@ -190,8 +190,8 @@ export function AgeInDaysCalculator() {
 
   return (
     <CalculatorBase
-      title="Age in Days Calculator"
-      description="Discover your exact age in days, hours, minutes, and seconds"
+      title="Alder i dager"
+      description="Finn ut nøyaktig hvor gammel du er i dager, timer, minutter og sekunder"
       isCalculateDisabled={!isValid || !inputs.birthDate}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -205,46 +205,46 @@ export function AgeInDaysCalculator() {
           <div className="space-y-6">
             {/* Main age display */}
             <div className="text-center py-4">
-              <p className="text-sm text-muted-foreground mb-2">You are</p>
+              <p className="text-sm text-muted-foreground mb-2">Du er</p>
               <p className="text-4xl font-bold">
-                {displayResults.years} years, {displayResults.months} months, {displayResults.days} days
+                {displayResults.years} år, {displayResults.months} måneder, {displayResults.days} dager
               </p>
-              <p className="text-sm text-muted-foreground mt-2">old</p>
+              <p className="text-sm text-muted-foreground mt-2">gammel</p>
             </div>
             
             {/* Large stats */}
             <div className="grid grid-cols-2 gap-4">
               <LargeStat
-                label="Total Days"
+                label="Dager totalt"
                 value={formatNumber(displayResults.totalDays)}
-                unit="days alive"
+                unit="dager levd"
               />
               <LargeStat
-                label="Total Seconds"
+                label="Sekunder totalt"
                 value={formatNumber(displayResults.totalSeconds)}
-                unit="seconds alive"
+                unit="sekunder levd"
               />
             </div>
             
             {/* Detailed stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <StatCard
-                label="Weeks"
+                label="Uker"
                 value={formatNumber(displayResults.totalWeeks)}
                 icon="📅"
               />
               <StatCard
-                label="Hours"
+                label="Timer"
                 value={formatNumber(displayResults.totalHours)}
                 icon="⏰"
               />
               <StatCard
-                label="Minutes"
+                label="Minutter"
                 value={formatNumber(displayResults.totalMinutes)}
                 icon="⏱️"
               />
               <StatCard
-                label="Days to Birthday"
+                label="Dager til bursdag"
                 value={formatNumber(displayResults.daysUntilBirthday)}
                 icon="🎂"
               />
@@ -253,15 +253,15 @@ export function AgeInDaysCalculator() {
             {/* Fun facts */}
             <div className="bg-muted/30 p-4 rounded-lg">
               <h4 className="font-medium mb-3 flex items-center gap-2">
-                <span>🎉</span> Fun Facts About Your Life
+                <span>🎉</span> Artige fakta om livet ditt
               </h4>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-muted-foreground">Estimated heartbeats</p>
+                  <p className="text-muted-foreground">Anslåtte hjerteslag</p>
                   <p className="font-semibold text-lg">{formatNumber(displayResults.heartbeats)}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Estimated breaths</p>
+                  <p className="text-muted-foreground">Anslåtte åndedrag</p>
                   <p className="font-semibold text-lg">{formatNumber(displayResults.breaths)}</p>
                 </div>
               </div>
@@ -269,7 +269,7 @@ export function AgeInDaysCalculator() {
             
             {/* Next birthday */}
             <div className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 p-4 rounded-lg text-center">
-              <p className="text-sm text-muted-foreground">Your next birthday is on</p>
+              <p className="text-sm text-muted-foreground">Neste bursdag er</p>
               <p className="font-semibold text-lg">
                 {displayResults.nextBirthday.toLocaleDateString('nb-NO', {
                   weekday: 'long',
@@ -279,7 +279,7 @@ export function AgeInDaysCalculator() {
                 })}
               </p>
               <p className="text-sm text-pink-600 mt-1">
-                🎂 {displayResults.daysUntilBirthday} days to go!
+                🎂 {displayResults.daysUntilBirthday} dager igjen!
               </p>
             </div>
           </div>
@@ -288,7 +288,7 @@ export function AgeInDaysCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="birthDate">Your Birth Date</Label>
+          <Label htmlFor="birthDate">Fødselsdatoen din</Label>
           <Input
             id="birthDate"
             type="date"
@@ -302,7 +302,7 @@ export function AgeInDaysCalculator() {
         </div>
         
         <div>
-          <Label htmlFor="birthTime">Birth Time (optional)</Label>
+          <Label htmlFor="birthTime">Fødselstidspunkt (valgfritt)</Label>
           <Input
             id="birthTime"
             type="time"
@@ -310,7 +310,7 @@ export function AgeInDaysCalculator() {
             onChange={(e) => setInput('birthTime', e.target.value)}
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Add your birth time for more precise calculations
+            Legg til klokkeslettet du ble født for mer nøyaktige tall
           </p>
         </div>
       </div>

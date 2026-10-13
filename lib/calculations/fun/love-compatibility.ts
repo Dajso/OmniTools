@@ -31,28 +31,28 @@ export type FlamesResult = 'friends' | 'lovers' | 'affection' | 'marriage' | 'en
  */
 const FLAMES_MEANINGS: Record<FlamesResult, { label: string; description: string }> = {
   friends: {
-    label: 'Friends',
-    description: 'You two make great friends! Your bond is built on trust and mutual respect.',
+    label: 'Venner',
+    description: 'Dere er perfekte som venner! Båndet deres bygger på tillit og gjensidig respekt.',
   },
   lovers: {
-    label: 'Lovers',
-    description: 'Passionate romance is in the stars! You share a deep romantic connection.',
+    label: 'Elskere',
+    description: 'Lidenskapelig romantikk står skrevet i stjernene! Dere har en dyp romantisk forbindelse.',
   },
   affection: {
-    label: 'Affection',
-    description: 'There is genuine affection between you. A warm and caring relationship.',
+    label: 'Hengivenhet',
+    description: 'Det er ekte hengivenhet mellom dere. Et varmt og omsorgsfullt forhold.',
   },
   marriage: {
-    label: 'Marriage',
-    description: 'Wedding bells may be ringing! You have strong potential for a lasting union.',
+    label: 'Ekteskap',
+    description: 'Kanskje er det bryllupsklokker i vente! Dere har stort potensial for et varig forhold.',
   },
   enemies: {
-    label: 'Enemies',
-    description: 'Opposites attract... or repel! There may be some tension to work through.',
+    label: 'Fiender',
+    description: 'Motsetninger tiltrekker … eller støter fra seg! Det kan være litt spenning å arbeide med.',
   },
   siblings: {
-    label: 'Siblings',
-    description: 'You share a sibling-like bond. Comfortable and familiar with each other.',
+    label: 'Søsken',
+    description: 'Dere har et bånd som minner om søsken. Trygge og kjente med hverandre.',
   },
 };
 
@@ -63,38 +63,38 @@ const COMPATIBILITY_DESCRIPTIONS: { min: number; max: number; description: strin
   {
     min: 90,
     max: 100,
-    description: 'Soulmate connection! You two are incredibly compatible.',
-    advice: 'Cherish this rare connection and nurture it with love and understanding.',
+    description: 'Sjelevenner! Dere passer utrolig godt sammen.',
+    advice: 'Sett pris på denne sjeldne forbindelsen og pleie den med kjærlighet og forståelse.',
   },
   {
     min: 75,
     max: 89,
-    description: 'Excellent match! You complement each other beautifully.',
-    advice: 'Keep communication open and continue to grow together.',
+    description: 'Utmerket match! Dere utfyller hverandre godt.',
+    advice: 'Hold kommunikasjonen åpen og fortsett å vokse sammen.',
   },
   {
     min: 60,
     max: 74,
-    description: 'Good compatibility! You have a solid foundation for a relationship.',
-    advice: 'Focus on your shared interests and be patient with differences.',
+    description: 'God kompatibilitet! Dere har et godt grunnlag for et forhold.',
+    advice: 'Fokuser på felles interesser og vær tålmodige med forskjellene.',
   },
   {
     min: 45,
     max: 59,
-    description: 'Moderate compatibility. With effort, this can work well.',
-    advice: 'Embrace your differences as opportunities to learn from each other.',
+    description: 'Middels kompatibilitet. Med innsats kan dette fungere bra.',
+    advice: 'Se forskjellene som en sjanse til å lære av hverandre.',
   },
   {
     min: 30,
     max: 44,
-    description: 'Some challenges ahead, but love can overcome obstacles.',
-    advice: 'Work on understanding each other\'s perspectives and needs.',
+    description: 'Noen utfordringer ligger foran dere, men kjærlighet kan overvinne hindre.',
+    advice: 'Arbeid med å forstå hverandres perspektiver og behov.',
   },
   {
     min: 0,
     max: 29,
-    description: 'Opposites attract! This relationship will require extra effort.',
-    advice: 'Focus on building trust and finding common ground.',
+    description: 'Motsetninger tiltrekker! Dette forholdet krever ekstra innsats.',
+    advice: 'Fokuser på å bygge tillit og finne felles grunn.',
   },
 ];
 

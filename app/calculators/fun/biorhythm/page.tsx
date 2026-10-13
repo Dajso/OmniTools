@@ -3,56 +3,48 @@ import { BiorhythmCalculator } from '@/components/calculators/fun/biorhythm-calc
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Biorhythm Calculator - Track Your Physical, Emotional & Intellectual Cycles',
-  description: 'Calculate your biorhythm cycles based on your birth date. Track physical, emotional, and intellectual patterns with interactive charts.',
-  keywords: ['biorhythm calculator', 'biorhythm chart', 'physical cycle', 'emotional cycle', 'intellectual cycle', 'life cycles'],
+  title: 'Biorytme – gratis kalkulator på nett',
+  description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato. Gratis og uten registrering.',
+  keywords: ['biorytme', 'syklus', 'fysisk', 'emosjonell', 'intellektuell'],
   alternates: { canonical: '/calculators/fun/biorhythm' },
+  openGraph: {
+    title: 'Biorytme',
+    description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato',
+    url: '/calculators/fun/biorhythm',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Biorhythm Calculator',
-  description: 'Track your physical, emotional, and intellectual cycles with interactive biorhythm charts',
+  name: 'Biorytme',
+  description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato',
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your birth date', text: 'Select your date of birth using the date picker.' },
-  { name: 'Choose a view date', text: 'Select the date you want to view your biorhythm for (defaults to today).' },
-  { name: 'Calculate biorhythm', text: 'Click Calculate to see your current biorhythm values.' },
-  { name: 'Analyze the chart', text: 'View the 30-day chart to see your cycle patterns over time.' },
+  { name: 'Skriv inn fødselsdato', text: 'Datoen rytmene regnes fra.' },
+  { name: 'Velg dato å se på', text: 'Standard er i dag.' },
+  { name: 'Les av rytmene', text: 'Se verdiene og grafen for perioden rundt datoen.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is biorhythm?', 
-    answer: 'Biorhythm is a theory that suggests our lives are affected by rhythmic biological cycles. The three primary cycles are Physical (23 days), Emotional (28 days), and Intellectual (33 days).' 
-  },
-  { 
-    question: 'How are biorhythm cycles calculated?', 
-    answer: 'Biorhythm values are calculated using sine waves based on the number of days since your birth. Each cycle has a different period: Physical (23 days), Emotional (28 days), and Intellectual (33 days).' 
-  },
-  { 
-    question: 'What do the values mean?', 
-    answer: 'Values range from -100 to +100. Positive values indicate high periods (peak performance), negative values indicate low periods (rest and recovery), and values near zero are critical days (transition periods).' 
-  },
-  { 
-    question: 'What are critical days?', 
-    answer: 'Critical days occur when a cycle crosses zero (transitions from positive to negative or vice versa). These are considered unstable periods where you may want to be more cautious.' 
-  },
-  { 
-    question: 'Is biorhythm scientifically proven?', 
-    answer: 'Biorhythm theory is not supported by scientific evidence. It should be viewed as entertainment and self-reflection tool rather than a scientifically validated method for predicting performance or behavior.' 
-  },
+  { question: 'Hva er biorytme?', answer: 'En gammel teori om at kroppen følger sykluser på 23, 28 og 33 dager (fysisk, emosjonell og intellektuell) fra fødselen.' },
+  { question: 'Stemmer teorien?', answer: 'Nei. Studier har ikke funnet støtte for biorytmer, så bruk dette som underholdning.' },
+  { question: 'Hva betyr kritiske dager?', answer: 'Dager da en kurve krysser nullinjen. Teorien sier at du da er mer ustø, men det er ikke dokumentert.' },
+  { question: 'Hvorfor viser grafen en måned?', answer: 'For å gi et overblikk over hvordan kurvene beveger seg før og etter valgt dato.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/zodiac-sign', title: 'Zodiac Sign Calculator', description: 'Find your zodiac sign and horoscope.' },
-  { href: '/calculators/fun/moon-phase-calculator', title: 'Moon Phase Calculator', description: 'See the current moon phase.' },
-  { href: '/calculators/health/sleep-cycle-calculator', title: 'Sleep Cycle Calculator', description: 'Optimize your sleep schedule.' },
+  { href: '/calculators/fun/zodiac-sign', title: 'Stjernetegn', description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn' },
+  { href: '/calculators/fun/moon-phase-calculator', title: 'Månefase', description: 'Se månefasen for en hvilken som helst dato, med synlig andel og kommende hendelser' },
+  { href: '/calculators/fun/numerology', title: 'Numerologi', description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato' },
 ];
 
 export default function BiorhythmPage() {
@@ -62,48 +54,48 @@ export default function BiorhythmPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="biorhythm"
-          title="Biorhythm Calculator"
-          description="Track your physical, emotional, and intellectual cycles with our interactive biorhythm calculator. Visualize your patterns over time."
+          title="Biorytme"
+          description="Se de fysiske, emosjonelle og intellektuelle biorytmene dine ut fra fødselsdato, med graf over en måned. Bare for moro skyld. Gratis og uten registrering."
           colorClass="bg-gradient-to-r from-red-100 via-green-100 to-blue-100 text-gray-700"
         />
 
-        <section aria-label="Biorhythm Calculator">
+        <section aria-label="Biorytme">
           <BiorhythmCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">The Three Biorhythm Cycles</h2>
+          <h2 className="text-xl font-semibold mb-4">De tre biorytmene</h2>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">💪</span>
-                <h3 className="font-semibold text-red-700">Physical Cycle</h3>
+                <h3 className="font-semibold text-red-700">Fysisk rytme</h3>
               </div>
-              <p className="text-sm text-red-600 mb-2">23-day cycle</p>
+              <p className="text-sm text-red-600 mb-2">23 dagers syklus</p>
               <p className="text-sm text-muted-foreground">
-                Affects physical strength, endurance, coordination, and overall energy levels. High periods are ideal for physical activities.
+                Skal ifølge teorien påvirke styrke, utholdenhet, koordinasjon og energinivå. Topper regnes som gode perioder for fysisk aktivitet.
               </p>
             </div>
             
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">💚</span>
-                <h3 className="font-semibold text-green-700">Emotional Cycle</h3>
+                <h3 className="font-semibold text-green-700">Emosjonell rytme</h3>
               </div>
-              <p className="text-sm text-green-600 mb-2">28-day cycle</p>
+              <p className="text-sm text-green-600 mb-2">28 dagers syklus</p>
               <p className="text-sm text-muted-foreground">
-                Influences mood, creativity, sensitivity, and emotional stability. High periods favor social interactions and creative work.
+                Skal ifølge teorien påvirke humør, kreativitet, følsomhet og følelsesmessig stabilitet. Topper regnes som gode perioder for sosialt samvær og kreativt arbeid.
               </p>
             </div>
             
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">🧠</span>
-                <h3 className="font-semibold text-blue-700">Intellectual Cycle</h3>
+                <h3 className="font-semibold text-blue-700">Intellektuell rytme</h3>
               </div>
-              <p className="text-sm text-blue-600 mb-2">33-day cycle</p>
+              <p className="text-sm text-blue-600 mb-2">33 dagers syklus</p>
               <p className="text-sm text-muted-foreground">
-                Affects mental alertness, memory, analytical thinking, and learning ability. High periods are best for complex mental tasks.
+                Skal ifølge teorien påvirke våkenhet, hukommelse, analytisk tenkning og læreevne. Topper regnes som gode perioder for krevende tankearbeid.
               </p>
             </div>
           </div>

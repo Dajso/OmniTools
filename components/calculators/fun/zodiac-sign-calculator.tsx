@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
  * Zod schema for zodiac inputs
  */
 const zodiacSchema = z.object({
-  birthDate: z.string().min(1, 'Birth date is required'),
+  birthDate: z.string().min(1, 'Fødselsdato må fylles ut'),
 });
 
 type ZodiacInputs = {
@@ -32,6 +32,9 @@ const INITIAL_INPUTS: ZodiacInputs = {
 /**
  * Element badge component
  */
+const ELEMENT_NAMES: Record<ZodiacInfo['element'], string> = { fire: 'Ild', earth: 'Jord', air: 'Luft', water: 'Vann' };
+const MODALITY_NAMES: Record<ZodiacInfo['modality'], string> = { cardinal: 'Kardinal', fixed: 'Fast', mutable: 'Foranderlig' };
+
 function ElementBadge({ element }: { element: ZodiacInfo['element'] }) {
   const elementStyles = {
     fire: 'bg-red-100 text-red-700 border-red-200',
@@ -49,7 +52,7 @@ function ElementBadge({ element }: { element: ZodiacInfo['element'] }) {
 
   return (
     <span className={cn('px-3 py-1 rounded-full text-sm border inline-flex items-center gap-1', elementStyles[element])}>
-      {elementEmojis[element]} {element.charAt(0).toUpperCase() + element.slice(1)}
+      {elementEmojis[element]} {ELEMENT_NAMES[element]}
     </span>
   );
 }
@@ -96,7 +99,7 @@ function CompatibilitySection({ compatibleSigns }: { compatibleSigns: ZodiacSign
   return (
     <div className="bg-muted/30 p-4 rounded-lg">
       <h4 className="font-medium mb-2 flex items-center gap-2">
-        <span>💕</span> Most Compatible Signs
+        <span>💕</span> Mest kompatible tegn
       </h4>
       <div className="flex flex-wrap gap-2">
         {compatibleSigns.map((sign) => (
@@ -146,8 +149,8 @@ export function ZodiacSignCalculator() {
 
   return (
     <CalculatorBase
-      title="Zodiac Sign Calculator"
-      description="Enter your birth date to discover your zodiac sign and personality traits"
+      title="Stjernetegn"
+      description="Skriv inn fødselsdatoen din og finn stjernetegnet og personlighetstrekkene dine"
       isCalculateDisabled={!isValid || !inputs.birthDate}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -168,7 +171,7 @@ export function ZodiacSignCalculator() {
             <div className="flex justify-center gap-3 flex-wrap">
               <ElementBadge element={results.element} />
               <span className="px-3 py-1 rounded-full text-sm border bg-muted">
-                {results.modality.charAt(0).toUpperCase() + results.modality.slice(1)}
+                {MODALITY_NAMES[results.modality]}
               </span>
               <span className="px-3 py-1 rounded-full text-sm border bg-purple-100 text-purple-700 border-purple-200">
                 🪐 {results.rulingPlanet}
@@ -176,12 +179,12 @@ export function ZodiacSignCalculator() {
             </div>
             
             {/* Traits */}
-            <TraitList title="Key Traits" items={results.traits} icon="✨" />
+            <TraitList title="Viktige egenskaper" items={results.traits} icon="✨" />
             
             {/* Strengths and Weaknesses */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <TraitList title="Strengths" items={results.strengths} icon="💪" />
-              <TraitList title="Weaknesses" items={results.weaknesses} icon="⚠️" />
+              <TraitList title="Styrker" items={results.strengths} icon="💪" />
+              <TraitList title="Svakheter" items={results.weaknesses} icon="⚠️" />
             </div>
             
             {/* Compatibility */}
@@ -192,7 +195,7 @@ export function ZodiacSignCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="birthDate">Your Birth Date</Label>
+          <Label htmlFor="birthDate">Fødselsdatoen din</Label>
           <Input
             id="birthDate"
             type="date"

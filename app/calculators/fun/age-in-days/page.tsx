@@ -3,56 +3,47 @@ import { AgeInDaysCalculator } from '@/components/calculators/fun/age-in-days-ca
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Age in Days Calculator - How Many Days Old Are You?',
-  description: 'Calculate your exact age in days, hours, minutes, and seconds. Find out how many days you have been alive with our free calculator.',
-  keywords: ['age in days', 'days old calculator', 'age calculator', 'how many days old', 'seconds old', 'birthday countdown'],
+  title: 'Alder i dager – gratis kalkulator på nett',
+  description: 'Regn ut din eksakte alder i dager, timer, minutter og sekunder. Gratis og uten registrering.',
+  keywords: ['alder i dager', 'dager gammel', 'sekunder gammel', 'bursdag'],
   alternates: { canonical: '/calculators/fun/age-in-days' },
+  openGraph: {
+    title: 'Alder i dager',
+    description: 'Regn ut din eksakte alder i dager, timer, minutter og sekunder',
+    url: '/calculators/fun/age-in-days',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Age in Days Calculator',
-  description: 'Calculate your exact age in days, hours, minutes, and seconds',
+  name: 'Alder i dager',
+  description: 'Regn ut din eksakte alder i dager, timer, minutter og sekunder',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your birth date', text: 'Select your date of birth using the date picker.' },
-  { name: 'Add birth time (optional)', text: 'For more precise results, enter your exact birth time.' },
-  { name: 'Calculate your age', text: 'Click Calculate to see your age in various units.' },
-  { name: 'Watch it update', text: 'The seconds counter updates in real-time!' },
+  { name: 'Velg fødselsdato', text: 'Du kan også oppgi klokkeslett for et mer nøyaktig svar.' },
+  { name: 'Trykk på regn ut', text: 'Du får alderen i flere enheter.' },
+  { name: 'Se neste bursdag', text: 'Antall dager til og ukedagen vises.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How accurate is this calculator?', 
-    answer: 'The calculator is accurate to the second when you provide your birth time. Without birth time, it calculates from midnight on your birth date.' 
-  },
-  { 
-    question: 'How are heartbeats calculated?', 
-    answer: 'Heartbeats are estimated using an average resting heart rate of 72 beats per minute. Your actual number may vary based on your activity level and health.' 
-  },
-  { 
-    question: 'Does this account for leap years?', 
-    answer: 'Yes! The calculator uses JavaScript\'s Date object which automatically accounts for leap years and varying month lengths.' 
-  },
-  { 
-    question: 'Why does the seconds counter keep changing?', 
-    answer: 'The calculator updates in real-time to show your exact age at this very moment. Every second you\'re getting older!' 
-  },
-  { 
-    question: 'Can I calculate someone else\'s age?', 
-    answer: 'Absolutely! Just enter their birth date and time to see how many days they\'ve been alive.' 
-  },
+  { question: 'Tar kalkulatoren hensyn til skuddår?', answer: 'Ja. Dagene telles på kalenderen, så skuddager er med.' },
+  { question: 'Hvorfor gir klokkeslett et mer nøyaktig svar?', answer: 'Timer, minutter og sekunder avhenger av når på dagen du ble født.' },
+  { question: 'Hvilken tidssone brukes?', answer: 'Nettleserens lokale tid, vanligvis norsk tid.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/age-calculator', title: 'Age Calculator', description: 'Calculate exact age between dates.' },
-  { href: '/calculators/productivity/date-difference', title: 'Date Difference Calculator', description: 'Find days between two dates.' },
-  { href: '/calculators/fun/biorhythm', title: 'Biorhythm Calculator', description: 'Track your life cycles.' },
+  { href: '/calculators/fun/day-of-week', title: 'Ukedag for en dato', description: 'Finn ut hvilken ukedag en dato faller på' },
+  { href: '/calculators/fun/biorhythm', title: 'Biorytme', description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato' },
+  { href: '/calculators/productivity/age-calculator', title: 'Alderskalkulator', description: 'Regn ut nøyaktig alder ut fra fødselsdato' },
 ];
 
 export default function AgeInDaysPage() {
@@ -62,52 +53,52 @@ export default function AgeInDaysPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="age-in-days"
-          title="Age in Days Calculator"
-          description="Ever wondered exactly how many days you've been alive? Find out your age in days, hours, minutes, and even seconds!"
+          title="Alder i dager"
+          description="Regn ut hvor gammel du er i år, måneder, dager, timer, minutter og sekunder, og se hvor lenge det er til neste bursdag. Gratis og uten registrering."
           colorClass="bg-amber-100 text-amber-600"
         />
 
-        <section aria-label="Age in Days Calculator">
+        <section aria-label="Alder i dager">
           <AgeInDaysCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Fun Age Milestones</h2>
+          <h2 className="text-xl font-semibold mb-4">Morsomme milepæler</h2>
           <div className="bg-muted/50 rounded-lg p-6">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { days: '1,000', age: '~2.7 years' },
-                { days: '5,000', age: '~13.7 years' },
-                { days: '10,000', age: '~27.4 years' },
-                { days: '15,000', age: '~41.1 years' },
-                { days: '20,000', age: '~54.8 years' },
-                { days: '25,000', age: '~68.5 years' },
+                { days: '1 000', age: 'ca. 2,7 år' },
+                { days: '5 000', age: 'ca. 13,7 år' },
+                { days: '10 000', age: 'ca. 27,4 år' },
+                { days: '15 000', age: 'ca. 41,1 år' },
+                { days: '20 000', age: 'ca. 54,8 år' },
+                { days: '25 000', age: 'ca. 68,5 år' },
               ].map(({ days, age }) => (
                 <div key={days} className="text-center p-3 bg-background rounded-lg">
                   <span className="text-xl font-bold block">{days}</span>
-                  <span className="text-sm text-muted-foreground">days = {age}</span>
+                  <span className="text-sm text-muted-foreground">dager = {age}</span>
                 </div>
               ))}
             </div>
             <p className="text-sm text-muted-foreground text-center mt-4">
-              🎉 Celebrate your day milestones! They're just as special as birthdays.
+              🎉 Feir dagsmilepælene dine! De er minst like spesielle som bursdager.
             </p>
           </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Did You Know?</h2>
+          <h2 className="text-xl font-semibold mb-4">Visste du at …</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-              <h3 className="font-medium text-blue-700 mb-2">💓 Your Heart</h3>
+              <h3 className="font-medium text-blue-700 mb-2">💓 Hjertet ditt</h3>
               <p className="text-sm text-blue-600">
-                The average heart beats about 100,000 times per day, or about 35 million times per year!
+                Hjertet slår omtrent 100 000 ganger i døgnet, altså rundt 35 millioner ganger i året.
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-              <h3 className="font-medium text-green-700 mb-2">🌬️ Your Breath</h3>
+              <h3 className="font-medium text-green-700 mb-2">🌬️ Pusten din</h3>
               <p className="text-sm text-green-600">
-                You take about 20,000 breaths per day, moving about 2,000 gallons of air!
+                Du puster rundt 20 000 ganger i døgnet og flytter titusenvis av liter luft.
               </p>
             </div>
           </div>

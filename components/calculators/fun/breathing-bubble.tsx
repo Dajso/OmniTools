@@ -10,32 +10,32 @@ import { cn } from '@/lib/utils';
  */
 const BREATHING_PATTERNS = {
   relaxing: {
-    name: 'Relaxing (4-7-8)',
-    description: 'Calming breath for anxiety relief',
+    name: 'Avslappende (4-7-8)',
+    description: 'Rolig pust som kan hjelpe når du er urolig',
     inhale: 4,
     hold: 7,
     exhale: 8,
     holdAfter: 0,
   },
   box: {
-    name: 'Box Breathing (4-4-4-4)',
-    description: 'Used by Navy SEALs for focus',
+    name: 'Boksepust (4-4-4-4)',
+    description: 'Brukes for å øke fokus',
     inhale: 4,
     hold: 4,
     exhale: 4,
     holdAfter: 4,
   },
   energizing: {
-    name: 'Energizing (4-0-4)',
-    description: 'Quick breath for energy boost',
+    name: 'Energigivende (4-0-4)',
+    description: 'Rask pust som gir en energiboost',
     inhale: 4,
     hold: 0,
     exhale: 4,
     holdAfter: 0,
   },
   calming: {
-    name: 'Deep Calm (5-5-5)',
-    description: 'Balanced breathing for meditation',
+    name: 'Dyp ro (5-5-5)',
+    description: 'Jevn pust til meditasjon',
     inhale: 5,
     hold: 5,
     exhale: 5,
@@ -88,11 +88,11 @@ export function BreathingBubble() {
   const getPhaseText = () => {
     switch (phase) {
       case 'inhale':
-        return 'Breathe In';
+        return 'Pust inn';
       case 'hold':
         return 'Hold';
       case 'exhale':
-        return 'Breathe Out';
+        return 'Pust ut';
       case 'holdAfter':
         return 'Hold';
       default:
@@ -222,11 +222,11 @@ export function BreathingBubble() {
           <div className="mt-8 flex gap-6 text-center">
             <div>
               <p className="text-2xl font-bold">{cycleCount}</p>
-              <p className="text-sm text-muted-foreground">Cycles</p>
+              <p className="text-sm text-muted-foreground">Runder</p>
             </div>
             <div>
               <p className="text-2xl font-bold">{formatTime(totalTime)}</p>
-              <p className="text-sm text-muted-foreground">Duration</p>
+              <p className="text-sm text-muted-foreground">Varighet</p>
             </div>
           </div>
         )}
@@ -235,11 +235,11 @@ export function BreathingBubble() {
         <div className="mt-6">
           {!isActive ? (
             <Button onClick={startSession} size="lg" className="px-8">
-              🧘 Start Breathing
+              🧘 Start pusteøvelsen
             </Button>
           ) : (
             <Button onClick={stopSession} variant="outline" size="lg">
-              ⏹️ Stop Session
+              ⏹️ Stopp økten
             </Button>
           )}
         </div>
@@ -248,7 +248,7 @@ export function BreathingBubble() {
       {/* Pattern selection */}
       {!isActive && (
         <div className="bg-muted/30 p-4 rounded-lg space-y-4">
-          <Label className="font-medium">Choose a Breathing Pattern</Label>
+          <Label className="font-medium">Velg pustemønster</Label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {(Object.entries(BREATHING_PATTERNS) as [PatternKey, typeof BREATHING_PATTERNS[PatternKey]][]).map(
               ([key, p]) => (
@@ -266,7 +266,7 @@ export function BreathingBubble() {
                   <p className="text-sm text-muted-foreground">{p.description}</p>
                   <div className="mt-2 flex gap-2 text-xs">
                     <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded">
-                      In: {p.inhale}s
+                      Inn: {p.inhale}s
                     </span>
                     {p.hold > 0 && (
                       <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded">
@@ -274,7 +274,7 @@ export function BreathingBubble() {
                       </span>
                     )}
                     <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded">
-                      Out: {p.exhale}s
+                      Ut: {p.exhale}s
                     </span>
                     {p.holdAfter > 0 && (
                       <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded">
@@ -291,13 +291,13 @@ export function BreathingBubble() {
 
       {/* Benefits info */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 p-4 rounded-lg">
-        <h4 className="font-medium text-blue-800 mb-2">✨ Benefits of Breathing Exercises</h4>
+        <h4 className="font-medium text-blue-800 mb-2">✨ Fordeler med pusteøvelser</h4>
         <ul className="text-sm text-blue-700 space-y-1">
-          <li>• Reduces stress and anxiety</li>
-          <li>• Lowers blood pressure and heart rate</li>
-          <li>• Improves focus and concentration</li>
-          <li>• Promotes better sleep</li>
-          <li>• Activates the parasympathetic nervous system</li>
+          <li>• Reduserer stress og uro</li>
+          <li>• Kan senke blodtrykk og puls</li>
+          <li>• Bedrer fokus og konsentrasjon</li>
+          <li>• Fremmer bedre søvn</li>
+          <li>• Aktiverer det parasympatiske nervesystemet</li>
         </ul>
       </div>
     </div>

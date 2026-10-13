@@ -19,7 +19,7 @@ import { formatFixed } from '@/lib/utils/formatting';
  * Zod schema for moon phase inputs
  */
 const moonPhaseSchema = z.object({
-  date: z.string().min(1, 'Date is required'),
+  date: z.string().min(1, 'Dato må fylles ut'),
 });
 
 type MoonPhaseInputs = {
@@ -150,8 +150,8 @@ export function MoonPhaseCalculator() {
 
   return (
     <CalculatorBase
-      title="Moon Phase Calculator"
-      description="Discover the moon phase for any date with a visual display"
+      title="Månefase"
+      description="Se månefasen for en hvilken som helst dato, med bilde"
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -166,35 +166,35 @@ export function MoonPhaseCalculator() {
               <span className="text-4xl mb-2 block">{results.emoji}</span>
               <h3 className="text-xl font-bold">{results.phaseName}</h3>
               <p className="text-muted-foreground">
-                {formatFixed(results.illumination, 1)}% illuminated
+                {formatFixed(results.illumination, 1)} % opplyst
               </p>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
               <PhaseInfoCard
-                label="Moon Age"
-                value={`${formatFixed(results.age, 1)} days`}
+                label="Månens alder"
+                value={`${formatFixed(results.age, 1)} dager`}
                 icon="📅"
               />
               <PhaseInfoCard
-                label="Illumination"
-                value={`${formatFixed(results.illumination, 1)}%`}
+                label="Opplysning"
+                value={`${formatFixed(results.illumination, 1)} %`}
                 icon="💡"
               />
               <PhaseInfoCard
-                label="Next Full Moon"
+                label="Neste fullmåne"
                 value={formatDate(results.nextFull)}
                 icon="🌕"
               />
               <PhaseInfoCard
-                label="Next New Moon"
+                label="Neste nymåne"
                 value={formatDate(results.nextNew)}
                 icon="🌑"
               />
             </div>
             
             <div className="bg-muted/30 p-4 rounded-lg">
-              <h4 className="font-medium mb-2">About {results.phaseName}</h4>
+              <h4 className="font-medium mb-2">Om {results.phaseName}</h4>
               <p className="text-sm text-muted-foreground">
                 {getPhaseDescription(results.phase)}
               </p>
@@ -205,7 +205,7 @@ export function MoonPhaseCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="date">Select Date</Label>
+          <Label htmlFor="date">Velg dato</Label>
           <Input
             id="date"
             type="date"
@@ -227,14 +227,14 @@ export function MoonPhaseCalculator() {
  */
 function getPhaseDescription(phase: MoonPhaseName): string {
   const descriptions: Record<MoonPhaseName, string> = {
-    'new': 'The Moon is between Earth and the Sun, with its illuminated side facing away from us. This is a time for new beginnings and setting intentions.',
-    'waxing-crescent': 'A sliver of the Moon becomes visible. This phase represents growth, creativity, and taking action on new plans.',
-    'first-quarter': 'Half of the Moon is illuminated. This is a time for decision-making and overcoming challenges.',
-    'waxing-gibbous': 'More than half of the Moon is illuminated and growing. Focus on refinement and adjustment of your goals.',
-    'full': 'The entire face of the Moon is illuminated. This is a time of completion, celebration, and heightened emotions.',
-    'waning-gibbous': 'The Moon begins to decrease in illumination. A time for gratitude, sharing, and introspection.',
-    'last-quarter': 'Half of the Moon is illuminated and decreasing. Release what no longer serves you and prepare for renewal.',
-    'waning-crescent': 'Only a sliver remains visible. Rest, reflect, and prepare for the new cycle ahead.',
+    'new': 'Månen står mellom jorda og solen, og den opplyste siden vender bort fra oss. Passer for nye begynnelser og for å sette mål.',
+    'waxing-crescent': 'En tynn flis av månen blir synlig. Fasen står for vekst, kreativitet og for å sette planer ut i livet.',
+    'first-quarter': 'Halve månen er opplyst. Passer for å ta beslutninger og møte utfordringer.',
+    'waxing-gibbous': 'Mer enn halve månen er opplyst, og den vokser. Fokuser på å finpusse og justere målene dine.',
+    'full': 'Hele månen er opplyst. En tid for å fullføre, feire og for sterke følelser.',
+    'waning-gibbous': 'Månen begynner å avta. En tid for takknemlighet, deling og ettertanke.',
+    'last-quarter': 'Halve månen er opplyst, og den avtar. Slipp det som ikke lenger tjener deg, og gjør deg klar for fornyelse.',
+    'waning-crescent': 'Bare en tynn flis er synlig. Hvil, tenk over det som har skjedd, og gjør deg klar for en ny syklus.',
   };
   return descriptions[phase];
 }

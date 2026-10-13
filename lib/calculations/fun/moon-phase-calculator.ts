@@ -61,14 +61,14 @@ const PHASE_BOUNDARIES = {
  * Human-readable phase names
  */
 const PHASE_NAMES: Record<MoonPhaseName, string> = {
-  'new': 'New Moon',
-  'waxing-crescent': 'Waxing Crescent',
-  'first-quarter': 'First Quarter',
-  'waxing-gibbous': 'Waxing Gibbous',
-  'full': 'Full Moon',
-  'waning-gibbous': 'Waning Gibbous',
-  'last-quarter': 'Last Quarter',
-  'waning-crescent': 'Waning Crescent',
+  'new': 'Nymåne',
+  'waxing-crescent': 'Voksende månesigd',
+  'first-quarter': 'Første kvarter',
+  'waxing-gibbous': 'Voksende måne',
+  'full': 'Fullmåne',
+  'waning-gibbous': 'Avtagende måne',
+  'last-quarter': 'Siste kvarter',
+  'waning-crescent': 'Avtagende månesigd',
 };
 
 /**

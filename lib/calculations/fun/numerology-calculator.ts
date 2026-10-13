@@ -44,54 +44,54 @@ export interface NumerologyResult {
  * Meanings for each life path number
  */
 const LIFE_PATH_MEANINGS: Record<number, string> = {
-  1: 'The Leader - Independent, ambitious, and pioneering. You are meant to lead and innovate.',
-  2: 'The Mediator - Diplomatic, cooperative, and sensitive. You bring harmony and balance.',
-  3: 'The Communicator - Creative, expressive, and social. You inspire others through your words.',
-  4: 'The Builder - Practical, hardworking, and reliable. You create lasting foundations.',
-  5: 'The Freedom Seeker - Adventurous, versatile, and dynamic. You embrace change and variety.',
-  6: 'The Nurturer - Responsible, caring, and domestic. You support and protect others.',
-  7: 'The Seeker - Analytical, introspective, and spiritual. You seek deeper truths.',
-  8: 'The Achiever - Ambitious, authoritative, and successful. You manifest abundance.',
-  9: 'The Humanitarian - Compassionate, generous, and wise. You serve the greater good.',
-  11: 'The Intuitive - Visionary, inspirational, and enlightened. You channel higher wisdom.',
-  22: 'The Master Builder - Powerful, practical visionary. You turn dreams into reality.',
-  33: 'The Master Teacher - Selfless, nurturing, and spiritually evolved. You uplift humanity.',
+  1: 'Lederen – selvstendig, ambisiøs og nyskapende. Du er skapt til å lede og fornye.',
+  2: 'Meklerne – diplomatisk, samarbeidsvillig og følsom. Du skaper harmoni og balanse.',
+  3: 'Kommunikatoren – kreativ, uttrykksfull og sosial. Du inspirerer andre med ordene dine.',
+  4: 'Byggeren – praktisk, arbeidsom og pålitelig. Du skaper varige fundamenter.',
+  5: 'Frihetssøkeren – eventyrlysten, allsidig og dynamisk. Du omfavner forandring og variasjon.',
+  6: 'Omsorgspersonen – ansvarsfull, omsorgsfull og hjemmekjær. Du støtter og beskytter andre.',
+  7: 'Søkeren – analytisk, selvransakende og åndelig. Du søker dypere sannheter.',
+  8: 'Prestasjonsmennesket – ambisiøs, autoritativ og vellykket. Du skaper overflod.',
+  9: 'Humanisten – medfølende, raus og klok. Du tjener det felles beste.',
+  11: 'Den intuitive – visjonær, inspirerende og opplyst. Du kanaliserer høyere visdom.',
+  22: 'Mesterbyggeren – kraftfull, praktisk visjonær. Du gjør drømmer til virkelighet.',
+  33: 'Mesterlæreren – uselvisk, omsorgsfull og åndelig moden. Du løfter menneskeheten.',
 };
 
 /**
  * Meanings for expression numbers
  */
 const EXPRESSION_MEANINGS: Record<number, string> = {
-  1: 'Natural leader with original ideas and strong willpower.',
-  2: 'Peacemaker with excellent diplomatic and cooperative abilities.',
-  3: 'Creative communicator with artistic talents and social charm.',
-  4: 'Practical organizer with strong work ethic and attention to detail.',
-  5: 'Versatile adventurer with adaptability and love of freedom.',
-  6: 'Responsible caretaker with nurturing and harmonious nature.',
-  7: 'Deep thinker with analytical mind and spiritual inclinations.',
-  8: 'Ambitious achiever with business acumen and material success.',
-  9: 'Compassionate humanitarian with broad perspective and wisdom.',
-  11: 'Inspired visionary with heightened intuition and spiritual insight.',
-  22: 'Master architect with ability to manifest grand visions.',
-  33: 'Master healer with profound ability to uplift and teach others.',
+  1: 'Naturlig leder med originale ideer og sterk viljestyrke.',
+  2: 'Fredsmegler med gode diplomatiske og samarbeidsmessige evner.',
+  3: 'Kreativ kommunikator med kunstneriske talenter og sosial sjarm.',
+  4: 'Praktisk organisator med sterk arbeidsmoral og sans for detaljer.',
+  5: 'Allsidig eventyrer som er tilpasningsdyktig og elsker frihet.',
+  6: 'Ansvarsfull omsorgsperson med et harmonisk og omsorgsfullt vesen.',
+  7: 'Dyp tenker med analytisk sinn og åndelig legning.',
+  8: 'Ambisiøs prestasjonsmenneske med forretningssans og materiell suksess.',
+  9: 'Medfølende humanist med vid horisont og visdom.',
+  11: 'Inspirert visjonær med skjerpet intuisjon og åndelig innsikt.',
+  22: 'Mesterarkitekt med evne til å virkeliggjøre store visjoner.',
+  33: 'Mesterhelbreder med dyp evne til å løfte og lære opp andre.',
 };
 
 /**
  * Meanings for soul urge numbers
  */
 const SOUL_URGE_MEANINGS: Record<number, string> = {
-  1: 'Deep desire for independence, leadership, and personal achievement.',
-  2: 'Inner need for partnership, harmony, and emotional connection.',
-  3: 'Soul craves creative expression, joy, and social interaction.',
-  4: 'Heart desires stability, security, and tangible accomplishments.',
-  5: 'Inner yearning for freedom, adventure, and new experiences.',
-  6: 'Deep need to nurture, protect, and create harmony for others.',
-  7: 'Soul seeks knowledge, solitude, and spiritual understanding.',
-  8: 'Inner drive for success, recognition, and material abundance.',
-  9: 'Heart desires to serve humanity and make a meaningful difference.',
-  11: 'Soul craves spiritual enlightenment and inspiring others.',
-  22: 'Inner need to build something of lasting significance.',
-  33: 'Deep desire to heal, teach, and elevate human consciousness.',
+  1: 'Sterkt ønske om uavhengighet, lederskap og personlige prestasjoner.',
+  2: 'Indre behov for partnerskap, harmoni og følelsesmessig tilknytning.',
+  3: 'Sjelen higer etter kreativt uttrykk, glede og sosialt samvær.',
+  4: 'Hjertet ønsker stabilitet, trygghet og håndfaste resultater.',
+  5: 'Indre lengsel etter frihet, eventyr og nye opplevelser.',
+  6: 'Dypt behov for å ta vare på, beskytte og skape harmoni for andre.',
+  7: 'Sjelen søker kunnskap, ensomhet og åndelig forståelse.',
+  8: 'Indre drivkraft mot suksess, anerkjennelse og materiell overflod.',
+  9: 'Hjertet ønsker å tjene menneskeheten og gjøre en meningsfull forskjell.',
+  11: 'Sjelen higer etter åndelig oppvåkning og å inspirere andre.',
+  22: 'Indre behov for å bygge noe av varig betydning.',
+  33: 'Dypt ønske om å hele, lære bort og løfte menneskers bevissthet.',
 };
 
 

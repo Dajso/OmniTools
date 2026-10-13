@@ -3,52 +3,49 @@ import { LoveCompatibilityCalculator } from '@/components/calculators/fun';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Love Compatibility Test - Free Name Compatibility Calculator',
-  description: 'Test your love compatibility with our free calculator. Uses the classic FLAMES method and numerology to calculate relationship compatibility based on names.',
-  keywords: ['love compatibility test', 'FLAMES calculator', 'name compatibility', 'relationship calculator', 'love calculator'],
+  title: 'Kjærlighetstest – gratis kalkulator på nett',
+  description: 'Test kjærlighetskompatibilitet med FLAMES-metoden og navnenumerologi. Gratis og uten registrering.',
+  keywords: ['kjærlighetstest', 'FLAMES', 'navnekompatibilitet', 'forhold'],
   alternates: { canonical: '/calculators/fun/love-compatibility' },
+  openGraph: {
+    title: 'Kjærlighetstest',
+    description: 'Test kjærlighetskompatibilitet med FLAMES-metoden og navnenumerologi',
+    url: '/calculators/fun/love-compatibility',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Love Compatibility Test',
-  description: 'Calculate love compatibility based on names using FLAMES method and numerology',
+  name: 'Kjærlighetstest',
+  description: 'Test kjærlighetskompatibilitet med FLAMES-metoden og navnenumerologi',
   applicationCategory: 'EntertainmentApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter first name', text: 'Type the first person\'s name in the first input field.' },
-  { name: 'Enter second name', text: 'Type the second person\'s name in the second input field.' },
-  { name: 'Calculate compatibility', text: 'Click the Calculate button to see your love compatibility results.' },
-  { name: 'View results', text: 'See your compatibility percentage, FLAMES result, and personalized advice.' },
+  { name: 'Skriv inn første navn', text: 'Bruk fornavn eller hele navnet.' },
+  { name: 'Skriv inn andre navn', text: 'Navnet til den du vil teste mot.' },
+  { name: 'Trykk på regn ut', text: 'Du får FLAMES-resultat og en prosentandel.' },
+  { name: 'Les tolkningen', text: 'Resultatet er for underholdning, ikke en sannhet.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is the FLAMES method?', 
-    answer: 'FLAMES is a classic compatibility game that stands for Friends, Lovers, Affection, Marriage, Enemies, and Siblings. It works by removing common letters from both names and counting the remaining letters to determine the relationship type.' 
-  },
-  { 
-    question: 'How accurate is this love compatibility test?', 
-    answer: 'This is a fun entertainment tool based on the classic FLAMES game and numerology. It\'s meant for entertainment purposes only and should not be taken as relationship advice.' 
-  },
-  { 
-    question: 'What does the numerology match mean?', 
-    answer: 'The numerology match is calculated using the Pythagorean system, which assigns numerical values to letters. Names with similar or complementary numbers are considered more compatible.' 
-  },
-  { 
-    question: 'Can I use nicknames or full names?', 
-    answer: 'You can use either! The calculator works with any names. Try both your nicknames and full names to see different results.' 
-  },
+  { question: 'Hvordan fungerer FLAMES?', answer: 'Bokstaver som går igjen i begge navnene strykes bort. Antallet som er igjen, brukes til å telle seg frem til et av utfallene i FLAMES: venner, kjærlighet, hengivenhet, ekteskap, fiender eller søsken.' },
+  { question: 'Er resultatet pålitelig?', answer: 'Nei. Det er en lek og har ingen vitenskapelig verdi.' },
+  { question: 'Blir resultatet likt hver gang?', answer: 'Ja, de samme to navnene gir alltid samme resultat.' },
+  { question: 'Lagres navnene?', answer: 'Navnene sendes ikke til noen server. Alt regnes ut i nettleseren din.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/zodiac-sign', title: 'Zodiac Sign Calculator', description: 'Find your zodiac sign and horoscope.' },
-  { href: '/calculators/fun/numerology', title: 'Numerology Calculator', description: 'Calculate your life path number.' },
-  { href: '/calculators/fun/biorhythm', title: 'Biorhythm Calculator', description: 'Track your physical, emotional, and intellectual cycles.' },
+  { href: '/calculators/fun/zodiac-sign', title: 'Stjernetegn', description: 'Finn stjernetegnet ditt ut fra fødselsdato, med egenskaper og kompatible tegn' },
+  { href: '/calculators/fun/numerology', title: 'Numerologi', description: 'Regn ut livsvei-, uttrykks- og sjelstall ut fra navn og fødselsdato' },
+  { href: '/calculators/fun/biorhythm', title: 'Biorytme', description: 'Se de fysiske, emosjonelle og intellektuelle syklusene dine ut fra fødselsdato' },
 ];
 
 export default function LoveCompatibilityPage() {
@@ -58,45 +55,45 @@ export default function LoveCompatibilityPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="love-compatibility"
-          title="Love Compatibility Test"
-          description="Discover your love compatibility using the classic FLAMES method and numerology. Enter two names to see if you're meant to be!"
+          title="Kjærlighetstest"
+          description="Skriv inn to navn og se «kjærlighetsprosenten» med FLAMES-metoden og numerologi. Bare for moro skyld. Gratis og uten registrering."
           colorClass="bg-pink-100 text-pink-600"
         />
 
-        <section aria-label="Love Compatibility Calculator">
+        <section aria-label="Kjærlighetstest">
           <LoveCompatibilityCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">About FLAMES</h2>
+          <h2 className="text-xl font-semibold mb-4">Om FLAMES</h2>
           <div className="bg-muted/50 rounded-lg p-6 space-y-4">
             <p className="text-muted-foreground">
-              FLAMES is a popular game that has been played for generations to predict the relationship between two people. Each letter represents a different type of relationship:
+              FLAMES er en gammel leken metode for å «spå» forholdet mellom to personer. Hver bokstav står for en type forhold (på engelsk: Friends, Lovers, Affection, Marriage, Enemies, Siblings):
             </p>
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-3">
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">F</span>
-                <span>Friends</span>
+                <span>Venner</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold">L</span>
-                <span>Lovers</span>
+                <span>Elskere</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">A</span>
-                <span>Affection</span>
+                <span>Hengivenhet</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">M</span>
-                <span>Marriage</span>
+                <span>Ekteskap</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold">E</span>
-                <span>Enemies</span>
+                <span>Fiender</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">S</span>
-                <span>Siblings</span>
+                <span>Søsken</span>
               </li>
             </ul>
           </div>
