@@ -15,6 +15,8 @@
  * @see Requirements 31.3, 31.4, 31.8
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 /** Standard gravitational acceleration on Earth (m/s²) */
 export const GRAVITY_EARTH = 9.80665;
 
@@ -127,12 +129,12 @@ export function radiansToDegrees(radians: number): number {
  */
 export function formatDistance(meters: number): string {
   if (meters >= 1000) {
-    return `${(meters / 1000).toFixed(2)} km`;
+    return `${formatFixed(meters / 1000, 2)} km`;
   }
   if (meters >= 1) {
-    return `${meters.toFixed(2)} m`;
+    return `${formatFixed(meters, 2)} m`;
   }
-  return `${(meters * 100).toFixed(2)} cm`;
+  return `${formatFixed(meters * 100, 2)} cm`;
 }
 
 /**
@@ -145,9 +147,9 @@ export function formatTime(seconds: number): string {
   if (seconds >= 60) {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${minutes}m ${secs.toFixed(2)}s`;
+    return `${minutes}m ${formatFixed(secs, 2)}s`;
   }
-  return `${seconds.toFixed(3)} s`;
+  return `${formatFixed(seconds, 3)} s`;
 }
 
 /**
@@ -159,7 +161,7 @@ export function formatTime(seconds: number): string {
 function validateInput(input: ProjectileMotionInput): void {
   if (input.initialVelocity < 0) {
     throw new ProjectileMotionError(
-      'Initial velocity cannot be negative',
+      'Starthastigheten kan ikke være negativ',
       'invalid_input',
       'initialVelocity'
     );
@@ -167,7 +169,7 @@ function validateInput(input: ProjectileMotionInput): void {
   
   if (input.launchAngle < 0 || input.launchAngle > 90) {
     throw new ProjectileMotionError(
-      'Launch angle must be between 0 and 90 degrees',
+      'Utkastvinkelen må være mellom 0 og 90 grader',
       'out_of_range',
       'launchAngle'
     );
@@ -175,7 +177,7 @@ function validateInput(input: ProjectileMotionInput): void {
   
   if (input.initialHeight !== undefined && input.initialHeight < 0) {
     throw new ProjectileMotionError(
-      'Initial height cannot be negative',
+      'Starthøyden kan ikke være negativ',
       'invalid_input',
       'initialHeight'
     );
@@ -183,7 +185,7 @@ function validateInput(input: ProjectileMotionInput): void {
   
   if (input.gravity !== undefined && input.gravity <= 0) {
     throw new ProjectileMotionError(
-      'Gravity must be positive',
+      'Tyngdeakselerasjonen må være positiv',
       'invalid_input',
       'gravity'
     );

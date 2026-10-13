@@ -6,6 +6,8 @@
  * @see Requirements 29.5
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 export interface DiceProbabilityInput {
   numDice: number;
   numSides: number;
@@ -37,11 +39,11 @@ export function calculateDiceDistribution(
   numSides: number
 ): Map<number, number> {
   if (numDice < 1 || numDice > 20) {
-    throw new Error('Number of dice must be between 1 and 20');
+    throw new Error('Antall terninger må være mellom 1 og 20');
   }
 
   if (numSides < 2 || numSides > 100) {
-    throw new Error('Number of sides must be between 2 and 100');
+    throw new Error('Antall sider må være mellom 2 og 100');
   }
 
   let dp = new Map<number, number>();
@@ -131,7 +133,7 @@ export function calculateDiceProbability(input: DiceProbabilityInput): DiceProba
 
   return {
     probability: roundToDecimal(probability, 6),
-    percentage: (probability * 100).toFixed(2) + '%',
+    percentage: formatFixed(probability * 100, 2) + ' %',
     odds,
     favorableOutcomes,
     totalOutcomes,
@@ -235,20 +237,20 @@ function roundToDecimal(value: number, decimals: number): number {
  * Common dice configurations for UI
  */
 export const COMMON_DICE = [
-  { value: 4, label: 'd4 (4-sided)' },
-  { value: 6, label: 'd6 (6-sided)' },
-  { value: 8, label: 'd8 (8-sided)' },
-  { value: 10, label: 'd10 (10-sided)' },
-  { value: 12, label: 'd12 (12-sided)' },
-  { value: 20, label: 'd20 (20-sided)' },
-  { value: 100, label: 'd100 (percentile)' },
+  { value: 4, label: 'd4 (4 sider)' },
+  { value: 6, label: 'd6 (6 sider)' },
+  { value: 8, label: 'd8 (8 sider)' },
+  { value: 10, label: 'd10 (10 sider)' },
+  { value: 12, label: 'd12 (12 sider)' },
+  { value: 20, label: 'd20 (20 sider)' },
+  { value: 100, label: 'd100 (prosentterning)' },
 ];
 
 /**
  * Comparison options for UI
  */
 export const COMPARISON_OPTIONS = [
-  { value: 'exact', label: 'Exactly' },
-  { value: 'at-least', label: 'At least' },
-  { value: 'at-most', label: 'At most' },
+  { value: 'exact', label: 'Nøyaktig' },
+  { value: 'at-least', label: 'Minst' },
+  { value: 'at-most', label: 'Høyst' },
 ];

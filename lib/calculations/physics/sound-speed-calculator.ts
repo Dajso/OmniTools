@@ -13,6 +13,8 @@
  * @see Requirements 31.4, 31.7
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 /**
  * Error class for sound speed calculation errors
  */
@@ -103,10 +105,6 @@ export interface SoundSpeedResult {
   speedMps: number;
   /** Speed of sound in km/h */
   speedKmh: number;
-  /** Speed of sound in mph */
-  speedMph: number;
-  /** Speed of sound in ft/s */
-  speedFps: number;
   /** Speed of sound in knots */
   speedKnots: number;
   /** Formatted speed string */
@@ -119,8 +117,8 @@ export interface SoundSpeedResult {
   mach1: number;
   /** Time for sound to travel 1 km */
   timePerKm: number;
-  /** Time for sound to travel 1 mile */
-  timePerMile: number;
+  /** Time for sound to travel 100 m */
+  timePer100m: number;
 }
 
 /**
@@ -135,7 +133,7 @@ export function soundSpeedInAir(temperatureCelsius: number): number {
   // Validate temperature (absolute zero is -273.15°C)
   if (temperatureCelsius < -273.15) {
     throw new SoundSpeedError(
-      'Temperature cannot be below absolute zero (-273.15°C)',
+      'Temperaturen kan ikke være under det absolutte nullpunktet (-273,15 °C)',
       'out_of_range',
       'temperature'
     );
@@ -161,7 +159,7 @@ export function soundSpeedInAirWithHumidity(
 ): number {
   if (humidityPercent < 0 || humidityPercent > 100) {
     throw new SoundSpeedError(
-      'Humidity must be between 0 and 100 percent',
+      'Luftfuktigheten må være mellom 0 og 100 prosent',
       'out_of_range',
       'humidity'
     );
@@ -208,7 +206,7 @@ export function calculateSoundSpeed(input: SoundSpeedInput): SoundSpeedResult {
   // Validate temperature
   if (temperature < -273.15) {
     throw new SoundSpeedError(
-      'Temperature cannot be below absolute zero (-273.15°C)',
+      'Temperaturen kan ikke være under det absolutte nullpunktet (-273,15 °C)',
       'out_of_range',
       'temperature'
     );
@@ -228,7 +226,7 @@ export function calculateSoundSpeed(input: SoundSpeedInput): SoundSpeedResult {
     const mediumSpeed = getSoundSpeedInMedium(medium);
     if (mediumSpeed === undefined) {
       throw new SoundSpeedError(
-        `Unknown medium: ${medium}`,
+        `Ukjent stoff: ${medium}`,
         'invalid_input',
         'medium'
       );
@@ -240,26 +238,22 @@ export function calculateSoundSpeed(input: SoundSpeedInput): SoundSpeedResult {
   
   // Convert to other units
   const speedKmh = speedMps * 3.6;
-  const speedMph = speedMps * 2.23694;
-  const speedFps = speedMps * 3.28084;
   const speedKnots = speedMps * 1.94384;
   
   // Calculate time to travel distances
   const timePerKm = 1000 / speedMps;
-  const timePerMile = 1609.34 / speedMps;
+  const timePer100m = 100 / speedMps;
   
   return {
     speedMps,
     speedKmh,
-    speedMph,
-    speedFps,
     speedKnots,
-    formattedSpeed: `${speedMps.toFixed(2)} m/s`,
+    formattedSpeed: `${formatFixed(speedMps, 2)} m/s`,
     medium,
     temperature,
     mach1: speedMps,
     timePerKm,
-    timePerMile,
+    timePer100m,
   };
 }
 
@@ -272,7 +266,7 @@ export function calculateSoundSpeed(input: SoundSpeedInput): SoundSpeedResult {
  */
 export function calculateMachNumber(objectSpeed: number, soundSpeed: number): number {
   if (soundSpeed === 0) {
-    throw new SoundSpeedError('Sound speed cannot be zero', 'invalid_input', 'soundSpeed');
+    throw new SoundSpeedError('Lydhastigheten kan ikke være null', 'invalid_input', 'soundSpeed');
   }
   return objectSpeed / soundSpeed;
 }

@@ -3,56 +3,47 @@ import { CoinFlipSimulator } from '@/components/calculators/stats';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Coin Flip Simulator - Probability Distribution Visualization',
-  description: 'Simulate coin flips and visualize the distribution of heads and tails. Learn about probability and the law of large numbers.',
-  keywords: ['coin flip simulator', 'coin toss', 'probability', 'heads or tails', 'random generator', 'statistics'],
+  title: 'Myntkast – gratis kalkulator på nett',
+  description: 'Kast mynt og se fordelingen av kron og mynt. Gratis og uten registrering.',
+  keywords: ['myntkast', 'kron og mynt', 'sannsynlighet', 'tilfeldig', 'store talls lov'],
   alternates: { canonical: '/calculators/stats/coin-flip-simulator' },
+  openGraph: {
+    title: 'Myntkast',
+    description: 'Kast mynt og se fordelingen av kron og mynt',
+    url: '/calculators/stats/coin-flip-simulator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Coin Flip Simulator',
-  description: 'Simulate coin flips and visualize probability distribution',
+  name: 'Myntkast',
+  description: 'Kast mynt og se fordelingen av kron og mynt',
   applicationCategory: 'EducationalApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set number of flips', text: 'Choose how many coin flips to simulate (1 to 10,000).' },
-  { name: 'Click Calculate', text: 'Press the Calculate button to run the simulation.' },
-  { name: 'View results', text: 'See the distribution of heads and tails with a visual chart.' },
-  { name: 'Analyze the data', text: 'Compare your results to the expected 50/50 distribution.' },
+  { name: 'Velg antall kast', text: 'Velg hvor mange ganger mynten skal kastes.' },
+  { name: 'Kast mynten', text: 'Trykk på knappen for å simulere kastene.' },
+  { name: 'Se fordelingen', text: 'Se antall kron og mynt, avvik og de siste kastene.' },
 ];
 
 const faqs = [
-  {
-    question: 'Is this a fair coin simulation?',
-    answer: 'Yes, this simulator uses a fair coin with exactly 50% probability for heads and 50% for tails. Each flip is independent and random.',
-  },
-  {
-    question: 'Why don\'t I always get exactly 50% heads?',
-    answer: 'Random variation is normal. With small sample sizes, you\'ll often see deviations from 50%. As you increase the number of flips, the percentage tends to get closer to 50% - this is the Law of Large Numbers.',
-  },
-  {
-    question: 'What is the Law of Large Numbers?',
-    answer: 'The Law of Large Numbers states that as the number of trials increases, the average of the results will get closer to the expected value. For coin flips, this means more flips = closer to 50% heads.',
-  },
-  {
-    question: 'Can I use this for making decisions?',
-    answer: 'Yes! You can use a single flip to make random decisions. The simulator provides a truly random result based on cryptographic-quality randomness.',
-  },
-  {
-    question: 'What is the probability of getting all heads?',
-    answer: 'The probability of getting all heads in n flips is (1/2)^n. For example, 10 heads in a row has a probability of about 0.1% (1 in 1,024).',
-  },
+  { question: 'Er myntkastet virkelig tilfeldig?', answer: 'Simuleringen bruker datamaskinens tilfeldighetsgenerator, som er god nok til lek og undervisning, men ikke til sikkerhetsformål.' },
+  { question: 'Hvorfor blir det sjelden akkurat 50/50?', answer: 'Fordi tilfeldigheter gir avvik. Jo flere kast, desto nærmere 50 % kommer andelen, men differansen i antall kan fortsatt vokse.' },
+  { question: 'Hva er «gamblers fallacy»?', answer: 'Troen på at mynten «har skylden» etter en rekke kron. Hvert kast er uavhengig av de forrige.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/stats/dice-probability-calculator', title: 'Dice Probability', description: 'Calculate dice roll probabilities.' },
-  { href: '/calculators/stats/random-number-generator', title: 'Random Number Generator', description: 'Generate random numbers with distributions.' },
-  { href: '/calculators/stats/standard-deviation-calculator', title: 'Standard Deviation', description: 'Calculate statistical measures.' },
+  { href: '/calculators/stats/dice-probability-calculator', title: 'Terningsannsynlighet', description: 'Regn ut sannsynligheten for bestemte summer med flere terninger' },
+  { href: '/calculators/productivity/random-number-generator', title: 'Tilfeldig tallgenerator', description: 'Trekk tilfeldige tall innenfor et intervall' },
+  { href: '/calculators/stats/standard-deviation-calculator', title: 'Standardavvik', description: 'Regn ut standardavvik, varians, gjennomsnitt, median og typetall' },
 ];
 
 export default function CoinFlipSimulatorPage() {
@@ -62,45 +53,33 @@ export default function CoinFlipSimulatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="coin-flip-simulator"
-          title="Coin Flip Simulator"
-          description="Simulate coin flips and visualize the distribution of heads and tails. Perfect for learning about probability and the law of large numbers."
+          title="Myntkast"
+          description="Simuler myntkast og se fordelingen av kron og mynt, med avvik fra forventet 50/50. Gratis og uten registrering."
           colorClass="bg-yellow-100 text-yellow-600"
         />
 
-        <section aria-label="Coin Flip Simulator">
+        <section aria-label="Myntkast">
           <CoinFlipSimulator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Probability Concepts</h2>
+          <h2 className="text-xl font-semibold mb-4">Sannsynlighet i praksis</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-semibold text-blue-700 mb-2">🎲 Independent Events</h3>
-              <p className="text-sm text-muted-foreground">
-                Each coin flip is independent - previous results don&apos;t affect future flips. 
-                Getting 5 heads in a row doesn&apos;t make tails more likely on the next flip.
-              </p>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">🎲 Uavhengige hendelser</h3>
+              <p className="text-sm text-muted-foreground">Hvert myntkast er uavhengig av de forrige. Fem kron på rad gjør ikke mynt mer sannsynlig i neste kast.</p>
             </div>
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h3 className="font-semibold text-green-700 mb-2">📊 Law of Large Numbers</h3>
-              <p className="text-sm text-muted-foreground">
-                As you flip more coins, the percentage of heads approaches 50%. 
-                Try 10 flips vs 10,000 flips to see this in action!
-              </p>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">📊 De store talls lov</h3>
+              <p className="text-sm text-muted-foreground">Jo flere kast, desto nærmere 50 % kommer andelen kron. Prøv 10 kast mot 10 000 kast og se forskjellen.</p>
             </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <h3 className="font-semibold text-purple-700 mb-2">🔔 Normal Distribution</h3>
-              <p className="text-sm text-muted-foreground">
-                With many flips, the number of heads follows a bell curve (normal distribution) 
-                centered around 50% of the total flips.
-              </p>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">🔔 Normalfordeling</h3>
+              <p className="text-sm text-muted-foreground">Ved mange kast følger antall kron en klokkekurve rundt halvparten av kastene.</p>
             </div>
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <h3 className="font-semibold text-orange-700 mb-2">⚖️ Expected Value</h3>
-              <p className="text-sm text-muted-foreground">
-                The expected number of heads is always n/2 where n is the number of flips. 
-                For 100 flips, expect around 50 heads on average.
-              </p>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">⚖️ Forventningsverdi</h3>
+              <p className="text-sm text-muted-foreground">Forventet antall kron er alltid n/2, der n er antall kast. Ved 100 kast er snittet 50 kron.</p>
             </div>
           </div>
         </section>

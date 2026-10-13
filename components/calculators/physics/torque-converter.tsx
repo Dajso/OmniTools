@@ -51,7 +51,7 @@ export function TorqueConverter() {
       const result = convertTorqueToAllUnits(value, sourceUnit);
       setConversions(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion error');
+      setError(err instanceof Error ? err.message : 'Omregningsfeil');
       setConversions(null);
     }
   }, [value, sourceUnit]);
@@ -69,10 +69,10 @@ export function TorqueConverter() {
 
   return (
     <CalculatorBase
-      title="Torque Converter"
-      description="Convert torque between different units including Newton-meter, Foot-pound, Kilogram-meter, and more"
-      formula="Conversion via Newton-meter (SI base unit)"
-      formulaExplanation="All torque values are converted through Newton-meter (N·m) as the base unit. Enter a value and select the source unit to see conversions to all other units."
+      title="Dreiemomentomregner"
+      description="Regn om dreiemoment mellom newtonmeter, fot-pund, kilogram-meter og flere enheter"
+      formula="Omregning via newtonmeter (SI-grunnenheten)"
+      formulaExplanation="Alt dreiemoment regnes om via newtonmeter (N·m) som grunnenhet. Fyll inn en verdi og velg enheten du har, så får du den i alle andre enheter."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -80,7 +80,7 @@ export function TorqueConverter() {
         <div className="space-y-6">
           {/* Primary Units */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">Common Units</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Vanlige enheter</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {primaryUnits.map((unit) => (
                 <ResultDisplay
@@ -96,7 +96,7 @@ export function TorqueConverter() {
 
           {/* Secondary Units */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">Additional Units</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Flere enheter</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {secondaryUnits.map((unit) => (
                 <ResultDisplay
@@ -111,7 +111,7 @@ export function TorqueConverter() {
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
-            Highlighted value is your input unit
+            Den uthevede verdien er enheten du fylte inn
           </p>
         </div>
       )}
@@ -120,15 +120,15 @@ export function TorqueConverter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <NumberInput
             id="torque-value"
-            label="Torque Value"
+            label="Dreiemoment"
             value={value}
             onChange={setValue}
-            placeholder="Enter torque value"
+            placeholder="Fyll inn dreiemoment"
             step={0.01}
           />
           <SelectInput
             id="source-unit"
-            label="Source Unit"
+            label="Fra enhet"
             value={sourceUnit}
             onChange={(val) => setSourceUnit(val as TorqueUnit)}
             options={unitOptions}
@@ -136,22 +136,22 @@ export function TorqueConverter() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Common Torque References</p>
+          <p className="text-sm font-medium mb-2">Typiske dreiemoment</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
-            <div>• Car wheel lug nut: ~110 N·m (~80 ft-lb)</div>
-            <div>• Bicycle pedal: ~35 N·m</div>
-            <div>• Spark plug: ~20 N·m</div>
-            <div>• High-perf engine: ~500 N·m</div>
+            <div>• Hjulbolter på bil: ca. 110 N·m (ca. 80 ft-lb)</div>
+            <div>• Sykkelpedal: ca. 35 N·m</div>
+            <div>• Tennplugg: ca. 20 N·m</div>
+            <div>• Kraftig motor: ca. 500 N·m</div>
           </div>
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Unit Relationships</p>
+          <p className="text-sm font-medium mb-2">Sammenhenger mellom enhetene</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-            <div>1 N·m ≈ 0.7376 ft-lb</div>
-            <div>1 ft-lb ≈ 1.3558 N·m</div>
-            <div>1 N·m ≈ 8.8507 in-lb</div>
-            <div>1 kg·m ≈ 9.8067 N·m</div>
+            <div>1 N·m ≈ 0,7376 ft-lb</div>
+            <div>1 ft-lb ≈ 1,3558 N·m</div>
+            <div>1 N·m ≈ 8,8507 in-lb</div>
+            <div>1 kg·m ≈ 9,8067 N·m</div>
           </div>
         </div>
       </div>

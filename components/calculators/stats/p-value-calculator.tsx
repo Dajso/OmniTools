@@ -52,12 +52,12 @@ export function PValueCalculator() {
           pValueResult = calculateChiSquarePValue({ testStatistic, degreesOfFreedom });
           break;
         default:
-          throw new Error('Invalid test type');
+          throw new Error('Ugyldig testtype');
       }
 
       setResult(pValueResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [testType, tailType, testStatistic, degreesOfFreedom]);
@@ -78,11 +78,11 @@ export function PValueCalculator() {
   const getFormula = () => {
     switch (testType) {
       case 'z-test':
-        return 'P(Z > |z|) using standard normal distribution';
+        return 'P(Z > |z|) med standard normalfordeling';
       case 't-test':
-        return 'P(T > |t|) using Student\'s t-distribution with df degrees of freedom';
+        return 'P(T > |t|) med Students t-fordeling og df frihetsgrader';
       case 'chi-square':
-        return 'P(χ² > x) using chi-square distribution with df degrees of freedom';
+        return 'P(χ² > x) med kjikvadratfordeling og df frihetsgrader';
       default:
         return '';
     }
@@ -90,17 +90,17 @@ export function PValueCalculator() {
 
   return (
     <CalculatorBase
-      title="P-Value Calculator"
-      description="Calculate p-values for hypothesis testing using Z-test, T-test, or Chi-square test"
+      title="P-verdikalkulator"
+      description="Regn ut p-verdier for hypotesetesting med z-test, t-test eller kjikvadrattest"
       formula={getFormula()}
-      formulaExplanation="The p-value represents the probability of obtaining results at least as extreme as the observed results, assuming the null hypothesis is true."
+      formulaExplanation="P-verdien er sannsynligheten for å få et resultat minst like ekstremt som det observerte, gitt at nullhypotesen er sann."
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="P-Value"
+            label="P-verdi"
             value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 6)}
             highlight
             copyable
@@ -108,13 +108,13 @@ export function PValueCalculator() {
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Significance Level (α)"
+              label="Signifikansnivå (α)"
               value={result.significanceLevel.toString()}
               copyable
             />
             <ResultDisplay
-              label="Statistically Significant"
-              value={result.isSignificant ? 'Yes' : 'No'}
+              label="Statistisk signifikant"
+              value={result.isSignificant ? 'Ja' : 'Nei'}
               copyable
             />
           </div>
@@ -131,15 +131,14 @@ export function PValueCalculator() {
             </p>
             <p className="text-xs text-muted-foreground mt-2">
               {result.isSignificant 
-                ? 'The result is statistically significant at α = 0.05. You can reject the null hypothesis.'
-                : 'The result is not statistically significant at α = 0.05. You cannot reject the null hypothesis.'}
+                ? 'Resultatet er statistisk signifikant på α = 0,05. Du kan forkaste nullhypotesen.'
+                : 'Resultatet er ikke statistisk signifikant på α = 0,05. Du kan ikke forkaste nullhypotesen.'}
             </p>
           </div>
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 A p-value less than 0.05 is typically considered statistically significant, 
-              meaning there is less than a 5% probability that the observed results occurred by chance.
+              💡 En p-verdi under 0,05 regnes vanligvis som statistisk signifikant, altså at det er mindre enn 5 % sannsynlighet for at resultatet skyldes tilfeldigheter.
             </p>
           </div>
         </div>
@@ -147,7 +146,7 @@ export function PValueCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="test-type">Test Type</Label>
+          <Label htmlFor="test-type">Testtype</Label>
           <select
             id="test-type"
             value={testType}
@@ -164,7 +163,7 @@ export function PValueCalculator() {
 
         {testType !== 'chi-square' && (
           <div>
-            <Label htmlFor="tail-type">Tail Type</Label>
+            <Label htmlFor="tail-type">Ensidig eller tosidig</Label>
             <select
               id="tail-type"
               value={tailType}
@@ -182,7 +181,7 @@ export function PValueCalculator() {
 
         <NumberInput
           id="test-statistic"
-          label={testType === 'chi-square' ? 'Chi-Square Statistic (χ²)' : testType === 't-test' ? 'T-Statistic' : 'Z-Score'}
+          label={testType === 'chi-square' ? 'Kjikvadrat (χ²)' : testType === 't-test' ? 'T-verdi' : 'Z-verdi'}
           value={testStatistic}
           onChange={setTestStatistic}
           step={0.01}
@@ -192,7 +191,7 @@ export function PValueCalculator() {
         {(testType === 't-test' || testType === 'chi-square') && (
           <NumberInput
             id="degrees-of-freedom"
-            label="Degrees of Freedom"
+            label="Frihetsgrader"
             value={degreesOfFreedom}
             onChange={setDegreesOfFreedom}
             min={1}

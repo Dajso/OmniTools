@@ -80,19 +80,19 @@ export function calculateABTestSignificance(input: ABTestInput): ABTestResult {
 
   // Validate inputs
   if (controlVisitors <= 0 || treatmentVisitors <= 0) {
-    throw new Error('Visitor counts must be positive');
+    throw new Error('Antall besøkende må være positivt');
   }
 
   if (controlConversions < 0 || treatmentConversions < 0) {
-    throw new Error('Conversion counts cannot be negative');
+    throw new Error('Antall konverteringer kan ikke være negativt');
   }
 
   if (controlConversions > controlVisitors) {
-    throw new Error('Control conversions cannot exceed control visitors');
+    throw new Error('Konverteringer i kontrollgruppen kan ikke overstige antall besøkende');
   }
 
   if (treatmentConversions > treatmentVisitors) {
-    throw new Error('Treatment conversions cannot exceed treatment visitors');
+    throw new Error('Konverteringer i testgruppen kan ikke overstige antall besøkende');
   }
 
   // Calculate conversion rates
@@ -170,11 +170,11 @@ export function calculateMinimumSampleSize(
   significance: number = 0.05
 ): number {
   if (baselineRate <= 0 || baselineRate >= 1) {
-    throw new Error('Baseline rate must be between 0 and 1 (exclusive)');
+    throw new Error('Grunnraten må være mellom 0 og 1 (ikke inkludert)');
   }
 
   if (minimumDetectableEffect <= 0) {
-    throw new Error('Minimum detectable effect must be positive');
+    throw new Error('Minste påvisbare effekt må være positiv');
   }
 
   // Z-scores for significance and power
@@ -208,7 +208,7 @@ function roundToDecimal(value: number, decimals: number): number {
  * Significance level options for UI
  */
 export const SIGNIFICANCE_LEVELS = [
-  { value: 0.10, label: '90% Confidence (α = 0.10)' },
-  { value: 0.05, label: '95% Confidence (α = 0.05)' },
-  { value: 0.01, label: '99% Confidence (α = 0.01)' },
+  { value: 0.10, label: '90 % konfidens (α = 0,10)' },
+  { value: 0.05, label: '95 % konfidens (α = 0,05)' },
+  { value: 0.01, label: '99 % konfidens (α = 0,01)' },
 ];

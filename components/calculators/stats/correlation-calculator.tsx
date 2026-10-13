@@ -44,7 +44,7 @@ export function CorrelationCalculator() {
       const correlationResult = calculateCorrelation({ xValues, yValues });
       setResult(correlationResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [dataInput]);
@@ -98,10 +98,10 @@ export function CorrelationCalculator() {
 
   return (
     <CalculatorBase
-      title="Correlation Coefficient Calculator"
-      description="Calculate Pearson correlation coefficient (r) and linear regression"
+      title="Korrelasjonskalkulator"
+      description="Regn ut Pearsons korrelasjonskoeffisient (r) og lineær regresjon"
       formula="r = Σ((x - x̄)(y - ȳ)) / √(Σ(x - x̄)² × Σ(y - ȳ)²)"
-      formulaExplanation="Pearson's r measures the linear relationship between two variables, ranging from -1 (perfect negative) to +1 (perfect positive)."
+      formulaExplanation="Pearsons r måler det lineære forholdet mellom to variabler, fra -1 (perfekt negativt) til +1 (perfekt positivt)."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -109,7 +109,7 @@ export function CorrelationCalculator() {
         <div className="space-y-6">
           {/* Main Result */}
           <div className="text-center p-4 bg-muted/30 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-1">Pearson Correlation Coefficient (r)</p>
+            <p className="text-sm text-muted-foreground mb-1">Pearsons korrelasjonskoeffisient (r)</p>
             <p className="text-4xl font-bold text-primary">{formatFixed(result.pearsonR, 4)}</p>
             <p className={cn(
               'text-sm mt-2 px-3 py-1 rounded-full inline-block border',
@@ -122,17 +122,17 @@ export function CorrelationCalculator() {
           {/* Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <ResultDisplay
-              label="R-Squared (R²)"
+              label="Determinasjonskoeffisient (R²)"
               value={formatFixed((result.rSquared * 100), 2) + '%'}
               copyable
             />
             <ResultDisplay
-              label="P-Value"
+              label="P-verdi"
               value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 4)}
               copyable
             />
             <ResultDisplay
-              label="Sample Size"
+              label="Antall datapunkter"
               value={result.sampleSize.toString()}
               copyable
             />
@@ -148,15 +148,15 @@ export function CorrelationCalculator() {
               result.isSignificant ? 'text-green-700' : 'text-yellow-700'
             )}>
               {result.isSignificant 
-                ? '✓ Statistically significant correlation (p < 0.05)'
-                : '⚠ Not statistically significant (p ≥ 0.05)'}
+                ? '✓ Statistisk signifikant korrelasjon (p < 0,05)'
+                : '⚠ Ikke statistisk signifikant (p ≥ 0,05)'}
             </p>
           </div>
 
           {/* Scatter Plot */}
           {scatterData.length > 0 && (
             <div className="bg-muted/30 p-4 rounded-lg">
-              <h4 className="font-medium mb-4 text-center">Scatter Plot with Regression Line</h4>
+              <h4 className="font-medium mb-4 text-center">Spredningsplott med regresjonslinje</h4>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <ScatterChart margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
@@ -175,7 +175,7 @@ export function CorrelationCalculator() {
                     />
                     <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                     <Scatter 
-                      name="Data Points" 
+                      name="Datapunkter" 
                       data={scatterData} 
                       fill="#6366f1"
                     />
@@ -198,18 +198,18 @@ export function CorrelationCalculator() {
 
           {/* Regression Equation */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-2">Linear Regression</h4>
+            <h4 className="font-medium mb-2">Lineær regresjon</h4>
             <code className="text-lg font-mono bg-background px-3 py-1 rounded">
               {result.regression.equation}
             </code>
             <div className="grid grid-cols-2 gap-4 mt-3">
               <ResultDisplay
-                label="Slope"
+                label="Stigningstall"
                 value={formatFixed(result.regression.slope, 4)}
                 copyable
               />
               <ResultDisplay
-                label="Y-Intercept"
+                label="Skjæring med y-aksen"
                 value={formatFixed(result.regression.intercept, 4)}
                 copyable
               />
@@ -219,13 +219,12 @@ export function CorrelationCalculator() {
           {/* Interpretation */}
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 R² = {formatFixed((result.rSquared * 100), 1)}% means that {formatFixed((result.rSquared * 100), 1)}% 
-              of the variance in Y can be explained by X. 
+              💡 R² = {formatFixed((result.rSquared * 100), 1)} % betyr at {formatFixed((result.rSquared * 100), 1)} % av variasjonen i Y kan forklares av X. 
               {result.direction === 'positive' 
-                ? ' As X increases, Y tends to increase.'
+                ? 'Når X øker, har Y en tendens til å øke.'
                 : result.direction === 'negative'
-                ? ' As X increases, Y tends to decrease.'
-                : ' There is no clear linear relationship.'}
+                ? 'Når X øker, har Y en tendens til å synke.'
+                : 'Det er ikke noe tydelig lineært forhold.'}
             </p>
           </div>
         </div>
@@ -233,16 +232,16 @@ export function CorrelationCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="data-input">Enter Data Pairs (X, Y)</Label>
+          <Label htmlFor="data-input">Fyll inn datapar (X, Y)</Label>
           <textarea
             id="data-input"
             value={dataInput}
             onChange={(e) => setDataInput(e.target.value)}
             className="w-full mt-1 p-3 border rounded-md bg-background min-h-[150px] font-mono text-sm"
-            placeholder="Enter X,Y pairs, one per line:&#10;1, 2&#10;2, 4&#10;3, 5&#10;..."
+            placeholder="Skriv ett X,Y-par per linje:&#10;1; 2&#10;2; 4&#10;3; 5&#10;..."
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Enter one X,Y pair per line, separated by comma, tab, or space
+            Ett X,Y-par per linje, adskilt med semikolon, tabulator eller mellomrom
           </p>
         </div>
       </div>

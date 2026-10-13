@@ -8,6 +8,7 @@ import { SelectInput } from '@/components/ui/select-input';
 import {
   calculateDensity,
   MATERIAL_DENSITIES,
+  materialName,
   willFloat,
   percentSubmerged,
   type DensityResult,
@@ -15,11 +16,11 @@ import {
 import { formatFixed } from '@/lib/utils/formatting';
 
 const materialOptions = [
-  { value: '', label: 'Select a material (optional)' },
-  { value: 'custom', label: '-- Custom Values --' },
+  { value: '', label: 'Velg et materiale (valgfritt)' },
+  { value: 'custom', label: '-- Egne verdier --' },
   ...Object.entries(MATERIAL_DENSITIES).map(([key, value]) => ({
     value: key,
-    label: `${key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} (${value} kg/m³)`,
+    label: `${materialName(key)} (${value} kg/m³)`,
   })),
 ];
 
@@ -51,7 +52,7 @@ export function DensityCalculator() {
       const res = calculateDensity(input);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [density, mass, volume]);
@@ -79,10 +80,10 @@ export function DensityCalculator() {
 
   return (
     <CalculatorBase
-      title="Density Calculator"
-      description="Calculate density, mass, or volume using ρ = m/V"
+      title="Tetthetskalkulator"
+      description="Regn ut tetthet, masse eller volum med ρ = m/V"
       formula="ρ = m / V"
-      formulaExplanation="Density equals mass divided by volume. Enter any two values to calculate the third."
+      formulaExplanation="Tetthet er masse delt på volum. Fyll inn to verdier, så regnes den tredje ut."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -90,19 +91,19 @@ export function DensityCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ResultDisplay
-              label="Density (ρ)"
+              label="Tetthet (ρ)"
               value={result.formattedDensity}
               highlight={result.calculated === 'density'}
               copyable
             />
             <ResultDisplay
-              label="Mass (m)"
+              label="Masse (m)"
               value={result.formattedMass}
               highlight={result.calculated === 'mass'}
               copyable
             />
             <ResultDisplay
-              label="Volume (V)"
+              label="Volum (V)"
               value={result.formattedVolume}
               highlight={result.calculated === 'volume'}
               copyable
@@ -112,23 +113,23 @@ export function DensityCalculator() {
           {result.closestMaterial && (
             <div className="bg-muted/50 p-3 rounded-md">
               <p className="text-sm">
-                <span className="font-medium">Similar material: </span>
-                {result.closestMaterial.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                <span className="font-medium">Lignende materiale: </span>
+                {materialName(result.closestMaterial)}
               </p>
             </div>
           )}
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Buoyancy in Water</p>
+            <p className="text-sm font-medium mb-2">Oppdrift i vann</p>
             <p className="text-sm">
               {floatsInWater 
-                ? `✓ This object would float (${formatFixed(submergedPercent ?? 0, 1)}% submerged)`
-                : '✗ This object would sink in water'}
+                ? `✓ Gjenstanden flyter (${formatFixed(submergedPercent ?? 0, 1)} % under vann)`
+                : '✗ Gjenstanden synker i vann'}
             </p>
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
-            Highlighted value was calculated from your inputs
+            Den uthevede verdien er regnet ut fra det du har fylt inn
           </p>
         </div>
       )}
@@ -136,18 +137,18 @@ export function DensityCalculator() {
       <div className="space-y-4">
         <SelectInput
           id="material"
-          label="Material Preset"
+          label="Materialvalg"
           value={selectedMaterial}
           onChange={handleMaterialChange}
           options={materialOptions}
         />
 
-        <p className="text-sm text-muted-foreground">Enter any two values:</p>
+        <p className="text-sm text-muted-foreground">Fyll inn to verdier:</p>
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <NumberInput
             id="density"
-            label="Density"
+            label="Tetthet"
             value={density}
             onChange={setDensity}
             placeholder="kg/m³"
@@ -156,7 +157,7 @@ export function DensityCalculator() {
           />
           <NumberInput
             id="mass"
-            label="Mass"
+            label="Masse"
             value={mass}
             onChange={setMass}
             placeholder="kg"
@@ -165,7 +166,7 @@ export function DensityCalculator() {
           />
           <NumberInput
             id="volume"
-            label="Volume"
+            label="Volum"
             value={volume}
             onChange={setVolume}
             placeholder="m³"
@@ -175,7 +176,7 @@ export function DensityCalculator() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Density Formulas</p>
+          <p className="text-sm font-medium mb-2">Formler for tetthet</p>
           <div className="grid grid-cols-3 gap-2 text-xs font-mono">
             <div>ρ = m / V</div>
             <div>m = ρ × V</div>

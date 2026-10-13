@@ -144,7 +144,7 @@ function validateUnit(unit: string): PressureUnit {
   const normalizedUnit = unit.toLowerCase() as PressureUnit;
   if (!(normalizedUnit in PRESSURE_TO_PASCAL)) {
     throw new PressureError(
-      `Unknown pressure unit: ${unit}`,
+      `Ukjent trykkenhet: ${unit}`,
       'unknown_unit',
       'unit'
     );
@@ -197,7 +197,7 @@ export function convertPressureWithDetails(
   
   if (value < 0) {
     throw new PressureError(
-      'Pressure cannot be negative (absolute pressure)',
+      'Trykket kan ikke være negativt (absolutt trykk)',
       'invalid_input',
       'value'
     );

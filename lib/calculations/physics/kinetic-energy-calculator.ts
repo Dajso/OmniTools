@@ -11,6 +11,8 @@
  * @see Requirements 31.2, 31.7
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 /**
  * Error class for kinetic energy calculation errors
  */
@@ -67,18 +69,18 @@ export interface KineticEnergyResult {
  */
 export function formatEnergy(joules: number): string {
   if (joules >= 1e9) {
-    return `${(joules / 1e9).toFixed(3)} GJ`;
+    return `${formatFixed(joules / 1e9, 3)} GJ`;
   }
   if (joules >= 1e6) {
-    return `${(joules / 1e6).toFixed(3)} MJ`;
+    return `${formatFixed(joules / 1e6, 3)} MJ`;
   }
   if (joules >= 1e3) {
-    return `${(joules / 1e3).toFixed(3)} kJ`;
+    return `${formatFixed(joules / 1e3, 3)} kJ`;
   }
   if (joules >= 1) {
-    return `${joules.toFixed(3)} J`;
+    return `${formatFixed(joules, 3)} J`;
   }
-  return `${(joules * 1000).toFixed(3)} mJ`;
+  return `${formatFixed(joules * 1000, 3)} mJ`;
 }
 
 /**
@@ -86,12 +88,12 @@ export function formatEnergy(joules: number): string {
  */
 export function formatKineticMass(mass: number): string {
   if (mass >= 1000) {
-    return `${(mass / 1000).toFixed(3)} tonnes`;
+    return `${formatFixed(mass / 1000, 3)} tonn`;
   }
   if (mass >= 1) {
-    return `${mass.toFixed(3)} kg`;
+    return `${formatFixed(mass, 3)} kg`;
   }
-  return `${(mass * 1000).toFixed(3)} g`;
+  return `${formatFixed(mass * 1000, 3)} g`;
 }
 
 /**
@@ -99,9 +101,9 @@ export function formatKineticMass(mass: number): string {
  */
 export function formatVelocity(velocity: number): string {
   if (velocity >= 1000) {
-    return `${(velocity / 1000).toFixed(3)} km/s`;
+    return `${formatFixed(velocity / 1000, 3)} km/s`;
   }
-  return `${velocity.toFixed(3)} m/s`;
+  return `${formatFixed(velocity, 3)} m/s`;
 }
 
 /**
@@ -152,20 +154,20 @@ export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergy
 
   if (providedCount < 2) {
     throw new KineticEnergyError(
-      'At least two values must be provided',
+      'Du må oppgi minst to verdier',
       'insufficient_data'
     );
   }
 
   // Validate inputs
   if (kineticEnergy !== undefined && kineticEnergy < 0) {
-    throw new KineticEnergyError('Kinetic energy cannot be negative', 'invalid_input', 'kineticEnergy');
+    throw new KineticEnergyError('Kinetisk energi kan ikke være negativ', 'invalid_input', 'kineticEnergy');
   }
   if (mass !== undefined && mass <= 0) {
-    throw new KineticEnergyError('Mass must be positive', 'invalid_input', 'mass');
+    throw new KineticEnergyError('Massen må være positiv', 'invalid_input', 'mass');
   }
   if (velocity !== undefined && velocity < 0) {
-    throw new KineticEnergyError('Velocity cannot be negative', 'invalid_input', 'velocity');
+    throw new KineticEnergyError('Hastigheten kan ikke være negativ', 'invalid_input', 'velocity');
   }
 
   let resultEnergy: number;
@@ -182,7 +184,7 @@ export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergy
   } else if (kineticEnergy !== undefined && velocity !== undefined) {
     // Calculate mass: m = 2KE / v²
     if (velocity === 0) {
-      throw new KineticEnergyError('Cannot calculate mass when velocity is zero', 'division_by_zero', 'velocity');
+      throw new KineticEnergyError('Kan ikke regne ut massen når hastigheten er null', 'division_by_zero', 'velocity');
     }
     resultEnergy = kineticEnergy;
     resultVelocity = velocity;
@@ -196,7 +198,7 @@ export function calculateKineticEnergy(input: KineticEnergyInput): KineticEnergy
     calculated = 'velocity';
   } else {
     throw new KineticEnergyError(
-      'Unable to calculate from provided inputs',
+      'Kan ikke regne ut fra verdiene som er oppgitt',
       'insufficient_data'
     );
   }
@@ -229,7 +231,7 @@ export function kineticEnergyFromMassVelocity(mass: number, velocity: number): n
  */
 export function massFromEnergyVelocity(kineticEnergy: number, velocity: number): number {
   if (velocity === 0) {
-    throw new KineticEnergyError('Velocity cannot be zero', 'division_by_zero', 'velocity');
+    throw new KineticEnergyError('Hastigheten kan ikke være null', 'division_by_zero', 'velocity');
   }
   return (2 * kineticEnergy) / (velocity * velocity);
 }
@@ -240,7 +242,7 @@ export function massFromEnergyVelocity(kineticEnergy: number, velocity: number):
  */
 export function velocityFromEnergyMass(kineticEnergy: number, mass: number): number {
   if (mass === 0) {
-    throw new KineticEnergyError('Mass cannot be zero', 'division_by_zero', 'mass');
+    throw new KineticEnergyError('Massen kan ikke være null', 'division_by_zero', 'mass');
   }
   return Math.sqrt((2 * kineticEnergy) / mass);
 }

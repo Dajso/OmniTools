@@ -15,10 +15,10 @@ import {
 import { formatFixed } from '@/lib/utils/formatting';
 
 const gravityOptions = [
-  { value: GRAVITY_EARTH.toString(), label: `Earth (${GRAVITY_EARTH} m/s²)` },
-  { value: GRAVITY_MOON.toString(), label: `Moon (${GRAVITY_MOON} m/s²)` },
+  { value: GRAVITY_EARTH.toString(), label: `Jorda (${GRAVITY_EARTH} m/s²)` },
+  { value: GRAVITY_MOON.toString(), label: `Månen (${GRAVITY_MOON} m/s²)` },
   { value: GRAVITY_MARS.toString(), label: `Mars (${GRAVITY_MARS} m/s²)` },
-  { value: 'custom', label: 'Custom' },
+  { value: 'custom', label: 'Egendefinert' },
 ];
 
 function TrajectoryVisualization({ result }: { result: ProjectileMotionResult }) {
@@ -61,7 +61,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
         height={height}
         className="bg-muted/30 rounded-md"
         role="img"
-        aria-label="Projectile trajectory visualization"
+        aria-label="Banen til prosjektilet"
       >
         {/* Grid lines */}
         {[0, 0.25, 0.5, 0.75, 1].map((fraction) => (
@@ -110,7 +110,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
           textAnchor="middle"
           className="text-xs fill-muted-foreground"
         >
-          Distance (m)
+          Avstand (m)
         </text>
         <text
           x={15}
@@ -119,7 +119,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
           transform={`rotate(-90, 15, ${height / 2})`}
           className="text-xs fill-muted-foreground"
         >
-          Height (m)
+          Høyde (m)
         </text>
 
         {/* Trajectory path */}
@@ -142,7 +142,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
           y={scaleY(result.maxHeight) - 8}
           className="text-xs fill-foreground"
         >
-          Max: {formatFixed(result.maxHeight, 1)}m
+          Maks: {formatFixed(result.maxHeight, 1)}m
         </text>
 
         {/* Range marker */}
@@ -205,7 +205,7 @@ export function ProjectileMotionCalculator() {
       });
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [initialVelocity, launchAngle, initialHeight, gravityPreset, customGravity]);
@@ -224,10 +224,10 @@ export function ProjectileMotionCalculator() {
 
   return (
     <CalculatorBase
-      title="Projectile Motion Calculator"
-      description="Calculate trajectory, range, max height, and flight time"
+      title="Kalkulator for skrått kast"
+      description="Regn ut bane, kastelengde, maksimal høyde og flytid"
       formula="R = v₀²sin(2θ)/g, H = v₀²sin²(θ)/(2g)"
-      formulaExplanation="Calculate projectile motion parameters using standard kinematic equations"
+      formulaExplanation="Beregner skrått kast med de vanlige bevegelsesligningene"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -237,29 +237,29 @@ export function ProjectileMotionCalculator() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <ResultDisplay
-              label="Range"
+              label="Kastelengde"
               value={result.formattedRange}
               copyable
             />
             <ResultDisplay
-              label="Max Height"
+              label="Maksimal høyde"
               value={result.formattedMaxHeight}
               copyable
             />
             <ResultDisplay
-              label="Flight Time"
+              label="Flytid"
               value={result.formattedFlightTime}
               copyable
             />
             <ResultDisplay
-              label="Time to Max Height"
+              label="Tid til toppunktet"
               value={`${formatFixed(result.timeToMaxHeight, 3)} s`}
               copyable
             />
           </div>
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Velocity Components</p>
+            <p className="text-sm font-medium mb-2">Hastighetskomponenter</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
               <div>
                 <span className="text-muted-foreground">v₀ₓ: </span>
@@ -270,11 +270,11 @@ export function ProjectileMotionCalculator() {
                 {formatFixed(result.initialVelocityY, 2)} m/s
               </div>
               <div>
-                <span className="text-muted-foreground">Impact v: </span>
+                <span className="text-muted-foreground">Treffhastighet: </span>
                 {formatFixed(result.impactVelocity, 2)} m/s
               </div>
               <div>
-                <span className="text-muted-foreground">Impact angle: </span>
+                <span className="text-muted-foreground">Treffvinkel: </span>
                 {formatFixed(result.impactAngle, 1)}°
               </div>
             </div>
@@ -286,7 +286,7 @@ export function ProjectileMotionCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <NumberInput
             id="initialVelocity"
-            label="Initial Velocity"
+            label="Starthastighet"
             value={initialVelocity}
             onChange={setInitialVelocity}
             placeholder="m/s"
@@ -295,10 +295,10 @@ export function ProjectileMotionCalculator() {
           />
           <NumberInput
             id="launchAngle"
-            label="Launch Angle"
+            label="Utkastvinkel"
             value={launchAngle}
             onChange={setLaunchAngle}
-            placeholder="degrees (0-90)"
+            placeholder="grader (0–90)"
             min={0}
             max={90}
             step={1}
@@ -308,16 +308,16 @@ export function ProjectileMotionCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <NumberInput
             id="initialHeight"
-            label="Initial Height (optional)"
+            label="Starthøyde (valgfritt)"
             value={initialHeight}
             onChange={setInitialHeight}
-            placeholder="meters"
+            placeholder="meter"
             min={0}
             step={0.1}
           />
           <SelectInput
             id="gravity"
-            label="Gravity"
+            label="Tyngdekraft"
             value={gravityPreset}
             onChange={setGravityPreset}
             options={gravityOptions}
@@ -327,7 +327,7 @@ export function ProjectileMotionCalculator() {
         {gravityPreset === 'custom' && (
           <NumberInput
             id="customGravity"
-            label="Custom Gravity"
+            label="Egendefinert tyngdeakselerasjon"
             value={customGravity}
             onChange={setCustomGravity}
             placeholder="m/s²"
@@ -337,11 +337,11 @@ export function ProjectileMotionCalculator() {
         )}
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Projectile Motion Formulas</p>
+          <p className="text-sm font-medium mb-2">Formler for skrått kast</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-            <div>Range: R = v₀²sin(2θ)/g</div>
-            <div>Max Height: H = v₀²sin²(θ)/(2g)</div>
-            <div>Flight Time: T = 2v₀sin(θ)/g</div>
+            <div>Kastelengde: R = v₀²sin(2θ)/g</div>
+            <div>Maksimal høyde: H = v₀²sin²(θ)/(2g)</div>
+            <div>Flytid: T = 2v₀sin(θ)/g</div>
             <div>x(t) = v₀cos(θ)t</div>
           </div>
         </div>

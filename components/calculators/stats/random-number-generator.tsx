@@ -113,7 +113,7 @@ export function RandomNumberGenerator() {
     });
 
     const histogram = bins.map((count, i) => ({
-      bin: `${(calcMin + i * binWidth).toFixed(1)}`,
+      bin: formatFixed(calcMin + i * binWidth, 1),
       count,
     }));
 
@@ -153,21 +153,21 @@ export function RandomNumberGenerator() {
 
   return (
     <CalculatorBase
-      title="Random Number Generator"
-      description="Generate random numbers with uniform, normal, or exponential distributions"
+      title="Generator for tilfeldige tall"
+      description="Lag tilfeldige tall med uniform, normal- eller eksponentialfordeling"
       formula={
         distribution === 'uniform' 
-          ? 'X ~ U(min, max)' 
+          ? 'X ~ U(min, maks)' 
           : distribution === 'normal'
           ? 'X ~ N(μ, σ²)'
           : 'X ~ Exp(λ)'
       }
       formulaExplanation={
         distribution === 'uniform'
-          ? 'Uniform distribution: equal probability for all values in range'
+          ? 'Uniform fordeling: like stor sannsynlighet for alle verdier i området'
           : distribution === 'normal'
-          ? 'Normal distribution: bell curve centered at mean (μ) with standard deviation (σ)'
-          : 'Exponential distribution: models time between events with rate parameter (λ)'
+          ? 'Normalfordeling: klokkekurve rundt gjennomsnittet (μ) med standardavvik (σ)'
+          : 'Eksponentialfordeling: modellerer tid mellom hendelser med raten λ'
       }
       onCalculate={generate}
       onReset={reset}
@@ -176,12 +176,12 @@ export function RandomNumberGenerator() {
           {/* Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
-              label="Mean"
+              label="Gjennomsnitt"
               value={formatFixed(result.statistics.mean, 4)}
               copyable
             />
             <ResultDisplay
-              label="Std Deviation"
+              label="Standardavvik"
               value={formatFixed(result.statistics.standardDeviation, 4)}
               copyable
             />
@@ -191,7 +191,7 @@ export function RandomNumberGenerator() {
               copyable
             />
             <ResultDisplay
-              label="Maximum"
+              label="Maksimum"
               value={formatFixed(result.statistics.max, decimals)}
               copyable
             />
@@ -199,7 +199,7 @@ export function RandomNumberGenerator() {
 
           {/* Histogram */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-4 text-center">Distribution Histogram</h4>
+            <h4 className="font-medium mb-4 text-center">Histogram over fordelingen</h4>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={result.histogram} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
@@ -220,9 +220,9 @@ export function RandomNumberGenerator() {
           {/* Generated Numbers */}
           <div className="bg-muted/30 p-4 rounded-lg">
             <div className="flex justify-between items-center mb-2">
-              <h4 className="font-medium">Generated Numbers ({count})</h4>
+              <h4 className="font-medium">Genererte tall ({count})</h4>
               <Button variant="outline" size="sm" onClick={copyNumbers}>
-                Copy All
+                Kopier alle
               </Button>
             </div>
             <div className="max-h-32 overflow-y-auto font-mono text-xs bg-background p-2 rounded border">
@@ -233,8 +233,7 @@ export function RandomNumberGenerator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 Generated {count} random numbers using {distribution} distribution. 
-              The histogram shows how the values are distributed across the range.
+              💡 Genererte {count} tilfeldige tall med {distribution} fordeling. Histogrammet viser hvordan verdiene fordeler seg over området.
             </p>
           </div>
         </div>
@@ -242,22 +241,22 @@ export function RandomNumberGenerator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="distribution">Distribution Type</Label>
+          <Label htmlFor="distribution">Fordeling</Label>
           <select
             id="distribution"
             value={distribution}
             onChange={(e) => setDistribution(e.target.value as Distribution)}
             className="w-full mt-1 p-2 border rounded-md bg-background"
           >
-            <option value="uniform">Uniform (Equal Probability)</option>
-            <option value="normal">Normal (Bell Curve)</option>
-            <option value="exponential">Exponential (Decay)</option>
+            <option value="uniform">Uniform (lik sannsynlighet)</option>
+            <option value="normal">Normal (klokkekurve)</option>
+            <option value="exponential">Eksponentiell (avtagende)</option>
           </select>
         </div>
 
         <NumberInput
           id="count"
-          label="How Many Numbers"
+          label="Hvor mange tall"
           value={count}
           onChange={setCount}
           min={1}
@@ -275,7 +274,7 @@ export function RandomNumberGenerator() {
             />
             <NumberInput
               id="max"
-              label="Maximum"
+              label="Maksimum"
               value={max}
               onChange={setMax}
             />
@@ -286,13 +285,13 @@ export function RandomNumberGenerator() {
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="mean"
-              label="Mean (μ)"
+              label="Gjennomsnitt (μ)"
               value={mean}
               onChange={setMean}
             />
             <NumberInput
               id="stdDev"
-              label="Std Deviation (σ)"
+              label="Standardavvik (σ)"
               value={stdDev}
               onChange={setStdDev}
               min={0.1}
@@ -304,7 +303,7 @@ export function RandomNumberGenerator() {
         {distribution === 'exponential' && (
           <NumberInput
             id="lambda"
-            label="Rate Parameter (λ)"
+            label="Rateparameter (λ)"
             value={lambda}
             onChange={setLambda}
             min={0.01}
@@ -314,7 +313,7 @@ export function RandomNumberGenerator() {
 
         <NumberInput
           id="decimals"
-          label="Decimal Places"
+          label="Antall desimaler"
           value={decimals}
           onChange={setDecimals}
           min={0}

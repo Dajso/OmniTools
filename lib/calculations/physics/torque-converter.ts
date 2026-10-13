@@ -131,7 +131,7 @@ function validateUnit(unit: string): TorqueUnit {
   const normalizedUnit = unit.toLowerCase() as TorqueUnit;
   if (!(normalizedUnit in TORQUE_TO_NEWTON_METER)) {
     throw new TorqueError(
-      `Unknown torque unit: ${unit}`,
+      `Ukjent dreiemomentenhet: ${unit}`,
       'unknown_unit',
       'unit'
     );
@@ -286,7 +286,7 @@ export function calculateTorque(force: number, leverArm: number): number {
 export function calculateForceFromTorque(torque: number, leverArm: number): number {
   if (leverArm === 0) {
     throw new TorqueError(
-      'Lever arm cannot be zero',
+      'Momentarmen kan ikke være null',
       'invalid_input',
       'leverArm'
     );

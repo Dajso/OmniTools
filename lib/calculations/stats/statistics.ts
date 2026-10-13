@@ -31,7 +31,7 @@ export interface DescriptiveStats {
  */
 export function calculateMean(data: number[]): number {
   if (data.length === 0) {
-    throw new Error('Cannot calculate mean of empty dataset');
+    throw new Error('Kan ikke regne ut gjennomsnitt av tomt datasett');
   }
   const sum = data.reduce((acc, val) => acc + val, 0);
   return sum / data.length;
@@ -45,7 +45,7 @@ export function calculateMean(data: number[]): number {
  */
 export function calculateMedian(data: number[]): number {
   if (data.length === 0) {
-    throw new Error('Cannot calculate median of empty dataset');
+    throw new Error('Kan ikke regne ut median av tomt datasett');
   }
   
   const sorted = [...data].sort((a, b) => a - b);
@@ -66,7 +66,7 @@ export function calculateMedian(data: number[]): number {
  */
 export function calculateMode(data: number[]): number[] {
   if (data.length === 0) {
-    throw new Error('Cannot calculate mode of empty dataset');
+    throw new Error('Kan ikke regne ut typetall av tomt datasett');
   }
   
   const frequency: Map<number, number> = new Map();
@@ -106,7 +106,7 @@ export function calculateMode(data: number[]): number[] {
  */
 export function calculateVariance(data: number[]): number {
   if (data.length < 2) {
-    throw new Error('Cannot calculate sample variance with fewer than 2 data points');
+    throw new Error('Kan ikke regne ut utvalgsvarians med færre enn 2 datapunkter');
   }
   
   const mean = calculateMean(data);
@@ -126,7 +126,7 @@ export function calculateVariance(data: number[]): number {
  */
 export function calculatePopulationVariance(data: number[]): number {
   if (data.length === 0) {
-    throw new Error('Cannot calculate variance of empty dataset');
+    throw new Error('Kan ikke regne ut varians av tomt datasett');
   }
   
   const mean = calculateMean(data);
@@ -169,7 +169,7 @@ export function calculatePopulationStandardDeviation(data: number[]): number {
  */
 export function calculateDescriptiveStats(data: number[]): DescriptiveStats {
   if (data.length === 0) {
-    throw new Error('Cannot calculate statistics for empty dataset');
+    throw new Error('Kan ikke regne ut statistikk for tomt datasett');
   }
   
   const sorted = [...data].sort((a, b) => a - b);
@@ -223,21 +223,45 @@ function roundToDecimal(value: number, decimals: number): number {
 }
 
 /**
- * Parses a string of numbers (comma, space, or newline separated) into an array
- * 
- * @param input - String containing numbers
- * @returns Array of parsed numbers
+ * Deler tekst i tallstrenger. Støtter norsk skrivemåte med desimalkomma:
+ * - Hvis teksten inneholder semikolon, er komma alltid desimaltegn ("1,5; 2,5").
+ * - Hvis tallene er skilt med mellomrom/linjeskift og komma bare står mellom sifre,
+ *   er komma desimaltegn ("1,5 2,5").
+ * - Ellers er komma skilletegn ("1, 2, 3").
+ */
+export function splitNumberTokens(input: string): string[] {
+  const text = input.trim();
+  const hasSemicolon = text.includes(';');
+  const commaIsDecimal =
+    hasSemicolon ||
+    (/\d,\d/.test(text) &&
+      /\s/.test(text) &&
+      !/,\s|\s,|,$/.test(text) &&
+      text.split(/\s+/).every((t) => (t.match(/,/g) || []).length <= 1));
+  const separator = hasSemicolon
+    ? /[;\s]+/
+    : commaIsDecimal
+      ? /\s+/
+      : /[,\s]+/;
+  return text
+    .split(separator)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0)
+    .map((s) => (commaIsDecimal ? s.replace(',', '.') : s));
+}
+
+/**
+ * Leser en liste med tall (skilt med mellomrom, linjeskift, semikolon eller komma).
+ *
+ * @param input - Tekst med tall
+ * @returns Liste med tall
  */
 export function parseNumberList(input: string): number[] {
-  const numbers = input
-    .split(/[,\s\n]+/)
-    .map(s => s.trim())
-    .filter(s => s.length > 0)
-    .map(s => parseFloat(s));
-  
+  const numbers = splitNumberTokens(input).map((s) => parseFloat(s));
+
   const invalidIndex = numbers.findIndex(n => isNaN(n));
   if (invalidIndex !== -1) {
-    throw new Error(`Invalid number at position ${invalidIndex + 1}`);
+    throw new Error(`Ugyldig tall på plass ${invalidIndex + 1}`);
   }
   
   return numbers;

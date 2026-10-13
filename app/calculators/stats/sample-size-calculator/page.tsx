@@ -3,57 +3,48 @@ import { SampleSizeCalculator } from '@/components/calculators/stats';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Sample Size Calculator - Survey Planning Tool',
-  description: 'Calculate the required sample size for surveys and statistical studies. Determine how many responses you need for reliable results.',
-  keywords: ['sample size calculator', 'survey sample size', 'statistical sample', 'margin of error', 'confidence level'],
+  title: 'Utvalgsstørrelse – gratis kalkulator på nett',
+  description: 'Regn ut hvor stort utvalg du trenger i undersøkelser. Gratis og uten registrering.',
+  keywords: ['utvalgsstørrelse', 'utvalg', 'feilmargin', 'konfidensnivå', 'spørreundersøkelse'],
   alternates: { canonical: '/calculators/stats/sample-size-calculator' },
+  openGraph: {
+    title: 'Utvalgsstørrelse',
+    description: 'Regn ut hvor stort utvalg du trenger i undersøkelser',
+    url: '/calculators/stats/sample-size-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Sample Size Calculator',
-  description: 'Calculate required sample size for surveys and statistical studies',
+  name: 'Utvalgsstørrelse',
+  description: 'Regn ut hvor stort utvalg du trenger i undersøkelser',
   applicationCategory: 'EducationalApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select confidence level', text: 'Choose your desired confidence level (90%, 95%, or 99%).' },
-  { name: 'Set margin of error', text: 'Select the acceptable margin of error for your survey results.' },
-  { name: 'Enter expected proportion', text: 'Estimate the expected response proportion (use 50% if unknown).' },
-  { name: 'Add population size', text: 'Optionally enter your total population size for finite population correction.' },
-  { name: 'View results', text: 'See the required sample size for your survey.' },
+  { name: 'Velg konfidensnivå', text: 'Vanlige valg er 90 %, 95 % og 99 %.' },
+  { name: 'Oppgi feilmargin', text: 'Hvor stor usikkerhet du kan akseptere, for eksempel 5 %.' },
+  { name: 'Legg inn populasjonen', text: 'Hvis du kjenner den, justeres utvalget for en endelig populasjon.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is sample size?',
-    answer: 'Sample size is the number of observations or responses needed in a survey or study to achieve statistically reliable results. A larger sample size generally provides more accurate estimates.',
-  },
-  {
-    question: 'What is margin of error?',
-    answer: 'Margin of error indicates the range within which the true population value is likely to fall. A ±5% margin of error means your results could be 5 percentage points higher or lower than the true value.',
-  },
-  {
-    question: 'What confidence level should I use?',
-    answer: '95% is the most commonly used confidence level in research. Use 99% for critical decisions requiring higher certainty, or 90% when resources are limited and some uncertainty is acceptable.',
-  },
-  {
-    question: 'Why does population size matter?',
-    answer: 'For small populations, you can survey a smaller percentage and still get reliable results. The finite population correction reduces the required sample size when your population is known and limited.',
-  },
-  {
-    question: 'What if I don\'t know the expected proportion?',
-    answer: 'Use 50% as the expected proportion. This gives the maximum (most conservative) sample size, ensuring your results will be reliable regardless of the actual proportion.',
-  },
+  { question: 'Hvilken formel brukes?', answer: 'n = Z² · p · (1 − p) / E², med korreksjon for endelig populasjon når størrelsen er kjent.' },
+  { question: 'Hvorfor bruke 50 % som forventet andel?', answer: 'Det gir størst mulig utvalg, og er trygt når du ikke vet noe på forhånd.' },
+  { question: 'Hvor stort utvalg trengs for 95 % konfidens og 5 % feilmargin?', answer: 'Omtrent 385 svar for en stor populasjon.' },
+  { question: 'Må utvalget være større for en større populasjon?', answer: 'Bare opp til et punkt. Når populasjonen er stor, har størrelsen liten betydning for hvor stort utvalget må være.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/stats/p-value-calculator', title: 'P-Value Calculator', description: 'Calculate p-values for hypothesis testing.' },
-  { href: '/calculators/stats/ab-test-calculator', title: 'A/B Test Calculator', description: 'Analyze A/B test results for significance.' },
-  { href: '/calculators/stats/standard-deviation-calculator', title: 'Standard Deviation', description: 'Calculate standard deviation and variance.' },
+  { href: '/calculators/stats/p-value-calculator', title: 'P-verdi', description: 'Regn ut p-verdi for hypotesetesting: z-test, t-test og kjikvadrat' },
+  { href: '/calculators/stats/ab-test-calculator', title: 'A/B-test', description: 'Sjekk om forskjellen i en A/B-test er statistisk signifikant' },
+  { href: '/calculators/stats/standard-deviation-calculator', title: 'Standardavvik', description: 'Regn ut standardavvik, varians, gjennomsnitt, median og typetall' },
 ];
 
 export default function SampleSizeCalculatorPage() {
@@ -63,63 +54,36 @@ export default function SampleSizeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="sample-size-calculator"
-          title="Sample Size Calculator"
-          description="Calculate the required sample size for surveys and statistical studies. Determine how many responses you need for statistically reliable results."
+          title="Utvalgsstørrelse"
+          description="Regn ut hvor mange svar du trenger i en spørreundersøkelse, ut fra konfidensnivå, feilmargin og populasjonsstørrelse. Gratis og uten registrering."
           colorClass="bg-purple-100 text-purple-600"
         />
 
-        <section aria-label="Sample Size Calculator">
+        <section aria-label="Utvalgsstørrelse">
           <SampleSizeCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Sample Size Guidelines</h2>
+          <h2 className="text-xl font-semibold mb-4">Veiledende utvalgsstørrelser</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-2 px-3">Population Size</th>
-                  <th className="text-center py-2 px-3">±3% Error</th>
-                  <th className="text-center py-2 px-3">±5% Error</th>
-                  <th className="text-center py-2 px-3">±10% Error</th>
+                  <th className="text-left py-2 px-3">Populasjon</th>
+                  <th className="text-center py-2 px-3">±3 % feilmargin</th>
+                  <th className="text-center py-2 px-3">±5 % feilmargin</th>
+                  <th className="text-center py-2 px-3">±10 % feilmargin</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b">
-                  <td className="py-2 px-3">100</td>
-                  <td className="text-center py-2 px-3">92</td>
-                  <td className="text-center py-2 px-3">80</td>
-                  <td className="text-center py-2 px-3">49</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-3">500</td>
-                  <td className="text-center py-2 px-3">341</td>
-                  <td className="text-center py-2 px-3">217</td>
-                  <td className="text-center py-2 px-3">81</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-3">1,000</td>
-                  <td className="text-center py-2 px-3">516</td>
-                  <td className="text-center py-2 px-3">278</td>
-                  <td className="text-center py-2 px-3">88</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-3">10,000</td>
-                  <td className="text-center py-2 px-3">964</td>
-                  <td className="text-center py-2 px-3">370</td>
-                  <td className="text-center py-2 px-3">95</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-3">100,000+</td>
-                  <td className="text-center py-2 px-3">1,067</td>
-                  <td className="text-center py-2 px-3">383</td>
-                  <td className="text-center py-2 px-3">96</td>
-                </tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">100</td><td className="text-center py-2 px-3">92</td><td className="text-center py-2 px-3">80</td><td className="text-center py-2 px-3">49</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">500</td><td className="text-center py-2 px-3">341</td><td className="text-center py-2 px-3">217</td><td className="text-center py-2 px-3">81</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">1 000</td><td className="text-center py-2 px-3">516</td><td className="text-center py-2 px-3">278</td><td className="text-center py-2 px-3">88</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">10 000</td><td className="text-center py-2 px-3">964</td><td className="text-center py-2 px-3">370</td><td className="text-center py-2 px-3">95</td></tr>
+                <tr><td className="text-left py-2 px-3">100 000 eller flere</td><td className="text-center py-2 px-3">1 067</td><td className="text-center py-2 px-3">383</td><td className="text-center py-2 px-3">96</td></tr>
               </tbody>
             </table>
-            <p className="text-xs text-muted-foreground mt-2">
-              * Based on 95% confidence level and 50% expected proportion
-            </p>
+            <p className="text-xs text-muted-foreground mt-2">* Basert på 95 % konfidensnivå og 50 % forventet andel.</p>
           </div>
         </section>
 

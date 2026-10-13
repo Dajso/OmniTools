@@ -36,7 +36,7 @@ const Z_SCORES: Record<number, number> = {
  */
 export function getZScore(confidenceLevel: number): number {
   if (confidenceLevel <= 0 || confidenceLevel >= 1) {
-    throw new Error('Confidence level must be between 0 and 1 (exclusive)');
+    throw new Error('Konfidensnivået må være mellom 0 og 1 (ikke inkludert)');
   }
 
   // Check for exact match
@@ -122,19 +122,19 @@ export function calculateSampleSize(input: SampleSizeInput): SampleSizeResult {
 
   // Validate inputs
   if (confidenceLevel <= 0 || confidenceLevel >= 1) {
-    throw new Error('Confidence level must be between 0 and 1 (exclusive)');
+    throw new Error('Konfidensnivået må være mellom 0 og 1 (ikke inkludert)');
   }
 
   if (marginOfError <= 0 || marginOfError > 100) {
-    throw new Error('Margin of error must be between 0 and 100 (exclusive of 0)');
+    throw new Error('Feilmarginen må være mellom 0 og 100 (0 er ikke tillatt)');
   }
 
   if (expectedProportion < 0 || expectedProportion > 1) {
-    throw new Error('Expected proportion must be between 0 and 1');
+    throw new Error('Forventet andel må være mellom 0 og 1');
   }
 
   if (populationSize !== undefined && populationSize < 1) {
-    throw new Error('Population size must be at least 1');
+    throw new Error('Populasjonen må være minst 1');
   }
 
   const zScore = getZScore(confidenceLevel);

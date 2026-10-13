@@ -49,7 +49,7 @@ export function PressureConverter() {
       setError(undefined);
 
       if (value < 0) {
-        setError('Pressure cannot be negative (absolute pressure)');
+        setError('Trykket kan ikke være negativt (absolutt trykk)');
         setConversions(null);
         return;
       }
@@ -57,7 +57,7 @@ export function PressureConverter() {
       const result = convertToAllUnits(value, sourceUnit);
       setConversions(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion error');
+      setError(err instanceof Error ? err.message : 'Omregningsfeil');
       setConversions(null);
     }
   }, [value, sourceUnit]);
@@ -75,10 +75,10 @@ export function PressureConverter() {
 
   return (
     <CalculatorBase
-      title="Pressure Converter"
-      description="Convert pressure between different units including Bar, PSI, Pascal, Atmosphere, and more"
-      formula="Conversion via Pascal (SI base unit)"
-      formulaExplanation="All pressure values are converted through Pascal (Pa) as the base unit. Enter a value and select the source unit to see conversions to all other units."
+      title="Trykkomregner"
+      description="Regn om trykk mellom bar, psi, pascal, atmosfærer og flere enheter"
+      formula="Omregning via pascal (SI-grunnenheten)"
+      formulaExplanation="Alle trykk regnes om via pascal (Pa) som grunnenhet. Fyll inn en verdi og velg enheten du har, så får du den i alle andre enheter."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -86,7 +86,7 @@ export function PressureConverter() {
         <div className="space-y-6">
           {/* Primary Units */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">Common Units</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Vanlige enheter</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {primaryUnits.map((unit) => (
                 <ResultDisplay
@@ -102,7 +102,7 @@ export function PressureConverter() {
 
           {/* Secondary Units */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3">Additional Units</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Flere enheter</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {secondaryUnits.map((unit) => (
                 <ResultDisplay
@@ -117,7 +117,7 @@ export function PressureConverter() {
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
-            Highlighted value is your input unit
+            Den uthevede verdien er enheten du fylte inn
           </p>
         </div>
       )}
@@ -126,16 +126,16 @@ export function PressureConverter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <NumberInput
             id="pressure-value"
-            label="Pressure Value"
+            label="Trykk"
             value={value}
             onChange={setValue}
-            placeholder="Enter pressure value"
+            placeholder="Fyll inn trykk"
             min={0}
             step={0.01}
           />
           <SelectInput
             id="source-unit"
-            label="Source Unit"
+            label="Fra enhet"
             value={sourceUnit}
             onChange={(val) => setSourceUnit(val as PressureUnit)}
             options={unitOptions}
@@ -143,22 +143,22 @@ export function PressureConverter() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Common Pressure References</p>
+          <p className="text-sm font-medium mb-2">Typiske trykk</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
-            <div>• Standard atmosphere: 101,325 Pa = 1 atm</div>
-            <div>• Car tire pressure: ~32 psi = 2.2 bar</div>
-            <div>• Blood pressure (systolic): ~120 mmHg</div>
-            <div>• Deep sea (1000m): ~100 atm</div>
+            <div>• Normalt lufttrykk: 101 325 Pa = 1 atm</div>
+            <div>• Bildekk: ca. 2,2 bar (32 psi)</div>
+            <div>• Blodtrykk (systolisk): ca. 120 mmHg</div>
+            <div>• Havdyp (1000 m): ca. 100 atm</div>
           </div>
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Unit Relationships</p>
+          <p className="text-sm font-medium mb-2">Sammenhenger mellom enhetene</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-            <div>1 bar = 100,000 Pa</div>
-            <div>1 atm = 101,325 Pa</div>
-            <div>1 psi ≈ 6,894.76 Pa</div>
-            <div>1 torr ≈ 133.32 Pa</div>
+            <div>1 bar = 100 000 Pa</div>
+            <div>1 atm = 101 325 Pa</div>
+            <div>1 psi ≈ 6 894,76 Pa</div>
+            <div>1 torr ≈ 133,32 Pa</div>
           </div>
         </div>
       </div>

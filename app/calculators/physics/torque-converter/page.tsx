@@ -1,62 +1,49 @@
 import { Metadata } from 'next';
 import { TorqueConverter } from '@/components/calculators/physics';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Torque Converter - Convert Newton-meter, Foot-pound, Kilogram-meter',
-  description: 'Convert torque between Newton-meter (Nm), Foot-pound (ft-lb), Kilogram-meter (kg-m), Inch-pound (in-lb), and more. Free online torque unit converter with instant results.',
-  keywords: ['torque converter', 'nm to ft-lb', 'newton meter converter', 'torque calculator', 'ft-lb to nm', 'torque units', 'kilogram meter converter'],
+  title: 'Dreiemoment (fysikk) – gratis kalkulator på nett',
+  description: 'Regn om mellom newtonmeter, fot-pund og tomme-pund. Gratis og uten registrering.',
+  keywords: ['dreiemoment', 'Nm', 'fot-pund', 'newtonmeter'],
   alternates: { canonical: '/calculators/physics/torque-converter' },
+  openGraph: {
+    title: 'Dreiemoment (fysikk)',
+    description: 'Regn om mellom newtonmeter, fot-pund og tomme-pund',
+    url: '/calculators/physics/torque-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Torque Converter',
-  description: 'Convert torque between different units including Newton-meter, Foot-pound, Kilogram-meter, Inch-pound, and more',
+  name: 'Dreiemoment (fysikk)',
+  description: 'Regn om mellom newtonmeter, fot-pund og tomme-pund',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter torque value', text: 'Type the torque value you want to convert in the input field.' },
-  { name: 'Select source unit', text: 'Choose the unit of your input value from the dropdown (e.g., Newton-meter, Foot-pound).' },
-  { name: 'View all conversions', text: 'Instantly see the equivalent torque in all supported units.' },
-  { name: 'Copy results', text: 'Click on any result to copy it to your clipboard for use elsewhere.' },
+  { name: 'Fyll inn dreiemomentet', text: 'Skriv inn verdien du har.' },
+  { name: 'Velg enhet', text: 'Velg enheten du regner fra.' },
+  { name: 'Les resultatet', text: 'Se verdien i alle andre enheter samtidig.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is the difference between Newton-meter and Foot-pound?',
-    answer: 'Newton-meter (N·m) is the SI unit of torque, while Foot-pound (ft-lb) is an imperial unit commonly used in the US. 1 N·m ≈ 0.7376 ft-lb, and 1 ft-lb ≈ 1.3558 N·m.',
-  },
-  {
-    question: 'What is torque?',
-    answer: 'Torque is a measure of rotational force. It is calculated as the product of force and the perpendicular distance from the axis of rotation (τ = F × r). Torque determines how much rotational effect a force has on an object.',
-  },
-  {
-    question: 'Why is torque important in automotive applications?',
-    answer: 'Torque is crucial in automotive applications because it determines the pulling power of an engine. Higher torque means better acceleration and towing capacity. Torque specifications are also critical for properly tightening bolts and fasteners.',
-  },
-  {
-    question: 'What is the typical torque for car wheel lug nuts?',
-    answer: 'Most car wheel lug nuts require 80-100 ft-lb (108-135 N·m) of torque. Always check your vehicle\'s manual for the exact specification, as over-tightening can damage the studs and under-tightening can cause wheels to come loose.',
-  },
-  {
-    question: 'How do I convert Newton-meters to Foot-pounds?',
-    answer: 'To convert N·m to ft-lb, multiply by 0.7376. For example, 100 N·m × 0.7376 = 73.76 ft-lb. To convert ft-lb to N·m, multiply by 1.3558.',
-  },
-  {
-    question: 'What is the relationship between torque and power?',
-    answer: 'Power is the rate at which work is done, and it relates to torque through the formula: Power = Torque × Angular Velocity. In automotive terms: Horsepower = (Torque × RPM) / 5252.',
-  },
+  { question: 'Hva er newtonmeter?', answer: 'Enheten for dreiemoment i SI-systemet. 1 N·m er kraften 1 newton på en momentarm på 1 meter.' },
+  { question: 'Hvordan regner jeg fra fot-pund til N·m?', answer: 'Gang med 1,3558. 80 ft-lb er omtrent 108 N·m.' },
+  { question: 'Hvilket moment skal hjulbolter ha?', answer: 'Det varierer mellom biler, ofte rundt 100–140 N·m. Se instruksjonsboken for din bil.' },
+  { question: 'Hva er kilogram-meter?', answer: 'En eldre enhet der kraften regnes i kilopond. 1 kg·m er omtrent 9,807 N·m.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/physics/pressure-converter', title: 'Pressure Converter', description: 'Convert pressure between Bar, PSI, Pascal, and more.' },
-  { href: '/calculators/physics/kinetic-energy-calculator', title: 'Kinetic Energy Calculator', description: 'Calculate kinetic energy using KE = ½mv².' },
-  { href: '/calculators/auto/horsepower-to-kw-converter', title: 'Horsepower to kW Converter', description: 'Convert between horsepower and kilowatts.' },
+  { href: '/calculators/physics/pressure-converter', title: 'Trykkomregner (fysikk)', description: 'Regn om mellom pascal, bar, PSI, atm og mer' },
+  { href: '/calculators/physics/kinetic-energy-calculator', title: 'Bevegelsesenergi', description: 'Regn ut bevegelsesenergi med E = ½mv²' },
 ];
 
 export default function TorqueConverterPage() {
@@ -65,13 +52,12 @@ export default function TorqueConverterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="torque-converter"
-          title="Torque Converter"
-          description="Convert torque between Newton-meter (N·m), Foot-pound (ft-lb), Kilogram-meter (kg·m), Inch-pound (in-lb), and 5 other units. Instant, accurate conversions for automotive, engineering, and mechanical applications."
-          colorClass="bg-blue-100 text-blue-600"
+          toolId="physics-torque-converter"
+          title="Dreiemoment (fysikk)"
+          description="Regn om dreiemoment mellom newtonmeter, fot-pund, tomme-pund og kilogram-meter. Gratis og uten registrering."
         />
 
-        <section aria-label="Torque Converter">
+        <section aria-label="Dreiemoment (fysikk)">
           <TorqueConverter />
         </section>
 

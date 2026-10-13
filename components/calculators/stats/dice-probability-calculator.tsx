@@ -50,7 +50,7 @@ export function DiceProbabilityCalculator() {
       });
       setResult(probabilityResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [numDice, numSides, targetSum, comparison]);
@@ -82,10 +82,10 @@ export function DiceProbabilityCalculator() {
 
   return (
     <CalculatorBase
-      title="Dice Probability Calculator"
-      description="Calculate the probability of rolling specific sums with multiple dice"
-      formula="P(sum) = favorable outcomes / total outcomes"
-      formulaExplanation={`Total outcomes for ${numDice}d${numSides} = ${numSides}^${numDice} = ${Math.pow(numSides, numDice).toLocaleString('nb-NO')}`}
+      title="Sannsynlighetskalkulator for terninger"
+      description="Regn ut sannsynligheten for bestemte summer når du kaster flere terninger"
+      formula="P(sum) = gunstige utfall / alle utfall"
+      formulaExplanation={`Alle utfall for ${numDice}d${numSides} = ${numSides}^${numDice} = ${Math.pow(numSides, numDice).toLocaleString('nb-NO')}`}
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -95,7 +95,7 @@ export function DiceProbabilityCalculator() {
           {targetSum !== undefined && (
             <div className="text-center p-4 bg-muted/30 rounded-lg">
               <p className="text-sm text-muted-foreground mb-1">
-                Probability of rolling {comparison === 'exact' ? 'exactly' : comparison === 'at-least' ? 'at least' : 'at most'} {targetSum}
+                Sannsynlighet for å få {comparison === 'exact' ? 'nøyaktig' : comparison === 'at-least' ? 'minst' : 'høyst'} {targetSum}
               </p>
               <p className="text-4xl font-bold text-primary">{result.percentage}</p>
               <p className="text-sm text-muted-foreground mt-1">{result.odds}</p>
@@ -105,22 +105,22 @@ export function DiceProbabilityCalculator() {
           {/* Statistics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
-              label="Mean (Expected)"
+              label="Gjennomsnitt (forventet)"
               value={formatFixed(result.statistics.mean, 2)}
               copyable
             />
             <ResultDisplay
-              label="Std Deviation"
+              label="Standardavvik"
               value={formatFixed(result.statistics.standardDeviation, 2)}
               copyable
             />
             <ResultDisplay
-              label="Min Possible"
+              label="Minste mulige"
               value={result.statistics.min.toString()}
               copyable
             />
             <ResultDisplay
-              label="Max Possible"
+              label="Største mulige"
               value={result.statistics.max.toString()}
               copyable
             />
@@ -129,7 +129,7 @@ export function DiceProbabilityCalculator() {
           {/* Distribution Chart */}
           {chartData.length > 0 && chartData.length <= 30 && (
             <div className="bg-muted/30 p-4 rounded-lg">
-              <h4 className="font-medium mb-4 text-center">Probability Distribution</h4>
+              <h4 className="font-medium mb-4 text-center">Sannsynlighetsfordeling</h4>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
@@ -141,10 +141,10 @@ export function DiceProbabilityCalculator() {
                     />
                     <YAxis
                       tick={{ fontSize: 10 }}
-                      tickFormatter={(value) => `${typeof value === 'number' ? value.toFixed(0) : value}%`}
+                      tickFormatter={(value) => `${typeof value === 'number' ? formatFixed(value, 0) : value} %`}
                     />
                     <Tooltip
-                      formatter={(value) => [`${typeof value === 'number' ? value.toFixed(2) : value}%`, 'Probability']}
+                      formatter={(value) => [`${typeof value === 'number' ? formatFixed(value, 2) : value} %`, 'Sannsynlighet']}
                       labelFormatter={(label) => `Sum: ${label}`}
                     />
                     <Bar dataKey="probability" radius={[2, 2, 0, 0]}>
@@ -161,10 +161,10 @@ export function DiceProbabilityCalculator() {
               {targetSum !== undefined && (
                 <div className="flex justify-center gap-4 mt-2 text-xs">
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 bg-green-500 rounded" /> Target
+                    <span className="w-3 h-3 bg-green-500 rounded" /> Valgt sum
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 bg-gray-500 rounded" /> Other
+                    <span className="w-3 h-3 bg-gray-500 rounded" /> Andre
                   </span>
                 </div>
               )}
@@ -174,7 +174,7 @@ export function DiceProbabilityCalculator() {
           {chartData.length > 30 && (
             <div className="bg-yellow-50 border border-yellow-200 p-3 rounded-md">
               <p className="text-sm text-yellow-700">
-                📊 Distribution chart hidden for large ranges. The distribution has {result.distribution.length} possible outcomes.
+                📊 Diagrammet er skjult fordi området er stort. Fordelingen har {result.distribution.length} mulige utfall.
               </p>
             </div>
           )}
@@ -183,12 +183,12 @@ export function DiceProbabilityCalculator() {
           {targetSum !== undefined && (
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Favorable Outcomes"
+                label="Gunstige utfall"
                 value={result.favorableOutcomes.toLocaleString('nb-NO')}
                 copyable
               />
               <ResultDisplay
-                label="Total Outcomes"
+                label="Alle utfall"
                 value={result.totalOutcomes.toLocaleString('nb-NO')}
                 copyable
               />
@@ -197,10 +197,8 @@ export function DiceProbabilityCalculator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 Rolling {numDice}d{numSides} (
-              {numDice} {numDice === 1 ? 'die' : 'dice'} with {numSides} sides each)
-              has {result.totalOutcomes.toLocaleString('nb-NO')} possible outcomes.
-              The most likely sum is around {formatFixed(result.statistics.mean, 0)}.
+              💡 Å kaste {numDice}d{numSides} (
+              {numDice} {numDice === 1 ? 'terning' : 'terninger'} med {numSides} sider hver) gir {result.totalOutcomes.toLocaleString('nb-NO')} mulige utfall. Den mest sannsynlige summen er rundt {formatFixed(result.statistics.mean, 0)}.
             </p>
           </div>
         </div>
@@ -210,7 +208,7 @@ export function DiceProbabilityCalculator() {
         <div className="grid grid-cols-2 gap-4">
           <NumberInput
             id="num-dice"
-            label="Number of Dice"
+            label="Antall terninger"
             value={numDice}
             onChange={setNumDice}
             min={1}
@@ -218,7 +216,7 @@ export function DiceProbabilityCalculator() {
             step={1}
           />
           <div>
-            <Label htmlFor="num-sides">Dice Type</Label>
+            <Label htmlFor="num-sides">Terningtype</Label>
             <select
               id="num-sides"
               value={numSides}
@@ -236,7 +234,7 @@ export function DiceProbabilityCalculator() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="comparison">Comparison</Label>
+            <Label htmlFor="comparison">Sammenligning</Label>
             <select
               id="comparison"
               value={comparison}
@@ -252,7 +250,7 @@ export function DiceProbabilityCalculator() {
           </div>
           <NumberInput
             id="target-sum"
-            label="Target Sum"
+            label="Ønsket sum"
             value={targetSum || 0}
             onChange={(v) => setTargetSum(v || undefined)}
             min={numDice}
@@ -262,7 +260,7 @@ export function DiceProbabilityCalculator() {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Valid sums range from {numDice} to {numDice * numSides}
+          Mulige summer går fra {numDice} til {numDice * numSides}
         </p>
       </div>
     </CalculatorBase>

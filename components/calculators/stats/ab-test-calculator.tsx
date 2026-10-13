@@ -50,7 +50,7 @@ export function ABTestCalculator() {
       });
       setResult(abTestResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [controlVisitors, controlConversions, treatmentVisitors, treatmentConversions]);
@@ -71,12 +71,12 @@ export function ABTestCalculator() {
   // Chart data
   const chartData = result ? [
     {
-      name: 'Control',
+      name: 'Kontrollgruppe',
       rate: result.controlRate,
       fill: '#6b7280',
     },
     {
-      name: 'Treatment',
+      name: 'Testgruppe',
       rate: result.treatmentRate,
       fill: result.isSignificant && result.relativeLift > 0 ? '#22c55e' : result.isSignificant ? '#ef4444' : '#6366f1',
     },
@@ -89,10 +89,10 @@ export function ABTestCalculator() {
 
   return (
     <CalculatorBase
-      title="A/B Test Significance Calculator"
-      description="Determine if your A/B test results are statistically significant"
+      title="A/B-test: Er resultatet signifikant?"
+      description="Finn ut om resultatene fra A/B-testen din er statistisk signifikante"
       formula="z = (p₁ - p₂) / √(p̂(1-p̂)(1/n₁ + 1/n₂))"
-      formulaExplanation="Two-proportion z-test comparing conversion rates between control and treatment groups."
+      formulaExplanation="To-proporsjons z-test som sammenligner konverteringsrater mellom kontroll- og testgruppen."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -115,34 +115,34 @@ export function ABTestCalculator() {
             )}>
               {result.isSignificant
                 ? result.relativeLift > 0
-                  ? '🎉 Winner! Treatment is better'
-                  : '📉 Control is better'
-                : '⏳ Not yet significant'}
+                  ? '🎉 Vinner! Testgruppen er best'
+                  : '📉 Kontrollgruppen er best'
+                : '⏳ Ikke signifikant ennå'}
             </p>
             <p className="text-sm text-muted-foreground mt-2">
               {result.isSignificant
-                ? `${formatFixed(result.confidenceLevel, 1)}% confidence`
-                : 'Need more data or larger effect'}
+                ? `${formatFixed(result.confidenceLevel, 1)} % konfidens`
+                : 'Trenger mer data eller større effekt'}
             </p>
           </div>
 
           {/* Conversion Rates */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-50 p-4 rounded-lg border">
-              <p className="text-sm text-muted-foreground">Control</p>
+              <p className="text-sm text-muted-foreground">Kontrollgruppe</p>
               <p className="text-3xl font-bold">{formatFixed(result.controlRate, 2)}%</p>
               <p className="text-xs text-muted-foreground">
-                {controlConversions} / {controlVisitors} visitors
+                {controlConversions} / {controlVisitors} besøkende
               </p>
             </div>
             <div className={cn(
               'p-4 rounded-lg border',
               result.relativeLift > 0 ? 'bg-green-50' : 'bg-red-50'
             )}>
-              <p className="text-sm text-muted-foreground">Treatment</p>
+              <p className="text-sm text-muted-foreground">Testgruppe</p>
               <p className="text-3xl font-bold">{formatFixed(result.treatmentRate, 2)}%</p>
               <p className="text-xs text-muted-foreground">
-                {treatmentConversions} / {treatmentVisitors} visitors
+                {treatmentConversions} / {treatmentVisitors} besøkende
               </p>
             </div>
           </div>
@@ -150,13 +150,13 @@ export function ABTestCalculator() {
           {/* Lift */}
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Relative Lift"
+              label="Relativ økning"
               value={`${result.relativeLift > 0 ? '+' : ''}${formatFixed(result.relativeLift, 2)}%`}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Absolute Lift"
+              label="Absolutt økning"
               value={`${result.absoluteLift > 0 ? '+' : ''}${formatFixed(result.absoluteLift, 2)}%`}
               copyable
             />
@@ -164,7 +164,7 @@ export function ABTestCalculator() {
 
           {/* Chart */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-4 text-center">Conversion Rate Comparison</h4>
+            <h4 className="font-medium mb-4 text-center">Sammenligning av konverteringsrate</h4>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -174,7 +174,7 @@ export function ABTestCalculator() {
                     tickFormatter={(value) => `${value}%`}
                     domain={[0, 'auto']}
                   />
-                  <Tooltip formatter={(value) => [`${typeof value === 'number' ? value.toFixed(2) : value}%`, 'Conversion Rate']} />
+                  <Tooltip formatter={(value) => [`${typeof value === 'number' ? formatFixed(value, 2) : value} %`, 'Konverteringsrate']} />
                   <Bar dataKey="rate" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -188,22 +188,22 @@ export function ABTestCalculator() {
           {/* Statistical Details */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
-              label="P-Value"
+              label="P-verdi"
               value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 4)}
               copyable
             />
             <ResultDisplay
-              label="Z-Score"
+              label="Z-verdi"
               value={formatFixed(result.zScore, 4)}
               copyable
             />
             <ResultDisplay
-              label="Confidence"
+              label="Konfidens"
               value={`${formatFixed(result.confidenceLevel, 2)}%`}
               copyable
             />
             <ResultDisplay
-              label="Standard Error"
+              label="Standardfeil"
               value={formatFixed(result.standardError, 6)}
               copyable
             />
@@ -211,32 +211,32 @@ export function ABTestCalculator() {
 
           {/* Confidence Interval */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-2">95% Confidence Interval for Difference</h4>
+            <h4 className="font-medium mb-2">95 % konfidensintervall for forskjellen</h4>
             <p className="text-lg font-mono">
               [{formatFixed(result.confidenceInterval.lower, 2)}%, {formatFixed(result.confidenceInterval.upper, 2)}%]
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              The true difference in conversion rates is likely within this range
+              Den sanne forskjellen i konverteringsrate ligger trolig innenfor dette intervallet
             </p>
           </div>
 
           {/* Sample Size Recommendation */}
           {minSampleSize && !result.isSignificant && (
             <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-              <h4 className="font-medium text-blue-700 mb-2">📊 Sample Size Recommendation</h4>
+              <h4 className="font-medium text-blue-700 mb-2">📊 Anbefalt utvalgsstørrelse</h4>
               <p className="text-sm text-blue-600">
-                To detect a 10% relative lift with 80% power, you need approximately{' '}
-                <strong>{minSampleSize.toLocaleString('nb-NO')}</strong> visitors per variation.
+                For å oppdage en relativ økning på 10 % med 80 % styrke trenger du omtrent{' '}
+                <strong>{minSampleSize.toLocaleString('nb-NO')}</strong> besøkende per variant.
               </p>
             </div>
           )}
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 A p-value below 0.05 indicates statistical significance at the 95% confidence level.
+              💡 En p-verdi under 0,05 betyr statistisk signifikans på 95 % konfidensnivå.
               {result.isSignificant
-                ? ' Your results are unlikely to be due to random chance.'
-                : ' Continue running the test to gather more data.'}
+                ? 'Resultatene dine skyldes neppe tilfeldigheter.'
+                : 'Fortsett testen for å samle mer data.'}
             </p>
           </div>
         </div>
@@ -245,11 +245,11 @@ export function ABTestCalculator() {
       <div className="space-y-6">
         {/* Control Group */}
         <div className="bg-gray-50 p-4 rounded-lg border">
-          <h3 className="font-medium mb-3">Control Group (A)</h3>
+          <h3 className="font-medium mb-3">Kontrollgruppe (A)</h3>
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="control-visitors"
-              label="Visitors"
+              label="Besøkende"
               value={controlVisitors}
               onChange={setControlVisitors}
               min={1}
@@ -257,7 +257,7 @@ export function ABTestCalculator() {
             />
             <NumberInput
               id="control-conversions"
-              label="Conversions"
+              label="Konverteringer"
               value={controlConversions}
               onChange={setControlConversions}
               min={0}
@@ -269,11 +269,11 @@ export function ABTestCalculator() {
 
         {/* Treatment Group */}
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 className="font-medium mb-3">Treatment Group (B)</h3>
+          <h3 className="font-medium mb-3">Testgruppe (B)</h3>
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="treatment-visitors"
-              label="Visitors"
+              label="Besøkende"
               value={treatmentVisitors}
               onChange={setTreatmentVisitors}
               min={1}
@@ -281,7 +281,7 @@ export function ABTestCalculator() {
             />
             <NumberInput
               id="treatment-conversions"
-              label="Conversions"
+              label="Konverteringer"
               value={treatmentConversions}
               onChange={setTreatmentConversions}
               min={0}

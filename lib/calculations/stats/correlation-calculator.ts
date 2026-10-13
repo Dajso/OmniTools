@@ -6,6 +6,9 @@
  * @see Requirements 29.7
  */
 
+import { splitNumberTokens } from './statistics';
+import { formatFixed } from '@/lib/utils/formatting';
+
 export interface CorrelationInput {
   xValues: number[];
   yValues: number[];
@@ -40,11 +43,11 @@ export function calculateCorrelation(input: CorrelationInput): CorrelationResult
 
   // Validate inputs
   if (xValues.length !== yValues.length) {
-    throw new Error('X and Y arrays must have the same length');
+    throw new Error('X- og Y-listene må ha like mange verdier');
   }
 
   if (xValues.length < 2) {
-    throw new Error('At least 2 data points are required');
+    throw new Error('Du må ha minst 2 datapunkter');
   }
 
   const n = xValues.length;
@@ -263,22 +266,22 @@ function interpretCorrelation(r: number): {
 
   if (absR === 1) {
     strength = 'perfect';
-    interpretation = 'Perfect correlation';
+    interpretation = 'Perfekt korrelasjon';
   } else if (absR >= 0.9) {
     strength = 'very-strong';
-    interpretation = 'Very strong correlation';
+    interpretation = 'Svært sterk korrelasjon';
   } else if (absR >= 0.7) {
     strength = 'strong';
-    interpretation = 'Strong correlation';
+    interpretation = 'Sterk korrelasjon';
   } else if (absR >= 0.5) {
     strength = 'moderate';
-    interpretation = 'Moderate correlation';
+    interpretation = 'Moderat korrelasjon';
   } else if (absR >= 0.3) {
     strength = 'weak';
-    interpretation = 'Weak correlation';
+    interpretation = 'Svak korrelasjon';
   } else {
     strength = 'none';
-    interpretation = 'Little to no correlation';
+    interpretation = 'Liten eller ingen korrelasjon';
   }
 
   let direction: 'positive' | 'negative' | 'none';
@@ -299,8 +302,8 @@ function interpretCorrelation(r: number): {
  * Formats the regression equation as a string
  */
 function formatRegressionEquation(slope: number, intercept: number): string {
-  const slopeStr = slope.toFixed(4);
-  const interceptAbs = Math.abs(intercept).toFixed(4);
+  const slopeStr = formatFixed(slope, 4);
+  const interceptAbs = formatFixed(Math.abs(intercept), 4);
   const sign = intercept >= 0 ? '+' : '-';
   return `y = ${slopeStr}x ${sign} ${interceptAbs}`;
 }
@@ -314,7 +317,7 @@ function roundToDecimal(value: number, decimals: number): number {
 }
 
 /**
- * Parses paired data from a string (comma or newline separated pairs)
+ * Leser datapar fra tekst (ett X,Y-par per linje; norsk desimalkomma støttes)
  * 
  * @param input - String with x,y pairs
  * @returns Object with xValues and yValues arrays
@@ -325,7 +328,7 @@ export function parsePairedData(input: string): CorrelationInput {
   const yValues: number[] = [];
 
   for (const line of lines) {
-    const parts = line.split(/[,\t\s]+/).filter(s => s.length > 0);
+    const parts = splitNumberTokens(line);
     if (parts.length >= 2) {
       const x = parseFloat(parts[0]);
       const y = parseFloat(parts[1]);
@@ -337,7 +340,7 @@ export function parsePairedData(input: string): CorrelationInput {
   }
 
   if (xValues.length === 0) {
-    throw new Error('No valid data pairs found');
+    throw new Error('Fant ingen gyldige datapar');
   }
 
   return { xValues, yValues };

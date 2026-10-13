@@ -29,12 +29,12 @@ export function StandardDeviationCalculator() {
       setError(undefined);
       const numbers = parseNumberList(dataInput);
       if (numbers.length === 0) {
-        throw new Error('Please enter at least one number');
+        throw new Error('Fyll inn minst ett tall');
       }
       const stats = calculateDescriptiveStats(numbers);
       setResult(stats);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [dataInput]);
@@ -51,10 +51,10 @@ export function StandardDeviationCalculator() {
 
   return (
     <CalculatorBase
-      title="Standard Deviation Calculator"
-      description="Calculate standard deviation, variance, mean, median, mode, and other statistics"
-      formula="σ = √(Σ(x - μ)² / N) or s = √(Σ(x - x̄)² / (n-1))"
-      formulaExplanation="Population standard deviation (σ) divides by N, while sample standard deviation (s) divides by n-1 (Bessel's correction)."
+      title="Standardavviksberegner"
+      description="Regn ut standardavvik, varians, gjennomsnitt, median, typetall og annen statistikk"
+      formula="σ = √(Σ(x - μ)² / N) eller s = √(Σ(x - x̄)² / (n-1))"
+      formulaExplanation="Standardavviket for populasjonen (σ) deles på N, mens standardavviket for et utvalg (s) deles på n-1 (Bessels korreksjon)."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -62,13 +62,13 @@ export function StandardDeviationCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Sample Standard Deviation"
+              label="Standardavvik (utvalg)"
               value={formatFixed(result.standardDeviation, 6)}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Population Standard Deviation"
+              label="Standardavvik (populasjon)"
               value={formatFixed(result.populationStandardDeviation, 6)}
               copyable
             />
@@ -76,22 +76,22 @@ export function StandardDeviationCalculator() {
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Sample Variance"
+              label="Varians (utvalg)"
               value={formatFixed(result.variance, 6)}
               copyable
             />
             <ResultDisplay
-              label="Population Variance"
+              label="Varians (populasjon)"
               value={formatFixed(result.populationVariance, 6)}
               copyable
             />
           </div>
 
           <div className="border-t pt-4">
-            <h4 className="text-sm font-medium text-muted-foreground mb-3">Central Tendency</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-3">Sentraltendens</h4>
             <div className="grid grid-cols-3 gap-4">
               <ResultDisplay
-                label="Mean"
+                label="Gjennomsnitt"
                 value={formatFixed(result.mean, 6)}
                 copyable
               />
@@ -101,15 +101,15 @@ export function StandardDeviationCalculator() {
                 copyable
               />
               <ResultDisplay
-                label="Mode"
-                value={result.mode.length > 0 ? result.mode.join(', ') : 'None'}
+                label="Typetall"
+                value={result.mode.length > 0 ? result.mode.join(', ') : 'Ingen'}
                 copyable
               />
             </div>
           </div>
 
           <div className="border-t pt-4">
-            <h4 className="text-sm font-medium text-muted-foreground mb-3">Range & Distribution</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-3">Spredning og variasjon</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <ResultDisplay
                 label="Minimum"
@@ -117,17 +117,17 @@ export function StandardDeviationCalculator() {
                 copyable
               />
               <ResultDisplay
-                label="Maximum"
+                label="Maksimum"
                 value={result.max.toString()}
                 copyable
               />
               <ResultDisplay
-                label="Range"
+                label="Kastelengde"
                 value={result.range.toString()}
                 copyable
               />
               <ResultDisplay
-                label="Count"
+                label="Antall"
                 value={result.count.toString()}
                 copyable
               />
@@ -142,8 +142,7 @@ export function StandardDeviationCalculator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 Use <strong>sample</strong> standard deviation when your data is a sample from a larger population. 
-              Use <strong>population</strong> standard deviation when your data represents the entire population.
+              💡 Bruk <strong>utvalgets</strong> standardavvik når dataene er et utvalg fra en større populasjon. Bruk <strong>populasjonens</strong> standardavvik når dataene er hele populasjonen.
             </p>
           </div>
         </div>
@@ -151,16 +150,16 @@ export function StandardDeviationCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="data-input">Enter Your Data</Label>
+          <Label htmlFor="data-input">Fyll inn dataene dine</Label>
           <textarea
             id="data-input"
             value={dataInput}
             onChange={(e) => setDataInput(e.target.value)}
             className="w-full mt-1 p-3 border rounded-md bg-background min-h-[120px] font-mono text-sm"
-            placeholder="Enter numbers separated by commas, spaces, or new lines&#10;Example: 10, 12, 23, 23, 16, 23, 21, 16"
+            placeholder="Skriv tall adskilt med mellomrom, semikolon eller linjeskift&#10;Eksempel: 10; 12; 23; 23; 16; 23; 21; 16"
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Separate numbers with commas, spaces, or new lines
+            Skill tallene med mellomrom, semikolon eller linjeskift
           </p>
         </div>
       </div>

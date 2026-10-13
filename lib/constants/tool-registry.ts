@@ -2451,7 +2451,7 @@ export const toolRegistry: Record<string, ToolDefinition> = {
     description: 'Lag tilfeldige tall fra uniform-, normal- og eksponentialfordeling',
     category: 'stats',
     keywords: ['tilfeldige tall', 'normalfordeling', 'uniform fordeling', 'eksponentialfordeling'],
-    path: '/calculators/stats/stats-random-number-generator',
+    path: '/calculators/stats/random-number-generator',
     icon: 'Shuffle',
     relatedTools: ['coin-flip-simulator', 'dice-probability-calculator', 'standard-deviation-calculator'],
   },

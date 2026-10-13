@@ -37,7 +37,7 @@ export function KineticEnergyCalculator() {
       const res = calculateKineticEnergy(input);
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [kineticEnergy, mass, velocity]);
@@ -54,10 +54,10 @@ export function KineticEnergyCalculator() {
 
   return (
     <CalculatorBase
-      title="Kinetic Energy Calculator"
-      description="Calculate kinetic energy, mass, or velocity using KE = ½mv²"
+      title="Kalkulator for kinetisk energi"
+      description="Regn ut kinetisk energi, masse eller hastighet med KE = ½mv²"
       formula="KE = ½mv²"
-      formulaExplanation="Kinetic energy equals half the mass times velocity squared. Enter any two values to calculate the third."
+      formulaExplanation="Kinetisk energi er halve massen ganger hastigheten i andre. Fyll inn to verdier, så regnes den tredje ut."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -65,19 +65,19 @@ export function KineticEnergyCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ResultDisplay
-              label="Kinetic Energy (KE)"
+              label="Kinetisk energi (KE)"
               value={result.formattedEnergy}
               highlight={result.calculated === 'kineticEnergy'}
               copyable
             />
             <ResultDisplay
-              label="Mass (m)"
+              label="Masse (m)"
               value={result.formattedMass}
               highlight={result.calculated === 'mass'}
               copyable
             />
             <ResultDisplay
-              label="Velocity (v)"
+              label="Hastighet (v)"
               value={result.formattedVelocity}
               highlight={result.calculated === 'velocity'}
               copyable
@@ -85,14 +85,14 @@ export function KineticEnergyCalculator() {
           </div>
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Energy Conversions</p>
+            <p className="text-sm font-medium mb-2">Omregnet til andre energienheter</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
               <div>
                 <span className="text-muted-foreground">kWh: </span>
                 {result.energyInKWh.toExponential(4)}
               </div>
               <div>
-                <span className="text-muted-foreground">Calories: </span>
+                <span className="text-muted-foreground">Kalorier: </span>
                 {formatFixed(result.energyInCalories, 2)}
               </div>
               <div>
@@ -103,27 +103,27 @@ export function KineticEnergyCalculator() {
           </div>
 
           <p className="text-xs text-muted-foreground text-center">
-            Highlighted value was calculated from your inputs
+            Den uthevede verdien er regnet ut fra det du har fylt inn
           </p>
         </div>
       )}
     >
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">Enter any two values:</p>
+        <p className="text-sm text-muted-foreground">Fyll inn to verdier:</p>
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <NumberInput
             id="kineticEnergy"
-            label="Kinetic Energy"
+            label="Kinetisk energi"
             value={kineticEnergy}
             onChange={setKineticEnergy}
-            placeholder="Joules (J)"
+            placeholder="Joule (J)"
             min={0}
             step={0.1}
           />
           <NumberInput
             id="mass"
-            label="Mass"
+            label="Masse"
             value={mass}
             onChange={setMass}
             placeholder="kg"
@@ -132,7 +132,7 @@ export function KineticEnergyCalculator() {
           />
           <NumberInput
             id="velocity"
-            label="Velocity"
+            label="Hastighet"
             value={velocity}
             onChange={setVelocity}
             placeholder="m/s"
@@ -142,7 +142,7 @@ export function KineticEnergyCalculator() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Kinetic Energy Formulas</p>
+          <p className="text-sm font-medium mb-2">Formler for kinetisk energi</p>
           <div className="grid grid-cols-3 gap-2 text-xs font-mono">
             <div>KE = ½mv²</div>
             <div>m = 2KE/v²</div>

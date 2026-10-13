@@ -41,7 +41,7 @@ export function SampleSizeCalculator() {
       });
       setResult(sampleSizeResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [confidenceLevel, marginOfError, populationSize, expectedProportion, useFinitePopulation]);
@@ -62,17 +62,17 @@ export function SampleSizeCalculator() {
 
   return (
     <CalculatorBase
-      title="Sample Size Calculator"
-      description="Calculate the required sample size for surveys and statistical studies"
+      title="Kalkulator for utvalgsstørrelse"
+      description="Regn ut hvor stort utvalg du trenger i spørreundersøkelser og statistiske studier"
       formula="n = (Z² × p × (1-p)) / E²"
-      formulaExplanation="Where Z = Z-score for confidence level, p = expected proportion, E = margin of error. For finite populations, apply correction: n_adj = n / (1 + (n-1)/N)"
+      formulaExplanation="Der Z = z-verdi for konfidensnivået, p = forventet andel, E = feilmargin. For endelige populasjoner brukes korreksjonen n_just = n / (1 + (n-1)/N)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Required Sample Size"
+            label="Nødvendig utvalgsstørrelse"
             value={result.sampleSize.toLocaleString('nb-NO')}
             highlight
             copyable
@@ -80,7 +80,7 @@ export function SampleSizeCalculator() {
           
           {result.adjustedSampleSize && (
             <ResultDisplay
-              label="Adjusted Sample Size (Finite Population)"
+              label="Justert utvalgsstørrelse (endelig populasjon)"
               value={result.adjustedSampleSize.toLocaleString('nb-NO')}
               copyable
             />
@@ -88,36 +88,34 @@ export function SampleSizeCalculator() {
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Confidence Level"
+              label="Konfidensnivå"
               value={`${formatFixed((result.confidenceLevel * 100), 0)}%`}
               copyable
             />
             <ResultDisplay
-              label="Margin of Error"
+              label="Feilmargin"
               value={`±${result.marginOfError}%`}
               copyable
             />
           </div>
 
           <ResultDisplay
-            label="Z-Score Used"
+            label="Brukt z-verdi"
             value={formatFixed(result.zScore, 3)}
             copyable
           />
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 This sample size ensures your survey results will be within ±{result.marginOfError}% 
-              of the true population value with {formatFixed((result.confidenceLevel * 100), 0)}% confidence.
+              💡 Med dette utvalget havner resultatene dine innenfor ±{result.marginOfError} % av den sanne verdien i populasjonen, med {formatFixed((result.confidenceLevel * 100), 0)} % konfidens.
             </p>
           </div>
 
           {result.adjustedSampleSize && populationSize && (
             <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
               <p className="text-sm text-blue-700">
-                📊 With a population of {populationSize.toLocaleString('nb-NO')}, you need to survey{' '}
-                <strong>{result.adjustedSampleSize.toLocaleString('nb-NO')}</strong> people 
-                ({formatFixed(((result.adjustedSampleSize / populationSize) * 100), 1)}% of the population).
+                📊 Med en populasjon på {populationSize.toLocaleString('nb-NO')}må du spørre{' '}
+                <strong>{result.adjustedSampleSize.toLocaleString('nb-NO')}</strong> personer ({formatFixed(((result.adjustedSampleSize / populationSize) * 100), 1)} % av populasjonen).
               </p>
             </div>
           )}
@@ -126,7 +124,7 @@ export function SampleSizeCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="confidence-level">Confidence Level</Label>
+          <Label htmlFor="confidence-level">Konfidensnivå</Label>
           <select
             id="confidence-level"
             value={confidenceLevel}
@@ -140,12 +138,12 @@ export function SampleSizeCalculator() {
             ))}
           </select>
           <p className="text-xs text-muted-foreground mt-1">
-            Higher confidence requires larger sample sizes
+            Høyere konfidens krever større utvalg
           </p>
         </div>
 
         <div>
-          <Label htmlFor="margin-of-error">Margin of Error</Label>
+          <Label htmlFor="margin-of-error">Feilmargin</Label>
           <select
             id="margin-of-error"
             value={marginOfError}
@@ -159,13 +157,13 @@ export function SampleSizeCalculator() {
             ))}
           </select>
           <p className="text-xs text-muted-foreground mt-1">
-            Smaller margin of error requires larger sample sizes
+            Mindre feilmargin krever større utvalg
           </p>
         </div>
 
         <NumberInput
           id="expected-proportion"
-          label="Expected Proportion"
+          label="Forventet andel"
           value={expectedProportion}
           onChange={setExpectedProportion}
           min={1}
@@ -174,7 +172,7 @@ export function SampleSizeCalculator() {
           unit="%"
         />
         <p className="text-xs text-muted-foreground -mt-2">
-          Use 50% if unknown (gives maximum sample size)
+          Bruk 50 % hvis du ikke vet (gir størst utvalg)
         </p>
 
         <div className="flex items-center gap-2">
@@ -186,14 +184,14 @@ export function SampleSizeCalculator() {
             className="rounded border-gray-300"
           />
           <Label htmlFor="use-finite-population" className="cursor-pointer">
-            I know my population size
+            Jeg vet hvor stor populasjonen er
           </Label>
         </div>
 
         {useFinitePopulation && (
           <NumberInput
             id="population-size"
-            label="Population Size"
+            label="Populasjonsstørrelse"
             value={populationSize || 0}
             onChange={(v) => setPopulationSize(v || undefined)}
             min={1}

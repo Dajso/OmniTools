@@ -11,6 +11,8 @@
  * @see Requirements 31.1, 31.7
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 /**
  * Error class for density calculation errors
  */
@@ -23,6 +25,65 @@ export class DensityError extends Error {
     super(message);
     this.name = 'DensityError';
   }
+}
+
+/**
+ * Norske navn på materialene (nøkkel -> visningsnavn)
+ */
+export const MATERIAL_NAMES_NO: Record<string, string> = {
+  aluminum: 'Aluminium',
+  brass: 'Messing',
+  bronze: 'Bronse',
+  copper: 'Kobber',
+  gold: 'Gull',
+  iron: 'Jern',
+  lead: 'Bly',
+  nickel: 'Nikkel',
+  platinum: 'Platina',
+  silver: 'Sølv',
+  steel: 'Stål',
+  titanium: 'Titan',
+  tungsten: 'Wolfram',
+  zinc: 'Sink',
+  balsa: 'Balsa',
+  bamboo: 'Bambus',
+  cedar: 'Seder',
+  cork: 'Kork',
+  mahogany: 'Mahogni',
+  oak: 'Eik',
+  pine: 'Furu',
+  plywood: 'Kryssfiner',
+  teak: 'Teak',
+  water: 'Vann',
+  seawater: 'Sjøvann',
+  milk: 'Melk',
+  honey: 'Honning',
+  oil_olive: 'Olivenolje',
+  oil_motor: 'Motorolje',
+  gasoline: 'Bensin',
+  diesel: 'Diesel',
+  ethanol: 'Etanol',
+  mercury: 'Kvikksølv',
+  air: 'Luft',
+  helium: 'Helium',
+  hydrogen: 'Hydrogen',
+  nitrogen: 'Nitrogen',
+  oxygen: 'Oksygen',
+  carbon_dioxide: 'Karbondioksid',
+  concrete: 'Betong',
+  glass: 'Glass',
+  ice: 'Is',
+  rubber: 'Gummi',
+  plastic_pvc: 'Plast (PVC)',
+  plastic_hdpe: 'Plast (HDPE)',
+  paper: 'Papir',
+  sand: 'Sand',
+  soil: 'Jord',
+};
+
+/** Visningsnavn for et materiale (faller tilbake til nøkkelen) */
+export function materialName(key: string): string {
+  return MATERIAL_NAMES_NO[key] ?? key.replace(/_/g, ' ');
 }
 
 /**
@@ -128,12 +189,12 @@ export interface DensityResult {
  */
 export function formatDensity(density: number): string {
   if (density >= 1000) {
-    return `${density.toFixed(1)} kg/m³`;
+    return `${formatFixed(density, 1)} kg/m³`;
   }
   if (density >= 1) {
-    return `${density.toFixed(3)} kg/m³`;
+    return `${formatFixed(density, 3)} kg/m³`;
   }
-  return `${(density * 1000).toFixed(3)} g/m³`;
+  return `${formatFixed(density * 1000, 3)} g/m³`;
 }
 
 /**
@@ -141,12 +202,12 @@ export function formatDensity(density: number): string {
  */
 export function formatMass(mass: number): string {
   if (mass >= 1000) {
-    return `${(mass / 1000).toFixed(3)} tonnes`;
+    return `${formatFixed(mass / 1000, 3)} tonn`;
   }
   if (mass >= 1) {
-    return `${mass.toFixed(3)} kg`;
+    return `${formatFixed(mass, 3)} kg`;
   }
-  return `${(mass * 1000).toFixed(3)} g`;
+  return `${formatFixed(mass * 1000, 3)} g`;
 }
 
 /**
@@ -154,12 +215,12 @@ export function formatMass(mass: number): string {
  */
 export function formatVolume(volume: number): string {
   if (volume >= 1) {
-    return `${volume.toFixed(4)} m³`;
+    return `${formatFixed(volume, 4)} m³`;
   }
   if (volume >= 0.001) {
-    return `${(volume * 1000).toFixed(3)} L`;
+    return `${formatFixed(volume * 1000, 3)} L`;
   }
-  return `${(volume * 1000000).toFixed(3)} mL`;
+  return `${formatFixed(volume * 1000000, 3)} mL`;
 }
 
 /**
@@ -210,20 +271,20 @@ export function calculateDensity(input: DensityInput): DensityResult {
   
   if (providedCount < 2) {
     throw new DensityError(
-      'At least two values must be provided',
+      'Du må oppgi minst to verdier',
       'insufficient_data'
     );
   }
   
   // Validate inputs
   if (density !== undefined && density <= 0) {
-    throw new DensityError('Density must be positive', 'invalid_input', 'density');
+    throw new DensityError('Tettheten må være positiv', 'invalid_input', 'density');
   }
   if (mass !== undefined && mass < 0) {
-    throw new DensityError('Mass cannot be negative', 'invalid_input', 'mass');
+    throw new DensityError('Massen kan ikke være negativ', 'invalid_input', 'mass');
   }
   if (volume !== undefined && volume <= 0) {
-    throw new DensityError('Volume must be positive', 'invalid_input', 'volume');
+    throw new DensityError('Volumet må være positivt', 'invalid_input', 'volume');
   }
   
   let resultDensity: number;
@@ -251,7 +312,7 @@ export function calculateDensity(input: DensityInput): DensityResult {
     calculated = 'density';
   } else {
     throw new DensityError(
-      'Unable to calculate from provided inputs',
+      'Kan ikke regne ut fra verdiene som er oppgitt',
       'insufficient_data'
     );
   }
@@ -276,7 +337,7 @@ export function calculateDensity(input: DensityInput): DensityResult {
  */
 export function densityFromMassVolume(mass: number, volume: number): number {
   if (volume === 0) {
-    throw new DensityError('Volume cannot be zero', 'division_by_zero', 'volume');
+    throw new DensityError('Volumet kan ikke være null', 'division_by_zero', 'volume');
   }
   return mass / volume;
 }
@@ -295,7 +356,7 @@ export function massFromDensityVolume(density: number, volume: number): number {
  */
 export function volumeFromMassDensity(mass: number, density: number): number {
   if (density === 0) {
-    throw new DensityError('Density cannot be zero', 'division_by_zero', 'density');
+    throw new DensityError('Tettheten kan ikke være null', 'division_by_zero', 'density');
   }
   return mass / density;
 }

@@ -93,7 +93,7 @@ export function calculateZTestPValue(input: ZTestInput): PValueResult {
  */
 export function tDistributionCDF(t: number, df: number): number {
   if (df <= 0) {
-    throw new Error('Degrees of freedom must be positive');
+    throw new Error('Frihetsgradene må være positive');
   }
 
   // For large df, approximate with normal distribution
@@ -209,7 +209,7 @@ export function calculateTTestPValue(input: TTestInput): PValueResult {
   const { testStatistic, degreesOfFreedom, tailType } = input;
 
   if (degreesOfFreedom <= 0) {
-    throw new Error('Degrees of freedom must be positive');
+    throw new Error('Frihetsgradene må være positive');
   }
 
   let pValue: number;
@@ -244,7 +244,7 @@ function chiSquareCDF(x: number, df: number): number {
  */
 function regularizedGammaP(a: number, x: number): number {
   if (x < 0 || a <= 0) {
-    throw new Error('Invalid arguments for gamma function');
+    throw new Error('Ugyldige verdier til gammafunksjonen');
   }
 
   if (x === 0) return 0;
@@ -315,11 +315,11 @@ export function calculateChiSquarePValue(input: ChiSquareInput): PValueResult {
   const { testStatistic, degreesOfFreedom } = input;
 
   if (testStatistic < 0) {
-    throw new Error('Chi-square statistic cannot be negative');
+    throw new Error('Kjikvadratverdien kan ikke være negativ');
   }
 
   if (degreesOfFreedom <= 0) {
-    throw new Error('Degrees of freedom must be positive');
+    throw new Error('Frihetsgradene må være positive');
   }
 
   // Chi-square test is always one-tailed (right)
@@ -340,15 +340,15 @@ function createPValueResult(pValue: number): PValueResult {
 
   let interpretation: string;
   if (pValue < 0.001) {
-    interpretation = 'Extremely strong evidence against the null hypothesis';
+    interpretation = 'Ekstremt sterke holdepunkter mot nullhypotesen';
   } else if (pValue < 0.01) {
-    interpretation = 'Very strong evidence against the null hypothesis';
+    interpretation = 'Svært sterke holdepunkter mot nullhypotesen';
   } else if (pValue < 0.05) {
-    interpretation = 'Strong evidence against the null hypothesis';
+    interpretation = 'Sterke holdepunkter mot nullhypotesen';
   } else if (pValue < 0.1) {
-    interpretation = 'Moderate evidence against the null hypothesis';
+    interpretation = 'Moderate holdepunkter mot nullhypotesen';
   } else {
-    interpretation = 'Weak or no evidence against the null hypothesis';
+    interpretation = 'Svake eller ingen holdepunkter mot nullhypotesen';
   }
 
   return {
@@ -371,16 +371,16 @@ function roundToDecimal(value: number, decimals: number): number {
  * Test type options for UI
  */
 export const TEST_TYPES = [
-  { value: 'z-test', label: 'Z-Test (Normal Distribution)' },
-  { value: 't-test', label: 'T-Test (Student\'s t-Distribution)' },
-  { value: 'chi-square', label: 'Chi-Square Test' },
+  { value: 'z-test', label: 'Z-test (normalfordeling)' },
+  { value: 't-test', label: 'T-test (Students t-fordeling)' },
+  { value: 'chi-square', label: 'Kjikvadrattest' },
 ];
 
 /**
  * Tail type options for UI
  */
 export const TAIL_TYPES = [
-  { value: 'two-tailed', label: 'Two-Tailed' },
-  { value: 'one-tailed-left', label: 'One-Tailed (Left)' },
-  { value: 'one-tailed-right', label: 'One-Tailed (Right)' },
+  { value: 'two-tailed', label: 'Tosidig' },
+  { value: 'one-tailed-left', label: 'Ensidig (venstre)' },
+  { value: 'one-tailed-right', label: 'Ensidig (høyre)' },
 ];

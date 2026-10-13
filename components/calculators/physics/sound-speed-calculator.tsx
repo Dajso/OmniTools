@@ -15,18 +15,18 @@ import {
 import { formatFixed } from '@/lib/utils/formatting';
 
 const mediumOptions = [
-  { value: 'air', label: 'Air (gas)' },
-  { value: 'helium', label: 'Helium (gas)' },
-  { value: 'hydrogen', label: 'Hydrogen (gas)' },
-  { value: 'water_fresh', label: 'Fresh Water (liquid)' },
-  { value: 'water_sea', label: 'Sea Water (liquid)' },
-  { value: 'ethanol', label: 'Ethanol (liquid)' },
-  { value: 'steel', label: 'Steel (solid)' },
-  { value: 'aluminum', label: 'Aluminum (solid)' },
-  { value: 'glass', label: 'Glass (solid)' },
-  { value: 'wood_oak', label: 'Oak Wood (solid)' },
-  { value: 'concrete', label: 'Concrete (solid)' },
-  { value: 'ice', label: 'Ice (solid)' },
+  { value: 'air', label: 'Luft (gass)' },
+  { value: 'helium', label: 'Helium (gass)' },
+  { value: 'hydrogen', label: 'Hydrogen (gass)' },
+  { value: 'water_fresh', label: 'Ferskvann (væske)' },
+  { value: 'water_sea', label: 'Sjøvann (væske)' },
+  { value: 'ethanol', label: 'Etanol (væske)' },
+  { value: 'steel', label: 'Stål (fast stoff)' },
+  { value: 'aluminum', label: 'Aluminium (fast stoff)' },
+  { value: 'glass', label: 'Glass (fast stoff)' },
+  { value: 'wood_oak', label: 'Eik (fast stoff)' },
+  { value: 'concrete', label: 'Betong (fast stoff)' },
+  { value: 'ice', label: 'Is (fast stoff)' },
 ];
 
 export function SoundSpeedCalculator() {
@@ -67,7 +67,7 @@ export function SoundSpeedCalculator() {
         setLightningDist(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [temperature, medium, humidity, lightningDelay]);
@@ -88,10 +88,10 @@ export function SoundSpeedCalculator() {
 
   return (
     <CalculatorBase
-      title="Sound Speed Calculator"
-      description="Calculate the speed of sound in various media based on temperature"
+      title="Lydhastighet"
+      description="Regn ut lydens hastighet i ulike stoffer ut fra temperaturen"
       formula="v = 331.3 × √(1 + T/273.15) m/s"
-      formulaExplanation="Speed of sound in air varies with temperature. Other media have fixed reference speeds."
+      formulaExplanation="Lydhastigheten i luft endrer seg med temperaturen. Andre stoffer har faste referanseverdier."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -99,59 +99,45 @@ export function SoundSpeedCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <ResultDisplay
-              label="Speed (m/s)"
+              label="Hastighet (m/s)"
               value={`${formatFixed(result.speedMps, 2)} m/s`}
               copyable
             />
             <ResultDisplay
-              label="Speed (km/h)"
-              value={`${formatFixed(result.speedKmh, 1)} km/h`}
+              label="Hastighet (km/t)"
+              value={`${formatFixed(result.speedKmh, 1)} km/t`}
               copyable
             />
             <ResultDisplay
-              label="Speed (mph)"
-              value={`${formatFixed(result.speedMph, 1)} mph`}
+              label="Hastighet (knop)"
+              value={`${formatFixed(result.speedKnots, 1)} knop`}
               copyable
             />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <ResultDisplay
-              label="Speed (ft/s)"
-              value={`${formatFixed(result.speedFps, 1)} ft/s`}
-              copyable
-            />
-            <ResultDisplay
-              label="Speed (knots)"
-              value={`${formatFixed(result.speedKnots, 1)} knots`}
-              copyable
-            />
-            <ResultDisplay
-              label="Mach 1"
-              value={`${formatFixed(result.mach1, 2)} m/s`}
-              copyable
-            />
-          </div>
+          <p className="text-sm text-muted-foreground">
+            Mach 1 ved denne temperaturen: {formatFixed(result.mach1, 2)} m/s
+          </p>
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Travel Time</p>
+            <p className="text-sm font-medium mb-2">Reisetid for lyd</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <span className="text-muted-foreground">Per 1 km: </span>
-                {formatFixed(result.timePerKm, 2)} seconds
+                {formatFixed(result.timePerKm, 2)} sekunder
               </div>
               <div>
-                <span className="text-muted-foreground">Per 1 mile: </span>
-                {formatFixed(result.timePerMile, 2)} seconds
+                <span className="text-muted-foreground">Per 100 m: </span>
+                {formatFixed(result.timePer100m, 2)} sekunder
               </div>
             </div>
           </div>
 
           {lightningDist !== null && (
             <div className="bg-primary/10 p-3 rounded-md">
-              <p className="text-sm font-medium mb-1">⚡ Lightning Distance</p>
+              <p className="text-sm font-medium mb-1">⚡ Avstand til lynet</p>
               <p className="text-lg font-semibold">
-                {formatFixed((lightningDist / 1000), 2)} km ({formatFixed((lightningDist / 1609.34), 2)} miles)
+                {formatFixed(lightningDist / 1000, 2)} km ({formatFixed(lightningDist, 0)} m)
               </p>
             </div>
           )}
@@ -162,14 +148,14 @@ export function SoundSpeedCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SelectInput
             id="medium"
-            label="Medium"
+            label="Stoff"
             value={medium}
             onChange={setMedium}
             options={mediumOptions}
           />
           <NumberInput
             id="temperature"
-            label="Temperature"
+            label="Temperatur"
             value={temperature}
             onChange={setTemperature}
             placeholder="°C"
@@ -181,7 +167,7 @@ export function SoundSpeedCalculator() {
         {medium === 'air' && (
           <NumberInput
             id="humidity"
-            label="Relative Humidity (optional)"
+            label="Relativ luftfuktighet (valgfritt)"
             value={humidity}
             onChange={setHumidity}
             placeholder="% (0-100)"
@@ -192,34 +178,34 @@ export function SoundSpeedCalculator() {
         )}
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-2">⚡ Lightning Distance Calculator</p>
+          <p className="text-sm font-medium mb-2">⚡ Hvor langt unna slo lynet ned?</p>
           <NumberInput
             id="lightningDelay"
-            label="Seconds between flash and thunder"
+            label="Sekunder mellom lyn og torden"
             value={lightningDelay}
             onChange={setLightningDelay}
-            placeholder="seconds"
+            placeholder="sekunder"
             min={0}
             step={0.1}
           />
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Reference Speeds at 20°C</p>
+          <p className="text-sm font-medium mb-2">Referansehastigheter ved 20 °C</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-            <div>Air: 343 m/s</div>
-            <div>Water: 1,481 m/s</div>
-            <div>Steel: 5,960 m/s</div>
-            <div>Glass: 5,640 m/s</div>
-            <div>Aluminum: 6,420 m/s</div>
-            <div>Concrete: 3,400 m/s</div>
+            <div>Luft: 343 m/s</div>
+            <div>Vann: 1 481 m/s</div>
+            <div>Stål: 5 960 m/s</div>
+            <div>Glass: 5 640 m/s</div>
+            <div>Aluminium: 6 420 m/s</div>
+            <div>Betong: 3 400 m/s</div>
           </div>
         </div>
 
         {mediumType !== 'gas' && (
           <p className="text-xs text-muted-foreground">
-            Note: Temperature effects on sound speed in {mediumType}s are more complex. 
-            Reference speed at 20°C is shown.
+            Merk: Temperaturen påvirker lydhastigheten i {mediumType === 'liquid' ? 'væsker' : 'faste stoffer'} på en mer sammensatt måte.
+            Referansehastigheten ved 20 °C vises.
           </p>
         )}
       </div>

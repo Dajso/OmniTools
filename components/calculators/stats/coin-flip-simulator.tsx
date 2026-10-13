@@ -88,8 +88,8 @@ export function CoinFlipSimulator() {
   };
 
   const chartData: ChartData[] = result ? [
-    { name: 'Heads', count: result.heads, percentage: (result.heads / numFlips) * 100 },
-    { name: 'Tails', count: result.tails, percentage: (result.tails / numFlips) * 100 },
+    { name: 'Kron', count: result.heads, percentage: (result.heads / numFlips) * 100 },
+    { name: 'Mynt', count: result.tails, percentage: (result.tails / numFlips) * 100 },
   ] : [];
 
   const expectedHeads = numFlips / 2;
@@ -98,10 +98,10 @@ export function CoinFlipSimulator() {
 
   return (
     <CalculatorBase
-      title="Coin Flip Simulator"
-      description="Simulate coin flips and visualize the distribution of heads and tails"
-      formula="P(Heads) = P(Tails) = 0.5"
-      formulaExplanation="For a fair coin, the probability of heads or tails is 50% each. With many flips, the distribution approaches 50/50."
+      title="Myntkast"
+      description="Simuler myntkast og se fordelingen av kron og mynt"
+      formula="P(kron) = P(mynt) = 0,5"
+      formulaExplanation="For en rettferdig mynt er sannsynligheten for kron og mynt 50 % hver. Jo flere kast, desto nærmere kommer fordelingen 50/50."
       onCalculate={flipCoins}
       onReset={reset}
       isCalculating={isFlipping}
@@ -121,13 +121,13 @@ export function CoinFlipSimulator() {
           {/* Results */}
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Heads"
+              label="Kron"
               value={`${result.heads} (${formatFixed(((result.heads / numFlips) * 100), 1)}%)`}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Tails"
+              label="Mynt"
               value={`${result.tails} (${formatFixed(((result.tails / numFlips) * 100), 1)}%)`}
               highlight
               copyable
@@ -136,7 +136,7 @@ export function CoinFlipSimulator() {
 
           {/* Distribution Chart */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-4 text-center">Distribution</h4>
+            <h4 className="font-medium mb-4 text-center">Fordeling</h4>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -145,7 +145,7 @@ export function CoinFlipSimulator() {
                   <YAxis />
                   <Tooltip
                     formatter={(value, name) => [
-                      typeof value === 'number' ? `${value} (${((value / numFlips) * 100).toFixed(1)}%)` : String(value),
+                      typeof value === 'number' ? `${value} (${formatFixed((value / numFlips) * 100, 1)} %)` : String(value),
                       name === 'count' ? 'Count' : String(name)
                     ]}
                   />
@@ -165,12 +165,12 @@ export function CoinFlipSimulator() {
           {/* Statistics */}
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Expected (50%)"
+              label="Forventet (50 %)"
               value={expectedHeads.toString()}
               copyable
             />
             <ResultDisplay
-              label="Deviation from Expected"
+              label="Avvik fra forventet"
               value={`${deviation} (${formatFixed(deviationPercent, 1)}%)`}
               copyable
             />
@@ -178,7 +178,7 @@ export function CoinFlipSimulator() {
 
           {/* Recent Flips */}
           <div className="bg-muted/30 p-4 rounded-lg">
-            <h4 className="font-medium mb-2">Last 50 Flips</h4>
+            <h4 className="font-medium mb-2">Siste 50 kast</h4>
             <div className="flex flex-wrap gap-1 font-mono text-xs">
               {result.history.slice(-50).map((flip, i) => (
                 <span
@@ -197,12 +197,12 @@ export function CoinFlipSimulator() {
           {/* Interpretation */}
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 With {numFlips} flips, you got {result.heads} heads ({formatFixed(((result.heads / numFlips) * 100), 1)}%).
+              💡 Med {numFlips} kast fikk du {result.heads} kron ({formatFixed(((result.heads / numFlips) * 100), 1)}%).
               {deviationPercent < 10
-                ? ' This is very close to the expected 50%!'
+                ? 'Det er svært nær forventede 50 %!'
                 : deviationPercent < 20
-                  ? ' This is within normal variation for this sample size.'
-                  : ' This deviation is larger than typical, but still possible with random chance.'}
+                  ? 'Det er innenfor normal variasjon for dette antallet kast.'
+                  : 'Avviket er større enn vanlig, men fullt mulig av ren tilfeldighet.'}
             </p>
           </div>
         </div>
@@ -211,7 +211,7 @@ export function CoinFlipSimulator() {
       <div className="space-y-4">
         <NumberInput
           id="num-flips"
-          label="Number of Flips"
+          label="Antall kast"
           value={numFlips}
           onChange={setNumFlips}
           min={1}
