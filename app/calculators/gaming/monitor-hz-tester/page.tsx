@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { MonitorHzTester } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Monitor Hz Tester - Check Your Refresh Rate',
-  description: 'Test your monitor\'s actual refresh rate. Verify if your display is running at 60Hz, 144Hz, 240Hz, or other refresh rates.',
-  keywords: ['monitor Hz tester', 'refresh rate test', 'FPS test', '144Hz test', '240Hz test', 'monitor test'],
+  title: 'Skjermfrekvens-test – gratis kalkulator på nett',
+  description: 'Test og kontroller oppdateringsfrekvensen på skjermen. Gratis og uten registrering.',
+  keywords: ['skjerm hz', 'oppdateringsfrekvens', 'hz-test', 'bildefrekvens', '144hz'],
   alternates: { canonical: '/calculators/gaming/monitor-hz-tester' },
+  openGraph: {
+    title: 'Skjermfrekvens-test',
+    description: 'Test og kontroller oppdateringsfrekvensen på skjermen',
+    url: '/calculators/gaming/monitor-hz-tester',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Monitor Hz Tester',
-  description: 'Test your monitor refresh rate and frame consistency',
+  name: 'Skjermfrekvens-test',
+  description: 'Test og kontroller oppdateringsfrekvensen på skjermen',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Prepare', text: 'Close other browser tabs and applications for accurate results.' },
-  { name: 'Start test', text: 'Click the Start Test button to begin measuring.' },
-  { name: 'Wait', text: 'The test runs for 5 seconds, measuring frame times.' },
-  { name: 'View results', text: 'See your estimated refresh rate and frame consistency.' },
+  { name: 'Trykk på Start', text: 'Følg boksen som beveger seg over skjermen.' },
+  { name: 'Vent noen sekunder', text: 'Testen måler antall bilder per sekund.' },
+  { name: 'Les av resultatet', text: 'Se beregnet oppdateringsfrekvens og hvor jevne bildene er.' },
+  { name: 'Test flere ganger', text: 'Gjenta for sikrere resultat.' },
 ];
 
 const faqs = [
-  {
-    question: 'How does this test work?',
-    answer: 'The test uses requestAnimationFrame to measure how many frames your browser can render per second. Since browsers cap FPS at your monitor\'s refresh rate, this gives us an estimate of your Hz.',
-  },
-  {
-    question: 'Why is my result different from my monitor\'s specs?',
-    answer: 'Several factors can affect results: V-Sync settings, browser limitations, background processes, or your monitor not actually running at its maximum refresh rate. Check your display settings.',
-  },
-  {
-    question: 'What is frame consistency?',
-    answer: 'Frame consistency measures how evenly spaced your frames are. 100% means perfect timing between frames. Lower values indicate stuttering or frame time variations.',
-  },
-  {
-    question: 'Why does refresh rate matter for gaming?',
-    answer: 'Higher refresh rates provide smoother motion, reduced input lag, and can give competitive advantages in fast-paced games. 144Hz is a popular choice for gaming.',
-  },
-  {
-    question: 'How do I enable my monitor\'s full refresh rate?',
-    answer: 'Check your display settings in Windows (Display Settings > Advanced Display) or macOS (System Preferences > Displays). Make sure the highest refresh rate is selected.',
-  },
+  { question: 'Hva er oppdateringsfrekvens?', answer: 'Hvor mange ganger per sekund skjermen tegner bildet på nytt, målt i Hz. 60 Hz er vanlig, mens gamingskjermer har 144 Hz eller mer.' },
+  { question: 'Hvorfor viser testen lavere tall enn skjermen min?', answer: 'Nettleseren, bakgrunnsprosesser og strømsparing kan holde FPS nede. Sjekk også at skjermen faktisk er stilt til høyeste frekvens i systeminnstillingene.' },
+  { question: 'Hva er jevnhet i bildene?', answer: 'Hvor jevnt bildene kommer. Lav jevnhet kan gi hakking selv om gjennomsnittet er høyt.' },
+  { question: 'Er testen nøyaktig?', answer: 'Den gir et godt anslag, men er ikke en fullverdig måling. Lukk andre faner og kjør den flere ganger.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Sensitivity Converter', description: 'Convert sensitivity between games.' },
-  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI Calculator', description: 'Calculate your effective DPI.' },
+  { href: '/calculators/gaming/reaction-time-test', title: 'Reaksjonstidstest', description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk' },
+  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Musfølsomhet-omregner', description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite' },
 ];
 
 export default function MonitorHzTesterPage() {
@@ -62,12 +54,11 @@ export default function MonitorHzTesterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="monitor-hz-tester"
-          title="Monitor Refresh Rate Tester"
-          description="Test your monitor's actual refresh rate. Verify if your display is running at 60Hz, 144Hz, 240Hz, or any other refresh rate."
-          colorClass="bg-cyan-100 text-cyan-600"
+          title="Skjermfrekvens-test"
+          description="Test hvor mange bilder per sekund (Hz) skjermen din faktisk viser i nettleseren. Gratis og uten registrering."
         />
 
-        <section aria-label="Monitor Hz Tester">
+        <section aria-label="Skjermfrekvens-test">
           <MonitorHzTester />
         </section>
 

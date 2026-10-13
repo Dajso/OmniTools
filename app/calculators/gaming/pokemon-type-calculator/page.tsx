@@ -1,58 +1,49 @@
 import { Metadata } from 'next';
 import { PokemonTypeCalculator } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Pokemon Type Calculator - Type Effectiveness Chart',
-  description: 'Calculate Pokemon type effectiveness. Find weaknesses, resistances, and immunities for any type combination. Includes all 18 Pokemon types.',
-  keywords: ['Pokemon type calculator', 'type effectiveness', 'Pokemon weakness', 'type chart', 'Pokemon battle', 'super effective'],
+  title: 'Pokémon-typekalkulator – gratis kalkulator på nett',
+  description: 'Se styrker, svakheter og motstand mellom Pokémon-typer. Gratis og uten registrering.',
+  keywords: ['pokemon', 'typekalkulator', 'typesvakhet', 'typetabell', 'kamp'],
   alternates: { canonical: '/calculators/gaming/pokemon-type-calculator' },
+  openGraph: {
+    title: 'Pokémon-typekalkulator',
+    description: 'Se styrker, svakheter og motstand mellom Pokémon-typer',
+    url: '/calculators/gaming/pokemon-type-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Pokemon Type Calculator',
-  description: 'Calculate Pokemon type effectiveness and weaknesses',
+  name: 'Pokémon-typekalkulator',
+  description: 'Se styrker, svakheter og motstand mellom Pokémon-typer',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose mode', text: 'Select Defensive to find weaknesses or Offensive to find what you beat.' },
-  { name: 'Select types', text: 'Click on 1-2 types for defensive analysis, or 1 type for offensive.' },
-  { name: 'View matchups', text: 'See super effective, not very effective, and immune type matchups.' },
-  { name: 'Plan your strategy', text: 'Use this information to build better teams and win battles.' },
+  { name: 'Velg modus', text: 'Forsvar eller angrep.' },
+  { name: 'Velg typer', text: 'Velg 1–2 typer for forsvar, eller én for angrep.' },
+  { name: 'Les av treffene', text: 'Se svakheter, motstand og immuniteter.' },
+  { name: 'Planlegg laget ditt', text: 'Bruk oversikten til å bygge et godt lag.' },
 ];
 
 const faqs = [
-  {
-    question: 'How does dual typing work?',
-    answer: 'When a Pokemon has two types, the effectiveness multipliers are multiplied together. For example, a Water/Flying type takes 4× damage from Electric (2× to Water × 2× to Flying).',
-  },
-  {
-    question: 'What does "immune" mean?',
-    answer: 'Immune means the attack has no effect (0× damage). For example, Ground-type moves have no effect on Flying-type Pokemon.',
-  },
-  {
-    question: 'Are these type matchups the same in all Pokemon games?',
-    answer: 'The core type chart has been consistent since Generation 6 (X/Y) when Fairy type was added. Earlier games had some differences, particularly with Steel and Dark types.',
-  },
-  {
-    question: 'What is STAB?',
-    answer: 'STAB (Same Type Attack Bonus) gives a 1.5× damage boost when a Pokemon uses a move that matches one of its types. This calculator shows base type effectiveness without STAB.',
-  },
-  {
-    question: 'How many types are there?',
-    answer: 'There are 18 Pokemon types: Normal, Fire, Water, Electric, Grass, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Dragon, Dark, Steel, and Fairy.',
-  },
+  { question: 'Hva betyr ×2 og ×4?', answer: 'Skaden dobles eller firedobles fordi angrepstypen er veldig effektiv mot én eller begge typene.' },
+  { question: 'Hvorfor har noen to typer?', answer: 'Mange Pokémon har to typer, og effektene ganges sammen. Derfor kan noe gi ×4 eller ×0,25.' },
+  { question: 'Hva er immunitet?', answer: 'Når en type ikke gjør skade, for eksempel normale angrep mot spøkelsestyper.' },
+  { question: 'Hvorfor er typenavnene på engelsk?', answer: 'Pokémon finnes ikke offisielt på norsk, så spillerne bruker vanligvis de engelske typenavnene.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/minecraft-circle-generator', title: 'Minecraft Circle Generator', description: 'Generate pixel-perfect circles.' },
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/kd-ratio-calculator', title: 'KD Ratio Calculator', description: 'Calculate your kill/death ratio.' },
+  { href: '/calculators/gaming/kd-ratio-calculator', title: 'K/D-kalkulator', description: 'Regn ut kill/death-forhold og følg statistikken din' },
 ];
 
 export default function PokemonTypeCalculatorPage() {
@@ -62,12 +53,11 @@ export default function PokemonTypeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="pokemon-type-calculator"
-          title="Pokemon Type Calculator"
-          description="Calculate type effectiveness for Pokemon battles. Find weaknesses, resistances, and immunities for any single or dual type combination."
-          colorClass="bg-yellow-100 text-yellow-600"
+          title="Pokémon-typekalkulator"
+          description="Regn ut hvilke typer som er sterke og svake mot hverandre i Pokémon, for både forsvar og angrep. Gratis og uten registrering."
         />
 
-        <section aria-label="Pokemon Type Calculator">
+        <section aria-label="Pokémon-typekalkulator">
           <PokemonTypeCalculator />
         </section>
 

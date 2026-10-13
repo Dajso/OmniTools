@@ -14,21 +14,21 @@ interface EmoteSize {
 }
 
 const TWITCH_EMOTE_SIZES: EmoteSize[] = [
-  { name: '1x', width: 28, height: 28, description: 'Small (chat)' },
-  { name: '2x', width: 56, height: 56, description: 'Medium' },
-  { name: '3x', width: 112, height: 112, description: 'Large (emote picker)' },
+  { name: '1x', width: 28, height: 28, description: 'Liten (chat)' },
+  { name: '2x', width: 56, height: 56, description: 'Middels' },
+  { name: '3x', width: 112, height: 112, description: 'Stor (emote-velger)' },
 ];
 
 const BTTV_EMOTE_SIZES: EmoteSize[] = [
-  { name: '1x', width: 28, height: 28, description: 'Small' },
-  { name: '2x', width: 56, height: 56, description: 'Medium' },
-  { name: '3x', width: 112, height: 112, description: 'Large' },
+  { name: '1x', width: 28, height: 28, description: 'Liten' },
+  { name: '2x', width: 56, height: 56, description: 'Middels' },
+  { name: '3x', width: 112, height: 112, description: 'Stor' },
 ];
 
 const FFZ_EMOTE_SIZES: EmoteSize[] = [
-  { name: '1x', width: 32, height: 32, description: 'Small' },
-  { name: '2x', width: 64, height: 64, description: 'Medium' },
-  { name: '4x', width: 128, height: 128, description: 'Large' },
+  { name: '1x', width: 32, height: 32, description: 'Liten' },
+  { name: '2x', width: 64, height: 64, description: 'Middels' },
+  { name: '4x', width: 128, height: 128, description: 'Stor' },
 ];
 
 type Platform = 'twitch' | 'bttv' | 'ffz';
@@ -52,13 +52,13 @@ export function TwitchEmoteResizer() {
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+      setError('Velg en bildefil');
       return;
     }
 
     // Validate file size (max 1MB for emotes)
     if (file.size > 1024 * 1024) {
-      setError('File size must be under 1MB');
+      setError('Filen må være mindre enn 1 MB');
       return;
     }
 
@@ -74,7 +74,7 @@ export function TwitchEmoteResizer() {
         resizeImage(img);
       };
       img.onerror = () => {
-        setError('Failed to load image');
+        setError('Kunne ikke laste inn bildet');
         setIsProcessing(false);
       };
       img.src = e.target?.result as string;
@@ -152,9 +152,9 @@ export function TwitchEmoteResizer() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Twitch Emote Resizer</CardTitle>
+        <CardTitle>Størrelse på Twitch-emotes</CardTitle>
         <CardDescription>
-          Resize images to standard emote dimensions for Twitch, BTTV, and FFZ
+          Endre størrelsen på bilder til standard emote-størrelser for Twitch, BTTV og FFZ
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -188,7 +188,7 @@ export function TwitchEmoteResizer() {
 
         {/* Size Requirements */}
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">{platform.toUpperCase()} Emote Sizes</p>
+          <p className="text-sm font-medium mb-2">{platform.toUpperCase()} Emote-størrelser</p>
           <div className="grid grid-cols-3 gap-2 text-xs">
             {sizes.map((size) => (
               <div key={size.name} className="text-center">
@@ -225,23 +225,23 @@ export function TwitchEmoteResizer() {
                   className="max-h-32 max-w-32 object-contain"
                 />
                 <div className="text-sm">
-                  <p className="font-medium">Original Image</p>
+                  <p className="font-medium">Originalbilde</p>
                   {originalSize && (
                     <p className="text-muted-foreground">
                       {originalSize.width} × {originalSize.height}
                     </p>
                   )}
-                  <p className="text-primary text-xs mt-1">Click to change</p>
+                  <p className="text-primary text-xs mt-1">Klikk for å bytte</p>
                 </div>
               </div>
             ) : (
               <>
                 <Upload className="h-10 w-10 text-muted-foreground mb-2" />
                 <p className="text-sm text-muted-foreground">
-                  Click to upload or drag and drop
+                  Klikk for å laste opp, eller dra og slipp
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  PNG, JPG, GIF up to 1MB
+                  PNG, JPG, GIF opptil 1 MB
                 </p>
               </>
             )}
@@ -258,7 +258,7 @@ export function TwitchEmoteResizer() {
         {/* Processing Indicator */}
         {isProcessing && (
           <div className="text-center py-4">
-            <p className="text-muted-foreground">Processing...</p>
+            <p className="text-muted-foreground">Behandler …</p>
           </div>
         )}
 
@@ -266,10 +266,10 @@ export function TwitchEmoteResizer() {
         {resizedImages.size > 0 && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium">Resized Emotes</p>
+              <p className="text-sm font-medium">Emotes med ny størrelse</p>
               <Button onClick={downloadAll} size="sm" variant="outline">
                 <Download className="h-4 w-4 mr-1" />
-                Download All
+                Last ned alle
               </Button>
             </div>
 
@@ -285,7 +285,7 @@ export function TwitchEmoteResizer() {
                       {dataUrl ? (
                         <img
                           src={dataUrl}
-                          alt={`${size.name} emote`}
+                          alt={`Emote ${size.name}`}
                           style={{ width: size.width, height: size.height }}
                           className="pixelated"
                         />
@@ -307,7 +307,7 @@ export function TwitchEmoteResizer() {
                       disabled={!dataUrl}
                     >
                       <Download className="h-3 w-3 mr-1" />
-                      Download
+                      Last ned
                     </Button>
                   </div>
                 );
@@ -319,18 +319,18 @@ export function TwitchEmoteResizer() {
         {/* Reset Button */}
         {originalImage && (
           <Button onClick={reset} variant="outline" className="w-full">
-            Upload New Image
+            Last opp nytt bilde
           </Button>
         )}
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Tips for best results:</p>
+          <p className="font-medium mb-1">Tips for best resultat:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Use square images for best results</li>
-            <li>Start with a high-resolution source image</li>
-            <li>PNG format with transparency works best</li>
-            <li>Keep designs simple for small sizes</li>
+            <li>Bruk kvadratiske bilder for best resultat</li>
+            <li>Start med et bilde i høy oppløsning</li>
+            <li>PNG med gjennomsiktighet fungerer best</li>
+            <li>Hold designet enkelt for små størrelser</li>
           </ul>
         </div>
       </CardContent>

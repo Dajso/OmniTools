@@ -123,9 +123,9 @@ export function MonitorHzTester() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Monitor Refresh Rate Tester</CardTitle>
+        <CardTitle>Test av skjermens oppdateringsfrekvens</CardTitle>
         <CardDescription>
-          Test your monitor&apos;s actual refresh rate using requestAnimationFrame
+          Test den faktiske oppdateringsfrekvensen til skjermen din med requestAnimationFrame
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -150,10 +150,10 @@ export function MonitorHzTester() {
           {/* Status Text */}
           <div className="absolute inset-0 flex items-center justify-center">
             {testState === 'idle' && (
-              <span className="text-white/50">Click Start to begin test</span>
+              <span className="text-white/50">Trykk på Start for å begynne testen</span>
             )}
             {testState === 'running' && (
-              <span className="text-white/50">Testing... Watch the moving box</span>
+              <span className="text-white/50">Tester … Følg boksen som beveger seg</span>
             )}
           </div>
         </div>
@@ -162,21 +162,21 @@ export function MonitorHzTester() {
         <div className="flex gap-2">
           {testState === 'idle' && (
             <Button onClick={startTest} className="flex-1">
-              Start Test
+              Start testen
             </Button>
           )}
           {testState === 'running' && (
             <Button onClick={stopTest} variant="destructive" className="flex-1">
-              Stop Test
+              Stopp testen
             </Button>
           )}
           {testState === 'complete' && (
             <>
               <Button onClick={startTest} className="flex-1">
-                Test Again
+                Test på nytt
               </Button>
               <Button onClick={() => setTestState('idle')} variant="outline">
-                Reset
+                Nullstill
               </Button>
             </>
           )}
@@ -189,25 +189,25 @@ export function MonitorHzTester() {
               <p className={`text-4xl font-bold ${getHzColor(result.estimatedHz)}`}>
                 {result.estimatedHz} Hz
               </p>
-              <p className="text-muted-foreground">Estimated Refresh Rate</p>
+              <p className="text-muted-foreground">Beregnet oppdateringsfrekvens</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Measured FPS"
+                label="Målt FPS"
                 value={result.measuredFps.toString()}
               />
               <ResultDisplay
-                label="Frame Consistency"
+                label="Jevnhet i bildene"
                 value={`${result.consistency}`}
                 unit="%"
               />
               <ResultDisplay
-                label="Frames Rendered"
+                label="Bilder tegnet"
                 value={result.frameCount.toString()}
               />
               <ResultDisplay
-                label="Test Duration"
+                label="Testvarighet"
                 value={`${formatFixed((result.duration / 1000), 1)}`}
                 unit="s"
               />
@@ -217,15 +217,15 @@ export function MonitorHzTester() {
             <div className="bg-muted/50 p-3 rounded-md text-sm">
               {result.consistency >= 90 ? (
                 <p className="text-green-600">
-                  ✓ Excellent frame consistency! Your display is running smoothly.
+                  ✓ Svært jevne bilder! Skjermen din går smidig.
                 </p>
               ) : result.consistency >= 70 ? (
                 <p className="text-yellow-600">
-                  ⚠ Good frame consistency. Some minor frame time variations detected.
+                  ⚠ Ganske jevne bilder. Små variasjoner i bildetid ble oppdaget.
                 </p>
               ) : (
                 <p className="text-red-600">
-                  ✗ Frame consistency is low. This could indicate V-Sync issues, background processes, or browser limitations.
+                  ✗ Lite jevne bilder. Det kan skyldes V-Sync-problemer, bakgrunnsprosesser eller begrensninger i nettleseren.
                 </p>
               )}
             </div>
@@ -234,7 +234,7 @@ export function MonitorHzTester() {
 
         {/* Common Refresh Rates Reference */}
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-2">Common Refresh Rates</p>
+          <p className="text-sm font-medium mb-2">Vanlige oppdateringsfrekvenser</p>
           <div className="grid grid-cols-4 gap-2 text-xs">
             <div className="text-center p-2 bg-muted rounded">
               <p className="font-bold">60 Hz</p>
@@ -246,23 +246,23 @@ export function MonitorHzTester() {
             </div>
             <div className="text-center p-2 bg-muted rounded">
               <p className="font-bold text-green-600">144 Hz</p>
-              <p className="text-muted-foreground">Popular</p>
+              <p className="text-muted-foreground">Populær</p>
             </div>
             <div className="text-center p-2 bg-muted rounded">
               <p className="font-bold text-purple-600">240 Hz</p>
-              <p className="text-muted-foreground">Pro</p>
+              <p className="text-muted-foreground">Proff</p>
             </div>
           </div>
         </div>
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">Notes:</p>
+          <p className="font-medium mb-1">Merk:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Close other browser tabs for more accurate results</li>
-            <li>Browser FPS is capped by your monitor&apos;s refresh rate</li>
-            <li>Results may vary based on browser and system load</li>
-            <li>For best accuracy, run the test multiple times</li>
+            <li>Lukk andre faner i nettleseren for mer nøyaktig resultat</li>
+            <li>FPS i nettleseren er begrenset av oppdateringsfrekvensen til skjermen</li>
+            <li>Resultatet kan variere med nettleser og belastning på maskinen</li>
+            <li>Kjør testen flere ganger for best nøyaktighet</li>
           </ul>
         </div>
       </CardContent>

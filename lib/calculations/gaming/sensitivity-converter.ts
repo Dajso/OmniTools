@@ -78,9 +78,9 @@ export function calculateCm360(
   sensitivity: number,
   gameMultiplier: number
 ): number {
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (sensitivity <= 0) throw new Error('Sensitivity must be positive');
-  if (gameMultiplier <= 0) throw new Error('Game multiplier must be positive');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (sensitivity <= 0) throw new Error('Følsomheten må være større enn 0');
+  if (gameMultiplier <= 0) throw new Error('Spillmultiplikatoren må være større enn 0');
 
   // 2.54 converts inches to cm, 360 is degrees for full rotation
   return (2.54 * 360) / (dpi * sensitivity * gameMultiplier);
@@ -101,9 +101,9 @@ export function sensitivityFromCm360(
   cm360: number,
   gameMultiplier: number
 ): number {
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (cm360 <= 0) throw new Error('cm/360 must be positive');
-  if (gameMultiplier <= 0) throw new Error('Game multiplier must be positive');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (cm360 <= 0) throw new Error('cm/360 må være større enn 0');
+  if (gameMultiplier <= 0) throw new Error('Spillmultiplikatoren må være større enn 0');
 
   return (2.54 * 360) / (dpi * cm360 * gameMultiplier);
 }
@@ -117,7 +117,7 @@ export function sensitivityFromCm360(
 export function getGameMultiplier(game: string): number {
   const multiplier = GAME_MULTIPLIERS[game.toLowerCase()];
   if (multiplier === undefined) {
-    throw new Error(`Unsupported game: ${game}`);
+    throw new Error(`Spillet støttes ikke: ${game}`);
   }
   return multiplier;
 }
@@ -167,8 +167,8 @@ export function convertSensitivity(
  * @returns eDPI value
  */
 export function calculateEDPI(dpi: number, sensitivity: number): number {
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (sensitivity < 0) throw new Error('Sensitivity cannot be negative');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (sensitivity < 0) throw new Error('Følsomheten kan ikke være negativ');
 
   return dpi * sensitivity;
 }
@@ -181,8 +181,8 @@ export function calculateEDPI(dpi: number, sensitivity: number): number {
  * @returns Sensitivity value
  */
 export function edpiToSensitivity(edpi: number, dpi: number): number {
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (edpi < 0) throw new Error('eDPI cannot be negative');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (edpi < 0) throw new Error('eDPI kan ikke være negativ');
 
   return edpi / dpi;
 }

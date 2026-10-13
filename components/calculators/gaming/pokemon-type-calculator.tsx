@@ -153,9 +153,9 @@ export function PokemonTypeCalculator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Pokemon Type Calculator</CardTitle>
+        <CardTitle>Pokémon-typekalkulator</CardTitle>
         <CardDescription>
-          Calculate type effectiveness for Pokemon battles
+          Regn ut typeeffektivitet i Pokémon-kamper
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -166,30 +166,30 @@ export function PokemonTypeCalculator() {
             onClick={() => { setMode('defense'); reset(); }}
             className="flex-1"
           >
-            Defensive (What beats me?)
+            Forsvar (hva slår meg?)
           </Button>
           <Button
             variant={mode === 'attack' ? 'default' : 'outline'}
             onClick={() => { setMode('attack'); reset(); }}
             className="flex-1"
           >
-            Offensive (What do I beat?)
+            Angrep (hva slår jeg?)
           </Button>
         </div>
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
           {mode === 'defense' ? (
-            <p>Select 1-2 types to see what types are super effective, not very effective, or have no effect against them.</p>
+            <p>Velg 1–2 typer for å se hvilke typer som er veldig effektive, lite effektive eller uten effekt mot dem.</p>
           ) : (
-            <p>Select an attacking type to see what types it&apos;s super effective, not very effective, or has no effect against.</p>
+            <p>Velg en angrepstype for å se hvilke typer den er veldig effektiv mot, lite effektiv mot eller uten effekt mot.</p>
           )}
         </div>
 
         {/* Type Selection */}
         <div>
           <p className="text-sm font-medium mb-3">
-            {mode === 'defense' ? 'Select Pokemon Types (1-2)' : 'Select Attacking Type'}
+            {mode === 'defense' ? 'Velg Pokémon-typer (1–2)' : 'Velg angrepstype'}
           </p>
           <div className="flex flex-wrap gap-2">
             {POKEMON_TYPES.map(type => (
@@ -206,7 +206,7 @@ export function PokemonTypeCalculator() {
         {/* Selected Types Display */}
         {mode === 'defense' && selectedTypes.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Selected:</span>
+            <span className="text-sm text-muted-foreground">Valgt:</span>
             {selectedTypes.map(type => (
               <span
                 key={type}
@@ -220,7 +220,7 @@ export function PokemonTypeCalculator() {
               </span>
             ))}
             <Button variant="ghost" size="sm" onClick={reset}>
-              Clear
+              Tøm
             </Button>
           </div>
         )}
@@ -228,13 +228,13 @@ export function PokemonTypeCalculator() {
         {/* Defensive Analysis Results */}
         {defensiveAnalysis && (
           <div className="space-y-4 border-t pt-4">
-            <h3 className="font-medium">Type Matchups</h3>
+            <h3 className="font-medium">Typeforhold</h3>
             
             {defensiveAnalysis.weaknesses.length > 0 && (
               <EffectivenessDisplay
                 multiplier={2}
                 types={defensiveAnalysis.weaknesses}
-                label="⚠️ Weak to (takes more damage)"
+                label="⚠️ Svak mot (tar mer skade)"
               />
             )}
             
@@ -242,7 +242,7 @@ export function PokemonTypeCalculator() {
               <EffectivenessDisplay
                 multiplier={0.5}
                 types={defensiveAnalysis.resistances}
-                label="🛡️ Resistant to (takes less damage)"
+                label="🛡️ Tåler godt (tar mindre skade)"
               />
             )}
             
@@ -250,15 +250,15 @@ export function PokemonTypeCalculator() {
               <EffectivenessDisplay
                 multiplier={0}
                 types={defensiveAnalysis.immunities.map(t => ({ type: t, multiplier: 0 }))}
-                label="✨ Immune to (no damage)"
+                label="✨ Immun mot (ingen skade)"
               />
             )}
 
             <div className="text-sm text-muted-foreground">
               <p>
-                <strong>{defensiveAnalysis.weaknesses.length}</strong> weaknesses,{' '}
-                <strong>{defensiveAnalysis.resistances.length}</strong> resistances,{' '}
-                <strong>{defensiveAnalysis.immunities.length}</strong> immunities
+                <strong>{defensiveAnalysis.weaknesses.length}</strong> svakheter,{' '}
+                <strong>{defensiveAnalysis.resistances.length}</strong> motstandstyper,{' '}
+                <strong>{defensiveAnalysis.immunities.length}</strong> immuniteter
               </p>
             </div>
           </div>
@@ -277,14 +277,14 @@ export function PokemonTypeCalculator() {
               >
                 {offensiveAnalysis.type}
               </span>
-              Type Coverage
+              Typedekning
             </h3>
             
             {offensiveAnalysis.superEffective.length > 0 && (
               <EffectivenessDisplay
                 multiplier={2}
                 types={offensiveAnalysis.superEffective.map(t => ({ type: t, multiplier: 2 }))}
-                label="💥 Super effective against (×2 damage)"
+                label="💥 Veldig effektiv mot (×2 skade)"
               />
             )}
             
@@ -292,7 +292,7 @@ export function PokemonTypeCalculator() {
               <EffectivenessDisplay
                 multiplier={0.5}
                 types={offensiveAnalysis.notVeryEffective.map(t => ({ type: t, multiplier: 0.5 }))}
-                label="⬇️ Not very effective against (×0.5 damage)"
+                label="⬇️ Lite effektiv mot (×0,5 skade)"
               />
             )}
             
@@ -300,15 +300,15 @@ export function PokemonTypeCalculator() {
               <EffectivenessDisplay
                 multiplier={0}
                 types={offensiveAnalysis.noEffect.map(t => ({ type: t, multiplier: 0 }))}
-                label="❌ No effect against (immune)"
+                label="❌ Ingen effekt mot (immun)"
               />
             )}
 
             <div className="text-sm text-muted-foreground">
               <p>
-                Super effective against <strong>{offensiveAnalysis.superEffective.length}</strong> types,{' '}
-                resisted by <strong>{offensiveAnalysis.notVeryEffective.length}</strong> types,{' '}
-                no effect on <strong>{offensiveAnalysis.noEffect.length}</strong> types
+                Veldig effektiv mot <strong>{offensiveAnalysis.superEffective.length}</strong> typer,{' '}
+                motstås av <strong>{offensiveAnalysis.notVeryEffective.length}</strong> typer,{' '}
+                ingen effekt på <strong>{offensiveAnalysis.noEffect.length}</strong> typer
               </p>
             </div>
           </div>

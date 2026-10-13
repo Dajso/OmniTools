@@ -36,10 +36,10 @@ const DIFFICULTY_SETTINGS: Record<Difficulty, { targetSize: number; spawnInterva
 };
 
 const DIFFICULTY_OPTIONS = [
-  { value: 'easy', label: 'Easy (Large targets, slow)' },
-  { value: 'medium', label: 'Medium (Normal targets)' },
-  { value: 'hard', label: 'Hard (Small targets, fast)' },
-  { value: 'extreme', label: 'Extreme (Tiny targets, very fast)' },
+  { value: 'easy', label: 'Lett (store mål, rolig tempo)' },
+  { value: 'medium', label: 'Middels (vanlige mål)' },
+  { value: 'hard', label: 'Vanskelig (små mål, raskt tempo)' },
+  { value: 'extreme', label: 'Ekstremt (bittesmå mål, veldig raskt)' },
 ];
 
 export function AimTrainer() {
@@ -177,9 +177,9 @@ export function AimTrainer() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Aim Trainer</CardTitle>
+        <CardTitle>Sikte-trener</CardTitle>
         <CardDescription>
-          Click the targets as fast as you can to improve your aim
+          Klikk på målene så fort du kan for å bli bedre til å sikte
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -187,13 +187,13 @@ export function AimTrainer() {
           <div className="space-y-4">
             <SelectInput
               id="difficulty"
-              label="Difficulty"
+              label="Vanskelighetsgrad"
               value={difficulty}
               onChange={(v) => setDifficulty(v as Difficulty)}
               options={DIFFICULTY_OPTIONS}
             />
             <Button onClick={startGame} className="w-full">
-              Start Game
+              Start spillet
             </Button>
           </div>
         )}
@@ -201,9 +201,9 @@ export function AimTrainer() {
         {gameState === 'playing' && (
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Time: {timeLeft}s</span>
-              <span>Hits: {stats.hits}</span>
-              <span>Misses: {stats.misses}</span>
+              <span>Tid: {timeLeft}s</span>
+              <span>Treff: {stats.hits}</span>
+              <span>Bom: {stats.misses}</span>
             </div>
           </div>
         )}
@@ -221,7 +221,7 @@ export function AimTrainer() {
           >
             {gameState === 'idle' && (
               <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                Click Start Game to begin
+                Trykk på «Start spillet» for å begynne
               </div>
             )}
             
@@ -237,7 +237,7 @@ export function AimTrainer() {
                   top: target.y - target.size / 2,
                   boxShadow: '0 0 10px rgba(239, 68, 68, 0.5)',
                 }}
-                aria-label="Target"
+                aria-label="Mål"
               />
             ))}
           </div>
@@ -248,37 +248,37 @@ export function AimTrainer() {
           <div className="space-y-4">
             <div className="text-center py-4">
               <p className="text-3xl font-bold">{stats.score}</p>
-              <p className="text-muted-foreground">Final Score</p>
+              <p className="text-muted-foreground">Sluttresultat</p>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Accuracy"
+                label="Treffsikkerhet"
                 value={`${formatFixed(stats.accuracy, 1)}`}
                 unit="%"
                 highlight
               />
               <ResultDisplay
-                label="Avg Reaction"
+                label="Gj.snitt reaksjonstid"
                 value={`${formatFixed(stats.averageReactionTime, 0)}`}
                 unit="ms"
               />
               <ResultDisplay
-                label="Hits"
+                label="Treff"
                 value={stats.hits.toString()}
               />
               <ResultDisplay
-                label="Misses"
+                label="Bom"
                 value={stats.misses.toString()}
               />
             </div>
 
             <div className="flex gap-2">
               <Button onClick={startGame} className="flex-1">
-                Play Again
+                Spill igjen
               </Button>
               <Button variant="outline" onClick={() => setGameState('idle')}>
-                Change Difficulty
+                Endre vanskelighetsgrad
               </Button>
             </div>
           </div>
@@ -286,12 +286,12 @@ export function AimTrainer() {
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">How to play:</p>
+          <p className="font-medium mb-1">Slik spiller du:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Click on the red targets as fast as you can</li>
-            <li>Missing a target or clicking empty space counts as a miss</li>
-            <li>Your score is based on accuracy and reaction time</li>
-            <li>Higher difficulty = smaller targets and faster spawns</li>
+            <li>Klikk på de røde målene så fort du kan</li>
+            <li>Å bomme på et mål eller klikke på tomt område teller som bom</li>
+            <li>Resultatet ditt bygger på treffsikkerhet og reaksjonstid</li>
+            <li>Høyere vanskelighetsgrad gir mindre mål og raskere nye mål</li>
           </ul>
         </div>
       </CardContent>

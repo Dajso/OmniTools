@@ -32,7 +32,7 @@ export function MinecraftCircleGenerator() {
       
       if (shape === 'circle') {
         if (diameter < 1 || diameter > 128) {
-          setError('Diameter must be between 1 and 128');
+          setError('Diameteren må være mellom 1 og 128');
           return;
         }
         const result = generateCircle(diameter, filled);
@@ -40,7 +40,7 @@ export function MinecraftCircleGenerator() {
         setSphereLayers(null);
       } else if (shape === 'oval') {
         if (widthDiameter < 1 || widthDiameter > 128 || heightDiameter < 1 || heightDiameter > 128) {
-          setError('Diameters must be between 1 and 128');
+          setError('Diameterne må være mellom 1 og 128');
           return;
         }
         const result = generateOval(widthDiameter, heightDiameter, filled);
@@ -48,7 +48,7 @@ export function MinecraftCircleGenerator() {
         setSphereLayers(null);
       } else if (shape === 'sphere') {
         if (diameter < 1 || diameter > 64) {
-          setError('Sphere diameter must be between 1 and 64');
+          setError('Diameteren på kula må være mellom 1 og 64');
           return;
         }
         const layers = getSphereLayerDiameters(diameter);
@@ -64,7 +64,7 @@ export function MinecraftCircleGenerator() {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation error');
+      setError(err instanceof Error ? err.message : 'Feil under generering');
       setGrid(null);
     }
   }, [shape, diameter, widthDiameter, heightDiameter, filled]);
@@ -87,9 +87,9 @@ export function MinecraftCircleGenerator() {
   return (
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <CardTitle>Minecraft Circle Generator</CardTitle>
+        <CardTitle>Minecraft-sirkelgenerator</CardTitle>
         <CardDescription>
-          Generate pixel-perfect circles, ovals, and spheres for Minecraft building
+          Lag pikselperfekte sirkler, ovaler og kuler til bygging i Minecraft
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -100,7 +100,7 @@ export function MinecraftCircleGenerator() {
             onClick={() => setShape('circle')}
             className="flex-1"
           >
-            Circle
+            Sirkel
           </Button>
           <Button
             variant={shape === 'oval' ? 'default' : 'outline'}
@@ -114,7 +114,7 @@ export function MinecraftCircleGenerator() {
             onClick={() => setShape('sphere')}
             className="flex-1"
           >
-            Sphere
+            Kule
           </Button>
         </div>
 
@@ -123,7 +123,7 @@ export function MinecraftCircleGenerator() {
           {shape === 'circle' && (
             <NumberInput
               id="diameter"
-              label="Diameter (blocks)"
+              label="Diameter (blokker)"
               value={diameter}
               onChange={setDiameter}
               min={1}
@@ -136,7 +136,7 @@ export function MinecraftCircleGenerator() {
             <div className="grid grid-cols-2 gap-4">
               <NumberInput
                 id="width-diameter"
-                label="Width (blocks)"
+                label="Bredde (blokker)"
                 value={widthDiameter}
                 onChange={setWidthDiameter}
                 min={1}
@@ -145,7 +145,7 @@ export function MinecraftCircleGenerator() {
               />
               <NumberInput
                 id="height-diameter"
-                label="Height (blocks)"
+                label="Høyde (blokker)"
                 value={heightDiameter}
                 onChange={setHeightDiameter}
                 min={1}
@@ -158,7 +158,7 @@ export function MinecraftCircleGenerator() {
           {shape === 'sphere' && (
             <NumberInput
               id="sphere-diameter"
-              label="Sphere Diameter (blocks)"
+              label="Diameter på kula (blokker)"
               value={diameter}
               onChange={setDiameter}
               min={1}
@@ -174,7 +174,7 @@ export function MinecraftCircleGenerator() {
               onChange={(e) => setFilled(e.target.checked)}
               className="rounded border-gray-300"
             />
-            <span className="text-sm">Fill shape</span>
+            <span className="text-sm">Fyll formen</span>
           </label>
         </div>
 
@@ -183,10 +183,10 @@ export function MinecraftCircleGenerator() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">
-                Layer {currentLayer + 1} of {sphereLayers.length}
+                Lag {currentLayer + 1} av {sphereLayers.length}
               </span>
               <span className="text-sm text-muted-foreground">
-                Diameter: {sphereLayers[currentLayer]} blocks
+                Diameter: {sphereLayers[currentLayer]} blokker
               </span>
             </div>
             <input
@@ -198,8 +198,8 @@ export function MinecraftCircleGenerator() {
               className="w-full"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Bottom</span>
-              <span>Top</span>
+              <span>Bunn</span>
+              <span>Topp</span>
             </div>
           </div>
         )}
@@ -233,7 +233,7 @@ export function MinecraftCircleGenerator() {
                         width: cellSize,
                         height: cellSize,
                       }}
-                      title={cell ? `Block at (${x}, ${y})` : `Empty at (${x}, ${y})`}
+                      title={cell ? `Blokk på (${x}, ${y})` : `Tomt på (${x}, ${y})`}
                     />
                   ))
                 )}
@@ -243,17 +243,17 @@ export function MinecraftCircleGenerator() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <ResultDisplay
-                label="Outline Blocks"
+                label="Blokker i omrisset"
                 value={grid.outlineBlockCount.toString()}
               />
               {filled && (
                 <ResultDisplay
-                  label="Total Blocks"
+                  label="Blokker totalt"
                   value={grid.totalBlockCount.toString()}
                 />
               )}
               <ResultDisplay
-                label="Size"
+                label="Størrelse"
                 value={`${grid.width} × ${grid.height}`}
               />
             </div>
@@ -263,7 +263,7 @@ export function MinecraftCircleGenerator() {
         {/* Sphere Layer Summary */}
         {shape === 'sphere' && sphereLayers && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">All Sphere Layers</p>
+            <p className="text-sm font-medium mb-2">Alle lag i kula</p>
             <div className="flex flex-wrap gap-1">
               {sphereLayers.map((layerDiam, index) => (
                 <button
@@ -282,19 +282,19 @@ export function MinecraftCircleGenerator() {
               ))}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Click a number to view that layer. Numbers show the diameter of each layer.
+              Klikk på et tall for å se det laget. Tallene viser diameteren på hvert lag.
             </p>
           </div>
         )}
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">How to use:</p>
+          <p className="font-medium mb-1">Slik bruker du den:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Green blocks show where to place blocks in Minecraft</li>
-            <li>Each cell represents one block</li>
-            <li>For spheres, use the slider to see each layer from bottom to top</li>
-            <li>Build each layer at the corresponding Y-level</li>
+            <li>Grønne blokker viser hvor du skal sette blokker i Minecraft</li>
+            <li>Hver rute er én blokk</li>
+            <li>For kuler kan du bruke glidebryteren til å se hvert lag fra bunn til topp</li>
+            <li>Bygg hvert lag på tilsvarende Y-nivå</li>
           </ul>
         </div>
       </CardContent>

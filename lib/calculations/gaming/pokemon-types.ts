@@ -258,10 +258,10 @@ export function calculateEffectiveness(
   defendingTypes: PokemonType[]
 ): TypeEffectivenessResult {
   if (defendingTypes.length === 0) {
-    throw new Error('At least one defending type is required');
+    throw new Error('Minst én forsvarstype må velges');
   }
   if (defendingTypes.length > 2) {
-    throw new Error('Pokemon can have at most 2 types');
+    throw new Error('En Pokémon kan ha høyst 2 typer');
   }
 
   let multiplier = 1;
@@ -286,12 +286,12 @@ export function calculateEffectiveness(
  * @returns Description string
  */
 export function getEffectivenessDescription(multiplier: number): string {
-  if (multiplier === 0) return 'No effect';
-  if (multiplier === 0.25) return 'Not very effective (×0.25)';
-  if (multiplier === 0.5) return 'Not very effective (×0.5)';
-  if (multiplier === 1) return 'Normal effectiveness';
-  if (multiplier === 2) return 'Super effective! (×2)';
-  if (multiplier === 4) return 'Super effective! (×4)';
+  if (multiplier === 0) return 'Ingen effekt';
+  if (multiplier === 0.25) return 'Lite effektiv (×0,25)';
+  if (multiplier === 0.5) return 'Lite effektiv (×0,5)';
+  if (multiplier === 1) return 'Vanlig effekt';
+  if (multiplier === 2) return 'Veldig effektiv! (×2)';
+  if (multiplier === 4) return 'Veldig effektiv! (×4)';
   return `×${multiplier}`;
 }
 
@@ -303,10 +303,10 @@ export function getEffectivenessDescription(multiplier: number): string {
  */
 export function analyzeDefensiveMatchups(types: PokemonType[]): DefensiveAnalysis {
   if (types.length === 0) {
-    throw new Error('At least one type is required');
+    throw new Error('Minst én type må velges');
   }
   if (types.length > 2) {
-    throw new Error('Pokemon can have at most 2 types');
+    throw new Error('En Pokémon kan ha høyst 2 typer');
   }
 
   const weaknesses: { type: PokemonType; multiplier: number }[] = [];

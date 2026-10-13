@@ -55,8 +55,8 @@ export const EDPI_RANGES = {
 export function calculateEDPI(input: EDPIInput): EDPIResult {
   const { dpi, sensitivity } = input;
 
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (sensitivity < 0) throw new Error('Sensitivity cannot be negative');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (sensitivity < 0) throw new Error('Følsomheten kan ikke være negativ');
 
   const edpi = dpi * sensitivity;
   const classification = classifyEDPI(edpi);
@@ -94,15 +94,15 @@ export function classifyEDPI(edpi: number): EDPIResult['classification'] {
 export function getEDPIRecommendation(classification: EDPIResult['classification']): string {
   switch (classification) {
     case 'very-low':
-      return 'Very low sensitivity. Great for precision aiming but requires large mouse movements. Common among CS2 pros.';
+      return 'Svært lav følsomhet. Flott for presis sikting, men krever store musebevegelser. Vanlig blant CS2-proffer.';
     case 'low':
-      return 'Low sensitivity. Good balance of precision and mobility. Popular among tactical FPS players.';
+      return 'Lav følsomhet. God balanse mellom presisjon og bevegelighet. Populært blant spillere av taktiske FPS-spill.';
     case 'medium':
-      return 'Medium sensitivity. Versatile for most game types. Good starting point for new players.';
+      return 'Middels følsomhet. Passer til de fleste spilltyper. Et godt utgangspunkt for nye spillere.';
     case 'high':
-      return 'High sensitivity. Allows quick turns with small movements. Common in fast-paced games like Apex Legends.';
+      return 'Høy følsomhet. Gir raske svinger med små bevegelser. Vanlig i raske spill som Apex Legends.';
     case 'very-high':
-      return 'Very high sensitivity. Extremely fast but may sacrifice precision. Consider lowering for better accuracy.';
+      return 'Svært høy følsomhet. Ekstremt rask, men kan gå på bekostning av presisjon. Vurder å senke den for bedre treffsikkerhet.';
   }
 }
 
@@ -114,8 +114,8 @@ export function getEDPIRecommendation(classification: EDPIResult['classification
  * @returns Required sensitivity value
  */
 export function sensitivityForTargetEDPI(targetEDPI: number, dpi: number): number {
-  if (dpi <= 0) throw new Error('DPI must be positive');
-  if (targetEDPI < 0) throw new Error('Target eDPI cannot be negative');
+  if (dpi <= 0) throw new Error('DPI må være større enn 0');
+  if (targetEDPI < 0) throw new Error('Ønsket eDPI kan ikke være negativ');
 
   return targetEDPI / dpi;
 }
@@ -128,8 +128,8 @@ export function sensitivityForTargetEDPI(targetEDPI: number, dpi: number): numbe
  * @returns Required DPI value
  */
 export function dpiForTargetEDPI(targetEDPI: number, sensitivity: number): number {
-  if (sensitivity <= 0) throw new Error('Sensitivity must be positive');
-  if (targetEDPI < 0) throw new Error('Target eDPI cannot be negative');
+  if (sensitivity <= 0) throw new Error('Følsomheten må være større enn 0');
+  if (targetEDPI < 0) throw new Error('Ønsket eDPI kan ikke være negativ');
 
   return targetEDPI / sensitivity;
 }

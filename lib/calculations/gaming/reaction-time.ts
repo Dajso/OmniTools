@@ -123,17 +123,17 @@ export function classifyReactionTime(reactionTime: number): ReactionTimeClassifi
 export function getClassificationDescription(classification: ReactionTimeClassification): string {
   switch (classification) {
     case 'exceptional':
-      return 'Exceptional! Your reaction time is among the fastest. Pro gamer level!';
+      return 'Eksepsjonelt! Reaksjonstiden din er blant de raskeste. Proffnivå!';
     case 'excellent':
-      return 'Excellent! Your reaction time is well above average.';
+      return 'Utmerket! Reaksjonstiden din er godt over gjennomsnittet.';
     case 'good':
-      return 'Good! Your reaction time is above average.';
+      return 'Bra! Reaksjonstiden din er over gjennomsnittet.';
     case 'average':
-      return 'Average reaction time. Most people fall in this range.';
+      return 'Gjennomsnittlig reaksjonstid. De fleste havner i dette området.';
     case 'below-average':
-      return 'Below average. Practice can help improve your reaction time.';
+      return 'Under gjennomsnittet. Trening kan gi raskere reaksjonstid.';
     case 'slow':
-      return 'Slower than average. Consider factors like fatigue or distractions.';
+      return 'Tregere enn gjennomsnittet. Tenk på ting som tretthet eller distraksjoner.';
   }
 }
 

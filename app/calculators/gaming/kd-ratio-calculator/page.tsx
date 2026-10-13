@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { KDRatioCalculator } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'KD Ratio Calculator - Kill Death Ratio',
-  description: 'Calculate your Kill/Death ratio and KDA for any game. See how you compare and get tips to improve your stats.',
-  keywords: ['KD ratio calculator', 'kill death ratio', 'KDA calculator', 'gaming stats', 'FPS stats', 'K/D ratio'],
+  title: 'K/D-kalkulator – gratis kalkulator på nett',
+  description: 'Regn ut kill/death-forhold og følg statistikken din. Gratis og uten registrering.',
+  keywords: ['K/D', 'kill death', 'kdr', 'gaming', 'statistikk'],
   alternates: { canonical: '/calculators/gaming/kd-ratio-calculator' },
+  openGraph: {
+    title: 'K/D-kalkulator',
+    description: 'Regn ut kill/death-forhold og følg statistikken din',
+    url: '/calculators/gaming/kd-ratio-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'KD Ratio Calculator',
-  description: 'Calculate your Kill/Death ratio and KDA for gaming',
+  name: 'K/D-kalkulator',
+  description: 'Regn ut kill/death-forhold og følg statistikken din',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter kills', text: 'Input your total number of kills.' },
-  { name: 'Enter deaths', text: 'Input your total number of deaths.' },
-  { name: 'Add assists', text: 'Optionally add assists to calculate KDA.' },
-  { name: 'View results', text: 'See your K/D ratio, classification, and improvement tips.' },
+  { name: 'Oppgi drap og dødsfall', text: 'Skriv inn totalt antall drap og dødsfall.' },
+  { name: 'Legg til assist (valgfritt)', text: 'Åpne avanserte valg for KDA og seiersandel.' },
+  { name: 'Les av K/D', text: 'Se forholdet og hvor du ligger på skalaen.' },
+  { name: 'Se hva som skal til', text: 'Kalkulatoren viser hvor mange drap du trenger for å nå 1,0 og 2,0.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is a good K/D ratio?',
-    answer: 'A K/D of 1.0 means you get one kill for every death. Above 1.0 is considered good, 1.5+ is very good, and 2.0+ is excellent. Pro players often have 2.0-4.0+ K/D ratios.',
-  },
-  {
-    question: 'What is the difference between K/D and KDA?',
-    answer: 'K/D only counts kills and deaths. KDA (Kill/Death/Assist) includes assists in the calculation: (Kills + Assists) / Deaths. KDA gives credit for team play.',
-  },
-  {
-    question: 'Does K/D matter in team games?',
-    answer: 'K/D is one metric but not the only important one. Objective play, assists, and winning games often matter more than individual K/D in team-based games.',
-  },
-  {
-    question: 'How can I improve my K/D?',
-    answer: 'Focus on positioning, game sense, and aim. Play more cautiously, learn maps, and practice in aim trainers. Dying less is often easier than getting more kills.',
-  },
-  {
-    question: 'Why is my K/D different in different games?',
-    answer: 'Each game has different mechanics, TTK (time to kill), and player skill levels. A 1.5 K/D in one game might be equivalent to 1.0 in another.',
-  },
+  { question: 'Hva er K/D?', answer: 'Antall drap delt på antall dødsfall. K/D på 1,0 betyr like mange drap som dødsfall.' },
+  { question: 'Hva er KDA?', answer: 'Som K/D, men med assist: (drap + assist) ÷ dødsfall.' },
+  { question: 'Hva er en bra K/D?', answer: 'Over 1,0 er bra, over 2,0 er utmerket. Men det avhenger mye av spillet og hvem du spiller mot.' },
+  { question: 'Er K/D alt som teller?', answer: 'Nei. I lagspill er det ofte viktigere å vinne runder og hjelpe laget enn å ta flest drap.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI Calculator', description: 'Calculate your effective DPI.' },
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/aim-trainer', title: 'Aim Trainer', description: 'Practice your aim.' },
+  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI-kalkulator', description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet' },
+  { href: '/calculators/gaming/aim-trainer', title: 'Siktetrener', description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet' },
 ];
 
 export default function KDRatioCalculatorPage() {
@@ -62,12 +54,11 @@ export default function KDRatioCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="kd-ratio-calculator"
-          title="KD Ratio Calculator"
-          description="Calculate your Kill/Death ratio and KDA. See how your stats compare and get personalized tips to improve your gaming performance."
-          colorClass="bg-red-100 text-red-600"
+          title="K/D-kalkulator"
+          description="Regn ut K/D- og KDA-forholdet ditt og se hvordan du ligger an, med klassifisering og tips til forbedring. Gratis og uten registrering."
         />
 
-        <section aria-label="KD Ratio Calculator">
+        <section aria-label="K/D-kalkulator">
           <KDRatioCalculator />
         </section>
 

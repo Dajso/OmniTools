@@ -111,10 +111,10 @@ export function ReactionTimeTest() {
 
   const getMessage = () => {
     switch (state) {
-      case 'idle': return 'Click to Start';
-      case 'waiting': return 'Wait for green...';
-      case 'ready': return 'Click NOW!';
-      case 'too-early': return 'Too early! Click to try again';
+      case 'idle': return 'Klikk for å starte';
+      case 'waiting': return 'Vent på grønt …';
+      case 'ready': return 'Klikk NÅ!';
+      case 'too-early': return 'For tidlig! Klikk for å prøve igjen';
       case 'clicked': return currentResult ? `${currentResult.reactionTime.toFixed(0)} ms` : '';
       default: return '';
     }
@@ -135,9 +135,9 @@ export function ReactionTimeTest() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Reaction Time Test</CardTitle>
+        <CardTitle>Reaksjonstest</CardTitle>
         <CardDescription>
-          Test your reaction speed. Click when the screen turns green.
+          Test reaksjonsevnen din. Klikk når skjermen blir grønn.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -169,13 +169,13 @@ export function ReactionTimeTest() {
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Reaction Time"
+                label="Reaksjonstid"
                 value={`${formatFixed(currentResult.reactionTime, 0)}`}
                 unit="ms"
                 highlight
               />
               <ResultDisplay
-                label="Percentile"
+                label="Persentil"
                 value={`${formatFixed(getPercentileRank(currentResult.reactionTime), 0)}`}
                 unit="%"
               />
@@ -195,10 +195,10 @@ export function ReactionTimeTest() {
         {/* Statistics */}
         {stats && stats.validAttempts > 0 && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-3">Statistics ({stats.validAttempts} attempts)</p>
+            <p className="text-sm font-medium mb-3">Statistikk ({stats.validAttempts} forsøk)</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <ResultDisplay
-                label="Average"
+                label="Gjennomsnitt"
                 value={`${formatFixed(stats.average, 0)}`}
                 unit="ms"
               />
@@ -208,19 +208,19 @@ export function ReactionTimeTest() {
                 unit="ms"
               />
               <ResultDisplay
-                label="Worst"
+                label="Dårligst"
                 value={`${formatFixed(stats.worst, 0)}`}
                 unit="ms"
               />
               <ResultDisplay
-                label="Std Dev"
+                label="Standardavvik"
                 value={`${formatFixed(stats.standardDeviation, 0)}`}
                 unit="ms"
               />
             </div>
             {stats.invalidAttempts > 0 && (
               <p className="text-xs text-muted-foreground mt-2">
-                {stats.invalidAttempts} early click{stats.invalidAttempts > 1 ? 's' : ''}
+                {stats.invalidAttempts} for tidlig klikk{stats.invalidAttempts > 1 ? 's' : ''}
               </p>
             )}
           </div>
@@ -229,7 +229,7 @@ export function ReactionTimeTest() {
         {/* Recent Results */}
         {results.length > 0 && (
           <div className="border-t pt-4">
-            <p className="text-sm font-medium mb-2">Recent Results</p>
+            <p className="text-sm font-medium mb-2">Siste resultater</p>
             <div className="flex flex-wrap gap-2">
               {results.slice(-10).map((result, index) => (
                 <span
@@ -240,7 +240,7 @@ export function ReactionTimeTest() {
                       : 'bg-yellow-100 text-yellow-800'
                   }`}
                 >
-                  {result.isValid ? `${formatFixed(result.reactionTime, 0)} ms` : 'Early'}
+                  {result.isValid ? `${formatFixed(result.reactionTime, 0)} ms` : 'For tidlig'}
                 </span>
               ))}
             </div>
@@ -251,24 +251,24 @@ export function ReactionTimeTest() {
         <div className="flex gap-2">
           {(state === 'clicked' || state === 'too-early') && (
             <Button onClick={startTest}>
-              Try Again
+              Prøv igjen
             </Button>
           )}
           {results.length > 0 && (
             <Button variant="outline" onClick={resetAll}>
-              Reset All
+              Nullstill alt
             </Button>
           )}
         </div>
 
         {/* Instructions */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
-          <p className="font-medium mb-1">How to play:</p>
+          <p className="font-medium mb-1">Slik spiller du:</p>
           <ol className="list-decimal list-inside space-y-1">
-            <li>Click the box or press Space/Enter to start</li>
-            <li>Wait for the box to turn green</li>
-            <li>Click as fast as you can when it turns green</li>
-            <li>Don&apos;t click too early or it won&apos;t count!</li>
+            <li>Klikk på boksen eller trykk mellomrom/enter for å starte</li>
+            <li>Vent til boksen blir grønn</li>
+            <li>Klikk så fort du kan når den blir grønn</li>
+            <li>Ikke klikk for tidlig, da teller det ikke!</li>
           </ol>
         </div>
       </CardContent>

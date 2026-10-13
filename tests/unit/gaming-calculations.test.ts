@@ -125,24 +125,24 @@ describe('Mouse Sensitivity Converter - Known Game Values', () => {
     });
 
     it('should throw error for unsupported game', () => {
-      expect(() => getGameMultiplier('unsupported-game')).toThrow('Unsupported game');
+      expect(() => getGameMultiplier('unsupported-game')).toThrow('Spillet støttes ikke');
     });
   });
 
   describe('Input validation', () => {
     it('should throw error for zero or negative DPI', () => {
-      expect(() => calculateCm360(0, 1, 0.07)).toThrow('DPI must be positive');
-      expect(() => calculateCm360(-100, 1, 0.07)).toThrow('DPI must be positive');
+      expect(() => calculateCm360(0, 1, 0.07)).toThrow('DPI må være større enn 0');
+      expect(() => calculateCm360(-100, 1, 0.07)).toThrow('DPI må være større enn 0');
     });
 
     it('should throw error for zero or negative sensitivity', () => {
-      expect(() => calculateCm360(800, 0, 0.07)).toThrow('Sensitivity must be positive');
-      expect(() => calculateCm360(800, -1, 0.07)).toThrow('Sensitivity must be positive');
+      expect(() => calculateCm360(800, 0, 0.07)).toThrow('Følsomheten må være større enn 0');
+      expect(() => calculateCm360(800, -1, 0.07)).toThrow('Følsomheten må være større enn 0');
     });
 
     it('should throw error for zero or negative multiplier', () => {
-      expect(() => calculateCm360(800, 1, 0)).toThrow('Game multiplier must be positive');
-      expect(() => calculateCm360(800, 1, -0.07)).toThrow('Game multiplier must be positive');
+      expect(() => calculateCm360(800, 1, 0)).toThrow('Spillmultiplikatoren må være større enn 0');
+      expect(() => calculateCm360(800, 1, -0.07)).toThrow('Spillmultiplikatoren må være større enn 0');
     });
   });
 });

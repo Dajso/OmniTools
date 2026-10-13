@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { ReactionTimeTest } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Reaction Time Test - Test Your Reflexes',
-  description: 'Test your reaction time with this visual stimulus test. Measure your reflexes, track your average, and compare with others.',
-  keywords: ['reaction time test', 'reflex test', 'reaction speed', 'gaming reflexes', 'response time', 'click speed test'],
+  title: 'Reaksjonstidstest – gratis kalkulator på nett',
+  description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk. Gratis og uten registrering.',
+  keywords: ['reaksjonstid', 'reaksjonstest', 'refleks', 'gaming', 'responstid'],
   alternates: { canonical: '/calculators/gaming/reaction-time-test' },
+  openGraph: {
+    title: 'Reaksjonstidstest',
+    description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk',
+    url: '/calculators/gaming/reaction-time-test',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Reaction Time Test',
-  description: 'Test your reaction time and reflexes with visual stimulus',
+  name: 'Reaksjonstidstest',
+  description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Start the test', text: 'Click the box or press Space/Enter to begin.' },
-  { name: 'Wait for green', text: 'The box will turn red. Wait for it to turn green.' },
-  { name: 'Click immediately', text: 'As soon as you see green, click as fast as you can.' },
-  { name: 'View your results', text: 'See your reaction time in milliseconds and how you compare.' },
-  { name: 'Track your progress', text: 'Take multiple attempts to see your average and best times.' },
+  { name: 'Start testen', text: 'Klikk på boksen for å begynne.' },
+  { name: 'Vent på grønt', text: 'Ikke klikk før boksen blir grønn.' },
+  { name: 'Klikk så fort du kan', text: 'Reaksjonstiden vises i millisekunder.' },
+  { name: 'Prøv flere ganger', text: 'Gjennomsnitt og beste tid vises etter flere forsøk.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is a good reaction time?',
-    answer: 'The average human reaction time to visual stimulus is around 250ms. Under 200ms is considered excellent, and under 150ms is exceptional. Pro gamers often achieve 150-180ms consistently.',
-  },
-  {
-    question: 'Can I improve my reaction time?',
-    answer: 'Yes! Regular practice can improve reaction time. Factors like sleep, caffeine, and focus also affect performance. However, there\'s a biological limit to how fast humans can react.',
-  },
-  {
-    question: 'Why does my reaction time vary?',
-    answer: 'Reaction time is affected by many factors including fatigue, alertness, anticipation, and even the time of day. Some variation is completely normal.',
-  },
-  {
-    question: 'Is this test accurate?',
-    answer: 'This test measures your reaction to a visual stimulus with millisecond precision. However, factors like display latency and input lag can add a few milliseconds to your measured time.',
-  },
-  {
-    question: 'What\'s the difference between reaction time and reflexes?',
-    answer: 'Reaction time is the conscious response to a stimulus, while reflexes are automatic responses. This test measures reaction time, which involves visual processing and motor response.',
-  },
+  { question: 'Hva er en god reaksjonstid?', answer: 'Rundt 200–250 ms er vanlig. Under 200 ms er raskt, og under 150 ms er svært raskt.' },
+  { question: 'Hva påvirker reaksjonstiden?', answer: 'Søvn, tretthet, alder, skjerm og mus, og hvor fokusert du er.' },
+  { question: 'Hvorfor teller ikke et for tidlig klikk?', answer: 'Fordi du da gjetter i stedet for å reagere. Vent til boksen blir grønn.' },
+  { question: 'Kan jeg trene opp reaksjonstiden?', answer: 'Litt. Trening gir bedre fokus og jevnere tider, men det er en grense for hvor fort nervesystemet kan reagere.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/aim-trainer', title: 'Aim Trainer', description: 'Practice your aim with click targets.' },
-  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Sensitivity Converter', description: 'Convert sensitivity between games.' },
-  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI Calculator', description: 'Calculate your effective DPI.' },
+  { href: '/calculators/gaming/aim-trainer', title: 'Siktetrener', description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet' },
+  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Musfølsomhet-omregner', description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite' },
 ];
 
 export default function ReactionTimeTestPage() {
@@ -63,12 +54,11 @@ export default function ReactionTimeTestPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="reaction-time-test"
-          title="Reaction Time Test"
-          description="Test your reaction speed with this visual stimulus test. Click when the screen turns green and measure your reflexes in milliseconds."
-          colorClass="bg-green-100 text-green-600"
+          title="Reaksjonstidstest"
+          description="Test reaksjonstiden din i millisekunder og se hvordan du ligger an mot andre. Gratis og uten registrering."
         />
 
-        <section aria-label="Reaction Time Test">
+        <section aria-label="Reaksjonstidstest">
           <ReactionTimeTest />
         </section>
 

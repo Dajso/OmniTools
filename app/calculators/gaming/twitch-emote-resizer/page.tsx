@@ -1,58 +1,49 @@
 import { Metadata } from 'next';
 import { TwitchEmoteResizer } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Twitch Emote Resizer - Resize for Twitch, BTTV, FFZ',
-  description: 'Resize images to standard Twitch emote dimensions. Supports Twitch, BTTV, and FFZ emote sizes. Download all sizes at once.',
-  keywords: ['Twitch emote resizer', 'emote maker', 'BTTV emote', 'FFZ emote', 'emote size', 'Twitch emote dimensions'],
+  title: 'Twitch-emote-størrelse – gratis kalkulator på nett',
+  description: 'Endre størrelsen på bilder til Twitch-emote-formater (28x28, 56x56, 112x112). Gratis og uten registrering.',
+  keywords: ['twitch emote', 'emote', 'emote-størrelse', 'streaming'],
   alternates: { canonical: '/calculators/gaming/twitch-emote-resizer' },
+  openGraph: {
+    title: 'Twitch-emote-størrelse',
+    description: 'Endre størrelsen på bilder til Twitch-emote-formater (28x28, 56x56, 112x112)',
+    url: '/calculators/gaming/twitch-emote-resizer',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Twitch Emote Resizer',
-  description: 'Resize images to standard Twitch, BTTV, and FFZ emote dimensions',
+  name: 'Twitch-emote-størrelse',
+  description: 'Endre størrelsen på bilder til Twitch-emote-formater (28x28, 56x56, 112x112)',
   applicationCategory: 'DesignApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select platform', text: 'Choose Twitch, BTTV, or FFZ depending on where you\'ll upload.' },
-  { name: 'Upload image', text: 'Click to upload or drag and drop your emote image.' },
-  { name: 'Preview sizes', text: 'See how your emote looks at each required size.' },
-  { name: 'Download', text: 'Download individual sizes or all at once.' },
+  { name: 'Last opp bildet', text: 'PNG, JPG eller GIF på opptil 1 MB.' },
+  { name: 'Velg plattform', text: 'Twitch, BTTV eller FFZ.' },
+  { name: 'Se forhåndsvisningen', text: 'Bildet blir endret til alle nødvendige størrelser.' },
+  { name: 'Last ned', text: 'Last ned én størrelse eller alle samtidig.' },
 ];
 
 const faqs = [
-  {
-    question: 'What are the Twitch emote size requirements?',
-    answer: 'Twitch requires emotes in three sizes: 28×28 (1x), 56×56 (2x), and 112×112 (3x) pixels. All must be PNG format under 1MB.',
-  },
-  {
-    question: 'What\'s the difference between Twitch, BTTV, and FFZ?',
-    answer: 'Twitch is the official platform. BTTV (BetterTTV) and FFZ (FrankerFaceZ) are browser extensions that add custom emotes. Each has slightly different size requirements.',
-  },
-  {
-    question: 'Should I use PNG or GIF?',
-    answer: 'Use PNG for static emotes with transparency. GIF is only needed for animated emotes. This tool outputs PNG format.',
-  },
-  {
-    question: 'Why does my emote look blurry at small sizes?',
-    answer: 'Small emotes (28×28) have very few pixels to work with. Use simple, bold designs with high contrast for best results at small sizes.',
-  },
-  {
-    question: 'Can I upload animated GIFs?',
-    answer: 'This tool currently processes the first frame of GIFs. For animated emotes, you\'ll need to resize each frame separately using specialized GIF tools.',
-  },
+  { question: 'Hvilke størrelser trenger Twitch-emotes?', answer: 'Twitch bruker 28 × 28, 56 × 56 og 112 × 112 piksler.' },
+  { question: 'Lastes bildet opp til en server?', answer: 'Nei. Alt skjer i nettleseren din, og bildet forlater ikke maskinen.' },
+  { question: 'Hvilket format fungerer best?', answer: 'PNG med gjennomsiktig bakgrunn. Bruk kvadratiske bilder med høy oppløsning.' },
+  { question: 'Hvorfor blir emoten uklar når den er liten?', answer: 'Detaljene forsvinner i små størrelser. Hold designet enkelt og med tydelige konturer.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/minecraft-circle-generator', title: 'Minecraft Circle Generator', description: 'Generate pixel-perfect circles.' },
-  { href: '/calculators/productivity/image-resolution-calculator', title: 'Image Resolution Calculator', description: 'Calculate image dimensions.' },
-  { href: '/calculators/gaming/kd-ratio-calculator', title: 'KD Ratio Calculator', description: 'Calculate your kill/death ratio.' },
+  { href: '/calculators/gaming/kd-ratio-calculator', title: 'K/D-kalkulator', description: 'Regn ut kill/death-forhold og følg statistikken din' },
 ];
 
 export default function TwitchEmoteResizerPage() {
@@ -62,12 +53,11 @@ export default function TwitchEmoteResizerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="twitch-emote-resizer"
-          title="Twitch Emote Resizer"
-          description="Resize your images to standard Twitch emote dimensions. Supports Twitch, BTTV, and FFZ emote sizes with instant preview and download."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Twitch-emote-størrelse"
+          description="Endre størrelsen på bildet til riktige emote-størrelser for Twitch, BTTV og FFZ, direkte i nettleseren. Gratis og uten registrering."
         />
 
-        <section aria-label="Twitch Emote Resizer">
+        <section aria-label="Twitch-emote-størrelse">
           <TwitchEmoteResizer />
         </section>
 

@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { AimTrainer } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Aim Trainer - Practice Your Aim Online',
-  description: 'Free browser-based aim trainer to improve your accuracy in FPS games. Practice clicking targets with adjustable difficulty levels.',
-  keywords: ['aim trainer', 'aim practice', 'FPS aim', 'click trainer', 'mouse accuracy', 'gaming practice', 'target practice'],
+  title: 'Siktetrener – gratis kalkulator på nett',
+  description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet. Gratis og uten registrering.',
+  keywords: ['siktetrener', 'aim', 'klikktrening', 'fps', 'skytetrening'],
   alternates: { canonical: '/calculators/gaming/aim-trainer' },
+  openGraph: {
+    title: 'Siktetrener',
+    description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet',
+    url: '/calculators/gaming/aim-trainer',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Aim Trainer',
-  description: 'Browser-based aim trainer for improving FPS game accuracy',
+  name: 'Siktetrener',
+  description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select difficulty', text: 'Choose from Easy, Medium, Hard, or Extreme difficulty.' },
-  { name: 'Start the game', text: 'Click the Start Game button to begin.' },
-  { name: 'Click targets', text: 'Click on the red targets as fast as you can.' },
-  { name: 'Avoid misses', text: 'Clicking empty space counts as a miss and hurts your accuracy.' },
-  { name: 'View your score', text: 'After 30 seconds, see your final score based on accuracy and speed.' },
+  { name: 'Velg vanskelighetsgrad', text: 'Fra lett til ekstremt.' },
+  { name: 'Start spillet', text: 'Trykk på «Start spillet».' },
+  { name: 'Klikk på målene', text: 'Treff så mange mål du kan.' },
+  { name: 'Se resultatet', text: 'Treffsikkerhet og gjennomsnittlig reaksjonstid vises til slutt.' },
 ];
 
 const faqs = [
-  {
-    question: 'How is the score calculated?',
-    answer: 'Your score is based on the number of hits, your accuracy percentage, and your average reaction time. Higher accuracy and faster reactions result in higher scores.',
-  },
-  {
-    question: 'What difficulty should I start with?',
-    answer: 'Start with Easy or Medium to get comfortable with the mechanics. Once you can consistently hit 80%+ accuracy, move to a harder difficulty.',
-  },
-  {
-    question: 'Will this improve my aim in games?',
-    answer: 'Yes! Regular practice with aim trainers can improve your mouse control, reaction time, and target acquisition. However, in-game practice is also important for game-specific mechanics.',
-  },
-  {
-    question: 'How often should I practice?',
-    answer: 'Short, focused sessions of 10-15 minutes daily are more effective than long occasional sessions. Consistency is key for improvement.',
-  },
-  {
-    question: 'Why are my scores inconsistent?',
-    answer: 'Factors like fatigue, focus, and even the time of day can affect performance. Warm up before gaming sessions and take breaks to maintain peak performance.',
-  },
+  { question: 'Hvordan fungerer siktetreneren?', answer: 'Røde mål dukker opp, og du klikker på dem så raskt og presist du kan.' },
+  { question: 'Teller bom?', answer: 'Ja. Å klikke utenfor målet teller som bom og påvirker treffsikkerheten.' },
+  { question: 'Hjelper det å trene?', answer: 'Ja, litt aiming hver dag kan gi bedre musekontroll, men også trening i selve spillet er viktig.' },
+  { question: 'Hvilken vanskelighetsgrad bør jeg velge?', answer: 'Start med middels, og gå opp når du treffer over 80 %.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Sensitivity Converter', description: 'Convert sensitivity between games.' },
-  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI Calculator', description: 'Calculate your effective DPI.' },
+  { href: '/calculators/gaming/reaction-time-test', title: 'Reaksjonstidstest', description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk' },
+  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI-kalkulator', description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet' },
 ];
 
 export default function AimTrainerPage() {
@@ -63,12 +54,11 @@ export default function AimTrainerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="aim-trainer"
-          title="Aim Trainer"
-          description="Practice your aim with this browser-based target trainer. Click targets as fast as you can to improve your accuracy and reaction time for FPS games."
-          colorClass="bg-red-100 text-red-600"
+          title="Siktetrener"
+          description="Tren på å sikte med musa ved å klikke mål så fort du kan, med flere vanskelighetsgrader. Gratis og uten registrering."
         />
 
-        <section aria-label="Aim Trainer">
+        <section aria-label="Siktetrener">
           <AimTrainer />
         </section>
 

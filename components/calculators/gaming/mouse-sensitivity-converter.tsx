@@ -31,12 +31,12 @@ export function MouseSensitivityConverter() {
     try {
       setError(undefined);
       if (dpi <= 0) {
-        setError('DPI must be positive');
+        setError('DPI må være større enn 0');
         setResult(null);
         return;
       }
       if (sensitivity <= 0) {
-        setError('Sensitivity must be positive');
+        setError('Følsomheten må være større enn 0');
         setResult(null);
         return;
       }
@@ -47,7 +47,7 @@ export function MouseSensitivityConverter() {
       );
       setResult(conversion);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [dpi, sensitivity, sourceGame, targetGame]);
@@ -70,41 +70,36 @@ export function MouseSensitivityConverter() {
 
   return (
     <CalculatorBase
-      title="Mouse Sensitivity Converter"
-      description="Convert your mouse sensitivity between different games while preserving your cm/360"
-      formula="cm/360 = (2.54 × 360) / (DPI × Sensitivity × Game Multiplier)"
-      formulaExplanation="Converts sensitivity by preserving the physical distance needed for a 360° turn"
+      title="Omregning av musefølsomhet"
+      description="Regn om musefølsomheten mellom ulike spill og behold cm/360"
+      formula="cm/360 = (2,54 × 360) / (DPI × følsomhet × spillmultiplikator)"
+      formulaExplanation="Regner om følsomheten slik at du må flytte musa like langt for å snu 360°"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label={`${targetGameName} Sensitivity`}
+            label={`Følsomhet i ${targetGameName}`}
             value={formatFixed(result.convertedSensitivity, 4)}
             highlight
             copyable
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <ResultDisplay
               label="cm/360"
               value={formatFixed(result.cm360, 2)}
               unit="cm"
             />
-            <ResultDisplay
-              label="inches/360"
-              value={formatFixed((result.cm360 / 2.54), 2)}
-              unit="in"
-            />
           </div>
           <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
             <p>
-              Your {sourceGameName} sensitivity of <strong>{sensitivity}</strong> at{' '}
-              <strong>{dpi} DPI</strong> equals <strong>{formatFixed(result.convertedSensitivity, 4)}</strong> in{' '}
+              Følsomheten din på <strong>{sensitivity}</strong> i {sourceGameName} ved{' '}
+              <strong>{dpi} DPI</strong> tilsvarer <strong>{formatFixed(result.convertedSensitivity, 4)}</strong> i{' '}
               {targetGameName}.
             </p>
             <p className="mt-2">
-              This means you need to move your mouse <strong>{formatFixed(result.cm360, 1)} cm</strong> for a full 360° turn.
+              Det betyr at du må flytte musa <strong>{formatFixed(result.cm360, 1)} cm</strong> for å snu helt rundt (360°).
             </p>
           </div>
         </div>
@@ -114,7 +109,7 @@ export function MouseSensitivityConverter() {
         <div>
           <NumberInput
             id="dpi"
-            label="Mouse DPI"
+            label="Mus-DPI"
             value={dpi}
             onChange={setDpi}
             min={100}
@@ -141,7 +136,7 @@ export function MouseSensitivityConverter() {
 
         <SelectInput
           id="source-game"
-          label="Source Game"
+          label="Fra spill"
           value={sourceGame}
           onChange={setSourceGame}
           options={GAME_OPTIONS}
@@ -149,7 +144,7 @@ export function MouseSensitivityConverter() {
 
         <NumberInput
           id="sensitivity"
-          label={`${sourceGameName} Sensitivity`}
+          label={`Følsomhet i ${sourceGameName}`}
           value={sensitivity}
           onChange={setSensitivity}
           min={0.001}
@@ -159,7 +154,7 @@ export function MouseSensitivityConverter() {
 
         <SelectInput
           id="target-game"
-          label="Target Game"
+          label="Til spill"
           value={targetGame}
           onChange={setTargetGame}
           options={GAME_OPTIONS}

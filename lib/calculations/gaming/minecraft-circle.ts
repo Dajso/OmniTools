@@ -50,10 +50,10 @@ export interface OvalGrid extends CircleGrid {
  */
 export function generateCircle(diameter: number, filled: boolean = false): CircleGrid {
   if (diameter < 1) {
-    throw new Error('Diameter must be at least 1');
+    throw new Error('Diameteren må være minst 1');
   }
   if (diameter > 256) {
-    throw new Error('Diameter cannot exceed 256 blocks');
+    throw new Error('Diameteren kan ikke være over 256 blokker');
   }
 
   const radius = diameter / 2;
@@ -283,10 +283,10 @@ export function generateOval(
   filled: boolean = false
 ): OvalGrid {
   if (widthDiameter < 1 || heightDiameter < 1) {
-    throw new Error('Diameters must be at least 1');
+    throw new Error('Diameterne må være minst 1');
   }
   if (widthDiameter > 256 || heightDiameter > 256) {
-    throw new Error('Diameters cannot exceed 256 blocks');
+    throw new Error('Diameterne kan ikke være over 256 blokker');
   }
 
   const grid: boolean[][] = Array(heightDiameter)
@@ -426,7 +426,7 @@ export function gridToAscii(
  */
 export function getSphereLayerDiameters(diameter: number): number[] {
   if (diameter < 1) {
-    throw new Error('Diameter must be at least 1');
+    throw new Error('Diameteren må være minst 1');
   }
 
   const radius = diameter / 2;

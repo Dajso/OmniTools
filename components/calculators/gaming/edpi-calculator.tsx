@@ -29,12 +29,12 @@ export function EDPICalculator() {
     try {
       setError(undefined);
       if (dpi <= 0) {
-        setError('DPI must be positive');
+        setError('DPI må være større enn 0');
         setResult(null);
         return;
       }
       if (sensitivity < 0) {
-        setError('Sensitivity cannot be negative');
+        setError('Følsomheten kan ikke være negativ');
         setResult(null);
         return;
       }
@@ -42,7 +42,7 @@ export function EDPICalculator() {
       const edpiResult = calculateEDPI({ dpi, sensitivity });
       setResult(edpiResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [dpi, sensitivity]);
@@ -76,17 +76,17 @@ export function EDPICalculator() {
 
   return (
     <CalculatorBase
-      title="eDPI Calculator"
-      description="Calculate your effective DPI (eDPI) and compare with pro player settings"
-      formula="eDPI = DPI × In-game Sensitivity"
-      formulaExplanation="eDPI standardizes sensitivity comparison across different DPI settings"
+      title="eDPI-kalkulator"
+      description="Regn ut effektiv DPI (eDPI) og sammenlign med innstillingene til proffspillere"
+      formula="eDPI = DPI × følsomhet i spillet"
+      formulaExplanation="eDPI gjør det enkelt å sammenligne følsomhet på tvers av ulike DPI-innstillinger"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Your eDPI"
+            label="Din eDPI"
             value={formatFixed(result.edpi, 0)}
             highlight
             copyable
@@ -97,13 +97,13 @@ export function EDPICalculator() {
               value={result.dpi.toString()}
             />
             <ResultDisplay
-              label="Sensitivity"
+              label="Følsomhet"
               value={result.sensitivity.toString()}
             />
           </div>
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm font-medium mb-1">
-              Classification:{' '}
+              Klassifisering:{' '}
               <span className={getClassificationColor(result.classification)}>
                 {result.classification.replace('-', ' ').toUpperCase()}
               </span>
@@ -113,9 +113,9 @@ export function EDPICalculator() {
 
           {targetEDPI && targetSensitivity !== null && (
             <div className="border-t pt-4">
-              <p className="text-sm font-medium mb-2">Target eDPI Conversion</p>
+              <p className="text-sm font-medium mb-2">Omregning til ønsket eDPI</p>
               <ResultDisplay
-                label={`Sensitivity for ${targetEDPI} eDPI at ${dpi} DPI`}
+                label={`Følsomhet for ${targetEDPI} eDPI ved ${dpi} DPI`}
                 value={formatFixed(targetSensitivity, 4)}
                 copyable
               />
@@ -128,7 +128,7 @@ export function EDPICalculator() {
         <div>
           <NumberInput
             id="dpi"
-            label="Mouse DPI"
+            label="Mus-DPI"
             value={dpi}
             onChange={setDpi}
             min={100}
@@ -155,7 +155,7 @@ export function EDPICalculator() {
 
         <NumberInput
           id="sensitivity"
-          label="In-game Sensitivity"
+          label="Følsomhet i spillet"
           value={sensitivity}
           onChange={setSensitivity}
           min={0}
@@ -166,7 +166,7 @@ export function EDPICalculator() {
         <div className="border-t pt-4">
           <NumberInput
             id="target-edpi"
-            label="Target eDPI (optional)"
+            label="Ønsket eDPI (valgfritt)"
             value={targetEDPI || 0}
             onChange={(v) => setTargetEDPI(v || null)}
             min={0}
@@ -174,12 +174,12 @@ export function EDPICalculator() {
             step={10}
           />
           <p className="text-xs text-muted-foreground mt-1">
-            Enter a target eDPI to calculate the required sensitivity
+            Skriv inn ønsket eDPI for å regne ut nødvendig følsomhet
           </p>
         </div>
 
         <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-3">Pro Player Reference</p>
+          <p className="text-sm font-medium mb-3">Referanse: proffspillere</p>
           <div className="space-y-2">
             {proExamples.map((pro) => (
               <Card
@@ -206,7 +206,7 @@ export function EDPICalculator() {
             ))}
           </div>
           <p className="text-xs text-muted-foreground mt-2">
-            Click on a pro player to use their settings
+            Klikk på en proffspiller for å bruke innstillingene hans eller hennes
           </p>
         </div>
       </div>

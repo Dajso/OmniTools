@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { MouseSensitivityConverter } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Mouse Sensitivity Converter - Convert Between Games',
-  description: 'Convert your mouse sensitivity between Valorant, CS2, Apex Legends, Overwatch 2, and more. Preserves your cm/360 for consistent aim across games.',
-  keywords: ['mouse sensitivity converter', 'gaming sensitivity', 'cm/360', 'Valorant sensitivity', 'CS2 sensitivity', 'Apex sensitivity', 'FPS games'],
+  title: 'Musfølsomhet-omregner – gratis kalkulator på nett',
+  description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite. Gratis og uten registrering.',
+  keywords: ['musfølsomhet', 'sensitivitet', 'cm/360', 'valorant', 'cs2', 'apex', 'gaming'],
   alternates: { canonical: '/calculators/gaming/mouse-sensitivity-converter' },
+  openGraph: {
+    title: 'Musfølsomhet-omregner',
+    description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite',
+    url: '/calculators/gaming/mouse-sensitivity-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Mouse Sensitivity Converter',
-  description: 'Convert mouse sensitivity between different FPS games while preserving cm/360',
+  name: 'Musfølsomhet-omregner',
+  description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your DPI', text: 'Input your mouse DPI setting. Common values are 400, 800, or 1600.' },
-  { name: 'Select source game', text: 'Choose the game you\'re converting from.' },
-  { name: 'Enter current sensitivity', text: 'Input your in-game sensitivity for the source game.' },
-  { name: 'Select target game', text: 'Choose the game you want to convert to.' },
-  { name: 'Get converted sensitivity', text: 'See your equivalent sensitivity for the target game.' },
+  { name: 'Velg spillet du kommer fra', text: 'Velg spillet og skriv inn følsomheten din.' },
+  { name: 'Oppgi mus-DPI', text: 'Bruk DPI-en som er stilt inn på musa.' },
+  { name: 'Velg spillet du går til', text: 'Velg målspillet.' },
+  { name: 'Les av ny følsomhet', text: 'Bruk verdien i spillet, og sjekk cm/360.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is cm/360?',
-    answer: 'cm/360 is the distance in centimeters you need to move your mouse to complete a full 360-degree turn in-game. It\'s a universal metric for comparing sensitivity across different games.',
-  },
-  {
-    question: 'Why do sensitivities differ between games?',
-    answer: 'Each game uses different internal multipliers for mouse input. A sensitivity of 1.0 in Valorant feels very different from 1.0 in CS2 because of these game-specific multipliers.',
-  },
-  {
-    question: 'What DPI should I use?',
-    answer: 'Most pro players use 400-800 DPI. Higher DPI can provide smoother cursor movement but the actual in-game sensitivity depends on both DPI and in-game sensitivity combined.',
-  },
-  {
-    question: 'Will my aim feel exactly the same after converting?',
-    answer: 'The physical mouse movement will be identical, but games may have different mouse acceleration, smoothing, or FOV settings that can affect how it feels. The cm/360 will be preserved.',
-  },
-  {
-    question: 'What is eDPI?',
-    answer: 'eDPI (effective DPI) is DPI multiplied by in-game sensitivity. It\'s useful for comparing sensitivities within the same game but doesn\'t account for game-specific multipliers.',
-  },
+  { question: 'Hva er cm/360?', answer: 'Hvor mange centimeter du må flytte musa for å snu 360° i spillet. Det er den mest rettferdige måten å sammenligne følsomhet på.' },
+  { question: 'Hvorfor har spill ulik følsomhet?', answer: 'Hvert spill bruker sin egen multiplikator for hvor mye en musebevegelse snur kameraet. Kalkulatoren tar hensyn til det.' },
+  { question: 'Hva er en god cm/360?', answer: 'Det er personlig. Mange spillere i taktiske skytespill ligger mellom 25 og 60 cm/360. Prøv deg frem.' },
+  { question: 'Må jeg endre DPI?', answer: 'Nei. Du kan beholde DPI og endre bare følsomheten i spillet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI Calculator', description: 'Calculate your effective DPI.' },
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/kd-ratio-calculator', title: 'KD Ratio Calculator', description: 'Calculate your kill/death ratio.' },
+  { href: '/calculators/gaming/edpi-calculator', title: 'eDPI-kalkulator', description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet' },
+  { href: '/calculators/gaming/reaction-time-test', title: 'Reaksjonstidstest', description: 'Mål reaksjonstiden din med visuelt signal og følg gjennomsnittet over flere forsøk' },
 ];
 
 export default function MouseSensitivityConverterPage() {
@@ -63,12 +54,11 @@ export default function MouseSensitivityConverterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="mouse-sensitivity-converter"
-          title="Mouse Sensitivity Converter"
-          description="Convert your mouse sensitivity between different FPS games while preserving your cm/360. Supports Valorant, CS2, Apex Legends, Overwatch 2, Fortnite, and more."
-          colorClass="bg-purple-100 text-purple-600"
+          title="Musfølsomhet-omregner"
+          description="Regn om musefølsomheten mellom Valorant, CS2, Apex, Fortnite og andre spill, og behold samme cm/360. Gratis og uten registrering."
         />
 
-        <section aria-label="Mouse Sensitivity Converter">
+        <section aria-label="Musfølsomhet-omregner">
           <MouseSensitivityConverter />
         </section>
 

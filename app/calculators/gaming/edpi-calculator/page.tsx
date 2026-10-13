@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { EDPICalculator } from '@/components/calculators/gaming';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'eDPI Calculator - Effective DPI for Gaming',
-  description: 'Calculate your effective DPI (eDPI) for gaming. Compare your sensitivity with pro players and find the optimal settings for FPS games.',
-  keywords: ['eDPI calculator', 'effective DPI', 'gaming sensitivity', 'mouse DPI', 'FPS settings', 'pro player sensitivity'],
+  title: 'eDPI-kalkulator – gratis kalkulator på nett',
+  description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet. Gratis og uten registrering.',
+  keywords: ['edpi', 'effektiv dpi', 'mus-dpi', 'gaming', 'dpi-kalkulator'],
   alternates: { canonical: '/calculators/gaming/edpi-calculator' },
+  openGraph: {
+    title: 'eDPI-kalkulator',
+    description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet',
+    url: '/calculators/gaming/edpi-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'eDPI Calculator',
-  description: 'Calculate effective DPI for gaming and compare with pro player settings',
+  name: 'eDPI-kalkulator',
+  description: 'Regn ut effektiv DPI (eDPI) ved å gange mus-DPI med følsomhet i spillet',
   applicationCategory: 'GameApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your DPI', text: 'Input your mouse DPI setting from your mouse software.' },
-  { name: 'Enter sensitivity', text: 'Input your in-game sensitivity value.' },
-  { name: 'View your eDPI', text: 'See your calculated eDPI and how it compares to pro players.' },
-  { name: 'Optional: Set target', text: 'Enter a target eDPI to find the required sensitivity.' },
+  { name: 'Oppgi mus-DPI', text: 'DPI-en som er stilt inn på musa.' },
+  { name: 'Skriv inn følsomhet i spillet', text: 'Følsomheten du bruker.' },
+  { name: 'Les av eDPI', text: 'Se verdien og klassifiseringen.' },
+  { name: 'Sammenlign med proffer', text: 'Klikk på en proffspiller for å prøve innstillingene hans eller hennes.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is eDPI?',
-    answer: 'eDPI (effective DPI) is calculated by multiplying your mouse DPI by your in-game sensitivity. It provides a standardized way to compare sensitivity settings across different DPI configurations.',
-  },
-  {
-    question: 'What is a good eDPI for FPS games?',
-    answer: 'Most pro players use eDPI between 200-800. Lower eDPI (200-400) is common in tactical shooters like CS2 and Valorant, while higher eDPI (400-800) is more common in fast-paced games like Apex Legends.',
-  },
-  {
-    question: 'Should I use high DPI with low sensitivity or vice versa?',
-    answer: 'Both can achieve the same eDPI. Higher DPI with lower sensitivity may provide smoother cursor movement due to more data points, but the difference is minimal for most players.',
-  },
-  {
-    question: 'Why do pro players use low eDPI?',
-    answer: 'Lower eDPI allows for more precise micro-adjustments when aiming. It requires more physical mouse movement but provides better accuracy for small corrections.',
-  },
-  {
-    question: 'Is eDPI the same across all games?',
-    answer: 'No, eDPI is game-specific because each game has different internal sensitivity multipliers. Use a sensitivity converter to match your aim feel across different games.',
-  },
+  { question: 'Hva er eDPI?', answer: 'Effektiv DPI: mus-DPI multiplisert med følsomheten i spillet. Den lar deg sammenligne innstillinger på tvers av DPI.' },
+  { question: 'Hva er en vanlig eDPI?', answer: 'Mange spillere ligger mellom 200 og 1 000. Lav eDPI gir presis sikting, høy eDPI gir raske svinger.' },
+  { question: 'Er eDPI det samme i alle spill?', answer: 'Nei. Spillene har ulike multiplikatorer, så bruk omregneren for musefølsomhet når du bytter spill.' },
+  { question: 'Hvordan regner jeg ut følsomhet fra ønsket eDPI?', answer: 'Del eDPI på DPI. 800 eDPI ved 800 DPI gir følsomhet 1,0.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Sensitivity Converter', description: 'Convert sensitivity between games.' },
-  { href: '/calculators/gaming/reaction-time-test', title: 'Reaction Time Test', description: 'Test your reaction speed.' },
-  { href: '/calculators/gaming/aim-trainer', title: 'Aim Trainer', description: 'Practice your aim with click targets.' },
+  { href: '/calculators/gaming/mouse-sensitivity-converter', title: 'Musfølsomhet-omregner', description: 'Regn om musfølsomhet mellom spill som Valorant, CS2, Apex Legends, Overwatch 2 og Fortnite' },
+  { href: '/calculators/gaming/aim-trainer', title: 'Siktetrener', description: 'Tren sikte med klikkmål og følg treffsikkerhet og hastighet' },
 ];
 
 export default function EDPICalculatorPage() {
@@ -62,12 +54,11 @@ export default function EDPICalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="edpi-calculator"
-          title="eDPI Calculator"
-          description="Calculate your effective DPI (eDPI) and compare your sensitivity settings with professional players. Find the optimal mouse settings for competitive gaming."
-          colorClass="bg-purple-100 text-purple-600"
+          title="eDPI-kalkulator"
+          description="Regn ut eDPI (DPI × følsomhet i spillet) og sammenlign med innstillingene til proffspillere. Gratis og uten registrering."
         />
 
-        <section aria-label="eDPI Calculator">
+        <section aria-label="eDPI-kalkulator">
           <EDPICalculator />
         </section>
 
