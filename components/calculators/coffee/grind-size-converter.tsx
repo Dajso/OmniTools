@@ -25,11 +25,11 @@ import { Info, AlertCircle, CheckCircle2 } from 'lucide-react';
  * Validates source grinder, setting, and target grinder
  */
 const grindSizeSchema = z.object({
-  sourceGrinder: z.string().min(1, 'Please select a source grinder'),
+  sourceGrinder: z.string().min(1, 'Velg en kvern å regne fra'),
   sourceSetting: z.number()
-    .min(0, 'Setting must be at least 0')
-    .max(100, 'Setting cannot exceed 100'),
-  targetGrinder: z.string().min(1, 'Please select a target grinder'),
+    .min(0, 'Innstillingen må være minst 0')
+    .max(100, 'Innstillingen kan ikke være over 100'),
+  targetGrinder: z.string().min(1, 'Velg en kvern å regne til'),
 });
 
 type GrindSizeFormInputs = z.infer<typeof grindSizeSchema>;
@@ -51,17 +51,17 @@ function ConfidenceBadge({ confidence }: { confidence: ConfidenceLevel }) {
     'high': {
       color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
       icon: CheckCircle2,
-      label: 'High Confidence',
+      label: 'Høy sikkerhet',
     },
     'medium': {
       color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
       icon: Info,
-      label: 'Medium Confidence',
+      label: 'Middels sikkerhet',
     },
     'low': {
       color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
       icon: AlertCircle,
-      label: 'Low Confidence',
+      label: 'Lav sikkerhet',
     },
   };
 
@@ -132,10 +132,10 @@ export function GrindSizeConverter() {
 
   return (
     <CalculatorBase
-      title="Grind Size Converter"
-      description="Convert grind settings between different grinder models to replicate recipes"
-      formula="Normalized Setting = (Setting - Min) / (Max - Min)"
-      formulaExplanation="The converter normalizes settings to a 0-1 scale, maps to grind size categories, then converts to the target grinder's scale."
+      title="Kvernstørrelse"
+      description="Regn om kvernstilling mellom ulike kverner, så du får samme resultat"
+      formula="Normalisert stilling = (stilling − min) / (maks − min)"
+      formulaExplanation="Omregneren legger innstillingen på en skala fra 0 til 1, finner kvernstørrelsen og regner den om til skalaen på den andre kvernen."
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -145,7 +145,7 @@ export function GrindSizeConverter() {
         <div className="space-y-4">
           {/* Main result */}
           <ResultDisplay
-            label="Target Setting"
+            label="Stilling på ny kvern"
             value={results.targetSetting.toString()}
             highlight
             copyable
@@ -153,24 +153,24 @@ export function GrindSizeConverter() {
 
           {/* Grind description */}
           <ResultDisplay
-            label="Grind Size"
+            label="Kvernstørrelse"
             value={results.grindDescription}
           />
 
           {/* Confidence badge */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Confidence:</span>
+            <span className="text-sm font-medium text-muted-foreground">Sikkerhet:</span>
             <ConfidenceBadge confidence={results.confidence} />
           </div>
 
           {/* Grind size categories */}
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="bg-muted/50 rounded-lg p-3 border border-border">
-              <p className="font-medium text-muted-foreground mb-1">Source Grind</p>
+              <p className="font-medium text-muted-foreground mb-1">Fra kvern</p>
               <p className="text-foreground capitalize">{results.sourceGrindSize.replace('-', ' ')}</p>
             </div>
             <div className="bg-muted/50 rounded-lg p-3 border border-border">
-              <p className="font-medium text-muted-foreground mb-1">Target Grind</p>
+              <p className="font-medium text-muted-foreground mb-1">Til kvern</p>
               <p className="text-foreground capitalize">{results.targetGrindSize.replace('-', ' ')}</p>
             </div>
           </div>
@@ -181,7 +181,7 @@ export function GrindSizeConverter() {
               <div className="flex items-start gap-3">
                 <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">Conversion Notes</p>
+                  <p className="text-sm font-medium">Merknader</p>
                   {results.notes.map((note, index) => (
                     <p key={index} className="text-sm text-muted-foreground">
                       {note}
@@ -194,10 +194,9 @@ export function GrindSizeConverter() {
 
           {/* Important reminder */}
           <div className="text-xs text-muted-foreground bg-amber-50 dark:bg-amber-950/20 rounded-md p-3 border border-amber-200 dark:border-amber-900/30">
-            <p className="font-medium text-amber-900 dark:text-amber-400 mb-1">⚠️ Important</p>
+            <p className="font-medium text-amber-900 dark:text-amber-400 mb-1">⚠️ Viktig</p>
             <p className="text-amber-800 dark:text-amber-500">
-              Grinder conversions are approximate. Always use the converted setting as a starting point
-              and adjust based on taste. Factors like burr geometry, age, and calibration affect results.
+              Omregningen er omtrentlig. Bruk resultatet som et utgangspunkt og juster etter smak. Kvernsteinenes form, alder og kalibrering påvirker resultatet.
             </p>
           </div>
         </div>
@@ -206,7 +205,7 @@ export function GrindSizeConverter() {
       {/* Source Grinder Selection */}
       <div className="space-y-2">
         <Label htmlFor="sourceGrinder">
-          Source Grinder <span className="text-destructive">*</span>
+          Kvern du regner fra <span className="text-destructive">*</span>
         </Label>
         <Select
           id="sourceGrinder"
@@ -216,7 +215,7 @@ export function GrindSizeConverter() {
             value: grinder.id,
             label: grinder.name,
           }))}
-          aria-label="Select source grinder"
+          aria-label="Velg kvern å regne fra"
           aria-required="true"
           className={errors.sourceGrinder ? 'border-destructive' : ''}
         />
@@ -230,7 +229,7 @@ export function GrindSizeConverter() {
       {/* Source Setting Input */}
       <NumberInput
         id="sourceSetting"
-        label="Source Setting"
+        label="Stilling på denne kvernen"
         value={inputs.sourceSetting}
         onChange={(v) => setInput('sourceSetting', v)}
         min={sourceConfig?.range[0] || 0}
@@ -241,13 +240,13 @@ export function GrindSizeConverter() {
         placeholder="20"
       />
       <p className="text-xs text-muted-foreground -mt-1">
-        Valid range: {settingRange}
+        Gyldig område: {settingRange}
       </p>
 
       {/* Target Grinder Selection */}
       <div className="space-y-2">
         <Label htmlFor="targetGrinder">
-          Target Grinder <span className="text-destructive">*</span>
+          Kvern du regner til <span className="text-destructive">*</span>
         </Label>
         <Select
           id="targetGrinder"
@@ -257,7 +256,7 @@ export function GrindSizeConverter() {
             value: grinder.id,
             label: grinder.name,
           }))}
-          aria-label="Select target grinder"
+          aria-label="Velg kvern å regne til"
           aria-required="true"
           className={errors.targetGrinder ? 'border-destructive' : ''}
         />
@@ -270,15 +269,15 @@ export function GrindSizeConverter() {
 
       {/* Grind size reference */}
       <div className="text-xs text-muted-foreground space-y-1 pt-2 border-t">
-        <p className="font-medium">Grind Size Reference:</p>
+        <p className="font-medium">Oversikt over kvernstørrelser:</p>
         <ul className="space-y-0.5 ml-4">
-          <li>• Extra Fine: Turkish coffee, very fine espresso</li>
-          <li>• Fine: Espresso, Moka pot</li>
-          <li>• Medium-Fine: Pour over (V60, Kalita), AeroPress</li>
-          <li>• Medium: Drip coffee, Chemex</li>
-          <li>• Medium-Coarse: Clever dripper, Siphon</li>
-          <li>• Coarse: French press, Cold brew</li>
-          <li>• Extra Coarse: Cowboy coffee, Cold brew (long steep)</li>
+          <li>• Ekstra fin: tyrkisk kaffe, svært fin espresso</li>
+          <li>• Fin: espresso, mokakanne</li>
+          <li>• Middels fin: pour over (V60, Kalita), AeroPress</li>
+          <li>• Middels: traktekaffe, Chemex</li>
+          <li>• Middels grov: Clever dripper, sifon</li>
+          <li>• Grov: presskanne, cold brew</li>
+          <li>• Ekstra grov: kokekaffe, cold brew (lang trekketid)</li>
         </ul>
       </div>
     </CalculatorBase>

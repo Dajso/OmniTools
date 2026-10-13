@@ -63,9 +63,9 @@ const EXTRACTION_THRESHOLDS = {
  * Recommendations for each extraction assessment
  */
 const RECOMMENDATIONS: Record<ExtractionAssessment, string> = {
-  'under-extracted': 'Your coffee is under-extracted. Try grinding finer, increasing water temperature, or extending brew time to extract more flavor compounds.',
-  'optimal': 'Your extraction is in the optimal range (18-22%). This typically produces a balanced, flavorful cup with good sweetness and clarity.',
-  'over-extracted': 'Your coffee is over-extracted. Try grinding coarser, lowering water temperature, or reducing brew time to avoid bitter, astringent flavors.',
+  'under-extracted': 'Kaffen er underekstrahert. Prøv å kverne finere, øke vanntemperaturen eller forlenge trekketiden for å få ut mer smak.',
+  'optimal': 'Ekstraksjonen ligger i det optimale området (18–22 %). Det gir vanligvis en balansert og smaksrik kopp med god søthet og klarhet.',
+  'over-extracted': 'Kaffen er overekstrahert. Prøv å kverne grovere, senke vanntemperaturen eller korte ned trekketiden for å unngå bitter og snerpete smak.',
 };
 
 /**
@@ -118,7 +118,7 @@ export function calculateExtractionYield(inputs: ExtractionYieldInputs): Extract
   // Validate for NaN
   if (Number.isNaN(tds) || Number.isNaN(coffeeDose) || Number.isNaN(beverageWeight)) {
     throw new CoffeeCalculationError(
-      'All inputs must be valid numbers (not NaN)',
+      'Alle felt må inneholde gyldige tall',
       'invalid_input'
     );
   }
@@ -126,14 +126,14 @@ export function calculateExtractionYield(inputs: ExtractionYieldInputs): Extract
   // Validate TDS
   if (tds <= 0) {
     throw new CoffeeCalculationError(
-      'TDS must be a positive number',
+      'TDS må være et positivt tall',
       'invalid_input',
       'tds'
     );
   }
   if (tds < 0.01 || tds > 5) {
     throw new CoffeeCalculationError(
-      'TDS must be between 0.01% and 5%',
+      'TDS må være mellom 0,01 % og 5 %',
       'out_of_range',
       'tds'
     );
@@ -142,14 +142,14 @@ export function calculateExtractionYield(inputs: ExtractionYieldInputs): Extract
   // Validate coffee dose
   if (coffeeDose <= 0) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be a positive number',
+      'Kaffemengden må være et positivt tall',
       'invalid_input',
       'coffeeDose'
     );
   }
   if (coffeeDose < 1 || coffeeDose > 100) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be between 1g and 100g',
+      'Kaffemengden må være mellom 1 g og 100 g',
       'out_of_range',
       'coffeeDose'
     );
@@ -158,14 +158,14 @@ export function calculateExtractionYield(inputs: ExtractionYieldInputs): Extract
   // Validate beverage weight
   if (beverageWeight <= 0) {
     throw new CoffeeCalculationError(
-      'Beverage weight must be a positive number',
+      'Vekten på drikken må være et positivt tall',
       'invalid_input',
       'beverageWeight'
     );
   }
   if (beverageWeight < 10 || beverageWeight > 1000) {
     throw new CoffeeCalculationError(
-      'Beverage weight must be between 10g and 1000g',
+      'Vekten på drikken må være mellom 10 g og 1000 g',
       'out_of_range',
       'beverageWeight'
     );

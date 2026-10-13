@@ -14,7 +14,7 @@ import { CoffeeCalculationError } from './extraction-yield';
  * Input parameters for cost per cup calculation
  */
 export interface CostPerCupInputs {
-  /** Bag price in dollars ($1 - $500) */
+  /** Bag price in NOK (10 - 2000 kr) */
   bagPrice: number;
   /** Bag weight in grams (100g - 5000g) */
   bagWeight: number;
@@ -28,7 +28,7 @@ export interface CostPerCupInputs {
  * Results from cost per cup calculation
  */
 export interface CostPerCupResults {
-  /** Cost per cup in dollars */
+  /** Cost per cup in NOK */
   costPerCup: number;
   /** Cost per gram in dollars */
   costPerGram: number;
@@ -81,14 +81,14 @@ export function calculateCostPerCup(inputs: CostPerCupInputs): CostPerCupResults
   // Validate bag price
   if (bagPrice <= 0) {
     throw new CoffeeCalculationError(
-      'Bag price must be a positive number',
+      'Prisen må være et positivt tall',
       'invalid_input',
       'bagPrice'
     );
   }
-  if (bagPrice < 1 || bagPrice > 500) {
+  if (bagPrice < 10 || bagPrice > 2000) {
     throw new CoffeeCalculationError(
-      'Bag price must be between $1 and $500',
+      'Prisen må være mellom 10 kr og 2000 kr',
       'out_of_range',
       'bagPrice'
     );
@@ -97,14 +97,14 @@ export function calculateCostPerCup(inputs: CostPerCupInputs): CostPerCupResults
   // Validate bag weight
   if (bagWeight <= 0) {
     throw new CoffeeCalculationError(
-      'Bag weight must be a positive number',
+      'Vekten må være et positivt tall',
       'invalid_input',
       'bagWeight'
     );
   }
   if (bagWeight < 100 || bagWeight > 5000) {
     throw new CoffeeCalculationError(
-      'Bag weight must be between 100g and 5000g',
+      'Vekten må være mellom 100 g og 5000 g',
       'out_of_range',
       'bagWeight'
     );
@@ -113,14 +113,14 @@ export function calculateCostPerCup(inputs: CostPerCupInputs): CostPerCupResults
   // Validate dose per cup
   if (dosePerCup <= 0) {
     throw new CoffeeCalculationError(
-      'Dose per cup must be a positive number',
+      'Mengden per kopp må være et positivt tall',
       'invalid_input',
       'dosePerCup'
     );
   }
   if (dosePerCup < 5 || dosePerCup > 50) {
     throw new CoffeeCalculationError(
-      'Dose per cup must be between 5g and 50g',
+      'Mengden per kopp må være mellom 5 g og 50 g',
       'out_of_range',
       'dosePerCup'
     );
@@ -130,14 +130,14 @@ export function calculateCostPerCup(inputs: CostPerCupInputs): CostPerCupResults
   if (cupsPerDay !== undefined) {
     if (cupsPerDay < 0) {
       throw new CoffeeCalculationError(
-        'Cups per day cannot be negative',
+        'Antall kopper per dag kan ikke være negativt',
         'invalid_input',
         'cupsPerDay'
       );
     }
     if (cupsPerDay > 20) {
       throw new CoffeeCalculationError(
-        'Cups per day cannot exceed 20',
+        'Antall kopper per dag kan ikke være over 20',
         'out_of_range',
         'cupsPerDay'
       );

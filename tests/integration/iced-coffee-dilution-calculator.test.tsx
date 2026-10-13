@@ -13,12 +13,12 @@ describe('IcedCoffeeDilutionCalculator Component', () => {
     render(<IcedCoffeeDilutionCalculator />);
     
     // Check for title
-    expect(screen.getByText(/Iced Coffee Dilution Calculator/i)).toBeDefined();
+    expect(screen.getByText(/Iskaffe og fortynning/i)).toBeDefined();
     
     // Check for input fields by ID
-    expect(screen.getByLabelText(/Target Final Volume/i)).toBeDefined();
-    expect(screen.getByLabelText(/Target TDS \(Desired Strength\)/i)).toBeDefined();
-    expect(screen.getByLabelText(/Ice Percentage/i)).toBeDefined();
+    expect(screen.getByLabelText(/Ønsket sluttvolum/i)).toBeDefined();
+    expect(screen.getByLabelText(/Ønsket TDS \(styrke\)/i)).toBeDefined();
+    expect(screen.getByLabelText(/Andel is/i)).toBeDefined();
   });
 
   it('should display results with default values', () => {
@@ -26,30 +26,26 @@ describe('IcedCoffeeDilutionCalculator Component', () => {
     
     // With default values (400ml, 1.2% TDS, 40% ice), should show results
     // Hot coffee: 240ml, Ice: 160g, Brewing TDS: 2.0%
-    const results = screen.getAllByText(/Hot Coffee to Brew/i);
+    const results = screen.getAllByText(/Varm kaffe å brygge/i);
     expect(results.length).toBeGreaterThan(0);
     
-    expect(screen.getByText(/Ice Needed/i)).toBeDefined();
+    expect(screen.getByText(/Is som trengs/i)).toBeDefined();
   });
 
-  it('should have unit toggle buttons', () => {
+  it('should be metric only (no imperial toggle)', () => {
     render(<IcedCoffeeDilutionCalculator />);
-    
-    // Check for unit toggle buttons
-    const metricButtons = screen.getAllByText('Metric');
-    const imperialButtons = screen.getAllByText('Imperial');
-    
-    expect(metricButtons.length).toBeGreaterThan(0);
-    expect(imperialButtons.length).toBeGreaterThan(0);
+
+    expect(screen.queryByText('Imperial')).toBeNull();
+    expect(screen.queryByText('Metric')).toBeNull();
   });
 
   it('should have accessible ARIA labels', () => {
     render(<IcedCoffeeDilutionCalculator />);
     
     // Check that inputs have proper labels (via for/id relationship)
-    const targetVolumeInput = screen.getByLabelText(/Target Final Volume/i);
-    const targetTDSInput = screen.getByLabelText(/Target TDS \(Desired Strength\)/i);
-    const icePercentageInput = screen.getByLabelText(/Ice Percentage/i);
+    const targetVolumeInput = screen.getByLabelText(/Ønsket sluttvolum/i);
+    const targetTDSInput = screen.getByLabelText(/Ønsket TDS \(styrke\)/i);
+    const icePercentageInput = screen.getByLabelText(/Andel is/i);
     
     expect(targetVolumeInput).toBeDefined();
     expect(targetTDSInput).toBeDefined();
@@ -60,6 +56,6 @@ describe('IcedCoffeeDilutionCalculator Component', () => {
     render(<IcedCoffeeDilutionCalculator />);
     
     // Check for help text
-    expect(screen.getByText(/How to use:/i)).toBeDefined();
+    expect(screen.getByText(/Anbefalt andel is/i)).toBeDefined();
   });
 });

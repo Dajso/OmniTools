@@ -86,14 +86,14 @@ export function validateCaffeineIntake(intake: CaffeineIntake, currentTime: Date
   // Validate caffeine amount
   if (intake.caffeineMg <= 0) {
     throw new CoffeeCalculationError(
-      'Caffeine amount must be a positive number',
+      'Koffeinmengden må være et positivt tall',
       'invalid_input',
       'caffeineMg'
     );
   }
   if (intake.caffeineMg < 1 || intake.caffeineMg > 500) {
     throw new CoffeeCalculationError(
-      'Caffeine amount must be between 1mg and 500mg per intake',
+      'Koffeinmengden må være mellom 1 mg og 500 mg per inntak',
       'out_of_range',
       'caffeineMg'
     );
@@ -102,7 +102,7 @@ export function validateCaffeineIntake(intake: CaffeineIntake, currentTime: Date
   // Validate intake time
   if (intake.time > currentTime) {
     throw new CoffeeCalculationError(
-      'Intake time cannot be in the future',
+      'Tidspunktet kan ikke være i fremtiden',
       'invalid_input',
       'time'
     );
@@ -178,11 +178,11 @@ export function calculateCurrentCaffeineLevel(
  */
 export function getSleepRecommendation(currentLevel: number): string {
   if (currentLevel < SLEEP_THRESHOLDS.safe) {
-    return 'Your caffeine levels are low enough for quality sleep. Safe to go to bed anytime.';
+    return 'Koffeinnivået ditt er lavt nok til at du kan sove godt. Du kan legge deg når som helst.';
   } else if (currentLevel < SLEEP_THRESHOLDS.moderate) {
-    return 'Moderate caffeine levels detected. May slightly affect sleep quality. Consider waiting 1-2 hours before bed.';
+    return 'Moderat koffeinnivå. Det kan påvirke søvnkvaliteten litt. Vent gjerne 1–2 timer før du legger deg.';
   } else {
-    return 'High caffeine levels detected. Avoid additional caffeine and wait for metabolism. Consider delaying sleep for optimal rest.';
+    return 'Høyt koffeinnivå. Unngå mer koffein og vent til kroppen har brutt det ned. Det kan være lurt å utsette leggetiden.';
   }
 }
 
@@ -300,7 +300,7 @@ export function calculateCaffeineLevel(inputs: CaffeineTrackerInputs): CaffeineT
   // Validate inputs
   if (!intakes || intakes.length === 0) {
     throw new CoffeeCalculationError(
-      'At least one caffeine intake is required',
+      'Du må oppgi minst ett koffeininntak',
       'invalid_input',
       'intakes'
     );

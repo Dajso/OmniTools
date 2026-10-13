@@ -26,7 +26,7 @@ describe('French Press Timer', () => {
       const result = calculateFrenchPressTimeline(inputs);
 
       expect(result.brewRatio).toBeCloseTo(16.67, 1);
-      expect(result.brewRatioDisplay).toBe('1:16.7');
+      expect(result.brewRatioDisplay).toBe('1:16,7');
     });
 
     it('should generate timeline with bloom, stir, and press events', () => {
@@ -69,7 +69,7 @@ describe('French Press Timer', () => {
       const result = calculateFrenchPressTimeline(inputs);
 
       expect(result.brewRatio).toBeCloseTo(12.5, 1);
-      expect(result.strengthEstimate).toContain('Strong');
+      expect(result.strengthEstimate).toContain('Sterk');
     });
 
     it('should provide strength estimate for balanced ratio', () => {
@@ -82,7 +82,7 @@ describe('French Press Timer', () => {
       const result = calculateFrenchPressTimeline(inputs);
 
       expect(result.brewRatio).toBeCloseTo(16.67, 1);
-      expect(result.strengthEstimate).toContain('Balanced');
+      expect(result.strengthEstimate).toContain('Balansert');
     });
 
     it('should provide strength estimate for mild ratio', () => {
@@ -109,7 +109,7 @@ describe('French Press Timer', () => {
 
       expect(result.instructions).toBeDefined();
       expect(result.instructions.length).toBeGreaterThan(0);
-      expect(result.instructions.some(i => i.toLowerCase().includes('preheat'))).toBe(true);
+      expect(result.instructions.some(i => i.toLowerCase().includes('forvarm'))).toBe(true);
       expect(result.instructions.some(i => i.toLowerCase().includes('press'))).toBe(true);
     });
 
@@ -136,7 +136,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Coffee dose must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Kaffemengden må være et positivt tall');
     });
 
     it('should reject negative coffee dose', () => {
@@ -147,7 +147,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Coffee dose must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Kaffemengden må være et positivt tall');
     });
 
     it('should reject coffee dose below minimum', () => {
@@ -158,7 +158,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Coffee dose must be between 10g and 100g');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Kaffemengden må være mellom 10 g og 100 g');
     });
 
     it('should reject coffee dose above maximum', () => {
@@ -169,7 +169,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Coffee dose must be between 10g and 100g');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Kaffemengden må være mellom 10 g og 100 g');
     });
 
     it('should reject zero water amount', () => {
@@ -180,7 +180,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Water amount must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Vannmengden må være et positivt tall');
     });
 
     it('should reject negative water amount', () => {
@@ -191,7 +191,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Water amount must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Vannmengden må være et positivt tall');
     });
 
     it('should reject water amount below minimum', () => {
@@ -202,7 +202,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Water amount must be between 100g and 2000g');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Vannmengden må være mellom 100 g og 2000 g');
     });
 
     it('should reject water amount above maximum', () => {
@@ -213,7 +213,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Water amount must be between 100g and 2000g');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Vannmengden må være mellom 100 g og 2000 g');
     });
 
     it('should reject zero steep time', () => {
@@ -224,7 +224,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Steep time must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Trekketiden må være et positivt tall');
     });
 
     it('should reject negative steep time', () => {
@@ -235,7 +235,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Steep time must be a positive number');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Trekketiden må være et positivt tall');
     });
 
     it('should reject steep time below minimum', () => {
@@ -246,7 +246,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Steep time must be between 2 and 10 minutes');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Trekketiden må være mellom 2 og 10 minutter');
     });
 
     it('should reject steep time above maximum', () => {
@@ -257,7 +257,7 @@ describe('French Press Timer', () => {
       };
 
       expect(() => calculateFrenchPressTimeline(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Steep time must be between 2 and 10 minutes');
+      expect(() => calculateFrenchPressTimeline(inputs)).toThrow('Trekketiden må være mellom 2 og 10 minutter');
     });
   });
 
@@ -300,7 +300,7 @@ describe('French Press Timer', () => {
       const result = calculateFrenchPressTimeline(inputs);
 
       expect(result.brewRatio).toBe(10);
-      expect(result.strengthEstimate).toContain('Very Strong');
+      expect(result.strengthEstimate).toContain('Svært sterk');
     });
 
     it('should handle very mild ratio', () => {
@@ -313,7 +313,7 @@ describe('French Press Timer', () => {
       const result = calculateFrenchPressTimeline(inputs);
 
       expect(result.brewRatio).toBe(25);
-      expect(result.strengthEstimate).toContain('Very Mild');
+      expect(result.strengthEstimate).toContain('Svært mild');
     });
   });
 

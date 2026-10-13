@@ -24,29 +24,29 @@ const caffeineIntakeSchema = z.object({
   id: z.string(),
   time: z.date(),
   caffeineMg: z.number()
-    .min(1, 'Caffeine amount must be at least 1mg')
-    .max(500, 'Caffeine amount cannot exceed 500mg'),
-  source: z.string().min(1, 'Source is required'),
+    .min(1, 'Koffeinmengden må være minst 1 mg')
+    .max(500, 'Koffeinmengden kan ikke være over 500 mg'),
+  source: z.string().min(1, 'Kilde må oppgis'),
 });
 
 /**
  * Common caffeine sources with typical amounts
  */
 const CAFFEINE_SOURCES = [
-  { name: 'Espresso (single)', mg: 64 },
-  { name: 'Espresso (double)', mg: 128 },
-  { name: 'Pour Over (8oz)', mg: 95 },
-  { name: 'Drip Coffee (8oz)', mg: 95 },
-  { name: 'French Press (8oz)', mg: 107 },
-  { name: 'Cold Brew (8oz)', mg: 200 },
+  { name: 'Espresso (enkel)', mg: 64 },
+  { name: 'Espresso (dobbel)', mg: 128 },
+  { name: 'Pour over (240 ml)', mg: 95 },
+  { name: 'Traktekaffe (240 ml)', mg: 95 },
+  { name: 'Presskanne (240 ml)', mg: 107 },
+  { name: 'Cold brew (240 ml)', mg: 200 },
   { name: 'Americano', mg: 77 },
-  { name: 'Latte', mg: 77 },
+  { name: 'Cafe latte', mg: 77 },
   { name: 'Cappuccino', mg: 77 },
-  { name: 'Energy Drink (8oz)', mg: 80 },
-  { name: 'Green Tea (8oz)', mg: 28 },
-  { name: 'Black Tea (8oz)', mg: 47 },
-  { name: 'Cola (12oz)', mg: 34 },
-  { name: 'Dark Chocolate (1oz)', mg: 12 },
+  { name: 'Energidrikk (250 ml)', mg: 80 },
+  { name: 'Grønn te (240 ml)', mg: 28 },
+  { name: 'Svart te (240 ml)', mg: 47 },
+  { name: 'Cola (330 ml)', mg: 34 },
+  { name: 'Mørk sjokolade (30 g)', mg: 12 },
 ];
 
 /**
@@ -70,7 +70,7 @@ function loadIntakesFromStorage(): CaffeineIntake[] {
       time: new Date(intake.time),
     }));
   } catch (error) {
-    console.error('Failed to load intakes from storage:', error);
+    console.error('Kunne ikke hente lagret inntak:', error);
     return [];
   }
 }
@@ -84,7 +84,7 @@ function saveIntakesToStorage(intakes: CaffeineIntake[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(intakes));
   } catch (error) {
-    console.error('Failed to save intakes to storage:', error);
+    console.error('Kunne ikke lagre inntak:', error);
   }
 }
 
@@ -99,7 +99,7 @@ function CaffeineTimeline({ timeline, currentTime }: { timeline: any[]; currentT
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-medium">Caffeine Timeline (Next 12 Hours)</h3>
+      <h3 className="text-sm font-medium">Koffeinnivå (neste 12 timer)</h3>
       <div className="relative h-32 bg-muted/30 rounded-lg p-4 border border-border">
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           {/* Grid lines */}
@@ -139,7 +139,7 @@ function CaffeineTimeline({ timeline, currentTime }: { timeline: any[]; currentT
         <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-muted-foreground pointer-events-none">
           <span>{Math.round(maxLevel)}mg</span>
           <span>{Math.round(maxLevel * 0.5)}mg</span>
-          <span>0mg</span>
+          <span>0 mg</span>
         </div>
       </div>
 
@@ -147,11 +147,11 @@ function CaffeineTimeline({ timeline, currentTime }: { timeline: any[]; currentT
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-1">
           <div className="w-3 h-0.5 bg-primary"></div>
-          <span>Caffeine Level</span>
+          <span>Koffeinnivå</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-0.5 bg-destructive border-dashed"></div>
-          <span>Current Time</span>
+          <span>Nå</span>
         </div>
       </div>
     </div>
@@ -183,7 +183,7 @@ export function CaffeineHalfLifeTracker() {
   // Form state for new intake
   const [newIntakeTime, setNewIntakeTime] = React.useState('');
   const [newIntakeCaffeine, setNewIntakeCaffeine] = React.useState(95);
-  const [newIntakeSource, setNewIntakeSource] = React.useState('Pour Over (8oz)');
+  const [newIntakeSource, setNewIntakeSource] = React.useState('Pour over (240 ml)');
   const [selectedPreset, setSelectedPreset] = React.useState('');
 
   // Load intakes from storage on mount
@@ -220,7 +220,7 @@ export function CaffeineHalfLifeTracker() {
       setResults(calculatedResults);
       setError(undefined);
     } catch (err: any) {
-      setError(err.message || 'Failed to calculate caffeine levels');
+      setError(err.message || 'Kunne ikke regne ut koffeinnivået');
       setResults(null);
     }
   }, [intakes, now]);
@@ -268,7 +268,7 @@ export function CaffeineHalfLifeTracker() {
       setNewIntakeTime(format(now, "yyyy-MM-dd'T'HH:mm"));
       setError(undefined);
     } catch (err: any) {
-      setError(err.message || 'Failed to add intake');
+      setError(err.message || 'Kunne ikke legge til inntaket');
     }
   };
 
@@ -279,7 +279,7 @@ export function CaffeineHalfLifeTracker() {
 
   // Clear all intakes
   const handleClearAll = () => {
-    if (confirm('Are you sure you want to clear all caffeine intakes?')) {
+    if (confirm('Er du sikker på at du vil slette alt koffeininntak?')) {
       setIntakes([]);
       setResults(null);
       setError(undefined);
@@ -295,16 +295,16 @@ export function CaffeineHalfLifeTracker() {
 
   return (
     <CalculatorBase
-      title="Caffeine Half-Life Tracker"
-      description="Track your caffeine intake and see current blood levels to manage consumption for better sleep"
+      title="Koffein og halveringstid"
+      description="Følg med på koffeininntaket og se hvor mye koffein som er igjen i kroppen, så du sover bedre"
       formula="C(t) = C₀ × (1/2)^(t/5h)"
-      formulaExplanation="Caffeine follows exponential decay with a 5-hour half-life. After 5 hours, 50% remains; after 10 hours, 25% remains."
+      formulaExplanation="Koffein brytes ned eksponentielt med en halveringstid på omtrent 5 timer. Etter 5 timer er 50 % igjen, etter 10 timer er 25 % igjen."
       error={error}
       results={results && (
         <div className="space-y-4">
           {/* Current Level */}
           <ResultDisplay
-            label="Current Caffeine Level"
+            label="Koffeinnivå nå"
             value={formatFixed(results.currentLevel, 1)}
             unit="mg"
             highlight
@@ -316,11 +316,11 @@ export function CaffeineHalfLifeTracker() {
             <div className="flex items-start gap-3">
               <Moon className="h-5 w-5 shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <p className="text-sm font-medium mb-1">Sleep Recommendation</p>
+                <p className="text-sm font-medium mb-1">Anbefaling for søvn</p>
                 <p className="text-sm">{results.sleepRecommendation}</p>
                 {results.safeForSleepTime && (
                   <p className="text-xs mt-2 opacity-80">
-                    Safe for sleep at: {format(results.safeForSleepTime, 'h:mm a')}
+                    Lavt nok for søvn kl. {format(results.safeForSleepTime, 'h:mm a')}
                   </p>
                 )}
               </div>
@@ -332,12 +332,12 @@ export function CaffeineHalfLifeTracker() {
 
           {/* Half-Life Info */}
           <div className="text-xs text-muted-foreground bg-muted/30 rounded-md p-3 space-y-1">
-            <p className="font-medium">About Caffeine Half-Life:</p>
+            <p className="font-medium">Om halveringstid for koffein:</p>
             <ul className="space-y-0.5 ml-4">
-              <li>• Average half-life: 5 hours</li>
-              <li>• After 5 hours: 50% remains</li>
-              <li>• After 10 hours: 25% remains</li>
-              <li>• After 15 hours: 12.5% remains</li>
+              <li>• Gjennomsnittlig halveringstid: 5 timer</li>
+              <li>• Etter 5 timer: 50 % er igjen</li>
+              <li>• Etter 10 timer: 25 % er igjen</li>
+              <li>• Etter 15 timer: 12,5 % er igjen</li>
             </ul>
           </div>
         </div>
@@ -347,21 +347,21 @@ export function CaffeineHalfLifeTracker() {
       <div className="space-y-4 pb-4 border-b border-border">
         <h3 className="text-sm font-medium flex items-center gap-2">
           <Plus className="h-4 w-4" />
-          Add Caffeine Intake
+          Legg til koffeininntak
         </h3>
 
         {/* Quick Presets */}
         <div>
-          <Label htmlFor="preset">Quick Add (Optional)</Label>
+          <Label htmlFor="preset">Hurtigvalg (valgfritt)</Label>
           <select
             id="preset"
             value={selectedPreset}
             onChange={(e) => handlePresetChange(e.target.value)}
             className="w-full mt-1 px-3 py-2 bg-background border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus-visible:ring-offset-2"
-            aria-label="Select a common caffeine source"
+            aria-label="Velg en vanlig koffeinkilde"
             aria-describedby="preset-help"
           >
-            <option value="">-- Select a common source --</option>
+            <option value="">-- Velg en vanlig kilde --</option>
             {CAFFEINE_SOURCES.map(source => (
               <option key={source.name} value={source.name}>
                 {source.name} ({source.mg}mg)
@@ -369,13 +369,13 @@ export function CaffeineHalfLifeTracker() {
             ))}
           </select>
           <p id="preset-help" className="sr-only">
-            Select a common caffeine source to automatically fill in the caffeine amount
+            Velg en vanlig koffeinkilde for å fylle inn koffeinmengden automatisk
           </p>
         </div>
 
         {/* Time Input */}
         <div>
-          <Label htmlFor="intakeTime">Time</Label>
+          <Label htmlFor="intakeTime">Tid</Label>
           <Input
             id="intakeTime"
             type="datetime-local"
@@ -385,18 +385,18 @@ export function CaffeineHalfLifeTracker() {
             className="mt-1"
             required
             aria-required="true"
-            aria-label="Time of caffeine intake"
+            aria-label="Klokkeslett for koffeininntak"
             aria-describedby="intakeTime-help"
           />
           <p id="intakeTime-help" className="sr-only">
-            Enter the time when you consumed the caffeine
+            Oppgi når du drakk eller spiste koffeinet
           </p>
         </div>
 
         {/* Caffeine Amount */}
         <NumberInput
           id="caffeineMg"
-          label="Caffeine Amount"
+          label="Koffeinmengde"
           value={newIntakeCaffeine}
           onChange={setNewIntakeCaffeine}
           min={1}
@@ -409,21 +409,21 @@ export function CaffeineHalfLifeTracker() {
 
         {/* Source Input */}
         <div>
-          <Label htmlFor="source">Source</Label>
+          <Label htmlFor="source">Kilde</Label>
           <Input
             id="source"
             type="text"
             value={newIntakeSource}
             onChange={(e) => setNewIntakeSource(e.target.value)}
-            placeholder="e.g., Espresso, Pour Over"
+            placeholder="f.eks. espresso, pour over"
             className="mt-1"
             required
             aria-required="true"
-            aria-label="Source of caffeine"
+            aria-label="Koffeinkilde"
             aria-describedby="source-help"
           />
           <p id="source-help" className="sr-only">
-            Enter the source or type of caffeinated beverage
+            Oppgi kilden eller typen koffeinholdig drikke
           </p>
         </div>
 
@@ -433,10 +433,10 @@ export function CaffeineHalfLifeTracker() {
           onClick={handleAddIntake}
           className="w-full"
           disabled={!newIntakeTime || !newIntakeSource || newIntakeCaffeine <= 0}
-          aria-label="Add caffeine intake to tracker"
+          aria-label="Legg koffeininntaket til loggen"
         >
           <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
-          Add Intake
+          Legg til
         </Button>
       </div>
 
@@ -445,7 +445,7 @@ export function CaffeineHalfLifeTracker() {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium flex items-center gap-2">
             <Clock className="h-4 w-4" />
-            Intake History ({intakes.length})
+            Logg over inntak ({intakes.length})
           </h3>
           {intakes.length > 0 && (
             <Button
@@ -454,9 +454,9 @@ export function CaffeineHalfLifeTracker() {
               size="sm"
               onClick={handleClearAll}
               className="text-destructive hover:text-destructive"
-              aria-label="Clear all caffeine intake history"
+              aria-label="Slett hele loggen over koffeininntak"
             >
-              Clear All
+              Slett alt
             </Button>
           )}
         </div>
@@ -464,8 +464,8 @@ export function CaffeineHalfLifeTracker() {
         {intakes.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <Coffee className="h-12 w-12 mx-auto mb-2 opacity-50" />
-            <p className="text-sm">No caffeine intakes recorded yet.</p>
-            <p className="text-xs mt-1">Add your first intake above to start tracking.</p>
+            <p className="text-sm">Ingen koffeininntak er registrert ennå.</p>
+            <p className="text-xs mt-1">Legg til det første inntaket ovenfor for å komme i gang.</p>
           </div>
         ) : (
           <div className="space-y-2 max-h-64 overflow-y-auto">
@@ -486,7 +486,7 @@ export function CaffeineHalfLifeTracker() {
                   size="sm"
                   onClick={() => handleRemoveIntake(intake.id)}
                   className="text-destructive hover:text-destructive"
-                  aria-label={`Remove ${intake.source} intake`}
+                  aria-label={`Fjern inntaket ${intake.source}`}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

@@ -137,7 +137,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag price must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Prisen må være et positivt tall');
     });
 
     it('should reject negative bag price', () => {
@@ -148,7 +148,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag price must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Prisen må være et positivt tall');
     });
 
     it('should reject bag price below minimum', () => {
@@ -159,18 +159,18 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag price must be between $1 and $500');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Prisen må være mellom 10 kr og 2000 kr');
     });
 
     it('should reject bag price above maximum', () => {
       const inputs: CostPerCupInputs = {
-        bagPrice: 501,
+        bagPrice: 2001,
         bagWeight: 340,
         dosePerCup: 20,
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag price must be between $1 and $500');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Prisen må være mellom 10 kr og 2000 kr');
     });
 
     it('should reject zero bag weight', () => {
@@ -181,7 +181,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag weight must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Vekten må være et positivt tall');
     });
 
     it('should reject negative bag weight', () => {
@@ -192,7 +192,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag weight must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Vekten må være et positivt tall');
     });
 
     it('should reject bag weight below minimum', () => {
@@ -203,7 +203,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag weight must be between 100g and 5000g');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Vekten må være mellom 100 g og 5000 g');
     });
 
     it('should reject bag weight above maximum', () => {
@@ -214,7 +214,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Bag weight must be between 100g and 5000g');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Vekten må være mellom 100 g og 5000 g');
     });
 
     it('should reject zero dose per cup', () => {
@@ -225,7 +225,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Dose per cup must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Mengden per kopp må være et positivt tall');
     });
 
     it('should reject negative dose per cup', () => {
@@ -236,7 +236,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Dose per cup must be a positive number');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Mengden per kopp må være et positivt tall');
     });
 
     it('should reject dose per cup below minimum', () => {
@@ -247,7 +247,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Dose per cup must be between 5g and 50g');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Mengden per kopp må være mellom 5 g og 50 g');
     });
 
     it('should reject dose per cup above maximum', () => {
@@ -258,7 +258,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Dose per cup must be between 5g and 50g');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Mengden per kopp må være mellom 5 g og 50 g');
     });
 
     it('should reject negative cups per day', () => {
@@ -270,7 +270,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Cups per day cannot be negative');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Antall kopper per dag kan ikke være negativt');
     });
 
     it('should reject cups per day above maximum', () => {
@@ -282,7 +282,7 @@ describe('Cost Per Cup Calculator', () => {
       };
 
       expect(() => calculateCostPerCup(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCostPerCup(inputs)).toThrow('Cups per day cannot exceed 20');
+      expect(() => calculateCostPerCup(inputs)).toThrow('Antall kopper per dag kan ikke være over 20');
     });
 
     it('should accept cups per day at maximum', () => {
@@ -302,14 +302,14 @@ describe('Cost Per Cup Calculator', () => {
   describe('edge cases', () => {
     it('should handle minimum valid inputs', () => {
       const inputs: CostPerCupInputs = {
-        bagPrice: 1,
+        bagPrice: 10,
         bagWeight: 100,
         dosePerCup: 5,
       };
 
       const result = calculateCostPerCup(inputs);
 
-      expect(result.costPerCup).toBeCloseTo(0.05, 2);
+      expect(result.costPerCup).toBeCloseTo(0.5, 2);
       expect(result.cupsPerBag).toBeCloseTo(20, 0);
     });
 

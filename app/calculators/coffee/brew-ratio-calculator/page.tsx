@@ -1,78 +1,72 @@
 import { Metadata } from 'next';
 import { BrewRatioCalculator } from '@/components/calculators/coffee/brew-ratio-calculator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Brew Ratio Calculator - Coffee to Water Ratio Calculator',
-    description: 'Calculate the perfect water amount for your coffee brew ratio. Free brew ratio calculator with strength profiles for pour over, French press, and drip coffee.',
-    keywords: ['brew ratio calculator', 'coffee ratio', 'coffee to water ratio', 'pour over ratio', 'French press ratio', 'coffee strength'],
-    alternates: { canonical: '/calculators/coffee/brew-ratio-calculator' },
-    openGraph: {
-        title: 'Brew Ratio Calculator - Coffee to Water Ratio Calculator',
-        description: 'Calculate the perfect water amount for your coffee brew ratio. Free brew ratio calculator with strength profiles.',
-        url: '/calculators/coffee/brew-ratio-calculator',
-        siteName: 'OmniTools',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Brew Ratio Calculator - Coffee to Water Ratio Calculator',
-        description: 'Calculate the perfect water amount for your coffee brew ratio.',
-    },
+  title: 'Bryggeforhold – gratis kalkulator på nett',
+  description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke. Gratis og uten registrering.',
+  keywords: ['bryggeforhold', 'kaffe og vann', 'vannmengde', 'kaffestyrke', 'dosering'],
+  alternates: { canonical: '/calculators/coffee/brew-ratio-calculator' },
+  openGraph: {
+    title: 'Bryggeforhold',
+    description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke',
+    url: '/calculators/coffee/brew-ratio-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Brew Ratio Calculator',
-    description: 'Calculate the water amount needed for your desired brew ratio to maintain consistent coffee strength',
-    applicationCategory: 'UtilityApplication',
-    operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Bryggeforhold',
+  description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter coffee dose', text: 'Input the amount of coffee grounds you plan to use in grams.' },
-    { name: 'Select brew ratio', text: 'Choose your desired ratio (1:15 for strong, 1:16 for balanced, 1:17 for mild).' },
-    { name: 'View water amount', text: 'See the calculated water amount needed for your brew.' },
-    { name: 'Check strength profile', text: 'Review the strength profile to ensure it matches your preference.' },
-    { name: 'Start brewing', text: 'Use the calculated amounts for consistent, delicious coffee.' },
+  { name: 'Skriv inn kaffemengden', text: 'Oppgi hvor mange gram malt kaffe du skal bruke.' },
+  { name: 'Velg bryggeforhold', text: 'For eksempel 1:15 for sterkt, 1:16 for balansert og 1:17 for mildt.' },
+  { name: 'Les av vannmengden', text: 'Se hvor mange ml vann du trenger.' },
+  { name: 'Sjekk styrkeprofilen', text: 'Se om styrken passer smaken din.' },
 ];
 
 const faqs = [
-    { question: 'What is a coffee brew ratio?', answer: 'A coffee brew ratio is the relationship between the amount of coffee grounds and water used in brewing, typically expressed as 1:X (e.g., 1:16). This means for every 1 gram of coffee, you use X grams of water.' },
-    { question: 'What is the best brew ratio for coffee?', answer: 'The ideal brew ratio depends on your preference. A balanced ratio of 1:15 to 1:17 works well for most pour over and drip coffee. Stronger ratios (1:12 to 1:15) are common for concentrated brews, while milder ratios (1:17 to 1:20) produce lighter coffee.' },
-    { question: 'How do I calculate water amount from brew ratio?', answer: 'Multiply your coffee dose by the ratio number. For example, with 20g of coffee and a 1:16 ratio, you need 20 × 16 = 320g (or ml) of water.' },
-    { question: 'What brew ratio should I use for pour over coffee?', answer: 'For pour over coffee, a ratio between 1:15 and 1:17 is recommended. A 1:16 ratio is a great starting point that produces balanced, flavorful coffee.' },
-    { question: 'Does brew ratio affect coffee strength?', answer: 'Yes, brew ratio is one of the primary factors affecting coffee strength. Lower ratios produce stronger coffee, while higher ratios produce milder, lighter coffee.' },
+  { question: 'Hva er et bryggeforhold?', answer: 'Forholdet mellom kaffe og vann, oftest skrevet 1:X. 1:16 betyr 1 gram kaffe til 16 gram vann.' },
+  { question: 'Hvilket bryggeforhold er best?', answer: 'Det er smak. 1:15 til 1:17 fungerer for de fleste filtermetoder. Sterkere (1:12–1:15) passer konsentrerte brygg, mildere (1:17–1:20) gir lettere kaffe.' },
+  { question: 'Hvordan regner jeg ut vannmengden?', answer: 'Gang kaffemengden med forholdet. 20 g kaffe og 1:16 gir 20 × 16 = 320 g (omtrent 320 ml) vann.' },
+  { question: 'Hvilket forhold passer til pour over?', answer: 'Mellom 1:15 og 1:17. 1:16 er et godt utgangspunkt.' },
+  { question: 'Påvirker forholdet styrken?', answer: 'Ja. Lavere tall gir sterkere kaffe, høyere tall gir mildere kaffe.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction yield from TDS measurements.' },
-    { href: '/calculators/coffee/pour-over-timer', title: 'Pour Over Timer', description: 'Multi-stage timer with 4:6 method.' },
-    { href: '/calculators/coffee/grind-size-converter', title: 'Grind Size Converter', description: 'Convert grind settings between grinders.' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
+  { href: '/calculators/coffee/iced-coffee-dilution-calculator', title: 'Iskaffe og fortynning', description: 'Regn ut varm kaffe og is for å holde ønsket styrke etter fortynning' },
 ];
 
 export default function BrewRatioCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader
-                    toolId="brew-ratio-calculator"
-                    title="Brew Ratio Calculator"
-                    description="Calculate the perfect water amount for your coffee brew ratio with strength profiles."
-                    colorClass="bg-amber-100 text-amber-700"
-                />
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="brew-ratio-calculator"
+          title="Bryggeforhold"
+          description="Regn ut hvor mye vann du trenger til kaffemengden din, med styrkeprofil for pour over, presskanne og traktekaffe. Gratis og uten registrering."
+        />
 
-                <section aria-label="Brew Ratio Calculator">
-                    <BrewRatioCalculator />
-                </section>
+        <section aria-label="Bryggeforhold">
+          <BrewRatioCalculator />
+        </section>
 
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

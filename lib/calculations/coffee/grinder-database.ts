@@ -68,37 +68,37 @@ export interface GrindSizeCategory {
 export const GRIND_SIZE_CATEGORIES: GrindSizeCategory[] = [
   {
     name: 'extra-fine',
-    description: 'Turkish coffee, very fine espresso - powder-like consistency',
+    description: 'Tyrkisk kaffe, svært fin espresso – som pulver',
     microns: [100, 300],
   },
   {
     name: 'fine',
-    description: 'Espresso, Moka pot - fine like table salt',
+    description: 'Espresso, mokakanne – fin som bordsalt',
     microns: [300, 500],
   },
   {
     name: 'medium-fine',
-    description: 'Pour over (V60, Kalita), AeroPress - finer than sand',
+    description: 'Pour over (V60, Kalita), AeroPress – finere enn sand',
     microns: [500, 700],
   },
   {
     name: 'medium',
-    description: 'Drip coffee, Chemex - like coarse sand',
+    description: 'Traktekaffe, Chemex – som grov sand',
     microns: [700, 900],
   },
   {
     name: 'medium-coarse',
-    description: 'Clever dripper, Siphon - slightly coarser than sand',
+    description: 'Clever dripper, sifon – litt grovere enn sand',
     microns: [900, 1100],
   },
   {
     name: 'coarse',
-    description: 'French press, Cold brew - like sea salt',
+    description: 'Presskanne, cold brew – som havsalt',
     microns: [1100, 1400],
   },
   {
     name: 'extra-coarse',
-    description: 'Cowboy coffee, Cold brew (long steep) - like peppercorns',
+    description: 'Kokekaffe, cold brew (lang trekketid) – som pepperkorn',
     microns: [1400, 2000],
   },
 ];
@@ -340,7 +340,7 @@ function getGrindSizeForSetting(
 ): GrindSize {
   const config = getGrinderConfig(grinderId);
   if (!config) {
-    throw new Error(`Grinder not found: ${grinderId}`);
+    throw new Error(`Fant ikke kvernen: ${grinderId}`);
   }
 
   const [min, max] = config.range;
@@ -364,7 +364,7 @@ function getGrindSizeForSetting(
  */
 function getGrindSizeDescription(grindSize: GrindSize): string {
   const category = GRIND_SIZE_CATEGORIES.find(c => c.name === grindSize);
-  return category?.description || 'Unknown grind size';
+  return category?.description || 'Ukjent kvernstørrelse';
 }
 
 // Export all functions

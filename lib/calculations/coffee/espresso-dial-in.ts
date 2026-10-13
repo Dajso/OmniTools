@@ -54,9 +54,9 @@ const EXTRACTION_RATIO_THRESHOLDS = {
  * Recommendations for each extraction ratio classification
  */
 const RECOMMENDATIONS: Record<ExtractionRatioRecommendation, string> = {
-  'increase-yield': 'Extraction ratio is too low. Try increasing yield (pull longer shot) or decreasing dose to achieve better extraction balance.',
-  'optimal': 'Extraction ratio is in the optimal range (1.5-2.5). This typically produces a balanced espresso with good body and sweetness.',
-  'decrease-yield': 'Extraction ratio is too high. Try decreasing yield (stop shot earlier) or increasing dose to avoid over-extraction and bitterness.',
+  'increase-yield': 'Ekstraksjonsforholdet er for lavt. Prøv å øke utbyttet (trekk en lengre shot) eller redusere kaffemengden for bedre balanse.',
+  'optimal': 'Ekstraksjonsforholdet ligger i det optimale området (1,5–2,5). Det gir vanligvis en balansert espresso med god fylde og søthet.',
+  'decrease-yield': 'Ekstraksjonsforholdet er for høyt. Prøv å redusere utbyttet (stopp shoten tidligere) eller øke kaffemengden for å unngå overekstraksjon og bitterhet.',
 };
 
 /**
@@ -64,14 +64,14 @@ const RECOMMENDATIONS: Record<ExtractionRatioRecommendation, string> = {
  */
 export const espressoMetricsSchema = z.object({
   dose: z.number()
-    .min(5, 'Dose must be at least 5g')
-    .max(30, 'Dose cannot exceed 30g'),
+    .min(5, 'Mengden må være minst 5 g')
+    .max(30, 'Mengden kan ikke være over 30 g'),
   yield: z.number()
-    .min(10, 'Yield must be at least 10g')
-    .max(100, 'Yield cannot exceed 100g'),
+    .min(10, 'Utbyttet må være minst 10 g')
+    .max(100, 'Utbyttet kan ikke være over 100 g'),
   time: z.number()
-    .min(10, 'Time must be at least 10 seconds')
-    .max(60, 'Time cannot exceed 60 seconds'),
+    .min(10, 'Tiden må være minst 10 sekunder')
+    .max(60, 'Tiden kan ikke være over 60 sekunder'),
 });
 
 export type EspressoMetricsInputsValidated = z.infer<typeof espressoMetricsSchema>;
@@ -137,14 +137,14 @@ export function calculateEspressoMetrics(
   // Validate dose
   if (dose <= 0) {
     throw new CoffeeCalculationError(
-      'Dose must be a positive number',
+      'Mengden må være et positivt tall',
       'invalid_input',
       'dose'
     );
   }
   if (dose < 5 || dose > 30) {
     throw new CoffeeCalculationError(
-      'Dose must be between 5g and 30g',
+      'Mengden må være mellom 5 g og 30 g',
       'out_of_range',
       'dose'
     );
@@ -153,14 +153,14 @@ export function calculateEspressoMetrics(
   // Validate yield
   if (yieldAmount <= 0) {
     throw new CoffeeCalculationError(
-      'Yield must be a positive number',
+      'Utbyttet må være et positivt tall',
       'invalid_input',
       'yield'
     );
   }
   if (yieldAmount < 10 || yieldAmount > 100) {
     throw new CoffeeCalculationError(
-      'Yield must be between 10g and 100g',
+      'Utbyttet må være mellom 10 g og 100 g',
       'out_of_range',
       'yield'
     );
@@ -169,14 +169,14 @@ export function calculateEspressoMetrics(
   // Validate time
   if (time <= 0) {
     throw new CoffeeCalculationError(
-      'Time must be a positive number',
+      'Tiden må være et positivt tall',
       'invalid_input',
       'time'
     );
   }
   if (time < 10 || time > 60) {
     throw new CoffeeCalculationError(
-      'Time must be between 10 and 60 seconds',
+      'Tiden må være mellom 10 og 60 sekunder',
       'out_of_range',
       'time'
     );

@@ -51,7 +51,7 @@ describe('Caffeine Half-Life Tracker', () => {
       const currentTime = new Date();
 
       expect(() => validateCaffeineIntake(intake, currentTime)).toThrow(CoffeeCalculationError);
-      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('positive number');
+      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('positivt tall');
     });
 
     it('should reject negative caffeine amount', () => {
@@ -76,7 +76,7 @@ describe('Caffeine Half-Life Tracker', () => {
       const currentTime = new Date();
 
       expect(() => validateCaffeineIntake(intake, currentTime)).toThrow(CoffeeCalculationError);
-      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('500mg');
+      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('500 mg');
     });
 
     it('should reject future intake time', () => {
@@ -92,7 +92,7 @@ describe('Caffeine Half-Life Tracker', () => {
       const currentTime = new Date();
 
       expect(() => validateCaffeineIntake(intake, currentTime)).toThrow(CoffeeCalculationError);
-      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('future');
+      expect(() => validateCaffeineIntake(intake, currentTime)).toThrow('fremtiden');
     });
   });
 
@@ -211,30 +211,30 @@ describe('Caffeine Half-Life Tracker', () => {
   describe('getSleepRecommendation', () => {
     it('should recommend safe for sleep below 50mg', () => {
       const recommendation = getSleepRecommendation(30);
-      expect(recommendation).toContain('Safe');
-      expect(recommendation.toLowerCase()).toContain('sleep');
+      expect(recommendation).toContain('lavt nok');
+      expect(recommendation.toLowerCase()).toContain('sove');
     });
 
     it('should warn about moderate levels between 50-100mg', () => {
       const recommendation = getSleepRecommendation(75);
-      expect(recommendation).toContain('Moderate');
-      expect(recommendation.toLowerCase()).toContain('sleep');
+      expect(recommendation).toContain('Moderat');
+      expect(recommendation.toLowerCase()).toContain('søvn');
     });
 
     it('should warn about high levels above 100mg', () => {
       const recommendation = getSleepRecommendation(150);
-      expect(recommendation).toContain('High');
-      expect(recommendation.toLowerCase()).toContain('avoid');
+      expect(recommendation).toContain('Høyt');
+      expect(recommendation.toLowerCase()).toContain('unngå');
     });
 
     it('should handle boundary at 50mg', () => {
       const recommendation = getSleepRecommendation(50);
-      expect(recommendation).toContain('Moderate');
+      expect(recommendation).toContain('Moderat');
     });
 
     it('should handle boundary at 100mg', () => {
       const recommendation = getSleepRecommendation(100);
-      expect(recommendation).toContain('High');
+      expect(recommendation).toContain('Høyt');
     });
   });
 
@@ -367,7 +367,7 @@ describe('Caffeine Half-Life Tracker', () => {
       };
 
       expect(() => calculateCaffeineLevel(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateCaffeineLevel(inputs)).toThrow('At least one');
+      expect(() => calculateCaffeineLevel(inputs)).toThrow('minst ett');
     });
 
     it('should include safe for sleep time when level is high', () => {
@@ -424,7 +424,7 @@ describe('Caffeine Half-Life Tracker', () => {
       // After 3 hours, should have more than 50% but less than 100%
       expect(results.currentLevel).toBeGreaterThan(32);
       expect(results.currentLevel).toBeLessThan(64);
-      expect(results.sleepRecommendation).toContain('Safe');
+      expect(results.sleepRecommendation).toContain('lavt nok');
     });
 
     it('should handle realistic multiple coffee scenario', () => {

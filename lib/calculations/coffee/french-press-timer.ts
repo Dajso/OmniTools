@@ -8,6 +8,8 @@
  * @see Requirements 10.1, 10.5, 10.6, 10.7
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 import { CoffeeCalculationError } from './extraction-yield';
 
 /**
@@ -65,15 +67,15 @@ export interface FrenchPressResults {
  */
 function getStrengthEstimate(ratio: number): string {
   if (ratio <= 12) {
-    return 'Very Strong - Intense, bold flavor';
+    return 'Svært sterk – intens og kraftig smak';
   } else if (ratio <= 15) {
-    return 'Strong - Rich, full-bodied';
+    return 'Sterk – rik og fyldig';
   } else if (ratio <= 17) {
-    return 'Balanced - Classic French press strength';
+    return 'Balansert – klassisk presskannestyrke';
   } else if (ratio <= 20) {
-    return 'Mild - Lighter, more delicate';
+    return 'Mild – lettere og mer delikat';
   } else {
-    return 'Very Mild - Subtle, tea-like';
+    return 'Svært mild – myk og tekaktig';
   }
 }
 
@@ -84,14 +86,14 @@ function getStrengthEstimate(ratio: number): string {
  */
 function generateInstructions(): string[] {
   return [
-    'Preheat French press with hot water, then discard',
-    'Add coarse ground coffee to the press',
-    'Start timer and add water just off boil (195-205°F)',
-    'Stir gently at bloom reminder (30 seconds)',
-    'Place lid on press but do not plunge yet',
-    'Stir again at halfway point to ensure even extraction',
-    'When timer completes, press plunger slowly and steadily',
-    'Pour immediately to prevent over-extraction',
+    'Forvarm presskannen med varmt vann og hell det ut',
+    'Ha grovmalt kaffe i kannen',
+    'Start timeren og hell i vann som har sluttet å koke (90–96 °C)',
+    'Rør forsiktig ved påminnelsen om forbløting (30 sekunder)',
+    'Sett på lokket, men ikke press ned ennå',
+    'Rør igjen halvveis for jevn ekstraksjon',
+    'Når timeren er ferdig, press stempelet sakte og jevnt ned',
+    'Hell opp med en gang, så kaffen ikke blir overekstrahert',
   ];
 }
 
@@ -133,14 +135,14 @@ export function calculateFrenchPressTimeline(inputs: FrenchPressInputs): FrenchP
   // Validate coffee dose
   if (coffeeDose <= 0) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be a positive number',
+      'Kaffemengden må være et positivt tall',
       'invalid_input',
       'coffeeDose'
     );
   }
   if (coffeeDose < 10 || coffeeDose > 100) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be between 10g and 100g',
+      'Kaffemengden må være mellom 10 g og 100 g',
       'out_of_range',
       'coffeeDose'
     );
@@ -149,14 +151,14 @@ export function calculateFrenchPressTimeline(inputs: FrenchPressInputs): FrenchP
   // Validate water amount
   if (waterAmount <= 0) {
     throw new CoffeeCalculationError(
-      'Water amount must be a positive number',
+      'Vannmengden må være et positivt tall',
       'invalid_input',
       'waterAmount'
     );
   }
   if (waterAmount < 100 || waterAmount > 2000) {
     throw new CoffeeCalculationError(
-      'Water amount must be between 100g and 2000g',
+      'Vannmengden må være mellom 100 g og 2000 g',
       'out_of_range',
       'waterAmount'
     );
@@ -165,14 +167,14 @@ export function calculateFrenchPressTimeline(inputs: FrenchPressInputs): FrenchP
   // Validate steep time
   if (steepTime <= 0) {
     throw new CoffeeCalculationError(
-      'Steep time must be a positive number',
+      'Trekketiden må være et positivt tall',
       'invalid_input',
       'steepTime'
     );
   }
   if (steepTime < 2 || steepTime > 10) {
     throw new CoffeeCalculationError(
-      'Steep time must be between 2 and 10 minutes',
+      'Trekketiden må være mellom 2 og 10 minutter',
       'out_of_range',
       'steepTime'
     );
@@ -180,7 +182,7 @@ export function calculateFrenchPressTimeline(inputs: FrenchPressInputs): FrenchP
 
   // Calculate brew ratio
   const brewRatio = waterAmount / coffeeDose;
-  const brewRatioDisplay = `1:${brewRatio.toFixed(1)}`;
+  const brewRatioDisplay = `1:${formatFixed(brewRatio, 1)}`;
   const strengthEstimate = getStrengthEstimate(brewRatio);
 
   // Convert steep time to seconds
@@ -193,17 +195,17 @@ export function calculateFrenchPressTimeline(inputs: FrenchPressInputs): FrenchP
   const timeline: TimelineEvent[] = [
     {
       time: bloomTime,
-      action: 'Stir gently to saturate all grounds',
+      action: 'Rør forsiktig så all kaffen blir våt',
       type: 'bloom',
     },
     {
       time: stirTime,
-      action: 'Stir again to ensure even extraction',
+      action: 'Rør igjen for jevn ekstraksjon',
       type: 'stir',
     },
     {
       time: totalTime,
-      action: 'Press plunger slowly and serve immediately',
+      action: 'Press stempelet sakte ned og server med en gang',
       type: 'press',
     },
   ];

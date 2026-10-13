@@ -8,6 +8,8 @@
  * @see Requirements 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7
  */
 
+import { formatFixed } from '@/lib/utils/formatting';
+
 import { CoffeeCalculationError } from './extraction-yield';
 
 /**
@@ -115,20 +117,20 @@ function generateInstructions(
 
   if (epsomSalt > 0) {
     instructions.push(
-      `Add ${epsomSalt.toFixed(2)}g of Epsom salt (MgSO4·7H2O) to provide magnesium hardness.`
+      `Add ${formatFixed(epsomSalt, 2)}g of Epsom salt (MgSO4·7H2O) to provide magnesium hardness.`
     );
   }
 
   if (bakingSoda > 0) {
     instructions.push(
-      `Add ${bakingSoda.toFixed(2)}g of baking soda (NaHCO3) to provide alkalinity buffer.`
+      `Add ${formatFixed(bakingSoda, 2)}g of baking soda (NaHCO3) to provide alkalinity buffer.`
     );
   }
 
   instructions.push(
-    'Stir or shake vigorously until all minerals are fully dissolved.',
-    'Let the water rest for 10-15 minutes before brewing to ensure complete dissolution.',
-    'Store in a clean, sealed container. Use within 1 week for best results.'
+    'Rør eller rist kraftig til alle mineralene er helt oppløst.',
+    'La vannet hvile i 10–15 minutter før du bruker det, så mineralene løser seg helt opp.',
+    'Oppbevar vannet i en ren, lukket beholder og bruk det innen en uke.'
   );
 
   return instructions;
@@ -181,14 +183,14 @@ export function calculateWaterRecipe(
   // Validate water volume
   if (waterVolume <= 0) {
     throw new CoffeeCalculationError(
-      'Water volume must be a positive number',
+      'Vannvolumet må være et positivt tall',
       'invalid_input',
       'waterVolume'
     );
   }
   if (waterVolume < 0.5 || waterVolume > 20) {
     throw new CoffeeCalculationError(
-      'Water volume must be between 0.5L and 20L',
+      'Vannvolumet må være mellom 0,5 liter og 20 liter',
       'out_of_range',
       'waterVolume'
     );
@@ -197,14 +199,14 @@ export function calculateWaterRecipe(
   // Validate target hardness
   if (targetHardness < 0) {
     throw new CoffeeCalculationError(
-      'Target hardness cannot be negative',
+      'Hardheten kan ikke være negativ',
       'invalid_input',
       'targetHardness'
     );
   }
   if (targetHardness > 300) {
     throw new CoffeeCalculationError(
-      'Target hardness must be between 0 and 300 ppm',
+      'Hardheten må være mellom 0 og 300 ppm',
       'out_of_range',
       'targetHardness'
     );
@@ -213,14 +215,14 @@ export function calculateWaterRecipe(
   // Validate target alkalinity
   if (targetAlkalinity < 0) {
     throw new CoffeeCalculationError(
-      'Target alkalinity cannot be negative',
+      'Alkaliniteten kan ikke være negativ',
       'invalid_input',
       'targetAlkalinity'
     );
   }
   if (targetAlkalinity > 150) {
     throw new CoffeeCalculationError(
-      'Target alkalinity must be between 0 and 150 ppm',
+      'Alkaliniteten må være mellom 0 og 150 ppm',
       'out_of_range',
       'targetAlkalinity'
     );

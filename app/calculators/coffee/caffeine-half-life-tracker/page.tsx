@@ -1,56 +1,50 @@
 import { Metadata } from 'next';
 import { CaffeineHalfLifeTracker } from '@/components/calculators/coffee/caffeine-half-life-tracker';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Caffeine Half-Life Tracker - Track Caffeine Levels for Better Sleep',
-  description: 'Track your caffeine intake and see current blood levels using exponential decay. Free caffeine tracker with sleep recommendations based on 5-hour half-life.',
-  keywords: ['caffeine tracker', 'caffeine half-life', 'caffeine calculator', 'sleep quality', 'caffeine metabolism', 'coffee tracker', 'caffeine levels'],
+  title: 'Koffein og halveringstid – gratis kalkulator på nett',
+  description: 'Følg koffeininntaket og se hvor mye som er igjen i kroppen. Gratis og uten registrering.',
+  keywords: ['koffein', 'halveringstid', 'søvn', 'kaffe', 'koffeinnivå'],
   alternates: { canonical: '/calculators/coffee/caffeine-half-life-tracker' },
   openGraph: {
-    title: 'Caffeine Half-Life Tracker - Track Caffeine Levels for Better Sleep',
-    description: 'Track your caffeine intake and see current blood levels using exponential decay.',
+    title: 'Koffein og halveringstid',
+    description: 'Følg koffeininntaket og se hvor mye som er igjen i kroppen',
     url: '/calculators/coffee/caffeine-half-life-tracker',
-    siteName: 'OmniTools',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Caffeine Half-Life Tracker - Track Caffeine Levels for Better Sleep',
-    description: 'Track your caffeine intake and see current blood levels.',
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Caffeine Half-Life Tracker',
-  description: 'Track your caffeine intake and calculate current blood levels using exponential decay',
+  name: 'Koffein og halveringstid',
+  description: 'Følg koffeininntaket og se hvor mye som er igjen i kroppen',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Add your drinks', text: 'Enter each caffeinated drink with its time of consumption and caffeine amount.' },
-  { name: 'View current level', text: 'See your estimated current caffeine level based on 5-hour half-life.' },
-  { name: 'Check timeline', text: 'View how your caffeine levels will decay over the next hours.' },
-  { name: 'Read recommendations', text: 'Get personalized sleep recommendations based on your current level.' },
-  { name: 'Plan your intake', text: 'Use the tracker to optimize coffee consumption for better sleep.' },
+  { name: 'Legg til inntak', text: 'Velg en vanlig kilde eller skriv inn mengde i mg og klokkeslett.' },
+  { name: 'Se koffeinnivået', text: 'Grafen viser nivået de neste 12 timene.' },
+  { name: 'Finn leggetid', text: 'Se når nivået er lavt nok for god søvn.' },
 ];
 
 const faqs = [
-  { question: 'What is caffeine half-life?', answer: 'Caffeine half-life is the time it takes for your body to eliminate half of the caffeine. The average is approximately 5 hours. After 5 hours, 50% remains; after 10 hours, 25%; after 15 hours, 12.5%.' },
-  { question: 'How much caffeine is safe before sleep?', answer: 'For optimal sleep, caffeine levels should be below 50mg. Levels between 50-100mg may slightly affect sleep, while above 100mg can significantly impact sleep quality.' },
-  { question: 'How does this caffeine tracker work?', answer: 'The tracker uses the exponential decay formula C(t) = C₀ × (1/2)^(t/5h) to calculate remaining caffeine from each intake, then sums them for your current level.' },
-  { question: 'How much caffeine is in common drinks?', answer: 'Espresso (single): 64mg, Espresso (double): 128mg, Pour Over: 95mg, Drip Coffee: 95mg, French Press: 107mg, Cold Brew: 200mg, Energy Drink: 80mg, Green Tea: 28mg.' },
-  { question: 'Does caffeine half-life vary between people?', answer: 'Yes, half-life can range from 3 to 7 hours depending on genetics, age, liver function, pregnancy, and medications. This calculator uses the average 5-hour half-life.' },
+  { question: 'Hva er halveringstid for koffein?', answer: 'Tiden det tar før halvparten er brutt ned. Hos de fleste voksne er den omtrent 5 timer, men den varierer mye fra person til person.' },
+  { question: 'Hvor mye koffein er trygt?', answer: 'Den europeiske mattrygghetsmyndigheten (EFSA) regner 400 mg per dag som trygt for friske voksne. Gravide bør ikke ha mer enn 200 mg per dag.' },
+  { question: 'Hvor mye koffein er i en kopp kaffe?', answer: 'Omtrent 80–100 mg i en kopp traktekaffe (240 ml) og omtrent 60–80 mg i en enkel espresso. Det varierer.' },
+  { question: 'Påvirker koffein søvnen selv om jeg sovner lett?', answer: 'Det kan det. Koffein kan redusere dyp søvn selv om du ikke merker det.' },
+  { question: 'Er tallene eksakte?', answer: 'Nei, de er veiledende. Hvor fort koffein brytes ned, påvirkes av blant annet alder, medisiner og graviditet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Brew Ratio Calculator', description: 'Calculate water amount for your brew ratio.' },
-  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction from TDS measurements.' },
-  { href: '/calculators/coffee/cost-per-cup-calculator', title: 'Cost Per Cup Calculator', description: 'Calculate your coffee expenses.' },
+  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Bryggeforhold', description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
 ];
 
 export default function CaffeineHalfLifeTrackerPage() {
@@ -60,12 +54,11 @@ export default function CaffeineHalfLifeTrackerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="caffeine-half-life-tracker"
-          title="Caffeine Half-Life Tracker"
-          description="Track your caffeine intake and see current blood levels for better sleep quality."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Koffein og halveringstid"
+          description="Logg koffeininntaket og se hvor mye koffein som er igjen i kroppen i løpet av dagen, og når nivået er lavt nok til å sove. Gratis og uten registrering."
         />
 
-        <section aria-label="Caffeine Half-Life Tracker">
+        <section aria-label="Koffein og halveringstid">
           <CaffeineHalfLifeTracker />
         </section>
 

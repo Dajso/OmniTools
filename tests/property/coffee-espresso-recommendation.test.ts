@@ -69,10 +69,10 @@ describe('Espresso Dial-in Log - Property 13: Espresso Recommendation Classifica
           // Verify recommendation text mentions increasing yield or decreasing dose
           const text = result.recommendationText.toLowerCase();
           expect(
-            text.includes('increasing yield') || 
-            text.includes('increase yield') ||
-            text.includes('decreasing dose') ||
-            text.includes('decrease dose')
+            text.includes('øke utbyttet') || 
+            text.includes('øke utbyttet') ||
+            text.includes('redusere kaffemengden') ||
+            text.includes('redusere kaffemengden')
           ).toBe(true);
           
           return true;
@@ -113,7 +113,7 @@ describe('Espresso Dial-in Log - Property 13: Espresso Recommendation Classifica
           
           // Verify recommendation text mentions optimal
           const text = result.recommendationText.toLowerCase();
-          expect(text.includes('optimal')).toBe(true);
+          expect(text.includes('optimale')).toBe(true);
           
           return true;
         }
@@ -154,10 +154,10 @@ describe('Espresso Dial-in Log - Property 13: Espresso Recommendation Classifica
           // Verify recommendation text mentions decreasing yield or increasing dose
           const text = result.recommendationText.toLowerCase();
           expect(
-            text.includes('decreasing yield') || 
-            text.includes('decrease yield') ||
-            text.includes('increasing dose') ||
-            text.includes('increase dose')
+            text.includes('redusere utbyttet') || 
+            text.includes('redusere utbyttet') ||
+            text.includes('øke kaffemengden') ||
+            text.includes('øke kaffemengden')
           ).toBe(true);
           
           return true;
@@ -258,14 +258,14 @@ describe('Espresso Dial-in Log - Property 13: Espresso Recommendation Classifica
           if (result.recommendation === 'increase-yield') {
             // Should mention increasing yield or decreasing dose
             expect(
-              text.includes('increas') || text.includes('decreas')
+              text.includes('øke') || text.includes('redusere')
             ).toBe(true);
           } else if (result.recommendation === 'optimal') {
-            expect(text.includes('optimal')).toBe(true);
+            expect(text.includes('optimale')).toBe(true);
           } else if (result.recommendation === 'decrease-yield') {
             // Should mention decreasing yield or increasing dose
             expect(
-              text.includes('decreas') || text.includes('increas')
+              text.includes('redusere') || text.includes('øke')
             ).toBe(true);
           }
           

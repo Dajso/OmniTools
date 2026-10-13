@@ -106,7 +106,7 @@ describe('Cross-Browser Compatibility: Coffee Calculators', () => {
       });
 
       expect(result.warning).toBeDefined();
-      expect(result.warning).toContain('excessive');
+      expect(result.warning).toContain('fortynning');
     });
   });
 
@@ -224,7 +224,7 @@ describe('Cross-Browser Compatibility: Coffee Calculators', () => {
         ],
         currentTime: now,
       });
-      expect(low.sleepRecommendation.toLowerCase()).toContain('safe');
+      expect(low.sleepRecommendation.toLowerCase()).toContain('lavt nok');
 
       const high = calculateCaffeineLevel({
         intakes: [
@@ -232,7 +232,7 @@ describe('Cross-Browser Compatibility: Coffee Calculators', () => {
         ],
         currentTime: now,
       });
-      expect(high.sleepRecommendation.toLowerCase()).toContain('avoid');
+      expect(high.sleepRecommendation.toLowerCase()).toContain('unngå');
     });
   });
 

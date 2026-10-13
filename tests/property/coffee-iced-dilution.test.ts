@@ -195,7 +195,7 @@ describe('Iced Coffee Dilution Calculator - Property 7: Hot Coffee Amount Calcul
           });
           
           expect(result.warning).toBeDefined();
-          expect(result.warning).toContain('50%');
+          expect(result.warning).toContain('50 %');
           return true;
         }
       ),

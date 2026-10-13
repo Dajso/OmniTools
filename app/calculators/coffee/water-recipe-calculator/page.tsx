@@ -1,56 +1,50 @@
 import { Metadata } from 'next';
 import { WaterRecipeCalculator } from '@/components/calculators/coffee/water-recipe-calculator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Water Recipe Calculator - Coffee Brewing Water Chemistry Calculator',
-  description: 'Calculate mineral additions to create SCA-standard brewing water for optimal coffee extraction. Free water recipe calculator with Epsom salt and baking soda amounts.',
-  keywords: ['water recipe calculator', 'coffee water chemistry', 'brewing water', 'SCA water standards', 'Epsom salt', 'baking soda', 'water hardness', 'water alkalinity'],
+  title: 'Vannoppskrift for kaffe – gratis kalkulator på nett',
+  description: 'Regn ut mineraltilsetning for å lage bryggevann etter SCA-standard. Gratis og uten registrering.',
+  keywords: ['vann', 'kaffevann', 'vannkjemi', 'SCA', 'hardhet', 'alkalinitet'],
   alternates: { canonical: '/calculators/coffee/water-recipe-calculator' },
   openGraph: {
-    title: 'Water Recipe Calculator - Coffee Brewing Water Chemistry Calculator',
-    description: 'Calculate mineral additions to create SCA-standard brewing water for optimal coffee extraction.',
+    title: 'Vannoppskrift for kaffe',
+    description: 'Regn ut mineraltilsetning for å lage bryggevann etter SCA-standard',
     url: '/calculators/coffee/water-recipe-calculator',
-    siteName: 'OmniTools',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Water Recipe Calculator - Coffee Brewing Water Chemistry Calculator',
-    description: 'Calculate mineral additions to create SCA-standard brewing water.',
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Water Recipe Calculator',
-  description: 'Calculate mineral additions to create SCA-standard brewing water for optimal coffee extraction',
+  name: 'Vannoppskrift for kaffe',
+  description: 'Regn ut mineraltilsetning for å lage bryggevann etter SCA-standard',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter water volume', text: 'Specify the amount of distilled or RO water you want to prepare in liters.' },
-  { name: 'Set target hardness', text: 'Enter desired hardness in ppm (SCA recommends 50-175 ppm).' },
-  { name: 'Set target alkalinity', text: 'Enter desired alkalinity in ppm (SCA recommends 40-70 ppm).' },
-  { name: 'Measure minerals', text: 'Measure the calculated amounts of Epsom salt and baking soda.' },
-  { name: 'Mix thoroughly', text: 'Add minerals to water, stir vigorously until dissolved, and let rest 10-15 minutes.' },
+  { name: 'Oppgi vannmengden', text: 'Hvor mange liter bryggevann du vil lage.' },
+  { name: 'Velg hardhet og alkalinitet', text: 'Standardverdiene følger SCA-anbefalingen.' },
+  { name: 'Les av mengdene', text: 'Se hvor mange gram epsomsalt og natron du trenger.' },
+  { name: 'Bland og la hvile', text: 'Rør godt og la vannet stå i 10–15 minutter.' },
 ];
 
 const faqs = [
-  { question: 'Why does water chemistry matter for coffee?', answer: 'Water chemistry significantly affects coffee extraction and flavor. Hardness enhances extraction and body, while alkalinity buffers acidity. SCA standards (50-175 ppm hardness, 40-70 ppm alkalinity) ensure balanced extraction.' },
-  { question: 'What are SCA water standards for coffee brewing?', answer: 'The Specialty Coffee Association recommends water with 50-175 ppm hardness and 40-70 ppm alkalinity. Water outside these ranges can result in flat, sour, bitter, or chalky coffee.' },
-  { question: 'How do I make brewing water with Epsom salt and baking soda?', answer: 'Start with distilled or RO water. Add Epsom salt (MgSO4·7H2O) for hardness and baking soda (NaHCO3) for alkalinity. Stir until dissolved and let rest before using.' },
-  { question: 'What does hardness do in coffee brewing water?', answer: 'Hardness, primarily from magnesium in Epsom salt, enhances extraction and contributes to body and mouthfeel. Too little causes flat coffee, too much causes bitterness and scaling.' },
-  { question: 'What does alkalinity do in coffee brewing water?', answer: 'Alkalinity from bicarbonate in baking soda buffers acidity and prevents sour flavors. Too little causes excessively acidic coffee, too much causes flat, chalky flavors.' },
+  { question: 'Hvorfor er vannet viktig for kaffe?', answer: 'Kaffe er over 98 % vann. Mineralene påvirker hvor mye smak som trekkes ut, og hvor sur eller flat kaffen smaker.' },
+  { question: 'Hva anbefaler SCA?', answer: 'Hardhet på 50–175 ppm og alkalinitet på 40–70 ppm.' },
+  { question: 'Må jeg bruke destillert vann?', answer: 'Ja, som utgangspunkt. Destillert eller omvendt osmose-vann har nesten ingen mineraler, så du styrer innholdet selv.' },
+  { question: 'Hvor lenge holder vannet?', answer: 'Oppbevar det i en ren, lukket beholder og bruk det innen en uke.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction from TDS measurements.' },
-  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Brew Ratio Calculator', description: 'Calculate water amount for your brew ratio.' },
-  { href: '/calculators/coffee/pour-over-timer', title: 'Pour Over Timer', description: 'Multi-stage timer for pour over brewing.' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
+  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Bryggeforhold', description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke' },
 ];
 
 export default function WaterRecipeCalculatorPage() {
@@ -60,12 +54,11 @@ export default function WaterRecipeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="water-recipe-calculator"
-          title="Water Recipe Calculator"
-          description="Calculate mineral additions to create SCA-standard brewing water for optimal coffee extraction."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Vannoppskrift for kaffe"
+          description="Regn ut hvor mye epsomsalt og natron du må tilsette destillert vann for å få bryggevann etter SCA-standarden. Gratis og uten registrering."
         />
 
-        <section aria-label="Water Recipe Calculator">
+        <section aria-label="Vannoppskrift for kaffe">
           <WaterRecipeCalculator />
         </section>
 

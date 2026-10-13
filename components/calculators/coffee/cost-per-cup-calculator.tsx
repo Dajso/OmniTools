@@ -11,8 +11,7 @@ import {
   type CostPerCupResults,
   type CostPerCupInputs
 } from '@/lib/calculations/coffee/cost-per-cup';
-import { Button } from '@/components/ui/button';
-import { Info, DollarSign, Coffee, Calendar, TrendingUp } from 'lucide-react';
+import { Info, Wallet, Coffee, Calendar, TrendingUp } from 'lucide-react';
 import { formatFixed } from '@/lib/utils/formatting';
 
 /**
@@ -21,17 +20,17 @@ import { formatFixed } from '@/lib/utils/formatting';
  */
 const costPerCupSchema = z.object({
   bagPrice: z.number()
-    .min(1, 'Bag price must be at least $1')
-    .max(500, 'Bag price cannot exceed $500'),
+    .min(10, 'Posen må koste minst 10 kr')
+    .max(2000, 'Posen kan ikke koste mer enn 2000 kr'),
   bagWeight: z.number()
-    .min(100, 'Bag weight must be at least 100g')
-    .max(5000, 'Bag weight cannot exceed 5000g'),
+    .min(100, 'Posen må veie minst 100 g')
+    .max(5000, 'Posen kan ikke veie mer enn 5000 g'),
   dosePerCup: z.number()
-    .min(5, 'Dose per cup must be at least 5g')
-    .max(50, 'Dose per cup cannot exceed 50g'),
+    .min(5, 'Mengden per kopp må være minst 5 g')
+    .max(50, 'Mengden per kopp kan ikke være over 50 g'),
   cupsPerDay: z.number()
-    .min(0, 'Cups per day cannot be negative')
-    .max(20, 'Cups per day cannot exceed 20')
+    .min(0, 'Antall kopper per dag kan ikke være negativt')
+    .max(20, 'Antall kopper per dag kan ikke være over 20')
     .optional(),
 });
 
@@ -41,16 +40,11 @@ type CostPerCupFormInputs = z.infer<typeof costPerCupSchema>;
  * Initial input values for the calculator
  */
 const INITIAL_INPUTS: CostPerCupFormInputs = {
-  bagPrice: 18,
-  bagWeight: 340,
+  bagPrice: 129,
+  bagWeight: 250,
   dosePerCup: 20,
   cupsPerDay: 2,
 };
-
-/**
- * Unit conversion constants
- */
-const GRAMS_TO_OZ = 0.035274;
 
 /**
  * Cost breakdown card component
@@ -104,8 +98,6 @@ function CostBreakdownCard({
  * @see Requirements 9.1, 9.2, 9.3, 15.1, 15.2
  */
 export function CostPerCupCalculator() {
-  const [useImperial, setUseImperial] = React.useState(false);
-
   const {
     inputs,
     setInput,
@@ -130,32 +122,27 @@ export function CostPerCupCalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs, isValid]);
 
-  // Convert values for display based on unit system
-  const displayBagWeight = useImperial
-    ? (inputs.bagWeight * GRAMS_TO_OZ).toFixed(2)
-    : inputs.bagWeight.toFixed(0);
+  // Visningsverdier
+  const displayBagWeight = inputs.bagWeight.toFixed(0);
 
-  const displayDosePerCup = useImperial
-    ? (inputs.dosePerCup * GRAMS_TO_OZ).toFixed(2)
-    : inputs.dosePerCup.toFixed(1);
+  const displayDosePerCup = inputs.dosePerCup.toFixed(1);
 
-  // Handle input changes with unit conversion
   const handleBagWeightChange = (value: number) => {
-    const grams = useImperial ? value / GRAMS_TO_OZ : value;
+    const grams = value;
     setInput('bagWeight', grams);
   };
 
   const handleDosePerCupChange = (value: number) => {
-    const grams = useImperial ? value / GRAMS_TO_OZ : value;
+    const grams = value;
     setInput('dosePerCup', grams);
   };
 
   return (
     <CalculatorBase
-      title="Cost Per Cup Calculator"
-      description="Calculate the actual cost per cup from your coffee bag price and understand your coffee expenses"
-      formula="Cost Per Cup = (Bag Price / Bag Weight) × Dose Per Cup"
-      formulaExplanation="This calculator helps you understand the true cost of your coffee by breaking down the price per cup based on your bag price, weight, and brewing dose."
+      title="Kostnad per kopp kaffe"
+      description="Regn ut hva hver kopp koster ut fra prisen på kaffeposen, og se hva kaffevanen koster deg"
+      formula="Kostnad per kopp = (pris på posen / vekt på posen) × mengde per kopp"
+      formulaExplanation="Kalkulatoren viser hva kaffen egentlig koster, ut fra prisen og vekten på posen og hvor mye du bruker per kopp."
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -166,26 +153,26 @@ export function CostPerCupCalculator() {
           {/* Primary Results Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CostBreakdownCard
-              icon={DollarSign}
-              label="Cost Per Cup"
-              value={`$${formatFixed(results.costPerCup, 2)}`}
+              icon={Wallet}
+              label="Kostnad per kopp"
+              value={`${formatFixed(results.costPerCup, 2)} kr`}
               unit=""
-              description="What you pay for each cup of coffee"
+              description="Hva du betaler for hver kopp kaffe"
             />
 
             <CostBreakdownCard
               icon={Coffee}
-              label="Cups Per Bag"
+              label="Kopper per pose"
               value={formatFixed(results.cupsPerBag, 1)}
-              unit="cups"
-              description="How many cups you can make from this bag"
+              unit="kopper"
+              description="Hvor mange kopper du får ut av posen"
             />
           </div>
 
           {/* Cost Per Gram */}
           <ResultDisplay
-            label="Cost Per Gram"
-            value={`$${formatFixed(results.costPerGram, 4)}`}
+            label="Kostnad per gram"
+            value={`${formatFixed(results.costPerGram, 4)} kr`}
             copyable
           />
 
@@ -194,24 +181,24 @@ export function CostPerCupCalculator() {
             <div className="space-y-4 pt-4 border-t">
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <TrendingUp className="h-4 w-4" aria-hidden="true" />
-                Budget Projections
+                Budsjett
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <CostBreakdownCard
                   icon={Calendar}
-                  label="Monthly Cost"
-                  value={`$${formatFixed(results.monthlyCost, 2)}`}
-                  unit="/month"
-                  description={`Based on ${inputs.cupsPerDay} cup${inputs.cupsPerDay !== 1 ? 's' : ''} per day`}
+                  label="Kostnad per måned"
+                  value={`${formatFixed(results.monthlyCost, 0)} kr`}
+                  unit="/måned"
+                  description={`Basert på ${inputs.cupsPerDay} ${inputs.cupsPerDay !== 1 ? 'kopper' : 'kopp'} per dag`}
                 />
 
                 <CostBreakdownCard
                   icon={Calendar}
-                  label="Annual Cost"
-                  value={`$${formatFixed(results.annualCost, 2)}`}
-                  unit="/year"
-                  description="Your yearly coffee investment"
+                  label="Kostnad per år"
+                  value={`${formatFixed(results.annualCost, 0)} kr`}
+                  unit="/år"
+                  description="Hva kaffen koster deg i året"
                 />
               </div>
             </div>
@@ -222,11 +209,10 @@ export function CostPerCupCalculator() {
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <p className="text-sm font-medium mb-1">Cost Comparison</p>
+                <p className="text-sm font-medium mb-1">Sammenligning</p>
                 <p className="text-sm text-muted-foreground">
-                  At ${formatFixed(results.costPerCup, 2)} per cup, your home-brewed coffee is significantly
-                  cheaper than café coffee (typically $3-6 per cup).
-                  {results.annualCost && ` You're saving approximately $${formatFixed(((4 - results.costPerCup) * (inputs.cupsPerDay || 1) * 365), 0)} per year compared to buying café coffee at $4 per cup.`}
+                  Med {formatFixed(results.costPerCup, 2)} kr per kopp er kaffen du lager hjemme mye billigere enn kaffe på kafé (vanligvis 40–60 kr per kopp).
+                  {results.annualCost && ` Du sparer omtrent ${formatFixed(((45 - results.costPerCup) * (inputs.cupsPerDay || 1) * 365), 0)} kr i året sammenlignet med å kjøpe kaffe på kafé til 45 kr per kopp.`}
                 </p>
               </div>
             </div>
@@ -234,86 +220,62 @@ export function CostPerCupCalculator() {
         </div>
       )}
     >
-      {/* Unit toggle */}
-      <div className="flex items-center justify-end gap-2 pb-2">
-        <span className="text-sm text-muted-foreground">Units:</span>
-        <Button
-          type="button"
-          variant={useImperial ? 'outline' : 'default'}
-          size="sm"
-          onClick={() => setUseImperial(false)}
-          aria-pressed={!useImperial}
-          aria-label="Use metric units"
-        >
-          Metric
-        </Button>
-        <Button
-          type="button"
-          variant={useImperial ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setUseImperial(true)}
-          aria-pressed={useImperial}
-          aria-label="Use imperial units"
-        >
-          Imperial
-        </Button>
-      </div>
 
       {/* Bag Price Input */}
       <NumberInput
         id="bagPrice"
-        label="Bag Price"
+        label="Pris på posen"
         value={inputs.bagPrice}
         onChange={(v) => setInput('bagPrice', v)}
-        min={1}
-        max={500}
-        step={0.5}
-        unit="$"
+        min={10}
+        max={2000}
+        step={1}
+        unit="kr"
         error={errors.bagPrice}
         required
-        placeholder="18"
+        placeholder="129"
       />
 
       {/* Bag Weight Input */}
       <NumberInput
         id="bagWeight"
-        label="Bag Weight"
+        label="Vekt på posen"
         value={parseFloat(displayBagWeight)}
         onChange={handleBagWeightChange}
-        min={useImperial ? 3.53 : 100}
-        max={useImperial ? 176.37 : 5000}
-        step={useImperial ? 0.1 : 10}
-        unit={useImperial ? 'oz' : 'g'}
+        min={100}
+        max={5000}
+        step={10}
+        unit="g"
         error={errors.bagWeight}
         required
-        placeholder={useImperial ? '12' : '340'}
+        placeholder="250"
       />
 
       {/* Dose Per Cup Input */}
       <NumberInput
         id="dosePerCup"
-        label="Dose Per Cup"
+        label="Mengde per kopp"
         value={parseFloat(displayDosePerCup)}
         onChange={handleDosePerCupChange}
-        min={useImperial ? 0.18 : 5}
-        max={useImperial ? 1.76 : 50}
-        step={useImperial ? 0.01 : 0.5}
-        unit={useImperial ? 'oz' : 'g'}
+        min={5}
+        max={50}
+        step={0.5}
+        unit="g"
         error={errors.dosePerCup}
         required
-        placeholder={useImperial ? '0.71' : '20'}
+        placeholder="20"
       />
 
       {/* Cups Per Day Input (Optional) */}
       <NumberInput
         id="cupsPerDay"
-        label="Cups Per Day (Optional)"
+        label="Kopper per dag (valgfritt)"
         value={inputs.cupsPerDay || 0}
         onChange={(v) => setInput('cupsPerDay', v > 0 ? v : undefined)}
         min={0}
         max={20}
         step={0.5}
-        unit="cups"
+        unit="kopper"
         error={errors.cupsPerDay}
         placeholder="2"
       />

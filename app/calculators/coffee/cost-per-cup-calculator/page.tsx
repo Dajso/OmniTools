@@ -1,56 +1,50 @@
 import { Metadata } from 'next';
 import { CostPerCupCalculator } from '@/components/calculators/coffee/cost-per-cup-calculator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Cost Per Cup Calculator - Coffee Cost Calculator',
-  description: 'Calculate the actual cost per cup from your coffee bag price. Free coffee cost calculator with monthly and annual budget projections.',
-  keywords: ['cost per cup calculator', 'coffee cost calculator', 'coffee price calculator', 'coffee budget', 'cost per gram', 'coffee expenses'],
+  title: 'Kostnad per kopp kaffe – gratis kalkulator på nett',
+  description: 'Regn ut hva hver kopp koster ut fra prisen på kaffeposen. Gratis og uten registrering.',
+  keywords: ['kostnad per kopp', 'kaffepris', 'kaffebudsjett', 'hjemmebrygg'],
   alternates: { canonical: '/calculators/coffee/cost-per-cup-calculator' },
   openGraph: {
-    title: 'Cost Per Cup Calculator - Coffee Cost Calculator',
-    description: 'Calculate the actual cost per cup from your coffee bag price.',
+    title: 'Kostnad per kopp kaffe',
+    description: 'Regn ut hva hver kopp koster ut fra prisen på kaffeposen',
     url: '/calculators/coffee/cost-per-cup-calculator',
-    siteName: 'OmniTools',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Cost Per Cup Calculator - Coffee Cost Calculator',
-    description: 'Calculate the actual cost per cup from your coffee bag price.',
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Cost Per Cup Calculator',
-  description: 'Calculate the actual cost per cup from your coffee bag price with budget projections',
+  name: 'Kostnad per kopp kaffe',
+  description: 'Regn ut hva hver kopp koster ut fra prisen på kaffeposen',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter bag price', text: 'Input the price of your coffee bag in dollars.' },
-  { name: 'Enter bag weight', text: 'Input the weight of the coffee bag in grams.' },
-  { name: 'Enter dose per cup', text: 'Input how much coffee you use per cup in grams.' },
-  { name: 'Add daily consumption', text: 'Optionally enter cups per day for budget projections.' },
-  { name: 'View cost breakdown', text: 'See cost per cup, per gram, and monthly/annual costs.' },
+  { name: 'Oppgi prisen på posen', text: 'Skriv inn prisen i kroner.' },
+  { name: 'Oppgi vekten og mengden per kopp', text: 'For eksempel 250 g pose og 18–20 g per kopp.' },
+  { name: 'Legg inn kopper per dag', text: 'Valgfritt, for å se månedlig og årlig kostnad.' },
+  { name: 'Les resultatet', text: 'Se kostnad per kopp, per måned og per år.' },
 ];
 
 const faqs = [
-  { question: 'How do I calculate the cost per cup of coffee?', answer: 'Divide the bag price by bag weight to get cost per gram, then multiply by your dose per cup. For example, $18 ÷ 340g × 20g = $1.06 per cup.' },
-  { question: 'How much does home-brewed coffee cost compared to café coffee?', answer: 'Home-brewed coffee typically costs $0.50-$2.00 per cup, while café coffee costs $3-6. Brewing at home can save $2-5 per cup.' },
-  { question: 'What is a typical dose per cup for coffee?', answer: 'Typical doses: 15-20g for pour over, 18-20g for espresso, 30-40g for French press, 10-15g for drip coffee makers.' },
-  { question: 'How many cups can I get from a 12oz bag of coffee?', answer: 'A 12oz (340g) bag yields approximately 17-23 cups depending on dose size. With a 20g dose, about 17 cups; with 15g dose, about 23 cups.' },
-  { question: 'Is expensive specialty coffee worth the cost?', answer: 'Even expensive specialty coffee ($25-45/bag) costs $1.50-3.50 per cup at home, still cheaper than café coffee. The cost per cup depends more on dose size than bag price.' },
+  { question: 'Hvor mye koster en kopp kaffe hjemme?', answer: 'Med en pose på 250 g til 129 kr og 20 g per kopp blir det omtrent 10 kr per kopp.' },
+  { question: 'Hvor mye kaffe bruker jeg per kopp?', answer: 'Mange bruker 15–20 g til en kopp på 250–300 ml, avhengig av bryggeforholdet.' },
+  { question: 'Hvor mye sparer jeg på å brygge hjemme?', answer: 'En kopp på kafé koster ofte 40–60 kr, så forskjellen blir fort flere tusen kroner i året.' },
+  { question: 'Er kostnaden for utstyr med?', answer: 'Nei, bare kaffen. Filter, strøm og maskin kommer i tillegg.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Brew Ratio Calculator', description: 'Calculate water amount for your brew ratio.' },
-  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction from TDS measurements.' },
-  { href: '/calculators/coffee/caffeine-half-life-tracker', title: 'Caffeine Half-Life Tracker', description: 'Track caffeine levels for better sleep.' },
+  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Bryggeforhold', description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
 ];
 
 export default function CostPerCupCalculatorPage() {
@@ -60,12 +54,11 @@ export default function CostPerCupCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="cost-per-cup-calculator"
-          title="Cost Per Cup Calculator"
-          description="Calculate the actual cost per cup from your coffee bag price with budget projections."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Kostnad per kopp kaffe"
+          description="Regn ut hva en kopp kaffe koster hjemme ut fra prisen og vekten på posen, og hva kaffevanen koster i måneden og året. Gratis og uten registrering."
         />
 
-        <section aria-label="Cost Per Cup Calculator">
+        <section aria-label="Kostnad per kopp kaffe">
           <CostPerCupCalculator />
         </section>
 

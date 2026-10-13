@@ -23,12 +23,12 @@ import { cn } from '@/lib/utils';
  */
 const pourOverSchema = z.object({
   totalWater: z.number()
-    .min(100, 'Total water must be at least 100g')
-    .max(1000, 'Total water cannot exceed 1000g'),
+    .min(100, 'Total vannmengde må være minst 100 g')
+    .max(1000, 'Total vannmengde kan ikke være over 1000 g'),
   method: z.enum(['4:6', 'tetsu-kasuya', 'custom']),
   numberOfPours: z.number()
-    .min(1, 'Number of pours must be at least 1')
-    .max(10, 'Number of pours cannot exceed 10')
+    .min(1, 'Antall helleomganger må være minst 1')
+    .max(10, 'Antall helleomganger kan ikke være over 10')
     .optional(),
 });
 
@@ -46,8 +46,8 @@ const INITIAL_INPUTS: PourOverFormInputs = {
  * Method options for select input
  */
 const METHOD_OPTIONS = [
-  { value: '4:6', label: '4:6 Method (Tetsu Kasuya)' },
-  { value: 'custom', label: 'Custom Pours' },
+  { value: '4:6', label: '4:6-metoden (Tetsu Kasuya)' },
+  { value: 'custom', label: 'Egne helleomganger' },
 ];
 
 /**
@@ -84,7 +84,7 @@ function StageIndicator({
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <p className={cn('text-sm font-medium', isActive && 'text-primary')}>
-            Pour {stage.stageNumber}
+            Hell {stage.stageNumber}
           </p>
           <p className={cn('text-sm font-bold', isActive && 'text-primary')}>
             {stage.waterAmount}g
@@ -211,10 +211,10 @@ export function PourOverTimer() {
 
   return (
     <CalculatorBase
-      title="Pour Over Timer"
-      description="Multi-stage pour timer with 4:6 method and custom pour schedules for consistent pour over brewing"
-      formula="4:6 Method: First 40% (2 pours) + Remaining 60% (3 pours)"
-      formulaExplanation="The 4:6 method divides water into 5 pours: first 2 pours (40%) control sweetness/acidity, last 3 pours (60%) control strength."
+      title="Pour over-timer"
+      description="Timer for pour over med 4:6-metoden eller egne helleomganger, for jevn kvalitet hver gang"
+      formula="4:6-metoden: første 40 % (2 omganger) + resterende 60 % (3 omganger)"
+      formulaExplanation="4:6-metoden deler vannet i 5 omganger: de to første (40 %) styrer søthet og syre, de tre siste (60 %) styrer styrken."
       onReset={handleResetAll}
       error={error || undefined}
       results={schedule && (
@@ -237,7 +237,7 @@ export function PourOverTimer() {
                 aria-valuenow={progressPercent}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label="Timer progress"
+                aria-label="Fremdrift for timeren"
               />
             </div>
 
@@ -245,7 +245,7 @@ export function PourOverTimer() {
             {currentStage && !isComplete && (
               <div className="bg-primary/10 border border-primary rounded-lg p-4">
                 <p className="text-sm font-medium text-primary mb-1">
-                  Current: Pour {currentStage.stageNumber}
+                  Nå: omgang {currentStage.stageNumber}
                 </p>
                 <p className="text-2xl font-bold text-primary">
                   {currentStage.waterAmount}g
@@ -259,7 +259,7 @@ export function PourOverTimer() {
             {/* Next Stage Info */}
             {nextStage && !isComplete && (
               <div className="text-sm text-muted-foreground">
-                Next: Pour {nextStage.stageNumber} ({nextStage.waterAmount}g) at {formatTime(nextStage.startTime)}
+                Neste: omgang {nextStage.stageNumber} ({nextStage.waterAmount}g) ved {formatTime(nextStage.startTime)}
               </div>
             )}
 
@@ -267,10 +267,10 @@ export function PourOverTimer() {
             {isComplete && (
               <div className="bg-green-100 dark:bg-green-900/30 border border-green-500 rounded-lg p-4">
                 <p className="text-lg font-bold text-green-800 dark:text-green-400">
-                  ✓ Brewing Complete!
+                  ✓ Ferdig traktet!
                 </p>
                 <p className="text-sm text-green-700 dark:text-green-500 mt-1">
-                  Let the coffee drain completely before serving
+                  La kaffen renne helt gjennom før du serverer
                 </p>
               </div>
             )}
@@ -282,10 +282,10 @@ export function PourOverTimer() {
                   onClick={handleStart}
                   size="lg"
                   className="gap-2"
-                  aria-label="Start timer"
+                  aria-label="Start timeren"
                 >
                   <Play className="h-5 w-5" aria-hidden="true" />
-                  Start Timer
+                  Start timer
                 </Button>
               )}
 
@@ -294,10 +294,10 @@ export function PourOverTimer() {
                   onClick={handleStart}
                   size="lg"
                   className="gap-2"
-                  aria-label="Resume timer"
+                  aria-label="Fortsett timeren"
                 >
                   <Play className="h-5 w-5" aria-hidden="true" />
-                  Resume
+                  Fortsett
                 </Button>
               )}
 
@@ -307,7 +307,7 @@ export function PourOverTimer() {
                   size="lg"
                   variant="secondary"
                   className="gap-2"
-                  aria-label="Pause timer"
+                  aria-label="Sett timeren på pause"
                 >
                   <Pause className="h-5 w-5" aria-hidden="true" />
                   Pause
@@ -320,10 +320,10 @@ export function PourOverTimer() {
                   size="lg"
                   variant="outline"
                   className="gap-2"
-                  aria-label="Reset timer"
+                  aria-label="Nullstill timeren"
                 >
                   <RotateCcw className="h-5 w-5" aria-hidden="true" />
-                  Reset
+                  Nullstill
                 </Button>
               )}
             </div>
@@ -333,7 +333,7 @@ export function PourOverTimer() {
           <div>
             <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
               <Coffee className="h-4 w-4" aria-hidden="true" />
-              Pour Schedule
+              Helleplan
             </h3>
             <div className="space-y-2">
               {schedule.stages.map((stage) => {
@@ -353,12 +353,12 @@ export function PourOverTimer() {
 
           {/* Method Info */}
           <ResultDisplay
-            label="Method"
+            label="Metode"
             value={schedule.methodName}
           />
 
           <ResultDisplay
-            label="Total Time"
+            label="Total tid"
             value={formatTime(schedule.totalTime)}
           />
 
@@ -367,7 +367,7 @@ export function PourOverTimer() {
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <p className="text-sm font-medium mb-2">Brewing Instructions</p>
+                <p className="text-sm font-medium mb-2">Slik gjør du det</p>
                 <ol className="text-sm text-muted-foreground space-y-1">
                   {schedule.instructions.map((instruction, i) => (
                     <li key={i}>{i + 1}. {instruction}</li>
@@ -382,7 +382,7 @@ export function PourOverTimer() {
       {/* Method Selection */}
       <SelectInput
         id="method"
-        label="Brewing Method"
+        label="Bryggemetode"
         value={method}
         onChange={(v) => setMethod(v as PourMethod)}
         options={METHOD_OPTIONS}
@@ -392,7 +392,7 @@ export function PourOverTimer() {
       {/* Total Water Input */}
       <NumberInput
         id="totalWater"
-        label="Total Water"
+        label="Total vannmengde"
         value={totalWater}
         onChange={setTotalWater}
         min={100}
@@ -407,7 +407,7 @@ export function PourOverTimer() {
       {method === 'custom' && (
         <NumberInput
           id="numberOfPours"
-          label="Number of Pours"
+          label="Antall helleomganger"
           value={numberOfPours}
           onChange={setNumberOfPours}
           min={1}
@@ -421,11 +421,9 @@ export function PourOverTimer() {
       {/* Method Description */}
       {method === '4:6' && (
         <div className="text-xs text-muted-foreground bg-primary/5 rounded-md p-3 border border-primary/20">
-          <p className="font-medium text-primary mb-1">About the 4:6 Method</p>
+          <p className="font-medium text-primary mb-1">Om 4:6-metoden</p>
           <p>
-            Developed by Tetsu Kasuya, this method divides water into 5 pours.
-            The first 2 pours (40%) control sweetness and acidity, while the last 3 pours (60%) control strength.
-            This technique provides excellent control over flavor balance.
+            Metoden er utviklet av Tetsu Kasuya og deler vannet i 5 omganger. De to første (40 %) styrer søthet og syre, de tre siste (60 %) styrer styrken. Det gir god kontroll over smaksbalansen.
           </p>
         </div>
       )}

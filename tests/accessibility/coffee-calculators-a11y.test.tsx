@@ -31,26 +31,21 @@ describe('Coffee Calculators - Accessibility Tests', () => {
       const { container } = render(<BrewRatioCalculator />);
       
       // Check for input labels
-      const coffeeDoseInput = screen.getByLabelText(/coffee dose/i);
-      const ratioInput = screen.getByLabelText(/brew ratio/i);
+      const coffeeDoseInput = screen.getByLabelText(/kaffemengde/i);
+      const ratioInput = screen.getByLabelText(/bryggeforhold \(1:x\)/i, { selector: 'input' });
       
       expect(coffeeDoseInput).toBeInTheDocument();
       expect(ratioInput).toBeInTheDocument();
       
-      // Check for button ARIA labels
-      const metricButton = screen.getByRole('button', { name: /use metric units/i });
-      const imperialButton = screen.getByRole('button', { name: /use imperial units/i });
       
-      expect(metricButton).toBeInTheDocument();
-      expect(imperialButton).toBeInTheDocument();
     });
 
     it('Extraction Yield Calculator should have ARIA labels on all inputs', () => {
       render(<ExtractionYieldCalculator />);
       
-      const tdsInput = screen.getByLabelText(/tds/i);
-      const coffeeDoseInput = screen.getByLabelText(/coffee dose/i);
-      const beverageWeightInput = screen.getByLabelText(/beverage weight/i);
+      const tdsInput = screen.getByLabelText(/^tds/i, { selector: 'input' });
+      const coffeeDoseInput = screen.getByLabelText(/kaffemengde/i);
+      const beverageWeightInput = screen.getByLabelText(/vekt på drikken/i);
       
       expect(tdsInput).toBeInTheDocument();
       expect(coffeeDoseInput).toBeInTheDocument();
@@ -60,9 +55,9 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Iced Coffee Dilution Calculator should have ARIA labels on all inputs', () => {
       render(<IcedCoffeeDilutionCalculator />);
       
-      const targetVolumeInput = screen.getByLabelText(/target volume/i);
-      const targetTDSInput = screen.getByLabelText(/target tds/i);
-      const icePercentageInput = screen.getByLabelText(/ice percentage/i);
+      const targetVolumeInput = screen.getByLabelText(/ønsket sluttvolum/i);
+      const targetTDSInput = screen.getByLabelText(/ønsket tds/i);
+      const icePercentageInput = screen.getByLabelText(/andel is/i);
       
       expect(targetVolumeInput).toBeInTheDocument();
       expect(targetTDSInput).toBeInTheDocument();
@@ -72,10 +67,10 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Espresso Dial-in Log should have ARIA labels on all inputs', () => {
       render(<EspressoDialInLog />);
       
-      const doseInput = screen.getByLabelText(/^dose$/i);
-      const yieldInput = screen.getByLabelText(/^yield$/i);
-      const timeInput = screen.getByLabelText(/^time$/i);
-      const grindSettingInput = screen.getByLabelText(/grind setting/i);
+      const doseInput = screen.getByLabelText(/^kaffemengde/i);
+      const yieldInput = screen.getByLabelText(/^utbytte/i);
+      const timeInput = screen.getByLabelText(/^tid/i);
+      const grindSettingInput = screen.getByLabelText(/kvernstilling/i);
       
       expect(doseInput).toBeInTheDocument();
       expect(yieldInput).toBeInTheDocument();
@@ -86,9 +81,9 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Water Recipe Calculator should have ARIA labels on all inputs', () => {
       render(<WaterRecipeCalculator />);
       
-      const waterVolumeInput = screen.getByLabelText(/water volume/i);
-      const targetHardnessInput = screen.getByLabelText(/target hardness/i);
-      const targetAlkalinityInput = screen.getByLabelText(/target alkalinity/i);
+      const waterVolumeInput = screen.getByLabelText(/vannmengde/i);
+      const targetHardnessInput = screen.getByLabelText(/ønsket hardhet/i);
+      const targetAlkalinityInput = screen.getByLabelText(/ønsket alkalinitet/i);
       
       expect(waterVolumeInput).toBeInTheDocument();
       expect(targetHardnessInput).toBeInTheDocument();
@@ -98,9 +93,9 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Grind Size Converter should have ARIA labels on all inputs', () => {
       render(<GrindSizeConverter />);
       
-      const sourceGrinderSelect = screen.getByLabelText(/source grinder/i);
-      const sourceSettingInput = screen.getByLabelText(/source setting/i);
-      const targetGrinderSelect = screen.getByLabelText(/target grinder/i);
+      const sourceGrinderSelect = screen.getByLabelText(/kvern du regner fra/i);
+      const sourceSettingInput = screen.getByLabelText(/stilling på denne kvernen/i);
+      const targetGrinderSelect = screen.getByLabelText(/kvern du regner til/i);
       
       expect(sourceGrinderSelect).toBeInTheDocument();
       expect(sourceSettingInput).toBeInTheDocument();
@@ -110,8 +105,8 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Caffeine Half-Life Tracker should have ARIA labels on all inputs', () => {
       render(<CaffeineHalfLifeTracker />);
       
-      const caffeineInput = screen.getByLabelText(/caffeine amount/i);
-      const sourceInput = screen.getByLabelText(/source/i);
+      const caffeineInput = screen.getByLabelText(/koffeinmengde/i);
+      const sourceInput = screen.getByLabelText(/^kilde$/i);
       
       expect(caffeineInput).toBeInTheDocument();
       expect(sourceInput).toBeInTheDocument();
@@ -120,8 +115,8 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Pour Over Timer should have ARIA labels on all inputs', () => {
       render(<PourOverTimer />);
       
-      const methodSelect = screen.getByLabelText(/brewing method/i);
-      const totalWaterInput = screen.getByLabelText(/total water/i);
+      const methodSelect = screen.getByLabelText(/bryggemetode/i);
+      const totalWaterInput = screen.getByLabelText(/total vannmengde/i);
       
       expect(methodSelect).toBeInTheDocument();
       expect(totalWaterInput).toBeInTheDocument();
@@ -130,9 +125,9 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('Cost Per Cup Calculator should have ARIA labels on all inputs', () => {
       render(<CostPerCupCalculator />);
       
-      const bagPriceInput = screen.getByLabelText(/bag price/i);
-      const bagWeightInput = screen.getByLabelText(/bag weight/i);
-      const dosePerCupInput = screen.getByLabelText(/dose per cup/i);
+      const bagPriceInput = screen.getByLabelText(/pris på posen/i);
+      const bagWeightInput = screen.getByLabelText(/vekt på posen/i);
+      const dosePerCupInput = screen.getByLabelText(/mengde per kopp/i);
       
       expect(bagPriceInput).toBeInTheDocument();
       expect(bagWeightInput).toBeInTheDocument();
@@ -142,9 +137,9 @@ describe('Coffee Calculators - Accessibility Tests', () => {
     it('French Press Timer should have ARIA labels on all inputs', () => {
       render(<FrenchPressTimer />);
       
-      const coffeeDoseInput = screen.getByLabelText(/coffee dose/i);
-      const waterAmountInput = screen.getByLabelText(/water amount/i);
-      const steepTimeInput = screen.getByLabelText(/steep time/i);
+      const coffeeDoseInput = screen.getByLabelText(/kaffemengde/i);
+      const waterAmountInput = screen.getByLabelText(/vannmengde/i);
+      const steepTimeInput = screen.getByLabelText(/trekketid/i);
       
       expect(coffeeDoseInput).toBeInTheDocument();
       expect(waterAmountInput).toBeInTheDocument();
@@ -311,7 +306,7 @@ describe('Coffee Calculators - Accessibility Tests', () => {
       
       // Progress bars should have role="progressbar" and aria-value* attributes
       // This will be present once the timer is started, but structure should support it
-      const container = screen.getByText(/pour over timer/i).closest('div');
+      const container = screen.getByText(/pour over-timer/i).closest('div');
       expect(container).toBeInTheDocument();
     });
   });

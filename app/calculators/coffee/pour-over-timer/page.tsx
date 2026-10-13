@@ -1,56 +1,51 @@
 import { Metadata } from 'next';
 import { PourOverTimer } from '@/components/calculators/coffee/pour-over-timer';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Pour Over Timer - 4:6 Method Coffee Brewing Timer',
-  description: 'Multi-stage pour over timer with 4:6 method (Tetsu Kasuya) and custom pour schedules. Free pour over coffee timer for consistent brewing results.',
-  keywords: ['pour over timer', '4:6 method', 'Tetsu Kasuya', 'coffee timer', 'pour over coffee', 'brewing timer', 'V60 timer', 'Chemex timer'],
+  title: 'Pour over-timer – gratis kalkulator på nett',
+  description: 'Flertrinns timer med 4:6-metoden og egne helleplaner. Gratis og uten registrering.',
+  keywords: ['pour over', 'timer', '4:6', 'V60', 'Chemex', 'kaffe'],
   alternates: { canonical: '/calculators/coffee/pour-over-timer' },
   openGraph: {
-    title: 'Pour Over Timer - 4:6 Method Coffee Brewing Timer',
-    description: 'Multi-stage pour over timer with 4:6 method and custom pour schedules.',
+    title: 'Pour over-timer',
+    description: 'Flertrinns timer med 4:6-metoden og egne helleplaner',
     url: '/calculators/coffee/pour-over-timer',
-    siteName: 'OmniTools',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Pour Over Timer - 4:6 Method Coffee Brewing Timer',
-    description: 'Multi-stage pour over timer with 4:6 method and custom pour schedules.',
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Pour Over Timer',
-  description: 'Multi-stage pour timer with 4:6 method and custom pour schedules for consistent brewing',
+  name: 'Pour over-timer',
+  description: 'Flertrinns timer med 4:6-metoden og egne helleplaner',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select brewing method', text: 'Choose 4:6 method or custom pour schedule.' },
-  { name: 'Enter total water', text: 'Input your total water amount in grams.' },
-  { name: 'Review pour schedule', text: 'See water amounts and timing for each pour stage.' },
-  { name: 'Start the timer', text: 'Begin brewing and follow the visual and audio cues.' },
-  { name: 'Pour at each stage', text: 'Pour the indicated water amount at each interval.' },
+  { name: 'Velg metode', text: 'Velg 4:6-metoden eller egne helleomganger.' },
+  { name: 'Oppgi vannmengden', text: 'Hvor mye vann du skal bruke totalt, i gram.' },
+  { name: 'Start timeren', text: 'Hell vann etter helleplanen.' },
+  { name: 'La kaffen renne gjennom', text: 'Vent til vannet har rent helt gjennom før du serverer.' },
 ];
 
 const faqs = [
-  { question: 'What is the 4:6 method for pour over coffee?', answer: 'The 4:6 method, developed by Tetsu Kasuya, divides water into 5 pours. The first 2 pours (40%) control sweetness and acidity, the last 3 pours (60%) control strength.' },
-  { question: 'How do I use a pour over timer?', answer: 'Select your method, enter total water, review the schedule, start the timer when brewing begins, and pour the specified amount at each stage following the visual indicators.' },
-  { question: 'What is the timing for the 4:6 method?', answer: 'The method uses 5 pours with 45-second intervals: Pour 1 at 0:00-0:45, Pour 2 at 0:45-1:30, Pour 3 at 1:30-2:15, Pour 4 at 2:15-3:00, Pour 5 at 3:00-3:45.' },
-  { question: 'Can I customize the pour schedule?', answer: 'Yes, select custom mode to specify total water and number of pours (1-10). The timer will divide water evenly across all pours.' },
-  { question: 'What coffee brewing methods work with this timer?', answer: 'This timer works with any pour over method including Hario V60, Chemex, Kalita Wave, Melitta, and other manual drippers.' },
+  { question: 'Hva er 4:6-metoden?', answer: 'En metode utviklet av Tetsu Kasuya, som deler vannet i fem omganger. De to første (40 %) styrer søthet og syre, de tre siste (60 %) styrer styrken.' },
+  { question: 'Hvor mye vann bør jeg bruke?', answer: 'En vanlig start er 15–17 gram vann per gram kaffe. For 20 g kaffe er det 300–340 g vann.' },
+  { question: 'Hvor lang tid bør en pour over ta?', answer: 'Omtrent 2,5 til 4 minutter, avhengig av mengde og kvernstørrelse.' },
+  { question: 'Hva gjør jeg hvis kaffen renner for fort?', answer: 'Kvern finere. Renner den for sakte, kvern grovere.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Brew Ratio Calculator', description: 'Calculate water amount for your brew ratio.' },
-  { href: '/calculators/coffee/grind-size-converter', title: 'Grind Size Converter', description: 'Convert grind settings between grinders.' },
-  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction from TDS measurements.' },
+  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Bryggeforhold', description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
+  { href: '/calculators/coffee/grind-size-converter', title: 'Kvernstørrelse', description: 'Regn om kverninnstillinger mellom ulike kaffekverner' },
 ];
 
 export default function PourOverTimerPage() {
@@ -60,12 +55,11 @@ export default function PourOverTimerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="pour-over-timer"
-          title="Pour Over Timer"
-          description="Multi-stage pour over timer with 4:6 method and custom pour schedules."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Pour over-timer"
+          description="Timer for pour over med 4:6-metoden eller egne helleomganger, med helleplan og vannmengde for hver omgang. Gratis og uten registrering."
         />
 
-        <section aria-label="Pour Over Timer">
+        <section aria-label="Pour over-timer">
           <PourOverTimer />
         </section>
 

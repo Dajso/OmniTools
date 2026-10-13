@@ -22,14 +22,14 @@ import { cn } from '@/lib/utils';
  */
 const frenchPressSchema = z.object({
   coffeeDose: z.number()
-    .min(10, 'Coffee dose must be at least 10g')
-    .max(100, 'Coffee dose cannot exceed 100g'),
+    .min(10, 'Kaffemengden må være minst 10 g')
+    .max(100, 'Kaffemengden kan ikke være over 100 g'),
   waterAmount: z.number()
-    .min(100, 'Water amount must be at least 100g')
-    .max(2000, 'Water amount cannot exceed 2000g'),
+    .min(100, 'Vannmengden må være minst 100 g')
+    .max(2000, 'Vannmengden kan ikke være over 2000 g'),
   steepTime: z.number()
-    .min(2, 'Steep time must be at least 2 minutes')
-    .max(10, 'Steep time cannot exceed 10 minutes'),
+    .min(2, 'Trekketiden må være minst 2 minutter')
+    .max(10, 'Trekketiden kan ikke være over 10 minutter'),
 });
 
 type FrenchPressFormInputs = z.infer<typeof frenchPressSchema>;
@@ -85,9 +85,9 @@ function TimelineEventIndicator({
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <p className={cn('text-sm font-medium capitalize', isActive && 'text-primary')}>
-            {event.type === 'bloom' ? 'Bloom & Stir' :
-              event.type === 'stir' ? 'Stir Again' :
-                'Press & Serve'}
+            {event.type === 'bloom' ? 'Forbløting og røring' :
+              event.type === 'stir' ? 'Rør igjen' :
+                'Press og server'}
           </p>
           <p className={cn('text-sm font-bold', isActive && 'text-primary')}>
             {formatTime(event.time)}
@@ -96,7 +96,7 @@ function TimelineEventIndicator({
         <p className="text-xs text-muted-foreground truncate">{event.action}</p>
         {isActive && timeUntil > 0 && (
           <p className="text-xs text-primary font-medium mt-1">
-            In {formatTime(timeUntil)}
+            Om {formatTime(timeUntil)}
           </p>
         )}
       </div>
@@ -231,7 +231,7 @@ export function FrenchPressTimer() {
         oscillator.stop(audioContext.currentTime + 0.5);
       } catch (e) {
         // Silently fail if audio is not supported
-        console.warn('Audio notification not supported');
+        console.warn('Lydvarsel støttes ikke');
       }
     }
   };
@@ -277,10 +277,10 @@ export function FrenchPressTimer() {
 
   return (
     <CalculatorBase
-      title="French Press Timer"
-      description="Timer with bloom and stir reminders for consistent French press brewing with brew ratio calculation"
-      formula="Brew Ratio = Water Amount ÷ Coffee Dose"
-      formulaExplanation="The brew ratio determines strength. Classic French press uses 1:15 to 1:17 ratio (e.g., 30g coffee to 500g water = 1:16.7)."
+      title="Presskanne-timer"
+      description="Timer med påminnelser om forbløting og røring, for jevn kaffe fra presskanne, med utregning av bryggeforhold"
+      formula="Bryggeforhold = vannmengde ÷ kaffemengde"
+      formulaExplanation="Bryggeforholdet bestemmer styrken. Presskanne bruker klassisk 1:15 til 1:17 (for eksempel 30 g kaffe til 500 g vann = 1:16,7)."
       onReset={handleResetAll}
       error={error}
       results={results && (
@@ -303,7 +303,7 @@ export function FrenchPressTimer() {
                 aria-valuenow={progressPercent}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label="Timer progress"
+                aria-label="Fremdrift for timeren"
               />
             </div>
 
@@ -311,10 +311,10 @@ export function FrenchPressTimer() {
             {displayEvent && !isComplete && (
               <div className="bg-primary/10 border border-primary rounded-lg p-4">
                 <p className="text-sm font-medium text-primary mb-1">
-                  {activeEvent ? 'Now' : 'Next'}: {
-                    displayEvent.type === 'bloom' ? 'Bloom & Stir' :
-                      displayEvent.type === 'stir' ? 'Stir Again' :
-                        'Press & Serve'
+                  {activeEvent ? 'Nå' : 'Neste'}: {
+                    displayEvent.type === 'bloom' ? 'Forbløting og røring' :
+                      displayEvent.type === 'stir' ? 'Rør igjen' :
+                        'Press og server'
                   }
                 </p>
                 <p className="text-lg font-bold text-primary">
@@ -322,7 +322,7 @@ export function FrenchPressTimer() {
                 </p>
                 {!activeEvent && displayEvent && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    At {formatTime(displayEvent.time)} ({formatTime(displayEvent.time - elapsedSeconds)} remaining)
+                    Ved {formatTime(displayEvent.time)} ({formatTime(displayEvent.time - elapsedSeconds)} igjen)
                   </p>
                 )}
               </div>
@@ -332,10 +332,10 @@ export function FrenchPressTimer() {
             {isComplete && (
               <div className="bg-green-100 dark:bg-green-900/30 border border-green-500 rounded-lg p-4">
                 <p className="text-lg font-bold text-green-800 dark:text-green-400">
-                  ✓ Brewing Complete!
+                  ✓ Ferdig traktet!
                 </p>
                 <p className="text-sm text-green-700 dark:text-green-500 mt-1">
-                  Press the plunger slowly and serve immediately
+                  Press stempelet sakte ned og server med en gang
                 </p>
               </div>
             )}
@@ -347,10 +347,10 @@ export function FrenchPressTimer() {
                   onClick={handleStart}
                   size="lg"
                   className="gap-2"
-                  aria-label="Start timer"
+                  aria-label="Start timeren"
                 >
                   <Play className="h-5 w-5" aria-hidden="true" />
-                  Start Timer
+                  Start timer
                 </Button>
               )}
 
@@ -359,10 +359,10 @@ export function FrenchPressTimer() {
                   onClick={handleStart}
                   size="lg"
                   className="gap-2"
-                  aria-label="Resume timer"
+                  aria-label="Fortsett timeren"
                 >
                   <Play className="h-5 w-5" aria-hidden="true" />
-                  Resume
+                  Fortsett
                 </Button>
               )}
 
@@ -372,7 +372,7 @@ export function FrenchPressTimer() {
                   size="lg"
                   variant="secondary"
                   className="gap-2"
-                  aria-label="Pause timer"
+                  aria-label="Sett timeren på pause"
                 >
                   <Pause className="h-5 w-5" aria-hidden="true" />
                   Pause
@@ -385,10 +385,10 @@ export function FrenchPressTimer() {
                   size="lg"
                   variant="outline"
                   className="gap-2"
-                  aria-label="Reset timer"
+                  aria-label="Nullstill timeren"
                 >
                   <RotateCcw className="h-5 w-5" aria-hidden="true" />
-                  Reset
+                  Nullstill
                 </Button>
               )}
             </div>
@@ -398,7 +398,7 @@ export function FrenchPressTimer() {
           <div>
             <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
               <Coffee className="h-4 w-4" aria-hidden="true" />
-              Brewing Timeline
+              Fremdrift
             </h3>
             <div className="space-y-2">
               {results.timeline.map((event) => {
@@ -422,17 +422,17 @@ export function FrenchPressTimer() {
           {/* Brew Ratio and Strength */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ResultDisplay
-              label="Brew Ratio"
+              label="Bryggeforhold"
               value={results.brewRatioDisplay}
             />
             <ResultDisplay
-              label="Total Time"
+              label="Total tid"
               value={formatTime(results.totalTime)}
             />
           </div>
 
           <div className="bg-muted/50 rounded-lg p-4 border border-border">
-            <p className="text-sm font-medium mb-1">Strength Estimate</p>
+            <p className="text-sm font-medium mb-1">Styrke</p>
             <p className="text-base text-foreground">{results.strengthEstimate}</p>
           </div>
 
@@ -441,7 +441,7 @@ export function FrenchPressTimer() {
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
               <div>
-                <p className="text-sm font-medium mb-2">Brewing Instructions</p>
+                <p className="text-sm font-medium mb-2">Slik gjør du det</p>
                 <ol className="text-sm text-muted-foreground space-y-1">
                   {results.instructions.map((instruction, i) => (
                     <li key={i}>{i + 1}. {instruction}</li>
@@ -456,7 +456,7 @@ export function FrenchPressTimer() {
       {/* Coffee Dose Input */}
       <NumberInput
         id="coffeeDose"
-        label="Coffee Dose"
+        label="Kaffemengde"
         value={coffeeDose}
         onChange={setCoffeeDose}
         min={10}
@@ -470,7 +470,7 @@ export function FrenchPressTimer() {
       {/* Water Amount Input */}
       <NumberInput
         id="waterAmount"
-        label="Water Amount"
+        label="Vannmengde"
         value={waterAmount}
         onChange={setWaterAmount}
         min={100}
@@ -484,7 +484,7 @@ export function FrenchPressTimer() {
       {/* Steep Time Input */}
       <NumberInput
         id="steepTime"
-        label="Steep Time"
+        label="Trekketid"
         value={steepTime}
         onChange={setSteepTime}
         min={2}
@@ -497,14 +497,14 @@ export function FrenchPressTimer() {
 
       {/* French Press Tips */}
       <div className="text-xs text-muted-foreground bg-primary/5 rounded-md p-3 border border-primary/20">
-        <p className="font-medium text-primary mb-1">French Press Tips</p>
+        <p className="font-medium text-primary mb-1">Tips for presskanne</p>
         <ul className="space-y-0.5 ml-4">
-          <li>• Use coarse grind (like sea salt)</li>
-          <li>• Water temperature: 195-205°F (90-96°C)</li>
-          <li>• Classic ratio: 1:15 to 1:17 (coffee to water)</li>
-          <li>• Stir gently to avoid over-extraction</li>
-          <li>• Press slowly and steadily</li>
-          <li>• Serve immediately to prevent bitterness</li>
+          <li>• Bruk grov kverning (som havsalt)</li>
+          <li>• Vanntemperatur: 90–96 °C</li>
+          <li>• Klassisk forhold: 1:15 til 1:17 (kaffe til vann)</li>
+          <li>• Rør forsiktig for å unngå overekstraksjon</li>
+          <li>• Press sakte og jevnt</li>
+          <li>• Server med en gang, så kaffen ikke blir bitter</li>
         </ul>
       </div>
     </CalculatorBase>

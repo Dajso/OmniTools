@@ -126,7 +126,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Coffee dose must be a positive number');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Kaffemengden må være et positivt tall');
       });
 
       it('should throw error for negative coffee dose', () => {
@@ -136,7 +136,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Coffee dose must be a positive number');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Kaffemengden må være et positivt tall');
       });
 
       it('should throw error for coffee dose below minimum', () => {
@@ -146,7 +146,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Coffee dose must be between 1g and 100g');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Kaffemengden må være mellom 1 g og 100 g');
       });
 
       it('should throw error for coffee dose above maximum', () => {
@@ -156,7 +156,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Coffee dose must be between 1g and 100g');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Kaffemengden må være mellom 1 g og 100 g');
       });
 
       it('should accept coffee dose at minimum boundary', () => {
@@ -186,7 +186,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Ratio must be at least 1');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Forholdet må være minst 1');
       });
 
       it('should throw error for ratio below minimum range', () => {
@@ -196,7 +196,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Ratio must be between 10 and 25');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Forholdet må være mellom 10 og 25');
       });
 
       it('should throw error for ratio above maximum range', () => {
@@ -206,7 +206,7 @@ describe('Brew Ratio Calculator', () => {
         };
 
         expect(() => calculateBrewRatio(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculateBrewRatio(inputs)).toThrow('Ratio must be between 10 and 25');
+        expect(() => calculateBrewRatio(inputs)).toThrow('Forholdet må være mellom 10 og 25');
       });
 
       it('should accept ratio at minimum boundary', () => {

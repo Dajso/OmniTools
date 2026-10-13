@@ -71,7 +71,7 @@ describe('Coffee Extraction Yield Calculator', () => {
 
       expect(result.extractionYield).toBe(15);
       expect(result.assessment).toBe('under-extracted');
-      expect(result.recommendation).toContain('under-extracted');
+      expect(result.recommendation).toContain('underekstrahert');
     });
 
     it('should calculate optimal extraction at lower boundary', () => {
@@ -114,7 +114,7 @@ describe('Coffee Extraction Yield Calculator', () => {
 
       expect(result.extractionYield).toBe(24);
       expect(result.assessment).toBe('over-extracted');
-      expect(result.recommendation).toContain('over-extracted');
+      expect(result.recommendation).toContain('overekstrahert');
     });
   });
 
@@ -413,7 +413,7 @@ describe('Coffee Extraction Yield Calculator', () => {
         beverageWeight: 300,
       });
       expect(underExtracted.recommendation.length).toBeGreaterThan(20);
-      expect(underExtracted.recommendation).toContain('under-extracted');
+      expect(underExtracted.recommendation).toContain('underekstrahert');
 
       const optimal = calculateExtractionYield({
         tds: 1.35,
@@ -421,7 +421,7 @@ describe('Coffee Extraction Yield Calculator', () => {
         beverageWeight: 300,
       });
       expect(optimal.recommendation.length).toBeGreaterThan(20);
-      expect(optimal.recommendation).toContain('optimal');
+      expect(optimal.recommendation).toContain('optimale');
 
       const overExtracted = calculateExtractionYield({
         tds: 1.5,
@@ -429,7 +429,7 @@ describe('Coffee Extraction Yield Calculator', () => {
         beverageWeight: 300,
       });
       expect(overExtracted.recommendation.length).toBeGreaterThan(20);
-      expect(overExtracted.recommendation).toContain('over-extracted');
+      expect(overExtracted.recommendation).toContain('overekstrahert');
     });
 
     it('should round extraction yield to 2 decimal places', () => {

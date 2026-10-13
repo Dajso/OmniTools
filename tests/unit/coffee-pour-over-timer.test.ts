@@ -20,7 +20,7 @@ describe('Pour Over Timer Calculator', () => {
         const result = calculatePourSchedule(inputs);
 
         expect(result.stages).toHaveLength(5);
-        expect(result.methodName).toBe('4:6 Method (Tetsu Kasuya)');
+        expect(result.methodName).toBe('4:6-metoden (Tetsu Kasuya)');
       });
 
       it('should divide water into 40% (first 2 pours) and 60% (last 3 pours)', () => {
@@ -88,7 +88,7 @@ describe('Pour Over Timer Calculator', () => {
 
         const result = calculatePourSchedule(inputs);
 
-        expect(result.instructions).toContain('Rinse filter with hot water and discard rinse water');
+        expect(result.instructions).toContain('Skyll filteret med varmt vann og hell vannet ut');
         expect(result.instructions.length).toBeGreaterThan(0);
       });
     });
@@ -157,7 +157,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Number of pours is required for custom method');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Du må oppgi antall helleomganger');
       });
     });
 
@@ -169,7 +169,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Total water must be a positive number');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Total vannmengde må være et positivt tall');
       });
 
       it('should reject total water below minimum', () => {
@@ -179,7 +179,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Total water must be between 100g and 1000g');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Total vannmengde må være mellom 100 g og 1000 g');
       });
 
       it('should reject total water above maximum', () => {
@@ -189,7 +189,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Total water must be between 100g and 1000g');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Total vannmengde må være mellom 100 g og 1000 g');
       });
 
       it('should reject number of pours less than 1', () => {
@@ -200,7 +200,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Number of pours must be at least 1');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Antall helleomganger må være minst 1');
       });
 
       it('should reject number of pours above maximum', () => {
@@ -211,7 +211,7 @@ describe('Pour Over Timer Calculator', () => {
         };
 
         expect(() => calculatePourSchedule(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => calculatePourSchedule(inputs)).toThrow('Number of pours must be between 1 and 10');
+        expect(() => calculatePourSchedule(inputs)).toThrow('Antall helleomganger må være mellom 1 og 10');
       });
     });
 

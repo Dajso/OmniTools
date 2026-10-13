@@ -285,11 +285,11 @@ describe('Coffee Extraction Yield Calculator - Properties 1-3', () => {
             
             // Verify recommendation contains relevant keywords
             if (result.assessment === 'under-extracted') {
-              expect(result.recommendation.toLowerCase()).toContain('under-extract');
+              expect(result.recommendation.toLowerCase()).toContain('underekstra');
             } else if (result.assessment === 'optimal') {
               expect(result.recommendation.toLowerCase()).toContain('optimal');
             } else if (result.assessment === 'over-extracted') {
-              expect(result.recommendation.toLowerCase()).toContain('over-extract');
+              expect(result.recommendation.toLowerCase()).toContain('overekstra');
             }
             return true;
           }

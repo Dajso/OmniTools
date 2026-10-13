@@ -45,8 +45,8 @@ const EXCESSIVE_DILUTION_THRESHOLD = 50; // 50%
  * Warning message for excessive dilution
  */
 const EXCESSIVE_DILUTION_WARNING = 
-  'Warning: Ice percentage above 50% may result in excessive dilution. ' +
-  'Consider using less ice or brewing a stronger concentrate to maintain flavor intensity.';
+  'Advarsel: Over 50 % is kan gi for mye fortynning.' +
+  'Bruk litt mindre is eller brygg en sterkere konsentrat for å beholde smaken.';
 
 /**
  * Calculates ice and hot coffee amounts for iced coffee
@@ -93,14 +93,14 @@ export function calculateIcedCoffeeDilution(
   // Validate target volume
   if (targetVolume <= 0) {
     throw new CoffeeCalculationError(
-      'Target volume must be a positive number',
+      'Volumet må være et positivt tall',
       'invalid_input',
       'targetVolume'
     );
   }
   if (targetVolume < 100 || targetVolume > 2000) {
     throw new CoffeeCalculationError(
-      'Target volume must be between 100ml and 2000ml',
+      'Volumet må være mellom 100 ml og 2000 ml',
       'out_of_range',
       'targetVolume'
     );
@@ -109,14 +109,14 @@ export function calculateIcedCoffeeDilution(
   // Validate target TDS
   if (targetTDS <= 0) {
     throw new CoffeeCalculationError(
-      'Target TDS must be a positive number',
+      'TDS må være et positivt tall',
       'invalid_input',
       'targetTDS'
     );
   }
   if (targetTDS < 0.5 || targetTDS > 3) {
     throw new CoffeeCalculationError(
-      'Target TDS must be between 0.5% and 3%',
+      'TDS må være mellom 0,5 % og 3 %',
       'out_of_range',
       'targetTDS'
     );
@@ -125,14 +125,14 @@ export function calculateIcedCoffeeDilution(
   // Validate ice percentage
   if (icePercentage < 0 || icePercentage > 100) {
     throw new CoffeeCalculationError(
-      'Ice percentage must be between 0% and 100%',
+      'Andelen is må være mellom 0 % og 100 %',
       'invalid_input',
       'icePercentage'
     );
   }
   if (icePercentage < 10 || icePercentage > 70) {
     throw new CoffeeCalculationError(
-      'Ice percentage must be between 10% and 70%',
+      'Andelen is må være mellom 10 % og 70 %',
       'out_of_range',
       'icePercentage'
     );

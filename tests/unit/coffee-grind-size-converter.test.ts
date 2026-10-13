@@ -153,7 +153,7 @@ describe('Grind Size Converter', () => {
         };
 
         expect(() => convertGrindSize(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => convertGrindSize(inputs)).toThrow('Source grinder not found');
+        expect(() => convertGrindSize(inputs)).toThrow('Fant ikke kvernen du regner fra');
       });
 
       it('should accept valid source grinder', () => {
@@ -176,7 +176,7 @@ describe('Grind Size Converter', () => {
         };
 
         expect(() => convertGrindSize(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => convertGrindSize(inputs)).toThrow('Target grinder not found');
+        expect(() => convertGrindSize(inputs)).toThrow('Fant ikke kvernen du regner til');
       });
 
       it('should accept valid target grinder', () => {
@@ -199,7 +199,7 @@ describe('Grind Size Converter', () => {
         };
 
         expect(() => convertGrindSize(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => convertGrindSize(inputs)).toThrow('outside valid range');
+        expect(() => convertGrindSize(inputs)).toThrow('utenfor gyldig område');
       });
 
       it('should throw error for setting above maximum', () => {
@@ -210,7 +210,7 @@ describe('Grind Size Converter', () => {
         };
 
         expect(() => convertGrindSize(inputs)).toThrow(CoffeeCalculationError);
-        expect(() => convertGrindSize(inputs)).toThrow('outside valid range');
+        expect(() => convertGrindSize(inputs)).toThrow('utenfor gyldig område');
       });
 
       it('should accept setting at minimum boundary', () => {
@@ -346,7 +346,7 @@ describe('Grind Size Converter', () => {
 
         expect(description).toBeDefined();
         expect(description.length).toBeGreaterThan(0);
-        expect(description.toLowerCase()).toContain('turkish');
+        expect(description.toLowerCase()).toContain('tyrkisk');
       });
 
       it('should return description for fine', () => {
@@ -367,7 +367,7 @@ describe('Grind Size Converter', () => {
         const description = getGrindSizeDescription('coarse');
 
         expect(description).toBeDefined();
-        expect(description.toLowerCase()).toContain('french press');
+        expect(description.toLowerCase()).toContain('presskanne');
       });
     });
   });
@@ -516,7 +516,7 @@ describe('Grind Size Converter', () => {
       const result = convertGrindSize(inputs);
 
       const confidenceNote = result.notes.find(note => 
-        note.toLowerCase().includes('confidence')
+        note.toLowerCase().includes('omregningen')
       );
 
       expect(confidenceNote).toBeDefined();

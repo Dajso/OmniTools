@@ -42,7 +42,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       expect(result.iceAmount).toBe(300);
       expect(result.brewingTDS).toBe(2.5);
       expect(result.warning).toBeDefined();
-      expect(result.warning).toContain('excessive dilution');
+      expect(result.warning).toContain('for mye fortynning');
     });
 
     it('should calculate correct amounts for low ice percentage', () => {
@@ -138,7 +138,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target volume must be a positive number');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Volumet må være et positivt tall');
     });
 
     it('should reject negative target volume', () => {
@@ -149,7 +149,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target volume must be a positive number');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Volumet må være et positivt tall');
     });
 
     it('should reject target volume below minimum', () => {
@@ -160,7 +160,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target volume must be between 100ml and 2000ml');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Volumet må være mellom 100 ml og 2000 ml');
     });
 
     it('should reject target volume above maximum', () => {
@@ -171,7 +171,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target volume must be between 100ml and 2000ml');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Volumet må være mellom 100 ml og 2000 ml');
     });
 
     it('should reject zero target TDS', () => {
@@ -182,7 +182,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target TDS must be a positive number');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('TDS må være et positivt tall');
     });
 
     it('should reject negative target TDS', () => {
@@ -193,7 +193,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target TDS must be a positive number');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('TDS må være et positivt tall');
     });
 
     it('should reject target TDS below minimum', () => {
@@ -204,7 +204,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target TDS must be between 0.5% and 3%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('TDS må være mellom 0,5 % og 3 %');
     });
 
     it('should reject target TDS above maximum', () => {
@@ -215,7 +215,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Target TDS must be between 0.5% and 3%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('TDS må være mellom 0,5 % og 3 %');
     });
 
     it('should reject negative ice percentage', () => {
@@ -226,7 +226,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Ice percentage must be between 0% and 100%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Andelen is må være mellom 0 % og 100 %');
     });
 
     it('should reject ice percentage above 100%', () => {
@@ -237,7 +237,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Ice percentage must be between 0% and 100%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Andelen is må være mellom 0 % og 100 %');
     });
 
     it('should reject ice percentage below minimum range', () => {
@@ -248,7 +248,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Ice percentage must be between 10% and 70%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Andelen is må være mellom 10 % og 70 %');
     });
 
     it('should reject ice percentage above maximum range', () => {
@@ -259,7 +259,7 @@ describe('Iced Coffee Dilution Calculator', () => {
       };
 
       expect(() => calculateIcedCoffeeDilution(inputs)).toThrow(CoffeeCalculationError);
-      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Ice percentage must be between 10% and 70%');
+      expect(() => calculateIcedCoffeeDilution(inputs)).toThrow('Andelen is må være mellom 10 % og 70 %');
     });
   });
 

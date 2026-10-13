@@ -1,56 +1,50 @@
 import { Metadata } from 'next';
 import { EspressoDialInLog } from '@/components/calculators/coffee/espresso-dial-in-log';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Espresso Dial-in Log - Track Espresso Shots & Extraction Metrics',
-  description: 'Track your espresso shots with extraction ratio, flow rate, and taste notes. Free espresso dial-in log to systematically perfect your espresso recipe.',
-  keywords: ['espresso dial-in', 'espresso log', 'extraction ratio', 'espresso tracker', 'shot tracking', 'espresso recipe', 'flow rate', 'espresso metrics'],
+  title: 'Espresso: innstillingslogg – gratis kalkulator på nett',
+  description: 'Logg dose, utbytte, tid og smak for å finne den beste espressoen. Gratis og uten registrering.',
+  keywords: ['espresso', 'dial in', 'logg', 'ekstraksjonsforhold', 'oppskrift'],
   alternates: { canonical: '/calculators/coffee/espresso-dial-in-log' },
   openGraph: {
-    title: 'Espresso Dial-in Log - Track Espresso Shots & Extraction Metrics',
-    description: 'Track your espresso shots with extraction ratio, flow rate, and taste notes.',
+    title: 'Espresso: innstillingslogg',
+    description: 'Logg dose, utbytte, tid og smak for å finne den beste espressoen',
     url: '/calculators/coffee/espresso-dial-in-log',
-    siteName: 'OmniTools',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Espresso Dial-in Log - Track Espresso Shots & Extraction Metrics',
-    description: 'Track your espresso shots with extraction ratio, flow rate, and taste notes.',
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Espresso Dial-in Log',
-  description: 'Track espresso shots with dose, yield, time, and taste notes to systematically dial in your espresso recipe',
+  name: 'Espresso: innstillingslogg',
+  description: 'Logg dose, utbytte, tid og smak for å finne den beste espressoen',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Pull your shot', text: 'Record the dose (coffee in), yield (espresso out), and time for each shot.' },
-  { name: 'Note grinder setting', text: 'Record your grinder setting to track adjustments.' },
-  { name: 'Add taste notes', text: 'Describe the flavor - sour, bitter, balanced, sweet, etc.' },
-  { name: 'Review metrics', text: 'Analyze extraction ratio (yield/dose) and flow rate (yield/time).' },
-  { name: 'Adjust and repeat', text: 'Follow recommendations to dial in your perfect recipe.' },
+  { name: 'Legg inn en espresso', text: 'Oppgi kaffemengde, utbytte, tid og kvernstilling.' },
+  { name: 'Les vurderingen', text: 'Se ekstraksjonsforhold og gjennomstrømning, med anbefaling.' },
+  { name: 'Juster og prøv igjen', text: 'Endre én ting av gangen og logg neste shot.' },
 ];
 
 const faqs = [
-  { question: 'What is espresso dial-in?', answer: 'Espresso dial-in is the process of systematically adjusting espresso parameters (dose, grind size, yield, and time) to achieve optimal extraction. By tracking shots and analyzing metrics, you can make data-driven adjustments.' },
-  { question: 'What is a good extraction ratio for espresso?', answer: 'A good extraction ratio is typically between 1.5 and 2.5. For example, an 18g dose should yield 27-45g of espresso. Ratios below 1.5 are under-extracted (sour), while ratios above 2.5 are over-extracted (bitter).' },
-  { question: 'How do I calculate espresso extraction ratio?', answer: 'Espresso extraction ratio is calculated by dividing the beverage yield by the coffee dose. For example, 36g yield ÷ 18g dose = 2.0 ratio.' },
-  { question: 'What is espresso flow rate and why does it matter?', answer: 'Flow rate is the speed at which espresso flows, measured in grams per second (g/s). It is calculated by dividing yield by extraction time. Typical flow rates range from 1.0 to 2.0 g/s.' },
-  { question: 'How do I use an espresso dial-in log?', answer: 'Record dose, yield, and time for each shot. Note your grinder setting and taste notes. Review metrics and follow recommendations to adjust your recipe systematically.' },
+  { question: 'Hva er et godt ekstraksjonsforhold?', answer: 'Mellom 1:1,5 og 1:2,5, ofte rundt 1:2. 18 g kaffe gir da omtrent 36 g espresso.' },
+  { question: 'Hvor lang tid bør en espresso ta?', answer: 'Vanligvis 25–30 sekunder fra pumpen starter.' },
+  { question: 'Hva gjør jeg hvis espressoen smaker sur?', answer: 'Den er trolig underekstrahert. Kverne finere eller øk utbyttet.' },
+  { question: 'Hva gjør jeg hvis den smaker bitter?', answer: 'Den er trolig overekstrahert. Kvern grovere eller stopp shoten tidligere.' },
+  { question: 'Lagres loggen?', answer: 'Ja, i nettleseren din på denne enheten. Den sendes ikke noe sted.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Extraction Yield Calculator', description: 'Calculate extraction from TDS measurements.' },
-  { href: '/calculators/coffee/grind-size-converter', title: 'Grind Size Converter', description: 'Convert grind settings between grinders.' },
-  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Brew Ratio Calculator', description: 'Calculate water amount for your brew ratio.' },
+  { href: '/calculators/coffee/extraction-yield-calculator', title: 'Ekstraksjonsgrad for kaffe', description: 'Regn ut ekstraksjonsgrad fra TDS og se om kaffen er riktig trukket' },
+  { href: '/calculators/coffee/brew-ratio-calculator', title: 'Bryggeforhold', description: 'Regn ut vannmengde for ønsket bryggeforhold og jevn kaffestyrke' },
 ];
 
 export default function EspressoDialInLogPage() {
@@ -60,12 +54,11 @@ export default function EspressoDialInLogPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="espresso-dial-in-log"
-          title="Espresso Dial-in Log"
-          description="Track your espresso shots with extraction ratio, flow rate, and taste notes to perfect your recipe."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Espresso: innstillingslogg"
+          description="Logg espressoshots med mengde, utbytte, tid og smak, og få anbefaling om hvordan du kommer nærmere perfekt oppskrift. Gratis og uten registrering."
         />
 
-        <section aria-label="Espresso Dial-in Log">
+        <section aria-label="Espresso: innstillingslogg">
           <EspressoDialInLog />
         </section>
 

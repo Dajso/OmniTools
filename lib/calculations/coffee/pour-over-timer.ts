@@ -93,35 +93,35 @@ function calculate46Method(totalWater: number): PourStage[] {
       waterAmount: round(pourAmount1and2),
       startTime: 0,
       endTime: TIMING.bloomDuration,
-      description: 'Bloom pour - wet all grounds evenly',
+      description: 'Forbløting – fukt all kaffen jevnt',
     },
     {
       stageNumber: 2,
       waterAmount: round(pourAmount1and2),
       startTime: TIMING.bloomDuration,
       endTime: TIMING.bloomDuration + TIMING.pourInterval,
-      description: 'Second pour - controls sweetness',
+      description: 'Andre omgang – styrer søtheten',
     },
     {
       stageNumber: 3,
       waterAmount: round(pourAmount3to5),
       startTime: TIMING.bloomDuration + TIMING.pourInterval,
       endTime: TIMING.bloomDuration + TIMING.pourInterval * 2,
-      description: 'Third pour - builds strength',
+      description: 'Tredje omgang – bygger styrke',
     },
     {
       stageNumber: 4,
       waterAmount: round(pourAmount3to5),
       startTime: TIMING.bloomDuration + TIMING.pourInterval * 2,
       endTime: TIMING.bloomDuration + TIMING.pourInterval * 3,
-      description: 'Fourth pour - continues extraction',
+      description: 'Fjerde omgang – fortsetter ekstraksjonen',
     },
     {
       stageNumber: 5,
       waterAmount: round(pourAmount3to5),
       startTime: TIMING.bloomDuration + TIMING.pourInterval * 3,
       endTime: TIMING.bloomDuration + TIMING.pourInterval * 4,
-      description: 'Final pour - completes extraction',
+      description: 'Siste omgang – fullfører ekstraksjonen',
     },
   ];
 
@@ -153,10 +153,10 @@ function calculateCustomMethod(totalWater: number, numberOfPours: number): PourS
       startTime: i * TIMING.pourInterval,
       endTime: (i + 1) * TIMING.pourInterval,
       description: isFirstPour
-        ? 'Bloom pour - wet all grounds evenly'
+        ? 'Forbløting – fukt all kaffen jevnt'
         : isLastPour
-        ? 'Final pour - completes extraction'
-        : `Pour ${i + 1} - continue extraction`,
+        ? 'Siste omgang – fullfører ekstraksjonen'
+        : `Omgang ${i + 1} – fortsetter ekstraksjonen`,
     });
   }
 
@@ -172,28 +172,28 @@ function calculateCustomMethod(totalWater: number, numberOfPours: number): PourS
  */
 function generateInstructions(method: PourMethod, stages: PourStage[]): string[] {
   const baseInstructions = [
-    'Rinse filter with hot water and discard rinse water',
-    'Add coffee grounds and create a flat bed',
-    'Start timer and begin first pour',
+    'Skyll filteret med varmt vann og hell vannet ut',
+    'Ha i kaffen og jevn den ut',
+    'Start timeren og begynn første omgang',
   ];
 
   const methodInstructions: Record<PourMethod, string[]> = {
     '4:6': [
-      'First 2 pours (40%) control sweetness and acidity',
-      'Last 3 pours (60%) control strength',
-      'Pour in slow, circular motions',
-      'Wait for water to drain between pours',
+      'De to første omgangene (40 %) styrer søthet og syre',
+      'De tre siste omgangene (60 %) styrer styrken',
+      'Hell med rolige, sirkelformede bevegelser',
+      'Vent til vannet har rent gjennom mellom omgangene',
     ],
     'tetsu-kasuya': [
-      'First 2 pours (40%) control sweetness and acidity',
-      'Last 3 pours (60%) control strength',
-      'Pour in slow, circular motions',
-      'Wait for water to drain between pours',
+      'De to første omgangene (40 %) styrer søthet og syre',
+      'De tre siste omgangene (60 %) styrer styrken',
+      'Hell med rolige, sirkelformede bevegelser',
+      'Vent til vannet har rent gjennom mellom omgangene',
     ],
     'custom': [
-      'Pour evenly across all stages',
-      'Pour in slow, circular motions',
-      'Wait for water to drain between pours',
+      'Fordel vannet jevnt over alle omgangene',
+      'Hell med rolige, sirkelformede bevegelser',
+      'Vent til vannet har rent gjennom mellom omgangene',
     ],
   };
 
@@ -247,14 +247,14 @@ export function calculatePourSchedule(inputs: PourOverInputs): PourOverResults {
   // Validate total water
   if (totalWater <= 0) {
     throw new CoffeeCalculationError(
-      'Total water must be a positive number',
+      'Total vannmengde må være et positivt tall',
       'invalid_input',
       'totalWater'
     );
   }
   if (totalWater < 100 || totalWater > 1000) {
     throw new CoffeeCalculationError(
-      'Total water must be between 100g and 1000g',
+      'Total vannmengde må være mellom 100 g og 1000 g',
       'out_of_range',
       'totalWater'
     );
@@ -264,21 +264,21 @@ export function calculatePourSchedule(inputs: PourOverInputs): PourOverResults {
   if (method === 'custom') {
     if (numberOfPours === undefined || numberOfPours === null) {
       throw new CoffeeCalculationError(
-        'Number of pours is required for custom method',
+        'Du må oppgi antall helleomganger',
         'invalid_input',
         'numberOfPours'
       );
     }
     if (numberOfPours < 1) {
       throw new CoffeeCalculationError(
-        'Number of pours must be at least 1',
+        'Antall helleomganger må være minst 1',
         'invalid_input',
         'numberOfPours'
       );
     }
     if (numberOfPours > 10) {
       throw new CoffeeCalculationError(
-        'Number of pours must be between 1 and 10',
+        'Antall helleomganger må være mellom 1 og 10',
         'out_of_range',
         'numberOfPours'
       );
@@ -293,7 +293,7 @@ export function calculatePourSchedule(inputs: PourOverInputs): PourOverResults {
     case '4:6':
     case 'tetsu-kasuya':
       stages = calculate46Method(totalWater);
-      methodName = '4:6 Method (Tetsu Kasuya)';
+      methodName = '4:6-metoden (Tetsu Kasuya)';
       break;
     case 'custom':
       stages = calculateCustomMethod(totalWater, numberOfPours!);
@@ -301,7 +301,7 @@ export function calculatePourSchedule(inputs: PourOverInputs): PourOverResults {
       break;
     default:
       throw new CoffeeCalculationError(
-        `Unknown method: ${method}`,
+        `Ukjent metode: ${method}`,
         'invalid_input',
         'method'
       );

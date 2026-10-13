@@ -118,10 +118,7 @@ describe('Grind Size Converter - Property 20: Grind Description Presence', () =>
           // Description should contain terminology related to grind sizes
           const descriptionLower = result.grindDescription.toLowerCase();
           const hasValidTerminology = 
-            descriptionLower.includes('fine') ||
-            descriptionLower.includes('medium') ||
-            descriptionLower.includes('coarse') ||
-            descriptionLower.includes('extra');
+            ['fin', 'grov', 'sand', 'salt', 'pulver', 'pepperkorn'].some(t => descriptionLower.includes(t));
           
           expect(hasValidTerminology).toBe(true);
           

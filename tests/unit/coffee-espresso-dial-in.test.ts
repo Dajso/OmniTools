@@ -49,7 +49,7 @@ describe('Espresso Dial-in Log Calculator', () => {
 
       expect(result.extractionRatio).toBe(1.25);
       expect(result.recommendation).toBe('increase-yield');
-      expect(result.recommendationText).toContain('increasing yield');
+      expect(result.recommendationText).toContain('øke utbyttet');
     });
 
     it('should indicate optimal for extraction ratio in range', () => {
@@ -75,7 +75,7 @@ describe('Espresso Dial-in Log Calculator', () => {
 
       expect(result.extractionRatio).toBe(3.0);
       expect(result.recommendation).toBe('decrease-yield');
-      expect(result.recommendationText).toContain('decreasing yield');
+      expect(result.recommendationText).toContain('redusere utbyttet');
     });
 
     it('should handle boundary case at 1.5 ratio', () => {

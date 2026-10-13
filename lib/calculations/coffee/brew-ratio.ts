@@ -51,9 +51,9 @@ const STRENGTH_THRESHOLDS = {
  * Descriptions for each strength profile
  */
 const STRENGTH_DESCRIPTIONS: Record<StrengthProfile, string> = {
-  'strong': 'Strong, concentrated brew with bold flavors. Ideal for espresso-style drinks or those who prefer intense coffee.',
-  'balanced': 'Balanced strength with good clarity and sweetness. The sweet spot for most brewing methods.',
-  'mild': 'Mild, delicate brew with subtle flavors. Great for highlighting nuanced, light-roasted coffees.',
+  'strong': 'Sterkt, konsentrert brygg med kraftig smak. Passer til espressodrikker og deg som liker intens kaffe.',
+  'balanced': 'Balansert styrke med god klarhet og søthet. Passer til de fleste bryggemetoder.',
+  'mild': 'Mildt og delikat brygg med myke smaker. Fremhever nyansene i lyse brennigner.',
 };
 
 /**
@@ -106,14 +106,14 @@ export function calculateBrewRatio(inputs: BrewRatioInputs): BrewRatioResults {
   // Validate coffee dose
   if (coffeeDose <= 0) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be a positive number',
+      'Kaffemengden må være et positivt tall',
       'invalid_input',
       'coffeeDose'
     );
   }
   if (coffeeDose < 1 || coffeeDose > 100) {
     throw new CoffeeCalculationError(
-      'Coffee dose must be between 1g and 100g',
+      'Kaffemengden må være mellom 1 g og 100 g',
       'out_of_range',
       'coffeeDose'
     );
@@ -122,14 +122,14 @@ export function calculateBrewRatio(inputs: BrewRatioInputs): BrewRatioResults {
   // Validate ratio
   if (ratio < 1) {
     throw new CoffeeCalculationError(
-      'Ratio must be at least 1',
+      'Forholdet må være minst 1',
       'invalid_input',
       'ratio'
     );
   }
   if (ratio < 10 || ratio > 25) {
     throw new CoffeeCalculationError(
-      'Ratio must be between 10 and 25 (typical range 1:10 to 1:25)',
+      'Forholdet må være mellom 10 og 25 (vanlig område er 1:10 til 1:25)',
       'out_of_range',
       'ratio'
     );

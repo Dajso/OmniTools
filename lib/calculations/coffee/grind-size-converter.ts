@@ -143,28 +143,28 @@ function generateNotes(
   // Add confidence explanation
   if (confidence === 'low') {
     notes.push(
-      'This conversion has lower confidence due to significant differences between grinders. ' +
-      'Use as a starting point and adjust to taste.'
+      'Omregningen er usikker fordi kvernene er ganske forskjellige.' +
+      'Bruk den som utgangspunkt og juster etter smak.'
     );
   } else if (confidence === 'medium') {
     notes.push(
-      'This conversion is a good starting point. Fine-tune based on your taste preferences.'
+      'Omregningen er et godt utgangspunkt. Finjuster etter smak.'
     );
   } else {
     notes.push(
-      'This conversion has high confidence. The result should be very close to your source setting.'
+      'Omregningen er ganske sikker. Resultatet bør ligge tett opptil innstillingen du regnet fra.'
     );
   }
   
   // Add grind size specific advice
   if (grindSize === 'extra-fine' || grindSize === 'fine') {
     notes.push(
-      'For espresso and fine grinds, small adjustments make a big difference. ' +
-      'Adjust in small increments (0.5-1 click at a time).'
+      'For espresso og fin kverning har små justeringer stor effekt.' +
+      'Juster i små steg (0,5–1 klikk om gangen).'
     );
   } else if (grindSize === 'coarse' || grindSize === 'extra-coarse') {
     notes.push(
-      'For coarse grinds, you may need to adjust by several clicks to notice a difference.'
+      'For grov kverning må du kanskje justere flere klikk for å merke forskjell.'
     );
   }
   
@@ -228,7 +228,7 @@ export function convertGrindSize(inputs: GrindSizeInputs): GrindSizeResults {
   const sourceConfig = getGrinderConfig(sourceGrinder);
   if (!sourceConfig) {
     throw new CoffeeCalculationError(
-      `Source grinder not found in database: ${sourceGrinder}`,
+      `Fant ikke kvernen du regner fra i databasen: ${sourceGrinder}`,
       'conversion_failed',
       'sourceGrinder'
     );
@@ -238,7 +238,7 @@ export function convertGrindSize(inputs: GrindSizeInputs): GrindSizeResults {
   const targetConfig = getGrinderConfig(targetGrinder);
   if (!targetConfig) {
     throw new CoffeeCalculationError(
-      `Target grinder not found in database: ${targetGrinder}`,
+      `Fant ikke kvernen du regner til i databasen: ${targetGrinder}`,
       'conversion_failed',
       'targetGrinder'
     );
@@ -248,7 +248,7 @@ export function convertGrindSize(inputs: GrindSizeInputs): GrindSizeResults {
   if (!isValidSetting(sourceGrinder, sourceSetting)) {
     const [min, max] = sourceConfig.range;
     throw new CoffeeCalculationError(
-      `Source setting ${sourceSetting} is outside valid range for ${sourceConfig.name} (${min}-${max})`,
+      `Stillingen ${sourceSetting} er utenfor gyldig område for ${sourceConfig.name} (${min}–${max})`,
       'out_of_range',
       'sourceSetting'
     );

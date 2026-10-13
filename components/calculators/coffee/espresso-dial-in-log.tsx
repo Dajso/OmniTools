@@ -23,19 +23,19 @@ import { formatFixed } from '@/lib/utils/formatting';
  */
 const espressoShotSchema = z.object({
   dose: z.number()
-    .min(5, 'Dose must be at least 5g')
-    .max(30, 'Dose cannot exceed 30g'),
+    .min(5, 'Mengden må være minst 5 g')
+    .max(30, 'Mengden kan ikke være over 30 g'),
   yield: z.number()
-    .min(10, 'Yield must be at least 10g')
-    .max(100, 'Yield cannot exceed 100g'),
+    .min(10, 'Utbyttet må være minst 10 g')
+    .max(100, 'Utbyttet kan ikke være over 100 g'),
   time: z.number()
-    .min(10, 'Time must be at least 10 seconds')
-    .max(60, 'Time cannot exceed 60 seconds'),
+    .min(10, 'Tiden må være minst 10 sekunder')
+    .max(60, 'Tiden kan ikke være over 60 sekunder'),
   grindSetting: z.string()
-    .min(1, 'Grind setting is required')
-    .max(50, 'Grind setting is too long'),
+    .min(1, 'Kvernstilling må oppgis')
+    .max(50, 'Kvernstillingen er for lang'),
   tasteNotes: z.string()
-    .max(500, 'Taste notes cannot exceed 500 characters')
+    .max(500, 'Smaksnotatene kan ikke være over 500 tegn')
     .optional()
     .default(''),
 });
@@ -63,11 +63,6 @@ const INITIAL_INPUTS: EspressoShotFormInputs = {
 };
 
 /**
- * Unit conversion constants
- */
-const GRAMS_TO_OZ = 0.035274;
-
-/**
  * Recommendation badge component
  */
 function RecommendationBadge({ recommendation }: { recommendation: string }) {
@@ -78,9 +73,9 @@ function RecommendationBadge({ recommendation }: { recommendation: string }) {
   };
 
   const labels = {
-    'increase-yield': 'Increase Yield',
+    'increase-yield': 'Øk utbyttet',
     'optimal': 'Optimal',
-    'decrease-yield': 'Decrease Yield',
+    'decrease-yield': 'Reduser utbyttet',
   };
 
   return (
@@ -109,7 +104,6 @@ function RecommendationBadge({ recommendation }: { recommendation: string }) {
  * @see Requirements 4.1, 4.2, 4.3, 4.4, 4.5, 15.1, 15.2
  */
 export function EspressoDialInLog() {
-  const [useImperial, setUseImperial] = React.useState(false);
   const [shots, setShots] = React.useState<EspressoShot[]>([]);
   const [inputs, setInputs] = React.useState<EspressoShotFormInputs>(INITIAL_INPUTS);
   const [errors, setErrors] = React.useState<Partial<Record<keyof EspressoShotFormInputs, string>>>({});
@@ -129,7 +123,7 @@ export function EspressoDialInLog() {
         setShots(shotsWithDates);
       }
     } catch (error) {
-      console.error('Failed to load espresso shots from storage:', error);
+      console.error('Kunne ikke hente lagrede espressoer:', error);
     }
   }, []);
 
@@ -138,7 +132,7 @@ export function EspressoDialInLog() {
     try {
       localStorage.setItem('espresso-dial-in-log', JSON.stringify(shots));
     } catch (error) {
-      console.error('Failed to save espresso shots to storage:', error);
+      console.error('Kunne ikke lagre espressoene:', error);
     }
   }, [shots]);
 
@@ -177,12 +171,12 @@ export function EspressoDialInLog() {
 
   // Handle input changes with unit conversion for numeric fields
   const handleDoseChange = (value: number) => {
-    const grams = useImperial ? value / GRAMS_TO_OZ : value;
+    const grams = value;
     handleInputChange('dose', grams);
   };
 
   const handleYieldChange = (value: number) => {
-    const grams = useImperial ? value / GRAMS_TO_OZ : value;
+    const grams = value;
     handleInputChange('yield', grams);
   };
 
@@ -211,7 +205,7 @@ export function EspressoDialInLog() {
         grindSetting: validated.grindSetting,
       });
     } catch (error) {
-      console.error('Failed to add shot:', error);
+      console.error('Kunne ikke legge til espressoen:', error);
     }
   };
 
@@ -222,19 +216,15 @@ export function EspressoDialInLog() {
 
   // Clear all shots
   const handleClearAll = () => {
-    if (confirm('Are you sure you want to clear all shot history?')) {
+    if (confirm('Er du sikker på at du vil slette hele loggen?')) {
       setShots([]);
     }
   };
 
-  // Convert values for display based on unit system
-  const displayDose = useImperial
-    ? (inputs.dose * GRAMS_TO_OZ).toFixed(2)
-    : inputs.dose.toFixed(1);
+  // Visningsverdier
+  const displayDose = inputs.dose.toFixed(1);
 
-  const displayYield = useImperial
-    ? (inputs.yield * GRAMS_TO_OZ).toFixed(2)
-    : inputs.yield.toFixed(1);
+  const displayYield = inputs.yield.toFixed(1);
 
   const isFormValid = Object.keys(errors).length === 0 &&
     inputs.grindSetting.trim().length > 0 &&
@@ -242,75 +232,51 @@ export function EspressoDialInLog() {
 
   return (
     <CalculatorBase
-      title="Espresso Dial-in Log"
-      description="Track your espresso shots with extraction metrics to systematically dial in your recipe"
-      formula="Extraction Ratio = Yield / Dose | Flow Rate = Yield / Time"
-      formulaExplanation="The extraction ratio indicates the relationship between coffee dose and beverage yield. Optimal espresso typically has a ratio between 1.5 and 2.5. Flow rate helps diagnose grind size and puck preparation."
+      title="Espresso: innstillingslogg"
+      description="Logg espressoene dine med ekstraksjonsmål og finn systematisk fram til riktig oppskrift"
+      formula="Ekstraksjonsforhold = utbytte / mengde | Gjennomstrømning = utbytte / tid"
+      formulaExplanation="Ekstraksjonsforholdet viser forholdet mellom kaffemengde og mengde espresso i koppen. God espresso ligger vanligvis mellom 1,5 og 2,5. Gjennomstrømningen hjelper deg å vurdere kvernstørrelse og hvordan kaffen er pakket."
     >
-      {/* Unit toggle */}
-      <div className="flex items-center justify-end gap-2 pb-2">
-        <span className="text-sm text-muted-foreground">Units:</span>
-        <Button
-          type="button"
-          variant={useImperial ? 'outline' : 'default'}
-          size="sm"
-          onClick={() => setUseImperial(false)}
-          aria-pressed={!useImperial}
-          aria-label="Use metric units"
-        >
-          Metric
-        </Button>
-        <Button
-          type="button"
-          variant={useImperial ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setUseImperial(true)}
-          aria-pressed={useImperial}
-          aria-label="Use imperial units"
-        >
-          Imperial
-        </Button>
-      </div>
 
       {/* Shot Entry Form */}
       <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/30">
-        <h3 className="text-lg font-semibold">Add Shot Entry</h3>
+        <h3 className="text-lg font-semibold">Legg til espresso</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Dose Input */}
           <NumberInput
             id="dose"
-            label="Dose"
+            label="Kaffemengde"
             value={parseFloat(displayDose)}
             onChange={handleDoseChange}
-            min={useImperial ? 0.18 : 5}
-            max={useImperial ? 1.06 : 30}
-            step={useImperial ? 0.01 : 0.1}
-            unit={useImperial ? 'oz' : 'g'}
+            min={5}
+            max={30}
+            step={0.1}
+            unit="g"
             error={errors.dose}
             required
-            placeholder={useImperial ? '0.63' : '18'}
+            placeholder="18"
           />
 
           {/* Yield Input */}
           <NumberInput
             id="yield"
-            label="Yield"
+            label="Utbytte"
             value={parseFloat(displayYield)}
             onChange={handleYieldChange}
-            min={useImperial ? 0.35 : 10}
-            max={useImperial ? 3.53 : 100}
-            step={useImperial ? 0.01 : 0.1}
-            unit={useImperial ? 'oz' : 'g'}
+            min={10}
+            max={100}
+            step={0.1}
+            unit="g"
             error={errors.yield}
             required
-            placeholder={useImperial ? '1.27' : '36'}
+            placeholder="36"
           />
 
           {/* Time Input */}
           <NumberInput
             id="time"
-            label="Time"
+            label="Tid"
             value={inputs.time}
             onChange={(v) => handleInputChange('time', v)}
             min={10}
@@ -326,14 +292,14 @@ export function EspressoDialInLog() {
         {/* Grind Setting Input */}
         <div className="space-y-2">
           <Label htmlFor="grindSetting">
-            Grind Setting <span className="text-destructive">*</span>
+            Kvernstilling <span className="text-destructive">*</span>
           </Label>
           <Input
             id="grindSetting"
             type="text"
             value={inputs.grindSetting}
             onChange={(e) => handleInputChange('grindSetting', e.target.value)}
-            placeholder="e.g., 8.5, 2-3, Fine"
+            placeholder="f.eks. 8,5, 2–3, fin"
             maxLength={50}
             required
             aria-required="true"
@@ -349,12 +315,12 @@ export function EspressoDialInLog() {
 
         {/* Taste Notes Input */}
         <div className="space-y-2">
-          <Label htmlFor="tasteNotes">Taste Notes (Optional)</Label>
+          <Label htmlFor="tasteNotes">Smaksnotater (valgfritt)</Label>
           <Textarea
             id="tasteNotes"
             value={inputs.tasteNotes}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleInputChange('tasteNotes', e.target.value)}
-            placeholder="e.g., Bright acidity, chocolate notes, slightly bitter finish"
+            placeholder="f.eks. frisk syre, sjokoladetoner, litt bitter ettersmak"
             maxLength={500}
             rows={3}
             aria-describedby={errors.tasteNotes ? 'tasteNotes-error' : undefined}
@@ -370,16 +336,16 @@ export function EspressoDialInLog() {
         {currentMetrics && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-background rounded-lg border border-border">
             <ResultDisplay
-              label="Extraction Ratio"
+              label="Ekstraksjonsforhold"
               value={formatFixed(currentMetrics.extractionRatio, 2)}
             />
             <ResultDisplay
-              label="Flow Rate"
+              label="Gjennomstrømning"
               value={formatFixed(currentMetrics.flowRate, 2)}
               unit="g/s"
             />
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-muted-foreground">Assessment</span>
+              <span className="text-sm font-medium text-muted-foreground">Vurdering</span>
               <RecommendationBadge recommendation={currentMetrics.recommendation} />
             </div>
           </div>
@@ -391,34 +357,34 @@ export function EspressoDialInLog() {
           onClick={handleAddShot}
           disabled={!isFormValid}
           className="w-full"
-          aria-label="Add shot to log"
+          aria-label="Legg espressoen til i loggen"
         >
           <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
-          Add Shot to Log
+          Legg til i loggen
         </Button>
       </div>
 
       {/* Shot History */}
       <div className="space-y-4 mt-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Shot History ({shots.length})</h3>
+          <h3 className="text-lg font-semibold">Logg ({shots.length})</h3>
           {shots.length > 0 && (
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={handleClearAll}
-              aria-label="Clear all shot history"
+              aria-label="Slett hele loggen"
             >
               <Trash2 className="h-4 w-4 mr-2" aria-hidden="true" />
-              Clear All
+              Slett alt
             </Button>
           )}
         </div>
 
         {shots.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
-            <p>No shots logged yet. Add your first shot above to start tracking!</p>
+            <p>Ingen espressoer er logget ennå. Legg til den første ovenfor for å komme i gang!</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -434,7 +400,7 @@ export function EspressoDialInLog() {
                       {shot.timestamp.toLocaleString('nb-NO')}
                     </p>
                     <p className="text-sm font-medium mt-1">
-                      Grind: {shot.grindSetting}
+                      Kverning: {shot.grindSetting}
                     </p>
                   </div>
                   <Button
@@ -442,7 +408,7 @@ export function EspressoDialInLog() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleDeleteShot(shot.id)}
-                    aria-label={`Delete shot from ${shot.timestamp.toLocaleString('nb-NO')}`}
+                    aria-label={`Slett espressoen fra ${shot.timestamp.toLocaleString('nb-NO')}`}
                   >
                     <Trash2 className="h-4 w-4" aria-hidden="true" />
                   </Button>
@@ -451,33 +417,29 @@ export function EspressoDialInLog() {
                 {/* Shot Metrics */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
                   <div>
-                    <span className="text-muted-foreground">Dose:</span>
+                    <span className="text-muted-foreground">Mengde:</span>
                     <p className="font-medium">
-                      {useImperial
-                        ? `${formatFixed((shot.dose * GRAMS_TO_OZ), 2)} oz`
-                        : `${formatFixed(shot.dose, 1)} g`
+                      {`${formatFixed(shot.dose, 1)} g`
                       }
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Yield:</span>
+                    <span className="text-muted-foreground">Utbytte:</span>
                     <p className="font-medium">
-                      {useImperial
-                        ? `${formatFixed((shot.yield * GRAMS_TO_OZ), 2)} oz`
-                        : `${formatFixed(shot.yield, 1)} g`
+                      {`${formatFixed(shot.yield, 1)} g`
                       }
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Time:</span>
+                    <span className="text-muted-foreground">Tid:</span>
                     <p className="font-medium">{shot.time}s</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Ratio:</span>
+                    <span className="text-muted-foreground">Forhold:</span>
                     <p className="font-medium">{formatFixed(shot.metrics.extractionRatio, 2)}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Flow:</span>
+                    <span className="text-muted-foreground">Strøm:</span>
                     <p className="font-medium">{formatFixed(shot.metrics.flowRate, 2)} g/s</p>
                   </div>
                 </div>
@@ -500,7 +462,7 @@ export function EspressoDialInLog() {
                 {/* Taste Notes */}
                 {shot.tasteNotes && (
                   <div className="pt-2 border-t">
-                    <p className="text-sm font-medium mb-1">Taste Notes:</p>
+                    <p className="text-sm font-medium mb-1">Smaksnotater:</p>
                     <p className="text-sm text-muted-foreground">{shot.tasteNotes}</p>
                   </div>
                 )}
