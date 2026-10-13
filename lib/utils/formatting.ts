@@ -208,7 +208,6 @@ export function formatPercent(
 export function formatDate(
   date: Date,
   format: DateFormat = 'DD.MM.YYYY',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _locale: Locale = DEFAULT_LOCALE
 ): string {
   if (!(date instanceof Date) || isNaN(date.getTime())) {
