@@ -3,7 +3,7 @@ import { Public_Sans, Bricolage_Grotesque } from 'next/font/google';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { SkipLink } from '@/components/ui/skip-link';
-import { ServiceWorkerRegister, InstallPrompt } from '@/components/pwa';
+import { ServiceWorkerRegister } from '@/components/pwa';
 import './globals.css';
 
 // Samme fonter som Hjemmetavla: Public Sans til brødtekst, Bricolage Grotesque til overskrifter
@@ -108,7 +108,6 @@ export default function RootLayout({
 
         {/* PWA-komponenter */}
         <ServiceWorkerRegister />
-        <InstallPrompt />
       </body>
     </html>
   );
