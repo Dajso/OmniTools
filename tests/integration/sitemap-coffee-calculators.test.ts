@@ -63,7 +63,7 @@ describe('Sitemap - Coffee Calculators', () => {
   describe('Sitemap Generation Logic', () => {
     it('should generate sitemap URLs from tool registry', () => {
       // Simulate sitemap generation logic
-      const BASE_URL = 'https://omnitools.devtoolcafe.com';
+      const BASE_URL = 'https://kalkulator.hjemmetavla.no';
       const toolPages = Object.values(toolRegistry).map((tool) => ({
         url: `${BASE_URL}${tool.path}`,
         changeFrequency: 'monthly' as const,
@@ -80,7 +80,7 @@ describe('Sitemap - Coffee Calculators', () => {
     });
 
     it('should include coffee category page in sitemap', () => {
-      const BASE_URL = 'https://omnitools.devtoolcafe.com';
+      const BASE_URL = 'https://kalkulator.hjemmetavla.no';
       const categoryUrl = `${BASE_URL}/calculators/coffee`;
       
       // This would be in the categoryPages array in sitemap.ts
@@ -148,7 +148,7 @@ describe('Sitemap - Coffee Calculators', () => {
         const tool = toolRegistry[calculatorSlug];
         
         expect(tool.relatedTools).toBeInstanceOf(Array);
-        expect(tool.relatedTools.length).toBeGreaterThan(0);
+        expect(tool.relatedTools!.length).toBeGreaterThan(0);
       });
     });
 
@@ -156,7 +156,7 @@ describe('Sitemap - Coffee Calculators', () => {
       expectedCoffeeCalculators.forEach(calculatorSlug => {
         const tool = toolRegistry[calculatorSlug];
         
-        tool.relatedTools.forEach(relatedToolId => {
+        tool.relatedTools!.forEach(relatedToolId => {
           // Related tool should exist in registry
           expect(toolRegistry[relatedToolId]).toBeDefined();
         });

@@ -32,7 +32,7 @@ describe('Sitemap Generation', () => {
     const urls = sitemap.map(entry => {
       // Remove base URL to get just the path
       const url = entry.url;
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://omnitools.devtoolcafe.com';
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://kalkulator.hjemmetavla.no';
       return url.replace(baseUrl, '');
     });
 
@@ -48,7 +48,7 @@ describe('Sitemap Generation', () => {
 
     const urls = sitemap.map(entry => {
       const url = entry.url;
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://omnitools.devtoolcafe.com';
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://kalkulator.hjemmetavla.no';
       return url.replace(baseUrl, '');
     });
 
@@ -59,7 +59,7 @@ describe('Sitemap Generation', () => {
     const sitemapModule = await import('@/app/sitemap');
     const sitemap = sitemapModule.default();
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://omnitools.devtoolcafe.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://kalkulator.hjemmetavla.no';
 
     expectedCoffeeRoutes.forEach(route => {
       const entry = sitemap.find(e => e.url === `${baseUrl}${route}`);
@@ -75,7 +75,7 @@ describe('Sitemap Generation', () => {
     const sitemapModule = await import('@/app/sitemap');
     const sitemap = sitemapModule.default();
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://omnitools.devtoolcafe.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://kalkulator.hjemmetavla.no';
     const categoryEntry = sitemap.find(e => e.url === `${baseUrl}/calculators/coffee`);
 
     expect(categoryEntry).toBeDefined();

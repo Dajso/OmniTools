@@ -229,9 +229,9 @@ describe('Responsive Layout Integrity - Property 8', () => {
           );
 
           // Toggle switch should be accessible
-          const toggle = screen.getByRole('switch');
-          expect(toggle).not.toBeNull();
-          expect(toggle).not.toBeDisabled();
+          const buttons = screen.getAllByRole('button');
+          expect(buttons).toHaveLength(2);
+          buttons.forEach((b) => expect(b).not.toBeDisabled());
 
           unmount();
           return true;

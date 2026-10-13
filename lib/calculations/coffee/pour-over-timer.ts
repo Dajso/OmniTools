@@ -297,7 +297,7 @@ export function calculatePourSchedule(inputs: PourOverInputs): PourOverResults {
       break;
     case 'custom':
       stages = calculateCustomMethod(totalWater, numberOfPours!);
-      methodName = `Custom (${numberOfPours} pours)`;
+      methodName = `Egne helleomganger (${numberOfPours})`;
       break;
     default:
       throw new CoffeeCalculationError(

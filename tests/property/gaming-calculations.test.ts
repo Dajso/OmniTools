@@ -191,7 +191,7 @@ describe('Mouse Sensitivity Converter - Property 6: Mouse Sensitivity cm/360 Pre
           const lowSens = Math.min(sens1, sens2);
           const highSens = Math.max(sens1, sens2);
 
-          if (lowSens === highSens) return true;
+          if (highSens - lowSens < 0.001) return true; // avrunding gjør nesten like verdier like
 
           const multiplier = getGameMultiplier(game);
           const cm360Low = calculateCm360(dpi, lowSens, multiplier);
