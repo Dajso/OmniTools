@@ -1,10 +1,12 @@
 /**
- * Business Days Calculator
- * Calculates business days between dates, excluding weekends and optionally US holidays
+ * Virkedager
+ * Calculates business days between dates, excluding weekends and optionally Norwegian public holidays
  * 
  * @module lib/calculations/time/business-days-calculator
  * @see Requirements 30.1, 30.7
  */
+
+import { getNorwegianHolidays } from './norwegian-holidays';
 
 export interface BusinessDaysInput {
   startDate: Date;
@@ -22,35 +24,6 @@ export interface BusinessDaysResult {
   endDate: Date;
   excludedDates: Date[];
 }
-
-/**
- * US Federal Holidays
- * Some holidays have fixed dates, others are calculated based on rules
- */
-export interface Holiday {
-  name: string;
-  month: number; // 0-indexed (0 = January)
-  day?: number; // For fixed-date holidays
-  weekOfMonth?: number; // For floating holidays (1-5, negative for last)
-  dayOfWeek?: number; // 0 = Sunday, 1 = Monday, etc.
-}
-
-/**
- * US Federal Holidays definitions
- */
-export const US_FEDERAL_HOLIDAYS: Holiday[] = [
-  { name: "New Year's Day", month: 0, day: 1 },
-  { name: 'Martin Luther King Jr. Day', month: 0, weekOfMonth: 3, dayOfWeek: 1 }, // 3rd Monday of January
-  { name: "Presidents' Day", month: 1, weekOfMonth: 3, dayOfWeek: 1 }, // 3rd Monday of February
-  { name: 'Memorial Day', month: 4, weekOfMonth: -1, dayOfWeek: 1 }, // Last Monday of May
-  { name: 'Juneteenth', month: 5, day: 19 },
-  { name: 'Independence Day', month: 6, day: 4 },
-  { name: 'Labor Day', month: 8, weekOfMonth: 1, dayOfWeek: 1 }, // 1st Monday of September
-  { name: 'Columbus Day', month: 9, weekOfMonth: 2, dayOfWeek: 1 }, // 2nd Monday of October
-  { name: 'Veterans Day', month: 10, day: 11 },
-  { name: 'Thanksgiving Day', month: 10, weekOfMonth: 4, dayOfWeek: 4 }, // 4th Thursday of November
-  { name: 'Christmas Day', month: 11, day: 25 },
-];
 
 /**
  * Normalizes a date to midnight (start of day)
@@ -123,50 +96,28 @@ export function getObservedDate(date: Date): Date {
 }
 
 /**
- * Gets all US federal holidays for a given year
+ * Gets all Norwegian public holidays for a given year
  */
-export function getUSHolidaysForYear(year: number): Date[] {
-  const holidays: Date[] = [];
-  
-  for (const holiday of US_FEDERAL_HOLIDAYS) {
-    let holidayDate: Date;
-    
-    if (holiday.day !== undefined) {
-      // Fixed date holiday
-      holidayDate = new Date(year, holiday.month, holiday.day);
-    } else if (holiday.weekOfMonth !== undefined && holiday.dayOfWeek !== undefined) {
-      // Floating holiday
-      holidayDate = getNthDayOfMonth(year, holiday.month, holiday.dayOfWeek, holiday.weekOfMonth);
-    } else {
-      continue;
-    }
-    
-    // Get the observed date (adjusted for weekends)
-    const observedDate = getObservedDate(holidayDate);
-    holidays.push(normalizeDate(observedDate));
-  }
-  
-  return holidays;
+export function getHolidaysForYear(year: number): Date[] {
+  return getNorwegianHolidays(year).map(h => normalizeDate(h.date));
 }
 
 /**
- * Gets all US federal holidays between two dates
+ * Gets all Norwegian public holidays between two dates (inclusive)
  */
-export function getUSHolidaysBetweenDates(startDate: Date, endDate: Date): Date[] {
+export function getHolidaysBetweenDates(startDate: Date, endDate: Date): Date[] {
   const start = normalizeDate(startDate);
   const end = normalizeDate(endDate);
   const holidays: Date[] = [];
-  
-  // Get holidays for all years in the range
+
   for (let year = start.getFullYear(); year <= end.getFullYear(); year++) {
-    const yearHolidays = getUSHolidaysForYear(year);
-    for (const holiday of yearHolidays) {
+    for (const holiday of getHolidaysForYear(year)) {
       if (holiday >= start && holiday <= end) {
         holidays.push(holiday);
       }
     }
   }
-  
+
   return holidays;
 }
 
@@ -191,7 +142,7 @@ export function isDateInList(date: Date, dateList: Date[]): boolean {
 /**
  * Calculates business days between two dates
  * Excludes weekends (Saturday and Sunday)
- * Optionally excludes US federal holidays
+ * Optionally excludes Norwegian public holidays
  * 
  * @param input - BusinessDaysInput with start date, end date, and options
  * @returns BusinessDaysResult with calculated business days and details
@@ -211,7 +162,7 @@ export function calculateBusinessDays(input: BusinessDaysInput): BusinessDaysRes
   // Get holidays to exclude
   let holidaysToExclude: Date[] = [];
   if (excludeHolidays) {
-    holidaysToExclude = getUSHolidaysBetweenDates(start, end);
+    holidaysToExclude = getHolidaysBetweenDates(start, end);
   }
   
   // Add custom holidays
@@ -247,7 +198,7 @@ export function calculateBusinessDays(input: BusinessDaysInput): BusinessDaysRes
   }
   
   // Calculate total days (inclusive)
-  const totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+  const totalDays = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1; // round: sommertid gir 23/25 timer
   
   return {
     businessDays,
@@ -265,7 +216,7 @@ export function calculateBusinessDays(input: BusinessDaysInput): BusinessDaysRes
  * 
  * @param startDate - The starting date
  * @param daysToAdd - Number of business days to add (can be negative)
- * @param excludeHolidays - Whether to exclude US federal holidays
+ * @param excludeHolidays - Whether to exclude Norwegian public holidays
  * @returns The resulting date after adding business days
  */
 export function addBusinessDays(
@@ -284,7 +235,7 @@ export function addBusinessDays(
   if (excludeHolidays) {
     const startYear = start.getFullYear();
     for (let year = startYear - 2; year <= startYear + 5; year++) {
-      holidays = holidays.concat(getUSHolidaysForYear(year));
+      holidays = holidays.concat(getHolidaysForYear(year));
     }
   }
   
@@ -303,7 +254,7 @@ export function addBusinessDays(
  * Gets the next business day from a given date
  * 
  * @param date - The starting date
- * @param excludeHolidays - Whether to exclude US federal holidays
+ * @param excludeHolidays - Whether to exclude Norwegian public holidays
  * @returns The next business day
  */
 export function getNextBusinessDay(date: Date, excludeHolidays: boolean = false): Date {
@@ -312,8 +263,8 @@ export function getNextBusinessDay(date: Date, excludeHolidays: boolean = false)
   
   let holidays: Date[] = [];
   if (excludeHolidays) {
-    holidays = getUSHolidaysForYear(current.getFullYear());
-    holidays = holidays.concat(getUSHolidaysForYear(current.getFullYear() + 1));
+    holidays = getHolidaysForYear(current.getFullYear());
+    holidays = holidays.concat(getHolidaysForYear(current.getFullYear() + 1));
   }
   
   do {
@@ -327,7 +278,7 @@ export function getNextBusinessDay(date: Date, excludeHolidays: boolean = false)
  * Gets the previous business day from a given date
  * 
  * @param date - The starting date
- * @param excludeHolidays - Whether to exclude US federal holidays
+ * @param excludeHolidays - Whether to exclude Norwegian public holidays
  * @returns The previous business day
  */
 export function getPreviousBusinessDay(date: Date, excludeHolidays: boolean = false): Date {
@@ -336,8 +287,8 @@ export function getPreviousBusinessDay(date: Date, excludeHolidays: boolean = fa
   
   let holidays: Date[] = [];
   if (excludeHolidays) {
-    holidays = getUSHolidaysForYear(current.getFullYear());
-    holidays = holidays.concat(getUSHolidaysForYear(current.getFullYear() - 1));
+    holidays = getHolidaysForYear(current.getFullYear());
+    holidays = holidays.concat(getHolidaysForYear(current.getFullYear() - 1));
   }
   
   do {
@@ -351,7 +302,7 @@ export function getPreviousBusinessDay(date: Date, excludeHolidays: boolean = fa
  * Checks if a given date is a business day
  * 
  * @param date - The date to check
- * @param excludeHolidays - Whether to consider US federal holidays
+ * @param excludeHolidays - Whether to consider Norwegian public holidays
  * @returns True if the date is a business day
  */
 export function isBusinessDay(date: Date, excludeHolidays: boolean = false): boolean {
@@ -362,7 +313,7 @@ export function isBusinessDay(date: Date, excludeHolidays: boolean = false): boo
   }
   
   if (excludeHolidays) {
-    const holidays = getUSHolidaysForYear(normalized.getFullYear());
+    const holidays = getHolidaysForYear(normalized.getFullYear());
     if (isDateInList(normalized, holidays)) {
       return false;
     }

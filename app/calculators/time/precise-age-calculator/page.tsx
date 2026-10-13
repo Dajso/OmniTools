@@ -3,56 +3,47 @@ import { PreciseAgeCalculator } from '@/components/calculators/time';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Precise Age Calculator - Exact Age in Years, Months, Days',
-  description: 'Calculate your exact age in years, months, days, hours, minutes, and seconds. Find out your zodiac sign and days until your next birthday.',
-  keywords: ['age calculator', 'exact age', 'birthday calculator', 'how old am I', 'age in days', 'age in seconds'],
+  title: 'Nøyaktig alder – gratis kalkulator på nett',
+  description: 'Regn ut alder i år, måneder, dager, timer og sekunder, og dager til neste bursdag. Gratis og uten registrering.',
+  keywords: ['alder', 'nøyaktig alder', 'bursdag', 'hvor gammel er jeg'],
   alternates: { canonical: '/calculators/time/precise-age-calculator' },
+  openGraph: {
+    title: 'Nøyaktig alder',
+    description: 'Regn ut alder i år, måneder, dager, timer og sekunder, og dager til neste bursdag',
+    url: '/calculators/time/precise-age-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Precise Age Calculator',
-  description: 'Calculate exact age in years, months, days, hours, minutes, and seconds',
+  name: 'Nøyaktig alder',
+  description: 'Regn ut alder i år, måneder, dager, timer og sekunder, og dager til neste bursdag',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter birth date', text: 'Select your date of birth from the date picker.' },
-  { name: 'Add birth time (optional)', text: 'Enable the birth time option for more precise calculations.' },
-  { name: 'View your age', text: 'See your exact age broken down into years, months, days, and more.' },
-  { name: 'Explore additional info', text: 'Discover your zodiac sign and countdown to your next birthday.' },
+  { name: 'Skriv inn fødselsdato', text: 'Velg dato, og eventuelt klokkeslett.' },
+  { name: 'Les alderen', text: 'Se alderen oppdatert hvert sekund.' },
+  { name: 'Se mer', text: 'Dager levd, ukedag du er født på, stjernetegn og dager til neste bursdag.' },
 ];
 
 const faqs = [
-  {
-    question: 'How accurate is this age calculator?',
-    answer: 'The calculator is accurate to the second when you include your birth time. It accounts for varying month lengths and leap years. The display updates in real-time every second.',
-  },
-  {
-    question: 'Why does my age in days seem so high?',
-    answer: 'A year has 365 days (366 in leap years), so even a young person has lived thousands of days. For example, a 30-year-old has lived approximately 10,950 days!',
-  },
-  {
-    question: 'How is the zodiac sign determined?',
-    answer: 'Your zodiac sign is determined by your birth date according to Western astrology. The calculator uses the traditional date ranges for each of the 12 zodiac signs.',
-  },
-  {
-    question: 'Does the calculator account for leap years?',
-    answer: 'Yes, the calculator correctly handles leap years when calculating your age and the number of days you have lived.',
-  },
-  {
-    question: 'Why include birth time?',
-    answer: 'Including your birth time allows for precise calculation of hours, minutes, and seconds lived. Without it, the calculator assumes midnight (00:00) as your birth time.',
-  },
+  { question: 'Hvordan regnes alderen ut?', answer: 'Kalkulatoren teller hele år og måneder fra fødselsdatoen og viser resten som dager, timer, minutter og sekunder.' },
+  { question: 'Hva med skuddår?', answer: 'De er tatt hensyn til. Skuddagen 29. februar telles som en vanlig dag.' },
+  { question: 'Hvilket klokkeslett brukes?', answer: 'Hvis du ikke oppgir fødselstidspunkt, regnes det fra midnatt den dagen.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/fun/age-in-days', title: 'Age in Days Calculator', description: 'Fun facts about your age in various units.' },
-  { href: '/calculators/fun/zodiac-sign', title: 'Zodiac Sign Calculator', description: 'Find your zodiac sign and horoscope.' },
-  { href: '/calculators/time/business-days-calculator', title: 'Business Days Calculator', description: 'Calculate business days between dates.' },
+  { href: '/calculators/time/business-days-calculator', title: 'Virkedager', description: 'Regn ut virkedager mellom to datoer, uten helger og norske helligdager' },
+  { href: '/calculators/time/week-number-calculator', title: 'Ukenummer', description: 'Finn ISO-ukenummer for en dato, eller datoene for et ukenummer' },
+  { href: '/calculators/time/time-duration-calculator', title: 'Tidsregning', description: 'Legg til eller trekk fra tid, og finn forskjellen mellom klokkeslett' },
 ];
 
 export default function PreciseAgeCalculatorPage() {
@@ -62,57 +53,55 @@ export default function PreciseAgeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="precise-age-calculator"
-          title="Precise Age Calculator"
-          description="Calculate your exact age down to the second. Find out how many years, months, days, hours, minutes, and seconds you have lived, plus your zodiac sign and days until your next birthday."
+          title="Nøyaktig alder"
+          description="Regn ut din nøyaktige alder i år, måneder, dager, timer, minutter og sekunder. Gratis og uten registrering."
           colorClass="bg-purple-100 text-purple-600"
         />
 
-        <section aria-label="Precise Age Calculator">
+        <section aria-label="Nøyaktig alder">
           <PreciseAgeCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Age Milestones</h2>
+          <h2 className="text-xl font-semibold mb-4">Alder i dager og timer</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-2 px-3">Age</th>
-                  <th className="text-right py-2 px-3">Days</th>
-                  <th className="text-right py-2 px-3">Hours</th>
-                  <th className="text-right py-2 px-3">Heartbeats*</th>
+                  <th className="text-left py-2 px-3">Alder</th>
+                  <th className="text-right py-2 px-3">Dager</th>
+                  <th className="text-right py-2 px-3">Timer</th>
+                  <th className="text-right py-2 px-3">Hjerteslag*</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b"><td className="py-2 px-3">1 year</td><td className="text-right py-2 px-3">365</td><td className="text-right py-2 px-3">8,760</td><td className="text-right py-2 px-3">~42 million</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">10 years</td><td className="text-right py-2 px-3">3,652</td><td className="text-right py-2 px-3">87,648</td><td className="text-right py-2 px-3">~420 million</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">18 years</td><td className="text-right py-2 px-3">6,574</td><td className="text-right py-2 px-3">157,776</td><td className="text-right py-2 px-3">~756 million</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">30 years</td><td className="text-right py-2 px-3">10,957</td><td className="text-right py-2 px-3">262,968</td><td className="text-right py-2 px-3">~1.26 billion</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">50 years</td><td className="text-right py-2 px-3">18,262</td><td className="text-right py-2 px-3">438,288</td><td className="text-right py-2 px-3">~2.1 billion</td></tr>
-                <tr><td className="py-2 px-3">80 years</td><td className="text-right py-2 px-3">29,220</td><td className="text-right py-2 px-3">701,280</td><td className="text-right py-2 px-3">~3.36 billion</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">1 år</td><td className="text-right py-2 px-3">365</td><td className="text-right py-2 px-3">8 760</td><td className="text-right py-2 px-3">ca. 42 millioner</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">10 år</td><td className="text-right py-2 px-3">3 652</td><td className="text-right py-2 px-3">87 648</td><td className="text-right py-2 px-3">ca. 420 millioner</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">18 år</td><td className="text-right py-2 px-3">6 574</td><td className="text-right py-2 px-3">157 776</td><td className="text-right py-2 px-3">ca. 756 millioner</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">30 år</td><td className="text-right py-2 px-3">10 957</td><td className="text-right py-2 px-3">262 968</td><td className="text-right py-2 px-3">ca. 1,26 milliarder</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">50 år</td><td className="text-right py-2 px-3">18 262</td><td className="text-right py-2 px-3">438 288</td><td className="text-right py-2 px-3">ca. 2,1 milliarder</td></tr>
+                <tr><td className="text-left py-2 px-3">80 år</td><td className="text-right py-2 px-3">29 220</td><td className="text-right py-2 px-3">701 280</td><td className="text-right py-2 px-3">ca. 3,36 milliarder</td></tr>
               </tbody>
             </table>
-            <p className="text-xs text-muted-foreground mt-2">
-              * Estimated at average 80 beats per minute
-            </p>
+            <p className="text-xs text-muted-foreground mt-2">* Anslått med gjennomsnittlig puls på 80 slag i minuttet</p>
           </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Zodiac Signs</h2>
+          <h2 className="text-xl font-semibold mb-4">Stjernetegn</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-            <div className="p-2 bg-muted/50 rounded">♈ Aries: Mar 21 - Apr 19</div>
-            <div className="p-2 bg-muted/50 rounded">♉ Taurus: Apr 20 - May 20</div>
-            <div className="p-2 bg-muted/50 rounded">♊ Gemini: May 21 - Jun 20</div>
-            <div className="p-2 bg-muted/50 rounded">♋ Cancer: Jun 21 - Jul 22</div>
-            <div className="p-2 bg-muted/50 rounded">♌ Leo: Jul 23 - Aug 22</div>
-            <div className="p-2 bg-muted/50 rounded">♍ Virgo: Aug 23 - Sep 22</div>
-            <div className="p-2 bg-muted/50 rounded">♎ Libra: Sep 23 - Oct 22</div>
-            <div className="p-2 bg-muted/50 rounded">♏ Scorpio: Oct 23 - Nov 21</div>
-            <div className="p-2 bg-muted/50 rounded">♐ Sagittarius: Nov 22 - Dec 21</div>
-            <div className="p-2 bg-muted/50 rounded">♑ Capricorn: Dec 22 - Jan 19</div>
-            <div className="p-2 bg-muted/50 rounded">♒ Aquarius: Jan 20 - Feb 18</div>
-            <div className="p-2 bg-muted/50 rounded">♓ Pisces: Feb 19 - Mar 20</div>
+            <div className="p-2 bg-muted/50 rounded">♈ Væren: 21. mars – 19. april</div>
+            <div className="p-2 bg-muted/50 rounded">♉ Tyren: 20. april – 20. mai</div>
+            <div className="p-2 bg-muted/50 rounded">♊ Tvillingene: 21. mai – 20. juni</div>
+            <div className="p-2 bg-muted/50 rounded">♋ Krepsen: 21. juni – 22. juli</div>
+            <div className="p-2 bg-muted/50 rounded">♌ Løven: 23. juli – 22. august</div>
+            <div className="p-2 bg-muted/50 rounded">♍ Jomfruen: 23. august – 22. september</div>
+            <div className="p-2 bg-muted/50 rounded">♎ Vekten: 23. september – 22. oktober</div>
+            <div className="p-2 bg-muted/50 rounded">♏ Skorpionen: 23. oktober – 21. november</div>
+            <div className="p-2 bg-muted/50 rounded">♐ Skytten: 22. november – 21. desember</div>
+            <div className="p-2 bg-muted/50 rounded">♑ Steinbukken: 22. desember – 19. januar</div>
+            <div className="p-2 bg-muted/50 rounded">♒ Vannmannen: 20. januar – 18. februar</div>
+            <div className="p-2 bg-muted/50 rounded">♓ Fiskene: 19. februar – 20. mars</div>
           </div>
         </section>
 

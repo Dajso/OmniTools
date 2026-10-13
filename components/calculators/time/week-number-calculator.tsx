@@ -37,7 +37,7 @@ export function WeekNumberCalculator() {
         const date = new Date(selectedDate);
         
         if (isNaN(date.getTime())) {
-          setError('Please enter a valid date');
+          setError('Skriv inn en gyldig dato');
           return;
         }
         
@@ -46,7 +46,7 @@ export function WeekNumberCalculator() {
         setWeekDates(getDatesInWeek(weekResult.year, weekResult.weekNumber));
       } else {
         if (weekNumber < 1 || weekNumber > 53) {
-          setError('Week number must be between 1 and 53');
+          setError('Ukenummer må være mellom 1 og 53');
           return;
         }
         
@@ -58,7 +58,7 @@ export function WeekNumberCalculator() {
         setResult(weekResult);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
       setWeekDates(null);
     }
@@ -79,7 +79,7 @@ export function WeekNumberCalculator() {
   }, [calculate]);
 
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('nb-NO', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -87,7 +87,7 @@ export function WeekNumberCalculator() {
   };
 
   const formatFullDate = (date: Date): string => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('nb-NO', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -97,17 +97,17 @@ export function WeekNumberCalculator() {
 
   return (
     <CalculatorBase
-      title="Week Number Calculator"
-      description="Find the ISO week number for any date or get dates for a specific week"
+      title="Ukenummer"
+      description="Finn ISO-ukenummer for en dato, eller datoene for et bestemt ukenummer"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 p-4 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-1">ISO Week</p>
+            <p className="text-sm text-muted-foreground mb-1">ISO-uke</p>
             <p className="text-3xl font-bold text-green-700">
-              Week {result.weekNumber}
+              Uke {result.weekNumber}
             </p>
             <p className="text-lg text-green-600">
               {result.year}
@@ -116,12 +116,12 @@ export function WeekNumberCalculator() {
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Day of Week"
+              label="Ukedag"
               value={`${result.dayOfWeekName} (${result.dayOfWeek})`}
               copyable
             />
             <ResultDisplay
-              label="Day of Year"
+              label="Dag i året"
               value={`${result.dayOfYear} / ${result.daysInYear}`}
               copyable
             />
@@ -129,26 +129,26 @@ export function WeekNumberCalculator() {
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Quarter"
+              label="Kvartal"
               value={`Q${result.quarter}`}
               copyable
             />
             <ResultDisplay
-              label="Weeks in Year"
+              label="Uker i året"
               value={result.totalWeeksInYear.toString()}
               copyable
             />
           </div>
 
           <ResultDisplay
-            label="Leap Year"
-            value={result.isLeapYear ? 'Yes' : 'No'}
+            label="Skuddår"
+            value={result.isLeapYear ? 'Ja' : 'Nei'}
             copyable
           />
 
           {weekDates && (
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium mb-3">Week {result.weekNumber} Dates</p>
+              <p className="text-sm font-medium mb-3">Uke {result.weekNumber} Datoer</p>
               <div className="bg-muted/50 p-3 rounded-md">
                 <div className="grid grid-cols-7 gap-1 text-center text-xs">
                   {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
@@ -178,9 +178,9 @@ export function WeekNumberCalculator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              📅 Week starts: <strong>{formatFullDate(result.weekStart)}</strong>
+              📅 Uken starter: <strong>{formatFullDate(result.weekStart)}</strong>
               <br />
-              📅 Week ends: <strong>{formatFullDate(result.weekEnd)}</strong>
+              📅 Uken slutter: <strong>{formatFullDate(result.weekEnd)}</strong>
             </p>
           </div>
         </div>
@@ -188,21 +188,21 @@ export function WeekNumberCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="mode">Calculation Mode</Label>
+          <Label htmlFor="mode">Beregningsmåte</Label>
           <select
             id="mode"
             value={mode}
             onChange={(e) => setMode(e.target.value as 'dateToWeek' | 'weekToDate')}
             className="w-full mt-1 p-2 border rounded-md bg-background"
           >
-            <option value="dateToWeek">Find week number for a date</option>
-            <option value="weekToDate">Find dates for a week number</option>
+            <option value="dateToWeek">Finn ukenummer for en dato</option>
+            <option value="weekToDate">Finn datoer for et ukenummer</option>
           </select>
         </div>
 
         {mode === 'dateToWeek' ? (
           <div>
-            <Label htmlFor="selected-date">Select Date</Label>
+            <Label htmlFor="selected-date">Velg dato</Label>
             <input
               type="date"
               id="selected-date"
@@ -214,7 +214,7 @@ export function WeekNumberCalculator() {
         ) : (
           <>
             <div>
-              <Label htmlFor="week-year">Year</Label>
+              <Label htmlFor="week-year">År</Label>
               <input
                 type="number"
                 id="week-year"
@@ -226,7 +226,7 @@ export function WeekNumberCalculator() {
               />
             </div>
             <div>
-              <Label htmlFor="week-number">Week Number</Label>
+              <Label htmlFor="week-number">Ukenummer</Label>
               <input
                 type="number"
                 id="week-number"
@@ -242,8 +242,7 @@ export function WeekNumberCalculator() {
 
         <div className="bg-blue-50 border border-blue-200 p-3 rounded-md">
           <p className="text-sm text-blue-700">
-            💡 <strong>ISO 8601:</strong> Week 1 is the week containing the first Thursday of the year. 
-            Weeks start on Monday.
+            💡 <strong>ISO 8601:</strong> Uke 1 er uken som inneholder årets første torsdag. Uken starter på mandag. Dette er standard i Norge.
           </p>
         </div>
       </div>

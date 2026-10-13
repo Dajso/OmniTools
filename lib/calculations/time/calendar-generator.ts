@@ -6,6 +6,8 @@
  * @see Requirements 30.5, 30.8
  */
 
+import { getNorwegianHolidayName } from './norwegian-holidays';
+
 export interface CalendarMonth {
   year: number;
   month: number; // 0-indexed
@@ -38,21 +40,12 @@ export interface CalendarGeneratorResult {
 }
 
 const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'januar', 'februar', 'mars', 'april', 'mai', 'juni',
+  'juli', 'august', 'september', 'oktober', 'november', 'desember'
 ];
 
-const DAY_NAMES_SUNDAY_START = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const DAY_NAMES_MONDAY_START = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-/**
- * US Federal Holidays (simplified for calendar display)
- */
-const US_HOLIDAYS: { month: number; day: number; name: string }[] = [
-  { month: 0, day: 1, name: "New Year's Day" },
-  { month: 6, day: 4, name: 'Independence Day' },
-  { month: 11, day: 25, name: 'Christmas Day' },
-];
+const DAY_NAMES_SUNDAY_START = ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'];
+const DAY_NAMES_MONDAY_START = ['man', 'tir', 'ons', 'tor', 'fre', 'lør', 'søn'];
 
 /**
  * Checks if a year is a leap year
@@ -92,16 +85,8 @@ function isWeekend(date: Date): boolean {
  * Gets holiday info for a date
  */
 function getHolidayInfo(date: Date): { isHoliday: boolean; holidayName?: string } {
-  const month = date.getMonth();
-  const day = date.getDate();
-  
-  for (const holiday of US_HOLIDAYS) {
-    if (holiday.month === month && holiday.day === day) {
-      return { isHoliday: true, holidayName: holiday.name };
-    }
-  }
-  
-  return { isHoliday: false };
+  const name = getNorwegianHolidayName(date);
+  return name ? { isHoliday: true, holidayName: name } : { isHoliday: false };
 }
 
 /**
@@ -110,7 +95,7 @@ function getHolidayInfo(date: Date): { isHoliday: boolean; holidayName?: string 
 export function generateMonth(
   year: number,
   month: number,
-  startWeekOnMonday: boolean = false,
+  startWeekOnMonday: boolean = true,
   includeHolidays: boolean = true
 ): CalendarMonth {
   const daysInMonth = getDaysInMonth(year, month);
@@ -193,7 +178,7 @@ export function generateMonth(
  * Generates calendar data for a year or specific month
  */
 export function generateCalendar(input: CalendarGeneratorInput): CalendarGeneratorResult {
-  const { year, month, startWeekOnMonday = false, includeHolidays = true } = input;
+  const { year, month, startWeekOnMonday = true, includeHolidays = true } = input;
   
   const months: CalendarMonth[] = [];
   
@@ -217,7 +202,7 @@ export function generateCalendar(input: CalendarGeneratorInput): CalendarGenerat
 /**
  * Gets day names based on week start preference
  */
-export function getDayNames(startWeekOnMonday: boolean = false): string[] {
+export function getDayNames(startWeekOnMonday: boolean = true): string[] {
   return startWeekOnMonday ? DAY_NAMES_MONDAY_START : DAY_NAMES_SUNDAY_START;
 }
 
@@ -234,7 +219,7 @@ export function getMonthName(month: number): string {
  */
 export async function generateCalendarPDF(
   calendar: CalendarGeneratorResult,
-  startWeekOnMonday: boolean = false
+  startWeekOnMonday: boolean = true
 ): Promise<Blob> {
   // Dynamic import of jspdf for client-side only
   const { jsPDF } = await import('jspdf');
@@ -258,7 +243,7 @@ export async function generateCalendarPDF(
     // Title
     doc.setFontSize(24);
     doc.setFont('helvetica', 'bold');
-    doc.text(`${month.monthName} ${month.year}`, pageWidth / 2, margin + 10, { align: 'center' });
+    doc.text(`${month.monthName.charAt(0).toUpperCase()}${month.monthName.slice(1)} ${month.year}`, pageWidth / 2, margin + 10, { align: 'center' });
     
     // Day headers
     const cellWidth = (pageWidth - 2 * margin) / 7;
@@ -288,6 +273,8 @@ export async function generateCalendarPDF(
         // Set text color based on day type
         if (!day.isCurrentMonth) {
           doc.setTextColor(180, 180, 180);
+        } else if (day.isHoliday || date_isSunday(dayIndex, startWeekOnMonday)) {
+          doc.setTextColor(190, 30, 30);
         } else if (day.isWeekend) {
           doc.setTextColor(150, 150, 150);
         } else {
@@ -304,6 +291,11 @@ export async function generateCalendarPDF(
   });
   
   return doc.output('blob');
+}
+
+/** Er kolonnen søndag? */
+function date_isSunday(dayIndex: number, startWeekOnMonday: boolean): boolean {
+  return startWeekOnMonday ? dayIndex === 6 : dayIndex === 0;
 }
 
 export { MONTH_NAMES, DAY_NAMES_SUNDAY_START, DAY_NAMES_MONDAY_START };

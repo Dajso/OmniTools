@@ -24,7 +24,7 @@ export interface WeekNumberResult {
   weekEnd: Date; // Sunday of the week
 }
 
-const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAYS_OF_WEEK = ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
 
 /**
  * Checks if a year is a leap year

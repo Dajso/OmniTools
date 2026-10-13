@@ -40,7 +40,7 @@ export function CalendarGenerator() {
       });
       setCalendar(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation error');
+      setError(err instanceof Error ? err.message : 'Feil ved opprettelse');
       setCalendar(null);
     }
   }, [year, month, startWeekOnMonday, includeHolidays]);
@@ -64,14 +64,14 @@ export function CalendarGenerator() {
       const link = document.createElement('a');
       link.href = url;
       link.download = month !== undefined 
-        ? `calendar-${year}-${MONTH_NAMES[month].toLowerCase()}.pdf`
-        : `calendar-${year}.pdf`;
+        ? `kalender-${year}-${MONTH_NAMES[month].toLowerCase()}.pdf`
+        : `kalender-${year}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } catch (err) {
-      setError('Failed to generate PDF. Please try again.');
+      setError('Kunne ikke lage PDF. Prøv igjen.');
     } finally {
       setIsGeneratingPDF(false);
     }
@@ -86,7 +86,7 @@ export function CalendarGenerator() {
   const renderMonth = (calendarMonth: CalendarMonth) => (
     <div key={`${calendarMonth.year}-${calendarMonth.month}`} className="border rounded-lg p-4">
       <h3 className="text-lg font-semibold text-center mb-3">
-        {calendarMonth.monthName} {calendarMonth.year}
+        <span className="capitalize">{calendarMonth.monthName}</span> {calendarMonth.year}
       </h3>
       
       <div className="grid grid-cols-7 gap-1">
@@ -128,8 +128,8 @@ export function CalendarGenerator() {
 
   return (
     <CalculatorBase
-      title="Printable Calendar Generator"
-      description="Generate and download printable calendars in PDF format"
+      title="Kalender til utskrift"
+      description="Lag og last ned kalendere til utskrift som PDF, med norske helligdager"
       onCalculate={generate}
       onReset={reset}
       error={error}
@@ -139,9 +139,9 @@ export function CalendarGenerator() {
             <div>
               <p className="text-sm text-muted-foreground">
                 {month !== undefined 
-                  ? `${MONTH_NAMES[month]} ${year}`
-                  : `Full Year ${year}`}
-                {calendar.isLeapYear && ' (Leap Year)'}
+                  ? `${MONTH_NAMES[month].charAt(0).toUpperCase()}${MONTH_NAMES[month].slice(1)} ${year}`
+                  : `Hele året ${year}`}
+                {calendar.isLeapYear && '(skuddår)'}
               </p>
             </div>
             <Button 
@@ -152,11 +152,11 @@ export function CalendarGenerator() {
               {isGeneratingPDF ? (
                 <>
                   <span className="animate-spin">⏳</span>
-                  Generating...
+                  Lager …
                 </>
               ) : (
                 <>
-                  📥 Download PDF
+                  📥 Last ned PDF
                 </>
               )}
             </Button>
@@ -168,8 +168,7 @@ export function CalendarGenerator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 <strong>Tip:</strong> Click &quot;Download PDF&quot; to get a printable version. 
-              The PDF is optimized for landscape A4 paper.
+              💡 <strong>Tips:</strong> Trykk «Last ned PDF» for å få en utskriftsvennlig versjon. PDF-en er tilpasset A4 i liggende format.
             </p>
           </div>
 
@@ -177,15 +176,15 @@ export function CalendarGenerator() {
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                <span>Today</span>
+                <span>I dag</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-red-50 border border-red-200 rounded"></div>
-                <span>Holiday</span>
+                <span>Helligdag</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-gray-50 border border-gray-200 rounded"></div>
-                <span>Weekend</span>
+                <span>Helg</span>
               </div>
             </div>
           )}
@@ -194,7 +193,7 @@ export function CalendarGenerator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="year">Year</Label>
+          <Label htmlFor="year">År</Label>
           <input
             type="number"
             id="year"
@@ -207,22 +206,22 @@ export function CalendarGenerator() {
         </div>
 
         <div>
-          <Label htmlFor="month">Month (optional)</Label>
+          <Label htmlFor="month">Måned (valgfritt)</Label>
           <select
             id="month"
             value={month ?? ''}
             onChange={(e) => setMonth(e.target.value === '' ? undefined : parseInt(e.target.value))}
             className="w-full mt-1 p-2 border rounded-md bg-background"
           >
-            <option value="">Full Year</option>
+            <option value="">Hele året</option>
             {MONTH_NAMES.map((name, index) => (
-              <option key={index} value={index}>
+              <option key={index} value={index} className="capitalize">
                 {name}
               </option>
             ))}
           </select>
           <p className="text-xs text-muted-foreground mt-1">
-            Leave empty to generate a full year calendar
+            La stå tom for å lage kalender for hele året
           </p>
         </div>
 
@@ -235,7 +234,7 @@ export function CalendarGenerator() {
             className="rounded border-gray-300"
           />
           <Label htmlFor="start-monday" className="cursor-pointer">
-            Start week on Monday (ISO standard)
+            La uken starte på mandag (ISO-standard)
           </Label>
         </div>
 
@@ -248,7 +247,7 @@ export function CalendarGenerator() {
             className="rounded border-gray-300"
           />
           <Label htmlFor="include-holidays" className="cursor-pointer">
-            Highlight US holidays
+            Marker norske helligdager
           </Label>
         </div>
       </div>

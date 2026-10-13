@@ -28,21 +28,21 @@ export interface PreciseAgeResult {
   birthDayOfWeek: string;
 }
 
-const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAYS_OF_WEEK = ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
 
 const ZODIAC_SIGNS = [
-  { name: 'Capricorn', startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
-  { name: 'Aquarius', startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
-  { name: 'Pisces', startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 },
-  { name: 'Aries', startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
-  { name: 'Taurus', startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
-  { name: 'Gemini', startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
-  { name: 'Cancer', startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 },
-  { name: 'Leo', startMonth: 7, startDay: 23, endMonth: 8, endDay: 22 },
-  { name: 'Virgo', startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 },
-  { name: 'Libra', startMonth: 9, startDay: 23, endMonth: 10, endDay: 22 },
-  { name: 'Scorpio', startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 },
-  { name: 'Sagittarius', startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
+  { name: 'Steinbukken', startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
+  { name: 'Vannmannen', startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
+  { name: 'Fiskene', startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 },
+  { name: 'Væren', startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
+  { name: 'Tyren', startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
+  { name: 'Tvillingene', startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
+  { name: 'Krepsen', startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 },
+  { name: 'Løven', startMonth: 7, startDay: 23, endMonth: 8, endDay: 22 },
+  { name: 'Jomfruen', startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 },
+  { name: 'Vekten', startMonth: 9, startDay: 23, endMonth: 10, endDay: 22 },
+  { name: 'Skorpionen', startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 },
+  { name: 'Skytten', startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
 ];
 
 /**
@@ -107,7 +107,7 @@ export function calculatePreciseAge(input: PreciseAgeInput): PreciseAgeResult {
   const { birthDate, targetDate = new Date() } = input;
   
   if (birthDate > targetDate) {
-    throw new Error('Birth date cannot be in the future');
+    throw new Error('Fødselsdatoen kan ikke være i fremtiden');
   }
   
   // Calculate years, months, days

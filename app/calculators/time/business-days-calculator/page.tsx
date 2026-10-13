@@ -1,59 +1,58 @@
 import { Metadata } from 'next';
 import { BusinessDaysCalculator } from '@/components/calculators/time';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { getNorwegianHolidays } from '@/lib/calculations/time/norwegian-holidays';
+
+const YEAR_A = 2026;
+const YEAR_B = 2027;
+const holidaysA = getNorwegianHolidays(YEAR_A);
+const holidaysB = getNorwegianHolidays(YEAR_B);
+const fmt = (d: Date) => d.toLocaleDateString('nb-NO', { weekday: 'short', day: 'numeric', month: 'long' });
 
 export const metadata: Metadata = {
-  title: 'Business Days Calculator - Working Days Counter',
-  description: 'Calculate business days between two dates or add business days to a date. Excludes weekends and optionally US federal holidays.',
-  keywords: ['business days calculator', 'working days', 'weekday calculator', 'exclude weekends', 'holiday calculator'],
+  title: 'Virkedager – gratis kalkulator på nett',
+  description: 'Regn ut virkedager mellom to datoer, uten helger og norske helligdager. Gratis og uten registrering.',
+  keywords: ['virkedager', 'arbeidsdager', 'helligdager', 'helg', 'fristberegning'],
   alternates: { canonical: '/calculators/time/business-days-calculator' },
+  openGraph: {
+    title: 'Virkedager',
+    description: 'Regn ut virkedager mellom to datoer, uten helger og norske helligdager',
+    url: '/calculators/time/business-days-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Business Days Calculator',
-  description: 'Calculate business days between dates, excluding weekends and holidays',
+  name: 'Virkedager',
+  description: 'Regn ut virkedager mellom to datoer, uten helger og norske helligdager',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select calculation mode', text: 'Choose whether to calculate days between dates or add business days to a date.' },
-  { name: 'Enter start date', text: 'Select your starting date from the date picker.' },
-  { name: 'Enter end date or days', text: 'Either select an end date or enter the number of business days to add.' },
-  { name: 'Configure holidays', text: 'Optionally exclude US federal holidays from the calculation.' },
-  { name: 'View results', text: 'See the calculated business days or resulting date.' },
+  { name: 'Velg beregning', text: 'Finn antall virkedager mellom to datoer, eller legg et antall virkedager til en dato.' },
+  { name: 'Fyll inn datoene', text: 'Skriv inn start- og sluttdato, eller startdato og antall virkedager.' },
+  { name: 'Trekk fra helligdager', text: 'Kryss av for å trekke fra norske helligdager, som påske, 1. mai, 17. mai, pinse og jul.' },
+  { name: 'Les resultatet', text: 'Se antall virkedager, helgedager og helligdager i perioden.' },
 ];
 
 const faqs = [
-  {
-    question: 'What are business days?',
-    answer: 'Business days (also called working days or weekdays) are Monday through Friday, excluding weekends (Saturday and Sunday) and optionally public holidays.',
-  },
-  {
-    question: 'Which holidays are excluded?',
-    answer: 'When enabled, the calculator excludes US federal holidays including New Year\'s Day, Martin Luther King Jr. Day, Presidents\' Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, and Christmas.',
-  },
-  {
-    question: 'How are holiday weekends handled?',
-    answer: 'If a federal holiday falls on a Saturday, it\'s observed on Friday. If it falls on a Sunday, it\'s observed on Monday. The calculator uses these observed dates.',
-  },
-  {
-    question: 'Can I calculate backwards?',
-    answer: 'Yes! In "Add business days" mode, you can enter a negative number to subtract business days from your start date.',
-  },
-  {
-    question: 'Is the start date included in the count?',
-    answer: 'Yes, both the start and end dates are included in the business days count if they are business days themselves.',
-  },
+  { question: 'Hvilke dager regnes som virkedager?', answer: 'Mandag til fredag, unntatt helligdager. Lørdag og søndag regnes ikke som virkedager i denne kalkulatoren.' },
+  { question: 'Hvilke norske helligdager er med?', answer: 'Nyttårsdag, skjærtorsdag, langfredag, første og andre påskedag, 1. mai, 17. mai, Kristi himmelfartsdag, første og andre pinsedag, første og andre juledag.' },
+  { question: 'Er julaften og nyttårsaften med?', answer: 'Nei, de er ikke offisielle fridager, men mange har fri. Beregn selv om du vil regne dem med.' },
+  { question: 'Regnes lørdag som virkedag i fristberegning?', answer: 'Ofte ikke, men det avhenger av avtalen eller loven. Ved lovfastsatte frister gjelder egne regler, så sjekk kilden.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/date-difference', title: 'Date Difference Calculator', description: 'Calculate the difference between two dates.' },
-  { href: '/calculators/time/week-number-calculator', title: 'Week Number Calculator', description: 'Find the ISO week number for any date.' },
-  { href: '/calculators/time/precise-age-calculator', title: 'Precise Age Calculator', description: 'Calculate exact age in years, months, and days.' },
+  { href: '/calculators/time/week-number-calculator', title: 'Ukenummer', description: 'Finn ISO-ukenummer for en dato, eller datoene for et ukenummer' },
+  { href: '/calculators/time/precise-age-calculator', title: 'Nøyaktig alder', description: 'Regn ut alder i år, måneder, dager, timer og sekunder, og dager til neste bursdag' },
+  { href: '/calculators/time/time-duration-calculator', title: 'Tidsregning', description: 'Legg til eller trekk fra tid, og finn forskjellen mellom klokkeslett' },
 ];
 
 export default function BusinessDaysCalculatorPage() {
@@ -63,39 +62,39 @@ export default function BusinessDaysCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="business-days-calculator"
-          title="Business Days Calculator"
-          description="Calculate business days between two dates or add business days to a date. Automatically excludes weekends and optionally US federal holidays."
+          title="Virkedager"
+          description="Regn ut antall virkedager mellom to datoer, eller legg virkedager til en dato. Tar hensyn til norske helligdager. Gratis og uten registrering."
           colorClass="bg-blue-100 text-blue-600"
         />
 
-        <section aria-label="Business Days Calculator">
+        <section aria-label="Virkedager">
           <BusinessDaysCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">US Federal Holidays</h2>
+          <h2 className="text-xl font-semibold mb-4">Norske helligdager</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-2 px-3">Holiday</th>
-                  <th className="text-left py-2 px-3">Date</th>
+                  <th className="text-left py-2 px-3">Helligdag</th>
+                  <th className="text-left py-2 px-3">{YEAR_A}</th>
+                  <th className="text-left py-2 px-3">{YEAR_B}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b"><td className="py-2 px-3">New Year&apos;s Day</td><td className="py-2 px-3">January 1</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Martin Luther King Jr. Day</td><td className="py-2 px-3">3rd Monday in January</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Presidents&apos; Day</td><td className="py-2 px-3">3rd Monday in February</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Memorial Day</td><td className="py-2 px-3">Last Monday in May</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Juneteenth</td><td className="py-2 px-3">June 19</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Independence Day</td><td className="py-2 px-3">July 4</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Labor Day</td><td className="py-2 px-3">1st Monday in September</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Columbus Day</td><td className="py-2 px-3">2nd Monday in October</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Veterans Day</td><td className="py-2 px-3">November 11</td></tr>
-                <tr className="border-b"><td className="py-2 px-3">Thanksgiving</td><td className="py-2 px-3">4th Thursday in November</td></tr>
-                <tr><td className="py-2 px-3">Christmas Day</td><td className="py-2 px-3">December 25</td></tr>
+                {holidaysA.map((h, i) => (
+                  <tr key={h.name} className={i < holidaysA.length - 1 ? 'border-b' : ''}>
+                    <td className="py-2 px-3">{h.name}</td>
+                    <td className="py-2 px-3">{fmt(h.date)}</td>
+                    <td className="py-2 px-3">{fmt(holidaysB[i].date)}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
+            <p className="text-xs text-muted-foreground mt-2">
+              Helligdager som faller på en lørdag eller søndag, flyttes ikke til en virkedag i Norge.
+            </p>
           </div>
         </section>
 

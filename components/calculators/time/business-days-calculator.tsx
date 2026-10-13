@@ -45,7 +45,7 @@ export function BusinessDaysCalculator() {
         const end = new Date(endDate);
         
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-          setError('Please enter valid dates');
+          setError('Skriv inn gyldige datoer');
           return;
         }
         
@@ -60,7 +60,7 @@ export function BusinessDaysCalculator() {
         const start = new Date(startDate);
         
         if (isNaN(start.getTime())) {
-          setError('Please enter a valid start date');
+          setError('Skriv inn en gyldig startdato');
           return;
         }
         
@@ -69,7 +69,7 @@ export function BusinessDaysCalculator() {
         setResult(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
       setAddResult(null);
     }
@@ -95,7 +95,7 @@ export function BusinessDaysCalculator() {
   }, [calculate]);
 
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('nb-NO', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -108,8 +108,8 @@ export function BusinessDaysCalculator() {
 
   return (
     <CalculatorBase
-      title="Business Days Calculator"
-      description="Calculate business days between dates or add business days to a date"
+      title="Virkedager"
+      description="Regn ut antall virkedager mellom to datoer, eller legg virkedager til en dato"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -118,36 +118,36 @@ export function BusinessDaysCalculator() {
           {mode === 'between' && result && (
             <>
               <ResultDisplay
-                label="Business Days"
-                value={result.businessDays.toLocaleString()}
+                label="Virkedager"
+                value={result.businessDays.toLocaleString('nb-NO')}
                 highlight
                 copyable
               />
               
               <div className="grid grid-cols-2 gap-4">
                 <ResultDisplay
-                  label="Total Calendar Days"
-                  value={result.totalDays.toLocaleString()}
+                  label="Kalenderdager totalt"
+                  value={result.totalDays.toLocaleString('nb-NO')}
                   copyable
                 />
                 <ResultDisplay
-                  label="Weekend Days"
-                  value={result.weekendDays.toLocaleString()}
+                  label="Helgedager"
+                  value={result.weekendDays.toLocaleString('nb-NO')}
                   copyable
                 />
               </div>
 
               {excludeHolidays && (
                 <ResultDisplay
-                  label="Holidays Excluded"
-                  value={result.holidaysExcluded.toLocaleString()}
+                  label="Helligdager trukket fra"
+                  value={result.holidaysExcluded.toLocaleString('nb-NO')}
                   copyable
                 />
               )}
 
               <div className="bg-muted/50 p-3 rounded-md">
                 <p className="text-sm text-muted-foreground">
-                  📅 From <strong>{formatDate(result.startDate)}</strong> to{' '}
+                  📅 Fra <strong>{formatDate(result.startDate)}</strong> til{' '}
                   <strong>{formatDate(result.endDate)}</strong>
                 </p>
               </div>
@@ -157,7 +157,7 @@ export function BusinessDaysCalculator() {
           {mode === 'add' && addResult && (
             <>
               <ResultDisplay
-                label="Result Date"
+                label="Resultatdato"
                 value={formatDate(addResult)}
                 highlight
                 copyable
@@ -165,7 +165,7 @@ export function BusinessDaysCalculator() {
               
               <div className="bg-muted/50 p-3 rounded-md">
                 <p className="text-sm text-muted-foreground">
-                  📅 Adding <strong>{daysToAdd} business days</strong> to{' '}
+                  📅 Legger til <strong>{daysToAdd} virkedager</strong> til{' '}
                   <strong>{formatDate(new Date(startDate))}</strong>
                 </p>
               </div>
@@ -175,8 +175,8 @@ export function BusinessDaysCalculator() {
           <div className={`p-3 rounded-md ${isStartBusinessDay ? 'bg-green-50 border border-green-200' : 'bg-yellow-50 border border-yellow-200'}`}>
             <p className={`text-sm ${isStartBusinessDay ? 'text-green-700' : 'text-yellow-700'}`}>
               {isStartBusinessDay 
-                ? '✓ Start date is a business day'
-                : '⚠ Start date is not a business day (weekend or holiday)'}
+                ? '✓ Startdatoen er en virkedag'
+                : '⚠ Startdatoen er ikke en virkedag (helg eller helligdag)'}
             </p>
           </div>
         </div>
@@ -184,20 +184,20 @@ export function BusinessDaysCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="mode">Calculation Mode</Label>
+          <Label htmlFor="mode">Beregningsmåte</Label>
           <select
             id="mode"
             value={mode}
             onChange={(e) => setMode(e.target.value as 'between' | 'add')}
             className="w-full mt-1 p-2 border rounded-md bg-background"
           >
-            <option value="between">Calculate days between dates</option>
-            <option value="add">Add business days to a date</option>
+            <option value="between">Beregn dager mellom datoer</option>
+            <option value="add">Legg virkedager til en dato</option>
           </select>
         </div>
 
         <div>
-          <Label htmlFor="start-date">Start Date</Label>
+          <Label htmlFor="start-date">Startdato</Label>
           <input
             type="date"
             id="start-date"
@@ -209,7 +209,7 @@ export function BusinessDaysCalculator() {
 
         {mode === 'between' ? (
           <div>
-            <Label htmlFor="end-date">End Date</Label>
+            <Label htmlFor="end-date">Sluttdato</Label>
             <input
               type="date"
               id="end-date"
@@ -220,7 +220,7 @@ export function BusinessDaysCalculator() {
           </div>
         ) : (
           <div>
-            <Label htmlFor="days-to-add">Business Days to Add</Label>
+            <Label htmlFor="days-to-add">Virkedager som skal legges til</Label>
             <input
               type="number"
               id="days-to-add"
@@ -231,7 +231,7 @@ export function BusinessDaysCalculator() {
               max={365}
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Use negative numbers to subtract business days
+              Bruk negative tall for å trekke fra virkedager
             </p>
           </div>
         )}
@@ -245,7 +245,7 @@ export function BusinessDaysCalculator() {
             className="rounded border-gray-300"
           />
           <Label htmlFor="exclude-holidays" className="cursor-pointer">
-            Exclude US Federal Holidays
+            Trekk fra norske helligdager
           </Label>
         </div>
       </div>

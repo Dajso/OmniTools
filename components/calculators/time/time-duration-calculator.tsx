@@ -114,7 +114,7 @@ export function TimeDurationCalculator() {
         setResult(formatDuration(total));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [mode, days1, hours1, minutes1, seconds1, days2, hours2, minutes2, seconds2, time1, time2]);
@@ -141,15 +141,15 @@ export function TimeDurationCalculator() {
 
   return (
     <CalculatorBase
-      title="Time Duration Calculator"
-      description="Add or subtract time durations, or calculate time between two times"
+      title="Tidsregning"
+      description="Legg til eller trekk fra tidsrom, eller regn ut tiden mellom to klokkeslett"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <ResultDisplay
-            label="Result"
+            label="Resultat"
             value={result.formatted}
             highlight
             copyable
@@ -157,12 +157,12 @@ export function TimeDurationCalculator() {
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Total Seconds"
-              value={Math.abs(result.totalSeconds).toLocaleString()}
+              label="Sekunder totalt"
+              value={Math.abs(result.totalSeconds).toLocaleString('nb-NO')}
               copyable
             />
             <ResultDisplay
-              label="Total Minutes"
+              label="Minutter totalt"
               value={Math.abs(result.totalMinutes).toFixed(2)}
               copyable
             />
@@ -170,22 +170,22 @@ export function TimeDurationCalculator() {
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Total Hours"
+              label="Timer totalt"
               value={Math.abs(result.totalHours).toFixed(2)}
               copyable
             />
             <ResultDisplay
-              label="Total Days"
+              label="Dager totalt"
               value={Math.abs(result.totalDays).toFixed(4)}
               copyable
             />
           </div>
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Breakdown</p>
+            <p className="text-sm font-medium mb-2">Fordeling</p>
             <p className="text-sm text-muted-foreground">
-              {result.breakdown.days !== 0 && `${Math.abs(result.breakdown.days)} days, `}
-              {result.breakdown.hours} hours, {result.breakdown.minutes} minutes, {result.breakdown.seconds} seconds
+              {result.breakdown.days !== 0 && `${Math.abs(result.breakdown.days)} dager,`}
+              {result.breakdown.hours} timer, {result.breakdown.minutes} minutter, {result.breakdown.seconds} sekunder
             </p>
           </div>
         </div>
@@ -193,23 +193,23 @@ export function TimeDurationCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="mode">Calculation Mode</Label>
+          <Label htmlFor="mode">Beregningsmåte</Label>
           <select
             id="mode"
             value={mode}
             onChange={(e) => setMode(e.target.value as 'add' | 'subtract' | 'between')}
             className="w-full mt-1 p-2 border rounded-md bg-background"
           >
-            <option value="add">Add durations</option>
-            <option value="subtract">Subtract durations</option>
-            <option value="between">Time between two times</option>
+            <option value="add">Legg sammen tidsrom</option>
+            <option value="subtract">Trekk fra tidsrom</option>
+            <option value="between">Tid mellom to klokkeslett</option>
           </select>
         </div>
 
         {mode === 'between' ? (
           <>
             <div>
-              <Label htmlFor="time1">Start Time</Label>
+              <Label htmlFor="time1">Starttidspunkt</Label>
               <input
                 type="time"
                 id="time1"
@@ -219,7 +219,7 @@ export function TimeDurationCalculator() {
               />
             </div>
             <div>
-              <Label htmlFor="time2">End Time</Label>
+              <Label htmlFor="time2">Slutttidspunkt</Label>
               <input
                 type="time"
                 id="time2"
@@ -232,11 +232,11 @@ export function TimeDurationCalculator() {
         ) : (
           <>
             <div className="border rounded-md p-4">
-              <p className="text-sm font-medium mb-3">Duration 1</p>
+              <p className="text-sm font-medium mb-3">Tidsrom 1</p>
               <div className="grid grid-cols-4 gap-2">
                 <NumberInput
                   id="days1"
-                  label="Days"
+                  label="Dager"
                   value={days1}
                   onChange={setDays1}
                   min={0}
@@ -244,7 +244,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="hours1"
-                  label="Hours"
+                  label="Timer"
                   value={hours1}
                   onChange={setHours1}
                   min={0}
@@ -252,7 +252,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="minutes1"
-                  label="Minutes"
+                  label="Minutter"
                   value={minutes1}
                   onChange={setMinutes1}
                   min={0}
@@ -260,7 +260,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="seconds1"
-                  label="Seconds"
+                  label="Sekunder"
                   value={seconds1}
                   onChange={setSeconds1}
                   min={0}
@@ -276,11 +276,11 @@ export function TimeDurationCalculator() {
             </div>
 
             <div className="border rounded-md p-4">
-              <p className="text-sm font-medium mb-3">Duration 2</p>
+              <p className="text-sm font-medium mb-3">Tidsrom 2</p>
               <div className="grid grid-cols-4 gap-2">
                 <NumberInput
                   id="days2"
-                  label="Days"
+                  label="Dager"
                   value={days2}
                   onChange={setDays2}
                   min={0}
@@ -288,7 +288,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="hours2"
-                  label="Hours"
+                  label="Timer"
                   value={hours2}
                   onChange={setHours2}
                   min={0}
@@ -296,7 +296,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="minutes2"
-                  label="Minutes"
+                  label="Minutter"
                   value={minutes2}
                   onChange={setMinutes2}
                   min={0}
@@ -304,7 +304,7 @@ export function TimeDurationCalculator() {
                 />
                 <NumberInput
                   id="seconds2"
-                  label="Seconds"
+                  label="Sekunder"
                   value={seconds2}
                   onChange={setSeconds2}
                   min={0}

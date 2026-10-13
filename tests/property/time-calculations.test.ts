@@ -13,7 +13,7 @@ import {
   isBusinessDay,
   normalizeDate,
   addBusinessDays,
-  getUSHolidaysForYear,
+  getHolidaysForYear,
   type BusinessDaysInput,
 } from '@/lib/calculations/time/business-days-calculator';
 

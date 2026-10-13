@@ -47,12 +47,12 @@ export function PreciseAgeCalculator() {
       }
       
       if (isNaN(birthDateTime.getTime())) {
-        setError('Please enter a valid birth date');
+        setError('Skriv inn en gyldig fødselsdato');
         return;
       }
       
       if (birthDateTime > currentTime) {
-        setError('Birth date cannot be in the future');
+        setError('Fødselsdatoen kan ikke være i fremtiden');
         return;
       }
       
@@ -62,7 +62,7 @@ export function PreciseAgeCalculator() {
       });
       setResult(ageResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [birthDate, birthTime, includeTime, currentTime]);
@@ -80,7 +80,7 @@ export function PreciseAgeCalculator() {
   }, [calculate]);
 
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('nb-NO', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -90,62 +90,62 @@ export function PreciseAgeCalculator() {
 
   return (
     <CalculatorBase
-      title="Precise Age Calculator"
-      description="Calculate your exact age in years, months, days, hours, minutes, and seconds"
+      title="Nøyaktig alder"
+      description="Se nøyaktig alder i år, måneder, dager, timer, minutter og sekunder"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={result && (
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 p-4 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-1">Your Age</p>
+            <p className="text-sm text-muted-foreground mb-1">Din alder</p>
             <p className="text-2xl font-bold text-blue-700">
-              {result.years} years, {result.months} months, {result.days} days
+              {result.years} år, {result.months} måneder, {result.days} dager
             </p>
             {includeTime && (
               <p className="text-lg text-blue-600">
-                {result.hours} hours, {result.minutes} minutes, {result.seconds} seconds
+                {result.hours} timer, {result.minutes} minutter, {result.seconds} sekunder
               </p>
             )}
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Total Days Lived"
-              value={result.totalDays.toLocaleString()}
+              label="Dager levd"
+              value={result.totalDays.toLocaleString('nb-NO')}
               copyable
             />
             <ResultDisplay
-              label="Total Hours Lived"
-              value={result.totalHours.toLocaleString()}
+              label="Timer levd"
+              value={result.totalHours.toLocaleString('nb-NO')}
               copyable
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
-              label="Total Minutes Lived"
-              value={result.totalMinutes.toLocaleString()}
+              label="Minutter levd"
+              value={result.totalMinutes.toLocaleString('nb-NO')}
               copyable
             />
             <ResultDisplay
-              label="Total Seconds Lived"
-              value={result.totalSeconds.toLocaleString()}
+              label="Sekunder levd"
+              value={result.totalSeconds.toLocaleString('nb-NO')}
               copyable
             />
           </div>
 
           <div className="border-t pt-4 mt-4">
-            <p className="text-sm font-medium mb-3">Additional Information</p>
+            <p className="text-sm font-medium mb-3">Mer informasjon</p>
             
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
-                label="Zodiac Sign"
+                label="Stjernetegn"
                 value={result.zodiacSign}
                 copyable
               />
               <ResultDisplay
-                label="Born on"
+                label="Født på"
                 value={result.birthDayOfWeek}
                 copyable
               />
@@ -153,10 +153,10 @@ export function PreciseAgeCalculator() {
 
             <div className="mt-4 bg-yellow-50 border border-yellow-200 p-3 rounded-md">
               <p className="text-sm text-yellow-700">
-                🎂 <strong>Next Birthday:</strong> {formatDate(result.nextBirthday)}
+                🎂 <strong>Neste bursdag:</strong> {formatDate(result.nextBirthday)}
                 <br />
                 <span className="text-yellow-600">
-                  ({result.daysUntilNextBirthday} days away)
+                  ({result.daysUntilNextBirthday} dager til)
                 </span>
               </p>
             </div>
@@ -164,7 +164,7 @@ export function PreciseAgeCalculator() {
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-xs text-muted-foreground">
-              ⏱️ Live calculation - updates every second
+              ⏱️ Oppdateres hvert sekund
             </p>
           </div>
         </div>
@@ -172,7 +172,7 @@ export function PreciseAgeCalculator() {
     >
       <div className="space-y-4">
         <div>
-          <Label htmlFor="birth-date">Birth Date</Label>
+          <Label htmlFor="birth-date">Fødselsdato</Label>
           <input
             type="date"
             id="birth-date"
@@ -192,13 +192,13 @@ export function PreciseAgeCalculator() {
             className="rounded border-gray-300"
           />
           <Label htmlFor="include-time" className="cursor-pointer">
-            Include birth time for precise calculation
+            Ta med klokkeslett for nøyaktig beregning
           </Label>
         </div>
 
         {includeTime && (
           <div>
-            <Label htmlFor="birth-time">Birth Time</Label>
+            <Label htmlFor="birth-time">Fødselstidspunkt</Label>
             <input
               type="time"
               id="birth-time"
@@ -211,7 +211,7 @@ export function PreciseAgeCalculator() {
 
         <div className="bg-muted/50 p-3 rounded-md">
           <p className="text-sm text-muted-foreground">
-            📅 Current time: {currentTime.toLocaleString()}
+            📅 Klokkeslett nå: {currentTime.toLocaleString('nb-NO')}
           </p>
         </div>
       </div>

@@ -13,7 +13,7 @@ import {
   isWeekend,
   isBusinessDay,
   addBusinessDays,
-  getUSHolidaysForYear,
+  getHolidaysForYear,
   getNthDayOfMonth,
   getObservedDate,
 } from '@/lib/calculations/time/business-days-calculator';
@@ -24,6 +24,7 @@ import {
   getMonthName,
   MONTH_NAMES,
 } from '@/lib/calculations/time/calendar-generator';
+import { easterSunday } from '@/lib/calculations/time/norwegian-holidays';
 
 describe('Business Days Calculator - Known Date Ranges', () => {
   /**
@@ -102,8 +103,8 @@ describe('Business Days Calculator - Known Date Ranges', () => {
       excludeHolidays: true,
     });
 
-    expect(result.businessDays).toBe(4); // Mon, Tue, Wed, Fri (excluding Thu Christmas)
-    expect(result.holidaysExcluded).toBe(1); // Christmas
+    expect(result.businessDays).toBe(3); // man, tir, ons (1. og 2. juledag er fridager)
+    expect(result.holidaysExcluded).toBe(2); // 1. og 2. juledag
     expect(result.weekendDays).toBe(0);
     expect(result.totalDays).toBe(5);
   });
@@ -120,12 +121,11 @@ describe('Business Days Calculator - Known Date Ranges', () => {
       excludeHolidays: true,
     });
 
-    // January 2025: 31 days, 8 weekend days (4 Sat + 4 Sun), 2 holidays (New Year's + MLK Day)
-    // MLK Day 2025 is Monday Jan 20
+    // Januar 2025: 31 dager, 8 helgedager (4 lørdager + 4 søndager), 1 helligdag (nyttårsdag)
     expect(result.totalDays).toBe(31);
-    expect(result.weekendDays).toBe(8); // 4 Saturdays + 4 Sundays
-    expect(result.holidaysExcluded).toBe(2); // New Year's Day + MLK Day
-    expect(result.businessDays).toBe(21); // 31 - 8 - 2 = 21
+    expect(result.weekendDays).toBe(8);
+    expect(result.holidaysExcluded).toBe(1);
+    expect(result.businessDays).toBe(22); // 31 - 8 - 1
   });
 
   /**
@@ -195,28 +195,34 @@ describe('Business Days Calculator - Known Date Ranges', () => {
   });
 
   /**
-   * Test US holidays for a known year
+   * Norske helligdager for 2025 (første påskedag 20. april)
    */
-  it('should return correct US holidays for 2025', () => {
-    const holidays = getUSHolidaysForYear(2025);
-    
-    // Should have 11 federal holidays
-    expect(holidays.length).toBe(11);
-    
-    // Check specific holidays
-    const holidayDates = holidays.map(h => `${h.getMonth() + 1}/${h.getDate()}`);
-    
-    expect(holidayDates).toContain('1/1');   // New Year's Day
-    expect(holidayDates).toContain('1/20');  // MLK Day (3rd Monday)
-    expect(holidayDates).toContain('2/17');  // Presidents' Day (3rd Monday)
-    expect(holidayDates).toContain('5/26');  // Memorial Day (last Monday)
-    expect(holidayDates).toContain('6/19');  // Juneteenth
-    expect(holidayDates).toContain('7/4');   // Independence Day
-    expect(holidayDates).toContain('9/1');   // Labor Day (1st Monday)
-    expect(holidayDates).toContain('10/13'); // Columbus Day (2nd Monday)
-    expect(holidayDates).toContain('11/11'); // Veterans Day
-    expect(holidayDates).toContain('11/27'); // Thanksgiving (4th Thursday)
-    expect(holidayDates).toContain('12/25'); // Christmas
+  it('should return correct Norwegian holidays for 2025', () => {
+    const holidays = getHolidaysForYear(2025);
+    expect(holidays.length).toBe(12);
+
+    const holidayDates = holidays.map((h: Date) => `${h.getMonth() + 1}/${h.getDate()}`);
+    expect(holidayDates).toContain('1/1');   // Første nyttårsdag
+    expect(holidayDates).toContain('4/17');  // Skjærtorsdag
+    expect(holidayDates).toContain('4/18');  // Langfredag
+    expect(holidayDates).toContain('4/20');  // Første påskedag
+    expect(holidayDates).toContain('4/21');  // Andre påskedag
+    expect(holidayDates).toContain('5/1');   // Arbeidernes dag
+    expect(holidayDates).toContain('5/17');  // Grunnlovsdagen
+    expect(holidayDates).toContain('5/29');  // Kristi himmelfartsdag
+    expect(holidayDates).toContain('6/8');   // Første pinsedag
+    expect(holidayDates).toContain('6/9');   // Andre pinsedag
+    expect(holidayDates).toContain('12/25'); // Første juledag
+    expect(holidayDates).toContain('12/26'); // Andre juledag
+  });
+
+  it('should compute Easter correctly for several years', () => {
+    expect(easterSunday(2024).getMonth()).toBe(2);  // 31. mars 2024
+    expect(easterSunday(2024).getDate()).toBe(31);
+    expect(easterSunday(2026).getMonth()).toBe(3);  // 5. april 2026
+    expect(easterSunday(2026).getDate()).toBe(5);
+    expect(easterSunday(2038).getMonth()).toBe(3);  // 25. april 2038
+    expect(easterSunday(2038).getDate()).toBe(25);
   });
 });
 
@@ -236,7 +242,7 @@ describe('Calendar Generator - Known Values', () => {
     expect(result.isLeapYear).toBe(false);
 
     const january = result.months[0];
-    expect(january.monthName).toBe('January');
+    expect(january.monthName).toBe('januar');
     expect(january.year).toBe(2025);
     expect(january.month).toBe(0);
 
@@ -319,8 +325,8 @@ describe('Calendar Generator - Known Values', () => {
    */
   it('should return correct day names starting with Sunday', () => {
     const dayNames = getDayNames(false);
-    expect(dayNames[0]).toBe('Sun');
-    expect(dayNames[6]).toBe('Sat');
+    expect(dayNames[0]).toBe('søn');
+    expect(dayNames[6]).toBe('lør');
   });
 
   /**
@@ -328,17 +334,17 @@ describe('Calendar Generator - Known Values', () => {
    */
   it('should return correct day names starting with Monday', () => {
     const dayNames = getDayNames(true);
-    expect(dayNames[0]).toBe('Mon');
-    expect(dayNames[6]).toBe('Sun');
+    expect(dayNames[0]).toBe('man');
+    expect(dayNames[6]).toBe('søn');
   });
 
   /**
    * Test month name lookup
    */
   it('should return correct month names', () => {
-    expect(getMonthName(0)).toBe('January');
-    expect(getMonthName(6)).toBe('July');
-    expect(getMonthName(11)).toBe('December');
+    expect(getMonthName(0)).toBe('januar');
+    expect(getMonthName(6)).toBe('juli');
+    expect(getMonthName(11)).toBe('desember');
   });
 
   /**
@@ -377,7 +383,7 @@ describe('Calendar Generator - Known Values', () => {
     // Find January 1, 2025 (New Year's Day)
     const newYearsDay = january.days.find(d => d.isCurrentMonth && d.day === 1);
     expect(newYearsDay?.isHoliday).toBe(true);
-    expect(newYearsDay?.holidayName).toBe("New Year's Day");
+    expect(newYearsDay?.holidayName).toBe('Første nyttårsdag');
   });
 
   /**
@@ -403,15 +409,15 @@ describe('Calendar Generator - Known Values', () => {
    * Test generateMonth directly
    */
   it('should generate a single month correctly', () => {
-    const month = generateMonth(2025, 6, false, true); // July 2025
+    const month = generateMonth(2025, 4, true, true); // mai 2025
 
-    expect(month.monthName).toBe('July');
+    expect(month.monthName).toBe('mai');
     expect(month.year).toBe(2025);
-    expect(month.month).toBe(6);
+    expect(month.month).toBe(4);
 
-    // July 4, 2025 should be marked as Independence Day
-    const july4 = month.days.find(d => d.isCurrentMonth && d.day === 4);
-    expect(july4?.isHoliday).toBe(true);
-    expect(july4?.holidayName).toBe('Independence Day');
+    // 17. mai skal være markert som Grunnlovsdagen
+    const may17 = month.days.find(d => d.isCurrentMonth && d.day === 17);
+    expect(may17?.isHoliday).toBe(true);
+    expect(may17?.holidayName).toBe('Grunnlovsdagen');
   });
 });
