@@ -6,6 +6,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { calculateWaterIntake, type ActivityLevel, type WaterIntakeResults } from '@/lib/calculations/health/water-intake';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const ACTIVITY_OPTIONS = [
   { value: 'sedentary', label: 'Stillesittende (lite trening)' },
@@ -44,7 +45,7 @@ export function WaterIntakeCalculator() {
       results={results && (
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Vann per dag" value={results.liters.toFixed(1).replace('.', ',')} unit="liter" highlight copyable />
+            <ResultDisplay label="Vann per dag" value={formatFixed(results.liters, 1)} unit="liter" highlight copyable />
           </div>
           <ResultDisplay label="Glass à 2 dl" value={Math.ceil(results.liters * 5)} unit="glass/dag" />
           <div className="bg-blue-50 p-4 rounded-lg">

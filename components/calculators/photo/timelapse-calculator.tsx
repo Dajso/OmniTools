@@ -16,6 +16,7 @@ import {
   calculateCardCapacity,
   type TimelapseResult,
 } from '@/lib/calculations/photo/timelapse-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const FRAME_RATE_OPTIONS = COMMON_FRAME_RATES.map(fps => ({
   value: fps.toString(),
@@ -101,8 +102,8 @@ export function TimeLapseCalculator() {
             <ResultDisplay
               label="Shooting Interval"
               value={result.intervalSeconds >= 1 
-                ? `${result.intervalSeconds.toFixed(1)}s` 
-                : `${result.intervalMs.toFixed(0)}ms`}
+                ? `${formatFixed(result.intervalSeconds, 1)}s` 
+                : `${formatFixed(result.intervalMs, 0)}ms`}
               highlight
               copyable
             />
@@ -116,7 +117,7 @@ export function TimeLapseCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Speed-up Factor"
-              value={`${result.speedUpFactor.toFixed(0)}×`}
+              value={`${formatFixed(result.speedUpFactor, 0)}×`}
             />
             <ResultDisplay
               label="Output Duration"
@@ -127,8 +128,8 @@ export function TimeLapseCalculator() {
             <ResultDisplay
               label="Storage Needed"
               value={result.storageEstimateGB >= 1 
-                ? `${result.storageEstimateGB.toFixed(1)} GB`
-                : `${result.storageEstimateMB.toFixed(0)} MB`}
+                ? `${formatFixed(result.storageEstimateGB, 1)} GB`
+                : `${formatFixed(result.storageEstimateMB, 0)} MB`}
             />
             <ResultDisplay
               label="Shooting Duration"

@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { Card } from '@/components/ui/card';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const PHI = 1.618033988749895;
 
@@ -204,7 +205,7 @@ export function GoldenRatioOverlay() {
             </div>
             <div>
               <span className="text-muted-foreground">Aspect Ratio: </span>
-              <span className="font-medium">{(width / height).toFixed(3)}:1</span>
+              <span className="font-medium">{formatFixed((width / height), 3)}:1</span>
             </div>
           </div>
 

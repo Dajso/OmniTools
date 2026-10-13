@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { Label } from '@/components/ui/label';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Time Duration Calculator Component
@@ -163,7 +164,7 @@ export function TimeDurationCalculator() {
             />
             <ResultDisplay
               label="Minutter totalt"
-              value={Math.abs(result.totalMinutes).toFixed(2)}
+              value={formatFixed(Math.abs(result.totalMinutes), 2)}
               copyable
             />
           </div>
@@ -171,12 +172,12 @@ export function TimeDurationCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Timer totalt"
-              value={Math.abs(result.totalHours).toFixed(2)}
+              value={formatFixed(Math.abs(result.totalHours), 2)}
               copyable
             />
             <ResultDisplay
               label="Dager totalt"
-              value={Math.abs(result.totalDays).toFixed(4)}
+              value={formatFixed(Math.abs(result.totalDays), 4)}
               copyable
             />
           </div>

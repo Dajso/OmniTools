@@ -21,6 +21,7 @@ import {
   COMPARISON_OPTIONS,
   type DiceProbabilityResult,
 } from '@/lib/calculations/stats';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Dice Probability Calculator Component
@@ -105,12 +106,12 @@ export function DiceProbabilityCalculator() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
               label="Mean (Expected)"
-              value={result.statistics.mean.toFixed(2)}
+              value={formatFixed(result.statistics.mean, 2)}
               copyable
             />
             <ResultDisplay
               label="Std Deviation"
-              value={result.statistics.standardDeviation.toFixed(2)}
+              value={formatFixed(result.statistics.standardDeviation, 2)}
               copyable
             />
             <ResultDisplay
@@ -199,7 +200,7 @@ export function DiceProbabilityCalculator() {
               💡 Rolling {numDice}d{numSides} (
               {numDice} {numDice === 1 ? 'die' : 'dice'} with {numSides} sides each)
               has {result.totalOutcomes.toLocaleString('nb-NO')} possible outcomes.
-              The most likely sum is around {result.statistics.mean.toFixed(0)}.
+              The most likely sum is around {formatFixed(result.statistics.mean, 0)}.
             </p>
           </div>
         </div>

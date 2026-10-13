@@ -20,6 +20,7 @@ import {
   type CPMResult,
   type AdvertisingMetrics,
 } from '@/lib/calculations/creator/cpm-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const cpmSchema = z.object({
   mode: z.enum(['cpm', 'cost', 'impressions', 'full']),
@@ -289,7 +290,7 @@ export function CPMCalculator() {
               {results.costPerImpression !== undefined && (
                 <ResultDisplay
                   label="Cost Per Impression"
-                  value={`$${results.costPerImpression.toFixed(6)}`}
+                  value={`$${formatFixed(results.costPerImpression, 6)}`}
                   copyable
                 />
               )}
@@ -314,7 +315,7 @@ export function CPMCalculator() {
               <div className="bg-muted/50 rounded-lg p-4 space-y-2">
                 <p className="text-sm font-medium">Platform Comparison: {platformData.label}</p>
                 <p className="text-sm text-muted-foreground">
-                  Average CPM: ${platformData.low.toFixed(2)} - ${platformData.high.toFixed(2)}
+                  Average CPM: ${formatFixed(platformData.low, 2)} - ${formatFixed(platformData.high, 2)}
                 </p>
                 <p className={`text-sm font-medium ${results.cpm < platformData.low ? 'text-green-600' :
                     results.cpm > platformData.high ? 'text-red-600' : 'text-yellow-600'

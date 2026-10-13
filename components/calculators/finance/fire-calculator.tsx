@@ -6,7 +6,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { formatCurrency } from '@/lib/utils/formatting';
+import { formatCurrency, formatFixed } from '@/lib/utils/formatting';
 
 const schema = z.object({
   annualExpenses: z.number().min(1, 'Utgiftene må være større enn null'),
@@ -79,9 +79,9 @@ export function FireCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="FIRE-tall" value={formatCurrency(results.fireNumber)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="År til FIRE" value={`${results.yearsToFire.toFixed(1)} år`} />
+            <ResultDisplay label="År til FIRE" value={`${formatFixed(results.yearsToFire, 1)} år`} />
             <ResultDisplay label="Trygt årlig uttak" value={formatCurrency(results.safeWithdrawal)} copyable />
-            <ResultDisplay label="Fremdrift så langt" value={`${results.progress.toFixed(1)}%`} />
+            <ResultDisplay label="Fremdrift så langt" value={`${formatFixed(results.progress, 1)}%`} />
           </div>
         </div>
       )}

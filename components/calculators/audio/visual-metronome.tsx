@@ -7,6 +7,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { BPM_PRESETS } from '@/lib/calculations/audio/bpm-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type TimeSignature = '4/4' | '3/4' | '6/8' | '2/4' | '5/4' | '7/8';
 
@@ -289,15 +290,15 @@ export function VisualMetronome() {
         <div className="grid grid-cols-3 gap-4 text-center text-sm">
           <div className="bg-muted/50 p-3 rounded-lg">
             <p className="text-muted-foreground">ms per beat</p>
-            <p className="font-bold">{(60000 / bpm).toFixed(1)}</p>
+            <p className="font-bold">{formatFixed((60000 / bpm), 1)}</p>
           </div>
           <div className="bg-muted/50 p-3 rounded-lg">
             <p className="text-muted-foreground">beats per second</p>
-            <p className="font-bold">{(bpm / 60).toFixed(2)}</p>
+            <p className="font-bold">{formatFixed((bpm / 60), 2)}</p>
           </div>
           <div className="bg-muted/50 p-3 rounded-lg">
             <p className="text-muted-foreground">bar duration</p>
-            <p className="font-bold">{((60000 / bpm) * beats / 1000).toFixed(2)}s</p>
+            <p className="font-bold">{formatFixed(((60000 / bpm) * beats / 1000), 2)}s</p>
           </div>
         </div>
 

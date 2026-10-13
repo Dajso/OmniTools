@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
+import { formatFixed } from '@/lib/utils/formatting';
 
 // AWG to mm² conversion data
 const AWG_DATA: Record<number, { diameter: number; area: number; resistance: number }> = {
@@ -102,18 +103,18 @@ export function AWGConverter() {
         <div className="space-y-4">
           <ResultDisplay label="Wire Gauge" value={`AWG ${result.awg}`} />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Diameter (mm)" value={result.diameterMm.toFixed(3)} copyable />
-            <ResultDisplay label="Diameter (inch)" value={result.diameterInch.toFixed(4)} />
-            <ResultDisplay label="Area (mm²)" value={result.areaMm2.toFixed(3)} copyable />
-            <ResultDisplay label="Area (circular mils)" value={result.areaCircularMils.toFixed(0)} />
-            <ResultDisplay label="Resistance (Ω/km)" value={result.resistancePerKm.toFixed(3)} />
-            <ResultDisplay label="Resistance (Ω/1000ft)" value={result.resistancePer1000ft.toFixed(3)} />
+            <ResultDisplay label="Diameter (mm)" value={formatFixed(result.diameterMm, 3)} copyable />
+            <ResultDisplay label="Diameter (inch)" value={formatFixed(result.diameterInch, 4)} />
+            <ResultDisplay label="Area (mm²)" value={formatFixed(result.areaMm2, 3)} copyable />
+            <ResultDisplay label="Area (circular mils)" value={formatFixed(result.areaCircularMils, 0)} />
+            <ResultDisplay label="Resistance (Ω/km)" value={formatFixed(result.resistancePerKm, 3)} />
+            <ResultDisplay label="Resistance (Ω/1000ft)" value={formatFixed(result.resistancePer1000ft, 3)} />
           </div>
           <div className="border-t pt-4">
             <p className="text-sm font-medium mb-2">Estimated Max Current</p>
             <div className="grid grid-cols-2 gap-4">
-              <ResultDisplay label="Chassis Wiring" value={`~${result.maxCurrentChassis.toFixed(1)} A`} />
-              <ResultDisplay label="Power Transmission" value={`~${result.maxCurrentPowerTrans.toFixed(1)} A`} />
+              <ResultDisplay label="Chassis Wiring" value={`~${formatFixed(result.maxCurrentChassis, 1)} A`} />
+              <ResultDisplay label="Power Transmission" value={`~${formatFixed(result.maxCurrentPowerTrans, 1)} A`} />
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
   calculateKineticEnergy,
   type KineticEnergyResult,
 } from '@/lib/calculations/physics/kinetic-energy-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function KineticEnergyCalculator() {
   const [kineticEnergy, setKineticEnergy] = React.useState<string>('');
@@ -92,11 +93,11 @@ export function KineticEnergyCalculator() {
               </div>
               <div>
                 <span className="text-muted-foreground">Calories: </span>
-                {result.energyInCalories.toFixed(2)}
+                {formatFixed(result.energyInCalories, 2)}
               </div>
               <div>
                 <span className="text-muted-foreground">BTU: </span>
-                {result.energyInBTU.toFixed(4)}
+                {formatFixed(result.energyInBTU, 4)}
               </div>
             </div>
           </div>

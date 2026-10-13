@@ -9,6 +9,7 @@ import {
   parseNumberList,
   type DescriptiveStats,
 } from '@/lib/calculations/stats';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Standard Deviation Calculator Component
@@ -62,13 +63,13 @@ export function StandardDeviationCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Sample Standard Deviation"
-              value={result.standardDeviation.toFixed(6)}
+              value={formatFixed(result.standardDeviation, 6)}
               highlight
               copyable
             />
             <ResultDisplay
               label="Population Standard Deviation"
-              value={result.populationStandardDeviation.toFixed(6)}
+              value={formatFixed(result.populationStandardDeviation, 6)}
               copyable
             />
           </div>
@@ -76,12 +77,12 @@ export function StandardDeviationCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Sample Variance"
-              value={result.variance.toFixed(6)}
+              value={formatFixed(result.variance, 6)}
               copyable
             />
             <ResultDisplay
               label="Population Variance"
-              value={result.populationVariance.toFixed(6)}
+              value={formatFixed(result.populationVariance, 6)}
               copyable
             />
           </div>
@@ -91,12 +92,12 @@ export function StandardDeviationCalculator() {
             <div className="grid grid-cols-3 gap-4">
               <ResultDisplay
                 label="Mean"
-                value={result.mean.toFixed(6)}
+                value={formatFixed(result.mean, 6)}
                 copyable
               />
               <ResultDisplay
                 label="Median"
-                value={result.median.toFixed(6)}
+                value={formatFixed(result.median, 6)}
                 copyable
               />
               <ResultDisplay
@@ -135,7 +136,7 @@ export function StandardDeviationCalculator() {
 
           <ResultDisplay
             label="Sum"
-            value={result.sum.toFixed(6)}
+            value={formatFixed(result.sum, 6)}
             copyable
           />
 

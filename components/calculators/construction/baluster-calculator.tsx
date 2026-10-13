@@ -10,6 +10,7 @@ import {
   type BalusterResult,
   type BalusterUnit,
 } from '@/lib/calculations/construction/baluster-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Options for baluster width presets dropdown
@@ -206,11 +207,11 @@ export function BalusterCalculator() {
               </div>
               <div>
                 <span className="text-muted-foreground">Total bredde på spilene:</span>{' '}
-                <span className="font-medium">{result.layout.totalBalusterWidth.toFixed(0)} mm</span>
+                <span className="font-medium">{formatFixed(result.layout.totalBalusterWidth, 0)} mm</span>
               </div>
               <div>
                 <span className="text-muted-foreground">Total bredde på åpningene:</span>{' '}
-                <span className="font-medium">{result.layout.totalGapWidth.toFixed(0)} mm</span>
+                <span className="font-medium">{formatFixed(result.layout.totalGapWidth, 0)} mm</span>
               </div>
             </div>
           </div>
@@ -251,7 +252,7 @@ export function BalusterCalculator() {
               Maksimal åpning i rekkverk (TEK17)
             </p>
             <p className="text-sm text-muted-foreground">
-              Det skal ikke være mulig å få en kule på 100 mm gjennom en åpning i rekkverket. Åpningen mellom spilene må derfor være mindre enn 100 mm ({result.maxAllowedGap.toFixed(0)} mm i valgt enhet).
+              Det skal ikke være mulig å få en kule på 100 mm gjennom en åpning i rekkverket. Åpningen mellom spilene må derfor være mindre enn 100 mm ({formatFixed(result.maxAllowedGap, 0)} mm i valgt enhet).
             </p>
           </div>
         </div>

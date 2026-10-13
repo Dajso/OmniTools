@@ -14,6 +14,7 @@ import {
   type ReactionTimeResult,
   type ReactionTimeStats,
 } from '@/lib/calculations/gaming/reaction-time';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'clicked' | 'too-early';
 
@@ -169,13 +170,13 @@ export function ReactionTimeTest() {
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
                 label="Reaction Time"
-                value={`${currentResult.reactionTime.toFixed(0)}`}
+                value={`${formatFixed(currentResult.reactionTime, 0)}`}
                 unit="ms"
                 highlight
               />
               <ResultDisplay
                 label="Percentile"
-                value={`${getPercentileRank(currentResult.reactionTime).toFixed(0)}`}
+                value={`${formatFixed(getPercentileRank(currentResult.reactionTime), 0)}`}
                 unit="%"
               />
             </div>
@@ -198,22 +199,22 @@ export function ReactionTimeTest() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <ResultDisplay
                 label="Average"
-                value={`${stats.average.toFixed(0)}`}
+                value={`${formatFixed(stats.average, 0)}`}
                 unit="ms"
               />
               <ResultDisplay
                 label="Best"
-                value={`${stats.best.toFixed(0)}`}
+                value={`${formatFixed(stats.best, 0)}`}
                 unit="ms"
               />
               <ResultDisplay
                 label="Worst"
-                value={`${stats.worst.toFixed(0)}`}
+                value={`${formatFixed(stats.worst, 0)}`}
                 unit="ms"
               />
               <ResultDisplay
                 label="Std Dev"
-                value={`${stats.standardDeviation.toFixed(0)}`}
+                value={`${formatFixed(stats.standardDeviation, 0)}`}
                 unit="ms"
               />
             </div>
@@ -239,7 +240,7 @@ export function ReactionTimeTest() {
                       : 'bg-yellow-100 text-yellow-800'
                   }`}
                 >
-                  {result.isValid ? `${result.reactionTime.toFixed(0)} ms` : 'Early'}
+                  {result.isValid ? `${formatFixed(result.reactionTime, 0)} ms` : 'Early'}
                 </span>
               ))}
             </div>

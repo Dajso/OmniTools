@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateLEDResistor, LED_COLORS, type LEDResistorResult } from '@/lib/calculations/electronics/led-resistor';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const LED_OPTIONS = Object.entries(LED_COLORS).map(([value, data]) => ({
   value,
@@ -80,10 +81,10 @@ export function LEDResistorCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="Required Resistor" value={result.formattedResistance} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Calculated Value" value={`${result.resistance.toFixed(1)}Ω`} />
+            <ResultDisplay label="Calculated Value" value={`${formatFixed(result.resistance, 1)}Ω`} />
             <ResultDisplay label="Nearest Standard" value={`${result.nearestStandard}Ω`} />
             <ResultDisplay label="Power Rating" value={`≥${result.recommendedPowerRating}W`} />
-            <ResultDisplay label="Actual Current" value={`${(result.actualCurrent * 1000).toFixed(1)}mA`} />
+            <ResultDisplay label="Actual Current" value={`${formatFixed((result.actualCurrent * 1000), 1)}mA`} />
           </div>
         </div>
       )}

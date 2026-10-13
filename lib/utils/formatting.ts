@@ -281,3 +281,20 @@ export function parseFormattedNumber(
 
   return parseFloat(cleaned);
 }
+
+/**
+ * Som Number.toFixed, men med norsk skrivemåte (komma som desimaltegn og
+ * hardt mellomrom som tusenskille). Brukes til visning, ikke til utregning.
+ *
+ * @example
+ * formatFixed(1234.5, 2) // "1 234,50"
+ */
+export function formatFixed(value: number, digits: number = 0): string {
+  if (!Number.isFinite(value)) {
+    return '–';
+  }
+  return value.toLocaleString('nb-NO', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+}

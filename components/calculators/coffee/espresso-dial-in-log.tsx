@@ -15,6 +15,7 @@ import { Info, Trash2, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for espresso shot entry inputs
@@ -370,11 +371,11 @@ export function EspressoDialInLog() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-background rounded-lg border border-border">
             <ResultDisplay
               label="Extraction Ratio"
-              value={currentMetrics.extractionRatio.toFixed(2)}
+              value={formatFixed(currentMetrics.extractionRatio, 2)}
             />
             <ResultDisplay
               label="Flow Rate"
-              value={currentMetrics.flowRate.toFixed(2)}
+              value={formatFixed(currentMetrics.flowRate, 2)}
               unit="g/s"
             />
             <div className="flex flex-col gap-1">
@@ -453,8 +454,8 @@ export function EspressoDialInLog() {
                     <span className="text-muted-foreground">Dose:</span>
                     <p className="font-medium">
                       {useImperial
-                        ? `${(shot.dose * GRAMS_TO_OZ).toFixed(2)} oz`
-                        : `${shot.dose.toFixed(1)} g`
+                        ? `${formatFixed((shot.dose * GRAMS_TO_OZ), 2)} oz`
+                        : `${formatFixed(shot.dose, 1)} g`
                       }
                     </p>
                   </div>
@@ -462,8 +463,8 @@ export function EspressoDialInLog() {
                     <span className="text-muted-foreground">Yield:</span>
                     <p className="font-medium">
                       {useImperial
-                        ? `${(shot.yield * GRAMS_TO_OZ).toFixed(2)} oz`
-                        : `${shot.yield.toFixed(1)} g`
+                        ? `${formatFixed((shot.yield * GRAMS_TO_OZ), 2)} oz`
+                        : `${formatFixed(shot.yield, 1)} g`
                       }
                     </p>
                   </div>
@@ -473,11 +474,11 @@ export function EspressoDialInLog() {
                   </div>
                   <div>
                     <span className="text-muted-foreground">Ratio:</span>
-                    <p className="font-medium">{shot.metrics.extractionRatio.toFixed(2)}</p>
+                    <p className="font-medium">{formatFixed(shot.metrics.extractionRatio, 2)}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Flow:</span>
-                    <p className="font-medium">{shot.metrics.flowRate.toFixed(2)} g/s</p>
+                    <p className="font-medium">{formatFixed(shot.metrics.flowRate, 2)} g/s</p>
                   </div>
                 </div>
 

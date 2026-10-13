@@ -16,6 +16,7 @@ import {
   formatFraction,
   type Fraction,
 } from '@/lib/calculations/academic/fraction-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type Operation = 'add' | 'subtract' | 'multiply' | 'divide' | 'simplify';
 
@@ -155,7 +156,7 @@ export function FractionCalculator() {
           
           <ResultDisplay 
             label="Decimal Value" 
-            value={results.decimal.toFixed(6).replace(/\.?0+$/, '')} 
+            value={formatFixed(results.decimal, 6).replace(/,?0+$/, '')} 
             copyable 
           />
 

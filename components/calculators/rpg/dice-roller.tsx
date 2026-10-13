@@ -15,6 +15,7 @@ import {
   STANDARD_DICE,
   type DiceRoll,
 } from '@/lib/calculations/rpg/dice-roller';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface RollHistory {
   id: number;
@@ -218,7 +219,7 @@ export function DiceRoller() {
             {stats && (
               <div className="grid grid-cols-3 gap-3">
                 <ResultDisplay label="Minimum" value={stats.min} />
-                <ResultDisplay label="Average" value={stats.avg.toFixed(1)} />
+                <ResultDisplay label="Average" value={formatFixed(stats.avg, 1)} />
                 <ResultDisplay label="Maximum" value={stats.max} />
               </div>
             )}

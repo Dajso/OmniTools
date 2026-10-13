@@ -12,6 +12,7 @@ import {
   lightningDistance,
   type SoundSpeedResult,
 } from '@/lib/calculations/physics/sound-speed-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const mediumOptions = [
   { value: 'air', label: 'Air (gas)' },
@@ -99,17 +100,17 @@ export function SoundSpeedCalculator() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <ResultDisplay
               label="Speed (m/s)"
-              value={`${result.speedMps.toFixed(2)} m/s`}
+              value={`${formatFixed(result.speedMps, 2)} m/s`}
               copyable
             />
             <ResultDisplay
               label="Speed (km/h)"
-              value={`${result.speedKmh.toFixed(1)} km/h`}
+              value={`${formatFixed(result.speedKmh, 1)} km/h`}
               copyable
             />
             <ResultDisplay
               label="Speed (mph)"
-              value={`${result.speedMph.toFixed(1)} mph`}
+              value={`${formatFixed(result.speedMph, 1)} mph`}
               copyable
             />
           </div>
@@ -117,17 +118,17 @@ export function SoundSpeedCalculator() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <ResultDisplay
               label="Speed (ft/s)"
-              value={`${result.speedFps.toFixed(1)} ft/s`}
+              value={`${formatFixed(result.speedFps, 1)} ft/s`}
               copyable
             />
             <ResultDisplay
               label="Speed (knots)"
-              value={`${result.speedKnots.toFixed(1)} knots`}
+              value={`${formatFixed(result.speedKnots, 1)} knots`}
               copyable
             />
             <ResultDisplay
               label="Mach 1"
-              value={`${result.mach1.toFixed(2)} m/s`}
+              value={`${formatFixed(result.mach1, 2)} m/s`}
               copyable
             />
           </div>
@@ -137,11 +138,11 @@ export function SoundSpeedCalculator() {
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <span className="text-muted-foreground">Per 1 km: </span>
-                {result.timePerKm.toFixed(2)} seconds
+                {formatFixed(result.timePerKm, 2)} seconds
               </div>
               <div>
                 <span className="text-muted-foreground">Per 1 mile: </span>
-                {result.timePerMile.toFixed(2)} seconds
+                {formatFixed(result.timePerMile, 2)} seconds
               </div>
             </div>
           </div>
@@ -150,7 +151,7 @@ export function SoundSpeedCalculator() {
             <div className="bg-primary/10 p-3 rounded-md">
               <p className="text-sm font-medium mb-1">⚡ Lightning Distance</p>
               <p className="text-lg font-semibold">
-                {(lightningDist / 1000).toFixed(2)} km ({(lightningDist / 1609.34).toFixed(2)} miles)
+                {formatFixed((lightningDist / 1000), 2)} km ({formatFixed((lightningDist / 1609.34), 2)} miles)
               </p>
             </div>
           )}

@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface FlipResult {
   heads: number;
@@ -121,13 +122,13 @@ export function CoinFlipSimulator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Heads"
-              value={`${result.heads} (${((result.heads / numFlips) * 100).toFixed(1)}%)`}
+              value={`${result.heads} (${formatFixed(((result.heads / numFlips) * 100), 1)}%)`}
               highlight
               copyable
             />
             <ResultDisplay
               label="Tails"
-              value={`${result.tails} (${((result.tails / numFlips) * 100).toFixed(1)}%)`}
+              value={`${result.tails} (${formatFixed(((result.tails / numFlips) * 100), 1)}%)`}
               highlight
               copyable
             />
@@ -170,7 +171,7 @@ export function CoinFlipSimulator() {
             />
             <ResultDisplay
               label="Deviation from Expected"
-              value={`${deviation} (${deviationPercent.toFixed(1)}%)`}
+              value={`${deviation} (${formatFixed(deviationPercent, 1)}%)`}
               copyable
             />
           </div>
@@ -196,7 +197,7 @@ export function CoinFlipSimulator() {
           {/* Interpretation */}
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 With {numFlips} flips, you got {result.heads} heads ({((result.heads / numFlips) * 100).toFixed(1)}%).
+              💡 With {numFlips} flips, you got {result.heads} heads ({formatFixed(((result.heads / numFlips) * 100), 1)}%).
               {deviationPercent < 10
                 ? ' This is very close to the expected 50%!'
                 : deviationPercent < 20

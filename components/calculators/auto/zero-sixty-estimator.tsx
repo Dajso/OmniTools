@@ -11,6 +11,7 @@ import {
   type VehicleSpec,
   type AccelerationEstimate,
 } from '@/lib/calculations/auto/zero-sixty-estimator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const DRIVETRAIN_OPTIONS = [
   { value: 'fwd', label: 'Forhjulsdrift (FWD)' },
@@ -96,24 +97,24 @@ export function ZeroSixtyEstimator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="0–100 km/t"
-              value={`${result.zeroTo100Kmh.toFixed(1).replace('.', ',')} sek`}
+              value={`${formatFixed(result.zeroTo100Kmh, 1)} sek`}
               highlight
               copyable
             />
             <ResultDisplay
               label="Kvartmil (402 m)"
-              value={`${result.quarterMile.toFixed(1).replace('.', ',')} sek`}
+              value={`${formatFixed(result.quarterMile, 1)} sek`}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Fart etter kvartmil"
-              value={`${(result.quarterMileTrapSpeed * 1.609344).toFixed(0)} km/t`}
+              value={`${formatFixed((result.quarterMileTrapSpeed * 1.609344), 0)} km/t`}
             />
             <ResultDisplay
               label="Effekt per tonn"
-              value={`${((powerKw / weightKg) * 1000).toFixed(0)} kW/tonn`}
+              value={`${formatFixed(((powerKw / weightKg) * 1000), 0)} kW/tonn`}
             />
           </div>
 
@@ -136,8 +137,8 @@ export function ZeroSixtyEstimator() {
           <div className="bg-muted/50 p-3 rounded-lg text-sm">
             <p className="font-medium mb-2">I tillegg:</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-              <p>Effekt: {kwToHp(powerKw).toFixed(0)} hk (imperial)</p>
-              <p>Vekt per kW: {(weightKg / powerKw).toFixed(1).replace('.', ',')} kg</p>
+              <p>Effekt: {formatFixed(kwToHp(powerKw), 0)} hk (imperial)</p>
+              <p>Vekt per kW: {formatFixed((weightKg / powerKw), 1)} kg</p>
             </div>
           </div>
         </div>

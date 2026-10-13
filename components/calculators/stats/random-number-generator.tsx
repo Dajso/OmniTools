@@ -15,6 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type Distribution = 'uniform' | 'normal' | 'exponential';
 
@@ -176,22 +177,22 @@ export function RandomNumberGenerator() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
               label="Mean"
-              value={result.statistics.mean.toFixed(4)}
+              value={formatFixed(result.statistics.mean, 4)}
               copyable
             />
             <ResultDisplay
               label="Std Deviation"
-              value={result.statistics.standardDeviation.toFixed(4)}
+              value={formatFixed(result.statistics.standardDeviation, 4)}
               copyable
             />
             <ResultDisplay
               label="Minimum"
-              value={result.statistics.min.toFixed(decimals)}
+              value={formatFixed(result.statistics.min, decimals)}
               copyable
             />
             <ResultDisplay
               label="Maximum"
-              value={result.statistics.max.toFixed(decimals)}
+              value={formatFixed(result.statistics.max, decimals)}
               copyable
             />
           </div>

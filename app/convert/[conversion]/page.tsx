@@ -6,7 +6,8 @@ import {
   getConversionPair, 
   getAllConversionPairs,
   getRelatedConversions,
-  generateFormula 
+  generateFormula,
+  conversionSlug,
 } from '@/lib/conversions';
 import { SerializableUnit, UnitCategory } from '@/lib/constants/types';
 import { 
@@ -53,7 +54,7 @@ function toSerializableUnit(unit: { id: string; name: string; symbol: string; ca
 export async function generateStaticParams() {
   const pairs = getAllConversionPairs();
   return pairs.map(({ from, to }) => ({
-    conversion: `${from}-to-${to}`,
+    conversion: conversionSlug(from, to),
   }));
 }
 
@@ -88,7 +89,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `${toName} omregner`,
     ],
     alternates: {
-      canonical: `/convert/${conversion}`,
+      canonical: `/convert/${conversionSlug(from.id, to.id)}`,
     },
     openGraph: {
       title,

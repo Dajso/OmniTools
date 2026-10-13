@@ -21,6 +21,7 @@ import {
   type ABTestResult,
 } from '@/lib/calculations/stats';
 import { cn } from '@/lib/utils';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * A/B Test Significance Calculator Component
@@ -120,7 +121,7 @@ export function ABTestCalculator() {
             </p>
             <p className="text-sm text-muted-foreground mt-2">
               {result.isSignificant
-                ? `${result.confidenceLevel.toFixed(1)}% confidence`
+                ? `${formatFixed(result.confidenceLevel, 1)}% confidence`
                 : 'Need more data or larger effect'}
             </p>
           </div>
@@ -129,7 +130,7 @@ export function ABTestCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-50 p-4 rounded-lg border">
               <p className="text-sm text-muted-foreground">Control</p>
-              <p className="text-3xl font-bold">{result.controlRate.toFixed(2)}%</p>
+              <p className="text-3xl font-bold">{formatFixed(result.controlRate, 2)}%</p>
               <p className="text-xs text-muted-foreground">
                 {controlConversions} / {controlVisitors} visitors
               </p>
@@ -139,7 +140,7 @@ export function ABTestCalculator() {
               result.relativeLift > 0 ? 'bg-green-50' : 'bg-red-50'
             )}>
               <p className="text-sm text-muted-foreground">Treatment</p>
-              <p className="text-3xl font-bold">{result.treatmentRate.toFixed(2)}%</p>
+              <p className="text-3xl font-bold">{formatFixed(result.treatmentRate, 2)}%</p>
               <p className="text-xs text-muted-foreground">
                 {treatmentConversions} / {treatmentVisitors} visitors
               </p>
@@ -150,13 +151,13 @@ export function ABTestCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Relative Lift"
-              value={`${result.relativeLift > 0 ? '+' : ''}${result.relativeLift.toFixed(2)}%`}
+              value={`${result.relativeLift > 0 ? '+' : ''}${formatFixed(result.relativeLift, 2)}%`}
               highlight
               copyable
             />
             <ResultDisplay
               label="Absolute Lift"
-              value={`${result.absoluteLift > 0 ? '+' : ''}${result.absoluteLift.toFixed(2)}%`}
+              value={`${result.absoluteLift > 0 ? '+' : ''}${formatFixed(result.absoluteLift, 2)}%`}
               copyable
             />
           </div>
@@ -188,22 +189,22 @@ export function ABTestCalculator() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <ResultDisplay
               label="P-Value"
-              value={result.pValue < 0.0001 ? '< 0.0001' : result.pValue.toFixed(4)}
+              value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 4)}
               copyable
             />
             <ResultDisplay
               label="Z-Score"
-              value={result.zScore.toFixed(4)}
+              value={formatFixed(result.zScore, 4)}
               copyable
             />
             <ResultDisplay
               label="Confidence"
-              value={`${result.confidenceLevel.toFixed(2)}%`}
+              value={`${formatFixed(result.confidenceLevel, 2)}%`}
               copyable
             />
             <ResultDisplay
               label="Standard Error"
-              value={result.standardError.toFixed(6)}
+              value={formatFixed(result.standardError, 6)}
               copyable
             />
           </div>
@@ -212,7 +213,7 @@ export function ABTestCalculator() {
           <div className="bg-muted/30 p-4 rounded-lg">
             <h4 className="font-medium mb-2">95% Confidence Interval for Difference</h4>
             <p className="text-lg font-mono">
-              [{result.confidenceInterval.lower.toFixed(2)}%, {result.confidenceInterval.upper.toFixed(2)}%]
+              [{formatFixed(result.confidenceInterval.lower, 2)}%, {formatFixed(result.confidenceInterval.upper, 2)}%]
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               The true difference in conversion rates is likely within this range

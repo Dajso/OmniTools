@@ -13,6 +13,7 @@ import {
 } from '@/lib/calculations/coffee/water-recipe';
 import { Button } from '@/components/ui/button';
 import { Info, CheckCircle2, AlertCircle } from 'lucide-react';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for water recipe calculator inputs
@@ -148,14 +149,14 @@ export function WaterRecipeCalculator() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ResultDisplay
               label="Epsom Salt (MgSO₄·7H₂O)"
-              value={results.epsomSalt.toFixed(2)}
+              value={formatFixed(results.epsomSalt, 2)}
               unit="g"
               highlight
               copyable
             />
             <ResultDisplay
               label="Baking Soda (NaHCO₃)"
-              value={results.bakingSoda.toFixed(2)}
+              value={formatFixed(results.bakingSoda, 2)}
               unit="g"
               highlight
               copyable

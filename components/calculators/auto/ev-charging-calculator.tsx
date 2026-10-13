@@ -5,7 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
-import { formatCurrency } from '@/lib/utils/formatting';
+import { formatCurrency, formatFixed } from '@/lib/utils/formatting';
 import {
   calculateChargingTime,
   CHARGER_TYPES,
@@ -121,18 +121,18 @@ export function EVChargingCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Energi som trengs" 
-              value={`${result.energyNeeded.toFixed(1).replace('.', ',')} kWh`}
+              value={`${formatFixed(result.energyNeeded, 1)} kWh`}
             />
             <ResultDisplay 
               label="Effektiv ladeeffekt" 
-              value={`${result.effectiveChargingPower.toFixed(1).replace('.', ',')} kW`}
+              value={`${formatFixed(result.effectiveChargingPower, 1)} kW`}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Energi fra nettet" 
-              value={`${result.energyFromGrid.toFixed(1).replace('.', ',')} kWh`}
+              value={`${formatFixed(result.energyFromGrid, 1)} kWh`}
             />
             <ResultDisplay 
               label="Anslått kostnad" 

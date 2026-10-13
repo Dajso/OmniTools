@@ -12,6 +12,7 @@ import {
   GRAVITY_MARS,
   type ProjectileMotionResult,
 } from '@/lib/calculations/physics/projectile-motion';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const gravityOptions = [
   { value: GRAVITY_EARTH.toString(), label: `Earth (${GRAVITY_EARTH} m/s²)` },
@@ -141,7 +142,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
           y={scaleY(result.maxHeight) - 8}
           className="text-xs fill-foreground"
         >
-          Max: {result.maxHeight.toFixed(1)}m
+          Max: {formatFixed(result.maxHeight, 1)}m
         </text>
 
         {/* Range marker */}
@@ -157,7 +158,7 @@ function TrajectoryVisualization({ result }: { result: ProjectileMotionResult })
           textAnchor="end"
           className="text-xs fill-foreground"
         >
-          {result.range.toFixed(1)}m
+          {formatFixed(result.range, 1)}m
         </text>
 
         {/* Start point */}
@@ -252,7 +253,7 @@ export function ProjectileMotionCalculator() {
             />
             <ResultDisplay
               label="Time to Max Height"
-              value={`${result.timeToMaxHeight.toFixed(3)} s`}
+              value={`${formatFixed(result.timeToMaxHeight, 3)} s`}
               copyable
             />
           </div>
@@ -262,19 +263,19 @@ export function ProjectileMotionCalculator() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
               <div>
                 <span className="text-muted-foreground">v₀ₓ: </span>
-                {result.initialVelocityX.toFixed(2)} m/s
+                {formatFixed(result.initialVelocityX, 2)} m/s
               </div>
               <div>
                 <span className="text-muted-foreground">v₀ᵧ: </span>
-                {result.initialVelocityY.toFixed(2)} m/s
+                {formatFixed(result.initialVelocityY, 2)} m/s
               </div>
               <div>
                 <span className="text-muted-foreground">Impact v: </span>
-                {result.impactVelocity.toFixed(2)} m/s
+                {formatFixed(result.impactVelocity, 2)} m/s
               </div>
               <div>
                 <span className="text-muted-foreground">Impact angle: </span>
-                {result.impactAngle.toFixed(1)}°
+                {formatFixed(result.impactAngle, 1)}°
               </div>
             </div>
           </div>

@@ -20,6 +20,7 @@ import {
   type CorrelationResult,
 } from '@/lib/calculations/stats';
 import { cn } from '@/lib/utils';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Correlation Coefficient Calculator Component
@@ -109,7 +110,7 @@ export function CorrelationCalculator() {
           {/* Main Result */}
           <div className="text-center p-4 bg-muted/30 rounded-lg">
             <p className="text-sm text-muted-foreground mb-1">Pearson Correlation Coefficient (r)</p>
-            <p className="text-4xl font-bold text-primary">{result.pearsonR.toFixed(4)}</p>
+            <p className="text-4xl font-bold text-primary">{formatFixed(result.pearsonR, 4)}</p>
             <p className={cn(
               'text-sm mt-2 px-3 py-1 rounded-full inline-block border',
               getStrengthColor(result.strength)
@@ -122,12 +123,12 @@ export function CorrelationCalculator() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <ResultDisplay
               label="R-Squared (R²)"
-              value={(result.rSquared * 100).toFixed(2) + '%'}
+              value={formatFixed((result.rSquared * 100), 2) + '%'}
               copyable
             />
             <ResultDisplay
               label="P-Value"
-              value={result.pValue < 0.0001 ? '< 0.0001' : result.pValue.toFixed(4)}
+              value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 4)}
               copyable
             />
             <ResultDisplay
@@ -204,12 +205,12 @@ export function CorrelationCalculator() {
             <div className="grid grid-cols-2 gap-4 mt-3">
               <ResultDisplay
                 label="Slope"
-                value={result.regression.slope.toFixed(4)}
+                value={formatFixed(result.regression.slope, 4)}
                 copyable
               />
               <ResultDisplay
                 label="Y-Intercept"
-                value={result.regression.intercept.toFixed(4)}
+                value={formatFixed(result.regression.intercept, 4)}
                 copyable
               />
             </div>
@@ -218,7 +219,7 @@ export function CorrelationCalculator() {
           {/* Interpretation */}
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
-              💡 R² = {(result.rSquared * 100).toFixed(1)}% means that {(result.rSquared * 100).toFixed(1)}% 
+              💡 R² = {formatFixed((result.rSquared * 100), 1)}% means that {formatFixed((result.rSquared * 100), 1)}% 
               of the variance in Y can be explained by X. 
               {result.direction === 'positive' 
                 ? ' As X increases, Y tends to increase.'

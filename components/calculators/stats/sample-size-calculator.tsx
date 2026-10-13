@@ -11,6 +11,7 @@ import {
   COMMON_MARGINS_OF_ERROR,
   type SampleSizeResult,
 } from '@/lib/calculations/stats';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Sample Size Calculator Component
@@ -88,7 +89,7 @@ export function SampleSizeCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Confidence Level"
-              value={`${(result.confidenceLevel * 100).toFixed(0)}%`}
+              value={`${formatFixed((result.confidenceLevel * 100), 0)}%`}
               copyable
             />
             <ResultDisplay
@@ -100,14 +101,14 @@ export function SampleSizeCalculator() {
 
           <ResultDisplay
             label="Z-Score Used"
-            value={result.zScore.toFixed(3)}
+            value={formatFixed(result.zScore, 3)}
             copyable
           />
 
           <div className="bg-muted/50 p-3 rounded-md">
             <p className="text-sm text-muted-foreground">
               💡 This sample size ensures your survey results will be within ±{result.marginOfError}% 
-              of the true population value with {(result.confidenceLevel * 100).toFixed(0)}% confidence.
+              of the true population value with {formatFixed((result.confidenceLevel * 100), 0)}% confidence.
             </p>
           </div>
 
@@ -116,7 +117,7 @@ export function SampleSizeCalculator() {
               <p className="text-sm text-blue-700">
                 📊 With a population of {populationSize.toLocaleString('nb-NO')}, you need to survey{' '}
                 <strong>{result.adjustedSampleSize.toLocaleString('nb-NO')}</strong> people 
-                ({((result.adjustedSampleSize / populationSize) * 100).toFixed(1)}% of the population).
+                ({formatFixed(((result.adjustedSampleSize / populationSize) * 100), 1)}% of the population).
               </p>
             </div>
           )}

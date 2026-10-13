@@ -24,6 +24,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from 'recharts';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for biorhythm inputs
@@ -99,7 +100,7 @@ function CycleIndicator({
       </div>
       <div className="flex justify-between mt-1 text-xs text-muted-foreground">
         <span>-100</span>
-        <span className="font-medium text-foreground">{value.toFixed(0)}</span>
+        <span className="font-medium text-foreground">{formatFixed(value, 0)}</span>
         <span>+100</span>
       </div>
     </div>
@@ -116,7 +117,7 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
         <p className="font-medium mb-2">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} style={{ color: entry.color }} className="text-sm">
-            {entry.name}: {entry.value.toFixed(1)}
+            {entry.name}: {formatFixed(entry.value, 1)}
           </p>
         ))}
       </div>

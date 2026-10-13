@@ -14,6 +14,7 @@ import {
   type SunTimes,
   type TimeRange,
 } from '@/lib/calculations/travel/sun-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface PresetLocation {
   name: string;
@@ -159,7 +160,7 @@ export function SunCalculator() {
             <ResultDisplay label="Dagens lengde" value={formatDayLength(results.dayLengthMinutes)} copyable />
             <ResultDisplay
               label="Solhøyde midt på dagen"
-              value={`${results.sunAngleAtNoon.toFixed(1).replace('.', ',')}°`}
+              value={`${formatFixed(results.sunAngleAtNoon, 1)}°`}
               copyable
             />
           </div>

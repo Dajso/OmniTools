@@ -17,6 +17,7 @@ import {
   calculateFileSize,
   type BitrateResult,
 } from '@/lib/calculations/photo/bitrate-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const RESOLUTION_OPTIONS = VIDEO_RESOLUTIONS.map(r => ({
   value: `${r.width}x${r.height}`,
@@ -128,7 +129,7 @@ export function BitrateCalculator() {
             />
             <ResultDisplay
               label="Size per Hour"
-              value={`${result.fileSizePerHourGB.toFixed(2)} GB`}
+              value={`${formatFixed(result.fileSizePerHourGB, 2)} GB`}
             />
           </div>
           <div className="border-t pt-4">

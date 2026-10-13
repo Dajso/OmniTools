@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateAquariumVolume, type TankShape, type AquariumVolumeResult } from '@/lib/calculations/aquarium/aquarium-volume';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const SHAPE_OPTIONS = [
     { value: 'rectangular', label: 'Rectangular' },
@@ -60,12 +61,12 @@ export function AquariumVolumeCalculator() {
             error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Volume (Liters)" value={result.liters.toFixed(1)} copyable />
+                    <ResultDisplay label="Volume (Liters)" value={formatFixed(result.liters, 1)} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="US Gallons" value={result.usGallons.toFixed(1)} />
-                        <ResultDisplay label="UK Gallons" value={result.ukGallons.toFixed(1)} />
-                        <ResultDisplay label="Cubic cm" value={result.cubicCm.toFixed(0)} />
-                        <ResultDisplay label="Cubic Inches" value={result.cubicInches.toFixed(1)} />
+                        <ResultDisplay label="US Gallons" value={formatFixed(result.usGallons, 1)} />
+                        <ResultDisplay label="UK Gallons" value={formatFixed(result.ukGallons, 1)} />
+                        <ResultDisplay label="Cubic cm" value={formatFixed(result.cubicCm, 0)} />
+                        <ResultDisplay label="Cubic Inches" value={formatFixed(result.cubicInches, 1)} />
                     </div>
                 </div>
             )}

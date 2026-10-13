@@ -15,6 +15,7 @@ import {
   type BandColor,
   type ResistorValue,
 } from '@/lib/calculations/electronics/resistor-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const DIGIT_COLORS: { value: BandColor; label: string }[] = [
   { value: 'black', label: 'Black (0)' },
@@ -123,8 +124,8 @@ export function ResistorCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="Resistance" value={result.formattedWithTolerance} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Min Value" value={`${result.minResistance.toFixed(2)}Ω`} />
-            <ResultDisplay label="Max Value" value={`${result.maxResistance.toFixed(2)}Ω`} />
+            <ResultDisplay label="Min Value" value={`${formatFixed(result.minResistance, 2)}Ω`} />
+            <ResultDisplay label="Max Value" value={`${formatFixed(result.maxResistance, 2)}Ω`} />
           </div>
         </div>
       )}

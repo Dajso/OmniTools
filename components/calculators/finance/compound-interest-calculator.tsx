@@ -15,7 +15,7 @@ import {
   type CompoundingFrequency,
   type ContributionFrequency,
 } from '@/lib/calculations/finance/compound-interest';
-import { formatCurrency, formatPercent } from '@/lib/utils/formatting';
+import { formatCurrency, formatPercent, formatFixed } from '@/lib/utils/formatting';
 import { cn } from '@/lib/utils';
 
 /**
@@ -356,7 +356,7 @@ export function CompoundInterestCalculator() {
       {inputs.annualRate > 0 && (
         <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
           💡 72-regelen: Med {inputs.annualRate}% rente dobles pengene dine på omtrent{' '}
-          <strong>{ruleOf72Years.toFixed(1)} år</strong>.
+          <strong>{formatFixed(ruleOf72Years, 1)} år</strong>.
         </p>
       )}
     </CalculatorBase>

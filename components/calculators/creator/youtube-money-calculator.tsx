@@ -15,6 +15,7 @@ import {
   formatViews,
   type YouTubeEarnings,
 } from '@/lib/calculations/creator/youtube-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const CATEGORY_OPTIONS = Object.entries(CPM_RANGES).map(([key, value]) => ({
   value: key,
@@ -89,7 +90,7 @@ export function YouTubeMoneyCalculator() {
               onChange={(e) => setCategory(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              Typical CPM: ${categoryData.low.toFixed(2)} - ${categoryData.high.toFixed(2)}
+              Typical CPM: ${formatFixed(categoryData.low, 2)} - ${formatFixed(categoryData.high, 2)}
             </p>
           </div>
 
@@ -140,17 +141,17 @@ export function YouTubeMoneyCalculator() {
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
                 label="Low Estimate"
-                value={`$${results.estimatedLow.toFixed(2)}`}
+                value={`$${formatFixed(results.estimatedLow, 2)}`}
                 copyable
               />
               <ResultDisplay
                 label="High Estimate"
-                value={`$${results.estimatedHigh.toFixed(2)}`}
+                value={`$${formatFixed(results.estimatedHigh, 2)}`}
                 copyable
               />
               <ResultDisplay
                 label="Average Estimate"
-                value={`$${results.estimatedAverage.toFixed(2)}`}
+                value={`$${formatFixed(results.estimatedAverage, 2)}`}
                 copyable
               />
               <ResultDisplay
@@ -166,13 +167,13 @@ export function YouTubeMoneyCalculator() {
                 <div>
                   <p className="text-muted-foreground">Per 1,000 views</p>
                   <p className="font-medium">
-                    ${((results.estimatedAverage / views) * 1000).toFixed(2)}
+                    ${formatFixed(((results.estimatedAverage / views) * 1000), 2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-muted-foreground">Per 1M views</p>
                   <p className="font-medium">
-                    ${((results.estimatedAverage / views) * 1000000).toFixed(0)}
+                    ${formatFixed(((results.estimatedAverage / views) * 1000000), 0)}
                   </p>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { NumberInput } from '@/components/ui/number-input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type WaveType = 'sine' | 'square' | 'sawtooth' | 'triangle';
 
@@ -193,7 +194,7 @@ export function AudioPanningVisualizer() {
                 🔊
               </div>
               <p className="text-sm mt-1 font-medium">Left</p>
-              <p className="text-xs text-muted-foreground">{getLeftVolume().toFixed(0)}%</p>
+              <p className="text-xs text-muted-foreground">{formatFixed(getLeftVolume(), 0)}%</p>
             </div>
             
             <div className="flex-1 mx-4">
@@ -219,7 +220,7 @@ export function AudioPanningVisualizer() {
                 🔊
               </div>
               <p className="text-sm mt-1 font-medium">Right</p>
-              <p className="text-xs text-muted-foreground">{getRightVolume().toFixed(0)}%</p>
+              <p className="text-xs text-muted-foreground">{formatFixed(getRightVolume(), 0)}%</p>
             </div>
           </div>
 

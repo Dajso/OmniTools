@@ -12,6 +12,7 @@ import {
   type TireSize,
   type TireComparison,
 } from '@/lib/calculations/auto/tire-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const COMMON_TIRE_OPTIONS = COMMON_TIRE_SIZES.map(size => ({
   value: `${size.width}/${size.aspectRatio}R${size.rimDiameter}`,
@@ -48,7 +49,7 @@ function TireVisual({
           <div className="rounded-full bg-gray-400 w-1/3 h-1/3" />
         </div>
         <span className="text-xs mt-2 text-muted-foreground">Opprinnelig</span>
-        <span className="text-xs text-muted-foreground">{original.diameter.toFixed(1)}mm</span>
+        <span className="text-xs text-muted-foreground">{formatFixed(original.diameter, 1)}mm</span>
       </div>
       <div className="flex flex-col items-center">
         <div 
@@ -63,7 +64,7 @@ function TireVisual({
           <div className="rounded-full bg-gray-400 w-1/3 h-1/3" />
         </div>
         <span className="text-xs mt-2 text-muted-foreground">Ny</span>
-        <span className="text-xs text-muted-foreground">{newTire.diameter.toFixed(1)}mm</span>
+        <span className="text-xs text-muted-foreground">{formatFixed(newTire.diameter, 1)}mm</span>
       </div>
     </div>
   );
@@ -165,33 +166,33 @@ export function TireSizeCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Endring i diameter" 
-              value={`${result.diameterDifference > 0 ? '+' : ''}${result.diameterDifference.toFixed(1)}mm (${result.diameterDifferencePercent > 0 ? '+' : ''}${result.diameterDifferencePercent.toFixed(2)}%)`} 
+              value={`${result.diameterDifference > 0 ? '+' : ''}${formatFixed(result.diameterDifference, 1)}mm (${result.diameterDifferencePercent > 0 ? '+' : ''}${formatFixed(result.diameterDifferencePercent, 2)}%)`} 
             />
             <ResultDisplay 
               label="Avvik i speedometer" 
-              value={`${result.speedometerError > 0 ? '+' : ''}${result.speedometerError.toFixed(2)}%`}
+              value={`${result.speedometerError > 0 ? '+' : ''}${formatFixed(result.speedometerError, 2)}%`}
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Reell fart når speedometeret viser 80 km/t" 
-              value={`${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t`}
+              value={`${formatFixed((result.actualSpeedAt60 * 80 / 60), 1)} km/t`}
             />
             <ResultDisplay 
               label="Speedometeret viser ved reell fart 80 km/t" 
-              value={`${(result.speedoReadingAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t`}
+              value={`${formatFixed((result.speedoReadingAt60 * 80 / 60), 1)} km/t`}
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Endring i bakkeklaring" 
-              value={`${result.groundClearanceChange > 0 ? '+' : ''}${result.groundClearanceChange.toFixed(1)}mm`}
+              value={`${result.groundClearanceChange > 0 ? '+' : ''}${formatFixed(result.groundClearanceChange, 1)}mm`}
             />
             <ResultDisplay 
               label="Omdreininger per km (nytt)" 
-              value={(result.newTire.revolutionsPerMile / 1.609344).toFixed(0)}
+              value={formatFixed((result.newTire.revolutionsPerMile / 1.609344), 0)}
             />
           </div>
 
@@ -201,8 +202,8 @@ export function TireSizeCalculator() {
             </p>
             <p className="text-muted-foreground">
               {result.speedometerError > 0 
-                ? `Speedometeret viser for lavt. Når det viser 80 km/t, kjører du i virkeligheten ${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t.`
-                : `Speedometeret viser for høyt. Når det viser 80 km/t, kjører du i virkeligheten ${(result.actualSpeedAt60 * 80 / 60).toFixed(1).replace('.', ',')} km/t.`
+                ? `Speedometeret viser for lavt. Når det viser 80 km/t, kjører du i virkeligheten ${formatFixed((result.actualSpeedAt60 * 80 / 60), 1)} km/t.`
+                : `Speedometeret viser for høyt. Når det viser 80 km/t, kjører du i virkeligheten ${formatFixed((result.actualSpeedAt60 * 80 / 60), 1)} km/t.`
               }
             </p>
           </div>

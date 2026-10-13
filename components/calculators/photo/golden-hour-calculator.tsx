@@ -12,6 +12,7 @@ import {
   type GoldenHourResult,
   type LightPhase,
 } from '@/lib/calculations/photo/golden-hour-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function GoldenHourCalculator() {
   const [latitude, setLatitude] = React.useState(40.7128);
@@ -239,7 +240,7 @@ export function GoldenHourCalculator() {
               >
                 <p className="text-sm font-medium">{preset.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {preset.latitude.toFixed(2)}°, {preset.longitude.toFixed(2)}°
+                  {formatFixed(preset.latitude, 2)}°, {formatFixed(preset.longitude, 2)}°
                 </p>
               </Card>
             ))}

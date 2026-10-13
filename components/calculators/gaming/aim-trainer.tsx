@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/button';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { SelectInput } from '@/components/ui/select-input';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface Target {
   id: number;
@@ -253,13 +254,13 @@ export function AimTrainer() {
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay
                 label="Accuracy"
-                value={`${stats.accuracy.toFixed(1)}`}
+                value={`${formatFixed(stats.accuracy, 1)}`}
                 unit="%"
                 highlight
               />
               <ResultDisplay
                 label="Avg Reaction"
-                value={`${stats.averageReactionTime.toFixed(0)}`}
+                value={`${formatFixed(stats.averageReactionTime, 0)}`}
                 unit="ms"
               />
               <ResultDisplay

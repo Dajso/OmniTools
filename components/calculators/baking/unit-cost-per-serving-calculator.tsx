@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { calculateUnitCost, type CostIngredient, type UnitCostResult } from '@/lib/calculations/baking/unit-cost-per-serving';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function UnitCostPerServingCalculator() {
     const [servings, setServings] = React.useState('6');
@@ -36,12 +37,12 @@ export function UnitCostPerServingCalculator() {
             formula="Kostnad per porsjon = total kostnad ÷ antall porsjoner" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Kostnad per porsjon" value={`${result.costPerServing.toFixed(2).replace('.', ',')} kr`} copyable />
-                    <ResultDisplay label="Total kostnad" value={`${result.totalCost.toFixed(2).replace('.', ',')} kr`} />
+                    <ResultDisplay label="Kostnad per porsjon" value={`${formatFixed(result.costPerServing, 2)} kr`} copyable />
+                    <ResultDisplay label="Total kostnad" value={`${formatFixed(result.totalCost, 2)} kr`} />
                     {result.suggestedPrice && (
                         <div className="grid grid-cols-2 gap-4">
-                            <ResultDisplay label="Foreslått pris" value={`${result.suggestedPrice.toFixed(2).replace('.', ',')} kr`} />
-                            <ResultDisplay label="Fortjeneste per porsjon" value={`${result.margin?.toFixed(2).replace('.', ',')} kr`} />
+                            <ResultDisplay label="Foreslått pris" value={`${formatFixed(result.suggestedPrice, 2)} kr`} />
+                            <ResultDisplay label="Fortjeneste per porsjon" value={`${formatFixed(result.margin ?? 0, 2)} kr`} />
                         </div>
                     )}
                 </div>

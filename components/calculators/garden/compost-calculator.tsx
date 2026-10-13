@@ -13,6 +13,7 @@ import {
   type CompostResult,
   type CompostMixInput,
 } from '@/lib/calculations/garden';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface MaterialEntry {
   id: string;
@@ -145,12 +146,12 @@ export function CompostCalculator() {
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
                 label="Total Carbon"
-                value={results.totalCarbon.toFixed(2)}
+                value={formatFixed(results.totalCarbon, 2)}
                 unit="parts"
               />
               <ResultDisplay
                 label="Total Nitrogen"
-                value={results.totalNitrogen.toFixed(2)}
+                value={formatFixed(results.totalNitrogen, 2)}
                 unit="parts"
               />
             </div>

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { convert, getAllConversionPairs, getConversionPair, generateFormula } from '@/lib/conversions';
+import { convert, getAllConversionPairs, getConversionPair, generateFormula, conversionSlug } from '@/lib/conversions';
+import { getToolsByCategory } from '@/lib/constants/tool-registry';
 import { getUnit, unitsByCategory } from '@/lib/constants/units';
 import { convertNumberBase } from '@/lib/calculations/productivity/number-base-converter';
 
@@ -75,5 +76,21 @@ describe('omregnere på norsk', () => {
         expect(convertNumberBase('18446744073709551616', 10).hexadecimal).toBe('10000000000000000');
         expect(() => convertNumberBase('12', 2)).toThrow();
         expect(() => convertNumberBase('', 10)).toThrow(/Skriv inn/);
+    });
+
+    it('adressene er små bokstaver (kebab-case) og gamle camelCase-adresser tolkes fortsatt', () => {
+        expect(conversionSlug('squareFoot', 'squareMeter')).toBe('square-foot-to-square-meter');
+        expect(getConversionPair('square-foot-to-square-meter')?.from.id).toBe('squareFoot');
+        expect(getConversionPair('squareFoot-to-squareMeter')?.to.id).toBe('squareMeter');
+        expect(getConversionPair('liters-per100-km-to-km-per-liter')?.category).toBe('fuelEconomy');
+    });
+
+    it('alle omregnere i registeret peker på en adresse som finnes', () => {
+        for (const tool of getToolsByCategory('converter')) {
+            if (!tool.path.startsWith('/convert/')) continue;
+            const slug = tool.path.replace('/convert/', '');
+            expect(slug).toMatch(/^[a-z0-9-]+$/);
+            expect(getConversionPair(slug), tool.id).not.toBeNull();
+        }
     });
 });

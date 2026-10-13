@@ -13,6 +13,7 @@ import {
   type MoonPhaseName,
 } from '@/lib/calculations/fun/moon-phase-calculator';
 import { cn } from '@/lib/utils';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for moon phase inputs
@@ -165,19 +166,19 @@ export function MoonPhaseCalculator() {
               <span className="text-4xl mb-2 block">{results.emoji}</span>
               <h3 className="text-xl font-bold">{results.phaseName}</h3>
               <p className="text-muted-foreground">
-                {results.illumination.toFixed(1)}% illuminated
+                {formatFixed(results.illumination, 1)}% illuminated
               </p>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
               <PhaseInfoCard
                 label="Moon Age"
-                value={`${results.age.toFixed(1)} days`}
+                value={`${formatFixed(results.age, 1)} days`}
                 icon="📅"
               />
               <PhaseInfoCard
                 label="Illumination"
-                value={`${results.illumination.toFixed(1)}%`}
+                value={`${formatFixed(results.illumination, 1)}%`}
                 icon="💡"
               />
               <PhaseInfoCard

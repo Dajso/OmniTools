@@ -13,6 +13,7 @@ import {
   formatShutterSpeed,
   type NDFilterResult,
 } from '@/lib/calculations/photo/nd-filter-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const SHUTTER_SPEED_PRESETS = [
   { value: 1/8000, label: '1/8000' },
@@ -103,7 +104,7 @@ export function NDFilterCalculator() {
             />
             <ResultDisplay
               label="Optical Density"
-              value={result.opticalDensity.toFixed(1)}
+              value={formatFixed(result.opticalDensity, 1)}
             />
           </div>
           {result.recommendedFilter && (

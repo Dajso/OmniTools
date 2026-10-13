@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateSubstrate, SUBSTRATE_TYPES, type SubstrateResult } from '@/lib/calculations/aquarium/substrate';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const SUBSTRATE_OPTIONS = [
     ...Object.entries(SUBSTRATE_TYPES).map(([value, data]) => ({
@@ -52,10 +53,10 @@ export function SubstrateCalculator() {
             onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Weight Needed" value={`${result.weightKg.toFixed(2)} kg`} copyable />
+                    <ResultDisplay label="Weight Needed" value={`${formatFixed(result.weightKg, 2)} kg`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Weight (lbs)" value={result.weightLbs.toFixed(2)} />
-                        <ResultDisplay label="Volume (Liters)" value={result.volumeLiters.toFixed(2)} />
+                        <ResultDisplay label="Weight (lbs)" value={formatFixed(result.weightLbs, 2)} />
+                        <ResultDisplay label="Volume (Liters)" value={formatFixed(result.volumeLiters, 2)} />
                     </div>
                 </div>
             )}

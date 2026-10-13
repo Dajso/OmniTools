@@ -12,6 +12,7 @@ import {
   percentSubmerged,
   type DensityResult,
 } from '@/lib/calculations/physics/density-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const materialOptions = [
   { value: '', label: 'Select a material (optional)' },
@@ -121,7 +122,7 @@ export function DensityCalculator() {
             <p className="text-sm font-medium mb-2">Buoyancy in Water</p>
             <p className="text-sm">
               {floatsInWater 
-                ? `✓ This object would float (${submergedPercent?.toFixed(1)}% submerged)`
+                ? `✓ This object would float (${formatFixed(submergedPercent ?? 0, 1)}% submerged)`
                 : '✗ This object would sink in water'}
             </p>
           </div>

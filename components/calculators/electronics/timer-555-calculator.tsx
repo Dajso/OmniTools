@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateAstable, calculateMonostable, type AstableResult, type MonostableResult } from '@/lib/calculations/electronics/timer-555';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type Mode = 'astable' | 'monostable';
 
@@ -73,9 +74,9 @@ export function Timer555Calculator() {
             <ResultDisplay label="Frequency" value={astableResult.formattedFrequency} copyable />
             <div className="grid grid-cols-2 gap-4">
               <ResultDisplay label="Period" value={astableResult.formattedPeriod} />
-              <ResultDisplay label="Duty Cycle" value={`${astableResult.dutyCycle.toFixed(1)}%`} />
-              <ResultDisplay label="High Time" value={`${(astableResult.highTime * 1000).toFixed(3)}ms`} />
-              <ResultDisplay label="Low Time" value={`${(astableResult.lowTime * 1000).toFixed(3)}ms`} />
+              <ResultDisplay label="Duty Cycle" value={`${formatFixed(astableResult.dutyCycle, 1)}%`} />
+              <ResultDisplay label="High Time" value={`${formatFixed((astableResult.highTime * 1000), 3)}ms`} />
+              <ResultDisplay label="Low Time" value={`${formatFixed((astableResult.lowTime * 1000), 3)}ms`} />
             </div>
           </div>
         ) : monostableResult ? (

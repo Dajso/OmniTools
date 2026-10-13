@@ -11,6 +11,7 @@ import {
   type WheelSpec,
   type WheelComparison,
 } from '@/lib/calculations/auto/wheel-offset-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function WheelOffsetCalculator() {
   const [origDiameter, setOrigDiameter] = React.useState(17);
@@ -81,34 +82,34 @@ export function WheelOffsetCalculator() {
             <div className="p-3 bg-muted/30 rounded-lg">
               <p className="text-sm font-medium mb-2">Opprinnelig felg</p>
               <p className="text-xs text-muted-foreground">{result.original.formattedSize}</p>
-              <p className="text-xs text-muted-foreground">Baksett: {result.original.backspacing.toFixed(2)}"</p>
+              <p className="text-xs text-muted-foreground">Baksett: {formatFixed(result.original.backspacing, 2)}"</p>
             </div>
             <div className="p-3 bg-muted/30 rounded-lg">
               <p className="text-sm font-medium mb-2">Ny felg</p>
               <p className="text-xs text-muted-foreground">{result.newWheel.formattedSize}</p>
-              <p className="text-xs text-muted-foreground">Baksett: {result.newWheel.backspacing.toFixed(2)}"</p>
+              <p className="text-xs text-muted-foreground">Baksett: {formatFixed(result.newWheel.backspacing, 2)}"</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Endring i sporvidde (per side)" 
-              value={`${result.trackWidthChangePerSide > 0 ? '+' : ''}${result.trackWidthChangePerSide.toFixed(1)}mm`}
+              value={`${result.trackWidthChangePerSide > 0 ? '+' : ''}${formatFixed(result.trackWidthChangePerSide, 1)}mm`}
             />
             <ResultDisplay 
               label="Total endring i sporvidde" 
-              value={`${result.totalTrackWidthChange > 0 ? '+' : ''}${result.totalTrackWidthChange.toFixed(1)}mm`}
+              value={`${result.totalTrackWidthChange > 0 ? '+' : ''}${formatFixed(result.totalTrackWidthChange, 1)}mm`}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Endring i klaring innvendig" 
-              value={`${result.innerClearanceChange > 0 ? '+' : ''}${result.innerClearanceChange.toFixed(1)}mm`}
+              value={`${result.innerClearanceChange > 0 ? '+' : ''}${formatFixed(result.innerClearanceChange, 1)}mm`}
             />
             <ResultDisplay 
               label="Endring i klaring utvendig" 
-              value={`${result.outerClearanceChange > 0 ? '+' : ''}${result.outerClearanceChange.toFixed(1)}mm`}
+              value={`${result.outerClearanceChange > 0 ? '+' : ''}${formatFixed(result.outerClearanceChange, 1)}mm`}
             />
           </div>
 

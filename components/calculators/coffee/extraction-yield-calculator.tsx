@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for extraction yield calculator inputs
@@ -144,7 +145,7 @@ export function ExtractionYieldCalculator() {
           {/* Main result */}
           <ResultDisplay
             label="Extraction Yield"
-            value={results.extractionYield.toFixed(2)}
+            value={formatFixed(results.extractionYield, 2)}
             unit="%"
             highlight
             copyable

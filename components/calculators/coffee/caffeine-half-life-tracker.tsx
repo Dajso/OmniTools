@@ -15,6 +15,7 @@ import {
 } from '@/lib/calculations/coffee/caffeine-half-life';
 import { Plus, Trash2, Coffee, AlertCircle, Clock, Moon } from 'lucide-react';
 import { format } from 'date-fns';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for caffeine intake
@@ -304,7 +305,7 @@ export function CaffeineHalfLifeTracker() {
           {/* Current Level */}
           <ResultDisplay
             label="Current Caffeine Level"
-            value={results.currentLevel.toFixed(1)}
+            value={formatFixed(results.currentLevel, 1)}
             unit="mg"
             highlight
             copyable

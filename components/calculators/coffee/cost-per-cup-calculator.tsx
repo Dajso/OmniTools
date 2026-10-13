@@ -13,6 +13,7 @@ import {
 } from '@/lib/calculations/coffee/cost-per-cup';
 import { Button } from '@/components/ui/button';
 import { Info, DollarSign, Coffee, Calendar, TrendingUp } from 'lucide-react';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for cost per cup calculator inputs
@@ -167,7 +168,7 @@ export function CostPerCupCalculator() {
             <CostBreakdownCard
               icon={DollarSign}
               label="Cost Per Cup"
-              value={`$${results.costPerCup.toFixed(2)}`}
+              value={`$${formatFixed(results.costPerCup, 2)}`}
               unit=""
               description="What you pay for each cup of coffee"
             />
@@ -175,7 +176,7 @@ export function CostPerCupCalculator() {
             <CostBreakdownCard
               icon={Coffee}
               label="Cups Per Bag"
-              value={results.cupsPerBag.toFixed(1)}
+              value={formatFixed(results.cupsPerBag, 1)}
               unit="cups"
               description="How many cups you can make from this bag"
             />
@@ -184,7 +185,7 @@ export function CostPerCupCalculator() {
           {/* Cost Per Gram */}
           <ResultDisplay
             label="Cost Per Gram"
-            value={`$${results.costPerGram.toFixed(4)}`}
+            value={`$${formatFixed(results.costPerGram, 4)}`}
             copyable
           />
 
@@ -200,7 +201,7 @@ export function CostPerCupCalculator() {
                 <CostBreakdownCard
                   icon={Calendar}
                   label="Monthly Cost"
-                  value={`$${results.monthlyCost.toFixed(2)}`}
+                  value={`$${formatFixed(results.monthlyCost, 2)}`}
                   unit="/month"
                   description={`Based on ${inputs.cupsPerDay} cup${inputs.cupsPerDay !== 1 ? 's' : ''} per day`}
                 />
@@ -208,7 +209,7 @@ export function CostPerCupCalculator() {
                 <CostBreakdownCard
                   icon={Calendar}
                   label="Annual Cost"
-                  value={`$${results.annualCost.toFixed(2)}`}
+                  value={`$${formatFixed(results.annualCost, 2)}`}
                   unit="/year"
                   description="Your yearly coffee investment"
                 />
@@ -223,9 +224,9 @@ export function CostPerCupCalculator() {
               <div>
                 <p className="text-sm font-medium mb-1">Cost Comparison</p>
                 <p className="text-sm text-muted-foreground">
-                  At ${results.costPerCup.toFixed(2)} per cup, your home-brewed coffee is significantly
+                  At ${formatFixed(results.costPerCup, 2)} per cup, your home-brewed coffee is significantly
                   cheaper than café coffee (typically $3-6 per cup).
-                  {results.annualCost && ` You're saving approximately $${((4 - results.costPerCup) * (inputs.cupsPerDay || 1) * 365).toFixed(0)} per year compared to buying café coffee at $4 per cup.`}
+                  {results.annualCost && ` You're saving approximately $${formatFixed(((4 - results.costPerCup) * (inputs.cupsPerDay || 1) * 365), 0)} per year compared to buying café coffee at $4 per cup.`}
                 </p>
               </div>
             </div>

@@ -6,7 +6,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { formatCurrency } from '@/lib/utils/formatting';
+import { formatCurrency, formatFixed } from '@/lib/utils/formatting';
 
 const schema = z.object({
   monthlyExpenses: z.number().min(100, 'Utgiftene må være minst 100 kr'),
@@ -73,7 +73,7 @@ export function EmergencyFundCalculator() {
           <ResultDisplay label="Målet for bufferen" value={formatCurrency(results.targetAmount)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
             <ResultDisplay label="Mangler fortsatt" value={formatCurrency(results.amountNeeded)} copyable />
-            <ResultDisplay label="Fremdrift så langt" value={`${results.progress.toFixed(1)}%`} />
+            <ResultDisplay label="Fremdrift så langt" value={`${formatFixed(results.progress, 1)}%`} />
             {results.monthsToGoal > 0 && (
               <ResultDisplay label="Måneder til målet" value={`${results.monthsToGoal} måneder`} />
             )}

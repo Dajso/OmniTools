@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { hpToKw, kwToHp } from '@/lib/calculations/auto/zero-sixty-estimator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type PowerUnit = 'hp' | 'kw' | 'ps' | 'bhp';
 
@@ -102,12 +103,12 @@ export function HorsepowerKwConverter() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Hestekrefter (hk, imperial)" 
-              value={`${result.hp.toFixed(1).replace('.', ',')} HP`}
+              value={`${formatFixed(result.hp, 1)} HP`}
               copyable
             />
             <ResultDisplay 
               label="Kilowatt (kW)" 
-              value={`${result.kw.toFixed(1).replace('.', ',')} kW`}
+              value={`${formatFixed(result.kw, 1)} kW`}
               copyable
             />
           </div>
@@ -115,12 +116,12 @@ export function HorsepowerKwConverter() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
               label="Metriske hk (PS)" 
-              value={`${result.ps.toFixed(1).replace('.', ',')} PS`}
+              value={`${formatFixed(result.ps, 1)} PS`}
               copyable
             />
             <ResultDisplay 
               label="Brake HP (BHP)" 
-              value={`${result.bhp.toFixed(1).replace('.', ',')} BHP`}
+              value={`${formatFixed(result.bhp, 1)} BHP`}
               copyable
             />
           </div>

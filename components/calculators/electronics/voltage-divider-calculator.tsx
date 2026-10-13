@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { calculateVoltageDivider, type VoltageDividerResult } from '@/lib/calculations/electronics/voltage-divider';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function VoltageDividerCalculator() {
   const [inputVoltage, setInputVoltage] = React.useState('12');
@@ -55,10 +56,10 @@ export function VoltageDividerCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="Output Voltage" value={result.formattedOutput} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Division Ratio" value={`${(result.divisionRatio * 100).toFixed(1)}%`} />
-            <ResultDisplay label="Current" value={`${(result.current * 1000).toFixed(3)} mA`} />
-            <ResultDisplay label="Power (R1)" value={`${(result.powerR1 * 1000).toFixed(3)} mW`} />
-            <ResultDisplay label="Power (R2)" value={`${(result.powerR2 * 1000).toFixed(3)} mW`} />
+            <ResultDisplay label="Division Ratio" value={`${formatFixed((result.divisionRatio * 100), 1)}%`} />
+            <ResultDisplay label="Current" value={`${formatFixed((result.current * 1000), 3)} mA`} />
+            <ResultDisplay label="Power (R1)" value={`${formatFixed((result.powerR1 * 1000), 3)} mW`} />
+            <ResultDisplay label="Power (R2)" value={`${formatFixed((result.powerR2 * 1000), 3)} mW`} />
           </div>
         </div>
       )}

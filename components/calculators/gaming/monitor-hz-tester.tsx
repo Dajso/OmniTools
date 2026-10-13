@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ResultDisplay } from '@/components/ui/result-display';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type TestState = 'idle' | 'running' | 'complete';
 
@@ -207,7 +208,7 @@ export function MonitorHzTester() {
               />
               <ResultDisplay
                 label="Test Duration"
-                value={`${(result.duration / 1000).toFixed(1)}`}
+                value={`${formatFixed((result.duration / 1000), 1)}`}
                 unit="s"
               />
             </div>

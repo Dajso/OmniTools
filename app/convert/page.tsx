@@ -14,14 +14,14 @@ const converterCategories = [
   { name: 'Vekt', href: '/convert/kilogram-to-pound', examples: ['Kilogram ↔ pund', 'Gram ↔ unser', 'Stone ↔ kilogram'] },
   { name: 'Temperatur', href: '/convert/celsius-to-fahrenheit', examples: ['Celsius ↔ Fahrenheit', 'Kelvin ↔ Celsius'] },
   { name: 'Volum', href: '/convert/liter-to-gallon', examples: ['Liter ↔ gallon', 'Desiliter ↔ ml', 'Spiseskje ↔ ml'] },
-  { name: 'Areal', href: '/convert/squareFoot-to-squareMeter', examples: ['Kvadratfot ↔ m²', 'Dekar ↔ m²', 'Acre ↔ hektar'] },
-  { name: 'Fart', href: '/convert/milePerHour-to-kilometerPerHour', examples: ['Mph ↔ km/t', 'Knop ↔ km/t', 'm/s ↔ km/t'] },
-  { name: 'Drivstofforbruk', href: '/convert/litersPer100Km-to-kmPerLiter', examples: ['l/100 km ↔ km/l', 'l/mil ↔ l/100 km', 'Mpg ↔ l/100 km'] },
-  { name: 'Effekt', href: '/convert/kilowatt-to-horsepowerMetric', examples: ['kW ↔ hk', 'Watt ↔ kW', 'hp ↔ kW'] },
+  { name: 'Areal', href: '/convert/square-foot-to-square-meter', examples: ['Kvadratfot ↔ m²', 'Dekar ↔ m²', 'Acre ↔ hektar'] },
+  { name: 'Fart', href: '/convert/mile-per-hour-to-kilometer-per-hour', examples: ['Mph ↔ km/t', 'Knop ↔ km/t', 'm/s ↔ km/t'] },
+  { name: 'Drivstofforbruk', href: '/convert/liters-per100-km-to-km-per-liter', examples: ['l/100 km ↔ km/l', 'l/mil ↔ l/100 km', 'Mpg ↔ l/100 km'] },
+  { name: 'Effekt', href: '/convert/kilowatt-to-horsepower-metric', examples: ['kW ↔ hk', 'Watt ↔ kW', 'hp ↔ kW'] },
   { name: 'Data', href: '/convert/megabyte-to-gigabyte', examples: ['MB ↔ GB', 'KB ↔ MB', 'TB ↔ GB'] },
   { name: 'Tid', href: '/convert/hour-to-minute', examples: ['Timer ↔ minutter', 'Døgn ↔ timer'] },
   { name: 'Trykk', href: '/convert/psi-to-bar', examples: ['PSI ↔ bar', 'hPa ↔ mmHg', 'kPa ↔ PSI'] },
-  { name: 'Energi', href: '/convert/kilowattHour-to-megajoule', examples: ['kWh ↔ MJ', 'kcal ↔ kJ', 'Joule ↔ kalori'] },
+  { name: 'Energi', href: '/convert/kilowatt-hour-to-megajoule', examples: ['kWh ↔ MJ', 'kcal ↔ kJ', 'Joule ↔ kalori'] },
 ];
 
 export default function ConvertersPage() {

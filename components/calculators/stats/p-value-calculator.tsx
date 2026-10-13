@@ -16,6 +16,7 @@ import {
   type PValueResult,
 } from '@/lib/calculations/stats';
 import { cn } from '@/lib/utils';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * P-Value Calculator Component
@@ -100,7 +101,7 @@ export function PValueCalculator() {
         <div className="space-y-4">
           <ResultDisplay
             label="P-Value"
-            value={result.pValue < 0.0001 ? '< 0.0001' : result.pValue.toFixed(6)}
+            value={result.pValue < 0.0001 ? '< 0.0001' : formatFixed(result.pValue, 6)}
             highlight
             copyable
           />

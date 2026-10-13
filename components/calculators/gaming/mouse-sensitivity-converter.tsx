@@ -10,6 +10,7 @@ import {
   SUPPORTED_GAMES,
   type SensitivityConversion,
 } from '@/lib/calculations/gaming/sensitivity-converter';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const GAME_OPTIONS = SUPPORTED_GAMES.map(game => ({
   value: game.id,
@@ -80,30 +81,30 @@ export function MouseSensitivityConverter() {
         <div className="space-y-4">
           <ResultDisplay
             label={`${targetGameName} Sensitivity`}
-            value={result.convertedSensitivity.toFixed(4)}
+            value={formatFixed(result.convertedSensitivity, 4)}
             highlight
             copyable
           />
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="cm/360"
-              value={result.cm360.toFixed(2)}
+              value={formatFixed(result.cm360, 2)}
               unit="cm"
             />
             <ResultDisplay
               label="inches/360"
-              value={(result.cm360 / 2.54).toFixed(2)}
+              value={formatFixed((result.cm360 / 2.54), 2)}
               unit="in"
             />
           </div>
           <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
             <p>
               Your {sourceGameName} sensitivity of <strong>{sensitivity}</strong> at{' '}
-              <strong>{dpi} DPI</strong> equals <strong>{result.convertedSensitivity.toFixed(4)}</strong> in{' '}
+              <strong>{dpi} DPI</strong> equals <strong>{formatFixed(result.convertedSensitivity, 4)}</strong> in{' '}
               {targetGameName}.
             </p>
             <p className="mt-2">
-              This means you need to move your mouse <strong>{result.cm360.toFixed(1)} cm</strong> for a full 360° turn.
+              This means you need to move your mouse <strong>{formatFixed(result.cm360, 1)} cm</strong> for a full 360° turn.
             </p>
           </div>
         </div>

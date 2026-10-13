@@ -4,6 +4,7 @@ import * as React from 'react';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface KDResult {
   kdRatio: number;
@@ -118,13 +119,13 @@ export function KDRatioCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="K/D Ratio"
-              value={result.kdRatio.toFixed(2)}
+              value={formatFixed(result.kdRatio, 2)}
               highlight
               copyable
             />
             <ResultDisplay
               label="KDA Ratio"
-              value={kda.toFixed(2)}
+              value={formatFixed(kda, 2)}
               copyable
             />
           </div>
@@ -152,7 +153,7 @@ export function KDRatioCalculator() {
           {result.winRate !== null && (
             <ResultDisplay
               label="Win Rate"
-              value={`${result.winRate.toFixed(1)}`}
+              value={`${formatFixed(result.winRate, 1)}`}
               unit="%"
             />
           )}

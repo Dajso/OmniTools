@@ -12,6 +12,7 @@ import {
   formatNote,
   CONCERT_PITCHES,
 } from '@/lib/calculations/audio/note-frequency';
+import { formatFixed } from '@/lib/utils/formatting';
 
 // Standard guitar tuning frequencies
 const GUITAR_TUNINGS = {
@@ -303,7 +304,7 @@ export function GuitarTuner() {
                 >
                   <span className="text-xs text-muted-foreground">String {stringNote.string}</span>
                   <span className="font-bold">{stringNote.note}{stringNote.octave}</span>
-                  <span className="text-xs">{targetFreq.toFixed(1)} Hz</span>
+                  <span className="text-xs">{formatFixed(targetFreq, 1)} Hz</span>
                 </Button>
               );
             })}
@@ -356,7 +357,7 @@ export function GuitarTuner() {
                     {indicator.text}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {cents > 0 ? '+' : ''}{cents.toFixed(1)} cents
+                    {cents > 0 ? '+' : ''}{formatFixed(cents, 1)} cents
                   </p>
                 </div>
               )}
@@ -379,7 +380,7 @@ export function GuitarTuner() {
               return (
                 <ResultDisplay
                   label={`${stringNote.note}${stringNote.octave}`}
-                  value={targetFreq.toFixed(2)}
+                  value={formatFixed(targetFreq, 2)}
                   unit="Hz"
                   highlight
                 />

@@ -279,6 +279,36 @@ export function findUnitCategory(unitId: string): UnitCategory | undefined {
   return undefined;
 }
 
+
+/**
+ * Gjør en enhets-ID (camelCase) om til en nettadressevennlig tekst (kebab-case).
+ * Eksempel: squareFoot → square-foot
+ */
+export function unitIdToSlug(id: string): string {
+  return id.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+/** Lager adressen for en omregning, f.eks. squareFoot + squareMeter → square-foot-to-square-meter */
+export function conversionSlug(fromId: string, toId: string): string {
+  return `${unitIdToSlug(fromId)}-to-${unitIdToSlug(toId)}`;
+}
+
+let slugToIdMap: Map<string, string> | null = null;
+
+/** Finner enhets-ID fra enten kebab-case (square-foot) eller opprinnelig ID (squareFoot) */
+function slugPartToUnitId(part: string): string {
+  if (!slugToIdMap) {
+    slugToIdMap = new Map();
+    for (const units of Object.values(unitsByCategory)) {
+      for (const id of Object.keys(units)) {
+        slugToIdMap.set(unitIdToSlug(id), id);
+        slugToIdMap.set(id, id);
+      }
+    }
+  }
+  return slugToIdMap.get(part) ?? part;
+}
+
 /**
  * Parse conversion slug (e.g., "kg-to-lbs") into unit IDs
  */
@@ -286,9 +316,9 @@ export function parseConversionSlug(slug: string): {
   from: string;
   to: string;
 } | null {
-  const match = slug.match(/^(.+)-to-(.+)$/);
+  const match = slug.match(/^(.+?)-to-(.+)$/);
   if (!match) return null;
-  return { from: match[1], to: match[2] };
+  return { from: slugPartToUnitId(match[1]), to: slugPartToUnitId(match[2]) };
 }
 
 /**
@@ -350,7 +380,7 @@ export function getRelatedConversions(
         to: unit.id,
         fromName: unitsByCategory[category][fromUnitId].name,
         toName: unit.name,
-        href: `/convert/${fromUnitId}-to-${unit.id}`,
+        href: `/convert/${conversionSlug(fromUnitId, unit.id)}`,
       });
       
       // From other units to current "to" unit
@@ -359,7 +389,7 @@ export function getRelatedConversions(
         to: toUnitId,
         fromName: unit.name,
         toName: unitsByCategory[category][toUnitId].name,
-        href: `/convert/${unit.id}-to-${toUnitId}`,
+        href: `/convert/${conversionSlug(unit.id, toUnitId)}`,
       });
     }
   }

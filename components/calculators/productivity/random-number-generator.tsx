@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { generateRandomNumbers, type RandomNumberResults } from '@/lib/calculations/productivity/random-number-generator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 export function RandomNumberGenerator() {
   const [min, setMin] = React.useState(1);
@@ -59,7 +60,7 @@ export function RandomNumberGenerator() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay label="Sum" value={results.sum.toLocaleString('nb-NO')} copyable />
-              <ResultDisplay label="Gjennomsnitt" value={results.average.toFixed(2)} copyable />
+              <ResultDisplay label="Gjennomsnitt" value={formatFixed(results.average, 2)} copyable />
             </div>
           </div>
         )}

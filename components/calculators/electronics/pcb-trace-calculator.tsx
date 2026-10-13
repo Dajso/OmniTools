@@ -5,6 +5,7 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface PCBTraceResult {
   width: number;
@@ -107,12 +108,12 @@ export function PCBTraceCalculator() {
       error={error}
       results={result && (
         <div className="space-y-4">
-          <ResultDisplay label="Minimum Trace Width" value={`${result.width.toFixed(3)} mm (${result.widthMils.toFixed(1)} mils)`} copyable />
+          <ResultDisplay label="Minimum Trace Width" value={`${formatFixed(result.width, 3)} mm (${formatFixed(result.widthMils, 1)} mils)`} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Cross-Section Area" value={`${result.area.toFixed(1)} mils²`} />
-            <ResultDisplay label="Trace Resistance" value={`${(result.resistance * 1000).toFixed(3)} mΩ`} />
-            <ResultDisplay label="Voltage Drop" value={`${(result.voltageDrop * 1000).toFixed(2)} mV`} />
-            <ResultDisplay label="Power Loss" value={`${(result.powerLoss * 1000).toFixed(3)} mW`} />
+            <ResultDisplay label="Cross-Section Area" value={`${formatFixed(result.area, 1)} mils²`} />
+            <ResultDisplay label="Trace Resistance" value={`${formatFixed((result.resistance * 1000), 3)} mΩ`} />
+            <ResultDisplay label="Voltage Drop" value={`${formatFixed((result.voltageDrop * 1000), 2)} mV`} />
+            <ResultDisplay label="Power Loss" value={`${formatFixed((result.powerLoss * 1000), 3)} mW`} />
           </div>
         </div>
       )}

@@ -19,6 +19,7 @@ import {
   type AudioFormat,
   type AudioFileSizeResult,
 } from '@/lib/calculations/audio/sample-rate-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type Mode = 'size' | 'duration' | 'specs';
 
@@ -235,8 +236,8 @@ export function SampleRateCalculator() {
             </div>
             <div className="grid grid-cols-3 gap-3 mt-3">
               <ResultDisplay label="Bytes" value={fileSizeResult.bytes.toLocaleString('nb-NO')} />
-              <ResultDisplay label="Kilobytes" value={fileSizeResult.kilobytes.toFixed(2)} />
-              <ResultDisplay label="Megabytes" value={fileSizeResult.megabytes.toFixed(2)} />
+              <ResultDisplay label="Kilobytes" value={formatFixed(fileSizeResult.kilobytes, 2)} />
+              <ResultDisplay label="Megabytes" value={formatFixed(fileSizeResult.megabytes, 2)} />
             </div>
           </div>
         )}
@@ -251,7 +252,7 @@ export function SampleRateCalculator() {
               highlight
             />
             <p className="text-sm text-muted-foreground mt-2">
-              {calculatedDuration.toFixed(1)} seconds total
+              {formatFixed(calculatedDuration, 1)} seconds total
             </p>
           </div>
         )}
@@ -262,22 +263,22 @@ export function SampleRateCalculator() {
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay
               label="Nyquist Frequency"
-              value={(nyquist.nyquistFrequency / 1000).toFixed(1)}
+              value={formatFixed((nyquist.nyquistFrequency / 1000), 1)}
               unit="kHz"
             />
             <ResultDisplay
               label="Dynamic Range"
-              value={dynamicRange.toFixed(1)}
+              value={formatFixed(dynamicRange, 1)}
               unit="dB"
             />
             <ResultDisplay
               label="Signal-to-Noise Ratio"
-              value={snr.toFixed(1)}
+              value={formatFixed(snr, 1)}
               unit="dB"
             />
             <ResultDisplay
               label="Max Frequency"
-              value={(nyquist.nyquistFrequency / 1000).toFixed(1)}
+              value={formatFixed((nyquist.nyquistFrequency / 1000), 1)}
               unit="kHz"
             />
           </div>

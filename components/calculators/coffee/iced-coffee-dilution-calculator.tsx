@@ -13,6 +13,7 @@ import {
 } from '@/lib/calculations/coffee/iced-coffee-dilution';
 import { Button } from '@/components/ui/button';
 import { Info, AlertTriangle } from 'lucide-react';
+import { formatFixed } from '@/lib/utils/formatting';
 
 /**
  * Zod schema for iced coffee dilution calculator inputs
@@ -135,7 +136,7 @@ export function IcedCoffeeDilutionCalculator() {
           {/* Brewing TDS */}
           <ResultDisplay
             label="Brewing TDS"
-            value={results.brewingTDS.toFixed(2)}
+            value={formatFixed(results.brewingTDS, 2)}
             unit="%"
             highlight
             copyable
@@ -173,11 +174,11 @@ export function IcedCoffeeDilutionCalculator() {
               <div>
                 <p className="text-sm font-medium mb-2">Brewing Instructions</p>
                 <ol className="text-sm text-muted-foreground space-y-1">
-                  <li>1. Brew {displayHotCoffeeAmount} {useImperial ? 'fl oz' : 'ml'} of hot coffee at {results.brewingTDS.toFixed(2)}% TDS</li>
+                  <li>1. Brew {displayHotCoffeeAmount} {useImperial ? 'fl oz' : 'ml'} of hot coffee at {formatFixed(results.brewingTDS, 2)}% TDS</li>
                   <li>2. Prepare {displayIceAmount} {useImperial ? 'oz' : 'g'} of ice in your serving vessel</li>
                   <li>3. Pour the hot coffee directly over the ice</li>
                   <li>4. Stir gently as the ice melts to ensure even dilution</li>
-                  <li>5. Enjoy your perfectly balanced iced coffee at {inputs.targetTDS.toFixed(2)}% TDS</li>
+                  <li>5. Enjoy your perfectly balanced iced coffee at {formatFixed(inputs.targetTDS, 2)}% TDS</li>
                 </ol>
               </div>
             </div>

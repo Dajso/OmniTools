@@ -6,6 +6,7 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { calculateBatteryLife, BATTERY_TYPES, type BatteryLifeResult } from '@/lib/calculations/electronics/battery-life';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const BATTERY_OPTIONS = [
   { value: 'custom', label: 'Custom' },
@@ -87,10 +88,10 @@ export function BatteryLifeCalculator() {
         <div className="space-y-4">
           <ResultDisplay label="Battery Life" value={result.formatted} copyable />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Hours" value={result.hours.toFixed(2)} />
-            <ResultDisplay label="Days" value={result.days.toFixed(2)} />
-            <ResultDisplay label="Minutes" value={result.minutes.toFixed(0)} />
-            <ResultDisplay label="Effective Capacity" value={`${result.effectiveCapacity.toFixed(0)}mAh`} />
+            <ResultDisplay label="Hours" value={formatFixed(result.hours, 2)} />
+            <ResultDisplay label="Days" value={formatFixed(result.days, 2)} />
+            <ResultDisplay label="Minutes" value={formatFixed(result.minutes, 0)} />
+            <ResultDisplay label="Effective Capacity" value={`${formatFixed(result.effectiveCapacity, 0)}mAh`} />
           </div>
         </div>
       )}

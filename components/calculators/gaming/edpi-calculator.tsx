@@ -12,6 +12,7 @@ import {
   sensitivityForTargetEDPI,
   type EDPIResult,
 } from '@/lib/calculations/gaming/edpi-calculator';
+import { formatFixed } from '@/lib/utils/formatting';
 
 const DPI_PRESETS = [400, 800, 1600, 3200];
 
@@ -86,7 +87,7 @@ export function EDPICalculator() {
         <div className="space-y-4">
           <ResultDisplay
             label="Your eDPI"
-            value={result.edpi.toFixed(0)}
+            value={formatFixed(result.edpi, 0)}
             highlight
             copyable
           />
@@ -115,7 +116,7 @@ export function EDPICalculator() {
               <p className="text-sm font-medium mb-2">Target eDPI Conversion</p>
               <ResultDisplay
                 label={`Sensitivity for ${targetEDPI} eDPI at ${dpi} DPI`}
-                value={targetSensitivity.toFixed(4)}
+                value={formatFixed(targetSensitivity, 4)}
                 copyable
               />
             </div>

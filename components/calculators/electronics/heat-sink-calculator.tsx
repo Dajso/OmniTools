@@ -4,6 +4,7 @@ import * as React from 'react';
 import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { NumberInput } from '@/components/ui/number-input';
+import { formatFixed } from '@/lib/utils/formatting';
 
 interface HeatSinkResult {
   requiredThermalResistance: number;
@@ -111,16 +112,16 @@ export function HeatSinkCalculator() {
         <div className="space-y-4">
           <ResultDisplay
             label="Required Heat Sink Thermal Resistance"
-            value={`≤ ${result.requiredThermalResistance.toFixed(2)} °C/W`}
+            value={`≤ ${formatFixed(result.requiredThermalResistance, 2)} °C/W`}
             copyable
           />
           <div className="grid grid-cols-2 gap-4">
-            <ResultDisplay label="Junction Temp" value={`${result.junctionTemp.toFixed(1)}°C`} />
-            <ResultDisplay label="Case Temp" value={`${result.caseTemp.toFixed(1)}°C`} />
-            <ResultDisplay label="Heat Sink Temp" value={`${result.heatSinkTemp.toFixed(1)}°C`} />
+            <ResultDisplay label="Junction Temp" value={`${formatFixed(result.junctionTemp, 1)}°C`} />
+            <ResultDisplay label="Case Temp" value={`${formatFixed(result.caseTemp, 1)}°C`} />
+            <ResultDisplay label="Heat Sink Temp" value={`${formatFixed(result.heatSinkTemp, 1)}°C`} />
             <ResultDisplay
               label="Safety Margin"
-              value={`${result.safetyMargin.toFixed(1)}°C`}
+              value={`${formatFixed(result.safetyMargin, 1)}°C`}
               highlight={result.safetyMargin < 0}
             />
           </div>

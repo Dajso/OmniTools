@@ -15,6 +15,7 @@ import {
   formatNote,
   type FrequencyToNoteResult,
 } from '@/lib/calculations/audio/note-frequency';
+import { formatFixed } from '@/lib/utils/formatting';
 
 type Mode = 'note-to-freq' | 'freq-to-note';
 
@@ -144,7 +145,7 @@ export function NoteFrequencyConverter() {
               <div className="border-t pt-4">
                 <ResultDisplay
                   label={`${selectedNote}${octave} Frequency`}
-                  value={calculatedFrequency.toFixed(2)}
+                  value={formatFixed(calculatedFrequency, 2)}
                   unit="Hz"
                   highlight
                   copyable
@@ -177,13 +178,13 @@ export function NoteFrequencyConverter() {
                 <div className="grid grid-cols-2 gap-4">
                   <ResultDisplay
                     label="Exact Frequency"
-                    value={noteResult.exactFrequency.toFixed(2)}
+                    value={formatFixed(noteResult.exactFrequency, 2)}
                     unit="Hz"
                     copyable
                   />
                   <ResultDisplay
                     label="Cents Deviation"
-                    value={`${noteResult.cents > 0 ? '+' : ''}${noteResult.cents.toFixed(1)}`}
+                    value={`${noteResult.cents > 0 ? '+' : ''}${formatFixed(noteResult.cents, 1)}`}
                     unit="cents"
                   />
                 </div>
@@ -193,11 +194,11 @@ export function NoteFrequencyConverter() {
                       <span className="text-green-600 font-medium">Perfectly in tune!</span>
                     ) : noteResult.deviation === 'sharp' ? (
                       <span className="text-orange-600">
-                        {Math.abs(noteResult.cents).toFixed(1)} cents sharp of {formatNote(noteResult.note)}
+                        {formatFixed(Math.abs(noteResult.cents), 1)} cents sharp of {formatNote(noteResult.note)}
                       </span>
                     ) : (
                       <span className="text-blue-600">
-                        {Math.abs(noteResult.cents).toFixed(1)} cents flat of {formatNote(noteResult.note)}
+                        {formatFixed(Math.abs(noteResult.cents), 1)} cents flat of {formatNote(noteResult.note)}
                       </span>
                     )}
                   </p>
