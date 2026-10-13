@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { WallpaperCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Wallpaper Calculator - How Many Rolls Do I Need?',
-  description: 'Calculate how many rolls of wallpaper you need for your room. Free wallpaper calculator accounts for doors, windows, and pattern matching.',
-  keywords: ['wallpaper calculator', 'how many rolls wallpaper', 'wallpaper estimator', 'wall covering calculator'],
+  title: 'Tapetkalkulator – gratis kalkulator på nett',
+  description: 'Beregn hvor mange tapetruller du trenger. Gratis og uten registrering.',
+  keywords: ['tapet', 'tapetruller', 'vegg', 'rom', 'tapetsering'],
   alternates: { canonical: '/calculators/home/wallpaper-calculator' },
+  openGraph: {
+    title: 'Tapetkalkulator',
+    description: 'Beregn hvor mange tapetruller du trenger',
+    url: '/calculators/home/wallpaper-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Wallpaper Calculator', description: 'Calculate wallpaper rolls needed', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Tapetkalkulator',
+  description: 'Beregn hvor mange tapetruller du trenger',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Measure your room', text: 'Measure the length, width, and height of your room.' },
-  { name: 'Count openings', text: 'Count the number of doors and windows to subtract from the total.' },
-  { name: 'Enter roll specs', text: 'Enter your wallpaper roll width, length, and pattern repeat if applicable.' },
+  { name: 'Mål rommet', text: 'Oppgi lengde, bredde og takhøyde i meter.' },
+  { name: 'Legg inn dører og vinduer', text: 'Dører trekkes fra omkretsen. Vinduer regnes ikke bort, siden du trenger tapet over og under dem.' },
+  { name: 'Velg rull og mønster', text: 'Standard norsk rull er 53 cm bred og 10,05 m lang. Oppgi mønsterrapport hvis tapeten har mønster som skal passes.' },
+  { name: 'Les resultatet', text: 'Se antall baner, baner per rull og totalt antall ruller.' },
 ];
 
 const faqs = [
-  { question: 'What is a standard wallpaper roll size?', answer: 'American rolls are typically 27" wide × 27 feet long. European rolls are often 21" wide × 33 feet long.' },
-  { question: 'What is pattern repeat?', answer: 'Pattern repeat is the distance between where the pattern starts again. Larger repeats mean more waste.' },
-  { question: 'How many extra rolls should I buy?', answer: 'Buy 1-2 extra rolls for mistakes and future repairs. More for large pattern repeats.' },
+  { question: 'Hva er mønsterrapport?', answer: 'Det er avstanden før mønsteret gjentar seg. Den står på rullen. Jo større rapport, jo mer går til spille når banene skal passe sammen.' },
+  { question: 'Hvor mange baner får jeg ut av en rull?', answer: 'En rull på 10,05 m gir normalt fire baner på 2,5 m. Med stor mønsterrapport kan det bli færre.' },
+  { question: 'Hvorfor trekkes ikke vinduer fra?', answer: 'Du må tapetsere over og under vinduet, og banene kappes ut fra samme rull. Resultatet er derfor på den sikre siden.' },
+  { question: 'Bør jeg kjøpe en ekstra rull?', answer: 'Ja, spesielt hvis tapeten er mønstret. Tapet fra ulike produksjonsserier kan ha små fargeforskjeller.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/paint-calculator', title: 'Malingskalkulator', description: 'Beregn hvor mye maling du trenger til vegger og tak i liter' },
+  { href: '/calculators/home/square-footage-calculator', title: 'Arealkalkulator', description: 'Regn ut areal i kvadratmeter for rom og flater' },
 ];
 
 export default function WallpaperCalculatorPage() {
@@ -30,13 +54,17 @@ export default function WallpaperCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="wallpaper-calculator"
-          title="Wallpaper Calculator"
-          description="Calculate how many rolls of wallpaper you need for your room."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Tapetkalkulator"
+          description="Regn ut hvor mange tapetruller du trenger til et rom, med hensyn til dører og mønsterrapport. Gratis og uten registrering."
         />
-        <section aria-label="Wallpaper Calculator"><WallpaperCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Tapetkalkulator">
+          <WallpaperCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

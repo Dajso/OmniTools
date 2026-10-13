@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { CarpetCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Carpet Calculator - How Much Carpet Do I Need?',
-  description: 'Calculate how much carpet you need and estimate costs. Free carpet calculator for square footage and pricing.',
-  keywords: ['carpet calculator', 'how much carpet', 'carpet cost calculator', 'flooring calculator'],
+  title: 'Teppekalkulator – gratis kalkulator på nett',
+  description: 'Beregn hvor mye teppe eller gulvbelegg du trenger til et rom. Gratis og uten registrering.',
+  keywords: ['teppe', 'gulvbelegg', 'areal', 'rom', 'belegg'],
   alternates: { canonical: '/calculators/home/carpet-calculator' },
+  openGraph: {
+    title: 'Teppekalkulator',
+    description: 'Beregn hvor mye teppe eller gulvbelegg du trenger til et rom',
+    url: '/calculators/home/carpet-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Carpet Calculator', description: 'Calculate carpet requirements and cost', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Teppekalkulator',
+  description: 'Beregn hvor mye teppe eller gulvbelegg du trenger til et rom',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Measure your room', text: 'Measure the length and width of your room in feet.' },
-  { name: 'Select carpet width', text: 'Choose your carpet roll width (typically 12 or 15 feet).' },
-  { name: 'Enter price', text: 'Enter the price per square yard to estimate total cost.' },
+  { name: 'Mål rommet', text: 'Oppgi lengde og bredde i meter.' },
+  { name: 'Velg rullbredde', text: 'Teppe og belegg selges gjerne i 2, 3, 4 eller 5 meter brede ruller.' },
+  { name: 'Skriv inn pris', text: 'Oppgi prisen per kvadratmeter for å få et kostnadsanslag.' },
+  { name: 'Les resultatet', text: 'Se løpemeter å kjøpe, hvor mye som blir til overs og anslått pris.' },
 ];
 
 const faqs = [
-  { question: 'Is carpet sold by square foot or square yard?', answer: 'Carpet is typically priced per square yard. Divide square feet by 9 to get square yards.' },
-  { question: 'How much extra carpet should I buy?', answer: 'Plan for 10% extra for seams, waste, and pattern matching.' },
-  { question: 'What is the standard carpet roll width?', answer: 'Most carpet comes in 12-foot or 15-foot widths. Choose based on your room dimensions to minimize seams.' },
+  { question: 'Hva er løpemeter?', answer: 'Det er lengden på rullen du kjøper. Du betaler for rullbredden gange løpemeter, også for det som kappes bort.' },
+  { question: 'Hvilken leggeretning velger kalkulatoren?', answer: 'Den prøver begge retninger og velger den som gir minst forbruk. Husk at mønster og lysfall kan gjøre at du vil legge på en bestemt måte.' },
+  { question: 'Hvorfor er arealet jeg betaler for større enn rommet?', answer: 'Rullbredden passer sjelden akkurat, og det trengs ca. 10 cm ekstra per bane til tilpasning langs vegg.' },
+  { question: 'Gjelder dette også for vinylbelegg?', answer: 'Ja, beregningen fungerer for alle gulvbelegg som selges på rull.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/tile-calculator', title: 'Flisekalkulator', description: 'Beregn hvor mange fliser du trenger til gulv eller vegg' },
+  { href: '/calculators/home/square-footage-calculator', title: 'Arealkalkulator', description: 'Regn ut areal i kvadratmeter for rom og flater' },
 ];
 
 export default function CarpetCalculatorPage() {
@@ -30,13 +54,17 @@ export default function CarpetCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="carpet-calculator"
-          title="Carpet Calculator"
-          description="Calculate how much carpet you need and estimate the total cost."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Teppekalkulator"
+          description="Regn ut hvor mange løpemeter teppe eller gulvbelegg du må kjøpe, og hva det koster. Gratis og uten registrering."
         />
-        <section aria-label="Carpet Calculator"><CarpetCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Teppekalkulator">
+          <CarpetCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

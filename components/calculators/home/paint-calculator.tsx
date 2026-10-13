@@ -8,222 +8,90 @@ import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
 import {
   calculatePaint,
-  DEFAULT_COVERAGE_PER_GALLON,
-  type PaintInputs,
+  DEFAULT_COVERAGE_M2_PER_LITER,
   type PaintResults,
-} from '@/lib/calculations/home/paint-calculator';
+} from '@/lib/calculations/home/home-calculations';
 import { formatNumber } from '@/lib/utils/formatting';
 
-/**
- * Zod schema for paint calculator inputs
- */
 const paintSchema = z.object({
-  roomLength: z.number().min(1, 'Length must be at least 1 ft').max(1000, 'Length too large'),
-  roomWidth: z.number().min(1, 'Width must be at least 1 ft').max(1000, 'Width too large'),
-  wallHeight: z.number().min(1, 'Height must be at least 1 ft').max(100, 'Height too large'),
-  numberOfDoors: z.number().min(0, 'Cannot be negative').max(50, 'Too many doors'),
-  numberOfWindows: z.number().min(0, 'Cannot be negative').max(50, 'Too many windows'),
-  numberOfCoats: z.number().min(1, 'At least 1 coat required').max(5, 'Maximum 5 coats'),
-  coveragePerGallon: z.number().min(100, 'Coverage too low').max(600, 'Coverage too high'),
+  roomLength: z.number().min(0.5, 'Lengden må være minst 0,5 m').max(100, 'Lengden er for stor'),
+  roomWidth: z.number().min(0.5, 'Bredden må være minst 0,5 m').max(100, 'Bredden er for stor'),
+  wallHeight: z.number().min(1, 'Høyden må være minst 1 m').max(10, 'Høyden er for stor'),
+  numberOfDoors: z.number().min(0, 'Kan ikke være negativt').max(50, 'For mange dører'),
+  numberOfWindows: z.number().min(0, 'Kan ikke være negativt').max(50, 'For mange vinduer'),
+  numberOfCoats: z.number().min(1, 'Minst ett strøk').max(5, 'Maks 5 strøk'),
+  coveragePerLiter: z.number().min(2, 'Dekkevnen er for lav').max(20, 'Dekkevnen er for høy'),
+  includeCeiling: z.boolean(),
 });
 
 type PaintFormInputs = z.infer<typeof paintSchema>;
 
 const INITIAL_INPUTS: PaintFormInputs = {
-  roomLength: 12,
-  roomWidth: 10,
-  wallHeight: 8,
+  roomLength: 4,
+  roomWidth: 3.5,
+  wallHeight: 2.4,
   numberOfDoors: 1,
   numberOfWindows: 2,
   numberOfCoats: 2,
-  coveragePerGallon: DEFAULT_COVERAGE_PER_GALLON,
+  coveragePerLiter: DEFAULT_COVERAGE_M2_PER_LITER,
+  includeCeiling: false,
 };
 
-/**
- * Paint Calculator Component
- */
-
-function calculatePaintFn(formInputs: PaintFormInputs): PaintResults {
-  const paintInputs: PaintInputs = {
-    roomLength: formInputs.roomLength,
-    roomWidth: formInputs.roomWidth,
-    wallHeight: formInputs.wallHeight,
-    numberOfDoors: formInputs.numberOfDoors,
-    numberOfWindows: formInputs.numberOfWindows,
-    numberOfCoats: formInputs.numberOfCoats,
-    coveragePerGallon: formInputs.coveragePerGallon,
-  };
-  return calculatePaint(paintInputs);
-}
-
 export function PaintCalculator() {
-  const {
-    inputs,
-    setInput,
-    results,
-    errors,
-    isValid,
-    calculate,
-    reset,
-    isCalculating,
-  } = useCalculator<PaintFormInputs, PaintResults>({
-    initialInputs: INITIAL_INPUTS,
-    schema: paintSchema,
-    calculate: calculatePaintFn,
-    storageKey: 'paint-calculator',
-  });
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<PaintFormInputs, PaintResults>({
+      initialInputs: INITIAL_INPUTS,
+      schema: paintSchema,
+      calculate: calculatePaint,
+      storageKey: 'paint-calculator-no',
+    });
 
-  React.useEffect(() => {
-    calculate();
-  }, [calculate]);
-
-  const formula = 'Paint Needed = (Wall Area - Doors - Windows) x Coats / Coverage';
-  const formulaExplanation = 'Wall Area = 2 x (Length + Width) x Height. Standard door = 20 sq ft, window = 15 sq ft.';
+  React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="Paint Calculator"
-      description="Calculate how much paint you need for your room"
-      formula={formula}
-      formulaExplanation={formulaExplanation}
+      title="Malingskalkulator"
+      description="Regn ut hvor mange liter maling du trenger til et rom"
+      formula="Liter = (veggflate − dører og vinduer + evt. tak) × strøk ÷ dekkevne"
+      formulaExplanation="Dør regnes som 1,9 m² og vindu som 1,5 m². Dekkevnen er hvor mange m² én liter dekker per strøk."
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
       onReset={reset}
       error={(errors as Record<string, string>)._calculation}
-      results={
-        results && (
-          <div className="space-y-4">
-            <ResultDisplay
-              label="Paint Needed"
-              value={`${results.gallonsToPurchase} gallon${results.gallonsToPurchase !== 1 ? 's' : ''}`}
-              highlight
-              copyable
-            />
-            {results.quartsNeeded > 0 && (
-              <p className="text-sm text-muted-foreground">
-                You need less than 1 gallon. Consider buying {results.quartsNeeded} quart{results.quartsNeeded !== 1 ? 's' : ''} instead.
-              </p>
-            )}
-            <div className="grid grid-cols-2 gap-3">
-              <ResultDisplay
-                label="Total Wall Area"
-                value={`${formatNumber(results.totalWallArea)} sq ft`}
-                copyable
-              />
-              <ResultDisplay
-                label="Paintable Area"
-                value={`${formatNumber(results.paintableArea)} sq ft`}
-                copyable
-              />
-              <ResultDisplay
-                label="Area with Coats"
-                value={`${formatNumber(results.totalAreaWithCoats)} sq ft`}
-                copyable
-              />
-              <ResultDisplay
-                label="Exact Gallons"
-                value={formatNumber(results.gallonsNeeded, { locale: 'en-US', maximumFractionDigits: 2 })}
-                copyable
-              />
-            </div>
-            <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-              <p className="font-medium mb-1">Area Breakdown:</p>
-              <ul className="space-y-1">
-                <li>Door area subtracted: {formatNumber(results.doorArea)} sq ft</li>
-                <li>Window area subtracted: {formatNumber(results.windowArea)} sq ft</li>
-              </ul>
-            </div>
+      results={results && (
+        <div className="space-y-4">
+          <ResultDisplay label="Maling å kjøpe" value={`${formatNumber(results.litersToBuy, { maximumFractionDigits: 1 })} liter`} highlight copyable />
+          <div className="grid grid-cols-2 gap-3">
+            <ResultDisplay label="Beregnet behov" value={`${formatNumber(results.litersNeeded, { maximumFractionDigits: 1 })} liter`} copyable />
+            <ResultDisplay label="Flate som males" value={`${formatNumber(results.paintableArea, { maximumFractionDigits: 1 })} m²`} copyable />
+            <ResultDisplay label="Veggflate" value={`${formatNumber(results.wallArea, { maximumFractionDigits: 1 })} m²`} copyable />
+            <ResultDisplay label="Fratrukket for dører og vinduer" value={`${formatNumber(results.openingsArea, { maximumFractionDigits: 1 })} m²`} copyable />
+            <ResultDisplay label="Bokser à 2,7 liter" value={results.cans2_7.toString()} copyable />
+            <ResultDisplay label="Bokser à 9 liter" value={results.cans9.toString()} copyable />
           </div>
-        )
-      }
+        </div>
+      )}
     >
       <div className="grid grid-cols-3 gap-4">
-        <NumberInput
-          id="roomLength"
-          label="Room Length"
-          value={inputs.roomLength}
-          onChange={(v) => setInput('roomLength', v)}
-          min={1}
-          max={1000}
-          step={0.5}
-          unit="ft"
-          error={errors.roomLength}
-          required
-        />
-        <NumberInput
-          id="roomWidth"
-          label="Room Width"
-          value={inputs.roomWidth}
-          onChange={(v) => setInput('roomWidth', v)}
-          min={1}
-          max={1000}
-          step={0.5}
-          unit="ft"
-          error={errors.roomWidth}
-          required
-        />
-        <NumberInput
-          id="wallHeight"
-          label="Wall Height"
-          value={inputs.wallHeight}
-          onChange={(v) => setInput('wallHeight', v)}
-          min={1}
-          max={100}
-          step={0.5}
-          unit="ft"
-          error={errors.wallHeight}
-          required
-        />
+        <NumberInput id="roomLength" label="Romlengde" value={inputs.roomLength} onChange={(v) => setInput('roomLength', v)} min={0.5} step={0.1} unit="m" error={errors.roomLength} required />
+        <NumberInput id="roomWidth" label="Rombredde" value={inputs.roomWidth} onChange={(v) => setInput('roomWidth', v)} min={0.5} step={0.1} unit="m" error={errors.roomWidth} required />
+        <NumberInput id="wallHeight" label="Takhøyde" value={inputs.wallHeight} onChange={(v) => setInput('wallHeight', v)} min={1} max={10} step={0.1} unit="m" error={errors.wallHeight} required />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput
-          id="numberOfDoors"
-          label="Number of Doors"
-          value={inputs.numberOfDoors}
-          onChange={(v) => setInput('numberOfDoors', v)}
-          min={0}
-          max={50}
-          step={1}
-          error={errors.numberOfDoors}
-        />
-        <NumberInput
-          id="numberOfWindows"
-          label="Number of Windows"
-          value={inputs.numberOfWindows}
-          onChange={(v) => setInput('numberOfWindows', v)}
-          min={0}
-          max={50}
-          step={1}
-          error={errors.numberOfWindows}
-        />
+        <NumberInput id="numberOfDoors" label="Dører" value={inputs.numberOfDoors} onChange={(v) => setInput('numberOfDoors', v)} min={0} step={1} error={errors.numberOfDoors} />
+        <NumberInput id="numberOfWindows" label="Vinduer" value={inputs.numberOfWindows} onChange={(v) => setInput('numberOfWindows', v)} min={0} step={1} error={errors.numberOfWindows} />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput
-          id="numberOfCoats"
-          label="Number of Coats"
-          value={inputs.numberOfCoats}
-          onChange={(v) => setInput('numberOfCoats', v)}
-          min={1}
-          max={5}
-          step={1}
-          error={errors.numberOfCoats}
-          required
-        />
-        <NumberInput
-          id="coveragePerGallon"
-          label="Coverage per Gallon"
-          value={inputs.coveragePerGallon}
-          onChange={(v) => setInput('coveragePerGallon', v)}
-          min={100}
-          max={600}
-          step={25}
-          unit="sq ft"
-          error={errors.coveragePerGallon}
-        />
+        <NumberInput id="numberOfCoats" label="Antall strøk" value={inputs.numberOfCoats} onChange={(v) => setInput('numberOfCoats', v)} min={1} max={5} step={1} error={errors.numberOfCoats} />
+        <NumberInput id="coveragePerLiter" label="Dekkevne" value={inputs.coveragePerLiter} onChange={(v) => setInput('coveragePerLiter', v)} min={2} max={20} step={0.5} unit="m² per liter" error={errors.coveragePerLiter} />
       </div>
-      <p className="text-sm text-muted-foreground">
-        Most paints cover 300-400 sq ft per gallon. Check your paint can for specific coverage.
+      <div className="flex items-center gap-2">
+        <input type="checkbox" id="includeCeiling" checked={inputs.includeCeiling} onChange={(e) => setInput('includeCeiling', e.target.checked)} className="h-4 w-4 rounded border-gray-300" />
+        <label htmlFor="includeCeiling" className="text-sm">Ta med taket</label>
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Dekkevnen står på malingsspannet. Mange vegg- og takmalinger oppgir 8–12 m² per liter.
       </p>
     </CalculatorBase>
   );

@@ -1,41 +1,50 @@
 import { Metadata } from 'next';
 import { ElectricityCostCalculator } from '@/components/calculators/home';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Electricity Cost Calculator - Calculate Power Usage Cost',
-  description: 'Calculate how much electricity your appliances use and cost. Free electricity cost calculator with daily, monthly, and yearly estimates.',
-  keywords: ['electricity cost calculator', 'power usage calculator', 'energy cost calculator', 'appliance cost calculator'],
+  title: 'Strømkostnad – gratis kalkulator på nett',
+  description: 'Regn ut hva det koster å bruke elektriske apparater, med strømpris i øre per kWh. Gratis og uten registrering.',
+  keywords: ['strømkostnad', 'strømpris', 'kWh', 'øre per kWh', 'apparat', 'forbruk'],
   alternates: { canonical: '/calculators/home/electricity-cost-calculator' },
+  openGraph: {
+    title: 'Strømkostnad',
+    description: 'Regn ut hva det koster å bruke elektriske apparater, med strømpris i øre per kWh',
+    url: '/calculators/home/electricity-cost-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Electricity Cost Calculator',
-  description: 'Calculate electricity costs for your appliances',
+  name: 'Strømkostnad',
+  description: 'Regn ut hva det koster å bruke elektriske apparater, med strømpris i øre per kWh',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter wattage', text: 'Find the wattage on your appliance label or manual.' },
-  { name: 'Set usage hours', text: 'Enter how many hours per day you use the appliance.' },
-  { name: 'Enter electricity rate', text: 'Check your utility bill for your rate per kWh.' },
-  { name: 'View costs', text: 'See daily, monthly, and yearly electricity costs.' },
+  { name: 'Velg apparat eller skriv inn effekt', text: 'Trykk på et vanlig apparat, eller skriv inn watt fra typeskiltet.' },
+  { name: 'Oppgi bruk', text: 'Fyll inn timer per dag og dager per måned.' },
+  { name: 'Legg inn priser', text: 'Skriv inn strømpris og nettleie i øre per kWh inkludert mva. Du finner dem på strømregningen.' },
+  { name: 'Les resultatet', text: 'Se forbruk i kWh og kostnad per dag, måned og år.' },
 ];
 
 const faqs = [
-  { question: 'How do I find my appliance wattage?', answer: 'Check the label on the appliance, the manual, or search online for your model. Common examples: LED bulb (10W), refrigerator (150W), AC unit (1500W).' },
-  { question: 'What is kWh?', answer: 'Kilowatt-hour (kWh) is the unit of energy used by utilities. 1 kWh = using 1000 watts for 1 hour.' },
-  { question: 'How do I find my electricity rate?', answer: 'Check your utility bill. The average US rate is about $0.12-0.15 per kWh, but varies by location.' },
-  { question: 'How can I reduce electricity costs?', answer: 'Use energy-efficient appliances, unplug devices when not in use, and run high-wattage appliances during off-peak hours.' },
+  { question: 'Hvordan regner jeg ut strømforbruk?', answer: 'Forbruk i kWh er effekt i watt ganger timer, delt på 1 000. Et apparat på 2 000 W som går i 3 timer bruker 6 kWh.' },
+  { question: 'Hva er Norgespris?', answer: 'Norgespris er en frivillig ordning for husholdninger med fast strømpris på 50 øre per kWh inkludert mva. (40 øre uten mva.), opptil 5 000 kWh i måneden. Sjekk gjeldende vilkår hos strømleverandøren eller NVE.' },
+  { question: 'Hva er nettleie?', answer: 'Nettleien er det du betaler nettselskapet for å få strømmen levert. Den består av et fastledd og et energiledd per kWh. Kalkulatoren bruker bare energileddet.' },
+  { question: 'Hvorfor er resultatet annerledes enn på strømregningen?', answer: 'Apparater bruker ikke alltid full effekt, og kalkulatoren regner ikke med fastledd, avgifter som er bundet til fast beløp, eller timepriser som varierer gjennom døgnet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/home/solar-panel-calculator', title: 'Solar Panel Calculator', description: 'Calculate solar panel savings.' },
-  { href: '/calculators/home/btu-calculator', title: 'BTU Calculator', description: 'Calculate AC/heating needs.' },
+  { href: '/calculators/home/solar-panel-calculator', title: 'Solcellekalkulator', description: 'Beregn behov, produksjon og innsparing for solcelleanlegg med norske strømpriser' },
+  { href: '/calculators/home/btu-calculator', title: 'Varmepumpekalkulator', description: 'Anslå hvor stor varmepumpe (kW) rommet trenger til oppvarming og kjøling' },
 ];
 
 export default function ElectricityCostCalculatorPage() {
@@ -45,13 +54,11 @@ export default function ElectricityCostCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="electricity-cost-calculator"
-          title="Electricity Cost Calculator"
-          description="Calculate how much electricity your appliances use and cost. Get daily, monthly, and yearly estimates."
-          colorClass="bg-amber-100 text-amber-600"
-          category="Home"
+          title="Strømkostnad"
+          description="Regn ut hva et apparat koster å bruke per dag, måned og år, med strømpris og nettleie i øre per kWh. Gratis og uten registrering."
         />
 
-        <section aria-label="Electricity Cost Calculator">
+        <section aria-label="Strømkostnad">
           <ElectricityCostCalculator />
         </section>
 

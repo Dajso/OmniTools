@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { FenceCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Fence Calculator - How Much Fencing Material Do I Need?',
-  description: 'Calculate fence materials including posts, rails, pickets, and concrete. Free fence calculator for wood and vinyl fences.',
-  keywords: ['fence calculator', 'fencing material calculator', 'fence post calculator', 'picket fence calculator'],
+  title: 'Gjerdekalkulator – gratis kalkulator på nett',
+  description: 'Beregn materialer til gjerde: stolper, bord og fester. Gratis og uten registrering.',
+  keywords: ['gjerde', 'gjerdestolper', 'gjerdemateriell', 'tomtegrense'],
   alternates: { canonical: '/calculators/home/fence-calculator' },
+  openGraph: {
+    title: 'Gjerdekalkulator',
+    description: 'Beregn materialer til gjerde: stolper, bord og fester',
+    url: '/calculators/home/fence-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Fence Calculator', description: 'Calculate fence material requirements', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Gjerdekalkulator',
+  description: 'Beregn materialer til gjerde: stolper, bord og fester',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Measure fence line', text: 'Measure the total length of fence you need.' },
-  { name: 'Set specifications', text: 'Enter fence height, post spacing, and picket dimensions.' },
-  { name: 'Add gates', text: 'Include the number of gates for accurate post count.' },
+  { name: 'Oppgi lengde og høyde', text: 'Skriv inn total lengde i meter og gjerdehøyde i centimeter.' },
+  { name: 'Velg stolpeavstand', text: 'Vanlig avstand mellom stolper er 1,8–2,4 meter.' },
+  { name: 'Oppgi bordbredde og mellomrom', text: 'Bredde og mellomrom i millimeter avgjør hvor mange bord som trengs.' },
+  { name: 'Les resultatet', text: 'Se antall stolper, løsholter, bord og sekker støpemasse.' },
 ];
 
 const faqs = [
-  { question: 'How far apart should fence posts be?', answer: 'Posts are typically spaced 6-8 feet apart. Use 6 feet for taller or heavier fences.' },
-  { question: 'How deep should fence posts be?', answer: 'Posts should be buried 1/3 of their total length, typically 2-3 feet deep.' },
-  { question: 'How many rails per fence section?', answer: 'Use 2 rails for fences under 5 feet, 3 rails for taller fences.' },
+  { question: 'Hvor dypt bør stolpene stå?', answer: 'Minst 80–100 cm for å stå i telen. I områder med mye tele kan det trenges dypere fundamentering.' },
+  { question: 'Må jeg søke om å sette opp gjerde?', answer: 'Ofte ikke, men det kommer an på høyde, plassering og reguleringsplan. Sjekk reglene i kommunen. Gjerde i nabogrense bør avtales med naboen.' },
+  { question: 'Hvor mange løsholter trenger jeg?', answer: 'To per felt til gjerder opp til 150 cm, og tre ved høyere gjerder.' },
+  { question: 'Tar kalkulatoren hensyn til porter?', answer: 'Ja, hver port gir én ekstra stolpe. Portbladene og beslag må du regne for deg.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/decking-calculator', title: 'Terrassekalkulator', description: 'Beregn materialer til terrasse: terrassebord, bjelker og skruer' },
+  { href: '/calculators/home/lumber-calculator', title: 'Trelastkalkulator', description: 'Beregn mengde trelast i løpemeter og m³' },
 ];
 
 export default function FenceCalculatorPage() {
@@ -30,13 +54,17 @@ export default function FenceCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="fence-calculator"
-          title="Fence Calculator"
-          description="Calculate materials needed for your fence project including posts, rails, and pickets."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Gjerdekalkulator"
+          description="Regn ut hvor mange stolper, løsholter og bord du trenger til et gjerde. Gratis og uten registrering."
         />
-        <section aria-label="Fence Calculator"><FenceCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Gjerdekalkulator">
+          <FenceCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

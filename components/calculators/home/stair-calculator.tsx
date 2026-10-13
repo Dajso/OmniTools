@@ -6,33 +6,36 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { calculateStairs, type StairInputs, type StairResults } from '@/lib/calculations/home/stair-calculator';
+import { calculateStairs, type StairResults } from '@/lib/calculations/home/home-calculations';
 import { formatNumber } from '@/lib/utils/formatting';
 
 const stairSchema = z.object({
-  totalRise: z.number().min(12).max(240),
-  availableRun: z.number().min(24).max(300),
-  stairWidth: z.number().min(24).max(72),
+  totalRiseCm: z.number().min(10, 'Høyden må være minst 10 cm').max(1000, 'Høyden er for stor'),
+  availableRunCm: z.number().min(10, 'Lengden må være minst 10 cm').max(2000, 'Lengden er for stor'),
+  stairWidthCm: z.number().min(30, 'Bredden må være minst 30 cm').max(400, 'Bredden er for stor'),
 });
 
-const INITIAL_INPUTS = { totalRise: 108, availableRun: 144, stairWidth: 36 };
+type StairFormInputs = z.infer<typeof stairSchema>;
+
+const INITIAL_INPUTS: StairFormInputs = { totalRiseCm: 260, availableRunCm: 280, stairWidthCm: 90 };
 
 export function StairCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = useCalculator<typeof INITIAL_INPUTS, StairResults>({
-    initialInputs: INITIAL_INPUTS,
-    schema: stairSchema,
-    calculate: (formInputs) => calculateStairs(formInputs as StairInputs),
-    storageKey: 'stair-calculator',
-  });
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<StairFormInputs, StairResults>({
+      initialInputs: INITIAL_INPUTS,
+      schema: stairSchema,
+      calculate: calculateStairs,
+      storageKey: 'stair-calculator-no',
+    });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="Stair Calculator"
-      description="Calculate stair dimensions and building code compliance"
-      formula="Risers = Total Rise ÷ Ideal Riser Height (7.5 in)"
-      formulaExplanation="Checks IRC building code requirements"
+      title="Trappekalkulator"
+      description="Regn ut opptrinn, inntrinn og antall trinn i en trapp"
+      formula="Opptrinn = total høyde ÷ antall trinn, trappeformel: 2 × opptrinn + inntrinn ≈ 60–64 cm"
+      formulaExplanation="Opptrinn er høyden på hvert trinn og inntrinn er dybden. Kalkulatoren starter på et opptrinn rundt 17,5 cm."
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -40,29 +43,29 @@ export function StairCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Number of Steps" value={results.numberOfRisers.toString()} highlight copyable />
+          <ResultDisplay label="Antall opptrinn" value={results.numberOfRisers.toString()} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Riser Height" value={`${results.riserHeight}"`} copyable />
-            <ResultDisplay label="Tread Depth" value={`${results.treadDepth}"`} copyable />
-            <ResultDisplay label="Total Run" value={`${formatNumber(results.totalRun)}"`} copyable />
-            <ResultDisplay label="Stringer Length" value={`${formatNumber(results.stringerLength)}"`} copyable />
+            <ResultDisplay label="Opptrinn (høyde)" value={`${formatNumber(results.riserHeightCm, { maximumFractionDigits: 1 })} cm`} copyable />
+            <ResultDisplay label="Inntrinn (dybde)" value={`${formatNumber(results.treadDepthCm, { maximumFractionDigits: 1 })} cm`} copyable />
+            <ResultDisplay label="Antall inntrinn" value={results.numberOfTreads.toString()} copyable />
+            <ResultDisplay label="Trappens lengde" value={`${formatNumber(results.totalRunCm)} cm`} copyable />
+            <ResultDisplay label="Vangelengde (skrått)" value={`${formatNumber(results.stringerLengthCm)} cm`} copyable />
+            <ResultDisplay label="Trappeformel" value={`${formatNumber(results.comfortFormula, { maximumFractionDigits: 1 })} cm`} copyable />
           </div>
-          <div className={`p-3 rounded-md ${results.meetsCode ? 'bg-green-50 text-green-800' : 'bg-yellow-50 text-yellow-800'}`}>
-            <p className="font-medium mb-1">{results.meetsCode ? '✓ Meets Building Code' : '⚠ Code Notes'}</p>
-            <ul className="text-sm space-y-1">
-              {results.codeNotes.map((note, i) => (
-                <li key={i}>• {note}</li>
-              ))}
-            </ul>
-          </div>
+          <ul className={`text-sm space-y-1 list-disc pl-5 ${results.meetsCode ? 'text-muted-foreground' : 'text-destructive'}`}>
+            {results.codeNotes.map((note) => <li key={note}>{note}</li>)}
+          </ul>
         </div>
       )}
     >
       <div className="grid grid-cols-3 gap-4">
-        <NumberInput id="totalRise" label="Total Rise" value={inputs.totalRise} onChange={(v) => setInput('totalRise', v)} min={12} max={240} step={1} unit="in" error={errors.totalRise} required />
-        <NumberInput id="availableRun" label="Available Run" value={inputs.availableRun} onChange={(v) => setInput('availableRun', v)} min={24} max={300} step={1} unit="in" error={errors.availableRun} required />
-        <NumberInput id="stairWidth" label="Stair Width" value={inputs.stairWidth} onChange={(v) => setInput('stairWidth', v)} min={24} max={72} step={1} unit="in" error={errors.stairWidth} required />
+        <NumberInput id="totalRiseCm" label="Total høydeforskjell" value={inputs.totalRiseCm} onChange={(v) => setInput('totalRiseCm', v)} min={10} step={1} unit="cm" error={errors.totalRiseCm} required />
+        <NumberInput id="availableRunCm" label="Tilgjengelig lengde" value={inputs.availableRunCm} onChange={(v) => setInput('availableRunCm', v)} min={10} step={1} unit="cm" error={errors.availableRunCm} required />
+        <NumberInput id="stairWidthCm" label="Trappebredde" value={inputs.stairWidthCm} onChange={(v) => setInput('stairWidthCm', v)} min={30} step={5} unit="cm" error={errors.stairWidthCm} required />
       </div>
+      <p className="text-xs text-muted-foreground">
+        Kravene i byggteknisk forskrift (TEK17) gjelder for trapper i bolig og andre bygg. Kontroller alltid mot gjeldende forskrift og eventuelle unntak for ditt tiltak. Rekkverk kreves der fallhøyden er over 0,5 m.
+      </p>
     </CalculatorBase>
   );
 }

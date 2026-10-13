@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { LumberCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Lumber Calculator - Calculate Board Feet',
-  description: 'Calculate board feet for lumber purchases. Free lumber calculator with cost estimation for woodworking projects.',
-  keywords: ['lumber calculator', 'board feet calculator', 'wood calculator', 'lumber cost calculator'],
+  title: 'Trelastkalkulator – gratis kalkulator på nett',
+  description: 'Beregn mengde trelast i løpemeter og m³. Gratis og uten registrering.',
+  keywords: ['trelast', 'materialliste', 'løpemeter', 'tømmer', 'kubikkmeter'],
   alternates: { canonical: '/calculators/home/lumber-calculator' },
+  openGraph: {
+    title: 'Trelastkalkulator',
+    description: 'Beregn mengde trelast i løpemeter og m³',
+    url: '/calculators/home/lumber-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Lumber Calculator', description: 'Calculate board feet for lumber', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Trelastkalkulator',
+  description: 'Beregn mengde trelast i løpemeter og m³',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Enter dimensions', text: 'Enter the nominal thickness, width, and length of your lumber.' },
-  { name: 'Set quantity', text: 'Enter how many pieces you need.' },
-  { name: 'Add price', text: 'Enter price per board foot to calculate total cost.' },
+  { name: 'Velg dimensjon', text: 'Trykk på en vanlig dimensjon eller skriv inn tykkelse og bredde i millimeter.' },
+  { name: 'Oppgi lengde og antall', text: 'Lengden per stykk i meter, og hvor mange du trenger.' },
+  { name: 'Skriv inn pris', text: 'Pris per løpemeter for å se totalprisen.' },
+  { name: 'Les resultatet', text: 'Se totale løpemeter, volum i m³ og total pris.' },
 ];
 
 const faqs = [
-  { question: 'What is a board foot?', answer: 'A board foot is 144 cubic inches of wood, or a piece 1" thick × 12" wide × 12" long.' },
-  { question: 'What is nominal vs actual lumber size?', answer: 'Nominal is the name (2×4), actual is the real size (1.5" × 3.5"). Lumber shrinks when dried.' },
-  { question: 'How do I calculate board feet?', answer: 'Board Feet = (Thickness × Width × Length) ÷ 12, where thickness and width are in inches, length in feet.' },
+  { question: 'Hva er løpemeter?', answer: 'Samlet lengde av trelasten, uavhengig av tverrsnittet.' },
+  { question: 'Hva betyr 48×98?', answer: 'Tverrsnittet i millimeter. Det er den høvlede dimensjonen av det som tidligere ble kalt 2×4 tommer.' },
+  { question: 'Hvordan regner jeg om til m³?', answer: 'Tykkelse (m) × bredde (m) × lengde (m) × antall.' },
+  { question: 'Hvilke lengder selges trelast i?', answer: 'Vanligvis i lengder med 30 cm økning, for eksempel 3,0, 3,6, 4,2, 4,8 og 5,4 m.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/decking-calculator', title: 'Terrassekalkulator', description: 'Beregn materialer til terrasse: terrassebord, bjelker og skruer' },
+  { href: '/calculators/home/fence-calculator', title: 'Gjerdekalkulator', description: 'Beregn materialer til gjerde: stolper, bord og fester' },
 ];
 
 export default function LumberCalculatorPage() {
@@ -30,13 +54,17 @@ export default function LumberCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="lumber-calculator"
-          title="Lumber Calculator (Board Feet)"
-          description="Calculate board feet and estimate costs for your lumber purchases."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Trelastkalkulator"
+          description="Regn ut løpemeter, volum og pris for trelast. Gratis og uten registrering."
         />
-        <section aria-label="Lumber Calculator"><LumberCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Trelastkalkulator">
+          <LumberCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

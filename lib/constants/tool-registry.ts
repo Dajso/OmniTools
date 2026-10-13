@@ -418,7 +418,7 @@ export const toolRegistry: Record<string, ToolDefinition> = {
   'mulch-calculator': {
     id: 'mulch-calculator',
     slug: 'mulch-calculator',
-    name: 'Barkflis-kalkulator',
+    name: 'Barkflis- og jordkalkulator',
     description: 'Beregn hvor mye barkflis eller dekkemateriale du trenger i hagen',
     category: 'home',
     keywords: ['barkflis', 'hage', 'dekkemateriale', 'bed', 'kubikkmeter'],
@@ -497,8 +497,8 @@ export const toolRegistry: Record<string, ToolDefinition> = {
   'btu-calculator': {
     id: 'btu-calculator',
     slug: 'btu-calculator',
-    name: 'Effektbehov for varmepumpe og kjøling',
-    description: 'Beregn hvilken effekt (kW) rommet trenger til oppvarming og kjøling',
+    name: 'Varmepumpekalkulator',
+    description: 'Anslå hvor stor varmepumpe (kW) rommet trenger til oppvarming og kjøling',
     category: 'home',
     keywords: ['varmepumpe', 'effektbehov', 'kW', 'kjøling', 'oppvarming', 'klimaanlegg'],
     path: '/calculators/home/btu-calculator',
@@ -508,7 +508,7 @@ export const toolRegistry: Record<string, ToolDefinition> = {
   'gravel-calculator': {
     id: 'gravel-calculator',
     slug: 'gravel-calculator',
-    name: 'Grusberegner',
+    name: 'Grus- og pukkalkulator',
     description: 'Beregn hvor mye grus eller pukk du trenger i m³ og tonn',
     category: 'home',
     keywords: ['grus', 'pukk', 'pukk og singel', 'innkjørsel', 'kubikkmeter', 'tonn'],
@@ -552,7 +552,7 @@ export const toolRegistry: Record<string, ToolDefinition> = {
   'roof-pitch-calculator': {
     id: 'roof-pitch-calculator',
     slug: 'roof-pitch-calculator',
-    name: 'Takvinkel og taktilt',
+    name: 'Takvinkelkalkulator',
     description: 'Beregn takvinkel i grader og prosent',
     category: 'home',
     keywords: ['takvinkel', 'takhelning', 'taktilt', 'tak', 'stigning'],

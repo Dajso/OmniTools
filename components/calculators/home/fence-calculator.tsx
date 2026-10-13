@@ -6,36 +6,46 @@ import { CalculatorBase } from '@/components/calculators/calculator-base';
 import { NumberInput } from '@/components/ui/number-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { calculateFence, type FenceInputs, type FenceResults } from '@/lib/calculations/home/fence-calculator';
+import { calculateFence, type FenceResults } from '@/lib/calculations/home/home-calculations';
 import { formatNumber } from '@/lib/utils/formatting';
 
 const fenceSchema = z.object({
-  totalLength: z.number().min(1).max(10000),
-  fenceHeight: z.number().min(2).max(12),
-  postSpacing: z.number().min(4).max(10),
-  numberOfGates: z.number().min(0).max(20),
-  picketWidth: z.number().min(1).max(12),
-  picketGap: z.number().min(0).max(4),
+  totalLength: z.number().min(1, 'Lengden må være minst 1 m').max(10000, 'Lengden er for stor'),
+  fenceHeightCm: z.number().min(30, 'Høyden må være minst 30 cm').max(300, 'Høyden er for stor'),
+  postSpacing: z.number().min(0.5, 'Stolpeavstanden er for liten').max(5, 'Stolpeavstanden er for stor'),
+  numberOfGates: z.number().min(0, 'Kan ikke være negativt').max(20, 'For mange porter'),
+  boardWidthMm: z.number().min(10, 'Bordet er for smalt').max(300, 'Bordet er for bredt'),
+  boardGapMm: z.number().min(0, 'Kan ikke være negativt').max(100, 'Mellomrommet er for stort'),
 });
 
-const INITIAL_INPUTS = { totalLength: 100, fenceHeight: 6, postSpacing: 8, numberOfGates: 1, picketWidth: 3.5, picketGap: 0.25 };
+type FenceFormInputs = z.infer<typeof fenceSchema>;
+
+const INITIAL_INPUTS: FenceFormInputs = {
+  totalLength: 30,
+  fenceHeightCm: 120,
+  postSpacing: 2,
+  numberOfGates: 1,
+  boardWidthMm: 98,
+  boardGapMm: 20,
+};
 
 export function FenceCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = useCalculator<typeof INITIAL_INPUTS, FenceResults>({
-    initialInputs: INITIAL_INPUTS,
-    schema: fenceSchema,
-    calculate: (formInputs) => calculateFence(formInputs as FenceInputs),
-    storageKey: 'fence-calculator',
-  });
+  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<FenceFormInputs, FenceResults>({
+      initialInputs: INITIAL_INPUTS,
+      schema: fenceSchema,
+      calculate: calculateFence,
+      storageKey: 'fence-calculator-no',
+    });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
   return (
     <CalculatorBase
-      title="Fence Calculator"
-      description="Calculate materials needed for your fence project"
-      formula="Posts = (Length ÷ Spacing) + 1 + (Gates × 2)"
-      formulaExplanation="Includes posts, rails, pickets, and concrete"
+      title="Gjerdekalkulator"
+      description="Regn ut stolper, løsholter og bord til et gjerde"
+      formula="Stolper = felt + 1 + porter, bord = lengde ÷ (bordbredde + mellomrom)"
+      formulaExplanation="Stolpene settes med jevn avstand. Gjerder høyere enn 150 cm får tre løsholter per felt, lavere gjerder får to."
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -43,28 +53,28 @@ export function FenceCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Posts Needed" value={results.posts.toString()} highlight copyable />
+          <ResultDisplay label="Bord" value={formatNumber(results.boards)} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Rails" value={results.rails.toString()} copyable />
-            <ResultDisplay label="Pickets" value={results.pickets.toString()} copyable />
-            <ResultDisplay label="Concrete Bags" value={results.concreteBags.toString()} copyable />
-            <ResultDisplay label="Rail Linear Ft" value={formatNumber(results.railLinearFeet)} copyable />
+            <ResultDisplay label="Stolper" value={results.posts.toString()} copyable />
+            <ResultDisplay label="Felt" value={results.sections.toString()} copyable />
+            <ResultDisplay label="Løsholter (stk.)" value={results.rails.toString()} copyable />
+            <ResultDisplay label="Løsholter (løpemeter)" value={`${formatNumber(results.railMeters, { maximumFractionDigits: 1 })} m`} copyable />
+            <ResultDisplay label="Sekker hurtigstøp à 25 kg" value={results.concreteBags.toString()} copyable />
           </div>
         </div>
       )}
     >
       <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="totalLength" label="Total Fence Length" value={inputs.totalLength} onChange={(v) => setInput('totalLength', v)} min={1} step={10} unit="ft" error={errors.totalLength} required />
-        <NumberInput id="fenceHeight" label="Fence Height" value={inputs.fenceHeight} onChange={(v) => setInput('fenceHeight', v)} min={2} max={12} step={0.5} unit="ft" error={errors.fenceHeight} required />
+        <NumberInput id="totalLength" label="Total lengde" value={inputs.totalLength} onChange={(v) => setInput('totalLength', v)} min={1} step={1} unit="m" error={errors.totalLength} required />
+        <NumberInput id="fenceHeightCm" label="Gjerdehøyde" value={inputs.fenceHeightCm} onChange={(v) => setInput('fenceHeightCm', v)} min={30} max={300} step={10} unit="cm" error={errors.fenceHeightCm} required />
+        <NumberInput id="postSpacing" label="Stolpeavstand" value={inputs.postSpacing} onChange={(v) => setInput('postSpacing', v)} min={0.5} max={5} step={0.1} unit="m" error={errors.postSpacing} />
+        <NumberInput id="numberOfGates" label="Porter" value={inputs.numberOfGates} onChange={(v) => setInput('numberOfGates', v)} min={0} step={1} error={errors.numberOfGates} />
+        <NumberInput id="boardWidthMm" label="Bordbredde" value={inputs.boardWidthMm} onChange={(v) => setInput('boardWidthMm', v)} min={10} step={1} unit="mm" error={errors.boardWidthMm} />
+        <NumberInput id="boardGapMm" label="Mellomrom mellom bord" value={inputs.boardGapMm} onChange={(v) => setInput('boardGapMm', v)} min={0} step={1} unit="mm" error={errors.boardGapMm} />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="postSpacing" label="Post Spacing" value={inputs.postSpacing} onChange={(v) => setInput('postSpacing', v)} min={4} max={10} step={1} unit="ft" error={errors.postSpacing} />
-        <NumberInput id="numberOfGates" label="Number of Gates" value={inputs.numberOfGates} onChange={(v) => setInput('numberOfGates', v)} min={0} max={20} step={1} error={errors.numberOfGates} />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <NumberInput id="picketWidth" label="Picket Width" value={inputs.picketWidth} onChange={(v) => setInput('picketWidth', v)} min={1} max={12} step={0.5} unit="in" error={errors.picketWidth} />
-        <NumberInput id="picketGap" label="Picket Gap" value={inputs.picketGap} onChange={(v) => setInput('picketGap', v)} min={0} max={4} step={0.25} unit="in" error={errors.picketGap} />
-      </div>
+      <p className="text-xs text-muted-foreground">
+        Sjekk reguleringsplanen for krav til gjerdehøyde, og avtal gjerde i nabogrense med naboen. Stolper bør graves ned minst 80–100 cm for å stå i telen.
+      </p>
     </CalculatorBase>
   );
 }

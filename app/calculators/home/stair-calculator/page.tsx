@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { StairCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Stair Calculator - Calculate Rise, Run, and Stringer Length',
-  description: 'Calculate stair dimensions including riser height, tread depth, and stringer length. Free stair calculator with building code compliance.',
-  keywords: ['stair calculator', 'stair rise calculator', 'stringer calculator', 'step calculator'],
+  title: 'Trappekalkulator – gratis kalkulator på nett',
+  description: 'Beregn trappemål: opptrinn, inntrinn og antall trinn. Gratis og uten registrering.',
+  keywords: ['trapp', 'opptrinn', 'inntrinn', 'trappemål', 'trinnhøyde'],
   alternates: { canonical: '/calculators/home/stair-calculator' },
+  openGraph: {
+    title: 'Trappekalkulator',
+    description: 'Beregn trappemål: opptrinn, inntrinn og antall trinn',
+    url: '/calculators/home/stair-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Stair Calculator', description: 'Calculate stair dimensions', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Trappekalkulator',
+  description: 'Beregn trappemål: opptrinn, inntrinn og antall trinn',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Measure total rise', text: 'Measure the total vertical distance from floor to floor.' },
-  { name: 'Measure available run', text: 'Measure the horizontal space available for the stairs.' },
-  { name: 'Check code compliance', text: 'Review the results to ensure they meet building codes.' },
+  { name: 'Mål høydeforskjellen', text: 'Oppgi total høyde fra gulv til gulv i centimeter.' },
+  { name: 'Oppgi tilgjengelig lengde', text: 'Skriv inn hvor lang plass trappen har, i centimeter.' },
+  { name: 'Skriv inn trappebredde', text: 'Bredden på trappeløpet i centimeter.' },
+  { name: 'Les resultatet', text: 'Se opptrinn, inntrinn, antall trinn og merknader om krav.' },
 ];
 
 const faqs = [
-  { question: 'What is the ideal riser height?', answer: 'Building codes typically require 7-7.75 inches. 7.5 inches is considered ideal for comfort.' },
-  { question: 'What is the minimum tread depth?', answer: 'IRC building code requires a minimum 10-inch tread depth for residential stairs.' },
-  { question: 'What is the 2R + T rule?', answer: 'The sum of twice the riser height plus tread depth should equal 24-25 inches for comfortable stairs.' },
+  { question: 'Hva er opptrinn og inntrinn?', answer: 'Opptrinn er høyden på hvert trinn. Inntrinn er dybden du setter foten på.' },
+  { question: 'Hva er trappeformelen?', answer: '2 × opptrinn + inntrinn bør bli omtrent 60–64 cm for at trappen skal føles behagelig.' },
+  { question: 'Hva krever TEK17?', answer: 'Blant annet inntrinn på minst 25 cm, og at rekkverk settes opp der fallhøyden er over 0,5 m. Kontroller alltid gjeldende forskrift hos DiBK.' },
+  { question: 'Hvor bratt kan en trapp være?', answer: 'Opptrinn over 20 cm er bratt og frarådes for fast trapp i bolig.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/roof-pitch-calculator', title: 'Takvinkelkalkulator', description: 'Beregn takvinkel i grader og prosent' },
+  { href: '/calculators/home/lumber-calculator', title: 'Trelastkalkulator', description: 'Beregn mengde trelast i løpemeter og m³' },
 ];
 
 export default function StairCalculatorPage() {
@@ -30,13 +54,17 @@ export default function StairCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="stair-calculator"
-          title="Stair Calculator"
-          description="Calculate stair dimensions and check building code compliance."
-          colorClass="bg-amber-100 text-amber-700"
+          title="Trappekalkulator"
+          description="Regn ut opptrinn, inntrinn og antall trinn i en trapp, og sjekk mot kravene i byggteknisk forskrift. Gratis og uten registrering."
         />
-        <section aria-label="Stair Calculator"><StairCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Trappekalkulator">
+          <StairCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

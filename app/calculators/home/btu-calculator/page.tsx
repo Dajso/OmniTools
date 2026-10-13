@@ -1,26 +1,50 @@
 import { Metadata } from 'next';
 import { BTUCalculator } from '@/components/calculators/home';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'BTU Calculator - What Size Air Conditioner Do I Need?',
-  description: 'Calculate the BTU capacity needed for your air conditioner. Free AC BTU calculator based on room size and conditions.',
-  keywords: ['BTU calculator', 'air conditioner size calculator', 'AC BTU calculator', 'cooling capacity calculator'],
+  title: 'Varmepumpekalkulator – gratis kalkulator på nett',
+  description: 'Anslå hvor stor varmepumpe (kW) rommet trenger til oppvarming og kjøling. Gratis og uten registrering.',
+  keywords: ['varmepumpe', 'effektbehov', 'kW', 'kjøling', 'oppvarming', 'klimaanlegg'],
   alternates: { canonical: '/calculators/home/btu-calculator' },
+  openGraph: {
+    title: 'Varmepumpekalkulator',
+    description: 'Anslå hvor stor varmepumpe (kW) rommet trenger til oppvarming og kjøling',
+    url: '/calculators/home/btu-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
-const structuredData = { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'BTU Calculator', description: 'Calculate air conditioner BTU requirements', applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Varmepumpekalkulator',
+  description: 'Anslå hvor stor varmepumpe (kW) rommet trenger til oppvarming og kjøling',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
 
 const howToSteps = [
-  { name: 'Measure your room', text: 'Measure the length, width, and ceiling height of your room.' },
-  { name: 'Assess conditions', text: 'Consider sun exposure, number of occupants, and if it is a kitchen.' },
-  { name: 'Get BTU recommendation', text: 'The calculator provides the recommended BTU capacity and AC tonnage.' },
+  { name: 'Mål rommet', text: 'Oppgi lengde, bredde og takhøyde i meter.' },
+  { name: 'Velg isolasjon og klima', text: 'Isolasjonsstandarden og hvor kaldt det er der du bor avgjør effektbehovet.' },
+  { name: 'Legg inn forhold som påvirker kjøling', text: 'Antall personer, mye sol og om rommet er et kjøkken gir høyere kjølebehov.' },
+  { name: 'Les anbefalingen', text: 'Se behov for oppvarming og kjøling, og anbefalt størrelse på varmepumpen.' },
 ];
 
 const faqs = [
-  { question: 'How many BTU per square foot?', answer: 'The general rule is 20 BTU per square foot, but this varies based on ceiling height, sun exposure, and other factors.' },
-  { question: 'What size AC do I need for a 12x12 room?', answer: 'A 12x12 room (144 sq ft) typically needs about 5,000-6,000 BTU, depending on conditions.' },
-  { question: 'What is AC tonnage?', answer: 'One ton of cooling equals 12,000 BTU. A 2-ton AC provides 24,000 BTU of cooling capacity.' },
+  { question: 'Hvor stor varmepumpe trenger jeg?', answer: 'Det avhenger av areal, isolasjon og klima. En middels bolig trenger ofte 3,5–7 kW varmeeffekt for et åpent oppholdsrom. Kalkulatoren gir et grovt anslag. En installatør kan dimensjonere nøyaktig.' },
+  { question: 'Er det bedre med for stor eller for liten varmepumpe?', answer: 'En svært overdimensjonert pumpe starter og stopper ofte og gir dårligere komfort. En for liten pumpe får ikke opp temperaturen i kulden. Velg størrelse nær anslaget.' },
+  { question: 'Hva betyr kW på varmepumper?', answer: 'Det er effekten pumpen kan levere. Luft-til-luft-pumper oppgir ofte nominell effekt ved 7 °C ute. Ved minusgrader faller effekten.' },
+  { question: 'Er dette det samme som BTU?', answer: 'BTU er en amerikansk enhet. 1 kW er cirka 3 412 BTU per time. I Norge oppgis varmepumper vanligvis i kW.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/home/electricity-cost-calculator', title: 'Strømkostnad', description: 'Regn ut hva det koster å bruke elektriske apparater, med strømpris i øre per kWh' },
+  { href: '/calculators/home/square-footage-calculator', title: 'Arealkalkulator', description: 'Regn ut areal i kvadratmeter for rom og flater' },
 ];
 
 export default function BTUCalculatorPage() {
@@ -29,14 +53,18 @@ export default function BTUCalculatorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
-          toolId="ac-btu-calculator"
-          title="Air Conditioner BTU Calculator"
-          description="Calculate the BTU capacity needed to cool your room effectively."
-          colorClass="bg-amber-100 text-amber-700"
+          toolId="btu-calculator"
+          title="Varmepumpekalkulator"
+          description="Anslå hvor stor varmepumpe i kW du trenger til et rom, for både oppvarming og kjøling. Gratis og uten registrering."
         />
-        <section aria-label="BTU Calculator"><BTUCalculator /></section>
-        <section className="mt-12" aria-labelledby="how-to-heading"><h2 id="how-to-heading" className="text-2xl font-semibold mb-6">How to Use This Calculator</h2><ol className="space-y-4">{howToSteps.map((step, i) => (<li key={i} className="flex gap-4"><span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">{i + 1}</span><div><h3 className="font-medium">{step.name}</h3><p className="text-muted-foreground">{step.text}</p></div></li>))}</ol></section>
-        <section className="mt-12" aria-labelledby="faq-heading"><h2 id="faq-heading" className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2><div className="space-y-6">{faqs.map((faq, i) => (<div key={i} className="border-b pb-6 last:border-b-0"><h3 className="font-medium text-lg mb-2">{faq.question}</h3><p className="text-muted-foreground">{faq.answer}</p></div>))}</div></section>
+
+        <section aria-label="Varmepumpekalkulator">
+          <BTUCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

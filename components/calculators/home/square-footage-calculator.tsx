@@ -7,10 +7,10 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import { ResultDisplay } from '@/components/ui/result-display';
 import { useCalculator } from '@/lib/hooks/use-calculator';
-import { calculateSquareFootage, type SquareFootageInputs, type SquareFootageResults, type ShapeType } from '@/lib/calculations/home/square-footage-calculator';
+import { calculateArea, type AreaInputs, type AreaResults, type ShapeType } from '@/lib/calculations/home/home-calculations';
 import { formatNumber } from '@/lib/utils/formatting';
 
-const squareFootageSchema = z.object({
+const areaSchema = z.object({
   shape: z.enum(['rectangle', 'triangle', 'circle', 'trapezoid']),
   length: z.number().min(0).max(100000).optional(),
   width: z.number().min(0).max(100000).optional(),
@@ -20,33 +20,44 @@ const squareFootageSchema = z.object({
   bottomWidth: z.number().min(0).max(100000).optional(),
 });
 
-const INITIAL_INPUTS = { shape: 'rectangle' as ShapeType, length: 20, width: 15, height: 0, radius: 0, topWidth: 0, bottomWidth: 0 };
+type AreaFormInputs = AreaInputs & Record<string, unknown>;
 
-type SquareFootageInputsWithIndex = SquareFootageInputs & Record<string, unknown>;
+const INITIAL_INPUTS = {
+  shape: 'rectangle' as ShapeType,
+  length: 8,
+  width: 5,
+  height: 0,
+  radius: 0,
+  topWidth: 0,
+  bottomWidth: 0,
+};
 
 const SHAPE_OPTIONS = [
-  { value: 'rectangle', label: 'Rectangle/Square' },
-  { value: 'triangle', label: 'Triangle' },
-  { value: 'circle', label: 'Circle' },
-  { value: 'trapezoid', label: 'Trapezoid' },
+  { value: 'rectangle', label: 'Rektangel / kvadrat' },
+  { value: 'triangle', label: 'Trekant' },
+  { value: 'circle', label: 'Sirkel' },
+  { value: 'trapezoid', label: 'Trapes' },
 ];
 
 export function SquareFootageCalculator() {
-  const { inputs, setInput, results, errors, isValid, calculate, reset, isCalculating } = useCalculator<SquareFootageInputsWithIndex, SquareFootageResults>({
-    initialInputs: INITIAL_INPUTS as SquareFootageInputsWithIndex,
-    schema: squareFootageSchema as z.ZodType<SquareFootageInputsWithIndex>,
-    calculate: (formInputs) => calculateSquareFootage(formInputs as SquareFootageInputs),
-    storageKey: 'square-footage-calculator',
-  });
+  const { inputs, setInput, setInputs, results, errors, isValid, calculate, reset, isCalculating } =
+    useCalculator<AreaFormInputs, AreaResults>({
+      initialInputs: INITIAL_INPUTS as AreaFormInputs,
+      schema: areaSchema as z.ZodType<AreaFormInputs>,
+      calculate: (formInputs) => calculateArea(formInputs as AreaInputs),
+      storageKey: 'area-calculator-no',
+    });
 
   React.useEffect(() => { calculate(); }, [calculate]);
 
+  const num = (key: keyof AreaInputs) => Number(inputs[key] ?? 0);
+
   return (
     <CalculatorBase
-      title="Square Footage Calculator"
-      description="Calculate area for rectangles, triangles, circles, and trapezoids"
-      formula="Area varies by shape"
-      formulaExplanation="Rectangle: L×W, Triangle: ½×B×H, Circle: π×r², Trapezoid: ½×(a+b)×h"
+      title="Arealkalkulator"
+      description="Regn ut areal og omkrets for rektangel, trekant, sirkel og trapes"
+      formula="Areal avhenger av figuren"
+      formulaExplanation="Rektangel: L × B. Trekant: ½ × grunnlinje × høyde. Sirkel: π × r². Trapes: ½ × (a + b) × h."
       isCalculateDisabled={!isValid}
       isCalculating={isCalculating}
       onCalculate={calculate}
@@ -54,43 +65,41 @@ export function SquareFootageCalculator() {
       error={(errors as Record<string, string>)._calculation}
       results={results && (
         <div className="space-y-4">
-          <ResultDisplay label="Area (sq ft)" value={formatNumber(results.areaSqFt, { locale: 'en-US', maximumFractionDigits: 2 })} highlight copyable />
+          <ResultDisplay label="Areal" value={`${formatNumber(results.areaM2, { maximumFractionDigits: 2 })} m²`} highlight copyable />
           <div className="grid grid-cols-2 gap-3">
-            <ResultDisplay label="Area (sq yd)" value={formatNumber(results.areaSqYd, { locale: 'en-US', maximumFractionDigits: 2 })} copyable />
-            <ResultDisplay label="Area (sq m)" value={formatNumber(results.areaSqM, { locale: 'en-US', maximumFractionDigits: 2 })} copyable />
-            <ResultDisplay label="Acres" value={formatNumber(results.areaAcres, { locale: 'en-US', maximumFractionDigits: 4 })} copyable />
-            <ResultDisplay label="Perimeter (ft)" value={formatNumber(results.perimeterFt, { locale: 'en-US', maximumFractionDigits: 2 })} copyable />
+            <ResultDisplay label="Omkrets" value={`${formatNumber(results.perimeter, { maximumFractionDigits: 2 })} m`} copyable />
+            <ResultDisplay label="Dekar" value={formatNumber(results.areaDekar, { maximumFractionDigits: 4 })} copyable />
+            <ResultDisplay label="Hektar" value={formatNumber(results.areaHektar, { maximumFractionDigits: 5 })} copyable />
           </div>
         </div>
       )}
     >
-      <SelectInput id="shape" label="Shape" value={inputs.shape} onChange={(v) => setInput('shape', v as ShapeType)} options={SHAPE_OPTIONS} error={errors.shape} />
-
+      <SelectInput id="shape" label="Figur" value={String(inputs.shape)} onChange={(v) => setInputs({ shape: v as ShapeType })} options={SHAPE_OPTIONS} error={errors.shape} />
       {inputs.shape === 'rectangle' && (
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="length" label="Length" value={inputs.length || 0} onChange={(v) => setInput('length', v)} min={0.1} step={1} unit="ft" error={errors.length} required />
-          <NumberInput id="width" label="Width" value={inputs.width || 0} onChange={(v) => setInput('width', v)} min={0.1} step={1} unit="ft" error={errors.width} required />
+          <NumberInput id="length" label="Lengde" value={num('length')} onChange={(v) => setInput('length', v)} min={0} step={0.1} unit="m" error={errors.length} required />
+          <NumberInput id="width" label="Bredde" value={num('width')} onChange={(v) => setInput('width', v)} min={0} step={0.1} unit="m" error={errors.width} required />
         </div>
       )}
-
       {inputs.shape === 'triangle' && (
         <div className="grid grid-cols-2 gap-4">
-          <NumberInput id="length" label="Base" value={inputs.length || 0} onChange={(v) => setInput('length', v)} min={0.1} step={1} unit="ft" error={errors.length} required />
-          <NumberInput id="height" label="Height" value={inputs.height || 0} onChange={(v) => setInput('height', v)} min={0.1} step={1} unit="ft" error={errors.height} required />
+          <NumberInput id="length" label="Grunnlinje" value={num('length')} onChange={(v) => setInput('length', v)} min={0} step={0.1} unit="m" error={errors.length} required />
+          <NumberInput id="height" label="Høyde" value={num('height')} onChange={(v) => setInput('height', v)} min={0} step={0.1} unit="m" error={errors.height} required />
         </div>
       )}
-
       {inputs.shape === 'circle' && (
-        <NumberInput id="radius" label="Radius" value={inputs.radius || 0} onChange={(v) => setInput('radius', v)} min={0.1} step={1} unit="ft" error={errors.radius} required />
+        <NumberInput id="radius" label="Radius" value={num('radius')} onChange={(v) => setInput('radius', v)} min={0} step={0.1} unit="m" error={errors.radius} required />
       )}
-
       {inputs.shape === 'trapezoid' && (
         <div className="grid grid-cols-3 gap-4">
-          <NumberInput id="topWidth" label="Top Width" value={inputs.topWidth || 0} onChange={(v) => setInput('topWidth', v)} min={0.1} step={1} unit="ft" error={errors.topWidth} required />
-          <NumberInput id="bottomWidth" label="Bottom Width" value={inputs.bottomWidth || 0} onChange={(v) => setInput('bottomWidth', v)} min={0.1} step={1} unit="ft" error={errors.bottomWidth} required />
-          <NumberInput id="height" label="Height" value={inputs.height || 0} onChange={(v) => setInput('height', v)} min={0.1} step={1} unit="ft" error={errors.height} required />
+          <NumberInput id="topWidth" label="Øvre side" value={num('topWidth')} onChange={(v) => setInput('topWidth', v)} min={0} step={0.1} unit="m" error={errors.topWidth} required />
+          <NumberInput id="bottomWidth" label="Nedre side" value={num('bottomWidth')} onChange={(v) => setInput('bottomWidth', v)} min={0} step={0.1} unit="m" error={errors.bottomWidth} required />
+          <NumberInput id="height" label="Høyde" value={num('height')} onChange={(v) => setInput('height', v)} min={0} step={0.1} unit="m" error={errors.height} required />
         </div>
       )}
+      <p className="text-xs text-muted-foreground">
+        1 dekar er 1 000 m², og 1 hektar er 10 000 m². Dekar brukes ofte om tomter og jordbruksareal.
+      </p>
     </CalculatorBase>
   );
 }
