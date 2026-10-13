@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { BatteryBankSizingCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Battery Bank Sizing Calculator - Off-Grid Battery Storage',
-    description: 'Size your off-grid battery bank based on daily energy needs, autonomy days, and battery type. Supports lithium and lead-acid.',
-    keywords: ['battery bank sizing', 'off-grid battery calculator', 'solar battery size', 'battery capacity calculator', 'Ah calculator'],
-    alternates: { canonical: '/calculators/solar/battery-bank-sizing-calculator' },
+  title: 'Batteribank – gratis kalkulator på nett',
+  description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid. Gratis og uten registrering.',
+  keywords: ['batteribank', 'off-grid', 'hytte', '12V', 'utladningsdybde', 'solbatteri'],
+  alternates: { canonical: '/calculators/solar/battery-bank-sizing-calculator' },
+  openGraph: {
+    title: 'Batteribank',
+    description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid',
+    url: '/calculators/solar/battery-bank-sizing-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Battery Bank Sizing Calculator', description: 'Size your off-grid battery bank.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Batteribank',
+  description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Calculate daily usage', text: 'Add up the watt-hours (Wh) of all appliances you use per day.' },
-    { name: 'Set autonomy days', text: 'Choose how many days of backup you need (typically 2-3 for solar).' },
-    { name: 'Select battery type', text: 'Choose between lithium (LiFePO4) or lead-acid batteries.' },
-    { name: 'Get bank size', text: 'See the total Ah capacity and number of batteries recommended.' },
+  { name: 'Skriv inn forbruket', text: 'Oppgi hvor mange watt-timer (Wh) du bruker per døgn.' },
+  { name: 'Velg antall døgn uten lading', text: 'Hvor lenge skal batteriene klare seg uten sol eller aggregat? To døgn er et vanlig utgangspunkt.' },
+  { name: 'Velg batterityper og spenning', text: 'Velg blybatteri, AGM, gel eller litium (LiFePO4), og systemspenning på 12, 24 eller 48 V.' },
+  { name: 'Les av antall batterier', text: 'Du får total kapasitet og hvordan batteriene bør kobles i serie og parallell.' },
 ];
 
 const faqs = [
-    { question: 'How do I calculate battery bank size?', answer: 'Daily Wh ÷ system voltage × autonomy days ÷ depth of discharge = required Ah. Our calculator handles this automatically.' },
-    { question: 'Lithium vs lead-acid for solar?', answer: 'Lithium (LiFePO4) has 80-90% usable capacity, lasts 3000+ cycles, and is lighter. Lead-acid is cheaper upfront but only 50% usable and lasts 500-800 cycles.' },
-    { question: 'What is depth of discharge (DoD)?', answer: 'DoD is how much of the battery you use before recharging. Lead-acid should not exceed 50% DoD; lithium can safely go to 80-90%.' },
-    { question: 'How many days of autonomy do I need?', answer: '2-3 days is standard for solar. More for locations with frequent cloudy periods. Less if you have a backup generator.' },
+  { question: 'Hvorfor trenger jeg mer kapasitet enn forbruket?', answer: 'Bly-baserte batterier bør ikke lades ut mer enn ca. 50 %, ellers går levetiden ned. Litium tåler ca. 80 % eller mer. Kalkulatoren tar høyde for dette.' },
+  { question: 'Hva er forskjellen på 12, 24 og 48 V?', answer: 'Høyere spenning gir lavere strøm for samme effekt. Det betyr tynnere kabler og mindre tap, og er smart for større anlegg.' },
+  { question: 'Er litium verdt prisen?', answer: 'Litium koster mer, men tåler dypere utlading, veier mindre og varer ofte mange ganger flere sykluser. Over tid kan det komme billigere ut.' },
+  { question: 'Fungerer batterier i kulde?', answer: 'Ytelsen går ned i kulde, og litium kan ikke lades under 0 °C uten oppvarming. Plasser batteriene frostfritt.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/solar-panel-tilt-calculator', title: 'Solar Panel Tilt', description: 'Optimize your panel angle.' },
-    { href: '/calculators/solar/inverter-size-calculator', title: 'Inverter Size Calculator', description: 'Size your inverter correctly.' },
-    { href: '/calculators/solar/dc-wire-gauge-calculator', title: 'DC Wire Gauge', description: 'Choose the right wire gauge.' },
+  { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Driftstid på batteri', description: 'Regn ut hvor lenge reservestrøm klarer å drive utstyr ved strømbrudd' },
+  { href: '/calculators/solar/inverter-size-calculator', title: 'Vekselretter', description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm' },
+  { href: '/calculators/solar/dc-power-calculator', title: 'Ampere og watt (DC)', description: 'Regn om mellom ampere, watt og volt for likestrøm' },
 ];
 
 export default function BatteryBankSizingPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="battery-bank-sizing-calculator" title="Battery Bank Sizing Calculator"
-                    description="Size your off-grid battery bank." category="Solar & Off-Grid" />
-                <section aria-label="Battery Bank Sizing Calculator"><BatteryBankSizingCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="battery-bank-sizing-calculator"
+          title="Batteribank"
+          description="Regn ut hvor mange batterier du trenger til hytte, bobil eller båt, ut fra forbruk og antall døgn uten lading. Gratis og uten registrering."
+        />
+
+        <section aria-label="Batteribank">
+          <BatteryBankSizingCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

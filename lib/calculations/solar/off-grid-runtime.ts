@@ -1,18 +1,18 @@
 /**
- * Off-Grid Runtime Calculator
+ * Driftstid på batteri
  * @module lib/calculations/solar/off-grid-runtime
  */
 
 export interface OffGridRuntimeInput {
-    /** Battery bank capacity in Ah */
+    /** Batterikapasitet i Ah */
     batteryAh: number;
-    /** Battery voltage */
+    /** Batterispenning, V */
     batteryVoltage: number;
-    /** Depth of discharge (0-100%) */
+    /** Utladningsdybde (0–100 %) */
     dodPercent: number;
-    /** Inverter efficiency (%) */
+    /** Virkningsgrad for vekselretter (%) */
     inverterEfficiency: number;
-    /** List of appliances */
+    /** Utstyr som skal drives */
     appliances: Array<{ name: string; watts: number; quantity: number }>;
 }
 
@@ -26,11 +26,11 @@ export interface OffGridRuntimeResult {
 export function calculateOffGridRuntime(input: OffGridRuntimeInput): OffGridRuntimeResult {
     const { batteryAh, batteryVoltage, dodPercent, inverterEfficiency, appliances } = input;
 
-    if (batteryAh <= 0) throw new Error('Battery Ah must be positive');
-    if (batteryVoltage <= 0) throw new Error('Voltage must be positive');
+    if (batteryAh <= 0) throw new Error('Batterikapasiteten må være større enn 0');
+    if (batteryVoltage <= 0) throw new Error('Spenningen må være større enn 0');
 
     const totalWatts = appliances.reduce((sum, a) => sum + a.watts * a.quantity, 0);
-    if (totalWatts <= 0) throw new Error('Total wattage must be positive');
+    if (totalWatts <= 0) throw new Error('Samlet effekt må være større enn 0');
 
     const totalWh = batteryAh * batteryVoltage;
     const usableWh = totalWh * (dodPercent / 100) * (inverterEfficiency / 100);
@@ -38,7 +38,7 @@ export function calculateOffGridRuntime(input: OffGridRuntimeInput): OffGridRunt
 
     const hours = Math.floor(runtimeHours);
     const minutes = Math.round((runtimeHours - hours) * 60);
-    const runtimeFormatted = `${hours}h ${minutes}m`;
+    const runtimeFormatted = `${hours} t ${minutes} min`;
 
     return {
         totalWatts,

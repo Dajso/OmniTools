@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { RainwaterCollectionCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Rainwater Collection Calculator - Roof Harvest Estimator',
-    description: 'Estimate how much rainwater your roof can collect. Plan your rain barrel or cistern size based on local rainfall data.',
-    keywords: ['rainwater collection calculator', 'rain barrel calculator', 'roof rainwater harvest', 'cistern sizing', 'rainwater catchment'],
-    alternates: { canonical: '/calculators/solar/rainwater-collection-calculator' },
+  title: 'Regnvann – gratis kalkulator på nett',
+  description: 'Regn ut hvor mye regnvann du kan samle fra taket. Gratis og uten registrering.',
+  keywords: ['regnvann', 'oppsamling', 'takflate', 'regntønne', 'nedbør'],
+  alternates: { canonical: '/calculators/solar/rainwater-collection-calculator' },
+  openGraph: {
+    title: 'Regnvann',
+    description: 'Regn ut hvor mye regnvann du kan samle fra taket',
+    url: '/calculators/solar/rainwater-collection-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Rainwater Collection Calculator', description: 'Estimate how much rainwater your roof can collect.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Regnvann',
+  description: 'Regn ut hvor mye regnvann du kan samle fra taket',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter roof area', text: 'Calculate your roof collection area in square feet (length × width).' },
-    { name: 'Enter annual rainfall', text: 'Look up your average annual rainfall in inches (check NOAA or local data).' },
-    { name: 'Set collection efficiency', text: 'Typical efficiency is 80-90% for hard roofs, less for porous materials.' },
-    { name: 'Get collection estimate', text: 'See annual and monthly rainwater collection in gallons.' },
+  { name: 'Skriv inn takflaten', text: 'Bruk grunnflaten under taket, ikke selve takflaten.' },
+  { name: 'Skriv inn årsnedbør', text: 'Velg en by eller skriv inn egen verdi i mm.' },
+  { name: 'Velg oppsamlingsgrad', text: '80 % er et vanlig anslag. Det tar høyde for tap i renner og overløp.' },
+  { name: 'Les av resultatet', text: 'Du får mengde per år og måned, og hvor mange døgn det dekker for én person.' },
 ];
 
 const faqs = [
-    { question: 'How much rainwater can I collect from my roof?', answer: 'Every 1 inch of rain on 1,000 sq ft of roof yields about 620 gallons. A 2,000 sq ft roof in an area with 30 inches of annual rain collects ~37,000 gallons/year.' },
-    { question: 'What size rain barrel do I need?', answer: 'A 55-gallon rain barrel fills in under 1 inch of rain from a 100 sq ft downspout area. For serious collection, consider 250-500 gallon tanks or cisterns.' },
-    { question: 'Is collected rainwater safe to drink?', answer: 'Not directly. Rainwater needs filtration and UV or chemical treatment before drinking. It is safe for irrigation, toilets, and laundry without treatment.' },
-    { question: 'Is rainwater collection legal?', answer: 'Laws vary by state. Most states allow it, but some (like Colorado) have restrictions on the amount. Check your local regulations.' },
+  { question: 'Hvordan regnes regnvannet ut?', answer: 'Én millimeter nedbør på én kvadratmeter gir én liter. Ganget med takflate og oppsamlingsgrad.' },
+  { question: 'Kan jeg drikke regnvannet?', answer: 'Ikke uten rensing. Regnvann egner seg til hagevanning, vask og hjelp til toalett.' },
+  { question: 'Hvor mye regner det i Norge?', answer: 'Fra under 800 mm i Oslo til over 2000 mm i Bergen. Se forvalgene i kalkulatoren.' },
+  { question: 'Trenger jeg tillatelse?', answer: 'Små tønner til hagen krever normalt ikke tillatelse. For større anlegg og tilkobling til husets vannsystem gjelder egne regler. Sjekk med kommunen.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/solar-panel-tilt-calculator', title: 'Solar Panel Tilt', description: 'Optimize solar panel angle.' },
-    { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Battery Sizing', description: 'Size your off-grid batteries.' },
-    { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Off-Grid Runtime', description: 'Calculate backup power runtime.' },
+  { href: '/calculators/solar/solar-roi-calculator', title: 'Lønnsomhet for solceller', description: 'Regn ut tilbakebetalingstid og avkastning for et solcelleanlegg i kroner' },
+  { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Driftstid på batteri', description: 'Regn ut hvor lenge reservestrøm klarer å drive utstyr ved strømbrudd' },
 ];
 
 export default function RainwaterCollectionCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="rainwater-collection-calculator" title="Rainwater Collection Calculator"
-                    description="Estimate how much rainwater your roof can collect." category="Solar & Off-Grid" />
-                <section aria-label="Rainwater Collection Calculator"><RainwaterCollectionCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="rainwater-collection-calculator"
+          title="Regnvann"
+          description="Regn ut hvor mye regnvann du kan samle fra taket i liter og kubikkmeter, med nedbørstall for norske byer. Gratis og uten registrering."
+        />
+
+        <section aria-label="Regnvann">
+          <RainwaterCollectionCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

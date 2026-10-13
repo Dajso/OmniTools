@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { SunPeakHoursCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Sun Peak Hours Calculator - Solar Irradiance Estimator',
-    description: 'Estimate peak sun hours for your location to size solar systems accurately. Essential for off-grid and residential solar planning.',
-    keywords: ['peak sun hours', 'solar irradiance', 'sun hours calculator', 'solar insolation', 'kWh per day solar'],
-    alternates: { canonical: '/calculators/solar/sun-peak-hours-calculator' },
+  title: 'Fullasttimer for sol – gratis kalkulator på nett',
+  description: 'Slå opp solinnstråling og effektive soltimer for stedet ditt. Gratis og uten registrering.',
+  keywords: ['soltimer', 'solinnstråling', 'fullasttimer', 'solenergi', 'produksjon'],
+  alternates: { canonical: '/calculators/solar/sun-peak-hours-calculator' },
+  openGraph: {
+    title: 'Fullasttimer for sol',
+    description: 'Slå opp solinnstråling og effektive soltimer for stedet ditt',
+    url: '/calculators/solar/sun-peak-hours-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Sun Peak Hours Calculator', description: 'Estimate peak sun hours for your location.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Fullasttimer for sol',
+  description: 'Slå opp solinnstråling og effektive soltimer for stedet ditt',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter your latitude', text: 'Input your latitude to estimate solar irradiance for your location.' },
-    { name: 'Select the month', text: 'Choose a specific month or view annual average.' },
-    { name: 'Review peak sun hours', text: 'See estimated peak sun hours (PSH) per day for your location.' },
-    { name: 'Use for system sizing', text: 'Multiply PSH × panel kW to estimate daily kWh production.' },
+  { name: 'Skriv inn breddegrad', text: 'Oslo ligger på ca. 59,9° N, Bergen 60,4°, Trondheim 63,4° og Tromsø 69,6°.' },
+  { name: 'Skriv inn panelenes effekt', text: 'Oppgi samlet effekt i watt for å få et anslag på energi (valgfritt).' },
+  { name: 'Les av fullasttimer', text: 'Du får årsgjennomsnitt, sommer og vinter per dag.' },
+  { name: 'Se energianslaget', text: 'Anslaget tar høyde for 20 % systemtap og vises per dag, måned og år.' },
 ];
 
 const faqs = [
-    { question: 'What are peak sun hours?', answer: 'Peak sun hours (PSH) represent hours of 1,000 W/m² solar irradiance. 5 PSH means total daily solar energy equals 5 hours at full sun intensity.' },
-    { question: 'How many peak sun hours does my area get?', answer: 'The US Southwest averages 6-7 PSH. The Northeast averages 3-4 PSH. Our calculator estimates based on your latitude and season.' },
-    { question: 'Does cloudy weather reduce peak sun hours?', answer: 'Yes, significantly. Overcast days may produce only 10-25% of clear-day irradiance. Annual averages already account for typical weather patterns.' },
-    { question: 'How do peak sun hours affect solar panel sizing?', answer: 'Fewer PSH means you need more panels. Example: 30 kWh/day ÷ 5 PSH = 6 kW system. With 4 PSH, you need a 7.5 kW system.' },
+  { question: 'Hva er en fullasttime?', answer: 'En time med full solinnstråling (1 kW per m²). Fire fullasttimer betyr like mye energi som fire timer sol på sitt sterkeste.' },
+  { question: 'Hvor mye gir solceller i Norge?', answer: 'I Sør-Norge ligger årsproduksjonen ofte rundt 800–1000 kWh per kWp. Det aller meste kommer fra april til september.' },
+  { question: 'Hvorfor er vinteren så svak?', answer: 'Sola står lavt og dagene er korte. I mørketida nord for polarsirkelen er produksjonen nær null.' },
+  { question: 'Hva er systemtap?', answer: 'Tap i kabler, vekselretter, varme og skitt på panelene. Kalkulatoren bruker 20 %.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/solar-panel-tilt-calculator', title: 'Panel Tilt Calculator', description: 'Optimize panel angle for your location.' },
-    { href: '/calculators/solar/solar-roi-calculator', title: 'Solar ROI Calculator', description: 'Calculate your investment return.' },
-    { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Battery Bank Sizing', description: 'Size batteries for your system.' },
+  { href: '/calculators/solar/solar-panel-tilt-calculator', title: 'Solcellevinkel', description: 'Regn ut optimal helningsvinkel for solcellepaneler i Norge' },
+  { href: '/calculators/solar/solar-roi-calculator', title: 'Lønnsomhet for solceller', description: 'Regn ut tilbakebetalingstid og avkastning for et solcelleanlegg i kroner' },
+  { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Batteribank', description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid' },
 ];
 
 export default function SunPeakHoursCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="sun-peak-hours-calculator" title="Sun Peak Hours Calculator"
-                    description="Estimate peak sun hours for your location." category="Solar & Off-Grid" />
-                <section aria-label="Sun Peak Hours Calculator"><SunPeakHoursCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="sun-peak-hours-calculator"
+          title="Fullasttimer for sol"
+          description="Slå opp hvor mange effektive soltimer (fullasttimer) du kan regne med i Norge og hvor mye energi solcellepaneler gir. Gratis og uten registrering."
+        />
+
+        <section aria-label="Fullasttimer for sol">
+          <SunPeakHoursCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

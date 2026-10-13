@@ -1,53 +1,71 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { GeneratorFuelCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Generator Fuel Calculator - Runtime & Fuel Consumption',
-    description: 'Calculate how long your generator will run on a tank of fuel. Estimate fuel consumption based on load percentage.',
-    keywords: ['generator fuel calculator', 'generator runtime', 'fuel consumption', 'generator gas usage', 'backup power'],
-    alternates: { canonical: '/calculators/solar/generator-fuel-calculator' },
+  title: 'Aggregat: drivstofforbruk – gratis kalkulator på nett',
+  description: 'Regn ut hvor lenge et aggregat går på en tank, ut fra last og drivstoff. Gratis og uten registrering.',
+  keywords: ['aggregat', 'drivstofforbruk', 'driftstid', 'generator', 'bensin'],
+  alternates: { canonical: '/calculators/solar/generator-fuel-calculator' },
+  openGraph: {
+    title: 'Aggregat: drivstofforbruk',
+    description: 'Regn ut hvor lenge et aggregat går på en tank, ut fra last og drivstoff',
+    url: '/calculators/solar/generator-fuel-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Generator Fuel Calculator', description: 'Calculate generator runtime and fuel consumption.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Aggregat: drivstofforbruk',
+  description: 'Regn ut hvor lenge et aggregat går på en tank, ut fra last og drivstoff',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter tank size', text: 'Input your generator fuel tank capacity in gallons.' },
-    { name: 'Set fuel consumption', text: 'Enter the rated fuel consumption at your expected load (check the manual).' },
-    { name: 'Choose load percentage', text: 'Select your estimated load — generators are most efficient at 50-75% load.' },
-    { name: 'Get runtime estimate', text: 'See how many hours your generator will run before refueling.' },
+  { name: 'Skriv inn effekten', text: 'Oppgi merkeeffekten på aggregatet i watt.' },
+  { name: 'Velg belastning', text: 'Hvor mange prosent av effekten bruker du?' },
+  { name: 'Velg tankstørrelse og drivstoff', text: 'Oppgi tanken i liter og velg bensin, diesel eller propan.' },
+  { name: 'Les av driftstiden', text: 'Du får driftstid og forbruk i liter per time.' },
 ];
 
 const faqs = [
-    { question: 'How much fuel does a generator use per hour?', answer: 'A typical 3500W portable generator uses 0.5-1.0 gallons per hour at 50% load. Larger generators consume proportionally more.' },
-    { question: 'Is it bad to run a generator at full load?', answer: 'Running at 100% load continuously increases fuel consumption and wear. Aim for 50-75% load for optimal efficiency and longevity.' },
-    { question: 'How long will a 5-gallon gas can run a generator?', answer: 'At 50% load on a typical 3500W generator, about 8-12 hours. Exact runtime depends on the generator model and load.' },
-    { question: 'Can I use a generator during a power outage?', answer: 'Yes, but NEVER run it indoors or in an enclosed space. Place it at least 20 feet from the house with exhaust pointing away.' },
+  { question: 'Hvor mye bruker et aggregat?', answer: 'Et lite bensinaggregat på 3 kW ved halv last bruker ofte rundt 0,7 liter i timen. Tallet avhenger av modell og last.' },
+  { question: 'Hvorfor bruker aggregatet mer enn regnet?', answer: 'Små aggregater har dårlig virkningsgrad ved lav last. Regn tallet som et anslag.' },
+  { question: 'Hva er forskjellen på bensin og diesel?', answer: 'Diesel har litt mer energi per liter og er ofte mer økonomisk. Propan er mer ren, men har lavere energi per liter.' },
+  { question: 'Er det trygt å bruke aggregat innendørs?', answer: 'Nei. Eksosen inneholder giftig karbonmonoksid. Bruk alltid aggregat utendørs med god avstand til åpninger.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Off-Grid Runtime', description: 'Calculate battery backup runtime.' },
-    { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Battery Bank Sizing', description: 'Size your battery bank instead.' },
-    { href: '/calculators/solar/dc-power-calculator', title: 'DC Power Calculator', description: 'Calculate watts, amps, and volts.' },
+  { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Driftstid på batteri', description: 'Regn ut hvor lenge reservestrøm klarer å drive utstyr ved strømbrudd' },
+  { href: '/calculators/solar/inverter-size-calculator', title: 'Vekselretter', description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm' },
 ];
 
 export default function GeneratorFuelCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="generator-fuel-calculator" title="Generator Fuel Calculator"
-                    description="How long will your generator run?" category="Solar & Off-Grid" />
-                <section aria-label="Generator Fuel Calculator"><GeneratorFuelCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="generator-fuel-calculator"
+          title="Aggregat: drivstofforbruk"
+          description="Regn ut hvor lenge et aggregat går på en tank, og hvor mange liter det bruker per time. Gratis og uten registrering."
+        />
+
+        <section aria-label="Aggregat: drivstofforbruk">
+          <GeneratorFuelCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

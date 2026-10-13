@@ -29,34 +29,35 @@ export function BatteryBankSizingCalculator() {
                 batteryType: batteryType as BatteryType, systemVoltage: parseFloat(systemVoltage), batteryAh: parseFloat(batteryAh),
             });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Calculation error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Beregningsfeil'); setResult(null); }
     }, [dailyWh, autonomy, batteryType, systemVoltage, batteryAh]);
 
     const reset = () => { setDailyWh('3000'); setAutonomy('2'); setBatteryType('lithium'); setSystemVoltage('24'); setBatteryAh('100'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Battery Bank Sizing Calculator" description="Size your off-grid battery bank"
-            formula="Ah = (Daily Wh × Days) / (Voltage × DOD)" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Batteribank" description="Regn ut hvor mange batterier du trenger til hytte, båt eller off-grid"
+            formula="Ah = (Wh per døgn × døgn) ÷ (spenning × utladningsdybde)"
+            formulaExplanation="Utladningsdybde er hvor stor del av batteriet du kan bruke uten å ta skade. Litium tåler ca. 80 %, blybatterier ca. 50 %. Kapasiteten faller i kulde, og litiumbatterier må normalt ikke lades under 0 °C, så på uoppvarmede hytter bør batteriene stå frostfritt." onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Batteries Needed" value={`${result.batteryCount} batteries`} copyable />
+                    <ResultDisplay label="Antall batterier" value={`${result.batteryCount} stk`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Total Capacity" value={`${result.totalAh} Ah (${result.totalKWh} kWh)`} />
-                        <ResultDisplay label="Max DOD" value={`${result.dodPercent}%`} />
-                        <ResultDisplay label="Series" value={`${result.seriesCount} in series`} />
-                        <ResultDisplay label="Parallel" value={`${result.parallelCount} strings`} />
+                        <ResultDisplay label="Samlet kapasitet" value={`${result.totalAh} Ah (${result.totalKWh} kWh)`} />
+                        <ResultDisplay label="Maks utladningsdybde" value={`${result.dodPercent} %`} />
+                        <ResultDisplay label="I serie" value={`${result.seriesCount} stk`} />
+                        <ResultDisplay label="Parallelle rekker" value={`${result.parallelCount} stk`} />
                     </div>
                 </div>
             )}
         >
             <div className="space-y-4">
-                <NumberInput id="daily-wh" label="Daily Consumption (Wh)" value={dailyWh} onChange={(v) => setDailyWh(String(v))} min={100} step={100} />
-                <NumberInput id="autonomy" label="Days of Autonomy" value={autonomy} onChange={(v) => setAutonomy(String(v))} min={1} max={7} step={1} />
-                <SelectInput id="battery-type" label="Battery Type" value={batteryType} onChange={setBatteryType} options={BATTERY_OPTIONS} />
+                <NumberInput id="daily-wh" label="Forbruk per døgn" value={dailyWh} onChange={(v) => setDailyWh(String(v))} min={100} step={100} unit="Wh" />
+                <NumberInput id="autonomy" label="Døgn uten lading" value={autonomy} onChange={(v) => setAutonomy(String(v))} min={1} max={7} step={1} unit="døgn" />
+                <SelectInput id="battery-type" label="Batteritype" value={batteryType} onChange={setBatteryType} options={BATTERY_OPTIONS} />
                 <div className="grid grid-cols-2 gap-4">
-                    <SelectInput id="system-voltage" label="System Voltage" value={systemVoltage} onChange={setSystemVoltage} options={VOLTAGE_OPTIONS} />
-                    <NumberInput id="battery-ah" label="Battery Capacity (Ah)" value={batteryAh} onChange={(v) => setBatteryAh(String(v))} min={10} step={10} />
+                    <SelectInput id="system-voltage" label="Systemspenning" value={systemVoltage} onChange={setSystemVoltage} options={VOLTAGE_OPTIONS} />
+                    <NumberInput id="battery-ah" label="Kapasitet per batteri" value={batteryAh} onChange={(v) => setBatteryAh(String(v))} min={10} step={10} unit="Ah" />
                 </div>
             </div>
         </CalculatorBase>

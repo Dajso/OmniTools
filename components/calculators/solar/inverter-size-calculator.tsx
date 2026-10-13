@@ -11,8 +11,8 @@ interface AppEntry { name: string; watts: number; quantity: number; surgeMultipl
 export function InverterSizeCalculator() {
     const [margin, setMargin] = React.useState('25');
     const [appliances, setAppliances] = React.useState<AppEntry[]>([
-        { name: 'Refrigerator', watts: 150, quantity: 1, surgeMultiplier: 3 },
-        { name: 'LED Lights', watts: 10, quantity: 5, surgeMultiplier: 1 },
+        { name: 'Kjøleskap', watts: 150, quantity: 1, surgeMultiplier: 3 },
+        { name: 'LED-lamper', watts: 10, quantity: 5, surgeMultiplier: 1 },
     ]);
     const [result, setResult] = React.useState<InverterSizeResult | null>(null);
     const [error, setError] = React.useState<string | undefined>();
@@ -27,45 +27,46 @@ export function InverterSizeCalculator() {
             setError(undefined);
             const res = calculateInverterSize({ appliances, safetyMargin: parseFloat(margin) });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Calculation error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Beregningsfeil'); setResult(null); }
     }, [appliances, margin]);
 
-    const reset = () => { setMargin('25'); setAppliances([{ name: 'Refrigerator', watts: 150, quantity: 1, surgeMultiplier: 3 }]); setResult(null); setError(undefined); };
+    const reset = () => { setMargin('25'); setAppliances([{ name: 'Kjøleskap', watts: 150, quantity: 1, surgeMultiplier: 3 }]); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Inverter Size Calculator" description="Calculate the right inverter size"
-            formula="Inverter ≥ Total Watts × (1 + Safety Margin)" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Vekselretter" description="Regn ut nødvendig størrelse på vekselretter (inverter) ut fra effektbehov og startstrøm"
+            formula="Vekselretter ≥ samlet watt × (1 + margin), og minst halvparten av startstrømmen"
+            formulaExplanation="Motorer i kjøleskap, pumper og verktøy trekker flere ganger merkeeffekten i et øyeblikk ved oppstart. Vekselretteren må tåle både den vedvarende lasten og toppen." onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Recommended Inverter" value={`${result.recommendedInverterW}W / ${result.recommendedInverterVA} VA`} copyable />
+                    <ResultDisplay label="Anbefalt vekselretter" value={`${result.recommendedInverterW} W / ${result.recommendedInverterVA} VA`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Continuous Load" value={`${result.continuousWatts}W`} />
-                        <ResultDisplay label="Peak Surge" value={`${result.surgeWatts}W`} />
+                        <ResultDisplay label="Vedvarende last" value={`${result.continuousWatts} W`} />
+                        <ResultDisplay label="Toppeffekt ved oppstart" value={`${result.surgeWatts} W`} />
                     </div>
                 </div>
             )}
         >
             <div className="space-y-4">
-                <NumberInput id="margin" label="Safety Margin (%)" value={margin} onChange={(v) => setMargin(String(v))} min={0} max={100} step={5} />
+                <NumberInput id="margin" label="Sikkerhetsmargin" value={margin} onChange={(v) => setMargin(String(v))} min={0} max={100} step={5} unit="%" />
                 <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-700">Appliances</label>
+                    <label className="block text-sm font-medium text-gray-700">Utstyr (navn, watt, antall, startfaktor)</label>
                     {appliances.map((a, i) => (
                         <div key={i} className="flex items-center gap-2">
                             <input type="text" value={a.name} onChange={(e) => updateApp(i, 'name', e.target.value)}
-                                placeholder="Name" className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm" />
+                                placeholder="Navn" className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm" />
                             <input type="number" value={a.watts} onChange={(e) => updateApp(i, 'watts', parseFloat(e.target.value) || 0)}
                                 className="w-20 rounded-md border border-gray-300 px-3 py-2 text-sm" min={1} placeholder="W" />
                             <input type="number" value={a.quantity} onChange={(e) => updateApp(i, 'quantity', parseInt(e.target.value) || 0)}
                                 className="w-14 rounded-md border border-gray-300 px-3 py-2 text-sm" min={1} placeholder="#" />
                             <input type="number" value={a.surgeMultiplier} onChange={(e) => updateApp(i, 'surgeMultiplier', parseFloat(e.target.value) || 1)}
-                                className="w-16 rounded-md border border-gray-300 px-3 py-2 text-sm" min={1} max={10} step={0.5} placeholder="×" title="Surge multiplier" />
+                                className="w-16 rounded-md border border-gray-300 px-3 py-2 text-sm" min={1} max={10} step={0.5} placeholder="×" title="Faktor for startstrøm" />
                             {appliances.length > 1 && (
                                 <button onClick={() => removeApp(i)} className="text-red-500 hover:text-red-700 text-sm px-2">✕</button>
                             )}
                         </div>
                     ))}
-                    <button onClick={addApp} className="text-sm text-blue-600 hover:text-blue-800">+ Add Appliance</button>
+                    <button onClick={addApp} className="text-sm text-blue-600 hover:text-blue-800">+ Legg til utstyr</button>
                 </div>
             </div>
         </CalculatorBase>

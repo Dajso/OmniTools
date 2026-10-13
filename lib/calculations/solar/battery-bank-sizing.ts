@@ -6,22 +6,22 @@
 export type BatteryType = 'lead-acid' | 'agm' | 'gel' | 'lithium';
 
 export const BATTERY_TYPES: Record<BatteryType, { name: string; maxDOD: number; voltage: number; typicalAh: number }> = {
-    'lead-acid': { name: 'Flooded Lead-Acid', maxDOD: 50, voltage: 12, typicalAh: 100 },
-    'agm': { name: 'AGM', maxDOD: 50, voltage: 12, typicalAh: 100 },
-    'gel': { name: 'Gel', maxDOD: 50, voltage: 12, typicalAh: 100 },
-    'lithium': { name: 'LiFePO4 (Lithium)', maxDOD: 80, voltage: 12.8, typicalAh: 100 },
+    'lead-acid': { name: 'Blybatteri (åpent)', maxDOD: 50, voltage: 12, typicalAh: 100 },
+    'agm': { name: 'AGM-batteri', maxDOD: 50, voltage: 12, typicalAh: 100 },
+    'gel': { name: 'Gelbatteri', maxDOD: 50, voltage: 12, typicalAh: 100 },
+    'lithium': { name: 'LiFePO4 (litium)', maxDOD: 80, voltage: 12.8, typicalAh: 100 },
 };
 
 export interface BatteryBankInput {
-    /** Daily energy consumption in Wh */
+    /** Daglig energiforbruk i Wh */
     dailyWh: number;
-    /** Days of autonomy (backup days) */
+    /** Antall døgn batteriet skal klare seg uten lading */
     autonomyDays: number;
-    /** Battery type */
+    /** Batteritype */
     batteryType: BatteryType;
-    /** System voltage (12, 24, or 48) */
+    /** Systemspenning (12, 24 eller 48 V) */
     systemVoltage: number;
-    /** Individual battery capacity in Ah */
+    /** Kapasitet per batteri i Ah */
     batteryAh: number;
 }
 
@@ -43,9 +43,9 @@ export interface BatteryBankResult {
 export function calculateBatteryBank(input: BatteryBankInput): BatteryBankResult {
     const { dailyWh, autonomyDays, batteryType, systemVoltage, batteryAh } = input;
 
-    if (dailyWh <= 0) throw new Error('Daily consumption must be positive');
-    if (autonomyDays < 1) throw new Error('Must have at least 1 day of autonomy');
-    if (batteryAh <= 0) throw new Error('Battery Ah must be positive');
+    if (dailyWh <= 0) throw new Error('Døgnforbruket må være større enn 0');
+    if (autonomyDays < 1) throw new Error('Batteriet må klare seg minst ett døgn');
+    if (batteryAh <= 0) throw new Error('Batterikapasiteten må være større enn 0');
 
     const bt = BATTERY_TYPES[batteryType];
     const dod = bt.maxDOD / 100;

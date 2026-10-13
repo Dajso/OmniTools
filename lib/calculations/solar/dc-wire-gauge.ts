@@ -1,74 +1,74 @@
 /**
- * DC Wire Gauge Calculator
- * Calculate recommended AWG based on current, length, and acceptable voltage drop.
+ * Kabeltverrsnitt (DC): anbefalt tverrsnitt i mm² ut fra strøm, lengde og akseptabelt spenningsfall.
+ * Spenningsfall = 2 × lengde × resistivitet × strøm ÷ tverrsnitt (strømmen går begge veier).
  * @module lib/calculations/solar/dc-wire-gauge
  */
 
-/** Copper resistivity in ohm·circular mil/ft at 20°C */
-const COPPER_RESISTIVITY = 10.37;
+/** Resistivitet for kobber, Ω·mm²/m (ved ca. 20–30 °C) */
+export const COPPER_RESISTIVITY = 0.0175;
 
-/** AWG to circular mil area lookup */
-const AWG_TABLE: Array<{ awg: string; cmil: number; maxAmps: number }> = [
-    { awg: '0000 (4/0)', cmil: 211600, maxAmps: 230 },
-    { awg: '000 (3/0)', cmil: 167800, maxAmps: 200 },
-    { awg: '00 (2/0)', cmil: 133100, maxAmps: 175 },
-    { awg: '0 (1/0)', cmil: 105500, maxAmps: 150 },
-    { awg: '1', cmil: 83690, maxAmps: 130 },
-    { awg: '2', cmil: 66370, maxAmps: 115 },
-    { awg: '3', cmil: 52630, maxAmps: 100 },
-    { awg: '4', cmil: 41740, maxAmps: 85 },
-    { awg: '6', cmil: 26250, maxAmps: 65 },
-    { awg: '8', cmil: 16510, maxAmps: 50 },
-    { awg: '10', cmil: 10380, maxAmps: 35 },
-    { awg: '12', cmil: 6530, maxAmps: 25 },
-    { awg: '14', cmil: 4107, maxAmps: 20 },
-    { awg: '16', cmil: 2583, maxAmps: 13 },
+/** Standard tverrsnitt og veiledende maks strøm (A) ved legging i rør, 70 °C-isolasjon */
+export const CABLE_TABLE: Array<{ mm2: number; maxAmps: number }> = [
+    { mm2: 1.5, maxAmps: 15 },
+    { mm2: 2.5, maxAmps: 21 },
+    { mm2: 4, maxAmps: 28 },
+    { mm2: 6, maxAmps: 36 },
+    { mm2: 10, maxAmps: 50 },
+    { mm2: 16, maxAmps: 68 },
+    { mm2: 25, maxAmps: 89 },
+    { mm2: 35, maxAmps: 111 },
+    { mm2: 50, maxAmps: 134 },
+    { mm2: 70, maxAmps: 171 },
+    { mm2: 95, maxAmps: 207 },
+    { mm2: 120, maxAmps: 239 },
 ];
 
 export interface DCWireGaugeInput {
-    /** Current in Amps */
+    /** Strøm i ampere */
     amps: number;
-    /** One-way wire length in feet */
-    lengthFeet: number;
-    /** System voltage */
+    /** Kabellengde én vei, i meter */
+    lengthM: number;
+    /** Systemspenning, V */
     voltage: number;
-    /** Maximum acceptable voltage drop (%) */
+    /** Største akseptable spenningsfall (%) */
     maxDropPercent: number;
 }
 
 export interface DCWireGaugeResult {
-    recommendedAWG: string;
+    /** Anbefalt tverrsnitt i mm² */
+    recommendedMm2: number;
     voltageDrop: number;
     voltageDropPercent: number;
     voltageAtLoad: number;
     powerLossWatts: number;
+    /** Sant hvis ingen standardstørrelse oppfyller kravet */
+    exceedsTable: boolean;
 }
 
 export function calculateDCWireGauge(input: DCWireGaugeInput): DCWireGaugeResult {
-    const { amps, lengthFeet, voltage, maxDropPercent } = input;
+    const { amps, lengthM, voltage, maxDropPercent } = input;
 
-    if (amps <= 0) throw new Error('Current must be positive');
-    if (lengthFeet <= 0) throw new Error('Length must be positive');
-    if (voltage <= 0) throw new Error('Voltage must be positive');
+    if (!(amps > 0)) throw new Error('Strømmen må være større enn 0');
+    if (!(lengthM > 0)) throw new Error('Lengden må være større enn 0');
+    if (!(voltage > 0)) throw new Error('Spenningen må være større enn 0');
+    if (!(maxDropPercent > 0)) throw new Error('Spenningsfallet må være større enn 0');
 
-    // Required cmil = 2 × length × resistivity × amps / max voltage drop
     const maxDropVolts = voltage * (maxDropPercent / 100);
-    const requiredCmil = (2 * lengthFeet * COPPER_RESISTIVITY * amps) / maxDropVolts;
+    const requiredMm2 = (2 * lengthM * COPPER_RESISTIVITY * amps) / maxDropVolts;
 
-    // Find smallest AWG that meets requirement
-    const match = AWG_TABLE.find(w => w.cmil >= requiredCmil && w.maxAmps >= amps);
-    const wire = match ?? AWG_TABLE[0]; // Fallback to largest
+    const match = CABLE_TABLE.find((w) => w.mm2 >= requiredMm2 && w.maxAmps >= amps);
+    const wire = match ?? CABLE_TABLE[CABLE_TABLE.length - 1];
 
-    // Calculate actual voltage drop with chosen wire
-    const voltageDrop = (2 * lengthFeet * COPPER_RESISTIVITY * amps) / wire.cmil;
+    const voltageDrop = (2 * lengthM * COPPER_RESISTIVITY * amps) / wire.mm2;
     const voltageDropPercent = (voltageDrop / voltage) * 100;
     const powerLossWatts = voltageDrop * amps;
 
     return {
-        recommendedAWG: wire.awg,
+        recommendedMm2: wire.mm2,
         voltageDrop: Math.round(voltageDrop * 100) / 100,
         voltageDropPercent: Math.round(voltageDropPercent * 100) / 100,
         voltageAtLoad: Math.round((voltage - voltageDrop) * 100) / 100,
         powerLossWatts: Math.round(powerLossWatts * 100) / 100,
+        exceedsTable: !match,
     };
 }

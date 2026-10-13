@@ -1,6 +1,6 @@
 /**
- * DC Power Calculator (Amps ↔ Watts)
- * P = V × I, conversions between power/current/voltage.
+ * Ampere og watt (DC): P = U × I.
+ * Regner ut effekt, strøm eller spenning når de to andre er kjent.
  * @module lib/calculations/solar/dc-power
  */
 
@@ -19,26 +19,28 @@ export interface DCPowerResult {
     volts: number;
 }
 
+const round3 = (v: number) => Math.round(v * 1000) / 1000;
+
 export function calculateDCPower(input: DCPowerInput): DCPowerResult {
     const { solveFor, watts, amps, volts } = input;
 
     switch (solveFor) {
         case 'watts':
-            if (!amps || !volts) throw new Error('Provide amps and volts');
-            if (amps <= 0 || volts <= 0) throw new Error('Values must be positive');
-            return { watts: Math.round(amps * volts * 1000) / 1000, amps, volts };
+            if (!amps || !volts) throw new Error('Fyll inn ampere og volt');
+            if (amps <= 0 || volts <= 0) throw new Error('Verdiene må være større enn 0');
+            return { watts: round3(amps * volts), amps, volts };
 
         case 'amps':
-            if (!watts || !volts) throw new Error('Provide watts and volts');
-            if (watts <= 0 || volts <= 0) throw new Error('Values must be positive');
-            return { watts, amps: Math.round((watts / volts) * 1000) / 1000, volts };
+            if (!watts || !volts) throw new Error('Fyll inn watt og volt');
+            if (watts <= 0 || volts <= 0) throw new Error('Verdiene må være større enn 0');
+            return { watts, amps: round3(watts / volts), volts };
 
         case 'volts':
-            if (!watts || !amps) throw new Error('Provide watts and amps');
-            if (watts <= 0 || amps <= 0) throw new Error('Values must be positive');
-            return { watts, amps, volts: Math.round((watts / amps) * 1000) / 1000 };
+            if (!watts || !amps) throw new Error('Fyll inn watt og ampere');
+            if (watts <= 0 || amps <= 0) throw new Error('Verdiene må være større enn 0');
+            return { watts, amps, volts: round3(watts / amps) };
 
         default:
-            throw new Error('Invalid solve target');
+            throw new Error('Ugyldig valg');
     }
 }

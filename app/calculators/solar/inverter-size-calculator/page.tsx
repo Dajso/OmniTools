@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { InverterSizeCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Inverter Size Calculator - Off-Grid & Solar Inverter Sizing',
-    description: 'Calculate the right inverter size for your off-grid or solar system based on your total wattage load and surge requirements.',
-    keywords: ['inverter size calculator', 'solar inverter sizing', 'off-grid inverter', 'inverter wattage', 'pure sine wave'],
-    alternates: { canonical: '/calculators/solar/inverter-size-calculator' },
+  title: 'Vekselretter – gratis kalkulator på nett',
+  description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm. Gratis og uten registrering.',
+  keywords: ['inverter', 'vekselretter', 'effekt', 'watt', 'startstrøm'],
+  alternates: { canonical: '/calculators/solar/inverter-size-calculator' },
+  openGraph: {
+    title: 'Vekselretter',
+    description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm',
+    url: '/calculators/solar/inverter-size-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Inverter Size Calculator', description: 'Calculate the right inverter size for your system.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Vekselretter',
+  description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'List your appliances', text: 'Note the wattage of each appliance you want to run simultaneously.' },
-    { name: 'Add up total watts', text: 'Sum all running wattages for your continuous load.' },
-    { name: 'Account for surge', text: 'Note appliances with high startup surges (motors, compressors, pumps).' },
-    { name: 'Get inverter size', text: 'The calculator recommends a continuous and surge-rated inverter size.' },
+  { name: 'Legg inn utstyr', text: 'Legg til hvert apparat med effekt i watt og antall.' },
+  { name: 'Merk utstyr med startstrøm', text: 'Pumper, kjøleskap og verktøy trekker mye mer i et øyeblikk når de starter.' },
+  { name: 'Velg margin', text: 'En margin på 25 % er et godt utgangspunkt.' },
+  { name: 'Les av størrelsen', text: 'Du får anbefalt kontinuerlig effekt og toppeffekt.' },
 ];
 
 const faqs = [
-    { question: 'What size inverter do I need?', answer: 'Add up the watts of everything running at once, then add 20-25% headroom. A 3000W continuous inverter suits most small off-grid cabins.' },
-    { question: 'Pure sine wave vs modified sine wave?', answer: 'Pure sine wave is best for sensitive electronics, motors, and medical equipment. Modified sine wave is cheaper but can damage some devices.' },
-    { question: 'What is surge vs continuous rating?', answer: 'Continuous is the sustained load. Surge (peak) is the brief high-power draw when motors start. Inverters typically handle 2× continuous for short bursts.' },
-    { question: 'Can I run a microwave on an inverter?', answer: 'Yes, but note that a 1000W microwave draws about 1500W from the wall. Size your inverter for the input wattage, not the cooking wattage.' },
+  { question: 'Hva er startstrøm?', answer: 'Motorer kan trekke 2–7 ganger merkeeffekten i et kort øyeblikk. Vekselretteren må tåle denne toppen.' },
+  { question: 'Rent sinus eller modifisert sinus?', answer: 'Rent sinus passer for alt, og er nødvendig for mye elektronikk og motorer. Modifisert sinus er billigere, men kan gi støy og dårligere virkning.' },
+  { question: 'Hvorfor margin?', answer: 'Vekselretteren bør ikke gå på maks hele tiden. Margin gir lengre levetid og tåler mer.' },
+  { question: 'Hvor mye taper en vekselretter?', answer: 'Ofte 5–15 %, avhengig av belastning. Det tas med i batteriberegningen.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/dc-power-calculator', title: 'DC Power Calculator', description: 'Calculate watts, amps, and volts.' },
-    { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Battery Bank Sizing', description: 'Size your battery bank.' },
-    { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Off-Grid Runtime', description: 'How long your batteries will last.' },
+  { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Batteribank', description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid' },
+  { href: '/calculators/solar/off-grid-runtime-calculator', title: 'Driftstid på batteri', description: 'Regn ut hvor lenge reservestrøm klarer å drive utstyr ved strømbrudd' },
+  { href: '/calculators/solar/dc-power-calculator', title: 'Ampere og watt (DC)', description: 'Regn om mellom ampere, watt og volt for likestrøm' },
 ];
 
 export default function InverterSizeCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="inverter-size-calculator" title="Inverter Size Calculator"
-                    description="Calculate the right inverter size for your system." category="Solar & Off-Grid" />
-                <section aria-label="Inverter Size Calculator"><InverterSizeCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="inverter-size-calculator"
+          title="Vekselretter"
+          description="Regn ut hvor stor vekselretter (inverter) du trenger, ut fra utstyret du skal drive og startstrøm. Gratis og uten registrering."
+        />
+
+        <section aria-label="Vekselretter">
+          <InverterSizeCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

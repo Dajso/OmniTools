@@ -1,53 +1,72 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { DCWireGaugeCalculator } from '@/components/calculators/solar';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'DC Wire Gauge Calculator - Solar & Off-Grid Wire Sizing',
-    description: 'Find the right wire gauge for your DC circuit. Calculate voltage drop and recommended AWG for solar, RV, and marine wiring.',
-    keywords: ['DC wire gauge calculator', 'wire size calculator', 'AWG calculator', 'voltage drop', 'solar wire sizing'],
-    alternates: { canonical: '/calculators/solar/dc-wire-gauge-calculator' },
+  title: 'Kabeltverrsnitt (DC) – gratis kalkulator på nett',
+  description: 'Regn ut riktig kabeltverrsnitt i mm² for likestrøm. Gratis og uten registrering.',
+  keywords: ['kabeltverrsnitt', 'mm2', 'spenningsfall', 'solcelle', 'likestrøm', 'DC'],
+  alternates: { canonical: '/calculators/solar/dc-wire-gauge-calculator' },
+  openGraph: {
+    title: 'Kabeltverrsnitt (DC)',
+    description: 'Regn ut riktig kabeltverrsnitt i mm² for likestrøm',
+    url: '/calculators/solar/dc-wire-gauge-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'DC Wire Gauge Calculator', description: 'Find the right wire gauge for your DC circuit.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Kabeltverrsnitt (DC)',
+  description: 'Regn ut riktig kabeltverrsnitt i mm² for likestrøm',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter current (amps)', text: 'Input the maximum current your circuit will carry.' },
-    { name: 'Enter wire length', text: 'Measure the one-way wire run distance in feet.' },
-    { name: 'Set acceptable voltage drop', text: 'Choose maximum voltage drop — typically 3% for power lines, 5% for lighting.' },
-    { name: 'Get recommended gauge', text: 'See the minimum AWG wire gauge to keep voltage drop within limits.' },
+  { name: 'Skriv inn strømmen', text: 'Oppgi strømmen i ampere som kabelen skal bære.' },
+  { name: 'Skriv inn lengden', text: 'Oppgi kabellengden én vei i meter. Kalkulatoren regner med både pluss og minus.' },
+  { name: 'Velg spenning og tillatt spenningsfall', text: '12 V og 3 % er vanlig. Ved lav spenning blir spenningsfallet raskt stort.' },
+  { name: 'Les av tverrsnittet', text: 'Du får anbefalt tverrsnitt, spenningsfall og effekttap.' },
 ];
 
 const faqs = [
-    { question: 'What voltage drop is acceptable for solar?', answer: '3% maximum for main power runs (panels to controller, controller to batteries). Up to 5% for branch circuits and lighting.' },
-    { question: 'Why is wire gauge important for DC?', answer: 'DC systems run at lower voltages than AC, so the same wattage requires more current. Higher current needs thicker wire to avoid dangerous overheating.' },
-    { question: 'What AWG for 30 amps at 12V?', answer: 'For a 10-foot run at 3% drop: 6 AWG. For longer runs, you need even thicker wire. Always check with this calculator for your exact setup.' },
-    { question: 'Can I use AC wire for DC circuits?', answer: 'Yes, standard copper THHN/THWN wire works for DC. The gauge requirements are calculated the same way based on current and distance.' },
+  { question: 'Hva er tillatt spenningsfall?', answer: 'For 12 V-anlegg er 3 % et vanlig mål, mens 5 % er det høyeste en bør akseptere. Mer spenningsfall betyr tap og svakere ytelse.' },
+  { question: 'Hvorfor trenger 12 V tykkere kabel enn 230 V?', answer: 'For samme effekt går det mye høyere strøm ved lav spenning, og tap og spenningsfall vokser raskt.' },
+  { question: 'Erstatter dette elektriker?', answer: 'Nei. Kalkulatoren gir et anslag. Faste installasjoner bør følge NEK 400 og kontrolleres av en elektriker. Husk riktig sikring.' },
+  { question: 'Hvilke kabler bør jeg bruke?', answer: 'Bruk fleksibel kobberkabel som passer for formålet, for eksempel solcellekabel utendørs. Aluminium krever større tverrsnitt.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/solar/dc-power-calculator', title: 'DC Power Calculator', description: 'Calculate watts, amps, and volts.' },
-    { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Battery Bank Sizing', description: 'Size your battery bank.' },
-    { href: '/calculators/solar/inverter-size-calculator', title: 'Inverter Size Calculator', description: 'Size your inverter.' },
+  { href: '/calculators/solar/dc-power-calculator', title: 'Ampere og watt (DC)', description: 'Regn om mellom ampere, watt og volt for likestrøm' },
+  { href: '/calculators/solar/inverter-size-calculator', title: 'Vekselretter', description: 'Regn ut nødvendig størrelse på inverter ut fra effektbehov og startstrøm' },
+  { href: '/calculators/solar/battery-bank-sizing-calculator', title: 'Batteribank', description: 'Regn ut hvor mange batterier du trenger til hytte eller off-grid' },
 ];
 
 export default function DCWireGaugeCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="dc-wire-gauge-calculator" title="DC Wire Gauge Calculator"
-                    description="Find the right wire gauge for your DC circuit." category="Solar & Off-Grid" />
-                <section aria-label="DC Wire Gauge Calculator"><DCWireGaugeCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="dc-wire-gauge-calculator"
+          title="Kabeltverrsnitt (DC)"
+          description="Finn riktig kabeltverrsnitt i mm² for likestrøm ut fra strøm, lengde og tillatt spenningsfall. Gratis og uten registrering."
+        />
+
+        <section aria-label="Kabeltverrsnitt (DC)">
+          <DCWireGaugeCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }
