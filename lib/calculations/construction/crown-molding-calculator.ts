@@ -155,7 +155,7 @@ function radiansToDegrees(radians: number): number {
  * @returns Formatted angle string
  */
 export function formatAngle(angle: number, decimals: number = 2): string {
-  return `${angle.toFixed(decimals)}°`;
+  return `${angle.toFixed(decimals).replace('.', ',')}°`;
 }
 
 /**
@@ -167,7 +167,7 @@ function validateInput(input: CrownMoldingInput): void {
   // Validate spring angle
   if (input.springAngle === undefined || input.springAngle === null) {
     throw new CrownMoldingError(
-      'Spring angle is required',
+      'Listvinkel mangler',
       'invalid_input',
       'springAngle'
     );
@@ -175,7 +175,7 @@ function validateInput(input: CrownMoldingInput): void {
   
   if (isNaN(input.springAngle)) {
     throw new CrownMoldingError(
-      'Spring angle must be a valid number',
+      'Listvinkel må være et gyldig tall',
       'invalid_input',
       'springAngle'
     );
@@ -183,7 +183,7 @@ function validateInput(input: CrownMoldingInput): void {
   
   if (input.springAngle <= 0 || input.springAngle >= 90) {
     throw new CrownMoldingError(
-      'Spring angle must be between 0° and 90° (exclusive)',
+      'Listvinkel må være mellom 0° og 90° (ikke inkludert)',
       'out_of_range',
       'springAngle'
     );
@@ -192,7 +192,7 @@ function validateInput(input: CrownMoldingInput): void {
   // Validate corner angle
   if (input.cornerAngle === undefined || input.cornerAngle === null) {
     throw new CrownMoldingError(
-      'Corner angle is required',
+      'Hjørnevinkel mangler',
       'invalid_input',
       'cornerAngle'
     );
@@ -200,7 +200,7 @@ function validateInput(input: CrownMoldingInput): void {
   
   if (isNaN(input.cornerAngle)) {
     throw new CrownMoldingError(
-      'Corner angle must be a valid number',
+      'Hjørnevinkel må være et gyldig tall',
       'invalid_input',
       'cornerAngle'
     );
@@ -208,7 +208,7 @@ function validateInput(input: CrownMoldingInput): void {
   
   if (input.cornerAngle <= 0 || input.cornerAngle >= 180) {
     throw new CrownMoldingError(
-      'Corner angle must be between 0° and 180° (exclusive)',
+      'Hjørnevinkel må være mellom 0° og 180° (ikke inkludert)',
       'out_of_range',
       'cornerAngle'
     );
@@ -250,7 +250,7 @@ export function calculateCrownMoldingAngles(input: CrownMoldingInput): CrownMold
   
   if (Math.abs(tanHalfCorner) < 1e-10) {
     throw new CrownMoldingError(
-      'Cannot calculate angles for this corner angle',
+      'Kan ikke beregne vinkler for denne hjørnevinkelen',
       'calculation_error',
       'cornerAngle'
     );
@@ -304,15 +304,15 @@ function getSawSetup(
     return {
       miterDirection: 'left',
       bevelDirection: 'left',
-      leftPieceInstructions: `Set miter to ${formatAngle(miterAngle)} LEFT, bevel to ${formatAngle(bevelAngle)} LEFT. Cut with crown upside down, ceiling edge against fence.`,
-      rightPieceInstructions: `Set miter to ${formatAngle(miterAngle)} RIGHT, bevel to ${formatAngle(bevelAngle)} RIGHT. Cut with crown upside down, ceiling edge against fence.`,
+      leftPieceInstructions: `Still gjæring til ${formatAngle(miterAngle)} venstre og skråvinkel til ${formatAngle(bevelAngle)} venstre. Kutt med listen opp ned, med takkanten mot anlegget.`,
+      rightPieceInstructions: `Still gjæring til ${formatAngle(miterAngle)} høyre og skråvinkel til ${formatAngle(bevelAngle)} høyre. Kutt med listen opp ned, med takkanten mot anlegget.`,
     };
   } else {
     return {
       miterDirection: 'right',
       bevelDirection: 'right',
-      leftPieceInstructions: `Set miter to ${formatAngle(miterAngle)} RIGHT, bevel to ${formatAngle(bevelAngle)} RIGHT. Cut with crown upside down, ceiling edge against fence.`,
-      rightPieceInstructions: `Set miter to ${formatAngle(miterAngle)} LEFT, bevel to ${formatAngle(bevelAngle)} LEFT. Cut with crown upside down, ceiling edge against fence.`,
+      leftPieceInstructions: `Still gjæring til ${formatAngle(miterAngle)} høyre og skråvinkel til ${formatAngle(bevelAngle)} høyre. Kutt med listen opp ned, med takkanten mot anlegget.`,
+      rightPieceInstructions: `Still gjæring til ${formatAngle(miterAngle)} venstre og skråvinkel til ${formatAngle(bevelAngle)} venstre. Kutt med listen opp ned, med takkanten mot anlegget.`,
     };
   }
 }
@@ -324,8 +324,8 @@ function getFlatMethodInstructions(
   cornerType: 'inside' | 'outside',
   flatMiterAngle: number
 ): string {
-  const direction = cornerType === 'inside' ? 'inward' : 'outward';
-  return `Position crown upside down and backwards against fence. Set miter to ${formatAngle(flatMiterAngle)} with cuts angling ${direction}. No bevel needed with this method.`;
+  const direction = cornerType === 'inside' ? 'innover' : 'utover';
+  return `Legg listen opp ned og bakvendt mot anlegget. Still gjæring til ${formatAngle(flatMiterAngle)} med kuttet vinklet ${direction}. Du trenger ingen skråvinkel med denne metoden.`;
 }
 
 /**
@@ -361,12 +361,12 @@ export function getQuickReferenceTable(): Array<{
   description: string;
 }> {
   const combinations = [
-    { spring: 38, corner: 90, desc: '38/52 crown, 90° corner (most common)' },
-    { spring: 45, corner: 90, desc: '45/45 crown, 90° corner' },
-    { spring: 52, corner: 90, desc: '52/38 crown, 90° corner' },
-    { spring: 38, corner: 135, desc: '38/52 crown, 135° corner' },
-    { spring: 45, corner: 135, desc: '45/45 crown, 135° corner' },
-    { spring: 38, corner: 45, desc: '38/52 crown, 45° corner' },
+    { spring: 38, corner: 90, desc: '38/52-list, 90° hjørne (vanligst)' },
+    { spring: 45, corner: 90, desc: '45/45-list, 90° hjørne' },
+    { spring: 52, corner: 90, desc: '52/38-list, 90° hjørne' },
+    { spring: 38, corner: 135, desc: '38/52-list, 135° hjørne' },
+    { spring: 45, corner: 135, desc: '45/45-list, 135° hjørne' },
+    { spring: 38, corner: 45, desc: '38/52-list, 45° hjørne' },
   ];
   
   return combinations.map(({ spring, corner, desc }) => {

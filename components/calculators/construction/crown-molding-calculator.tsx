@@ -16,28 +16,28 @@ import {
  * Options for spring angle presets dropdown
  */
 const springAngleOptions = [
-  { value: '', label: 'Custom angle' },
-  { value: '38', label: '38° (38/52 crown) - Most Common' },
-  { value: '45', label: '45° (45/45 crown)' },
-  { value: '52', label: '52° (52/38 crown)' },
+  { value: '', label: 'Egendefinert vinkel' },
+  { value: '38', label: '38° (38/52-list) – vanligst' },
+  { value: '45', label: '45° (45/45-list)' },
+  { value: '52', label: '52° (52/38-list)' },
 ];
 
 /**
  * Options for corner angle presets dropdown
  */
 const cornerAngleOptions = [
-  { value: '', label: 'Custom angle' },
-  { value: '90', label: '90° - Standard Corner' },
-  { value: '135', label: '135° - Obtuse Corner' },
-  { value: '45', label: '45° - Acute Corner' },
+  { value: '', label: 'Egendefinert vinkel' },
+  { value: '90', label: '90° – vanlig hjørne' },
+  { value: '135', label: '135° – stumpt hjørne' },
+  { value: '45', label: '45° – spisst hjørne' },
 ];
 
 /**
  * Options for corner type
  */
 const cornerTypeOptions = [
-  { value: 'inside', label: 'Inside Corner' },
-  { value: 'outside', label: 'Outside Corner' },
+  { value: 'inside', label: 'Innvendig hjørne' },
+  { value: 'outside', label: 'Utvendig hjørne' },
 ];
 
 /**
@@ -108,7 +108,7 @@ export function CrownMoldingCalculator() {
 
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [customSpringAngle, customCornerAngle, cornerType]);
@@ -133,10 +133,10 @@ export function CrownMoldingCalculator() {
 
   return (
     <CalculatorBase
-      title="Crown Molding Angle Calculator"
-      description="Calculate miter and bevel angles for crown molding cuts"
-      formula="Miter = arctan(sin(spring) / tan(corner/2)), Bevel = arcsin(cos(spring) × sin(corner/2))"
-      formulaExplanation="Crown molding requires compound cuts because it sits at an angle (spring angle) from the wall. The miter angle is the saw blade rotation, and the bevel angle is the blade tilt."
+      title="Gjæringsvinkler for taklist"
+      description="Regn ut gjærings- og skråvinkel for sagene når du skjærer taklist"
+      formula="Gjæring = arctan(sin(listvinkel) ÷ tan(hjørnevinkel ÷ 2)), skråvinkel = arcsin(cos(listvinkel) × sin(hjørnevinkel ÷ 2))"
+      formulaExplanation="Taklist krever sammensatte kutt fordi den står i en vinkel (listvinkelen) fra veggen. Gjæringsvinkelen er hvor mye sagbladet dreies, og skråvinkelen er hvor mye bladet vippes."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -144,13 +144,13 @@ export function CrownMoldingCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ResultDisplay
-              label="Miter Angle"
+              label="Gjæringsvinkel"
               value={result.formattedMiterAngle}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Bevel Angle"
+              label="Skråvinkel"
               value={result.formattedBevelAngle}
               highlight
               copyable
@@ -158,18 +158,18 @@ export function CrownMoldingCalculator() {
           </div>
 
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Settings Used</p>
+            <p className="text-sm font-medium mb-2">Innstillinger som er brukt</p>
             <div className="grid grid-cols-3 gap-2 text-sm">
               <div>
-                <span className="text-muted-foreground">Spring Angle:</span>{' '}
+                <span className="text-muted-foreground">Listvinkel:</span>{' '}
                 <span className="font-medium">{result.springAngle}°</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Corner Angle:</span>{' '}
+                <span className="text-muted-foreground">Hjørnevinkel:</span>{' '}
                 <span className="font-medium">{result.cornerAngle}°</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Corner Type:</span>{' '}
+                <span className="text-muted-foreground">Hjørnetype:</span>{' '}
                 <span className="font-medium capitalize">{result.cornerType}</span>
               </div>
             </div>
@@ -177,15 +177,15 @@ export function CrownMoldingCalculator() {
 
           <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-md border border-blue-200 dark:border-blue-800">
             <p className="text-sm font-medium mb-3 text-blue-800 dark:text-blue-200">
-              Compound Miter Saw Setup
+              Oppsett på gjærsag
             </p>
             <div className="space-y-3 text-sm">
               <div>
-                <p className="font-medium text-blue-700 dark:text-blue-300">Left Piece:</p>
+                <p className="font-medium text-blue-700 dark:text-blue-300">Venstre stykke:</p>
                 <p className="text-muted-foreground">{result.sawSetup.leftPieceInstructions}</p>
               </div>
               <div>
-                <p className="font-medium text-blue-700 dark:text-blue-300">Right Piece:</p>
+                <p className="font-medium text-blue-700 dark:text-blue-300">Høyre stykke:</p>
                 <p className="text-muted-foreground">{result.sawSetup.rightPieceInstructions}</p>
               </div>
             </div>
@@ -194,11 +194,11 @@ export function CrownMoldingCalculator() {
           {result.flatMethod && (
             <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-md border border-amber-200 dark:border-amber-800">
               <p className="text-sm font-medium mb-2 text-amber-800 dark:text-amber-200">
-                Alternative: Flat Cutting Method
+                Alternativ: skjære liggende
               </p>
               <div className="text-sm">
                 <p className="mb-2">
-                  <span className="text-muted-foreground">Miter Angle:</span>{' '}
+                  <span className="text-muted-foreground">Gjæringsvinkel:</span>{' '}
                   <span className="font-medium">{result.flatMethod.formattedMiterAngle}</span>
                 </p>
                 <p className="text-muted-foreground">{result.flatMethod.instructions}</p>
@@ -211,7 +211,7 @@ export function CrownMoldingCalculator() {
       <div className="space-y-4">
         <SelectInput
           id="cornerType"
-          label="Corner Type"
+          label="Hjørnetype"
           value={cornerType}
           onChange={setCornerType}
           options={cornerTypeOptions}
@@ -220,20 +220,20 @@ export function CrownMoldingCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SelectInput
             id="springAnglePreset"
-            label="Crown Molding Type"
+            label="Type taklist"
             value={selectedSpringAngle}
             onChange={handleSpringAngleChange}
             options={springAngleOptions}
           />
           <NumberInput
             id="springAngle"
-            label="Spring Angle"
+            label="Listvinkel"
             value={customSpringAngle}
             onChange={(v) => {
               setCustomSpringAngle(v.toString());
               setSelectedSpringAngle('');
             }}
-            placeholder="degrees"
+            placeholder="grader"
             min={1}
             max={89}
             step={0.5}
@@ -244,20 +244,20 @@ export function CrownMoldingCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SelectInput
             id="cornerAnglePreset"
-            label="Corner Angle Preset"
+            label="Hjørnevinkel (forhåndsvalg)"
             value={selectedCornerAngle}
             onChange={handleCornerAngleChange}
             options={cornerAngleOptions}
           />
           <NumberInput
             id="cornerAngle"
-            label="Corner Angle"
+            label="Hjørnevinkel"
             value={customCornerAngle}
             onChange={(v) => {
               setCustomCornerAngle(v.toString());
               setSelectedCornerAngle('');
             }}
-            placeholder="degrees"
+            placeholder="grader"
             min={1}
             max={179}
             step={0.5}
@@ -266,11 +266,9 @@ export function CrownMoldingCalculator() {
         </div>
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Understanding Spring Angles</p>
+          <p className="text-sm font-medium mb-2">Om listvinkler</p>
           <p className="text-xs text-muted-foreground">
-            The spring angle is the angle between the back of the crown molding and the wall. 
-            Common types are 38/52 (38° spring angle, most common) and 45/45 (45° spring angle). 
-            Check your molding&apos;s packaging or measure the angle to determine which type you have.
+            Listvinkelen er vinkelen mellom baksiden av taklisten og veggen. Vanlige typer er 38/52 (38° listvinkel, vanligst) og 45/45 (45° listvinkel). Se emballasjen eller mål vinkelen.
           </p>
         </div>
       </div>

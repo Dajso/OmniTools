@@ -1,63 +1,50 @@
 import { Metadata } from 'next';
 import { CrownMoldingCalculator } from '@/components/calculators/construction';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
-import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Crown Molding Angle Calculator - Miter & Bevel Angles',
-  description: 'Calculate miter and bevel angles for crown molding cuts. Supports inside and outside corners with compound miter saw setup instructions.',
-  keywords: ['crown molding calculator', 'miter angle calculator', 'bevel angle calculator', 'crown molding cuts', 'compound miter', 'carpentry calculator', 'woodworking'],
+  title: 'Taklist: gjæringsvinkler – gratis kalkulator på nett',
+  description: 'Regn ut gjærings- og skråvinkler for montering av taklister. Gratis og uten registrering.',
+  keywords: ['taklist', 'gjæringsvinkel', 'skråsnitt', 'lister', 'hjørner'],
   alternates: { canonical: '/calculators/construction/crown-molding-calculator' },
+  openGraph: {
+    title: 'Taklist: gjæringsvinkler',
+    description: 'Regn ut gjærings- og skråvinkler for montering av taklister',
+    url: '/calculators/construction/crown-molding-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Crown Molding Angle Calculator',
-  description: 'Calculate miter and bevel angles for crown molding cuts with compound miter saw setup instructions',
+  name: 'Taklist: gjæringsvinkler',
+  description: 'Regn ut gjærings- og skråvinkler for montering av taklister',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select corner type', text: 'Choose whether you are cutting for an inside corner or outside corner.' },
-  { name: 'Choose crown molding type', text: 'Select your crown molding spring angle (38/52 is most common) or enter a custom angle.' },
-  { name: 'Set corner angle', text: 'Select 90° for standard corners or enter a custom angle for non-standard corners.' },
-  { name: 'View results', text: 'See the miter and bevel angles needed for your compound miter saw.' },
-  { name: 'Follow setup instructions', text: 'Use the detailed saw setup instructions for cutting both pieces of the corner.' },
+  { name: 'Velg hjørnetype', text: 'Velg innvendig eller utvendig hjørne, og hjørnevinkelen (90° for et vanlig hjørne).' },
+  { name: 'Oppgi listens vinkel', text: 'Mål hvor mye listen heller mot veggen (spring angle). Vanlige verdier er 38° og 45°.' },
+  { name: 'Les vinklene', text: 'Se gjæringsvinkel (sagbladets sving) og skråvinkel (sagbladets helning).' },
+  { name: 'Sag et prøvestykke', text: 'Prøv først på en bit rest, og juster etter hvordan hjørnet faktisk ser ut.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is a spring angle?', 
-    answer: 'The spring angle is the angle between the back of the crown molding and the wall when installed. Common spring angles are 38° (38/52 crown, most common) and 45° (45/45 crown). You can find this information on the molding packaging or measure it yourself.' 
-  },
-  { 
-    question: 'What is the difference between miter and bevel angles?', 
-    answer: 'The miter angle is the horizontal rotation of the saw blade (left or right), while the bevel angle is the vertical tilt of the blade. Crown molding requires both angles (compound cuts) because it sits at an angle from the wall.' 
-  },
-  { 
-    question: 'What is the flat cutting method?', 
-    answer: 'The flat cutting method involves positioning the crown molding upside down and backwards against the saw fence, with the ceiling edge against the fence and wall edge on the table. This method only requires a miter cut (no bevel) but needs a taller fence to support the molding.' 
-  },
-  { 
-    question: 'Why are inside and outside corners different?', 
-    answer: 'Inside corners (like where two walls meet in a room) and outside corners (like around a column or exterior corner) require the cuts to angle in opposite directions. The calculator adjusts the saw setup instructions accordingly.' 
-  },
-  { 
-    question: 'How do I know if my crown is 38/52 or 45/45?', 
-    answer: 'Check the packaging or place the crown against a framing square. For 38/52 crown, the ceiling projection is larger than the wall projection. For 45/45 crown, both projections are equal. You can also measure the angle with a protractor.' 
-  },
-  { 
-    question: 'What if my corner is not exactly 90 degrees?', 
-    answer: 'Many corners are not perfectly square. Use an angle finder to measure the actual corner angle and enter it in the calculator. Even a few degrees off from 90° will change the required miter and bevel angles.' 
-  },
+  { question: 'Hva er spring angle?', answer: 'Vinkelen mellom baksiden av listen og veggen. Listen står skrått, så den må måles eller leses av på produktet.' },
+  { question: 'Hvordan sager jeg liste som ligger flatt på sagbordet?', answer: 'Bruk innstillingene for liggende liste. Hvis listen står opp mot anlegget, brukes de andre vinklene som vises her.' },
+  { question: 'Hva om hjørnet ikke er 90°?', answer: 'Skriv inn den faktiske hjørnevinkelen. Hjørner i gamle hus er sjelden helt rette, så mål gjerne først.' },
+  { question: 'Må jeg bruke kopiskjøt?', answer: 'Ikke nødvendig, men kopiskjøt i innvendige hjørner gir ofte penere resultat når veggene ikke er rette.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/construction/baluster-calculator', title: 'Baluster Spacing Calculator', description: 'Calculate baluster spacing for code compliance.' },
-  { href: '/calculators/construction/concrete-slab-calculator', title: 'Concrete Slab Calculator', description: 'Calculate concrete volume and rebar needs.' },
+  { href: '/calculators/home/stair-calculator', title: 'Trappekalkulator', description: 'Beregn trappemål: opptrinn, inntrinn og antall trinn' },
+  { href: '/calculators/home/roof-pitch-calculator', title: 'Takvinkelkalkulator', description: 'Beregn takvinkel i grader og prosent' },
 ];
 
 const quickReferenceTable = [
@@ -75,119 +62,77 @@ export default function CrownMoldingCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="crown-molding-calculator"
-          title="Crown Molding Angle Calculator"
-          description="Calculate miter and bevel angles for crown molding cuts. Get precise compound miter saw settings for inside and outside corners."
+          title="Taklist: gjæringsvinkler"
+          description="Finn gjæringsvinkler og sagvinkler for taklister (gesims) i innvendige og utvendige hjørner. Gratis og uten registrering."
           colorClass="bg-amber-100 text-amber-600"
         />
 
-        <section aria-label="Crown Molding Angle Calculator">
+        <section aria-label="Taklist: gjæringsvinkler">
           <CrownMoldingCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Quick Reference: Common Angle Combinations</h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="text-left py-3 px-4 font-medium">Spring</th>
-                      <th className="text-left py-3 px-4 font-medium">Corner</th>
-                      <th className="text-right py-3 px-4 font-medium">Miter</th>
-                      <th className="text-right py-3 px-4 font-medium">Bevel</th>
-                      <th className="text-left py-3 px-4 font-medium hidden sm:table-cell">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {quickReferenceTable.map((item, i) => (
-                      <tr key={i} className="border-b last:border-b-0">
-                        <td className="py-3 px-4 font-medium">{item.spring}°</td>
-                        <td className="py-3 px-4">{item.corner}°</td>
-                        <td className="py-3 px-4 text-right font-mono">{item.miter}</td>
-                        <td className="py-3 px-4 text-right font-mono">{item.bevel}</td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground hidden sm:table-cell">{item.desc}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-xl font-semibold mb-4">Hurtigoppslag: vanlige vinkler</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-3">Liste og hjørne</th>
+                  <th className="text-right py-2 px-3">Gjæring</th>
+                  <th className="text-right py-2 px-3">Skråvinkel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b"><td className="text-left py-2 px-3">38/52-list, 90° hjørne (vanligst)</td><td className="text-right py-2 px-3">31,62°</td><td className="text-right py-2 px-3">33,86°</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">45/45-list, 90° hjørne</td><td className="text-right py-2 px-3">35,26°</td><td className="text-right py-2 px-3">30,00°</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">52/38-list, 90° hjørne</td><td className="text-right py-2 px-3">38,24°</td><td className="text-right py-2 px-3">25,81°</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">38/52-list, 135° hjørne</td><td className="text-right py-2 px-3">14,31°</td><td className="text-right py-2 px-3">46,72°</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">45/45-list, 135° hjørne</td><td className="text-right py-2 px-3">16,32°</td><td className="text-right py-2 px-3">40,79°</td></tr>
+                <tr><td className="text-left py-2 px-3">38/52-list, 45° hjørne</td><td className="text-right py-2 px-3">56,07°</td><td className="text-right py-2 px-3">17,55°</td></tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-muted-foreground mt-2">Vinklene gjelder når listen står skrått mot vegg og tak, slik den sitter montert. Prøv alltid på en restbit først.</p>
+          </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Understanding Crown Molding Cuts</h2>
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div>
-                <h3 className="font-medium mb-2">Why Compound Cuts?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Crown molding sits at an angle between the wall and ceiling, not flat against either surface. 
-                  This angled installation means you need compound cuts (both miter and bevel) to create tight-fitting corners.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium mb-2">The Formulas</h3>
-                <div className="bg-muted/50 p-3 rounded-md space-y-2 font-mono text-sm">
-                  <p>Miter = arctan(sin(spring) ÷ tan(corner/2))</p>
-                  <p>Bevel = arcsin(cos(spring) × sin(corner/2))</p>
-                </div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Where spring is the spring angle and corner is the wall corner angle.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium mb-2">Two Cutting Methods</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-blue-50 dark:bg-blue-950/30 p-3 rounded-md">
-                    <p className="font-medium text-blue-800 dark:text-blue-200 mb-1">Compound Method</p>
-                    <p className="text-xs text-muted-foreground">
-                      Crown lies flat on saw table. Requires both miter and bevel angles. 
-                      Works with any saw that has bevel capability.
-                    </p>
-                  </div>
-                  <div className="bg-amber-50 dark:bg-amber-950/30 p-3 rounded-md">
-                    <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">Flat Method</p>
-                    <p className="text-xs text-muted-foreground">
-                      Crown positioned upside down against fence. Only miter angle needed. 
-                      Requires tall fence to support molding at spring angle.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-xl font-semibold mb-4">Slik fungerer sammensatte kapp</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Hvorfor to vinkler?</h3>
+              <p className="text-sm text-muted-foreground">Taklist står på skrå mellom vegg og tak. Derfor må kappet både svinges (gjæring) og tippes (skråvinkel) for at to lister skal møtes pent i hjørnet.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Gjæring og skråvinkel</h3>
+              <p className="text-sm text-muted-foreground">Gjæringsvinkelen er hvor mye sagbordet svinges. Skråvinkelen er hvor mye sagbladet tippes. Begge avhenger av listens vinkel og hjørnevinkelen.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">To måter å sage på</h3>
+              <p className="text-sm text-muted-foreground">Enten ligger listen flatt på sagbordet og du bruker begge vinklene, eller du setter den opp mot anlegget i monteringsstilling og kapper bare med gjæring.</p>
+            </div>
+          </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Tips for Perfect Crown Molding Corners</h2>
-          <Card>
-            <CardContent className="p-6">
-              <ul className="space-y-3 text-sm">
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">1.</span>
-                  <span><strong>Measure your corners</strong> - Most corners are not exactly 90°. Use an angle finder for accurate measurements.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">2.</span>
-                  <span><strong>Test on scrap first</strong> - Always make test cuts on scrap pieces before cutting your actual molding.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">3.</span>
-                  <span><strong>Mark your pieces</strong> - Label each piece with its position (left/right, inside/outside) to avoid confusion.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">4.</span>
-                  <span><strong>Cut long, trim short</strong> - It&apos;s easier to trim a piece that&apos;s slightly too long than to fix one that&apos;s too short.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">5. </span>
-                  <span><strong>Use coping for inside corners</strong> - Many professionals cope inside corners instead of mitering for a tighter fit.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
+          <h2 className="text-xl font-semibold mb-4">Tips for pene hjørner</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Mål hjørnet</h3>
+              <p className="text-sm text-muted-foreground">Veggene er sjelden helt rette. Mål hjørnevinkelen med en vinkelmåler og skriv den inn i kalkulatoren.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Sag lengre enn nødvendig</h3>
+              <p className="text-sm text-muted-foreground">Kapp listene litt for lange og finjuster med kniv eller høvel til de passer.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Kopiskjøt i innvendige hjørner</h3>
+              <p className="text-sm text-muted-foreground">En kopiskjøt tåler at hjørnet beveger seg bedre enn en ren gjæring, og ser ofte penere ut.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Lim og fyll</h3>
+              <p className="text-sm text-muted-foreground">Bruk monteringslim i skjøtene og akryl i sprekker mot vegg og tak før maling.</p>
+            </div>
+          </div>
         </section>
 
         <HowToSection steps={howToSteps} />

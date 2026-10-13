@@ -19,14 +19,14 @@
  */
 
 /**
- * Maximum allowed gap between balusters per building code (4 inches)
+ * Maximum allowed gap between balusters (TEK17: 100 mm / 10 cm kule)
  */
-export const MAX_BALUSTER_GAP_INCHES = 4;
+export const MAX_BALUSTER_GAP_INCHES = 100 / 25.4; // 100 mm (TEK17)
 
 /**
  * Maximum allowed gap in millimeters
  */
-export const MAX_BALUSTER_GAP_MM = 101.6;
+export const MAX_BALUSTER_GAP_MM = 100;
 
 /**
  * Error class for Baluster calculation errors
@@ -224,7 +224,8 @@ function getUnitAbbreviation(unit: BalusterUnit): string {
  */
 export function formatMeasurement(value: number, unit: BalusterUnit, decimals: number = 2): string {
   const abbrev = getUnitAbbreviation(unit);
-  return `${value.toFixed(decimals)}${abbrev}`;
+  const num = value.toFixed(decimals).replace('.', ',');
+  return abbrev === '"' ? `${num}${abbrev}` : `${num} ${abbrev}`;
 }
 
 /**
@@ -236,7 +237,7 @@ function validateInput(input: BalusterInput): void {
   // Validate total width
   if (input.totalWidth === undefined || input.totalWidth === null) {
     throw new BalusterError(
-      'Total width is required',
+      'Total bredde mangler',
       'invalid_input',
       'totalWidth'
     );
@@ -244,7 +245,7 @@ function validateInput(input: BalusterInput): void {
 
   if (isNaN(input.totalWidth)) {
     throw new BalusterError(
-      'Total width must be a valid number',
+      'Total bredde må være et gyldig tall',
       'invalid_input',
       'totalWidth'
     );
@@ -252,7 +253,7 @@ function validateInput(input: BalusterInput): void {
 
   if (input.totalWidth <= 0) {
     throw new BalusterError(
-      'Total width must be greater than 0',
+      'Total bredde må være større enn 0',
       'out_of_range',
       'totalWidth'
     );
@@ -261,7 +262,7 @@ function validateInput(input: BalusterInput): void {
   // Validate baluster width
   if (input.balusterWidth === undefined || input.balusterWidth === null) {
     throw new BalusterError(
-      'Baluster width is required',
+      'Spilebredde mangler',
       'invalid_input',
       'balusterWidth'
     );
@@ -269,7 +270,7 @@ function validateInput(input: BalusterInput): void {
 
   if (isNaN(input.balusterWidth)) {
     throw new BalusterError(
-      'Baluster width must be a valid number',
+      'Spilebredde må være et gyldig tall',
       'invalid_input',
       'balusterWidth'
     );
@@ -277,7 +278,7 @@ function validateInput(input: BalusterInput): void {
 
   if (input.balusterWidth <= 0) {
     throw new BalusterError(
-      'Baluster width must be greater than 0',
+      'Spilebredde må være større enn 0',
       'out_of_range',
       'balusterWidth'
     );
@@ -286,7 +287,7 @@ function validateInput(input: BalusterInput): void {
   // Validate that baluster width is less than total width
   if (input.balusterWidth >= input.totalWidth) {
     throw new BalusterError(
-      'Baluster width must be less than total width',
+      'Spilebredden må være mindre enn total bredde',
       'out_of_range',
       'balusterWidth'
     );
@@ -296,7 +297,7 @@ function validateInput(input: BalusterInput): void {
   if (input.maxGap !== undefined) {
     if (isNaN(input.maxGap)) {
       throw new BalusterError(
-        'Maximum gap must be a valid number',
+        'Maksimal åpning må være et gyldig tall',
         'invalid_input',
         'maxGap'
       );
@@ -304,7 +305,7 @@ function validateInput(input: BalusterInput): void {
 
     if (input.maxGap <= 0) {
       throw new BalusterError(
-        'Maximum gap must be greater than 0',
+        'Maksimal åpning må være større enn 0',
         'out_of_range',
         'maxGap'
       );
@@ -315,7 +316,7 @@ function validateInput(input: BalusterInput): void {
   if (input.postWidth !== undefined) {
     if (isNaN(input.postWidth)) {
       throw new BalusterError(
-        'Post width must be a valid number',
+        'Stolpebredde må være et gyldig tall',
         'invalid_input',
         'postWidth'
       );
@@ -323,7 +324,7 @@ function validateInput(input: BalusterInput): void {
 
     if (input.postWidth < 0) {
       throw new BalusterError(
-        'Post width cannot be negative',
+        'Stolpebredden kan ikke være negativ',
         'out_of_range',
         'postWidth'
       );
@@ -479,9 +480,9 @@ export function calculateBalusterSpacing(input: BalusterInput): BalusterResult {
   // Generate compliance message
   let complianceMessage: string;
   if (isCodeCompliant) {
-    complianceMessage = `✓ Code compliant: ${formatMeasurement(spacing, unit)} gap is within the ${formatMeasurement(maxAllowedGap, unit)} maximum allowed.`;
+    complianceMessage = `✓ Godkjent: åpningen på ${formatMeasurement(spacing, unit)} er innenfor maksimum ${formatMeasurement(maxAllowedGap, unit)}.`;
   } else {
-    complianceMessage = `✗ NOT code compliant: ${formatMeasurement(spacing, unit)} gap exceeds the ${formatMeasurement(maxAllowedGap, unit)} maximum. Add more balusters.`;
+    complianceMessage = `✗ Ikke godkjent: åpningen på ${formatMeasurement(spacing, unit)} er større enn maksimum ${formatMeasurement(maxAllowedGap, unit)}. Legg til flere spiler.`;
   }
 
   return {
@@ -524,7 +525,7 @@ export function calculateSpacingForBalusterCount(
 
   if (input.numberOfBalusters < 0) {
     throw new BalusterError(
-      'Number of balusters cannot be negative',
+      'Antall spiler kan ikke være negativt',
       'out_of_range',
       'numberOfBalusters'
     );
@@ -564,10 +565,10 @@ export function calculateSpacingForBalusterCount(
   // Generate compliance message
   let complianceMessage: string;
   if (isCodeCompliant) {
-    complianceMessage = `✓ Code compliant: ${formatMeasurement(spacing, unit)} gap is within the ${formatMeasurement(maxAllowedGap, unit)} maximum allowed.`;
+    complianceMessage = `✓ Godkjent: åpningen på ${formatMeasurement(spacing, unit)} er innenfor maksimum ${formatMeasurement(maxAllowedGap, unit)}.`;
   } else {
     const minNeeded = calculateMinimumBalusters(totalWidthInches, balusterWidthInches, maxGapInches);
-    complianceMessage = `✗ NOT code compliant: ${formatMeasurement(spacing, unit)} gap exceeds the ${formatMeasurement(maxAllowedGap, unit)} maximum. Need at least ${minNeeded} balusters.`;
+    complianceMessage = `✗ Ikke godkjent: åpningen på ${formatMeasurement(spacing, unit)} er større enn maksimum ${formatMeasurement(maxAllowedGap, unit)}. Du trenger minst ${minNeeded} spiler.`;
   }
 
   return {
@@ -598,16 +599,14 @@ export function calculateSpacingForBalusterCount(
  * Common baluster width presets
  */
 export const BALUSTER_WIDTH_PRESETS = {
-  /** Standard 1-1/4" square baluster */
-  'standard_1.25': 1.25,
-  /** 2x2 lumber (actual 1.5") */
-  '2x2_lumber': 1.5,
-  /** 1" round metal baluster */
-  'round_1': 1,
-  /** 3/4" square metal baluster */
-  'square_0.75': 0.75,
-  /** 5/8" round metal baluster */
-  'round_0.625': 0.625,
+  /** Firkantspile i tre, 30 mm */
+  'tre_30': 30,
+  /** Firkantspile i tre, 45 mm */
+  'tre_45': 45,
+  /** Rund metallspile, 16 mm */
+  'metall_rund_16': 16,
+  /** Firkantrør i metall, 20 mm */
+  'metall_firkant_20': 20,
 } as const;
 
 /**
@@ -618,8 +617,8 @@ export const BALUSTER_WIDTH_PRESETS = {
  * @returns Array of pre-calculated results for common spans
  */
 export function getBalusterQuickReferenceTable(
-  balusterWidth: number = 1.5,
-  unit: BalusterUnit = 'inches'
+  balusterWidth: number = 40,
+  unit: BalusterUnit = 'mm'
 ): Array<{
   totalWidth: number;
   numberOfBalusters: number;
@@ -627,7 +626,7 @@ export function getBalusterQuickReferenceTable(
   formattedSpacing: string;
   isCodeCompliant: boolean;
 }> {
-  const commonSpans = [24, 30, 36, 42, 48, 60, 72, 84, 96];
+  const commonSpans = [600, 900, 1200, 1500, 1800, 2400, 3000];
 
   return commonSpans.map((span) => {
     const result = calculateBalusterSpacing({

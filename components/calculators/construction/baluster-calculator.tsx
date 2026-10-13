@@ -7,7 +7,6 @@ import { NumberInput } from '@/components/ui/number-input';
 import { SelectInput } from '@/components/ui/select-input';
 import {
   calculateBalusterSpacing,
-  BALUSTER_WIDTH_PRESETS,
   type BalusterResult,
   type BalusterUnit,
 } from '@/lib/calculations/construction/baluster-calculator';
@@ -16,55 +15,38 @@ import {
  * Options for baluster width presets dropdown
  */
 const balusterWidthOptions = [
-  { value: '', label: 'Custom width' },
-  { value: '1.5', label: '2×2 Lumber (1.5" actual) - Most Common' },
-  { value: '1.25', label: 'Standard Square (1.25")' },
-  { value: '1', label: 'Round Metal (1")' },
-  { value: '0.75', label: 'Square Metal (3/4")' },
-  { value: '0.625', label: 'Round Metal (5/8")' },
+  { value: '', label: 'Egendefinert bredde' },
+  { value: '36', label: 'Trespile 36 × 36 mm – vanligst' },
+  { value: '30', label: 'Firkantpile i metall (30 mm)' },
+  { value: '25', label: 'Rundt metallrør (25 mm)' },
+  { value: '20', label: 'Firkantpile i metall (20 mm)' },
+  { value: '16', label: 'Rund pile i metall (16 mm)' },
 ];
 
 /**
- * Options for unit of measurement
- */
-const unitOptions = [
-  { value: 'inches', label: 'Inches' },
-  { value: 'cm', label: 'Centimeters' },
-  { value: 'mm', label: 'Millimeters' },
-];
-
-/**
- * Common railing span presets
+ * Vanlige lengder (mm) mellom stolper
  */
 const spanPresetOptions = [
-  { value: '', label: 'Custom span' },
-  { value: '24', label: '24" (2 feet)' },
-  { value: '30', label: '30" (2.5 feet)' },
-  { value: '36', label: '36" (3 feet)' },
-  { value: '42', label: '42" (3.5 feet)' },
-  { value: '48', label: '48" (4 feet)' },
-  { value: '60', label: '60" (5 feet)' },
-  { value: '72', label: '72" (6 feet)' },
-  { value: '84', label: '84" (7 feet)' },
-  { value: '96', label: '96" (8 feet)' },
+  { value: '', label: 'Egendefinert' },
+  { value: '600', label: '600 mm' },
+  { value: '900', label: '900 mm' },
+  { value: '1200', label: '1 200 mm' },
+  { value: '1500', label: '1 500 mm' },
+  { value: '1800', label: '1 800 mm' },
+  { value: '2400', label: '2 400 mm' },
+  { value: '3000', label: '3 000 mm' },
 ];
 
 /**
- * Baluster Spacing Calculator Component
- * 
- * Calculates the optimal number of balusters and spacing for railings
- * while ensuring compliance with the 4-inch sphere rule (building code
- * requirement that gaps between balusters must not exceed 4 inches).
- * 
- * @see Requirements 32.3, 32.7 - Baluster Spacing Calculator for code compliance
+ * Kalkulator for spiler i rekkverk: antall og mellomrom med største åpning 100 mm (TEK17).
  */
 export function BalusterCalculator() {
   // Input state
-  const [selectedSpanPreset, setSelectedSpanPreset] = React.useState<string>('36');
-  const [customSpan, setCustomSpan] = React.useState<string>('36');
-  const [selectedBalusterWidth, setSelectedBalusterWidth] = React.useState<string>('1.5');
-  const [customBalusterWidth, setCustomBalusterWidth] = React.useState<string>('1.5');
-  const [unit, setUnit] = React.useState<string>('inches');
+  const [selectedSpanPreset, setSelectedSpanPreset] = React.useState<string>('1800');
+  const [customSpan, setCustomSpan] = React.useState<string>('1800');
+  const [selectedBalusterWidth, setSelectedBalusterWidth] = React.useState<string>('36');
+  const [customBalusterWidth, setCustomBalusterWidth] = React.useState<string>('36');
+  const unit = 'mm';
   const [postWidth, setPostWidth] = React.useState<string>('');
   
   // Result state
@@ -112,7 +94,7 @@ export function BalusterCalculator() {
         return;
       }
       if (balusterWidth >= totalWidth) {
-        setError('Baluster width must be less than total span');
+        setError('Spilebredden må være mindre enn total åpning');
         setResult(null);
         return;
       }
@@ -127,7 +109,7 @@ export function BalusterCalculator() {
 
       setResult(res);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResult(null);
     }
   }, [customSpan, customBalusterWidth, unit, postWidth]);
@@ -136,11 +118,10 @@ export function BalusterCalculator() {
    * Reset all inputs to defaults
    */
   const reset = () => {
-    setSelectedSpanPreset('36');
-    setCustomSpan('36');
-    setSelectedBalusterWidth('1.5');
-    setCustomBalusterWidth('1.5');
-    setUnit('inches');
+    setSelectedSpanPreset('1800');
+    setCustomSpan('1800');
+    setSelectedBalusterWidth('36');
+    setCustomBalusterWidth('36');
     setPostWidth('');
     setResult(null);
     setError(undefined);
@@ -154,20 +135,14 @@ export function BalusterCalculator() {
   /**
    * Get unit abbreviation for display
    */
-  const getUnitAbbrev = () => {
-    switch (unit) {
-      case 'mm': return 'mm';
-      case 'cm': return 'cm';
-      default: return '"';
-    }
-  };
+  const getUnitAbbrev = () => ' mm';
 
   return (
     <CalculatorBase
-      title="Baluster Spacing Calculator"
-      description="Calculate baluster spacing for code-compliant railings"
-      formula="Gap = (Total Width - (Balusters × Baluster Width)) / (Balusters + 1)"
-      formulaExplanation="The 4-inch sphere rule (IRC R312.1.3) requires that gaps between balusters must not exceed 4 inches to prevent children from getting their heads stuck."
+      title="Spiler i rekkverk"
+      description="Regn ut avstanden mellom spilene i rekkverket, slik at åpningene holder seg under 100 mm"
+      formula="Åpning = (total bredde − antall spiler × spilebredde) ÷ (antall spiler + 1)"
+      formulaExplanation="TEK17 krever at åpninger i rekkverk ikke er større enn 100 mm (en kule på 10 cm skal ikke gå gjennom), for at barn ikke skal kunne sette seg fast eller falle gjennom. Rekkverk skal også ha riktig høyde, normalt minst 1,0 m. Sjekk gjeldende regler for ditt tiltak."
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -191,13 +166,13 @@ export function BalusterCalculator() {
           {/* Main Results */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ResultDisplay
-              label="Number of Balusters"
+              label="Antall spiler"
               value={result.numberOfBalusters.toString()}
               highlight
               copyable
             />
             <ResultDisplay
-              label="Gap Between Balusters"
+              label="Åpning mellom spiler"
               value={result.formattedSpacing}
               highlight
               copyable
@@ -206,12 +181,12 @@ export function BalusterCalculator() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <ResultDisplay
-              label="Center-to-Center Spacing"
+              label="Senteravstand"
               value={result.formattedCenterToCenter}
               copyable
             />
             <ResultDisplay
-              label="Post-to-Baluster Gap"
+              label="Åpning mot stolpe"
               value={result.formattedPostToBalusterGap}
               copyable
             />
@@ -219,23 +194,23 @@ export function BalusterCalculator() {
 
           {/* Layout Breakdown */}
           <div className="bg-muted/50 p-3 rounded-md">
-            <p className="text-sm font-medium mb-2">Layout Breakdown</p>
+            <p className="text-sm font-medium mb-2">Oppsett</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
-                <span className="text-muted-foreground">Total Span:</span>{' '}
-                <span className="font-medium">{result.totalWidth}{getUnitAbbrev()}</span>
+                <span className="text-muted-foreground">Total åpning:</span>{' '}
+                <span className="font-medium">{result.totalWidth} mm</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Baluster Width:</span>{' '}
-                <span className="font-medium">{result.balusterWidth}{getUnitAbbrev()}</span>
+                <span className="text-muted-foreground">Spilebredde:</span>{' '}
+                <span className="font-medium">{result.balusterWidth} mm</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Total Baluster Width:</span>{' '}
-                <span className="font-medium">{result.layout.totalBalusterWidth.toFixed(2)}{getUnitAbbrev()}</span>
+                <span className="text-muted-foreground">Total bredde på spilene:</span>{' '}
+                <span className="font-medium">{result.layout.totalBalusterWidth.toFixed(0)} mm</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Total Gap Width:</span>{' '}
-                <span className="font-medium">{result.layout.totalGapWidth.toFixed(2)}{getUnitAbbrev()}</span>
+                <span className="text-muted-foreground">Total bredde på åpningene:</span>{' '}
+                <span className="font-medium">{result.layout.totalGapWidth.toFixed(0)} mm</span>
               </div>
             </div>
           </div>
@@ -243,29 +218,29 @@ export function BalusterCalculator() {
           {/* Visual Layout */}
           <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-md border border-blue-200 dark:border-blue-800">
             <p className="text-sm font-medium mb-3 text-blue-800 dark:text-blue-200">
-              Installation Layout
+              Slik monterer du
             </p>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
-                <span className="w-4 h-4 bg-gray-400 rounded-sm" title="Post"></span>
-                <span className="text-muted-foreground">Post</span>
+                <span className="w-4 h-4 bg-gray-400 rounded-sm" title="Stolpe"></span>
+                <span className="text-muted-foreground">Stolpe</span>
                 <span className="mx-2">→</span>
                 <span className="font-mono">{result.formattedPostToBalusterGap}</span>
                 <span className="mx-2">→</span>
-                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Baluster"></span>
-                <span className="text-muted-foreground">First Baluster</span>
+                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Spile"></span>
+                <span className="text-muted-foreground">Første spile</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Baluster"></span>
-                <span className="text-muted-foreground">Baluster</span>
+                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Spile"></span>
+                <span className="text-muted-foreground">Spile</span>
                 <span className="mx-2">→</span>
                 <span className="font-mono">{result.formattedSpacing}</span>
                 <span className="mx-2">→</span>
-                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Baluster"></span>
-                <span className="text-muted-foreground">Next Baluster</span>
+                <span className="w-3 h-4 bg-amber-600 rounded-sm" title="Spile"></span>
+                <span className="text-muted-foreground">Neste spile</span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
-                Repeat {result.numberOfBalusters - 1} times between balusters, then {result.formattedPostToBalusterGap} to the end post.
+                Gjenta {result.numberOfBalusters - 1} ganger mellom spilene, og deretter {result.formattedPostToBalusterGap} til stolpen i andre enden.
               </p>
             </div>
           </div>
@@ -273,87 +248,77 @@ export function BalusterCalculator() {
           {/* Maximum Gap Reference */}
           <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-md border border-amber-200 dark:border-amber-800">
             <p className="text-sm font-medium mb-2 text-amber-800 dark:text-amber-200">
-              4-Inch Sphere Rule (IRC R312.1.3)
+              Maksimal åpning i rekkverk (TEK17)
             </p>
             <p className="text-sm text-muted-foreground">
-              Building codes require that a 4-inch sphere cannot pass through any opening in a guard or railing. 
-              This means the gap between balusters must be less than 4 inches ({result.maxAllowedGap.toFixed(2)}{getUnitAbbrev()} in your selected unit).
+              Det skal ikke være mulig å få en kule på 100 mm gjennom en åpning i rekkverket. Åpningen mellom spilene må derfor være mindre enn 100 mm ({result.maxAllowedGap.toFixed(0)} mm i valgt enhet).
             </p>
           </div>
         </div>
       )}
     >
       <div className="space-y-4">
-        <SelectInput
-          id="unit"
-          label="Unit of Measurement"
-          value={unit}
-          onChange={setUnit}
-          options={unitOptions}
-        />
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SelectInput
             id="spanPreset"
-            label="Common Span Lengths"
+            label="Vanlige lengder"
             value={selectedSpanPreset}
             onChange={handleSpanPresetChange}
             options={spanPresetOptions}
           />
           <NumberInput
             id="totalWidth"
-            label="Total Span (between posts)"
+            label="Total åpning (mellom stolpene)"
             value={customSpan}
             onChange={(v) => {
               setCustomSpan(v.toString());
               setSelectedSpanPreset('');
             }}
-            placeholder={unit}
+            placeholder="mm"
             min={1}
-            step={0.5}
-            unit={getUnitAbbrev()}
+            step={10}
+            unit="mm"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <SelectInput
             id="balusterWidthPreset"
-            label="Baluster Type"
+            label="Type spiler"
             value={selectedBalusterWidth}
             onChange={handleBalusterWidthChange}
             options={balusterWidthOptions}
           />
           <NumberInput
             id="balusterWidth"
-            label="Baluster Width"
+            label="Spilebredde"
             value={customBalusterWidth}
             onChange={(v) => {
               setCustomBalusterWidth(v.toString());
               setSelectedBalusterWidth('');
             }}
-            placeholder={unit}
-            min={0.1}
-            step={0.125}
-            unit={getUnitAbbrev()}
+            placeholder="mm"
+            min={1}
+            step={1}
+            unit="mm"
           />
         </div>
 
         <NumberInput
           id="postWidth"
-          label="Post Width (optional, for reference)"
+          label="Stolpebredde (valgfritt, bare for referanse)"
           value={postWidth}
           onChange={(v) => setPostWidth(v.toString())}
-          placeholder={unit}
+          placeholder="mm"
           min={0}
-          step={0.5}
-          unit={getUnitAbbrev()}
+          step={5}
+          unit="mm"
         />
 
         <div className="bg-muted/50 p-3 rounded-md">
-          <p className="text-sm font-medium mb-2">Measuring Tips</p>
+          <p className="text-sm font-medium mb-2">Måletips</p>
           <p className="text-xs text-muted-foreground">
-            Measure the <strong>clear span</strong> between the inside edges of your posts. 
-            This is the area that will be filled with balusters. Do not include the post widths in this measurement.
+            Mål den <strong>frie åpningen</strong> mellom innsiden av stolpene. Dette er området som skal fylles med spiler. Ikke ta med stolpebredden i målet.
           </p>
         </div>
       </div>

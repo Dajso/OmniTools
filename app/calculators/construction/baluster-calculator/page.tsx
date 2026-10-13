@@ -1,63 +1,50 @@
 import { Metadata } from 'next';
 import { BalusterCalculator } from '@/components/calculators/construction';
 import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
-import { Card, CardContent } from '@/components/ui/card';
 
 export const metadata: Metadata = {
-  title: 'Baluster Spacing Calculator - 4-Inch Sphere Rule Compliance',
-  description: 'Calculate baluster spacing for code-compliant railings. Ensures compliance with the 4-inch sphere rule (IRC R312.1.3) for deck and stair railings.',
-  keywords: ['baluster spacing calculator', 'baluster calculator', '4 inch sphere rule', 'railing code compliance', 'deck railing', 'stair railing', 'IRC R312.1.3', 'baluster gap'],
+  title: 'Spilene i rekkverk – gratis kalkulator på nett',
+  description: 'Regn ut avstand mellom spiler i rekkverk, med maks åpning. Gratis og uten registrering.',
+  keywords: ['rekkverk', 'spiler', 'spileavstand', 'rekkverkshøyde', 'TEK17'],
   alternates: { canonical: '/calculators/construction/baluster-calculator' },
+  openGraph: {
+    title: 'Spilene i rekkverk',
+    description: 'Regn ut avstand mellom spiler i rekkverk, med maks åpning',
+    url: '/calculators/construction/baluster-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Baluster Spacing Calculator',
-  description: 'Calculate baluster spacing for code-compliant railings with 4-inch sphere rule compliance',
+  name: 'Spilene i rekkverk',
+  description: 'Regn ut avstand mellom spiler i rekkverk, med maks åpning',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Measure the span', text: 'Measure the clear distance between the inside edges of your posts. This is the area to fill with balusters.' },
-  { name: 'Select baluster type', text: 'Choose your baluster width from common presets (2×2 lumber, metal balusters) or enter a custom width.' },
-  { name: 'Choose units', text: 'Select your preferred unit of measurement (inches, centimeters, or millimeters).' },
-  { name: 'View results', text: 'See the number of balusters needed and the spacing between them.' },
-  { name: 'Verify compliance', text: 'Check that the calculated gap is within the 4-inch maximum for code compliance.' },
+  { name: 'Mål rekkverket', text: 'Oppgi lengden mellom stolpene i millimeter.' },
+  { name: 'Oppgi spilens bredde', text: 'Skriv inn bredden på hver spile, eller tykkelsen hvis den er rund.' },
+  { name: 'Sett største åpning', text: 'Standard er 100 mm, som er grensen i byggteknisk forskrift (TEK17) for rekkverk der barn ferdes.' },
+  { name: 'Les resultatet', text: 'Se antall spiler, nøyaktig mellomrom og om rekkverket tilfredsstiller kravet.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is the 4-inch sphere rule?', 
-    answer: 'The 4-inch sphere rule (IRC R312.1.3) is a building code requirement that states a 4-inch diameter sphere cannot pass through any opening in a guard or railing. This is designed to prevent children from getting their heads stuck between balusters. The gap between balusters must be less than 4 inches.' 
-  },
-  { 
-    question: 'What is the difference between gap and center-to-center spacing?', 
-    answer: 'The gap (or clear spacing) is the actual open space between balusters - this is what the building code measures. Center-to-center spacing is the distance from the center of one baluster to the center of the next, which includes half of each baluster\'s width. For installation, center-to-center is often easier to mark.' 
-  },
-  { 
-    question: 'How do I measure the span between posts?', 
-    answer: 'Measure from the inside edge of one post to the inside edge of the other post. This is the clear opening that will be filled with balusters. Do not include the post widths in this measurement.' 
-  },
-  { 
-    question: 'What size balusters should I use?', 
-    answer: 'The most common baluster sizes are 2×2 lumber (1.5" actual) for wood railings and 3/4" to 1" for metal balusters. Larger balusters require fewer pieces but may look bulkier. Smaller balusters create a more open feel but require more pieces.' 
-  },
-  { 
-    question: 'Does the 4-inch rule apply to all railings?', 
-    answer: 'The 4-inch sphere rule applies to guards and railings in residential construction under the International Residential Code (IRC). Commercial buildings may have different requirements. Always check your local building codes as they may be more restrictive.' 
-  },
-  { 
-    question: 'What about the spacing at the ends near the posts?', 
-    answer: 'The gap between the posts and the first/last balusters must also comply with the 4-inch rule. This calculator ensures even spacing throughout, including the end gaps, so all openings are code-compliant.' 
-  },
+  { question: 'Hva er største åpning i et rekkverk?', answer: 'I Norge skal åpninger i rekkverk ikke være større enn 100 mm der barn kan oppholde seg. Sjekk gjeldende TEK17 og eventuelle lokale krav.' },
+  { question: 'Hvor høyt skal rekkverket være?', answer: 'Normalt minst 1,0 m. Ved lav fallhøyde kan kravet være lavere. Sjekk TEK17 for ditt tilfelle.' },
+  { question: 'Må spilene stå loddrett?', answer: 'Nei, men horisontale elementer kan gi barn mulighet til å klatre og er derfor ikke anbefalt der barn ferdes.' },
+  { question: 'Hva er forskjellen på senteravstand og mellomrom?', answer: 'Mellomrommet er den frie åpningen mellom to spiler. Senteravstanden er mellomrommet pluss spilens bredde.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/construction/crown-molding-calculator', title: 'Crown Molding Calculator', description: 'Calculate miter and bevel angles for crown molding.' },
-  { href: '/calculators/construction/concrete-slab-calculator', title: 'Concrete Slab Calculator', description: 'Calculate concrete volume and rebar needs.' },
+  { href: '/calculators/home/decking-calculator', title: 'Terrassekalkulator', description: 'Beregn materialer til terrasse: terrassebord, bjelker og skruer' },
+  { href: '/calculators/home/stair-calculator', title: 'Trappekalkulator', description: 'Beregn trappemål: opptrinn, inntrinn og antall trinn' },
 ];
 
 const quickReferenceTable = [
@@ -78,156 +65,78 @@ export default function BalusterCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="baluster-calculator"
-          title="Baluster Spacing Calculator"
-          description="Calculate the optimal number of balusters and spacing for code-compliant railings. Ensures compliance with the 4-inch sphere rule (IRC R312.1.3)."
+          title="Spilene i rekkverk"
+          description="Regn ut antall spiler og mellomrom i rekkverk, med maks åpning på 100 mm etter TEK17. Gratis og uten registrering."
           colorClass="bg-amber-100 text-amber-600"
         />
 
-        <section aria-label="Baluster Spacing Calculator">
+        <section aria-label="Spilene i rekkverk">
           <BalusterCalculator />
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Quick Reference: Common Spans (1.5&quot; Balusters)</h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="text-left py-3 px-4 font-medium">Span</th>
-                      <th className="text-right py-3 px-4 font-medium">Balusters</th>
-                      <th className="text-right py-3 px-4 font-medium">Gap</th>
-                      <th className="text-center py-3 px-4 font-medium">Compliant</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {quickReferenceTable.map((item, i) => (
-                      <tr key={i} className="border-b last:border-b-0">
-                        <td className="py-3 px-4 font-medium">{item.span}&quot;</td>
-                        <td className="py-3 px-4 text-right">{item.balusters}</td>
-                        <td className="py-3 px-4 text-right font-mono">{item.gap}</td>
-                        <td className="py-3 px-4 text-center">
-                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                            item.compliant 
-                              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
-                              : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-                          }`}>
-                            {item.compliant ? '✓ Yes' : '✗ No'}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-          <p className="text-sm text-muted-foreground mt-2">
-            * Based on 1.5&quot; (2×2 lumber) balusters with 4&quot; maximum gap
-          </p>
+          <h2 className="text-xl font-semibold mb-4">Hurtigoppslag: vanlige lengder (spile 40 mm)</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-3">Lengde mellom stolper</th>
+                  <th className="text-right py-2 px-3">Antall spiler</th>
+                  <th className="text-right py-2 px-3">Mellomrom</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b"><td className="text-left py-2 px-3">600 mm</td><td className="text-right py-2 px-3">4</td><td className="text-right py-2 px-3">88,0 mm</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">900 mm</td><td className="text-right py-2 px-3">7</td><td className="text-right py-2 px-3">77,5 mm</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">1 200 mm</td><td className="text-right py-2 px-3">8</td><td className="text-right py-2 px-3">97,8 mm</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">1 500 mm</td><td className="text-right py-2 px-3">11</td><td className="text-right py-2 px-3">88,3 mm</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">1 800 mm</td><td className="text-right py-2 px-3">13</td><td className="text-right py-2 px-3">91,4 mm</td></tr>
+                <tr className="border-b"><td className="text-left py-2 px-3">2 400 mm</td><td className="text-right py-2 px-3">18</td><td className="text-right py-2 px-3">88,4 mm</td></tr>
+                <tr><td className="text-left py-2 px-3">3 000 mm</td><td className="text-right py-2 px-3">22</td><td className="text-right py-2 px-3">92,2 mm</td></tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-muted-foreground mt-2">Mellomrommet er fri åpning mellom spilene og skal ikke overstige 100 mm. Tallene er avrundet.</p>
+          </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Understanding the 4-Inch Sphere Rule</h2>
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div>
-                <h3 className="font-medium mb-2">Why 4 Inches?</h3>
-                <p className="text-sm text-muted-foreground">
-                  The 4-inch sphere rule is based on the average head size of young children. 
-                  By ensuring that a 4-inch sphere cannot pass through any opening, the code prevents 
-                  children from getting their heads stuck between balusters, which could lead to 
-                  strangulation or injury.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium mb-2">The Formula</h3>
-                <div className="bg-muted/50 p-3 rounded-md space-y-2 font-mono text-sm">
-                  <p>Minimum Balusters = ⌈(Span - Max Gap) ÷ (Baluster Width + Max Gap)⌉</p>
-                  <p>Actual Gap = (Span - (Balusters × Width)) ÷ (Balusters + 1)</p>
-                </div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Where Max Gap is 4 inches per building code.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium mb-2">Code References</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-blue-50 dark:bg-blue-950/30 p-3 rounded-md">
-                    <p className="font-medium text-blue-800 dark:text-blue-200 mb-1">IRC R312.1.3</p>
-                    <p className="text-xs text-muted-foreground">
-                      International Residential Code section covering guard openings. 
-                      Requires that openings shall not allow passage of a sphere 4 inches in diameter.
-                    </p>
-                  </div>
-                  <div className="bg-amber-50 dark:bg-amber-950/30 p-3 rounded-md">
-                    <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">Local Codes</p>
-                    <p className="text-xs text-muted-foreground">
-                      Some jurisdictions have stricter requirements. Always verify with your 
-                      local building department before construction.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-xl font-semibold mb-4">Kravet til åpninger i rekkverk</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">100 mm-regelen</h3>
+              <p className="text-sm text-muted-foreground">Byggteknisk forskrift (TEK17) setter 100 mm som største åpning i rekkverk der barn ferdes, slik at et barn ikke kan komme gjennom eller sette fast hodet.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Formelen</h3>
+              <p className="text-sm text-muted-foreground">Antall spiler n må oppfylle (lengde − n × spilebredde) ÷ (n + 1) ≤ 100 mm. Kalkulatoren finner minste n og fordeler mellomrommene jevnt.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Høyde og andre krav</h3>
+              <p className="text-sm text-muted-foreground">Rekkverket skal normalt være minst 1,0 m høyt, og det er egne krav til styrke og til klatremuligheter. Sjekk TEK17 og kommunens krav for ditt tilfelle.</p>
+            </div>
+          </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Installation Tips</h2>
-          <Card>
-            <CardContent className="p-6">
-              <ul className="space-y-3 text-sm">
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">1.</span>
-                  <span><strong>Mark center-to-center</strong> - It&apos;s easier to mark baluster positions using center-to-center spacing rather than measuring each gap.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">2.</span>
-                  <span><strong>Start from one end</strong> - Begin marking from one post and work your way across. Any small accumulated error will be at the far end.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">3.</span>
-                  <span><strong>Use a spacer jig</strong> - Cut a piece of scrap wood to the exact gap width and use it as a spacer between balusters during installation.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">4.</span>
-                  <span><strong>Check plumb</strong> - Use a level to ensure each baluster is perfectly vertical before securing.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-amber-600 font-bold">5.</span>
-                  <span><strong>Pre-drill holes</strong> - To prevent splitting, especially with wood balusters, pre-drill holes for screws or nails.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Common Baluster Types</h2>
-          <Card>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-medium mb-2">Wood Balusters</h3>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• <strong>2×2 Lumber:</strong> 1.5&quot; actual width, most common for decks</li>
-                    <li>• <strong>Turned Balusters:</strong> Decorative, typically 1.25&quot; - 1.5&quot;</li>
-                    <li>• <strong>Square Balusters:</strong> Clean look, various sizes</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-medium mb-2">Metal Balusters</h3>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• <strong>Round:</strong> 5/8&quot; to 1&quot; diameter</li>
-                    <li>• <strong>Square:</strong> 1/2&quot; to 3/4&quot; typical</li>
-                    <li>• <strong>Decorative:</strong> Scrolls, baskets, various widths</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-xl font-semibold mb-4">Tips til monteringen</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Planlegg fra midten</h3>
+              <p className="text-sm text-muted-foreground">Start fra midten og legg ut spilene symmetrisk, slik at mellomrommene ser like ut fra begge sider.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Bruk en avstandsklosse</h3>
+              <p className="text-sm text-muted-foreground">Lag en klosse som er like bred som mellomrommet, så får du jevn avstand uten å måle hver gang.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Mål etterpå</h3>
+              <p className="text-sm text-muted-foreground">Kontrollmål den største åpningen når rekkverket er ferdig, også nederst ved håndlist og bunnrekke.</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium mb-2">Valg av materiale</h3>
+              <p className="text-sm text-muted-foreground">Tre er rimelig og lett å bearbeide, men trenger vedlikehold utendørs. Metallspiler holder lenge og kan være slankere.</p>
+            </div>
+          </div>
         </section>
 
         <HowToSection steps={howToSteps} />
