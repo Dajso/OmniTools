@@ -15,17 +15,15 @@ export interface AlcoholDilutionInput {
 
 export interface AlcoholDilutionResult {
     waterToAddMl: number;
-    waterToAddOz: number;
     finalVolumeMl: number;
-    finalVolumeOz: number;
 }
 
 export function calculateAlcoholDilution(input: AlcoholDilutionInput): AlcoholDilutionResult {
     const { volumeMl, currentABV, targetABV } = input;
 
-    if (volumeMl <= 0) throw new Error('Volume must be positive');
-    if (currentABV <= 0 || currentABV > 100) throw new Error('Current ABV must be 1-100%');
-    if (targetABV <= 0 || targetABV >= currentABV) throw new Error('Target ABV must be less than current ABV');
+    if (volumeMl <= 0) throw new Error('Volumet må være større enn null');
+    if (currentABV <= 0 || currentABV > 100) throw new Error('Nåværende alkoholstyrke må være mellom 1 og 100 %');
+    if (targetABV <= 0 || targetABV >= currentABV) throw new Error('Ønsket styrke må være lavere enn nåværende styrke');
 
     // Pure alcohol volume stays constant
     // V1 × ABV1 = V2 × ABV2
@@ -35,8 +33,6 @@ export function calculateAlcoholDilution(input: AlcoholDilutionInput): AlcoholDi
 
     return {
         waterToAddMl: Math.round(waterToAddMl * 10) / 10,
-        waterToAddOz: Math.round((waterToAddMl / 29.5735) * 10) / 10,
         finalVolumeMl: Math.round(finalVolumeMl * 10) / 10,
-        finalVolumeOz: Math.round((finalVolumeMl / 29.5735) * 10) / 10,
     };
 }

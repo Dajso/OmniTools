@@ -26,14 +26,14 @@ export interface YeastConversionResult {
 }
 
 const LABELS: Record<YeastType, string> = {
-    'fresh': 'Fresh Yeast',
-    'active-dry': 'Active Dry Yeast',
-    'instant': 'Instant Yeast',
+    'fresh': 'Fersk gjær',
+    'active-dry': 'Tørrgjær',
+    'instant': 'Hurtiggjær (instant)',
 };
 
 export function calculateYeastConversion(input: YeastConversionInput): YeastConversionResult {
     const { amount, fromType, toType } = input;
-    if (amount <= 0) throw new Error('Amount must be positive');
+    if (amount <= 0) throw new Error('Mengden må være større enn null');
 
     // Convert to fresh first, then to target
     const freshEquivalent = amount / RATIOS[fromType];

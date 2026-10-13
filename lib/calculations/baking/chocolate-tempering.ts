@@ -1,6 +1,6 @@
 /**
- * Chocolate Tempering Temperatures
- * Quick reference for tempering curves by chocolate type.
+ * Temperering av sjokolade
+ * Hurtigoversikt over temperaturkurver for ulike sjokoladetyper.
  * @module lib/calculations/baking/chocolate-tempering
  */
 
@@ -9,30 +9,30 @@ export type ChocolateType = 'dark' | 'milk' | 'white';
 export interface TemperingCurve {
     type: ChocolateType;
     label: string;
-    /** Melt to (°C / °F) */
-    meltC: number; meltF: number;
-    /** Cool to (°C / °F) */
-    coolC: number; coolF: number;
-    /** Reheat to working temp (°C / °F) */
-    workC: number; workF: number;
+    /** Smelt til (°C) */
+    meltC: number;
+    /** Avkjøl til (°C) */
+    coolC: number;
+    /** Varm opp til arbeidstemperatur (°C) */
+    workC: number;
     tips: string;
 }
 
 const CURVES: Record<ChocolateType, TemperingCurve> = {
     dark: {
-        type: 'dark', label: 'Dark Chocolate (55-70%)',
-        meltC: 50, meltF: 122, coolC: 27, coolF: 81, workC: 32, workF: 90,
-        tips: 'Form V crystals give a glossy finish and clean snap. Avoid exceeding 55°C.',
+        type: 'dark', label: 'Mørk sjokolade (55–70 %)',
+        meltC: 50, coolC: 27, workC: 32,
+        tips: 'Form V-krystaller gir blank overflate og god knekk. Ikke varm over 55 °C.',
     },
     milk: {
-        type: 'milk', label: 'Milk Chocolate',
-        meltC: 45, meltF: 113, coolC: 26, coolF: 79, workC: 30, workF: 86,
-        tips: 'Milk solids make this more sensitive to heat. Stir continuously while cooling.',
+        type: 'milk', label: 'Melkesjokolade',
+        meltC: 45, coolC: 26, workC: 30,
+        tips: 'Melkesjokolade tåler mindre varme. Rør jevnt mens den kjøles.',
     },
     white: {
-        type: 'white', label: 'White Chocolate',
-        meltC: 40, meltF: 104, coolC: 25, coolF: 77, workC: 28, workF: 82,
-        tips: 'Most heat-sensitive. Use a double boiler and never let water touch the chocolate.',
+        type: 'white', label: 'Hvit sjokolade',
+        meltC: 40, coolC: 25, workC: 28,
+        tips: 'Mest varmefølsom. Bruk vannbad, og la aldri vann komme i kontakt med sjokoladen.',
     },
 };
 

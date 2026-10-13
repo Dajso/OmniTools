@@ -23,38 +23,38 @@ export function SourdoughHydrationCalculator() {
                 starterHydration: parseFloat(starterHydration), additionalFlourG: parseFloat(additionalFlour),
             });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Feil'); setResult(null); }
     }, [flour, water, starter, starterHydration, additionalFlour]);
 
     const reset = () => { setFlour('500'); setWater('325'); setStarter('100'); setStarterHydration('100'); setAdditionalFlour('0'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Sourdough Hydration Calculator" description="Calculate total dough hydration"
-            formula="Hydration = Total Water / Total Flour × 100" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Hydrering i surdeig" description="Regn ut total hydrering i deigen"
+            formula="Hydrering = total vannmengde ÷ total melmengde × 100" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
-                    <ResultDisplay label="Hydration" value={`${result.hydrationPercent}%`} copyable />
+                    <ResultDisplay label="Hydrering" value={`${result.hydrationPercent}%`} copyable />
                     <div className="grid grid-cols-2 gap-4">
-                        <ResultDisplay label="Total Flour" value={`${result.totalFlour}g`} />
-                        <ResultDisplay label="Total Water" value={`${result.totalWater}g`} />
-                        <ResultDisplay label="Starter → Flour" value={`${result.starterFlour}g`} />
-                        <ResultDisplay label="Starter → Water" value={`${result.starterWater}g`} />
+                        <ResultDisplay label="Total melvekt" value={`${result.totalFlour}g`} />
+                        <ResultDisplay label="Total vannmengde" value={`${result.totalWater}g`} />
+                        <ResultDisplay label="Surdeigsstarter → mel" value={`${result.starterFlour}g`} />
+                        <ResultDisplay label="Surdeigsstarter → vann" value={`${result.starterWater}g`} />
                     </div>
-                    <ResultDisplay label="Total Dough" value={`${result.totalDoughWeight}g`} />
+                    <ResultDisplay label="Total deigvekt" value={`${result.totalDoughWeight}g`} />
                 </div>
             )}
         >
             <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <NumberInput id="flour" label="Flour (g)" value={flour} onChange={(v) => setFlour(String(v))} min={0} step={10} />
-                    <NumberInput id="water" label="Water (g)" value={water} onChange={(v) => setWater(String(v))} min={0} step={10} />
+                    <NumberInput id="flour" label="Mel (g)" value={flour} onChange={(v) => setFlour(String(v))} min={0} step={10} />
+                    <NumberInput id="water" label="Vann (g)" value={water} onChange={(v) => setWater(String(v))} min={0} step={10} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <NumberInput id="starter" label="Starter (g)" value={starter} onChange={(v) => setStarter(String(v))} min={0} step={10} />
-                    <NumberInput id="starter-hydration" label="Starter Hydration (%)" value={starterHydration} onChange={(v) => setStarterHydration(String(v))} min={50} max={200} step={5} />
+                    <NumberInput id="starter" label="Surdeigsstarter (g)" value={starter} onChange={(v) => setStarter(String(v))} min={0} step={10} />
+                    <NumberInput id="starter-hydration" label="Hydrering i starteren (%)" value={starterHydration} onChange={(v) => setStarterHydration(String(v))} min={50} max={200} step={5} />
                 </div>
-                <NumberInput id="additional-flour" label="Additional Flour (whole wheat, rye, etc.) (g)" value={additionalFlour} onChange={(v) => setAdditionalFlour(String(v))} min={0} step={10} />
+                <NumberInput id="additional-flour" label="Ekstra mel (grovt, rug osv.) (g)" value={additionalFlour} onChange={(v) => setAdditionalFlour(String(v))} min={0} step={10} />
             </div>
         </CalculatorBase>
     );

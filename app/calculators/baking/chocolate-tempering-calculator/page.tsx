@@ -1,53 +1,67 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { ChocolateTemperingCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Chocolate Tempering Calculator - Temperature Guide',
-    description: 'Get precise tempering temperatures for dark, milk, and white chocolate. Achieve perfect snap and glossy finish every time.',
-    keywords: ['chocolate tempering', 'tempering temperatures', 'chocolate melting point', 'chocolate crystals', 'couverture'],
-    alternates: { canonical: '/calculators/baking/chocolate-tempering-calculator' },
+  title: 'Temperering av sjokolade – gratis kalkulator på nett',
+  description: 'Temperaturer for temperering av mørk, melke- og hvit sjokolade. Gratis og uten registrering.',
+  keywords: ['temperere sjokolade', 'mørk sjokolade', 'melkesjokolade', 'hvit sjokolade'],
+  alternates: { canonical: '/calculators/baking/chocolate-tempering-calculator' },
+  openGraph: {
+    title: 'Temperering av sjokolade',
+    description: 'Temperaturer for temperering av mørk, melke- og hvit sjokolade',
+    url: '/calculators/baking/chocolate-tempering-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Chocolate Tempering Calculator', description: 'Get precise tempering temperatures for chocolate.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Temperering av sjokolade',
+  description: 'Temperaturer for temperering av mørk, melke- og hvit sjokolade',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Select chocolate type', text: 'Choose dark, milk, or white chocolate.' },
-    { name: 'See temperature stages', text: 'View the melt, cool, and working temperatures for your chocolate type.' },
-    { name: 'Enter amount', text: 'Input how much chocolate you are tempering for technique recommendations.' },
-    { name: 'Follow the process', text: 'Melt to target, cool to working temp, then use immediately for coating or molding.' },
+  { name: 'Velg sjokoladetype', text: 'Mørk, melke eller hvit.' },
+  { name: 'Følg temperaturene', text: 'Smelt, kjøl ned og varm opp igjen til arbeidstemperatur.' },
 ];
 
 const faqs = [
-    { question: 'What temperature to temper dark chocolate?', answer: 'Melt to 122-131°F (50-55°C), cool to 82°F (28°C), then reheat to working temp 88-90°F (31-32°C).' },
-    { question: 'Why does chocolate need tempering?', answer: 'Tempering aligns cocoa butter crystals into a stable form (Form V), giving chocolate a glossy sheen, clean snap, and smooth texture.' },
-    { question: 'Can I temper chocolate in a microwave?', answer: 'Yes. Microwave in 15-second bursts, stirring between each. Use a thermometer to hit the right temperatures.' },
-    { question: 'How do I know if chocolate is in temper?', answer: 'Dip a knife tip in the chocolate. If it sets within 3-5 minutes at room temp with a glossy finish, it is properly tempered.' },
+  { question: 'Hvorfor tempererer man sjokolade?', answer: 'Riktig temperering gir blank overflate, god knekk og gjør at sjokoladen ikke får grå flekker.' },
+  { question: 'Hvordan vet jeg at sjokoladen er tempert?', answer: 'Dypp en kniv i sjokoladen. Den skal stivne blank og jevn i løpet av noen minutter ved romtemperatur.' },
+  { question: 'Må jeg bruke termometer?', answer: 'Ja, et digitalt kjøkkentermometer gir best resultat.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/bakers-percentage-calculator', title: "Baker's Percentage", description: 'Scale chocolate recipes.' },
-    { href: '/calculators/baking/unit-cost-per-serving', title: 'Cost Per Serving', description: 'Calculate ingredient costs.' },
-    { href: '/calculators/baking/egg-size-converter', title: 'Egg Size Converter', description: 'Convert between egg sizes.' },
+  { href: '/calculators/baking/brine-calculator', title: 'Lakeberegner', description: 'Regn ut riktig forhold mellom salt og vann i lake til kjøtt og fisk' },
 ];
 
 export default function ChocolateTemperingPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="chocolate-tempering-calculator" title="Chocolate Tempering Calculator"
-                    description="Get precise tempering temperatures for chocolate." category="Baking & Food Science" />
-                <section aria-label="Chocolate Tempering Calculator"><ChocolateTemperingCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="chocolate-tempering-calculator"
+          title="Temperering av sjokolade"
+          description="Se temperaturene for temperering av mørk, melke- og hvit sjokolade. Gratis og uten registrering."
+        />
+
+        <section aria-label="Temperering av sjokolade">
+          <ChocolateTemperingCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

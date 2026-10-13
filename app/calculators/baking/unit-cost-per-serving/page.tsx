@@ -1,53 +1,68 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { UnitCostPerServingCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Cost Per Serving Calculator - Recipe Cost Analysis',
-    description: 'Calculate the cost per serving for any recipe. Break down ingredient costs and find ways to save on your food budget.',
-    keywords: ['cost per serving', 'recipe cost calculator', 'food cost analysis', 'meal cost calculator', 'ingredient cost'],
-    alternates: { canonical: '/calculators/baking/unit-cost-per-serving' },
+  title: 'Kostnad per porsjon – gratis kalkulator på nett',
+  description: 'Regn ut hva en porsjon koster ut fra råvarepriser og antall porsjoner. Gratis og uten registrering.',
+  keywords: ['kostnad per porsjon', 'matkostnad', 'oppskrift', 'råvarepris', 'måltid'],
+  alternates: { canonical: '/calculators/baking/unit-cost-per-serving' },
+  openGraph: {
+    title: 'Kostnad per porsjon',
+    description: 'Regn ut hva en porsjon koster ut fra råvarepriser og antall porsjoner',
+    url: '/calculators/baking/unit-cost-per-serving',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Cost Per Serving Calculator', description: 'Calculate the cost per serving for any recipe.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Kostnad per porsjon',
+  description: 'Regn ut hva en porsjon koster ut fra råvarepriser og antall porsjoner',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'List ingredients', text: 'Add each ingredient with the store price and package size.' },
-    { name: 'Enter amounts used', text: 'Specify how much of each ingredient your recipe uses.' },
-    { name: 'Set number of servings', text: 'Enter how many servings your recipe makes.' },
-    { name: 'See cost breakdown', text: 'View total recipe cost, cost per serving, and individual ingredient costs.' },
+  { name: 'Legg inn ingrediensene', text: 'Skriv inn navn og pris i kroner for mengden du bruker.' },
+  { name: 'Oppgi antall porsjoner', text: 'Hvor mange porsjoner oppskriften gir.' },
+  { name: 'Sett margin', text: 'Oppgi ønsket påslag hvis du skal selge. Husk at MVA kommer på toppen.' },
 ];
 
 const faqs = [
-    { question: 'How do I calculate food cost per serving?', answer: 'Add up the cost of all ingredients used (not the whole package, just the portion used). Divide by the number of servings. Our calculator does this automatically.' },
-    { question: 'What is a good cost per serving for home cooking?', answer: '$2-4 per serving is typical for home-cooked meals in the US. Vegetarian meals can be under $1.50. Meat-heavy dishes may exceed $5.' },
-    { question: 'Should I include spices and oil in the cost?', answer: 'Yes, though the per-recipe cost for spices and oil is usually very small. Include them for accuracy, especially for recipe pricing.' },
-    { question: 'How does this compare to eating out?', answer: 'Restaurant meals typically cost 3-5× more than home-cooked equivalents. Even with ingredient waste, cooking at home saves significantly.' },
+  { question: 'Hvordan regnes kostnaden ut?', answer: 'Alle ingrediensprisene summeres og deles på antall porsjoner.' },
+  { question: 'Er MVA med?', answer: 'Nei. Mat som selges i Norge har normalt 15 % MVA, mens servering har 25 %. Legg til dette etter at du har satt prisen.' },
+  { question: 'Hva bør jeg ta med i regnestykket?', answer: 'Ta med emballasje, strøm og din egen tid hvis du skal selge produktet.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/bakers-percentage-calculator', title: "Baker's Percentage", description: 'Scale recipe ingredients.' },
-    { href: '/calculators/baking/egg-size-converter', title: 'Egg Size Converter', description: 'Substitute egg sizes.' },
-    { href: '/calculators/baking/cake-pan-converter', title: 'Cake Pan Converter', description: 'Convert between pan sizes.' },
+  { href: '/calculators/baking/bakers-percentage-calculator', title: 'Bakerprosent', description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde' },
 ];
 
 export default function UnitCostPerServingPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="unit-cost-per-serving" title="Cost Per Serving Calculator"
-                    description="Calculate the cost per serving for any recipe." category="Baking & Food Science" />
-                <section aria-label="Cost Per Serving Calculator"><UnitCostPerServingCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="unit-cost-per-serving"
+          title="Kostnad per porsjon"
+          description="Regn ut hva en porsjon koster ut fra råvarepriser, og sett en salgspris med ønsket margin. Gratis og uten registrering."
+        />
+
+        <section aria-label="Kostnad per porsjon">
+          <UnitCostPerServingCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

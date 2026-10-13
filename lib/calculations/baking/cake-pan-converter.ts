@@ -1,6 +1,6 @@
 /**
- * Cake Pan Converter
- * Area-based scaling between pan shapes and sizes.
+ * Kakeform-omregner
+ * Arealbasert skalering mellom former og størrelser (cm).
  * @module lib/calculations/baking/cake-pan-converter
  */
 
@@ -8,9 +8,9 @@ export type PanShape = 'round' | 'square' | 'rectangle';
 
 export interface PanSpec {
     shape: PanShape;
-    /** inches */
+    /** cm */
     width: number;
-    /** inches (only for rectangle) */
+    /** cm (kun for rektangel) */
     length?: number;
 }
 
@@ -32,14 +32,14 @@ function panArea(pan: PanSpec): number {
 export function calculateCakePanConversion(original: PanSpec, target: PanSpec): CakePanResult {
     const originalArea = panArea(original);
     const targetArea = panArea(target);
-    if (originalArea <= 0 || targetArea <= 0) throw new Error('Pan dimensions must be positive');
+    if (originalArea <= 0 || targetArea <= 0) throw new Error('Formens mål må være større enn null');
 
     const scaleFactor = targetArea / originalArea;
 
     const scaleStr = scaleFactor.toFixed(2);
     const explanation = scaleFactor > 1
-        ? `Multiply all ingredients by ${scaleStr} (target pan is ${Math.round((scaleFactor - 1) * 100)}% larger).`
-        : `Multiply all ingredients by ${scaleStr} (target pan is ${Math.round((1 - scaleFactor) * 100)}% smaller).`;
+        ? `Gang alle ingredienser med ${scaleStr.replace('.', ',')} (formen du har er ${Math.round((scaleFactor - 1) * 100)} % større).`
+        : `Gang alle ingredienser med ${scaleStr.replace('.', ',')} (formen du har er ${Math.round((1 - scaleFactor) * 100)} % mindre).`;
 
     return {
         originalArea: Math.round(originalArea * 100) / 100,

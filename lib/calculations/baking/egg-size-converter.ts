@@ -1,25 +1,23 @@
 /**
- * Egg Size Converter
+ * Eggstørrelse (norske størrelser S, M, L og XL)
  * @module lib/calculations/baking/egg-size-converter
  */
 
-export type EggSize = 'jumbo' | 'extra-large' | 'large' | 'medium' | 'small';
+export type EggSize = 'extra-large' | 'large' | 'medium' | 'small';
 
-/** Average weight per egg in grams (without shell) */
+/** Gjennomsnittlig vekt av spiselig innhold per egg i gram (uten skall) */
 const EGG_WEIGHTS: Record<EggSize, number> = {
-    'jumbo': 63,
-    'extra-large': 56,
-    'large': 50,
-    'medium': 44,
-    'small': 38,
+    'extra-large': 69,
+    'large': 60,
+    'medium': 51,
+    'small': 42,
 };
 
 const EGG_LABELS: Record<EggSize, string> = {
-    'jumbo': 'Jumbo',
-    'extra-large': 'Extra Large',
-    'large': 'Large',
-    'medium': 'Medium',
-    'small': 'Small',
+    'extra-large': 'XL',
+    'large': 'L',
+    'medium': 'M',
+    'small': 'S',
 };
 
 export interface EggSizeConversionInput {
@@ -38,13 +36,13 @@ export interface EggSizeConversionResult {
 
 export function calculateEggConversion(input: EggSizeConversionInput): EggSizeConversionResult {
     const { recipeCount, recipeSize, availableSize } = input;
-    if (recipeCount <= 0) throw new Error('Egg count must be positive');
+    if (recipeCount <= 0) throw new Error('Antall egg må være større enn null');
 
     const recipeWeightG = recipeCount * EGG_WEIGHTS[recipeSize];
     const eggsNeeded = recipeWeightG / EGG_WEIGHTS[availableSize];
     const eggsRounded = Math.round(eggsNeeded);
 
-    const explanation = `${recipeCount} ${EGG_LABELS[recipeSize]} egg(s) = ${recipeWeightG}g total. Use ${eggsRounded} ${EGG_LABELS[availableSize]} egg(s) (${eggsRounded * EGG_WEIGHTS[availableSize]}g).`;
+    const explanation = `${recipeCount} egg i størrelse ${EGG_LABELS[recipeSize]} veier ${recipeWeightG} g til sammen. Bruk ${eggsRounded} egg i størrelse ${EGG_LABELS[availableSize]} (${eggsRounded * EGG_WEIGHTS[availableSize]} g).`;
 
     return {
         eggsNeeded: Math.round(eggsNeeded * 100) / 100,

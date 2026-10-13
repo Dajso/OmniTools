@@ -24,7 +24,7 @@ export interface UnitCostResult {
 export function calculateUnitCost(input: UnitCostInput): UnitCostResult {
     const { ingredients, servings, targetMarginPercent } = input;
 
-    if (servings <= 0) throw new Error('Servings must be positive');
+    if (servings <= 0) throw new Error('Antall porsjoner må være større enn null');
 
     const totalCost = ingredients.reduce((s, i) => s + i.cost, 0);
     const costPerServing = totalCost / servings;

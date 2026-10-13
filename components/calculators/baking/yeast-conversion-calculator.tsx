@@ -8,7 +8,7 @@ import { SelectInput } from '@/components/ui/select-input';
 import { calculateYeastConversion, type YeastType, type YeastConversionResult } from '@/lib/calculations/baking/yeast-conversion';
 
 const YEAST_OPTIONS = [
-    { value: 'fresh', label: 'Fresh Yeast' }, { value: 'active-dry', label: 'Active Dry Yeast' }, { value: 'instant', label: 'Instant Yeast' },
+    { value: 'fresh', label: 'Fersk gjær' }, { value: 'active-dry', label: 'Tørrgjær' }, { value: 'instant', label: 'Hurtiggjær (instant)' },
 ];
 
 export function YeastConversionCalculator() {
@@ -23,15 +23,15 @@ export function YeastConversionCalculator() {
             setError(undefined);
             const res = calculateYeastConversion({ amount: parseFloat(amount), fromType: fromType as YeastType, toType: toType as YeastType });
             setResult(res);
-        } catch (err) { setError(err instanceof Error ? err.message : 'Error'); setResult(null); }
+        } catch (err) { setError(err instanceof Error ? err.message : 'Feil'); setResult(null); }
     }, [amount, fromType, toType]);
 
     const reset = () => { setAmount('42'); setFromType('fresh'); setToType('instant'); setResult(null); setError(undefined); };
     React.useEffect(() => { calculate(); }, [calculate]);
 
     return (
-        <CalculatorBase title="Yeast Conversion Calculator" description="Convert between yeast types"
-            formula="Fresh × 0.4 = Active Dry × 0.83 = Instant" onCalculate={calculate} onReset={reset} error={error}
+        <CalculatorBase title="Gjærkalkulator" description="Regn om mellom fersk gjær, tørrgjær og hurtiggjær"
+            formula="Fersk × 0,4 = tørrgjær × 0,83 = hurtiggjær" onCalculate={calculate} onReset={reset} error={error}
             results={result && (
                 <div className="space-y-4">
                     <ResultDisplay label={`${result.toLabel}`} value={`${result.result}g`} copyable />
@@ -42,10 +42,10 @@ export function YeastConversionCalculator() {
             )}
         >
             <div className="space-y-4">
-                <NumberInput id="amount" label="Amount (g)" value={amount} onChange={(v) => setAmount(String(v))} min={0.1} step={1} />
+                <NumberInput id="amount" label="Mengde (g)" value={amount} onChange={(v) => setAmount(String(v))} min={0.1} step={1} />
                 <div className="grid grid-cols-2 gap-4">
-                    <SelectInput id="from-type" label="From" value={fromType} onChange={setFromType} options={YEAST_OPTIONS} />
-                    <SelectInput id="to-type" label="To" value={toType} onChange={setToType} options={YEAST_OPTIONS} />
+                    <SelectInput id="from-type" label="Fra" value={fromType} onChange={setFromType} options={YEAST_OPTIONS} />
+                    <SelectInput id="to-type" label="Til" value={toType} onChange={setToType} options={YEAST_OPTIONS} />
                 </div>
             </div>
         </CalculatorBase>

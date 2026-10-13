@@ -1,53 +1,69 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { EggSizeConverterCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Egg Size Converter - Substitute Different Egg Sizes',
-    description: 'Convert between egg sizes for baking recipes. Calculate how many small, medium, large, or extra-large eggs to substitute.',
-    keywords: ['egg size converter', 'egg substitution chart', 'egg sizes baking', 'how many eggs', 'large eggs to medium'],
-    alternates: { canonical: '/calculators/baking/egg-size-converter' },
+  title: 'Eggstørrelse – gratis kalkulator på nett',
+  description: 'Regn om mellom eggstørrelser (S, M, L, XL) i oppskrifter. Gratis og uten registrering.',
+  keywords: ['eggstørrelse', 'egg', 'eggvekt', 'erstatte egg'],
+  alternates: { canonical: '/calculators/baking/egg-size-converter' },
+  openGraph: {
+    title: 'Eggstørrelse',
+    description: 'Regn om mellom eggstørrelser (S, M, L, XL) i oppskrifter',
+    url: '/calculators/baking/egg-size-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Egg Size Converter', description: 'Convert between egg sizes for baking.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Eggstørrelse',
+  description: 'Regn om mellom eggstørrelser (S, M, L, XL) i oppskrifter',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Select recipe egg size', text: 'Choose the egg size your recipe calls for (usually Large in US recipes).' },
-    { name: 'Enter quantity', text: 'Input how many eggs the recipe requires.' },
-    { name: 'Select your egg size', text: 'Choose the egg size you have available.' },
-    { name: 'Get the substitution', text: 'See how many of your eggs to use and any volume adjustment needed.' },
+  { name: 'Velg størrelsen oppskriften bruker', text: 'Norske egg selges som S, M, L og XL.' },
+  { name: 'Oppgi antall egg', text: 'Skriv inn hvor mange egg oppskriften krever.' },
+  { name: 'Velg størrelsen du har', text: 'Se hvor mange egg du trenger av den størrelsen.' },
 ];
 
 const faqs = [
-    { question: 'What size eggs do most recipes use?', answer: 'Most US recipes assume Large eggs (~50g / 1.75 oz each without shell). Always check the recipe, especially for baking.' },
-    { question: 'How many medium eggs equal one large?', answer: 'About 1.1 medium eggs per large egg. For 3 large eggs, use 4 medium eggs.' },
-    { question: 'Does egg size really matter in baking?', answer: 'Yes, especially in custards, soufflés, and cakes where liquid ratios are critical. For cookies and muffins, small differences are usually fine.' },
-    { question: 'What is the weight of each egg size?', answer: 'Small: 42g, Medium: 49g, Large: 56g, Extra Large: 63g, Jumbo: 70g (approximate weights with shell).' },
+  { question: 'Hva veier et egg?', answer: 'Størrelse M veier 53–63 g, L veier 63–73 g og XL er over 73 g. S er under 53 g. Kalkulatoren bruker typisk vekt på innholdet uten skall.' },
+  { question: 'Hvilken størrelse bruker de fleste oppskrifter?', answer: 'Vanligvis M eller L.' },
+  { question: 'Hva gjør jeg med halve egg?', answer: 'Pisk egget og vei opp mengden i gram.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/bakers-percentage-calculator', title: "Baker's Percentage", description: 'Scale complete recipes.' },
-    { href: '/calculators/baking/cake-pan-converter', title: 'Cake Pan Converter', description: 'Convert between pan sizes.' },
-    { href: '/calculators/baking/unit-cost-per-serving', title: 'Cost Per Serving', description: 'Calculate recipe costs.' },
+  { href: '/calculators/baking/cake-pan-converter', title: 'Kakeform: omregner', description: 'Regn om oppskrifter mellom ulike former og størrelser, for eksempel springform i cm' },
+  { href: '/calculators/baking/bakers-percentage-calculator', title: 'Bakerprosent', description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde' },
 ];
 
 export default function EggSizeConverterPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="egg-size-converter" title="Egg Size Converter"
-                    description="Convert between egg sizes for baking." category="Baking & Food Science" />
-                <section aria-label="Egg Size Converter"><EggSizeConverterCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="egg-size-converter"
+          title="Eggstørrelse"
+          description="Regn om mellom eggstørrelser (S, M, L og XL) i oppskrifter. Gratis og uten registrering."
+        />
+
+        <section aria-label="Eggstørrelse">
+          <EggSizeConverterCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

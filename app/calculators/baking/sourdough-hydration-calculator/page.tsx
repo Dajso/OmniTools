@@ -1,53 +1,69 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { SourdoughHydrationCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Sourdough Hydration Calculator - Dough Hydration Percentage',
-    description: 'Calculate total sourdough hydration percentage including starter contribution. Account for whole wheat, rye, and other flour blends.',
-    keywords: ['sourdough hydration calculator', 'dough hydration', 'bakers hydration', 'sourdough starter hydration', 'bread hydration'],
-    alternates: { canonical: '/calculators/baking/sourdough-hydration-calculator' },
+  title: 'Surdeig: hydrering – gratis kalkulator på nett',
+  description: 'Regn ut hydrering i surdeigsbrød, med surdeigsstarter, grovt mel og rug. Gratis og uten registrering.',
+  keywords: ['surdeig', 'hydrering', 'mel og vann', 'surdeigsbrød', 'rug'],
+  alternates: { canonical: '/calculators/baking/sourdough-hydration-calculator' },
+  openGraph: {
+    title: 'Surdeig: hydrering',
+    description: 'Regn ut hydrering i surdeigsbrød, med surdeigsstarter, grovt mel og rug',
+    url: '/calculators/baking/sourdough-hydration-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Sourdough Hydration Calculator', description: 'Calculate total dough hydration including starter.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Surdeig: hydrering',
+  description: 'Regn ut hydrering i surdeigsbrød, med surdeigsstarter, grovt mel og rug',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter flour weight', text: 'Input total flour weight in grams (not including flour in starter).' },
-    { name: 'Enter water weight', text: 'Input the water weight in grams (not including water in starter).' },
-    { name: 'Enter starter amount', text: 'Input starter weight and its hydration percentage (commonly 100%).' },
-    { name: 'Get total hydration', text: 'See the overall dough hydration accounting for flour and water in the starter.' },
+  { name: 'Oppgi mel og vann', text: 'Skriv inn gram mel og vann i selve deigen.' },
+  { name: 'Legg til starteren', text: 'Oppgi hvor mye starter du bruker og hvor våt den er. En 100 % starter består av like deler mel og vann.' },
+  { name: 'Les hydreringen', text: 'Kalkulatoren regner med mel og vann fra starteren også, slik at du får den reelle prosenten.' },
 ];
 
 const faqs = [
-    { question: 'What is sourdough hydration?', answer: 'Hydration is the ratio of water to flour in dough, expressed as a percentage. 70% hydration means 700g water per 1000g flour.' },
-    { question: 'What hydration should my sourdough be?', answer: '65-70% for beginners (easier to handle). 75-85% for open crumb artisan loaves. Higher hydration requires more skill.' },
-    { question: 'Does starter hydration matter?', answer: 'Yes. A 100% hydration starter contributes equal parts flour and water. A stiff starter (60%) adds more flour, affecting final dough hydration.' },
-    { question: 'What is the best hydration for open crumb?', answer: '78-85% hydration with strong flour and proper fermentation produces an open, airy crumb structure.' },
+  { question: 'Hva er hydrering?', answer: 'Det er mengden vann i forhold til mel, målt i prosent. 700 g vann til 1 000 g mel gir 70 % hydrering.' },
+  { question: 'Hvilken hydrering passer for meg?', answer: '65–70 % er greit å jobbe med. 75–80 % gir åpnere krumme, men en klissete deig. Grovt mel og rug trekker mer vann.' },
+  { question: 'Skal starteren regnes med?', answer: 'Ja. En starter med 100 % hydrering er halvt mel og halvt vann, og begge deler påvirker deigen.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/bakers-percentage-calculator', title: "Baker's Percentage Calculator", description: 'Scale recipes using baker\'s percentages.' },
-    { href: '/calculators/baking/yeast-conversion-calculator', title: 'Yeast Conversion', description: 'Convert between yeast types.' },
-    { href: '/calculators/baking/cake-pan-converter', title: 'Cake Pan Converter', description: 'Scale recipes for different pan sizes.' },
+  { href: '/calculators/baking/bakers-percentage-calculator', title: 'Bakerprosent', description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde' },
+  { href: '/calculators/baking/yeast-conversion-calculator', title: 'Gjær: omregner', description: 'Regn om mellom fersk gjær, tørrgjær og instant gjær' },
 ];
 
 export default function SourdoughHydrationPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="sourdough-hydration-calculator" title="Sourdough Hydration Calculator"
-                    description="Calculate total dough hydration including starter contribution." category="Baking & Food Science" />
-                <section aria-label="Sourdough Hydration Calculator"><SourdoughHydrationCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="sourdough-hydration-calculator"
+          title="Surdeig: hydrering"
+          description="Regn ut hydreringen i surdeigsbrødet ditt, med hensyn til vann og mel i starteren. Gratis og uten registrering."
+        />
+
+        <section aria-label="Surdeig: hydrering">
+          <SourdoughHydrationCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

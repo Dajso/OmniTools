@@ -1,52 +1,68 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { BrineCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Brine Calculator - Salt to Water Ratio for Meat & Poultry',
-    description: 'Calculate the perfect brine ratio for turkey, chicken, pork, and more. Get salt and water amounts for wet and dry brining.',
-    keywords: ['brine calculator', 'brine ratio', 'turkey brine', 'salt water ratio', 'wet brine recipe', 'dry brine'],
-    alternates: { canonical: '/calculators/baking/brine-calculator' },
+  title: 'Lakeberegner – gratis kalkulator på nett',
+  description: 'Regn ut riktig forhold mellom salt og vann i lake til kjøtt og fisk. Gratis og uten registrering.',
+  keywords: ['lake', 'saltlake', 'lakekjøtt', 'saltmengde', 'salting'],
+  alternates: { canonical: '/calculators/baking/brine-calculator' },
+  openGraph: {
+    title: 'Lakeberegner',
+    description: 'Regn ut riktig forhold mellom salt og vann i lake til kjøtt og fisk',
+    url: '/calculators/baking/brine-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: 'Brine Calculator', description: 'Calculate the perfect brine ratio for meat and poultry.',
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Lakeberegner',
+  description: 'Regn ut riktig forhold mellom salt og vann i lake til kjøtt og fisk',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter meat weight', text: 'Input the weight of the meat you want to brine.' },
-    { name: 'Select brine type', text: 'Choose between wet brine (saltwater) or dry brine (salt rub).' },
-    { name: 'Choose concentration', text: 'Select standard (5-6%) or strong (8-10%) brine concentration.' },
-    { name: 'Get your recipe', text: 'See exact amounts of salt, water, sugar, and brining time.' },
+  { name: 'Oppgi vannmengde', text: 'Skriv inn antall liter vann.' },
+  { name: 'Velg saltprosent', text: 'Vanlige laker ligger mellom 5 og 10 %.' },
+  { name: 'Les resultatet', text: 'Se hvor mange gram salt du trenger.' },
 ];
 
 const faqs = [
-    { question: 'What is the ratio for brine?', answer: 'A standard wet brine is about 1 cup (240g) salt per gallon of water (roughly 6% concentration). Use kosher or sea salt, not table salt.' },
-    { question: 'How long should I brine a turkey?', answer: '12-24 hours for a wet brine, 24-48 hours for a dry brine. Do not exceed recommended times or the meat becomes too salty.' },
-    { question: 'Wet brine vs dry brine?', answer: 'Dry brining produces crispier skin and takes less space. Wet brining adds moisture and flavor more deeply. Both produce juicier meat.' },
-    { question: 'Can I brine too long?', answer: 'Yes. Over-brining makes meat mushy and overly salty. Follow recommended times: 1 hour per pound for chicken, 12-24 hours for turkey.' },
+  { question: 'Hvor mye salt trengs per liter?', answer: 'En lake på 5 % betyr 50 g salt per liter vann.' },
+  { question: 'Hvor lenge skal maten ligge i lake?', answer: 'Det varierer. Fisk trenger gjerne 15–30 minutter i svak lake, mens kjøtt kan ligge i flere timer.' },
+  { question: 'Hvilket salt bør jeg bruke?', answer: 'Bruk vanlig bordsalt eller flingesalt som er uten tilsetninger, og vei det heller enn å måle i spiseskjeer.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/unit-cost-per-serving', title: 'Cost Per Serving', description: 'Calculate ingredient costs.' },
-    { href: '/calculators/baking/alcohol-dilution-calculator', title: 'Alcohol Dilution', description: 'Dilute spirits to desired proof.' },
+  { href: '/calculators/baking/unit-cost-per-serving', title: 'Kostnad per porsjon', description: 'Regn ut hva en porsjon koster ut fra råvarepriser og antall porsjoner' },
 ];
 
 export default function BrineCalculatorPage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="brine-calculator" title="Brine Calculator"
-                    description="Calculate the perfect brine ratio for meat and poultry." category="Baking & Food Science" />
-                <section aria-label="Brine Calculator"><BrineCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="brine-calculator"
+          title="Lakeberegner"
+          description="Regn ut hvor mye salt du trenger i lake til kjøtt og fisk. Gratis og uten registrering."
+        />
+
+        <section aria-label="Lakeberegner">
+          <BrineCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

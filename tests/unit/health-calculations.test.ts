@@ -72,7 +72,7 @@ describe('Helse: tempo', () => {
   });
 
   it('regner distanse', () => {
-    const r = calculatePace({ calculationType: 'distance', hours: 1, paceMinutes: 6, paceSeconds: 0, paceUnit: 'min/km' });
+    const r = calculatePace({ calculationType: 'distance', distanceUnit: 'km', hours: 1, paceMinutes: 6, paceSeconds: 0, paceUnit: 'min/km' });
     expect(r.distance.km).toBe(10);
   });
 });

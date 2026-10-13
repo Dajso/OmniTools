@@ -30,7 +30,7 @@ export interface SourdoughHydrationResult {
 export function calculateSourdoughHydration(input: SourdoughHydrationInput): SourdoughHydrationResult {
     const { flourG, waterG, starterG, starterHydration, additionalFlourG } = input;
 
-    if (flourG < 0 || waterG < 0 || starterG < 0) throw new Error('Values must be non-negative');
+    if (flourG < 0 || waterG < 0 || starterG < 0) throw new Error('Verdiene kan ikke være negative');
 
     // Starter breakdown: starter = starterFlour + starterWater
     // starterHydration = starterWater / starterFlour × 100
@@ -41,7 +41,7 @@ export function calculateSourdoughHydration(input: SourdoughHydrationInput): Sou
     const totalFlour = flourG + additionalFlourG + starterFlour;
     const totalWater = waterG + starterWater;
 
-    if (totalFlour <= 0) throw new Error('Total flour must be positive');
+    if (totalFlour <= 0) throw new Error('Total melmengde må være større enn null');
 
     const hydrationPercent = (totalWater / totalFlour) * 100;
     const totalDoughWeight = totalFlour + totalWater;

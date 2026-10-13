@@ -1,53 +1,69 @@
 import { Metadata } from 'next';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
 import { BakersPercentageCalculator } from '@/components/calculators/baking';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: "Baker's Percentage Calculator - Recipe Scaling Tool",
-    description: "Calculate baker's percentages and scale bread recipes up or down. Convert any recipe to baker's math for consistent results.",
-    keywords: ["baker's percentage", 'bread recipe scaling', "baker's math", 'flour percentage calculator', 'recipe scaling'],
-    alternates: { canonical: '/calculators/baking/bakers-percentage-calculator' },
+  title: 'Bakerprosent – gratis kalkulator på nett',
+  description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde. Gratis og uten registrering.',
+  keywords: ['bakerprosent', 'mel', 'skalere oppskrift', 'brødformel'],
+  alternates: { canonical: '/calculators/baking/bakers-percentage-calculator' },
+  openGraph: {
+    title: 'Bakerprosent',
+    description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde',
+    url: '/calculators/baking/bakers-percentage-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
-    '@context': 'https://schema.org', '@type': 'WebApplication',
-    name: "Baker's Percentage Calculator", description: "Scale recipes using baker's percentages.",
-    applicationCategory: 'UtilityApplication', operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Bakerprosent',
+  description: 'Gjør oppskriften om til bakerprosent med mel som 100 % og skaler til ønsket mengde',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-    { name: 'Enter ingredients', text: 'List your recipe ingredients and their weights in grams.' },
-    { name: 'Set flour as 100%', text: "Total flour is always 100% in baker's math. All other ingredients are relative to flour." },
-    { name: "See baker's percentages", text: 'View each ingredient as a percentage of total flour weight.' },
-    { name: 'Scale the recipe', text: 'Change the flour amount to scale the entire recipe proportionally.' },
+  { name: 'Legg inn ingrediensene', text: 'Skriv inn navn og vekt i gram for hver ingrediens.' },
+  { name: 'Marker melet', text: 'Melet er alltid 100 %. Er det flere melsorter, utgjør de til sammen 100 %.' },
+  { name: 'Skaler oppskriften', text: 'Oppgi ønsket mengde mel, så regnes alle de andre ingrediensene om.' },
 ];
 
 const faqs = [
-    { question: "What is baker's percentage?", answer: "Baker's percentage expresses each ingredient as a percentage of total flour weight. If flour is 1000g and water is 700g, water is 70%. This makes scaling easy." },
-    { question: "Why use baker's percentage instead of regular percentages?", answer: "Regular percentages add to 100% total. Baker's percentages reference only flour, so they can exceed 100% when summed but make scaling simple." },
-    { question: 'How do I scale a bread recipe?', answer: "Convert to baker's percentages, then multiply all percentages by your new flour weight. Example: 70% water with 500g flour = 350g water." },
-    { question: 'What percentage of salt should bread have?', answer: "Standard bread uses 1.8-2.2% salt (baker's percentage). So for 1000g flour, use 18-22g salt. This affects flavor and fermentation speed." },
+  { question: 'Hva er bakerprosent?', answer: 'Hver ingrediens oppgis i prosent av melvekten. Da er det enkelt å sammenligne og skalere oppskrifter.' },
+  { question: 'Hvorfor er mel alltid 100 %?', answer: 'Mel er utgangspunktet. Vann, salt og gjær regnes i forhold til det, så 2 % salt betyr 20 g per kilo mel.' },
+  { question: 'Hva er vanlig saltmengde?', answer: 'Vanligvis 1,8–2,2 % av melvekten.' },
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/sourdough-hydration-calculator', title: 'Sourdough Hydration', description: 'Calculate dough hydration.' },
-    { href: '/calculators/baking/yeast-conversion-calculator', title: 'Yeast Conversion', description: 'Convert between yeast types.' },
-    { href: '/calculators/baking/unit-cost-per-serving', title: 'Cost Per Serving', description: 'Calculate recipe costs.' },
+  { href: '/calculators/baking/sourdough-hydration-calculator', title: 'Surdeig: hydrering', description: 'Regn ut hydrering i surdeigsbrød, med surdeigsstarter, grovt mel og rug' },
+  { href: '/calculators/baking/cake-pan-converter', title: 'Kakeform: omregner', description: 'Regn om oppskrifter mellom ulike former og størrelser, for eksempel springform i cm' },
 ];
 
 export default function BakersPercentagePage() {
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            <main className="container mx-auto px-4 py-8 max-w-4xl">
-                <ToolPageHeader toolId="bakers-percentage-calculator" title="Baker's Percentage Calculator"
-                    description="Scale recipes using baker's percentages." category="Baking & Food Science" />
-                <section aria-label="Baker's Percentage Calculator"><BakersPercentageCalculator /></section>
-                <HowToSection steps={howToSteps} />
-                <FAQSection faqs={faqs} />
-                <RelatedToolsSection tools={relatedTools} />
-            </main>
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="bakers-percentage-calculator"
+          title="Bakerprosent"
+          description="Gjør oppskriften om til bakerprosent og skaler den til ønsket mengde. Gratis og uten registrering."
+        />
+
+        <section aria-label="Bakerprosent">
+          <BakersPercentageCalculator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

@@ -22,7 +22,7 @@ export function calculateBakersPercentage(
     targetFlourG?: number
 ): BakersPercentageResult {
     const totalFlour = ingredients.filter(i => i.isFlour).reduce((s, i) => s + i.weightG, 0);
-    if (totalFlour <= 0) throw new Error('Total flour weight must be positive');
+    if (totalFlour <= 0) throw new Error('Total melvekt må være større enn null');
 
     const withPercentage = ingredients.map(i => ({
         ...i,

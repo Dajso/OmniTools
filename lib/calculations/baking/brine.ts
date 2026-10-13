@@ -1,50 +1,43 @@
 /**
- * Brine Calculator
+ * Saltlakekalkulator
  * @module lib/calculations/baking/brine
  */
 
 export interface BrineInput {
-    /** Water volume in cups */
-    waterCups: number;
-    /** Salt percentage by weight (typical 3-10%) */
+    /** Vannmengde i liter */
+    waterLiters: number;
+    /** Saltprosent av vekten (vanlig 3–10 %) */
     saltPercent: number;
 }
 
 export interface BrineResult {
-    waterOz: number;
     waterMl: number;
-    saltOz: number;
     saltG: number;
     saltTbsp: number;
     concentration: string;
 }
 
 export function calculateBrine(input: BrineInput): BrineResult {
-    const { waterCups, saltPercent } = input;
-    if (waterCups <= 0) throw new Error('Water volume must be positive');
-    if (saltPercent <= 0 || saltPercent > 26) throw new Error('Salt percent must be 1–26%');
+    const { waterLiters, saltPercent } = input;
+    if (!(waterLiters > 0)) throw new Error('Vannmengden må være større enn null');
+    if (saltPercent <= 0 || saltPercent > 26) throw new Error('Saltprosenten må være mellom 1 og 26 %');
 
-    // 1 cup water = 8 oz = ~236.6 mL = ~236.6 g
-    const waterMl = waterCups * 236.6;
-    const waterOz = waterCups * 8;
-    const waterG = waterMl; // water density ≈ 1 g/mL
+    const waterMl = waterLiters * 1000;
+    const waterG = waterMl; // vann: ca. 1 g per ml
 
     // salt weight = water weight × (percent / (100 - percent)) for true % by weight
     const saltG = waterG * (saltPercent / (100 - saltPercent));
-    const saltOz = saltG / 28.35;
-    // 1 Tbsp table salt ≈ 18g
+    // 1 ss bordsalt ≈ 18 g
     const saltTbsp = saltG / 18;
 
     let concentration: string;
-    if (saltPercent <= 3) concentration = 'Light brine — poultry, pork chops';
-    else if (saltPercent <= 6) concentration = 'Medium brine — whole chickens, ribs';
-    else if (saltPercent <= 10) concentration = 'Heavy brine — corned beef, pickles';
-    else concentration = 'Very heavy — fermentation, preservation';
+    if (saltPercent <= 3) concentration = 'Lett lake: fjærkre, svinekoteletter';
+    else if (saltPercent <= 6) concentration = 'Middels lake: hel kylling, ribbe';
+    else if (saltPercent <= 10) concentration = 'Sterk lake: spekemat, pickles, gravlaks';
+    else concentration = 'Svært sterk: fermentering og konservering';
 
     return {
-        waterOz: Math.round(waterOz * 10) / 10,
         waterMl: Math.round(waterMl),
-        saltOz: Math.round(saltOz * 10) / 10,
         saltG: Math.round(saltG),
         saltTbsp: Math.round(saltTbsp * 10) / 10,
         concentration,
