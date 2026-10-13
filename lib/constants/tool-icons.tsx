@@ -156,7 +156,6 @@ import {
   Cable,
   Egg,
   Candy,
-  Beef,
   PartyPopper,
   Tent,
   HandCoins,
