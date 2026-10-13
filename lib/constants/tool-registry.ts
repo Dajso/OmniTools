@@ -1887,7 +1887,7 @@ export const toolRegistry: Record<string, ToolDefinition> = {
     description: 'Regn ut sideforhold og dimensjoner for video og bilder',
     category: 'photo',
     keywords: ['sideforhold', 'videoformat', '16:9', 'oppløsning'],
-    path: '/calculators/photo/photo-aspect-ratio-calculator',
+    path: '/calculators/photo/aspect-ratio-calculator',
     icon: 'Maximize',
     relatedTools: ['bitrate-calculator', 'printing-size-calculator', 'timelapse-calculator'],
   },

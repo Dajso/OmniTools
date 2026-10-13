@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { NDFilterCalculator } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'ND Filter Calculator - Neutral Density Exposure Calculator',
-  description: 'Calculate exposure adjustments when using ND filters. Find the correct shutter speed for long exposure photography with any ND filter strength.',
-  keywords: ['ND filter calculator', 'neutral density', 'long exposure', 'shutter speed calculator', 'exposure calculator'],
+  title: 'ND-filter – gratis kalkulator på nett',
+  description: 'Regn ut lukkertid ved bruk av ND-filter. Gratis og uten registrering.',
+  keywords: ['ND-filter', 'gråfilter', 'lang eksponering', 'lukkertid'],
   alternates: { canonical: '/calculators/photo/nd-filter-calculator' },
+  openGraph: {
+    title: 'ND-filter',
+    description: 'Regn ut lukkertid ved bruk av ND-filter',
+    url: '/calculators/photo/nd-filter-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'ND Filter Calculator',
-  description: 'Calculate exposure adjustments for neutral density filters',
+  name: 'ND-filter',
+  description: 'Regn ut lukkertid ved bruk av ND-filter',
   applicationCategory: 'PhotographyApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Meter without filter', text: 'Take a light reading without the ND filter attached.' },
-  { name: 'Enter base shutter speed', text: 'Input the shutter speed from your meter reading.' },
-  { name: 'Select your ND filter', text: 'Choose your filter strength (stops or ND number).' },
-  { name: 'Use new shutter speed', text: 'Set your camera to the calculated shutter speed.' },
+  { name: 'Oppgi lukkertid uten filter', text: 'Velg en vanlig lukkertid eller skriv inn selv.' },
+  { name: 'Velg ND-filter', text: 'Fra ND2 til ND100000.' },
+  { name: 'Les av ny lukkertid', text: 'Se også blendertrinn og filterfaktor.' },
+  { name: 'Bruk tipsene', text: 'Stativ og fjernutløser gir best resultat.' },
 ];
 
 const faqs = [
-  {
-    question: 'What do ND filter numbers mean?',
-    answer: 'ND filters use different numbering systems. ND8 means 3 stops (filter factor 8), ND 0.9 means 3 stops (optical density 0.9). Each stop doubles the exposure time. ND1000 (10 stops) is popular for daytime long exposures.',
-  },
-  {
-    question: 'Which ND filter should I buy first?',
-    answer: 'A 6-stop (ND64) or 10-stop (ND1000) filter is most versatile. 6 stops allows 1-2 second exposures in daylight, while 10 stops enables 30+ second exposures for silky water and cloud streaks.',
-  },
-  {
-    question: 'Can I stack ND filters?',
-    answer: 'Yes, stacking filters adds their stops together. An ND8 (3 stops) plus ND64 (6 stops) equals 9 stops total. However, stacking can cause vignetting and reduce image quality.',
-  },
-  {
-    question: 'Why are my long exposures too bright/dark?',
-    answer: 'Light can change during long exposures, and some ND filters have color casts. Bracket your exposures and check your histogram. Very long exposures may need additional compensation for reciprocity failure.',
-  },
-  {
-    question: 'What is a variable ND filter?',
-    answer: 'Variable ND filters use two polarizing elements to adjust density from about 2-8 stops. They\'re convenient but can cause an "X" pattern at extreme settings and may have more color cast than fixed filters.',
-  },
+  { question: 'Hva betyr ND8?', answer: 'Filteret slipper gjennom en åttedel av lyset, altså tre blendertrinn.' },
+  { question: 'Hvordan regnes ny lukkertid ut?', answer: 'Lukkertid × filterfaktor. Hvert blendertrinn dobler tiden.' },
+  { question: 'Hvilket filter gir silkemykt vann?', answer: 'Ofte ND64 til ND1000, avhengig av lyset og ønsket effekt.' },
+  { question: 'Hvorfor blir bildene mørke eller blå?', answer: 'Svært sterke filtre kan gi fargestikk. Rett det opp i hvitbalansen eller etterpå.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/depth-of-field-calculator', title: 'Depth of Field Calculator', description: 'Calculate DoF for your shots.' },
-  { href: '/calculators/photo/shutter-angle-converter', title: 'Shutter Angle Converter', description: 'Convert cinema shutter settings.' },
-  { href: '/calculators/photo/golden-hour-calculator', title: 'Golden Hour Calculator', description: 'Find the best light for photography.' },
+  { href: '/calculators/photo/shutter-angle-converter', title: 'Lukkervinkel', description: 'Regn om mellom lukkervinkel og lukkertid for film' },
+  { href: '/calculators/photo/depth-of-field-calculator', title: 'Dybdeskarphet', description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand' },
+  { href: '/calculators/photo/golden-hour-calculator', title: 'Gylden time og blå time', description: 'Regn ut gylden time og blå time for et sted' },
 ];
 
 export default function NDFilterCalculatorPage() {
@@ -62,12 +55,11 @@ export default function NDFilterCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="nd-filter-calculator"
-          title="ND Filter Calculator"
-          description="Calculate the correct shutter speed when using neutral density filters. Perfect for long exposure photography with silky water, cloud streaks, and motion blur effects."
-          colorClass="bg-amber-100 text-amber-600"
+          title="ND-filter"
+          description="Regn ut ny lukkertid med ND-filter for lang eksponering av vann, skyer og lysspor. Gratis og uten registrering."
         />
 
-        <section aria-label="ND Filter Calculator">
+        <section aria-label="ND-filter">
           <NDFilterCalculator />
         </section>
 

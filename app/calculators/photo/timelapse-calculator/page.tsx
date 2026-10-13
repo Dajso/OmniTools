@@ -44,7 +44,7 @@ const faqs = [
 
 const relatedTools = [
   { href: '/calculators/photo/bitrate-calculator', title: 'Bitrate-kalkulator', description: 'Regn ut videobitrate og filstørrelse' },
-  { href: '/calculators/photo/photo-aspect-ratio-calculator', title: 'Sideforhold for video', description: 'Regn ut sideforhold og dimensjoner for video og bilder' },
+  { href: '/calculators/photo/aspect-ratio-calculator', title: 'Sideforhold for video', description: 'Regn ut sideforhold og dimensjoner for video og bilder' },
   { href: '/calculators/photo/golden-hour-calculator', title: 'Gylden time og blå time', description: 'Regn ut gylden time og blå time for et sted' },
 ];
 

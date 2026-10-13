@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { PrintingSizeCalculator } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Printing Size Calculator - Photo Print DPI Calculator',
-  description: 'Calculate maximum print size from image resolution or required pixels for a specific print size. Ensure sharp prints with proper DPI calculations.',
-  keywords: ['print size calculator', 'DPI calculator', 'photo printing', 'image resolution', 'pixels to inches'],
+  title: 'Utskriftsstørrelse – gratis kalkulator på nett',
+  description: 'Regn ut maksimal utskriftsstørrelse ut fra oppløsning og DPI. Gratis og uten registrering.',
+  keywords: ['utskriftsstørrelse', 'dpi', 'fotoutskrift', 'megapiksler'],
   alternates: { canonical: '/calculators/photo/printing-size-calculator' },
+  openGraph: {
+    title: 'Utskriftsstørrelse',
+    description: 'Regn ut maksimal utskriftsstørrelse ut fra oppløsning og DPI',
+    url: '/calculators/photo/printing-size-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Printing Size Calculator',
-  description: 'Calculate print sizes and required resolution for photo printing',
+  name: 'Utskriftsstørrelse',
+  description: 'Regn ut maksimal utskriftsstørrelse ut fra oppløsning og DPI',
   applicationCategory: 'PhotographyApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose calculation mode', text: 'Select whether to calculate from image size or desired print size.' },
-  { name: 'Enter dimensions', text: 'Input your image pixels or desired print dimensions.' },
-  { name: 'Select target DPI', text: 'Choose your desired print quality (300 DPI for professional).' },
-  { name: 'View results', text: 'See maximum print size or required resolution.' },
+  { name: 'Velg modus', text: 'Fra bildestørrelse, eller fra ønsket utskriftsstørrelse.' },
+  { name: 'Oppgi mål', text: 'Piksler for bildet, eller cm for utskriften.' },
+  { name: 'Velg DPI', text: '300 DPI for nærbetraktning, 150 for plakater som ses på avstand.' },
+  { name: 'Les av resultatet', text: 'Du får størrelse i cm og tommer, eller nødvendig antall piksler.' },
 ];
 
 const faqs = [
-  {
-    question: 'What DPI should I use for printing?',
-    answer: '300 DPI is the standard for professional prints viewed up close. 240 DPI is acceptable for most home prints. For large prints viewed from a distance (posters, banners), 150 DPI or even lower can work well.',
-  },
-  {
-    question: 'How many megapixels do I need for a large print?',
-    answer: 'For a 16×20" print at 300 DPI, you need about 29 megapixels. For 8×10" at 300 DPI, you need about 7.2 megapixels. Most modern cameras (24+ MP) can produce excellent prints up to 16×20".',
-  },
-  {
-    question: 'Can I print larger than the calculator suggests?',
-    answer: 'Yes, but quality will decrease. Large prints are often viewed from farther away, so lower DPI is less noticeable. A billboard might only be 15 DPI but looks fine from across the street.',
-  },
-  {
-    question: 'What is the difference between DPI and PPI?',
-    answer: 'PPI (pixels per inch) refers to digital images, while DPI (dots per inch) refers to printed output. They\'re often used interchangeably, but technically DPI depends on your printer\'s capabilities.',
-  },
-  {
-    question: 'Why do my prints look different from my screen?',
-    answer: 'Screens emit light while prints reflect it, causing color differences. Calibrate your monitor and use soft-proofing in your editing software. Also ensure your print lab uses color profiles.',
-  },
+  { question: 'Hva er DPI?', answer: 'Punkter per tomme (2,54 cm). Høyere DPI gir finere utskrift, men mindre maksimal størrelse.' },
+  { question: 'Hvilken DPI bør jeg bruke?', answer: '300 DPI for bilder som ses på nært hold og 150–200 for plakater på avstand.' },
+  { question: 'Hvor stor er A4?', answer: '21 × 29,7 cm. A3 er 29,7 × 42 cm, og A2 er 42 × 59,4 cm.' },
+  { question: 'Kan jeg skrive ut større enn oppløsningen tillater?', answer: 'Ja, men skarpheten blir lavere. Lav DPI passer best til store plakater.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/aspect-ratio-calculator', title: 'Aspect Ratio Calculator', description: 'Calculate image dimensions.' },
-  { href: '/calculators/productivity/image-resolution-calculator', title: 'Image Resolution Calculator', description: 'Calculate image dimensions and DPI.' },
-  { href: '/calculators/photo/depth-of-field-calculator', title: 'Depth of Field Calculator', description: 'Calculate DoF for sharp images.' },
+  { href: '/calculators/productivity/aspect-ratio-calculator', title: 'Sideforhold', description: 'Regn ut og omregn sideforhold for bilder og skjermer' },
+  { href: '/calculators/photo/golden-ratio-overlay', title: 'Gylne snitt-overlegg', description: 'Lag gylne snitt-hjelpelinjer for bildekomposisjon' },
+  { href: '/calculators/photo/focal-length-calculator', title: 'Brennvidde og crop-faktor', description: 'Regn ut tilsvarende brennvidde med crop-faktor' },
 ];
 
 export default function PrintingSizeCalculatorPage() {
@@ -62,12 +55,11 @@ export default function PrintingSizeCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="printing-size-calculator"
-          title="Printing Size Calculator"
-          description="Calculate maximum print size from your image resolution, or find out how many pixels you need for a specific print size. Ensure sharp, professional-quality prints every time."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Utskriftsstørrelse"
+          description="Regn ut største utskriftsstørrelse ut fra bildets oppløsning, eller hvor mange piksler du trenger til A4, A3, 50×70 cm og andre størrelser. Gratis og uten registrering."
         />
 
-        <section aria-label="Printing Size Calculator">
+        <section aria-label="Utskriftsstørrelse">
           <PrintingSizeCalculator />
         </section>
 

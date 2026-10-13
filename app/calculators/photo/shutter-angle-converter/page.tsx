@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { ShutterAngleConverter } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Shutter Angle Converter - Cinema Shutter Speed Calculator',
-  description: 'Convert between shutter angle (cinema) and shutter speed (photography). Understand the 180-degree rule and achieve cinematic motion blur.',
-  keywords: ['shutter angle', '180 degree rule', 'cinema shutter', 'motion blur', 'frame rate calculator'],
+  title: 'Lukkervinkel – gratis kalkulator på nett',
+  description: 'Regn om mellom lukkervinkel og lukkertid for film. Gratis og uten registrering.',
+  keywords: ['lukkervinkel', 'lukkertid', '180-gradersregelen', 'bevegelsesuskarphet'],
   alternates: { canonical: '/calculators/photo/shutter-angle-converter' },
+  openGraph: {
+    title: 'Lukkervinkel',
+    description: 'Regn om mellom lukkervinkel og lukkertid for film',
+    url: '/calculators/photo/shutter-angle-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Shutter Angle Converter',
-  description: 'Convert between cinema shutter angle and photography shutter speed',
+  name: 'Lukkervinkel',
+  description: 'Regn om mellom lukkervinkel og lukkertid for film',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose conversion mode', text: 'Select whether to convert from angle to speed or vice versa.' },
-  { name: 'Enter your value', text: 'Input shutter angle (degrees) or shutter speed (seconds).' },
-  { name: 'Select frame rate', text: 'Choose your video frame rate (24fps is cinema standard).' },
-  { name: 'View results', text: 'See the converted value and motion blur description.' },
+  { name: 'Velg retning', text: 'Fra vinkel til tid, eller omvendt.' },
+  { name: 'Oppgi verdi og bildefrekvens', text: 'For eksempel 180° ved 25 b/s.' },
+  { name: 'Les av resultatet', text: 'Du får lukkertid, eksponering i prosent og beskrivelse av bevegelsesuskarpheten.' },
+  { name: 'Prøv en filmlook', text: 'Velg et ferdig valg for ulike uttrykk.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is the 180-degree rule?',
-    answer: 'The 180-degree rule states that shutter speed should be approximately double the frame rate for natural motion blur. At 24fps, use 1/48 second (180° shutter angle). This creates the motion blur we associate with cinema.',
-  },
-  {
-    question: 'Why do cinema cameras use shutter angle instead of shutter speed?',
-    answer: 'Shutter angle originated from film cameras with rotating disc shutters. It describes what fraction of the frame time the sensor is exposed. 180° means exposed for half the frame time, regardless of frame rate.',
-  },
-  {
-    question: 'When should I break the 180-degree rule?',
-    answer: 'Use lower angles (90°, 45°) for sharper action with less motion blur, like in "Saving Private Ryan." Use higher angles (270°, 360°) for dreamier, smoother footage. Breaking the rule is a creative choice.',
-  },
-  {
-    question: 'How does frame rate affect shutter angle?',
-    answer: 'The same shutter angle produces different shutter speeds at different frame rates. 180° at 24fps = 1/48s, but 180° at 60fps = 1/120s. The motion blur look remains consistent relative to the frame rate.',
-  },
-  {
-    question: 'What shutter angle do most digital cameras use?',
-    answer: 'Many digital cinema cameras default to 172.8° or 180°. Consumer cameras often use 1/50 or 1/60 second, which is close to 180° at 25fps or 30fps respectively.',
-  },
+  { question: 'Hva er lukkervinkel?', answer: 'En måte å beskrive eksponeringstid i film, som en andel av tiden til ett bilde. 360° er hele bildetiden.' },
+  { question: 'Hva er 180°-regelen?', answer: 'Lukkertiden er 1/(2 × bilder per sekund). Det gir naturlig bevegelsesuskarphet. Ved 25 b/s blir det 1/50.' },
+  { question: 'Hvorfor er 24 b/s vanlig?', answer: 'Det er filmstandarden. I Europa brukes ofte 25 b/s til TV og video.' },
+  { question: 'Hva gjør kortere vinkel?', answer: 'Skarpere bevegelser med mer staccato-uttrykk, som i mange actionscener.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/bitrate-calculator', title: 'Bitrate Calculator', description: 'Calculate video bitrate and file size.' },
-  { href: '/calculators/photo/aspect-ratio-calculator', title: 'Aspect Ratio Calculator', description: 'Calculate video dimensions.' },
-  { href: '/calculators/photo/nd-filter-calculator', title: 'ND Filter Calculator', description: 'Calculate exposure with ND filters.' },
+  { href: '/calculators/photo/nd-filter-calculator', title: 'ND-filter', description: 'Regn ut lukkertid ved bruk av ND-filter' },
+  { href: '/calculators/photo/timelapse-calculator', title: 'Tidsforløp (timelapse)', description: 'Regn ut intervall og varighet for timelapse-fotografering' },
+  { href: '/calculators/photo/bitrate-calculator', title: 'Bitrate-kalkulator', description: 'Regn ut videobitrate og filstørrelse' },
 ];
 
 export default function ShutterAngleConverterPage() {
@@ -62,12 +55,11 @@ export default function ShutterAngleConverterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="shutter-angle-converter"
-          title="Shutter Angle Converter"
-          description="Convert between cinema shutter angle and photography shutter speed. Understand the 180-degree rule and achieve the perfect cinematic motion blur for your videos."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Lukkervinkel"
+          description="Regn om mellom lukkervinkel (film) og lukkertid (foto) ved ulike bildefrekvenser. Gratis og uten registrering."
         />
 
-        <section aria-label="Shutter Angle Converter">
+        <section aria-label="Lukkervinkel">
           <ShutterAngleConverter />
         </section>
 

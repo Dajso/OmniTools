@@ -1,58 +1,51 @@
 import { Metadata } from 'next';
 import { GoldenRatioOverlay } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Golden Ratio Overlay Generator - Photography Composition Tool',
-  description: 'Generate golden ratio composition overlays for photography. Create golden spiral, phi grid, and golden triangle guides for better image composition.',
-  keywords: ['golden ratio', 'photography composition', 'golden spiral', 'phi grid', 'rule of thirds', 'composition guide'],
+  title: 'Gylne snitt-overlegg – gratis kalkulator på nett',
+  description: 'Lag gylne snitt-hjelpelinjer for bildekomposisjon. Gratis og uten registrering.',
+  keywords: ['gylne snitt', 'phi-rutenett', 'gyllen spiral', 'tredjedelsregel', 'komposisjon'],
   alternates: { canonical: '/calculators/photo/golden-ratio-overlay' },
+  openGraph: {
+    title: 'Gylne snitt-overlegg',
+    description: 'Lag gylne snitt-hjelpelinjer for bildekomposisjon',
+    url: '/calculators/photo/golden-ratio-overlay',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Golden Ratio Overlay Generator',
-  description: 'Generate composition overlays based on the golden ratio for photography',
+  name: 'Gylne snitt-overlegg',
+  description: 'Lag gylne snitt-hjelpelinjer for bildekomposisjon',
   applicationCategory: 'PhotographyApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set dimensions', text: 'Enter your image dimensions or select an aspect ratio preset.' },
-  { name: 'Choose overlay type', text: 'Select golden spiral, phi grid, triangles, or diagonal method.' },
-  { name: 'Adjust orientation', text: 'Flip or rotate the overlay to match your composition.' },
-  { name: 'Apply to your image', text: 'Use the overlay as a guide when composing or cropping photos.' },
+  { name: 'Velg størrelse', text: 'Oppgi bredde og høyde i piksler, eller velg et sideforhold.' },
+  { name: 'Velg type overlegg', text: 'Spiral, rutenett, trekanter eller diagonaler.' },
+  { name: 'Juster', text: 'Roter eller speilvend overlegget.' },
+  { name: 'Bruk som hjelp', text: 'Bruk forhåndsvisningen når du komponerer eller beskjærer.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is the golden ratio?',
-    answer: 'The golden ratio (φ ≈ 1.618) is a mathematical proportion found throughout nature and art. When used in composition, it creates naturally pleasing and balanced images.',
-  },
-  {
-    question: 'How is the golden ratio different from rule of thirds?',
-    answer: 'The rule of thirds divides the frame into equal thirds (1:1:1), while the phi grid uses the golden ratio (1:0.618:1). The phi grid places intersection points slightly closer to center, often creating more dynamic compositions.',
-  },
-  {
-    question: 'When should I use the golden spiral?',
-    answer: 'Use the golden spiral when you have leading lines or curved elements in your composition. Place the spiral so it leads the viewer\'s eye toward your main subject at the smallest point of the spiral.',
-  },
-  {
-    question: 'What are power points?',
-    answer: 'Power points are the four intersection points in the phi grid where the lines cross. Placing key subjects at these points creates strong, balanced compositions that naturally draw the viewer\'s attention.',
-  },
-  {
-    question: 'Can I use multiple overlay types together?',
-    answer: 'While you can mentally combine techniques, it\'s usually best to focus on one composition method per image. Choose the overlay that best matches your subject and the natural lines in your scene.',
-  },
+  { question: 'Hva er det gylne snitt?', answer: 'Forholdet φ ≈ 1,618. Mange opplever komposisjoner basert på det som harmoniske.' },
+  { question: 'Hva er forskjellen på gylden spiral og tredjedelsregelen?', answer: 'Fi-rutenettet ligger nærmere midten enn tredjedelsregelen, og spiralen leder blikket mot ett punkt.' },
+  { question: 'Må jeg følge reglene?', answer: 'Nei. Regler for komposisjon er veiledning og ikke krav.' },
+  { question: 'Hvordan bruker jeg overlegget?', answer: 'Se det som forhåndsvisning, og bruk samme proporsjoner når du komponerer eller beskjærer bildet.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/aspect-ratio-calculator', title: 'Aspect Ratio Calculator', description: 'Calculate and convert aspect ratios.' },
-  { href: '/calculators/photo/depth-of-field-calculator', title: 'Depth of Field Calculator', description: 'Calculate DoF for your shots.' },
-  { href: '/calculators/photo/golden-hour-calculator', title: 'Golden Hour Calculator', description: 'Find the best light for photography.' },
+  { href: '/calculators/productivity/aspect-ratio-calculator', title: 'Sideforhold', description: 'Regn ut og omregn sideforhold for bilder og skjermer' },
+  { href: '/calculators/photo/printing-size-calculator', title: 'Utskriftsstørrelse', description: 'Regn ut maksimal utskriftsstørrelse ut fra oppløsning og DPI' },
+  { href: '/calculators/photo/depth-of-field-calculator', title: 'Dybdeskarphet', description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand' },
 ];
 
 export default function GoldenRatioOverlayPage() {
@@ -62,12 +55,11 @@ export default function GoldenRatioOverlayPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="golden-ratio-overlay"
-          title="Golden Ratio Overlay Generator"
-          description="Generate composition overlays based on the golden ratio (φ = 1.618). Create golden spiral, phi grid, and golden triangle guides for naturally pleasing photography compositions."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Gylne snitt-overlegg"
+          description="Lag komposisjonshjelp basert på det gylne snitt: gylden spiral, fi-rutenett, gylne trekanter og diagonalmetoden. Gratis og uten registrering."
         />
 
-        <section aria-label="Golden Ratio Overlay Generator">
+        <section aria-label="Gylne snitt-overlegg">
           <GoldenRatioOverlay />
         </section>
 

@@ -1,58 +1,53 @@
 import { Metadata } from 'next';
 import { GoldenHourCalculator } from '@/components/calculators/photo';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Golden Hour Calculator - Blue Hour & Sunrise/Sunset Times',
-  description: 'Calculate golden hour and blue hour times for photography. Find the perfect lighting conditions for portraits, landscapes, and cityscapes.',
-  keywords: ['golden hour', 'blue hour', 'sunrise', 'sunset', 'photography lighting', 'magic hour'],
+  title: 'Gylden time og blå time – gratis kalkulator på nett',
+  description: 'Regn ut gylden time og blå time for et sted. Gratis og uten registrering.',
+  keywords: ['gylden time', 'blå time', 'soloppgang', 'skumring', 'fotografi'],
   alternates: { canonical: '/calculators/photo/golden-hour-calculator' },
+  openGraph: {
+    title: 'Gylden time og blå time',
+    description: 'Regn ut gylden time og blå time for et sted',
+    url: '/calculators/photo/golden-hour-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Golden Hour Calculator',
-  description: 'Calculate golden hour and blue hour times for photography based on location',
+  name: 'Gylden time og blå time',
+  description: 'Regn ut gylden time og blå time for et sted',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set your location', text: 'Use your current location or select a city preset, or enter coordinates manually.' },
-  { name: 'Choose a date', text: 'Select the date you want to calculate golden hour times for.' },
-  { name: 'View results', text: 'See sunrise, sunset, golden hour, and blue hour times for your location.' },
-  { name: 'Plan your shoot', text: 'Use the times to plan when to arrive for the best lighting conditions.' },
+  { name: 'Velg sted', text: 'Velg en norsk by, bruk posisjonen din eller skriv inn koordinater.' },
+  { name: 'Velg dato', text: 'Tidene regnes ut for datoen du velger.' },
+  { name: 'Les av tidene', text: 'Se gyllen time og blå time morgen og kveld.' },
+  { name: 'Planlegg fotograferingen', text: 'Vær på plass i god tid før lyset kommer.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is golden hour in photography?',
-    answer: 'Golden hour is the period shortly after sunrise or before sunset when the sun is low in the sky (0-6° above the horizon). The light is warm, soft, and diffused, creating flattering conditions for portraits and dramatic landscapes.',
-  },
-  {
-    question: 'What is blue hour?',
-    answer: 'Blue hour occurs when the sun is 4-6° below the horizon, just before sunrise or after sunset. The sky takes on a deep blue color while there\'s still enough ambient light to photograph. It\'s ideal for cityscapes where artificial lights balance with the blue sky.',
-  },
-  {
-    question: 'How long does golden hour last?',
-    answer: 'Golden hour typically lasts 20-60 minutes depending on your latitude and time of year. Near the equator, it\'s shorter. At higher latitudes, especially near solstices, it can last much longer.',
-  },
-  {
-    question: 'Why is golden hour light better for photography?',
-    answer: 'During golden hour, sunlight travels through more atmosphere, which scatters blue light and creates warm tones. The low angle also creates longer shadows and more dimensional lighting, reducing harsh contrasts.',
-  },
-  {
-    question: 'What camera settings should I use during golden hour?',
-    answer: 'Start with a lower ISO (100-400), use aperture priority mode, and consider warming your white balance slightly. The changing light means you\'ll need to adjust settings frequently. Shoot in RAW for maximum flexibility.',
-  },
+  { question: 'Hva er gyllen time?', answer: 'Tiden når sola står lavt, 0–6° over horisonten, og lyset er varmt og mykt.' },
+  { question: 'Hva er blå time?', answer: 'Tiden når sola står 4–6° under horisonten og himmelen er dypblå.' },
+  { question: 'Hvorfor finnes det ikke blå time om sommeren i nord?', answer: 'Midt på sommeren kommer sola ikke langt nok ned, så himmelen blir aldri mørk nok. Kalkulatoren viser «Ikke i dag».' },
+  { question: 'Hva med midnattssol og mørketid?', answer: 'Nord for polarsirkelen går ikke sola ned i sommerhalvåret eller opp om vinteren. Kalkulatoren viser da en melding i stedet for tider.' },
+  { question: 'Hvilken tid bruker kalkulatoren?', answer: 'Norsk tid, med sommertid, for steder i Norge. Ellers brukes nettleserens tidssone.' },
+  { question: 'Er tidene nøyaktige?', answer: 'De er beregnet og stemmer vanligvis innenfor noen minutter. Terreng, fjell og skyer kan flytte lyset.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/photo/depth-of-field-calculator', title: 'Depth of Field Calculator', description: 'Calculate focus range for your shots.' },
-  { href: '/calculators/photo/nd-filter-calculator', title: 'ND Filter Calculator', description: 'Calculate exposure with ND filters.' },
-  { href: '/calculators/photo/timelapse-calculator', title: 'Time Lapse Calculator', description: 'Plan your time lapse sequences.' },
+  { href: '/calculators/photo/depth-of-field-calculator', title: 'Dybdeskarphet', description: 'Regn ut dybdeskarphet ut fra brennvidde, blenderåpning og avstand' },
+  { href: '/calculators/photo/nd-filter-calculator', title: 'ND-filter', description: 'Regn ut lukkertid ved bruk av ND-filter' },
+  { href: '/calculators/photo/timelapse-calculator', title: 'Tidsforløp (timelapse)', description: 'Regn ut intervall og varighet for timelapse-fotografering' },
 ];
 
 export default function GoldenHourCalculatorPage() {
@@ -62,12 +57,11 @@ export default function GoldenHourCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="golden-hour-calculator"
-          title="Golden Hour Calculator"
-          description="Calculate golden hour and blue hour times for any location. Plan your photography shoots to capture the perfect natural lighting conditions."
-          colorClass="bg-amber-100 text-amber-600"
+          title="Gylden time og blå time"
+          description="Finn tidspunktet for gyllen time og blå time, soloppgang og solnedgang på et valgt sted og en valgt dato. Med norske byer og norsk tid. Gratis og uten registrering."
         />
 
-        <section aria-label="Golden Hour Calculator">
+        <section aria-label="Gylden time og blå time">
           <GoldenHourCalculator />
         </section>
 
