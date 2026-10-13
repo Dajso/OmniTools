@@ -1,59 +1,51 @@
 import { Metadata } from 'next';
 import { InvoiceGenerator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Invoice Generator - Free PDF Invoice Creator',
-  description: 'Create professional invoices with PDF export. Free invoice generator for freelancers and small businesses.',
-  keywords: ['invoice generator', 'pdf invoice', 'free invoice maker', 'invoice creator', 'billing software'],
+  title: 'Fakturagenerator – gratis kalkulator på nett',
+  description: 'Lag profesjonelle fakturaer med MVA og KID. Gratis og uten registrering.',
+  keywords: ['faktura', 'fakturamal', 'MVA', 'KID', 'fakturering'],
   alternates: { canonical: '/calculators/creator/invoice-generator' },
+  openGraph: {
+    title: 'Fakturagenerator',
+    description: 'Lag profesjonelle fakturaer med MVA og KID',
+    url: '/calculators/creator/invoice-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Invoice Generator',
-  description: 'Create professional invoices with PDF export',
+  name: 'Fakturagenerator',
+  description: 'Lag profesjonelle fakturaer med MVA og KID',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your business info', text: 'Fill in your company name, address, and contact details.' },
-  { name: 'Add client details', text: 'Enter your client\'s name and billing address.' },
-  { name: 'Add line items', text: 'Add products or services with quantities and prices.' },
-  { name: 'Set tax rate', text: 'Optionally add a tax percentage to the invoice.' },
-  { name: 'Download PDF', text: 'Click Download PDF to generate and save your invoice.' },
+  { name: 'Fyll ut avsender og kunde', text: 'Firmanavn, adresse og organisasjonsnummer for begge parter.' },
+  { name: 'Legg til fakturalinjer', text: 'Beskrivelse, antall og pris eks. MVA per linje.' },
+  { name: 'Velg MVA-sats', text: '25 %, 15 %, 12 % eller 0 % ut fra hva du selger.' },
+  { name: 'Legg inn kontonummer og KID', text: 'Lag KID automatisk ut fra fakturanummeret.' },
+  { name: 'Last ned PDF', text: 'Send fakturaen til kunden.' },
 ];
 
 const faqs = [
-  {
-    question: 'Is this invoice generator free?',
-    answer: 'Yes, this invoice generator is completely free to use. There are no limits on the number of invoices you can create.',
-  },
-  {
-    question: 'Are my invoices stored anywhere?',
-    answer: 'No, all invoice generation happens in your browser. Your data is never sent to any server, ensuring complete privacy.',
-  },
-  {
-    question: 'Can I customize the invoice template?',
-    answer: 'The current version uses a professional standard template. You can customize the currency symbol and add notes to personalize your invoices.',
-  },
-  {
-    question: 'What file format is the invoice?',
-    answer: 'Invoices are generated as PDF files, which are universally compatible and professional for business use.',
-  },
-  {
-    question: 'Can I add my logo to the invoice?',
-    answer: 'Logo support is not currently available, but you can add your business name and full contact details.',
-  },
+  { question: 'Hva må en faktura inneholde i Norge?', answer: 'Blant annet fakturanummer, dato, navn og adresse på selger og kjøper, beskrivelse av varen eller tjenesten, beløp og MVA. MVA-registrerte virksomheter må oppgi organisasjonsnummer med «MVA». Sjekk gjeldende krav hos Skatteetaten.' },
+  { question: 'Hvilke MVA-satser finnes?', answer: '25 % er alminnelig sats, 15 % gjelder matvarer, og 12 % gjelder blant annet persontransport, overnatting og kino. Noen tjenester er fritatt.' },
+  { question: 'Hva er KID?', answer: 'Et kundeidentifikasjonsnummer som gjør at betalingen kan kobles automatisk til fakturaen. Kalkulatoren lager KID med kontrollsiffer (modulus 10).' },
+  { question: 'Lagres dataene mine?', answer: 'Nei. Alt skjer lokalt i nettleseren, og ingenting lagres eller sendes videre.' },
+  { question: 'Er dette et regnskapsprogram?', answer: 'Nei. Verktøyet lager bare en PDF. Du må selv sørge for fortløpende fakturanumre og føre regnskap.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/creator/cpm-calculator', title: 'CPM Calculator', description: 'Calculate advertising costs per thousand impressions.' },
-  { href: '/calculators/creator/youtube-money-calculator', title: 'YouTube Money Calculator', description: 'Estimate YouTube ad revenue.' },
-  { href: '/calculators/finance/freelance-rate-calculator', title: 'Freelance Rate Calculator', description: 'Calculate your hourly rate.' },
+  { href: '/calculators/creator/signature-generator', title: 'Signaturgenerator', description: 'Lag signaturer i håndskriftstil til dokumenter og e-post' },
 ];
 
 export default function InvoiceGeneratorPage() {
@@ -63,12 +55,11 @@ export default function InvoiceGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="invoice-generator"
-          title="Invoice Generator"
-          description="Create professional invoices with PDF export. Perfect for freelancers, contractors, and small businesses."
-          colorClass="bg-blue-100 text-blue-600"
+          title="Fakturagenerator"
+          description="Lag en faktura med MVA, kontonummer og KID og last den ned som PDF. Alt skjer i nettleseren din, og ingenting sendes til en server. Gratis og uten registrering."
         />
 
-        <section aria-label="Invoice Generator">
+        <section aria-label="Fakturagenerator">
           <InvoiceGenerator />
         </section>
 

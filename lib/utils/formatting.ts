@@ -298,3 +298,21 @@ export function formatFixed(value: number, digits: number = 0): string {
     maximumFractionDigits: digits,
   });
 }
+
+/**
+ * Kompakt visning av store tall på norsk: «1,2 mill.», «12,3 tusen», «1,5 mrd.».
+ * Tall under 1 000 vises som vanlig tall.
+ *
+ * @example
+ * formatCompact(1234567) // "1,2 mill."
+ * formatCompact(12345)   // "12,3 tusen"
+ * formatCompact(999)     // "999"
+ */
+export function formatCompact(value: number, digits: number = 1): string {
+  const abs = Math.abs(value);
+  const fmt = (v: number) => formatFixed(v, digits);
+  if (abs >= 1_000_000_000) return `${fmt(value / 1_000_000_000)}${NBSP}mrd.`;
+  if (abs >= 1_000_000) return `${fmt(value / 1_000_000)}${NBSP}mill.`;
+  if (abs >= 1_000) return `${fmt(value / 1_000)}${NBSP}tusen`;
+  return formatNumber(value, { maximumFractionDigits: 2 });
+}

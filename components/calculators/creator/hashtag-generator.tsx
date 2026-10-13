@@ -36,15 +36,15 @@ export function HashtagGenerator() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>Hashtag Generator</CardTitle>
+                <CardTitle>Emneknagg-generator</CardTitle>
                 <CardDescription>
-                    Generate relevant hashtags for your social media posts
+                    Lag relevante hashtags til innleggene dine i sosiale medier
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Topic Input */}
                 <div className="space-y-2">
-                    <Label htmlFor="topic">Topic or Keywords</Label>
+                    <Label htmlFor="topic">Emne eller stikkord</Label>
                     <div className="flex gap-2">
                         <span className="flex items-center px-3 border rounded-l-md bg-muted">
                             <Hash className="w-4 h-4 text-muted-foreground" />
@@ -54,7 +54,7 @@ export function HashtagGenerator() {
                             type="text"
                             value={topic}
                             onChange={(e) => setTopic(e.target.value)}
-                            placeholder="e.g., travel photography, food blog, fitness motivation"
+                            placeholder="f.eks. reisefoto, matblogg, treningsmotivasjon"
                             className="flex-1 px-3 py-2 border border-l-0 rounded-r-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
@@ -62,7 +62,7 @@ export function HashtagGenerator() {
 
                 {/* Platform Selection */}
                 <div className="space-y-2">
-                    <Label>Platform</Label>
+                    <Label>Plattform</Label>
                     <div className="flex flex-wrap gap-2">
                         {PLATFORMS.map((p) => (
                             <button
@@ -84,7 +84,7 @@ export function HashtagGenerator() {
 
                 {/* Style Selection */}
                 <div className="space-y-2">
-                    <Label>Style</Label>
+                    <Label>Stil</Label>
                     <div className="flex gap-2">
                         {(['popular', 'niche', 'mixed'] as const).map((s) => (
                             <button
@@ -103,7 +103,7 @@ export function HashtagGenerator() {
 
                 {/* Count Slider */}
                 <div className="space-y-2">
-                    <Label>Number of Hashtags: {count}</Label>
+                    <Label>Antall hashtags: {count}</Label>
                     <input
                         type="range"
                         min="5"
@@ -113,17 +113,17 @@ export function HashtagGenerator() {
                         className="w-full"
                     />
                     <div className="text-xs text-muted-foreground">
-                        Recommended for {selectedPlatform?.name}: up to {selectedPlatform?.maxTags} hashtags
+                        Anbefalt for {selectedPlatform?.name}: opptil {selectedPlatform?.maxTags} hashtags
                     </div>
                 </div>
 
                 {/* Generated Hashtags */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>Generated Hashtags ({result.hashtags.length})</Label>
+                        <Label>Foreslåtte hashtags ({result.hashtags.length})</Label>
                         <Button variant="ghost" size="sm" onClick={copyHashtags} disabled={!result.copyText}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy All'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier alle'}</span>
                         </Button>
                     </div>
                     <div className="p-4 bg-muted rounded-lg min-h-[100px]">
@@ -139,7 +139,7 @@ export function HashtagGenerator() {
                                 ))}
                             </div>
                         ) : (
-                            <span className="text-muted-foreground">Enter a topic to generate hashtags...</span>
+                            <span className="text-muted-foreground">Skriv inn et emne for å lage hashtags …</span>
                         )}
                     </div>
                 </div>

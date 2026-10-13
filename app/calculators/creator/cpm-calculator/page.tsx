@@ -1,59 +1,50 @@
 import { Metadata } from 'next';
 import { CPMCalculator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'CPM Calculator - Cost Per Thousand Impressions',
-  description: 'Calculate CPM (Cost Per Mille) for your advertising campaigns. Free CPM calculator with platform comparisons.',
-  keywords: ['cpm calculator', 'cost per mille', 'advertising calculator', 'ad cost calculator', 'impressions calculator'],
+  title: 'CPM-kalkulator – gratis kalkulator på nett',
+  description: 'Regn ut kostnad per tusen visninger (CPM) i annonsekampanjer. Gratis og uten registrering.',
+  keywords: ['CPM', 'kostnad per tusen', 'annonsekostnad', 'annonseinntekt'],
   alternates: { canonical: '/calculators/creator/cpm-calculator' },
+  openGraph: {
+    title: 'CPM-kalkulator',
+    description: 'Regn ut kostnad per tusen visninger (CPM) i annonsekampanjer',
+    url: '/calculators/creator/cpm-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'CPM Calculator',
-  description: 'Calculate Cost Per Mille for advertising campaigns',
+  name: 'CPM-kalkulator',
+  description: 'Regn ut kostnad per tusen visninger (CPM) i annonsekampanjer',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Select calculation mode', text: 'Choose what you want to calculate: CPM, cost, or impressions.' },
-  { name: 'Enter your data', text: 'Input your ad spend, impressions, or CPM rate.' },
-  { name: 'Add clicks (optional)', text: 'For full analysis, include click data for CPC and CTR.' },
-  { name: 'Compare to platforms', text: 'Select a platform to compare your CPM to industry averages.' },
-  { name: 'View results', text: 'See your calculated metrics and comparisons.' },
+  { name: 'Velg beregningsmodus', text: 'CPM, kostnad, visninger eller full analyse.' },
+  { name: 'Fyll inn tallene', text: 'Kostnad, visninger, CPM eller klikk.' },
+  { name: 'Sammenlign med plattform', text: 'Velg en plattform for å se typisk CPM.' },
+  { name: 'Les av resultatet', text: 'Se CPM, CPC og CTR.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is CPM?',
-    answer: 'CPM stands for Cost Per Mille (thousand). It\'s the cost an advertiser pays for 1,000 ad impressions.',
-  },
-  {
-    question: 'What is a good CPM?',
-    answer: 'A "good" CPM varies by platform and industry. Social media typically ranges from $5-15, while premium placements can be $20+.',
-  },
-  {
-    question: 'What\'s the difference between CPM and CPC?',
-    answer: 'CPM is cost per 1,000 impressions (views). CPC is cost per click. CPM is better for brand awareness; CPC for direct response.',
-  },
-  {
-    question: 'How do I lower my CPM?',
-    answer: 'Improve ad relevance, target more specific audiences, test different placements, and optimize ad creative for engagement.',
-  },
-  {
-    question: 'What is CTR?',
-    answer: 'CTR (Click-Through Rate) is the percentage of impressions that result in clicks. Higher CTR usually means more relevant ads.',
-  },
+  { question: 'Hva er CPM?', answer: 'Kostnad per mille: hva du betaler per 1 000 visninger av annonsen. CPM = kostnad ÷ visninger × 1000.' },
+  { question: 'Hva er forskjellen på CPM, CPC og CTR?', answer: 'CPM er pris per 1 000 visninger, CPC er pris per klikk, og CTR er andelen visninger som gir klikk.' },
+  { question: 'Er plattformtallene nøyaktige?', answer: 'Nei, de er veiledende gjennomsnitt i kroner og varierer mye med målgruppe og sesong.' },
+  { question: 'Når bør jeg bruke CPM?', answer: 'Når målet er synlighet. Når målet er trafikk eller salg, er CPC eller kostnad per kjøp ofte et bedre mål.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/creator/youtube-money-calculator', title: 'YouTube Money Calculator', description: 'Estimate YouTube ad revenue.' },
-  { href: '/calculators/creator/instagram-engagement-calculator', title: 'Instagram Engagement Calculator', description: 'Calculate engagement rate.' },
-  { href: '/calculators/finance/roi-calculator', title: 'ROI Calculator', description: 'Calculate return on investment.' },
+  { href: '/calculators/creator/youtube-money-calculator', title: 'YouTube-inntektskalkulator', description: 'Anslå YouTube-inntekter ut fra visninger og engasjement' },
+  { href: '/calculators/creator/instagram-engagement-calculator', title: 'Instagram-engasjement', description: 'Regn ut engasjementsraten på Instagram' },
 ];
 
 export default function CPMCalculatorPage() {
@@ -63,12 +54,11 @@ export default function CPMCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="cpm-calculator"
-          title="CPM Calculator"
-          description="Calculate Cost Per Mille (cost per thousand impressions) for your advertising campaigns."
-          colorClass="bg-orange-100 text-orange-600"
+          title="CPM-kalkulator"
+          description="Regn ut CPM (kostnad per tusen visninger), CPC og CTR for annonsekampanjer, i kroner. Gratis og uten registrering."
         />
 
-        <section aria-label="CPM Calculator">
+        <section aria-label="CPM-kalkulator">
           <CPMCalculator />
         </section>
 

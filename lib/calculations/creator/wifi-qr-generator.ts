@@ -61,11 +61,11 @@ export function escapeWifiString(str: string): string {
  */
 export function generateWifiQRContent(config: WifiConfig): string {
   if (!config.ssid || config.ssid.trim() === '') {
-    throw new Error('SSID is required');
+    throw new Error('SSID må fylles ut');
   }
 
   if (config.securityType !== 'nopass' && (!config.password || config.password === '')) {
-    throw new Error('Password is required for secured networks');
+    throw new Error('Passord må fylles ut for sikrede nettverk');
   }
 
   const escapedSSID = escapeWifiString(config.ssid);
@@ -107,29 +107,29 @@ export function validateWifiConfig(config: WifiConfig): {
   const errors: string[] = [];
 
   if (!config.ssid || config.ssid.trim() === '') {
-    errors.push('Network name (SSID) is required');
+    errors.push('Nettverksnavn (SSID) må fylles ut');
   } else if (config.ssid.length > 32) {
-    errors.push('Network name (SSID) cannot exceed 32 characters');
+    errors.push('Nettverksnavnet (SSID) kan ikke ha mer enn 32 tegn');
   }
 
   if (config.securityType !== 'nopass') {
     if (!config.password || config.password === '') {
-      errors.push('Password is required for secured networks');
+      errors.push('Passord må fylles ut for sikrede nettverk');
     } else if (config.securityType === 'WPA' && config.password.length < 8) {
-      errors.push('WPA password must be at least 8 characters');
+      errors.push('WPA-passordet må ha minst 8 tegn');
     } else if (config.securityType === 'WPA' && config.password.length > 63) {
-      errors.push('WPA password cannot exceed 63 characters');
+      errors.push('WPA-passordet kan ikke ha mer enn 63 tegn');
     } else if (config.securityType === 'WEP') {
       const validWepLengths = [5, 10, 13, 26];
       if (!validWepLengths.includes(config.password.length)) {
-        errors.push('WEP key must be 5, 10, 13, or 26 characters');
+        errors.push('WEP-nøkkelen må ha 5, 10, 13 eller 26 tegn');
       }
     }
   }
 
   const validSecurityTypes: WifiSecurityType[] = ['WPA', 'WEP', 'nopass'];
   if (!validSecurityTypes.includes(config.securityType)) {
-    errors.push('Invalid security type');
+    errors.push('Ugyldig sikkerhetstype');
   }
 
   return {
@@ -179,7 +179,7 @@ export function parseWifiQRContent(qrContent: string): WifiConfig | null {
 export const SECURITY_TYPE_LABELS: Record<WifiSecurityType, string> = {
   'WPA': 'WPA/WPA2/WPA3',
   'WEP': 'WEP (Legacy)',
-  'nopass': 'Open (No Password)',
+  'nopass': 'Åpent (uten passord)',
 };
 
 /**

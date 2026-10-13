@@ -41,15 +41,15 @@ export function UTMBuilder() {
     return (
         <Card className="w-full max-w-2xl">
             <CardHeader>
-                <CardTitle>UTM Builder</CardTitle>
+                <CardTitle>UTM-bygger</CardTitle>
                 <CardDescription>
-                    Create UTM tracking URLs for your marketing campaigns
+                    Lag UTM-lenker for å spore markedsføringskampanjene dine
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Website URL */}
                 <div className="space-y-2">
-                    <Label htmlFor="url">Website URL *</Label>
+                    <Label htmlFor="url">URL til nettsiden *</Label>
                     <div className="flex gap-2">
                         <span className="flex items-center px-3 border rounded-l-md bg-muted">
                             <Link2 className="w-4 h-4 text-muted-foreground" />
@@ -59,7 +59,7 @@ export function UTMBuilder() {
                             type="url"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
-                            placeholder="https://example.com/landing-page"
+                            placeholder="https://eksempel.no/landingsside"
                             className="flex-1 px-3 py-2 border border-l-0 rounded-r-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
@@ -67,7 +67,7 @@ export function UTMBuilder() {
 
                 {/* Campaign Templates */}
                 <div className="space-y-2">
-                    <Label>Quick Templates</Label>
+                    <Label>Hurtigmaler</Label>
                     <div className="flex flex-wrap gap-2">
                         {CAMPAIGN_TEMPLATES.map((template) => (
                             <button
@@ -85,7 +85,7 @@ export function UTMBuilder() {
                 {/* Required Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="source">Campaign Source * <span className="text-xs text-muted-foreground">(utm_source)</span></Label>
+                        <Label htmlFor="source">Kampanjekilde * <span className="text-xs text-muted-foreground">(utm_source)</span></Label>
                         <input
                             id="source"
                             type="text"
@@ -103,7 +103,7 @@ export function UTMBuilder() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="medium">Campaign Medium * <span className="text-xs text-muted-foreground">(utm_medium)</span></Label>
+                        <Label htmlFor="medium">Kampanjemedium * <span className="text-xs text-muted-foreground">(utm_medium)</span></Label>
                         <input
                             id="medium"
                             type="text"
@@ -121,13 +121,13 @@ export function UTMBuilder() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="campaign">Campaign Name * <span className="text-xs text-muted-foreground">(utm_campaign)</span></Label>
+                        <Label htmlFor="campaign">Kampanjenavn * <span className="text-xs text-muted-foreground">(utm_campaign)</span></Label>
                         <input
                             id="campaign"
                             type="text"
                             value={campaign}
                             onChange={(e) => setCampaign(e.target.value)}
-                            placeholder="summer_sale"
+                            placeholder="sommersalg"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
@@ -136,25 +136,25 @@ export function UTMBuilder() {
                 {/* Optional Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="term">Campaign Term <span className="text-xs text-muted-foreground">(utm_term, optional)</span></Label>
+                        <Label htmlFor="term">Kampanjeord <span className="text-xs text-muted-foreground">(utm_term, valgfritt)</span></Label>
                         <input
                             id="term"
                             type="text"
                             value={term}
                             onChange={(e) => setTerm(e.target.value)}
-                            placeholder="running+shoes"
+                            placeholder="joggesko"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="content">Campaign Content <span className="text-xs text-muted-foreground">(utm_content, optional)</span></Label>
+                        <Label htmlFor="content">Kampanjeinnhold <span className="text-xs text-muted-foreground">(utm_content, valgfritt)</span></Label>
                         <input
                             id="content"
                             type="text"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            placeholder="logolink"
+                            placeholder="logolenke"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
@@ -175,10 +175,10 @@ export function UTMBuilder() {
                 {result.isValid && (
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <Label>Generated URL</Label>
+                            <Label>Generert URL</Label>
                             <Button variant="ghost" size="sm" onClick={copyUrl}>
                                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                                <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                                <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                             </Button>
                         </div>
                         <div className="p-3 bg-muted rounded-lg break-all text-sm font-mono">
@@ -190,7 +190,7 @@ export function UTMBuilder() {
                 {/* Parameter Summary */}
                 {result.isValid && Object.keys(result.params).length > 0 && (
                     <div className="space-y-2">
-                        <Label>UTM Parameters</Label>
+                        <Label>UTM-parametere</Label>
                         <div className="grid grid-cols-2 gap-2 text-sm">
                             {Object.entries(result.params).map(([key, value]) => (
                                 <div key={key} className="flex justify-between p-2 bg-muted/50 rounded">

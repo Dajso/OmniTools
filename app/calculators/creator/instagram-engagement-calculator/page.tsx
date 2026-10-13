@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { InstagramEngagementCalculator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Instagram Engagement Rate Calculator - Free Tool',
-  description: 'Calculate your Instagram engagement rate and compare to industry benchmarks. Free engagement calculator for influencers and brands.',
-  keywords: ['instagram engagement calculator', 'engagement rate', 'instagram analytics', 'influencer calculator', 'social media metrics'],
+  title: 'Instagram-engasjement – gratis kalkulator på nett',
+  description: 'Regn ut engasjementsraten på Instagram. Gratis og uten registrering.',
+  keywords: ['instagram', 'engasjement', 'engasjementsrate', 'sosiale medier'],
   alternates: { canonical: '/calculators/creator/instagram-engagement-calculator' },
+  openGraph: {
+    title: 'Instagram-engasjement',
+    description: 'Regn ut engasjementsraten på Instagram',
+    url: '/calculators/creator/instagram-engagement-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Instagram Engagement Rate Calculator',
-  description: 'Calculate Instagram engagement rate and compare to benchmarks',
+  name: 'Instagram-engasjement',
+  description: 'Regn ut engasjementsraten på Instagram',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter followers', text: 'Input your total Instagram follower count.' },
-  { name: 'Add post metrics', text: 'Enter likes, comments, shares, and saves from recent posts.' },
-  { name: 'Add more posts', text: 'For accuracy, add metrics from multiple recent posts.' },
-  { name: 'Calculate', text: 'Click Calculate to see your engagement rate.' },
-  { name: 'Compare', text: 'See how you compare to industry benchmarks for your follower tier.' },
+  { name: 'Oppgi antall følgere', text: 'Antall følgere på kontoen.' },
+  { name: 'Skriv inn engasjement', text: 'Likerklikk, kommentarer, delinger og lagringer.' },
+  { name: 'Angi antall innlegg', text: 'Antall innlegg tallene gjelder.' },
+  { name: 'Les av raten', text: 'Se vurderingen og sammenligningen.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is a good Instagram engagement rate?',
-    answer: 'Generally, 1-3% is average, 3-6% is good, and above 6% is excellent. However, smaller accounts typically have higher engagement rates.',
-  },
-  {
-    question: 'Why do smaller accounts have higher engagement?',
-    answer: 'Smaller accounts often have more personal connections with followers. As accounts grow, engagement rates naturally decrease due to algorithm limitations and less personal content.',
-  },
-  {
-    question: 'What metrics are included in engagement?',
-    answer: 'Engagement includes likes, comments, shares, and saves. Some calculations also include story interactions and DMs.',
-  },
-  {
-    question: 'How many posts should I analyze?',
-    answer: 'For accurate results, analyze at least 10-12 recent posts. This accounts for variation in content performance.',
-  },
-  {
-    question: 'How can I improve my engagement rate?',
-    answer: 'Post consistently, use relevant hashtags, engage with your audience, post at optimal times, and create content that encourages interaction.',
-  },
+  { question: 'Hvordan regnes engasjementsraten ut?', answer: '(Likerklikk + kommentarer + delinger + lagringer) ÷ følgere × 100.' },
+  { question: 'Hva er en god engasjementsrate?', answer: 'Det avhenger av kontoens størrelse. Mindre kontoer har gjerne høyere rate enn store.' },
+  { question: 'Hvorfor synker raten når kontoen vokser?', answer: 'Fordi en mindre andel av følgerne ser og reagerer på hvert innlegg.' },
+  { question: 'Hva betyr lagringer og delinger?', answer: 'De veier tungt i Instagram-algoritmen og viser at innholdet oppleves som nyttig.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/creator/youtube-money-calculator', title: 'YouTube Money Calculator', description: 'Estimate YouTube ad revenue.' },
-  { href: '/calculators/creator/cpm-calculator', title: 'CPM Calculator', description: 'Calculate advertising costs.' },
+  { href: '/calculators/creator/youtube-money-calculator', title: 'YouTube-inntektskalkulator', description: 'Anslå YouTube-inntekter ut fra visninger og engasjement' },
+  { href: '/calculators/creator/cpm-calculator', title: 'CPM-kalkulator', description: 'Regn ut kostnad per tusen visninger (CPM) i annonsekampanjer' },
 ];
 
 export default function InstagramEngagementCalculatorPage() {
@@ -62,12 +54,11 @@ export default function InstagramEngagementCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="instagram-engagement-calculator"
-          title="Instagram Engagement Calculator"
-          description="Calculate your Instagram engagement rate and see how you compare to industry benchmarks."
-          colorClass="bg-pink-100 text-pink-600"
+          title="Instagram-engasjement"
+          description="Regn ut engasjementsraten din på Instagram og sammenlign med normaltall for kontoer av samme størrelse. Gratis og uten registrering."
         />
 
-        <section aria-label="Instagram Engagement Calculator">
+        <section aria-label="Instagram-engasjement">
           <InstagramEngagementCalculator />
         </section>
 

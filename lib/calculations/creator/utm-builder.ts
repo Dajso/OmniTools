@@ -42,21 +42,21 @@ export function buildUTMUrl(inputs: UTMParams): UTMResults {
 
     // Validate required fields
     if (!inputs.url.trim()) {
-        errors.push('Website URL is required');
+        errors.push('URL til nettsiden må fylles ut');
     } else if (!isValidUrl(inputs.url)) {
-        errors.push('Please enter a valid URL (including https://)');
+        errors.push('Skriv inn en gyldig URL (med https://)');
     }
 
     if (!inputs.source.trim()) {
-        errors.push('Campaign Source is required');
+        errors.push('Kampanjekilde må fylles ut');
     }
 
     if (!inputs.medium.trim()) {
-        errors.push('Campaign Medium is required');
+        errors.push('Kampanjemedium må fylles ut');
     }
 
     if (!inputs.campaign.trim()) {
-        errors.push('Campaign Name is required');
+        errors.push('Kampanjenavn må fylles ut');
     }
 
     if (errors.length > 0) {
@@ -103,7 +103,7 @@ export function buildUTMUrl(inputs: UTMParams): UTMResults {
             fullUrl: '',
             params: {},
             isValid: false,
-            errors: ['Failed to build URL'],
+            errors: ['Kunne ikke lage URL-en'],
         };
     }
 }
@@ -146,36 +146,36 @@ export const CAMPAIGN_TEMPLATES = [
         name: 'Google Ads',
         source: 'google',
         medium: 'cpc',
-        description: 'For Google paid search campaigns'
+        description: 'For betalte søkekampanjer i Google'
     },
     {
-        name: 'Facebook Ads',
+        name: 'Facebook-annonser',
         source: 'facebook',
         medium: 'cpc',
-        description: 'For Facebook/Meta paid campaigns'
+        description: 'For betalte kampanjer på Facebook/Meta'
     },
     {
-        name: 'Email Newsletter',
+        name: 'E-postnyhetsbrev',
         source: 'newsletter',
         medium: 'email',
-        description: 'For email marketing campaigns'
+        description: 'For e-postmarkedsføring'
     },
     {
-        name: 'Twitter Organic',
+        name: 'Twitter/X (organisk)',
         source: 'twitter',
         medium: 'social',
-        description: 'For organic Twitter posts'
+        description: 'For vanlige (ikke betalte) innlegg på Twitter/X'
     },
     {
-        name: 'LinkedIn Post',
+        name: 'LinkedIn-innlegg',
         source: 'linkedin',
         medium: 'social',
-        description: 'For LinkedIn organic content'
+        description: 'For vanlig (ikke betalt) innhold på LinkedIn'
     },
     {
         name: 'Influencer',
         source: 'influencer',
         medium: 'referral',
-        description: 'For influencer partnerships'
+        description: 'For samarbeid med influencere'
     },
 ] as const;

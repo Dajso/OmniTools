@@ -1,9 +1,10 @@
 /**
- * Invoice Generator with PDF Export
- * 
- * Generates professional invoices with PDF export functionality
- * using jspdf library for client-side PDF generation.
- * 
+ * Fakturagenerator med PDF-eksport
+ *
+ * Lager fakturaer tilpasset norske regler: organisasjonsnummer med MVA,
+ * MVA-satser, kontonummer og KID. PDF-en lages i nettleseren med jspdf,
+ * så ingenting sendes til en server.
+ *
  * @module lib/calculations/creator/invoice-generator
  * @see Requirements 18.1, 18.11
  */
@@ -15,6 +16,8 @@ export interface BusinessInfo {
   address: string;
   email?: string;
   phone?: string;
+  /** Organisasjonsnummer (9 siffer) */
+  orgNumber?: string;
 }
 
 export interface InvoiceItem {
@@ -30,9 +33,14 @@ export interface InvoiceData {
   from: BusinessInfo;
   to: BusinessInfo;
   items: InvoiceItem[];
+  /** MVA-sats i prosent (25, 15, 12 eller 0) */
   taxRate?: number;
   notes?: string;
   currency?: string;
+  /** Kontonummer (11 siffer) */
+  accountNumber?: string;
+  /** KID-nummer */
+  kid?: string;
 }
 
 export interface InvoiceCalculation {
@@ -42,22 +50,29 @@ export interface InvoiceCalculation {
   itemTotals: number[];
 }
 
+/** MVA-satser som gjelder i Norge */
+export const MVA_RATES = [
+  { value: 25, label: '25 % (alminnelig sats)' },
+  { value: 15, label: '15 % (matvarer)' },
+  { value: 12, label: '12 % (persontransport, overnatting, kino m.m.)' },
+  { value: 0, label: '0 % (fritatt / utenfor avgiftsområdet)' },
+] as const;
+
 /**
- * Calculate invoice totals
- * 
- * @param items - Invoice line items
- * @param taxRate - Tax rate as percentage (e.g., 10 for 10%)
- * @returns Calculated invoice totals
+ * Regner ut totaler for fakturaen
+ *
+ * @param items - Fakturalinjer
+ * @param taxRate - MVA-sats i prosent (f.eks. 25 for 25 %)
  */
 export function calculateInvoiceTotals(
   items: InvoiceItem[],
   taxRate: number = 0
 ): InvoiceCalculation {
-  if (taxRate < 0) throw new Error('Tax rate cannot be negative');
+  if (taxRate < 0) throw new Error('MVA-satsen kan ikke være negativ');
 
   const itemTotals = items.map(item => {
-    if (item.quantity < 0) throw new Error('Quantity cannot be negative');
-    if (item.unitPrice < 0) throw new Error('Unit price cannot be negative');
+    if (item.quantity < 0) throw new Error('Antall kan ikke være negativt');
+    if (item.unitPrice < 0) throw new Error('Prisen kan ikke være negativ');
     return item.quantity * item.unitPrice;
   });
 
@@ -73,193 +88,242 @@ export function calculateInvoiceTotals(
   };
 }
 
-
 /**
- * Format currency value
- * 
- * @param value - Numeric value
- * @param currency - Currency symbol (default: '$')
- * @returns Formatted currency string
+ * Formaterer beløp på norsk måte: «1 234,50 kr»
+ *
+ * @param value - Beløp
+ * @param currency - Valutategn eller -kode (standard: «kr»)
  */
-export function formatCurrency(value: number, currency: string = '$'): string {
-  return `${currency}${value.toFixed(2)}`;
+export function formatCurrency(value: number, currency: string = 'kr'): string {
+  const num = new Intl.NumberFormat('nb-NO', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+  return `${num} ${currency}`.trim();
 }
 
 /**
- * Format date for invoice display
- * 
- * @param date - Date object
- * @returns Formatted date string (MM/DD/YYYY)
+ * Formaterer dato for faktura (dd.mm.åååå)
  */
 export function formatInvoiceDate(date: Date): string {
-  const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-  return `${month}/${day}/${year}`;
+  return `${day}.${month}.${year}`;
+}
+
+const onlyDigits = (value: string) => value.replace(/[\s.\-]/g, '');
+
+/** Sjekker organisasjonsnummer (9 siffer, modulus 11) */
+export function isValidOrgNumber(value: string): boolean {
+  const digits = onlyDigits(value);
+  if (!/^\d{9}$/.test(digits)) return false;
+  const weights = [3, 2, 7, 6, 5, 4, 3, 2];
+  const sum = weights.reduce((s, w, i) => s + w * Number(digits[i]), 0);
+  let check = 11 - (sum % 11);
+  if (check === 11) check = 0;
+  if (check === 10) return false;
+  return check === Number(digits[8]);
+}
+
+/** Sjekker kontonummer (11 siffer, modulus 11) */
+export function isValidAccountNumber(value: string): boolean {
+  const digits = onlyDigits(value);
+  if (!/^\d{11}$/.test(digits)) return false;
+  const weights = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+  const sum = weights.reduce((s, w, i) => s + w * Number(digits[i]), 0);
+  let check = 11 - (sum % 11);
+  if (check === 11) check = 0;
+  if (check === 10) return false;
+  return check === Number(digits[10]);
+}
+
+/** Formaterer org.nr. som «974 760 673» */
+export function formatOrgNumber(value: string): string {
+  const d = onlyDigits(value);
+  return /^\d{9}$/.test(d) ? `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}` : value;
+}
+
+/** Formaterer kontonummer som «1234.56.78903» */
+export function formatAccountNumber(value: string): string {
+  const d = onlyDigits(value);
+  return /^\d{11}$/.test(d) ? `${d.slice(0, 4)}.${d.slice(4, 6)}.${d.slice(6)}` : value;
 }
 
 /**
- * Generate invoice PDF
- * 
- * Creates a professional PDF invoice with all provided details.
- * Uses jspdf for client-side PDF generation without server requests.
- * 
- * @param data - Invoice data
- * @returns Promise resolving to PDF Blob
+ * Lager et KID-nummer med kontrollsiffer (modulus 10) ut fra sifrene i grunnlaget,
+ * for eksempel fakturanummeret. Gir tomt resultat hvis grunnlaget ikke har siffer.
+ */
+export function generateKid(base: string): string {
+  const digits = base.replace(/\D/g, '');
+  if (digits.length === 0 || digits.length > 24) return '';
+  let sum = 0;
+  for (let i = 0; i < digits.length; i++) {
+    // Vekt 2 for siffer lengst til høyre, deretter vekt 1, 2, 1, ...
+    const weight = i % 2 === 0 ? 2 : 1;
+    const product = Number(digits[digits.length - 1 - i]) * weight;
+    sum += product > 9 ? product - 9 : product;
+  }
+  return digits + String((10 - (sum % 10)) % 10);
+}
+
+/**
+ * Øker det siste tallet i et fakturanummer med 1 (2026-001 → 2026-002)
+ */
+export function nextInvoiceNumber(current: string): string {
+  const match = /^(.*?)(\d+)(\D*)$/.exec(current.trim());
+  if (!match) return current ? `${current}-2` : '1';
+  const [, head, num, tail] = match;
+  const next = String(Number(num) + 1).padStart(num.length, '0');
+  return `${head}${next}${tail}`;
+}
+
+/**
+ * Lager faktura som PDF
+ *
+ * @param data - Fakturadata
+ * @returns Blob med PDF
  */
 export async function generateInvoicePDF(data: InvoiceData): Promise<Blob> {
   const doc = new jsPDF();
-  const currency = data.currency || '$';
+  const currency = data.currency || 'kr';
   const calculation = calculateInvoiceTotals(data.items, data.taxRate);
-  
-  // Page dimensions
+  // jsPDFs standardfonter takler ikke hardt mellomrom, så vi bytter det med vanlig mellomrom
+  const money = (v: number) => formatCurrency(v, currency).replace(/ | /g, ' ');
+
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 20;
+  const right = pageWidth - margin;
   const contentWidth = pageWidth - 2 * margin;
-  
+
   let yPos = margin;
 
-  // Header - Invoice title
+  // Tittel
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
-  doc.text('INVOICE', margin, yPos);
-  
-  // Invoice number and dates (right aligned)
+  doc.text('FAKTURA', margin, yPos);
+
+  // Fakturanummer og datoer (høyrejustert)
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Invoice #: ${data.invoiceNumber}`, pageWidth - margin, yPos, { align: 'right' });
+  doc.text(`Fakturanr.: ${data.invoiceNumber}`, right, yPos, { align: 'right' });
   yPos += 6;
-  doc.text(`Date: ${formatInvoiceDate(data.date)}`, pageWidth - margin, yPos, { align: 'right' });
+  doc.text(`Fakturadato: ${formatInvoiceDate(data.date)}`, right, yPos, { align: 'right' });
   yPos += 6;
-  doc.text(`Due Date: ${formatInvoiceDate(data.dueDate)}`, pageWidth - margin, yPos, { align: 'right' });
-  
+  doc.text(`Forfallsdato: ${formatInvoiceDate(data.dueDate)}`, right, yPos, { align: 'right' });
+
   yPos += 15;
 
-  // From section
+  const hasMva = !!data.taxRate && data.taxRate > 0;
+  const orgLine = (b: BusinessInfo, withMva: boolean) =>
+    b.orgNumber ? `Org.nr. ${formatOrgNumber(b.orgNumber)}${withMva ? ' MVA' : ''}` : '';
+
+  const blockLines = (b: BusinessInfo, withMva: boolean): string[] => [
+    b.name,
+    ...b.address.split('\n'),
+    ...(orgLine(b, withMva) ? [orgLine(b, withMva)] : []),
+    ...(b.email ? [b.email] : []),
+    ...(b.phone ? [b.phone] : []),
+  ];
+
+  // Fra (venstre) og Til (høyre)
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  doc.text('From:', margin, yPos);
-  yPos += 6;
+  doc.text('Fra:', margin, yPos);
+  doc.text('Til:', pageWidth / 2, yPos);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.text(data.from.name, margin, yPos);
-  yPos += 5;
-  
-  // Handle multi-line address
-  const fromAddressLines = data.from.address.split('\n');
-  fromAddressLines.forEach(line => {
-    doc.text(line, margin, yPos);
-    yPos += 5;
-  });
-  
-  if (data.from.email) {
-    doc.text(data.from.email, margin, yPos);
-    yPos += 5;
-  }
-  if (data.from.phone) {
-    doc.text(data.from.phone, margin, yPos);
-    yPos += 5;
-  }
+  const fromLines = blockLines(data.from, hasMva);
+  const toLines = blockLines(data.to, false);
+  fromLines.forEach((line, i) => doc.text(line, margin, yPos + 6 + i * 5));
+  toLines.forEach((line, i) => doc.text(line, pageWidth / 2, yPos + 6 + i * 5));
+  yPos += 6 + Math.max(fromLines.length, toLines.length) * 5 + 10;
 
-  // To section (positioned to the right)
-  const toStartY = yPos - (fromAddressLines.length * 5 + (data.from.email ? 5 : 0) + (data.from.phone ? 5 : 0) + 11);
-  let toYPos = toStartY;
-  
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Bill To:', pageWidth / 2, toYPos);
-  toYPos += 6;
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  doc.text(data.to.name, pageWidth / 2, toYPos);
-  toYPos += 5;
-  
-  const toAddressLines = data.to.address.split('\n');
-  toAddressLines.forEach(line => {
-    doc.text(line, pageWidth / 2, toYPos);
-    toYPos += 5;
-  });
-  
-  if (data.to.email) {
-    doc.text(data.to.email, pageWidth / 2, toYPos);
-    toYPos += 5;
-  }
-  if (data.to.phone) {
-    doc.text(data.to.phone, pageWidth / 2, toYPos);
-  }
-
-  yPos = Math.max(yPos, toYPos) + 15;
-
-  // Items table header
+  // Tabellhode
   doc.setFillColor(240, 240, 240);
   doc.rect(margin, yPos - 5, contentWidth, 8, 'F');
-  
+
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('Description', margin + 2, yPos);
-  doc.text('Qty', margin + 90, yPos);
-  doc.text('Unit Price', margin + 115, yPos);
-  doc.text('Amount', margin + 150, yPos);
-  
+  doc.text('Beskrivelse', margin + 2, yPos);
+  doc.text('Antall', margin + 100, yPos, { align: 'right' });
+  doc.text('Pris', margin + 130, yPos, { align: 'right' });
+  doc.text('Beløp', right - 2, yPos, { align: 'right' });
+
   yPos += 8;
 
-  // Items
+  // Linjer
   doc.setFont('helvetica', 'normal');
   data.items.forEach((item, index) => {
     const itemTotal = calculation.itemTotals[index];
     doc.text(item.description.substring(0, 40), margin + 2, yPos);
-    doc.text(String(item.quantity), margin + 90, yPos);
-    doc.text(formatCurrency(item.unitPrice, currency), margin + 115, yPos);
-    doc.text(formatCurrency(itemTotal, currency), margin + 150, yPos);
+    doc.text(String(item.quantity).replace('.', ','), margin + 100, yPos, { align: 'right' });
+    doc.text(money(item.unitPrice), margin + 130, yPos, { align: 'right' });
+    doc.text(money(itemTotal), right - 2, yPos, { align: 'right' });
     yPos += 7;
   });
 
   yPos += 5;
 
-  // Totals section
-  const totalsX = margin + 115;
-  
+  // Summer
+  const totalsX = margin + 100;
   doc.setFont('helvetica', 'normal');
-  doc.text('Subtotal:', totalsX, yPos);
-  doc.text(formatCurrency(calculation.subtotal, currency), margin + 150, yPos);
+  doc.text('Sum eks. MVA:', totalsX, yPos);
+  doc.text(money(calculation.subtotal), right - 2, yPos, { align: 'right' });
   yPos += 6;
 
-  if (data.taxRate && data.taxRate > 0) {
-    doc.text(`Tax (${data.taxRate}%):`, totalsX, yPos);
-    doc.text(formatCurrency(calculation.taxAmount, currency), margin + 150, yPos);
+  if (hasMva) {
+    doc.text(`MVA (${String(data.taxRate).replace('.', ',')} %):`, totalsX, yPos);
+    doc.text(money(calculation.taxAmount), right - 2, yPos, { align: 'right' });
     yPos += 6;
   }
 
   doc.setFont('helvetica', 'bold');
-  doc.text('Total:', totalsX, yPos);
-  doc.text(formatCurrency(calculation.total, currency), margin + 150, yPos);
-  
+  doc.text('Å betale:', totalsX, yPos);
+  doc.text(money(calculation.total), right - 2, yPos, { align: 'right' });
+
   yPos += 15;
 
-  // Notes section
+  // Betalingsinformasjon
+  if (data.accountNumber || data.kid) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Betalingsinformasjon', margin, yPos);
+    yPos += 6;
+    doc.setFont('helvetica', 'normal');
+    if (data.accountNumber) {
+      doc.text(`Kontonummer: ${formatAccountNumber(data.accountNumber)}`, margin, yPos);
+      yPos += 5;
+    }
+    if (data.kid) {
+      doc.text(`KID: ${data.kid}`, margin, yPos);
+      yPos += 5;
+    }
+    doc.text(`Forfallsdato: ${formatInvoiceDate(data.dueDate)}`, margin, yPos);
+    yPos += 10;
+  }
+
+  // Merknader
   if (data.notes) {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
-    doc.text('Notes:', margin, yPos);
+    doc.text('Merknader:', margin, yPos);
     yPos += 6;
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    
+
     const noteLines = doc.splitTextToSize(data.notes, contentWidth);
     doc.text(noteLines, margin, yPos);
   }
 
-  // Return as Blob
   return doc.output('blob');
 }
 
 /**
- * Download invoice PDF
- * 
- * Convenience function to generate and download the invoice PDF.
- * 
- * @param data - Invoice data
- * @param filename - Optional filename (default: invoice-{number}.pdf)
+ * Laster ned faktura-PDF
+ *
+ * @param data - Fakturadata
+ * @param filename - Valgfritt filnavn (standard: faktura-{nummer}.pdf)
  */
 export async function downloadInvoicePDF(
   data: InvoiceData,
@@ -269,7 +333,7 @@ export async function downloadInvoicePDF(
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = filename || `invoice-${data.invoiceNumber}.pdf`;
+  link.download = filename || `faktura-${data.invoiceNumber}.pdf`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -277,22 +341,21 @@ export async function downloadInvoicePDF(
 }
 
 /**
- * Generate a unique invoice number
- * 
- * @param prefix - Optional prefix for the invoice number
- * @returns Generated invoice number
+ * Lager et unikt fakturanummer
+ *
+ * Merk: i regnskapet skal fakturanumre være fortløpende. Bruk gjerne
+ * nextInvoiceNumber for å telle videre fra forrige faktura.
+ *
+ * @param prefix - Valgfritt prefiks
  */
-export function generateInvoiceNumber(prefix: string = 'INV'): string {
+export function generateInvoiceNumber(prefix: string = 'FAKT'): string {
   const timestamp = Date.now().toString(36).toUpperCase();
   const random = Math.random().toString(36).substring(2, 6).toUpperCase();
   return `${prefix}-${timestamp}-${random}`;
 }
 
 /**
- * Validate invoice data
- * 
- * @param data - Invoice data to validate
- * @returns Validation result with errors if any
+ * Validerer fakturadata
  */
 export function validateInvoiceData(data: InvoiceData): {
   isValid: boolean;
@@ -301,43 +364,59 @@ export function validateInvoiceData(data: InvoiceData): {
   const errors: string[] = [];
 
   if (!data.invoiceNumber?.trim()) {
-    errors.push('Invoice number is required');
+    errors.push('Fakturanummer må fylles ut');
   }
 
   if (!data.from?.name?.trim()) {
-    errors.push('Sender name is required');
+    errors.push('Avsenderens navn må fylles ut');
   }
 
   if (!data.from?.address?.trim()) {
-    errors.push('Sender address is required');
+    errors.push('Avsenderens adresse må fylles ut');
+  }
+
+  if (data.from?.orgNumber?.trim() && !isValidOrgNumber(data.from.orgNumber)) {
+    errors.push('Organisasjonsnummeret til avsender er ikke gyldig (9 siffer)');
   }
 
   if (!data.to?.name?.trim()) {
-    errors.push('Recipient name is required');
+    errors.push('Mottakerens navn må fylles ut');
   }
 
   if (!data.to?.address?.trim()) {
-    errors.push('Recipient address is required');
+    errors.push('Mottakerens adresse må fylles ut');
+  }
+
+  if (data.to?.orgNumber?.trim() && !isValidOrgNumber(data.to.orgNumber)) {
+    errors.push('Organisasjonsnummeret til mottaker er ikke gyldig (9 siffer)');
+  }
+
+  if (data.accountNumber?.trim() && !isValidAccountNumber(data.accountNumber)) {
+    errors.push('Kontonummeret er ikke gyldig (11 siffer)');
+  }
+
+  if (data.kid?.trim() && !/^\d{2,25}$/.test(data.kid.trim())) {
+    errors.push('KID må bestå av 2–25 siffer');
   }
 
   if (!data.items || data.items.length === 0) {
-    errors.push('At least one item is required');
+    errors.push('Minst én fakturalinje må fylles ut');
   } else {
     data.items.forEach((item, index) => {
       if (!item.description?.trim()) {
-        errors.push(`Item ${index + 1}: Description is required`);
+        errors.push(`Linje ${index + 1}: Beskrivelse må fylles ut`);
       }
       if (item.quantity <= 0) {
-        errors.push(`Item ${index + 1}: Quantity must be positive`);
+        errors.push(`Linje ${index + 1}: Antall må være større enn 0`);
       }
       if (item.unitPrice < 0) {
-        errors.push(`Item ${index + 1}: Unit price cannot be negative`);
+        errors.push(`Linje ${index + 1}: Prisen kan ikke være negativ`);
       }
     });
   }
 
   if (data.taxRate !== undefined && data.taxRate < 0) {
-    errors.push('Tax rate cannot be negative');
+    errors.push('MVA-satsen kan ikke være negativ');
   }
 
   return {

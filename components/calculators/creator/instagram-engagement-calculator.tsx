@@ -47,7 +47,7 @@ export function InstagramEngagementCalculator() {
       });
       setResults(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Beregningsfeil');
       setResults(null);
     }
   }, [followers, likes, comments, shares, saves, posts]);
@@ -61,10 +61,10 @@ export function InstagramEngagementCalculator() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Instagram className="h-5 w-5 text-pink-600" />
-          Instagram Engagement Calculator
+          Engasjementsrate på Instagram
         </CardTitle>
         <CardDescription>
-          Calculate your Instagram engagement rate and compare to industry benchmarks
+          Regn ut engasjementsraten din på Instagram og sammenlign med bransjens normaltall
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -72,11 +72,11 @@ export function InstagramEngagementCalculator() {
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <Users className="h-4 w-4" />
-            Account Information
+            Kontoinformasjon
           </div>
           <NumberInput
             id="followers"
-            label="Total Followers"
+            label="Følgere totalt"
             value={followers}
             onChange={setFollowers}
             min={1}
@@ -84,7 +84,7 @@ export function InstagramEngagementCalculator() {
           />
           <NumberInput
             id="posts"
-            label="Number of Posts (to average)"
+            label="Antall innlegg (til snittet)"
             value={posts}
             onChange={setPosts}
             min={1}
@@ -97,14 +97,14 @@ export function InstagramEngagementCalculator() {
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <TrendingUp className="h-4 w-4" />
-            Engagement Metrics (total across posts)
+            Engasjement (totalt for alle innleggene)
           </div>
           <div className="grid grid-cols-2 gap-4">
             <NumberInput
               id="likes"
               label={
                 <span className="flex items-center gap-1">
-                  <Heart className="h-3 w-3 text-red-500" /> Likes
+                  <Heart className="h-3 w-3 text-red-500" /> Likerklikk
                 </span>
               }
               value={likes}
@@ -116,7 +116,7 @@ export function InstagramEngagementCalculator() {
               id="comments"
               label={
                 <span className="flex items-center gap-1">
-                  <MessageCircle className="h-3 w-3 text-blue-500" /> Comments
+                  <MessageCircle className="h-3 w-3 text-blue-500" /> Kommentarer
                 </span>
               }
               value={comments}
@@ -128,7 +128,7 @@ export function InstagramEngagementCalculator() {
               id="shares"
               label={
                 <span className="flex items-center gap-1">
-                  <Share2 className="h-3 w-3 text-green-500" /> Shares
+                  <Share2 className="h-3 w-3 text-green-500" /> Delinger
                 </span>
               }
               value={shares}
@@ -140,7 +140,7 @@ export function InstagramEngagementCalculator() {
               id="saves"
               label={
                 <span className="flex items-center gap-1">
-                  <Bookmark className="h-3 w-3 text-purple-500" /> Saves
+                  <Bookmark className="h-3 w-3 text-purple-500" /> Lagringer
                 </span>
               }
               value={saves}
@@ -162,7 +162,7 @@ export function InstagramEngagementCalculator() {
         {results && (
           <div className="space-y-4 pt-4 border-t">
             <ResultDisplay
-              label="Engagement Rate"
+              label="Engasjementsrate"
               value={formatEngagementRate(results.engagementRate)}
               highlight
               copyable
@@ -170,7 +170,7 @@ export function InstagramEngagementCalculator() {
 
             {/* Rating Badge */}
             <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">Rating:</span>
+              <span className="text-sm text-muted-foreground">Vurdering:</span>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${RATING_COLORS[results.rating]}`}>
                 {ENGAGEMENT_BENCHMARKS[results.rating].label}
               </span>
@@ -182,26 +182,26 @@ export function InstagramEngagementCalculator() {
 
             <div className="grid grid-cols-2 gap-3">
               <ResultDisplay
-                label="Total Engagements"
+                label="Engasjement totalt"
                 value={formatNumber(results.totalEngagements)}
               />
               <ResultDisplay
-                label="Avg per Post"
+                label="Snitt per innlegg"
                 value={formatNumber(results.averageEngagementsPerPost)}
               />
               <ResultDisplay
-                label="Estimated Reach"
+                label="Anslått rekkevidde"
                 value={formatNumber(estimatedReach)}
               />
               <ResultDisplay
-                label="Follower Tier"
+                label="Størrelse på konto"
                 value={tierData.label}
               />
             </div>
 
             {/* Benchmark Comparison */}
             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
-              <p className="text-sm font-medium">Industry Benchmarks by Follower Count</p>
+              <p className="text-sm font-medium">Normaltall etter antall følgere</p>
               <div className="space-y-2">
                 {Object.entries(FOLLOWER_TIER_BENCHMARKS).map(([tier, data]) => (
                   <div
@@ -211,7 +211,7 @@ export function InstagramEngagementCalculator() {
                     }`}
                   >
                     <span>{data.label}</span>
-                    <span>{data.avgEngagement}% avg</span>
+                    <span>{data.avgEngagement}% i snitt</span>
                   </div>
                 ))}
               </div>
@@ -219,7 +219,7 @@ export function InstagramEngagementCalculator() {
 
             {/* Engagement Rating Scale */}
             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
-              <p className="text-sm font-medium">Engagement Rate Scale</p>
+              <p className="text-sm font-medium">Skala for engasjementsrate</p>
               <div className="space-y-2">
                 {Object.entries(ENGAGEMENT_BENCHMARKS).map(([rating, data]) => (
                   <div
@@ -239,12 +239,12 @@ export function InstagramEngagementCalculator() {
 
         {/* Info */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md space-y-2">
-          <p className="font-medium">How it works:</p>
+          <p className="font-medium">Slik fungerer det:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Engagement Rate = (Likes + Comments + Shares + Saves) / Followers × 100</li>
-            <li>Higher engagement rates indicate a more active, engaged audience</li>
-            <li>Engagement typically decreases as follower count increases</li>
-            <li>Saves and shares are weighted heavily by the Instagram algorithm</li>
+            <li>Engasjementsrate = (likerklikk + kommentarer + delinger + lagringer) ÷ følgere × 100</li>
+            <li>Høyere engasjementsrate betyr et mer aktivt og engasjert publikum</li>
+            <li>Engasjementsraten synker vanligvis når antall følgere øker</li>
+            <li>Lagringer og delinger veier tungt i Instagram-algoritmen</li>
           </ul>
         </div>
       </CardContent>

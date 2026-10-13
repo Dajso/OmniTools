@@ -1,57 +1,71 @@
 import { Metadata } from 'next';
 import { MetaTagGenerator } from '@/components/calculators/creator';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'Meta Tag Generator - Free SEO Meta Tags Tool',
-    description: 'Generate HTML meta tags for SEO, Open Graph, and Twitter Cards. Create optimized meta tags for better search engine visibility and social sharing.',
-    keywords: ['meta tag generator', 'SEO tags', 'Open Graph', 'Twitter Card', 'meta description', 'og tags'],
-    alternates: { canonical: '/calculators/creator/meta-tag-generator' },
+  title: 'Metatag-generator – gratis kalkulator på nett',
+  description: 'Lag HTML-metatagger for SEO, Open Graph og Twitter Cards. Gratis og uten registrering.',
+  keywords: ['metatagger', 'SEO', 'Open Graph', 'Twitter Card', 'metabeskrivelse'],
+  alternates: { canonical: '/calculators/creator/meta-tag-generator' },
+  openGraph: {
+    title: 'Metatag-generator',
+    description: 'Lag HTML-metatagger for SEO, Open Graph og Twitter Cards',
+    url: '/calculators/creator/meta-tag-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Metatag-generator',
+  description: 'Lag HTML-metatagger for SEO, Open Graph og Twitter Cards',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Fyll ut tittel og beskrivelse', text: 'Sidetittel og kort beskrivelse for søkemotorer.' },
+  { name: 'Legg til Open Graph', text: 'Bestemmer hvordan siden vises når den deles.' },
+  { name: 'Legg til Twitter Cards', text: 'Tilpass visningen på X/Twitter.' },
+  { name: 'Kopier koden', text: 'Lim den inn i head-delen på siden.' },
+];
+
 const faqs = [
-    {
-        question: 'What are meta tags?',
-        answer: 'Meta tags are HTML elements that provide metadata about a web page. They help search engines understand your content and control how your page appears in search results and social media.'
-    },
-    {
-        question: 'What is Open Graph?',
-        answer: 'Open Graph is a protocol created by Facebook that controls how URLs are displayed when shared on social media. It defines the title, description, and image that appear in the preview.'
-    },
-    {
-        question: 'What is a Twitter Card?',
-        answer: 'Twitter Cards are similar to Open Graph but specific to Twitter. They enhance tweets containing links by showing a preview with title, description, and images.'
-    },
-    {
-        question: 'How long should my meta description be?',
-        answer: 'Meta descriptions should be 150-160 characters. Google typically displays up to 155-160 characters in search results before truncating.'
-    },
+  { question: 'Hvor lang bør metabeskrivelsen være?', answer: 'Cirka 150–160 tegn, så den ikke avkortes i søkeresultatet.' },
+  { question: 'Hva er Open Graph?', answer: 'Et sett metatagger som styrer tittel, beskrivelse og bilde når siden deles på Facebook, LinkedIn og andre.' },
+  { question: 'Hva er en kanonisk URL?', answer: 'Adressen du vil at søkemotorene skal regne som hovedversjonen av siden.' },
+  { question: 'Trenger jeg nøkkelord?', answer: 'Nei. Søkemotorer som Google bruker dem ikke lenger til rangering.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/creator/schema-markup-generator', title: 'Schema markup-generator', description: 'Lag JSON-LD strukturerte data for SEO, som FAQ, artikkel og produkt' },
+  { href: '/calculators/creator/utm-builder', title: 'UTM-bygger', description: 'Bygg UTM-lenker for sporing av kampanjer i markedsføring og analyse' },
 ];
 
 export default function MetaTagGeneratorPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="meta-tag-generator"
-                title="Meta Tag Generator"
-                description="Generate HTML meta tags for SEO, Open Graph, and Twitter Cards."
-                colorClass="bg-indigo-100 text-indigo-700"
-            />
-            <section aria-label="Meta Tag Generator Tool">
-                <MetaTagGenerator />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="meta-tag-generator"
+          title="Metatag-generator"
+          description="Lag HTML-metatagger for SEO, Open Graph og Twitter Cards til nettsiden din. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="Metatag-generator">
+          <MetaTagGenerator />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

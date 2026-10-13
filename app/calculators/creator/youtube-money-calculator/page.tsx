@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { YouTubeMoneyCalculator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'YouTube Money Calculator - Estimate Ad Revenue',
-  description: 'Calculate how much money you can make on YouTube. Estimate ad revenue based on views and content category.',
-  keywords: ['youtube money calculator', 'youtube earnings', 'youtube revenue calculator', 'youtube cpm', 'youtube income'],
+  title: 'YouTube-inntektskalkulator – gratis kalkulator på nett',
+  description: 'Anslå YouTube-inntekter ut fra visninger og engasjement. Gratis og uten registrering.',
+  keywords: ['youtube', 'inntekter', 'annonseinntekt', 'adsense'],
   alternates: { canonical: '/calculators/creator/youtube-money-calculator' },
+  openGraph: {
+    title: 'YouTube-inntektskalkulator',
+    description: 'Anslå YouTube-inntekter ut fra visninger og engasjement',
+    url: '/calculators/creator/youtube-money-calculator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'YouTube Money Calculator',
-  description: 'Estimate YouTube ad revenue based on views',
+  name: 'YouTube-inntektskalkulator',
+  description: 'Anslå YouTube-inntekter ut fra visninger og engasjement',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your views', text: 'Input the total number of video views.' },
-  { name: 'Select content category', text: 'Choose your content type for accurate CPM estimates.' },
-  { name: 'Customize CPM', text: 'Optionally enter custom CPM values if you know your rates.' },
-  { name: 'View estimates', text: 'See your estimated earnings range and projections.' },
+  { name: 'Oppgi antall visninger', text: 'Totalt antall visninger.' },
+  { name: 'Velg innholdskategori', text: 'Kategorien avgjør typisk CPM.' },
+  { name: 'Juster CPM ved behov', text: 'Bruk egne verdier hvis du kjenner kanalens tall.' },
+  { name: 'Les av anslaget', text: 'Se lavt, høyt og gjennomsnittlig anslag.' },
 ];
 
 const faqs = [
-  {
-    question: 'What is CPM?',
-    answer: 'CPM (Cost Per Mille) is the amount advertisers pay per 1,000 ad impressions. YouTube pays creators about 55% of this amount.',
-  },
-  {
-    question: 'Why is there a range in earnings?',
-    answer: 'CPM varies based on factors like viewer location, time of year, ad inventory, and advertiser demand. The range shows typical low and high estimates.',
-  },
-  {
-    question: 'Why do finance videos earn more?',
-    answer: 'Advertisers in finance, insurance, and business pay higher CPMs because their customers have high lifetime value.',
-  },
-  {
-    question: 'Are these estimates accurate?',
-    answer: 'These are estimates based on industry averages. Actual earnings depend on many factors including audience demographics, watch time, and ad engagement.',
-  },
-  {
-    question: 'How do I increase my YouTube earnings?',
-    answer: 'Focus on longer videos (8+ minutes for mid-roll ads), high-value niches, US/UK audiences, and maximizing watch time.',
-  },
+  { question: 'Hvor mye betaler YouTube per 1 000 visninger?', answer: 'Det varierer mye. Tallene i verktøyet er veiledende anslag i kroner og avhenger av kategori, publikum og sesong.' },
+  { question: 'Hva er CPM og RPM?', answer: 'CPM er det annonsørene betaler per 1 000 annonsevisninger. RPM er det du faktisk sitter igjen med per 1 000 visninger etter YouTubes andel.' },
+  { question: 'Hvor stor del får skaperen?', answer: 'Omtrent 55 % av annonseinntektene i vanlige videoer.' },
+  { question: 'Er tallene nøyaktige?', answer: 'Nei, de er grove anslag. Se YouTube Studio for de faktiske tallene på kanalen din.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/creator/instagram-engagement-calculator', title: 'Instagram Engagement Calculator', description: 'Calculate your Instagram engagement rate.' },
-  { href: '/calculators/creator/cpm-calculator', title: 'CPM Calculator', description: 'Calculate advertising costs.' },
-  { href: '/calculators/creator/invoice-generator', title: 'Invoice Generator', description: 'Create invoices for sponsorships.' },
+  { href: '/calculators/creator/instagram-engagement-calculator', title: 'Instagram-engasjement', description: 'Regn ut engasjementsraten på Instagram' },
+  { href: '/calculators/creator/cpm-calculator', title: 'CPM-kalkulator', description: 'Regn ut kostnad per tusen visninger (CPM) i annonsekampanjer' },
 ];
 
 export default function YouTubeMoneyCalculatorPage() {
@@ -62,12 +54,11 @@ export default function YouTubeMoneyCalculatorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="youtube-money-calculator"
-          title="YouTube Money Calculator"
-          description="Estimate how much money you can make on YouTube based on views and content category."
-          colorClass="bg-red-100 text-red-600"
+          title="YouTube-inntektskalkulator"
+          description="Anslå hvor mye du kan tjene på YouTube ut fra antall visninger og type innhold, i kroner. Gratis og uten registrering."
         />
 
-        <section aria-label="YouTube Money Calculator">
+        <section aria-label="YouTube-inntektskalkulator">
           <YouTubeMoneyCalculator />
         </section>
 

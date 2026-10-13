@@ -24,10 +24,10 @@ import { formatFixed } from '@/lib/utils/formatting';
 
 const cpmSchema = z.object({
   mode: z.enum(['cpm', 'cost', 'impressions', 'full']),
-  totalCost: z.number().min(0, 'Cost cannot be negative'),
-  impressions: z.number().min(0, 'Impressions cannot be negative'),
-  cpm: z.number().min(0, 'CPM cannot be negative'),
-  clicks: z.number().min(0, 'Clicks cannot be negative'),
+  totalCost: z.number().min(0, 'Kostnaden kan ikke være negativ'),
+  impressions: z.number().min(0, 'Antall visninger kan ikke være negativt'),
+  cpm: z.number().min(0, 'CPM kan ikke være negativ'),
+  clicks: z.number().min(0, 'Antall klikk kan ikke være negativt'),
 });
 
 type CPMInputs = z.infer<typeof cpmSchema>;
@@ -43,21 +43,21 @@ interface CPMResults {
 
 const INITIAL_INPUTS: CPMInputs = {
   mode: 'cpm',
-  totalCost: 500,
+  totalCost: 5000,
   impressions: 100000,
-  cpm: 5,
+  cpm: 50,
   clicks: 1000,
 };
 
 const MODE_OPTIONS = [
-  { value: 'cpm', label: 'Calculate CPM (from cost & impressions)' },
-  { value: 'cost', label: 'Calculate Cost (from CPM & impressions)' },
-  { value: 'impressions', label: 'Calculate Impressions (from CPM & budget)' },
-  { value: 'full', label: 'Full Analysis (with clicks)' },
+  { value: 'cpm', label: 'Regn ut CPM (fra kostnad og visninger)' },
+  { value: 'cost', label: 'Regn ut kostnad (fra CPM og visninger)' },
+  { value: 'impressions', label: 'Regn ut visninger (fra CPM og budsjett)' },
+  { value: 'full', label: 'Full analyse (med klikk)' },
 ];
 
 const PLATFORM_OPTIONS = [
-  { value: '', label: 'Select platform for comparison...' },
+  { value: '', label: 'Velg plattform å sammenligne med …' },
   ...Object.entries(PLATFORM_CPM_AVERAGES).map(([key, value]) => ({
     value: key,
     label: value.label,
@@ -69,7 +69,7 @@ function calculateCPMResults(inputs: CPMInputs): CPMResults {
 
   switch (mode) {
     case 'cpm': {
-      if (impressions <= 0) throw new Error('Impressions must be positive');
+      if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
       const result = calculateCPM({ totalCost, impressions });
       return {
         cpm: result.cpm,
@@ -88,7 +88,7 @@ function calculateCPMResults(inputs: CPMInputs): CPMResults {
       };
     }
     case 'impressions': {
-      if (cpm <= 0) throw new Error('CPM must be positive');
+      if (cpm <= 0) throw new Error('CPM må være større enn 0');
       const imps = calculateImpressions(cpm, totalCost);
       return {
         impressions: imps,
@@ -98,7 +98,7 @@ function calculateCPMResults(inputs: CPMInputs): CPMResults {
       };
     }
     case 'full': {
-      if (impressions <= 0) throw new Error('Impressions must be positive');
+      if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
       const metrics = calculateAllMetrics(totalCost, impressions, clicks);
       return {
         cpm: metrics.cpm,
@@ -138,18 +138,18 @@ export function CPMCalculator() {
           <>
             <NumberInput
               id="totalCost"
-              label="Total Ad Spend"
+              label="Annonsekostnad totalt"
               value={inputs.totalCost}
               onChange={(v) => setInput('totalCost', v)}
               min={0}
               step={10}
-              unit="$"
+              unit="kr"
               error={errors.totalCost}
               required
             />
             <NumberInput
               id="impressions"
-              label="Total Impressions"
+              label="Visninger totalt"
               value={inputs.impressions}
               onChange={(v) => setInput('impressions', v)}
               min={1}
@@ -164,18 +164,18 @@ export function CPMCalculator() {
           <>
             <NumberInput
               id="cpm"
-              label="CPM Rate"
+              label="CPM-sats"
               value={inputs.cpm}
               onChange={(v) => setInput('cpm', v)}
               min={0}
-              step={0.5}
-              unit="$"
+              step={5}
+              unit="kr"
               error={errors.cpm}
               required
             />
             <NumberInput
               id="impressions"
-              label="Target Impressions"
+              label="Ønsket antall visninger"
               value={inputs.impressions}
               onChange={(v) => setInput('impressions', v)}
               min={0}
@@ -190,23 +190,23 @@ export function CPMCalculator() {
           <>
             <NumberInput
               id="cpm"
-              label="CPM Rate"
+              label="CPM-sats"
               value={inputs.cpm}
               onChange={(v) => setInput('cpm', v)}
-              min={0.01}
-              step={0.5}
-              unit="$"
+              min={0.1}
+              step={5}
+              unit="kr"
               error={errors.cpm}
               required
             />
             <NumberInput
               id="totalCost"
-              label="Budget"
+              label="Budsjett"
               value={inputs.totalCost}
               onChange={(v) => setInput('totalCost', v)}
               min={0}
               step={10}
-              unit="$"
+              unit="kr"
               error={errors.totalCost}
               required
             />
@@ -217,18 +217,18 @@ export function CPMCalculator() {
           <>
             <NumberInput
               id="totalCost"
-              label="Total Ad Spend"
+              label="Annonsekostnad totalt"
               value={inputs.totalCost}
               onChange={(v) => setInput('totalCost', v)}
               min={0}
               step={10}
-              unit="$"
+              unit="kr"
               error={errors.totalCost}
               required
             />
             <NumberInput
               id="impressions"
-              label="Total Impressions"
+              label="Visninger totalt"
               value={inputs.impressions}
               onChange={(v) => setInput('impressions', v)}
               min={1}
@@ -238,7 +238,7 @@ export function CPMCalculator() {
             />
             <NumberInput
               id="clicks"
-              label="Total Clicks"
+              label="Klikk totalt"
               value={inputs.clicks}
               onChange={(v) => setInput('clicks', v)}
               min={0}
@@ -252,9 +252,9 @@ export function CPMCalculator() {
 
   return (
     <CalculatorBase
-      title="CPM Calculator"
-      description="Calculate Cost Per Mille (cost per thousand impressions) for advertising campaigns"
-      formula="CPM = (Total Cost / Impressions) × 1000"
+      title="CPM-kalkulator"
+      description="Regn ut CPM (kostnad per tusen visninger) for annonsekampanjer"
+      formula="CPM = (total kostnad ÷ visninger) × 1000"
       onCalculate={calculate}
       onReset={reset}
       isCalculateDisabled={!isValid}
@@ -265,8 +265,8 @@ export function CPMCalculator() {
           <div className="space-y-4">
             {results.cpm !== undefined && (
               <ResultDisplay
-                label="CPM (Cost Per 1,000 Impressions)"
-                value={`$${formatCurrency(results.cpm)}`}
+                label="CPM (kostnad per 1 000 visninger)"
+                value={`${formatCurrency(results.cpm)} kr`}
                 highlight
                 copyable
               />
@@ -275,35 +275,35 @@ export function CPMCalculator() {
             <div className="grid grid-cols-2 gap-3">
               {results.totalCost !== undefined && inputs.mode !== 'cpm' && (
                 <ResultDisplay
-                  label="Total Cost"
-                  value={`$${formatCurrency(results.totalCost)}`}
+                  label="Total kostnad"
+                  value={`${formatCurrency(results.totalCost)} kr`}
                   copyable
                 />
               )}
               {results.impressions !== undefined && inputs.mode === 'impressions' && (
                 <ResultDisplay
-                  label="Impressions"
+                  label="Visninger"
                   value={formatNumber(results.impressions)}
                   copyable
                 />
               )}
               {results.costPerImpression !== undefined && (
                 <ResultDisplay
-                  label="Cost Per Impression"
-                  value={`$${formatFixed(results.costPerImpression, 6)}`}
+                  label="Kostnad per visning"
+                  value={`${formatFixed(results.costPerImpression, 6)} kr`}
                   copyable
                 />
               )}
               {results.cpc !== undefined && results.cpc > 0 && (
                 <ResultDisplay
-                  label="CPC (Cost Per Click)"
-                  value={`$${formatCurrency(results.cpc)}`}
+                  label="CPC (kostnad per klikk)"
+                  value={`${formatCurrency(results.cpc)} kr`}
                   copyable
                 />
               )}
               {results.ctr !== undefined && (
                 <ResultDisplay
-                  label="CTR (Click-Through Rate)"
+                  label="CTR (klikkandel)"
                   value={formatPercentage(results.ctr)}
                   copyable
                 />
@@ -313,17 +313,17 @@ export function CPMCalculator() {
             {/* Platform Comparison */}
             {platformData && results.cpm !== undefined && (
               <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-                <p className="text-sm font-medium">Platform Comparison: {platformData.label}</p>
+                <p className="text-sm font-medium">Sammenligning med plattform: {platformData.label}</p>
                 <p className="text-sm text-muted-foreground">
-                  Average CPM: ${formatFixed(platformData.low, 2)} - ${formatFixed(platformData.high, 2)}
+                  Gjennomsnittlig CPM: {formatFixed(platformData.low, 0)}–{formatFixed(platformData.high, 0)} kr
                 </p>
                 <p className={`text-sm font-medium ${results.cpm < platformData.low ? 'text-green-600' :
                     results.cpm > platformData.high ? 'text-red-600' : 'text-yellow-600'
                   }`}>
-                  Your CPM is {
-                    results.cpm < platformData.low ? 'below' :
-                      results.cpm > platformData.high ? 'above' : 'within'
-                  } the typical range
+                  CPM-en din er {
+                    results.cpm < platformData.low ? 'under' :
+                      results.cpm > platformData.high ? 'over' : 'innenfor'
+                  } det typiske området
                 </p>
               </div>
             )}
@@ -332,7 +332,7 @@ export function CPMCalculator() {
       }
     >
       <div className="space-y-2">
-        <Label htmlFor="mode">Calculation Mode</Label>
+        <Label htmlFor="mode">Beregningsmodus</Label>
         <Select
           id="mode"
           options={MODE_OPTIONS}
@@ -344,7 +344,7 @@ export function CPMCalculator() {
       {renderInputs()}
 
       <div className="space-y-2">
-        <Label htmlFor="platform">Compare to Platform (Optional)</Label>
+        <Label htmlFor="platform">Sammenlign med plattform (valgfritt)</Label>
         <Select
           id="platform"
           options={PLATFORM_OPTIONS}

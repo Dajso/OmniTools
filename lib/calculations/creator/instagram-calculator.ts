@@ -7,6 +7,8 @@
  * @see Requirements 18.7
  */
 
+import { formatCompact, formatFixed } from '@/lib/utils/formatting';
+
 /**
  * Instagram post metrics
  */
@@ -49,11 +51,11 @@ export type EngagementRating = 'excellent' | 'good' | 'average' | 'below_average
  * Engagement rate thresholds
  */
 export const ENGAGEMENT_THRESHOLDS: Record<EngagementRating, { min: number; max: number; label: string }> = {
-  excellent: { min: 6, max: Infinity, label: 'Excellent' },
-  good: { min: 3, max: 6, label: 'Good' },
-  average: { min: 1, max: 3, label: 'Average' },
-  below_average: { min: 0.5, max: 1, label: 'Below Average' },
-  low: { min: 0, max: 0.5, label: 'Low' },
+  excellent: { min: 6, max: Infinity, label: 'Utmerket' },
+  good: { min: 3, max: 6, label: 'Bra' },
+  average: { min: 1, max: 3, label: 'Gjennomsnittlig' },
+  below_average: { min: 0.5, max: 1, label: 'Under gjennomsnittet' },
+  low: { min: 0, max: 0.5, label: 'Lav' },
 };
 
 /**
@@ -69,15 +71,15 @@ export const ENGAGEMENT_THRESHOLDS: Record<EngagementRating, { min: number; max:
 export function calculateEngagementRate(metrics: InstagramAccountMetrics): EngagementRateResult {
   const { followers, posts } = metrics;
 
-  if (followers <= 0) throw new Error('Followers must be positive');
-  if (!posts || posts.length === 0) throw new Error('At least one post is required');
+  if (followers <= 0) throw new Error('Antall følgere må være større enn 0');
+  if (!posts || posts.length === 0) throw new Error('Minst ett innlegg må oppgis');
 
   // Validate post metrics
   posts.forEach((post, index) => {
-    if (post.likes < 0) throw new Error(`Post ${index + 1}: Likes cannot be negative`);
-    if (post.comments < 0) throw new Error(`Post ${index + 1}: Comments cannot be negative`);
-    if (post.shares !== undefined && post.shares < 0) throw new Error(`Post ${index + 1}: Shares cannot be negative`);
-    if (post.saves !== undefined && post.saves < 0) throw new Error(`Post ${index + 1}: Saves cannot be negative`);
+    if (post.likes < 0) throw new Error(`Innlegg ${index + 1}: Likerklikk kan ikke være negative`);
+    if (post.comments < 0) throw new Error(`Innlegg ${index + 1}: Kommentarer kan ikke være negative`);
+    if (post.shares !== undefined && post.shares < 0) throw new Error(`Innlegg ${index + 1}: Delinger kan ikke være negative`);
+    if (post.saves !== undefined && post.saves < 0) throw new Error(`Innlegg ${index + 1}: Lagringer kan ikke være negative`);
   });
 
   // Calculate totals
@@ -122,7 +124,7 @@ export function calculateEngagementRate(metrics: InstagramAccountMetrics): Engag
  * @returns Engagement rate percentage
  */
 export function calculatePostEngagementRate(post: InstagramPostMetrics, followers: number): number {
-  if (followers <= 0) throw new Error('Followers must be positive');
+  if (followers <= 0) throw new Error('Antall følgere må være større enn 0');
 
   const engagements = post.likes + post.comments + (post.shares || 0) + (post.saves || 0);
   return (engagements / followers) * 100;
@@ -186,11 +188,11 @@ export function estimateImpressions(followers: number, engagementRate: number): 
  * Smaller accounts typically have higher engagement rates
  */
 export const FOLLOWER_BENCHMARKS: { min: number; max: number; avgRate: number; label: string }[] = [
-  { min: 0, max: 1000, avgRate: 8.0, label: 'Nano (< 1K)' },
-  { min: 1000, max: 10000, avgRate: 4.0, label: 'Micro (1K-10K)' },
-  { min: 10000, max: 100000, avgRate: 2.4, label: 'Mid-tier (10K-100K)' },
-  { min: 100000, max: 1000000, avgRate: 1.8, label: 'Macro (100K-1M)' },
-  { min: 1000000, max: Infinity, avgRate: 1.5, label: 'Mega (1M+)' },
+  { min: 0, max: 1000, avgRate: 8.0, label: 'Nano (under 1 tusen)' },
+  { min: 1000, max: 10000, avgRate: 4.0, label: 'Mikro (1–10 tusen)' },
+  { min: 10000, max: 100000, avgRate: 2.4, label: 'Mellomstor (10–100 tusen)' },
+  { min: 100000, max: 1000000, avgRate: 1.8, label: 'Stor (100 tusen–1 mill.)' },
+  { min: 1000000, max: Infinity, avgRate: 1.5, label: 'Mega (over 1 mill.)' },
 ];
 
 /**
@@ -233,21 +235,12 @@ export function compareToIndustryBenchmark(
  * @returns Formatted string
  */
 export function formatEngagementRate(rate: number): string {
-  return `${rate.toFixed(2)}%`;
+  return `${formatFixed(rate, 2)}\u00A0%`;
 }
 
 /**
- * Format large numbers for display
- * 
- * @param num - Number to format
- * @returns Formatted string
+ * Formaterer store tall til visning («1,2 mill.», «12,3 tusen»)
  */
 export function formatNumber(num: number): string {
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-  return num.toLocaleString('nb-NO');
+  return formatCompact(num, 1);
 }

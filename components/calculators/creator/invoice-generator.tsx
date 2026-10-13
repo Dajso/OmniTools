@@ -6,11 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { NumberInput } from '@/components/ui/number-input';
+import { SelectInput } from '@/components/ui/select-input';
 import { Plus, Trash2, Download, FileText } from 'lucide-react';
 import {
   calculateInvoiceTotals,
   downloadInvoicePDF,
-  generateInvoiceNumber,
+  nextInvoiceNumber,
+  generateKid,
+  MVA_RATES,
   validateInvoiceData,
   formatCurrency,
   type InvoiceData,
@@ -29,22 +32,25 @@ const EMPTY_BUSINESS: BusinessInfo = {
   address: '',
   email: '',
   phone: '',
+  orgNumber: '',
 };
 
 export function InvoiceGenerator() {
-  const [invoiceNumber, setInvoiceNumber] = React.useState(() => generateInvoiceNumber());
+  const [invoiceNumber, setInvoiceNumber] = React.useState(() => `${new Date().getFullYear()}-001`);
   const [date, setDate] = React.useState(() => new Date().toISOString().split('T')[0]);
   const [dueDate, setDueDate] = React.useState(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 30);
+    d.setDate(d.getDate() + 14);
     return d.toISOString().split('T')[0];
   });
   const [from, setFrom] = React.useState<BusinessInfo>(EMPTY_BUSINESS);
   const [to, setTo] = React.useState<BusinessInfo>(EMPTY_BUSINESS);
   const [items, setItems] = React.useState<InvoiceItem[]>([{ ...EMPTY_ITEM }]);
-  const [taxRate, setTaxRate] = React.useState(0);
+  const [taxRate, setTaxRate] = React.useState(25);
+  const [accountNumber, setAccountNumber] = React.useState('');
+  const [kid, setKid] = React.useState('');
   const [notes, setNotes] = React.useState('');
-  const [currency, setCurrency] = React.useState('$');
+  const [currency, setCurrency] = React.useState('kr');
   const [errors, setErrors] = React.useState<string[]>([]);
   const [isGenerating, setIsGenerating] = React.useState(false);
 
@@ -91,6 +97,8 @@ export function InvoiceGenerator() {
       taxRate: taxRate > 0 ? taxRate : undefined,
       notes: notes || undefined,
       currency,
+      accountNumber: accountNumber || undefined,
+      kid: kid || undefined,
     };
 
     const validation = validateInvoiceData(invoiceData);
@@ -105,14 +113,15 @@ export function InvoiceGenerator() {
     try {
       await downloadInvoicePDF(invoiceData);
     } catch (err) {
-      setErrors([err instanceof Error ? err.message : 'Failed to generate PDF']);
+      setErrors([err instanceof Error ? err.message : 'Kunne ikke lage PDF-en']);
     } finally {
       setIsGenerating(false);
     }
   };
 
   const handleNewInvoice = () => {
-    setInvoiceNumber(generateInvoiceNumber());
+    setInvoiceNumber(nextInvoiceNumber(invoiceNumber));
+    setKid('');
     setItems([{ ...EMPTY_ITEM }]);
     setErrors([]);
   };
@@ -122,26 +131,26 @@ export function InvoiceGenerator() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
-          Invoice Generator
+          Fakturagenerator
         </CardTitle>
         <CardDescription>
-          Create professional invoices with PDF export
+          Lag en faktura med MVA, kontonummer og KID, og last ned som PDF
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Invoice Details */}
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
-            <Label htmlFor="invoiceNumber">Invoice Number</Label>
+            <Label htmlFor="invoiceNumber">Fakturanummer</Label>
             <Input
               id="invoiceNumber"
               value={invoiceNumber}
               onChange={(e) => setInvoiceNumber(e.target.value)}
-              placeholder="INV-001"
+              placeholder="2026-001"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="date">Invoice Date</Label>
+            <Label htmlFor="date">Fakturadato</Label>
             <Input
               id="date"
               type="date"
@@ -150,7 +159,7 @@ export function InvoiceGenerator() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="dueDate">Due Date</Label>
+            <Label htmlFor="dueDate">Forfallsdato</Label>
             <Input
               id="dueDate"
               type="date"
@@ -164,45 +173,55 @@ export function InvoiceGenerator() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* From Section */}
           <div className="space-y-4 p-4 border rounded-lg">
-            <h3 className="font-semibold">From (Your Business)</h3>
+            <h3 className="font-semibold">Fra (din virksomhet)</h3>
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="fromName">Business Name *</Label>
+                <Label htmlFor="fromName">Firmanavn *</Label>
                 <Input
                   id="fromName"
                   value={from.name}
                   onChange={(e) => updateFrom('name', e.target.value)}
-                  placeholder="Your Company Name"
+                  placeholder="Firmanavn AS"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="fromAddress">Address *</Label>
+                <Label htmlFor="fromAddress">Adresse *</Label>
                 <textarea
                   id="fromAddress"
                   value={from.address}
                   onChange={(e) => updateFrom('address', e.target.value)}
-                  placeholder="123 Business St&#10;City, State 12345"
+                  placeholder="Storgata 1&#10;4611 Kristiansand"
                   className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm resize-none"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fromOrg">Organisasjonsnummer</Label>
+                <Input
+                  id="fromOrg"
+                  value={from.orgNumber}
+                  onChange={(e) => updateFrom('orgNumber', e.target.value)}
+                  placeholder="123 456 789"
+                  inputMode="numeric"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-2">
-                  <Label htmlFor="fromEmail">Email</Label>
+                  <Label htmlFor="fromEmail">E-post</Label>
                   <Input
                     id="fromEmail"
                     type="email"
                     value={from.email}
                     onChange={(e) => updateFrom('email', e.target.value)}
-                    placeholder="email@example.com"
+                    placeholder="post@firma.no"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="fromPhone">Phone</Label>
+                  <Label htmlFor="fromPhone">Telefon</Label>
                   <Input
                     id="fromPhone"
                     value={from.phone}
                     onChange={(e) => updateFrom('phone', e.target.value)}
-                    placeholder="(555) 123-4567"
+                    placeholder="+47 400 00 000"
                   />
                 </div>
               </div>
@@ -211,45 +230,55 @@ export function InvoiceGenerator() {
 
           {/* To Section */}
           <div className="space-y-4 p-4 border rounded-lg">
-            <h3 className="font-semibold">Bill To (Client)</h3>
+            <h3 className="font-semibold">Til (kunde)</h3>
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="toName">Client Name *</Label>
+                <Label htmlFor="toName">Kundens navn *</Label>
                 <Input
                   id="toName"
                   value={to.name}
                   onChange={(e) => updateTo('name', e.target.value)}
-                  placeholder="Client Company Name"
+                  placeholder="Kunde AS"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="toAddress">Address *</Label>
+                <Label htmlFor="toAddress">Adresse *</Label>
                 <textarea
                   id="toAddress"
                   value={to.address}
                   onChange={(e) => updateTo('address', e.target.value)}
-                  placeholder="456 Client Ave&#10;City, State 67890"
+                  placeholder="Kirkegata 2&#10;0153 Oslo"
                   className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm resize-none"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="toOrg">Organisasjonsnummer (valgfritt)</Label>
+                <Input
+                  id="toOrg"
+                  value={to.orgNumber}
+                  onChange={(e) => updateTo('orgNumber', e.target.value)}
+                  placeholder="123 456 789"
+                  inputMode="numeric"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-2">
-                  <Label htmlFor="toEmail">Email</Label>
+                  <Label htmlFor="toEmail">E-post</Label>
                   <Input
                     id="toEmail"
                     type="email"
                     value={to.email}
                     onChange={(e) => updateTo('email', e.target.value)}
-                    placeholder="client@example.com"
+                    placeholder="kunde@eksempel.no"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="toPhone">Phone</Label>
+                  <Label htmlFor="toPhone">Telefon</Label>
                   <Input
                     id="toPhone"
                     value={to.phone}
                     onChange={(e) => updateTo('phone', e.target.value)}
-                    placeholder="(555) 987-6543"
+                    placeholder="+47 900 00 000"
                   />
                 </div>
               </div>
@@ -260,19 +289,19 @@ export function InvoiceGenerator() {
         {/* Line Items */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold">Line Items</h3>
+            <h3 className="font-semibold">Fakturalinjer</h3>
             <Button variant="outline" size="sm" onClick={addItem}>
-              <Plus className="h-4 w-4 mr-1" /> Add Item
+              <Plus className="h-4 w-4 mr-1" /> Legg til linje
             </Button>
           </div>
           
           <div className="space-y-3">
             {/* Header */}
             <div className="grid grid-cols-12 gap-2 text-sm font-medium text-muted-foreground px-2">
-              <div className="col-span-5">Description</div>
-              <div className="col-span-2">Qty</div>
-              <div className="col-span-2">Price</div>
-              <div className="col-span-2">Total</div>
+              <div className="col-span-5">Beskrivelse</div>
+              <div className="col-span-2">Antall</div>
+              <div className="col-span-2">Pris</div>
+              <div className="col-span-2">Sum</div>
               <div className="col-span-1"></div>
             </div>
             
@@ -283,7 +312,7 @@ export function InvoiceGenerator() {
                   <Input
                     value={item.description}
                     onChange={(e) => updateItem(index, 'description', e.target.value)}
-                    placeholder="Item description"
+                    placeholder="Beskrivelse av tjenesten eller varen"
                   />
                 </div>
                 <div className="col-span-2">
@@ -326,46 +355,76 @@ export function InvoiceGenerator() {
         <div className="flex justify-end">
           <div className="w-full max-w-xs space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Subtotal</span>
+              <span className="text-muted-foreground">Sum eks. MVA</span>
               <span className="font-medium">{formatCurrency(calculation.subtotal, currency)}</span>
             </div>
             <div className="flex justify-between items-center gap-4">
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Tax</span>
-                <NumberInput
-                  value={taxRate}
-                  onChange={setTaxRate}
-                  min={0}
-                  max={100}
-                  step={0.5}
-                  unit="%"
-                  className="w-20"
+                <span className="text-muted-foreground">MVA</span>
+                <SelectInput
+                  id="mva"
+                  label=""
+                  value={String(taxRate)}
+                  onChange={(v) => setTaxRate(Number(v))}
+                  options={MVA_RATES.map(m => ({ value: String(m.value), label: m.label }))}
                 />
               </div>
               <span className="font-medium">{formatCurrency(calculation.taxAmount, currency)}</span>
             </div>
             <div className="flex justify-between items-center pt-2 border-t">
-              <span className="font-semibold">Total</span>
+              <span className="font-semibold">Å betale</span>
               <span className="text-xl font-bold">{formatCurrency(calculation.total, currency)}</span>
             </div>
           </div>
         </div>
 
+        {/* Betalingsinformasjon */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="accountNumber">Kontonummer</Label>
+            <Input
+              id="accountNumber"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+              placeholder="1234.56.78903"
+              inputMode="numeric"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="kid">KID (valgfritt)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="kid"
+                value={kid}
+                onChange={(e) => setKid(e.target.value)}
+                placeholder="Bare siffer"
+                inputMode="numeric"
+              />
+              <Button type="button" variant="outline" onClick={() => setKid(generateKid(invoiceNumber))}>
+                Lag KID
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              KID lages ut fra sifrene i fakturanummeret, med kontrollsiffer (modulus 10).
+            </p>
+          </div>
+        </div>
+
         {/* Notes */}
         <div className="space-y-2">
-          <Label htmlFor="notes">Notes (Optional)</Label>
+          <Label htmlFor="notes">Merknader (valgfritt)</Label>
           <textarea
             id="notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Payment terms, thank you message, etc."
+            placeholder="Betalingsvilkår, takk for oppdraget osv."
             className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm resize-none"
           />
         </div>
 
         {/* Currency Selection */}
         <div className="flex items-center gap-4">
-          <Label htmlFor="currency">Currency Symbol</Label>
+          <Label htmlFor="currency">Valutategn</Label>
           <Input
             id="currency"
             value={currency}
@@ -378,7 +437,7 @@ export function InvoiceGenerator() {
         {/* Errors */}
         {errors.length > 0 && (
           <div className="bg-destructive/10 text-destructive p-4 rounded-md">
-            <p className="font-medium mb-2">Please fix the following errors:</p>
+            <p className="font-medium mb-2">Rett opp følgende:</p>
             <ul className="list-disc list-inside text-sm space-y-1">
               {errors.map((error, index) => (
                 <li key={index}>{error}</li>
@@ -391,10 +450,10 @@ export function InvoiceGenerator() {
         <div className="flex gap-3 pt-4 border-t">
           <Button onClick={handleGeneratePDF} disabled={isGenerating}>
             <Download className="h-4 w-4 mr-2" />
-            {isGenerating ? 'Generating...' : 'Download PDF'}
+            {isGenerating ? 'Lager PDF …' : 'Last ned PDF'}
           </Button>
           <Button variant="outline" onClick={handleNewInvoice}>
-            New Invoice
+            Ny faktura
           </Button>
         </div>
       </CardContent>

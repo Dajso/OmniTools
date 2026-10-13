@@ -1,57 +1,49 @@
 import { Metadata } from 'next';
 import { WifiQRGenerator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'WiFi QR Code Generator - Share WiFi Easily',
-  description: 'Generate a QR code for your WiFi network. Guests can scan to connect instantly without typing passwords.',
-  keywords: ['wifi qr code', 'wifi qr generator', 'share wifi', 'wifi password qr', 'network qr code'],
+  title: 'WiFi QR-kode – gratis kalkulator på nett',
+  description: 'Lag QR-koder for enkel deling av WiFi-nettverk. Gratis og uten registrering.',
+  keywords: ['wifi qr', 'qr-kode', 'dele wifi', 'nettverk'],
   alternates: { canonical: '/calculators/creator/wifi-qr-generator' },
+  openGraph: {
+    title: 'WiFi QR-kode',
+    description: 'Lag QR-koder for enkel deling av WiFi-nettverk',
+    url: '/calculators/creator/wifi-qr-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'WiFi QR Code Generator',
-  description: 'Generate a QR code for easy WiFi network sharing',
+  name: 'WiFi QR-kode',
+  description: 'Lag QR-koder for enkel deling av WiFi-nettverk',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter network name', text: 'Type your WiFi network name (SSID) exactly as it appears.' },
-  { name: 'Select security type', text: 'Choose WPA/WPA2 for most modern networks, or Open for no password.' },
-  { name: 'Enter password', text: 'Type your WiFi password (not needed for open networks).' },
-  { name: 'Generate QR code', text: 'Click Generate to create your WiFi QR code.' },
-  { name: 'Share with guests', text: 'Print or display the QR code for guests to scan.' },
+  { name: 'Skriv inn nettverksnavnet', text: 'SSID, eksakt slik det skrives.' },
+  { name: 'Velg sikkerhetstype', text: 'Vanligvis WPA/WPA2.' },
+  { name: 'Skriv inn passordet', text: 'Passordet lagres ikke.' },
+  { name: 'Last ned QR-koden', text: 'Skriv den ut eller vis den på skjerm.' },
 ];
 
 const faqs = [
-  {
-    question: 'How do guests scan the QR code?',
-    answer: 'Most modern smartphones can scan QR codes directly from the camera app. Point the camera at the QR code and tap the notification to connect.',
-  },
-  {
-    question: 'Is my WiFi password secure?',
-    answer: 'The QR code is generated entirely in your browser. Your password is never sent to any server. However, anyone who can see the QR code can connect to your network.',
-  },
-  {
-    question: 'What security types are supported?',
-    answer: 'WPA/WPA2/WPA3 (most common), WEP (legacy, not recommended), and Open (no password) networks are all supported.',
-  },
-  {
-    question: 'Why isn\'t the QR code working?',
-    answer: 'Make sure the network name is exactly correct (case-sensitive) and the password is accurate. Also ensure the security type matches your router settings.',
-  },
-  {
-    question: 'Can I use this for a hidden network?',
-    answer: 'Yes! Check the "Hidden network" option if your SSID is not broadcast. The QR code will include this information.',
-  },
+  { question: 'Hvordan kobler gjestene til?', answer: 'De åpner mobilkameraet og skanner koden. Telefonen foreslår å koble til nettverket.' },
+  { question: 'Er det trygt å lage QR-koden her?', answer: 'Ja. Alt skjer i nettleseren din, og passordet sendes ikke til noen server.' },
+  { question: 'Hvilken sikkerhetstype skal jeg velge?', answer: 'WPA er vanligvis riktig. Velg «åpent» bare for nettverk uten passord.' },
+  { question: 'Hva om nettverket er skjult?', answer: 'Kryss av for skjult nettverk, så tar QR-koden med dette.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/password-generator', title: 'Password Generator', description: 'Generate secure passwords.' },
+  { href: '/calculators/creator/signature-generator', title: 'Signaturgenerator', description: 'Lag signaturer i håndskriftstil til dokumenter og e-post' },
 ];
 
 export default function WifiQRGeneratorPage() {
@@ -61,12 +53,11 @@ export default function WifiQRGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="wifi-qr-generator"
-          title="WiFi QR Code Generator"
-          description="Generate a QR code for your WiFi network. Guests can scan to connect instantly without typing passwords."
-          colorClass="bg-cyan-100 text-cyan-600"
+          title="WiFi QR-kode"
+          description="Lag en QR-kode som lar gjester koble til wifi uten å skrive passord. Gratis og uten registrering."
         />
 
-        <section aria-label="WiFi QR Code Generator">
+        <section aria-label="WiFi QR-kode">
           <WifiQRGenerator />
         </section>
 

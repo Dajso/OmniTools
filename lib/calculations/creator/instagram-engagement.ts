@@ -3,6 +3,8 @@
  * Calculates engagement rate based on followers, likes, comments, and other metrics
  */
 
+import { formatCompact, formatFixed } from '@/lib/utils/formatting';
+
 export interface InstagramEngagementInput {
   followers: number;
   likes: number;
@@ -24,20 +26,20 @@ export type EngagementRating = 'excellent' | 'good' | 'average' | 'below_average
 
 // Industry benchmarks for Instagram engagement rates
 export const ENGAGEMENT_BENCHMARKS = {
-  excellent: { min: 6, label: 'Excellent', description: 'Top-tier engagement, highly engaged audience' },
-  good: { min: 3, label: 'Good', description: 'Above average engagement' },
-  average: { min: 1, label: 'Average', description: 'Typical engagement rate' },
-  below_average: { min: 0.5, label: 'Below Average', description: 'Room for improvement' },
-  low: { min: 0, label: 'Low', description: 'Consider strategies to boost engagement' },
+  excellent: { min: 6, label: 'Utmerket', description: 'Toppnivå, et svært engasjert publikum' },
+  good: { min: 3, label: 'Bra', description: 'Over gjennomsnittet' },
+  average: { min: 1, label: 'Gjennomsnittlig', description: 'Typisk engasjementsrate' },
+  below_average: { min: 0.5, label: 'Under gjennomsnittet', description: 'Rom for forbedring' },
+  low: { min: 0, label: 'Lav', description: 'Vurder tiltak for å øke engasjementet' },
 } as const;
 
 // Follower tier benchmarks (engagement typically decreases with more followers)
 export const FOLLOWER_TIER_BENCHMARKS: Record<string, { min: number; max: number; avgEngagement: number; label: string }> = {
-  nano: { min: 0, max: 10000, avgEngagement: 4.0, label: 'Nano (0-10K)' },
-  micro: { min: 10000, max: 100000, avgEngagement: 2.4, label: 'Micro (10K-100K)' },
-  mid: { min: 100000, max: 500000, avgEngagement: 1.8, label: 'Mid-tier (100K-500K)' },
-  macro: { min: 500000, max: 1000000, avgEngagement: 1.5, label: 'Macro (500K-1M)' },
-  mega: { min: 1000000, max: Infinity, avgEngagement: 1.2, label: 'Mega (1M+)' },
+  nano: { min: 0, max: 10000, avgEngagement: 4.0, label: 'Nano (0–10 tusen)' },
+  micro: { min: 10000, max: 100000, avgEngagement: 2.4, label: 'Mikro (10–100 tusen)' },
+  mid: { min: 100000, max: 500000, avgEngagement: 1.8, label: 'Mellomstor (100–500 tusen)' },
+  macro: { min: 500000, max: 1000000, avgEngagement: 1.5, label: 'Stor (500 tusen–1 mill.)' },
+  mega: { min: 1000000, max: Infinity, avgEngagement: 1.2, label: 'Mega (over 1 mill.)' },
 };
 
 /**
@@ -48,11 +50,11 @@ export function calculateEngagementRate(input: InstagramEngagementInput): Instag
   const { followers, likes, comments, shares = 0, saves = 0, posts = 1 } = input;
 
   if (followers <= 0) {
-    throw new Error('Followers must be greater than 0');
+    throw new Error('Antall følgere må være større enn 0');
   }
 
   if (posts <= 0) {
-    throw new Error('Posts must be greater than 0');
+    throw new Error('Antall innlegg må være større enn 0');
   }
 
   const totalEngagements = likes + comments + shares + saves;
@@ -130,18 +132,12 @@ export function estimateReach(followers: number, engagementRate: number): number
  * Format engagement rate for display
  */
 export function formatEngagementRate(rate: number): string {
-  return `${rate.toFixed(2)}%`;
+  return `${formatFixed(rate, 2)}\u00A0%`;
 }
 
 /**
- * Format large numbers with K/M suffixes
+ * Formaterer store tall til visning («1,2 mill.», «12,3 tusen»)
  */
 export function formatNumber(num: number): string {
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-  return num.toLocaleString('nb-NO');
+  return formatCompact(num, 1);
 }

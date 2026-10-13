@@ -429,7 +429,7 @@ export function generateSchema(input: SchemaData): string {
             schema = generatePersonSchema(input.data);
             break;
         default:
-            throw new Error('Unknown schema type');
+            throw new Error('Ukjent schema-type');
     }
 
     return JSON.stringify(schema, null, 2);
@@ -454,17 +454,17 @@ export function validateSchema(jsonLd: string): { isValid: boolean; errors: stri
         const parsed = JSON.parse(jsonLd);
 
         if (!parsed['@context']) {
-            errors.push('Missing @context property');
+            errors.push('Mangler egenskapen @context');
         } else if (parsed['@context'] !== 'https://schema.org') {
-            errors.push('@context should be "https://schema.org"');
+            errors.push('@context bør være «https://schema.org»');
         }
 
         if (!parsed['@type']) {
-            errors.push('Missing @type property');
+            errors.push('Mangler egenskapen @type');
         }
 
     } catch (e) {
-        errors.push('Invalid JSON format');
+        errors.push('Ugyldig JSON-format');
     }
 
     return {
@@ -477,12 +477,12 @@ export function validateSchema(jsonLd: string): { isValid: boolean; errors: stri
  * Schema type display names and descriptions
  */
 export const SCHEMA_TYPES: { type: SchemaType; name: string; description: string }[] = [
-    { type: 'Article', name: 'Article', description: 'Blog posts, news articles, and written content' },
-    { type: 'FAQ', name: 'FAQ Page', description: 'Frequently asked questions page' },
-    { type: 'Product', name: 'Product', description: 'E-commerce product listings' },
-    { type: 'LocalBusiness', name: 'Local Business', description: 'Physical business locations' },
-    { type: 'HowTo', name: 'How-To Guide', description: 'Step-by-step instructions' },
-    { type: 'Event', name: 'Event', description: 'Events, concerts, and meetups' },
-    { type: 'Organization', name: 'Organization', description: 'Company or organization info' },
-    { type: 'Person', name: 'Person', description: 'Personal profile information' },
+    { type: 'Article', name: 'Artikkel', description: 'Blogginnlegg, nyhetsartikler og annet skrevet innhold' },
+    { type: 'FAQ', name: 'Side med vanlige spørsmål', description: 'Side med ofte stilte spørsmål' },
+    { type: 'Product', name: 'Produkt', description: 'Produktoppføringer i nettbutikk' },
+    { type: 'LocalBusiness', name: 'Lokal virksomhet', description: 'Fysiske forretningssteder' },
+    { type: 'HowTo', name: 'Veiledning', description: 'Steg-for-steg-instruksjoner' },
+    { type: 'Event', name: 'Arrangement', description: 'Arrangementer, konserter og treff' },
+    { type: 'Organization', name: 'Organisasjon', description: 'Informasjon om firma eller organisasjon' },
+    { type: 'Person', name: 'Person', description: 'Informasjon om en persons profil' },
 ];

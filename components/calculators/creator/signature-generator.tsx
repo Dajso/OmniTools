@@ -9,20 +9,20 @@ import { Select } from '@/components/ui/select';
 import { Download, RefreshCw, PenTool } from 'lucide-react';
 
 const FONT_STYLES = [
-  { value: 'cursive1', label: 'Elegant Script' },
-  { value: 'cursive2', label: 'Flowing Script' },
-  { value: 'cursive3', label: 'Classic Signature' },
-  { value: 'cursive4', label: 'Modern Script' },
-  { value: 'cursive5', label: 'Bold Script' },
+  { value: 'cursive1', label: 'Elegant skrift' },
+  { value: 'cursive2', label: 'Flytende skrift' },
+  { value: 'cursive3', label: 'Klassisk signatur' },
+  { value: 'cursive4', label: 'Moderne skrift' },
+  { value: 'cursive5', label: 'Kraftig skrift' },
 ];
 
 const COLORS = [
-  { value: '#000000', label: 'Black' },
-  { value: '#1a365d', label: 'Navy Blue' },
-  { value: '#2d3748', label: 'Dark Gray' },
-  { value: '#744210', label: 'Brown' },
-  { value: '#1e40af', label: 'Royal Blue' },
-  { value: '#7c3aed', label: 'Purple' },
+  { value: '#000000', label: 'Svart' },
+  { value: '#1a365d', label: 'Marineblå' },
+  { value: '#2d3748', label: 'Mørkegrå' },
+  { value: '#744210', label: 'Brun' },
+  { value: '#1e40af', label: 'Kongeblå' },
+  { value: '#7c3aed', label: 'Lilla' },
 ];
 
 const FONT_FAMILIES: Record<string, string> = {
@@ -70,7 +70,7 @@ function generateSignaturePath(name: string, style: string): string {
 }
 
 export function SignatureGenerator() {
-  const [name, setName] = React.useState('John Doe');
+  const [name, setName] = React.useState('Ola Nordmann');
   const [style, setStyle] = React.useState('cursive1');
   const [color, setColor] = React.useState('#000000');
   const [strokeWidth, setStrokeWidth] = React.useState(2);
@@ -125,28 +125,28 @@ export function SignatureGenerator() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <PenTool className="h-5 w-5" />
-          Signature Generator
+          Signaturgenerator
         </CardTitle>
         <CardDescription>
-          Generate handwriting-style signatures for documents and emails
+          Lag signaturer i håndskriftstil til dokumenter og e-post
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Inputs */}
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="name">Your Name</Label>
+            <Label htmlFor="name">Navnet ditt</Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
+              placeholder="Skriv inn navnet ditt"
               maxLength={30}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="style">Signature Style</Label>
+            <Label htmlFor="style">Signaturstil</Label>
             <Select
               id="style"
               options={FONT_STYLES}
@@ -156,7 +156,7 @@ export function SignatureGenerator() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="color">Ink Color</Label>
+            <Label htmlFor="color">Blekkfarge</Label>
             <Select
               id="color"
               options={COLORS}
@@ -166,7 +166,7 @@ export function SignatureGenerator() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="strokeWidth">Stroke Width</Label>
+            <Label htmlFor="strokeWidth">Strektykkelse</Label>
             <input
               id="strokeWidth"
               type="range"
@@ -177,8 +177,8 @@ export function SignatureGenerator() {
               className="w-full"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Thin</span>
-              <span>Thick</span>
+              <span>Tynn</span>
+              <span>Tykk</span>
             </div>
           </div>
         </div>
@@ -186,10 +186,10 @@ export function SignatureGenerator() {
         {/* Signature Preview */}
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold">Preview</h3>
+            <h3 className="font-semibold">Forhåndsvisning</h3>
             <Button variant="outline" size="sm" onClick={handleRegenerate}>
               <RefreshCw className="h-4 w-4 mr-1" />
-              Regenerate
+              Lag på nytt
             </Button>
           </div>
 
@@ -246,11 +246,11 @@ export function SignatureGenerator() {
         <div className="flex gap-3">
           <Button onClick={handleDownloadSVG} className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download SVG
+            Last ned SVG
           </Button>
           <Button onClick={handleDownloadPNG} variant="outline" className="flex-1">
             <Download className="h-4 w-4 mr-2" />
-            Download PNG
+            Last ned PNG
           </Button>
         </div>
 
@@ -258,10 +258,10 @@ export function SignatureGenerator() {
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md space-y-2">
           <p className="font-medium">Tips:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>SVG format is best for documents and scaling</li>
-            <li>PNG format works well for emails and web use</li>
-            <li>Try different styles to find one that matches your personality</li>
-            <li>Use a darker color for formal documents</li>
+            <li>SVG passer best til dokumenter og skalering</li>
+            <li>PNG passer godt til e-post og nett</li>
+            <li>Prøv ulike stiler til du finner en som passer deg</li>
+            <li>Bruk en mørkere farge til formelle dokumenter</li>
           </ul>
         </div>
       </CardContent>

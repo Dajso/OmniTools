@@ -19,41 +19,55 @@ export interface HashtagResults {
     copyText: string;
 }
 
-// Hashtag databases by category
+// Emneord (norske og engelske) som utløser hver kategori
+const CATEGORY_TRIGGERS: Record<string, string[]> = {
+    photography: ['foto', 'fotografi', 'fotograf', 'photo', 'bilde'],
+    travel: ['reise', 'ferie', 'tur', 'travel', 'cabin', 'hytte'],
+    food: ['mat', 'oppskrift', 'kafe', 'kaffe', 'restaurant', 'food', 'baking', 'bake'],
+    fashion: ['mote', 'klær', 'stil', 'fashion', 'outfit'],
+    fitness: ['trening', 'fitness', 'gym', 'løping', 'helse', 'workout'],
+    business: ['business', 'gründer', 'gründerliv', 'bedrift', 'markedsføring', 'entreprenør', 'startup'],
+    tech: ['teknologi', 'tech', 'koding', 'programmering', 'utvikler', 'data'],
+    art: ['kunst', 'design', 'illustrasjon', 'tegning', 'art'],
+    music: ['musikk', 'music', 'band', 'sang', 'konsert'],
+    nature: ['natur', 'friluft', 'fjell', 'skog', 'fjord', 'nature'],
+};
+
+// Hashtags per kategori
 const HASHTAG_PREFIXES: Record<string, string[]> = {
-    photography: ['photography', 'photo', 'photooftheday', 'picoftheday', 'photographer', 'photoshoot'],
-    travel: ['travel', 'travelphotography', 'travelgram', 'wanderlust', 'explore', 'adventure'],
-    food: ['food', 'foodie', 'foodporn', 'foodphotography', 'yummy', 'delicious', 'instafood'],
-    fashion: ['fashion', 'style', 'ootd', 'fashionista', 'fashionblogger', 'streetstyle'],
-    fitness: ['fitness', 'gym', 'workout', 'fitnessmotivation', 'health', 'training'],
-    business: ['business', 'entrepreneur', 'marketing', 'startup', 'success', 'motivation'],
-    tech: ['tech', 'technology', 'coding', 'programming', 'developer', 'software'],
-    art: ['art', 'artist', 'artwork', 'creative', 'design', 'illustration'],
-    music: ['music', 'musician', 'newmusic', 'song', 'singer', 'band'],
-    nature: ['nature', 'naturephotography', 'landscape', 'wildlife', 'outdoors', 'beautiful'],
+    photography: ['foto', 'fotografi', 'norgefoto', 'photography', 'bildeavdagen', 'fotograf'],
+    travel: ['reise', 'reiseliv', 'visitnorway', 'norgeserbra', 'reisetips', 'travel'],
+    food: ['mat', 'matglede', 'matblogg', 'oppskrift', 'godmat', 'foodie'],
+    fashion: ['mote', 'stil', 'ootd', 'norskmote', 'moteblogger', 'streetstyle'],
+    fitness: ['trening', 'treningsglede', 'motivasjon', 'fitness', 'helse', 'treningstips'],
+    business: ['business', 'gründer', 'markedsføring', 'startup', 'entreprenør', 'suksess'],
+    tech: ['teknologi', 'tech', 'koding', 'programmering', 'utvikler', 'programvare'],
+    art: ['kunst', 'kunstner', 'design', 'illustrasjon', 'kreativ', 'tegning'],
+    music: ['musikk', 'musiker', 'nymusikk', 'sang', 'band', 'konsert'],
+    nature: ['natur', 'friluftsliv', 'norsknatur', 'fjellet', 'utepåtur', 'naturelsker'],
 };
 
 const GENERAL_POPULAR = [
-    'love', 'instagood', 'beautiful', 'happy', 'follow', 'like', 'instalike',
-    'trending', 'viral', 'explore', 'fyp', 'foryou', 'foryoupage',
+    'norge', 'norway', 'inspirasjon', 'hverdagen', 'glede', 'trending', 'viral',
+    'utforsk', 'fyp', 'foryou', 'foryoupage',
 ];
 
 const PLATFORM_SPECIFIC: Record<string, string[]> = {
-    instagram: ['instadaily', 'insta', 'ig', 'igers', 'instamood'],
+    instagram: ['instadaily', 'instanorge', 'norskinstagram', 'insta', 'instamood'],
     twitter: ['twittertrends', 'trending', 'viral', 'mustread'],
     tiktok: ['fyp', 'foryou', 'foryoupage', 'viral', 'trending', 'tiktok'],
-    linkedin: ['networking', 'career', 'professional', 'leadership', 'growth'],
+    linkedin: ['nettverk', 'karriere', 'ledelse', 'profesjonell', 'vekst'],
 };
 
 /**
- * Find relevant category based on topic keywords
+ * Finner relevante kategorier ut fra emnet
  */
 function findRelevantCategories(topic: string): string[] {
     const lowerTopic = topic.toLowerCase();
     const categories: string[] = [];
 
-    Object.keys(HASHTAG_PREFIXES).forEach(category => {
-        if (lowerTopic.includes(category) || category.includes(lowerTopic.split(' ')[0])) {
+    Object.entries(CATEGORY_TRIGGERS).forEach(([category, triggers]) => {
+        if (triggers.some(t => lowerTopic.includes(t))) {
             categories.push(category);
         }
     });
@@ -80,13 +94,12 @@ export function generateHashtags(inputs: HashtagInputs): HashtagResults {
 
     // Add topic-based hashtags
     const topicWords = topic.toLowerCase()
-        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/[^a-z0-9æøåäö\s]/g, '')
         .split(/\s+/)
         .filter(w => w.length > 2);
 
     topicWords.forEach(word => {
         hashtags.add(word);
-        hashtags.add(word + 's');
     });
 
     // Add combined topic terms

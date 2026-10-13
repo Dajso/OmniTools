@@ -1,58 +1,50 @@
 import { Metadata } from 'next';
 import { SignatureGenerator } from '@/components/calculators/creator';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Signature Generator - Create Digital Signatures',
-  description: 'Generate handwriting-style digital signatures for documents and emails. Free SVG and PNG signature creator.',
-  keywords: ['signature generator', 'digital signature', 'handwriting signature', 'signature maker', 'electronic signature'],
+  title: 'Signaturgenerator – gratis kalkulator på nett',
+  description: 'Lag signaturer i håndskriftstil til dokumenter og e-post. Gratis og uten registrering.',
+  keywords: ['signatur', 'digital signatur', 'håndskrift', 'e-postsignatur', 'svg'],
   alternates: { canonical: '/calculators/creator/signature-generator' },
+  openGraph: {
+    title: 'Signaturgenerator',
+    description: 'Lag signaturer i håndskriftstil til dokumenter og e-post',
+    url: '/calculators/creator/signature-generator',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Signature Generator',
-  description: 'Generate handwriting-style digital signatures',
+  name: 'Signaturgenerator',
+  description: 'Lag signaturer i håndskriftstil til dokumenter og e-post',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter your name', text: 'Type the name you want to appear in the signature.' },
-  { name: 'Choose a style', text: 'Select from various handwriting styles.' },
-  { name: 'Customize appearance', text: 'Pick an ink color and adjust stroke width.' },
-  { name: 'Preview', text: 'See your signature in the preview area.' },
-  { name: 'Download', text: 'Download as SVG for documents or PNG for emails.' },
+  { name: 'Skriv inn navnet ditt', text: 'Navnet som skal bli en signatur.' },
+  { name: 'Velg stil og farge', text: 'Velg skrift, blekkfarge og tykkelse.' },
+  { name: 'Forhåndsvis', text: 'Lag på nytt til du er fornøyd.' },
+  { name: 'Last ned', text: 'SVG eller PNG.' },
 ];
 
 const faqs = [
-  {
-    question: 'Is this signature legally binding?',
-    answer: 'This tool creates decorative signatures for informal use. For legally binding electronic signatures, use dedicated e-signature services like DocuSign or Adobe Sign.',
-  },
-  {
-    question: 'What\'s the difference between SVG and PNG?',
-    answer: 'SVG is a vector format that scales perfectly at any size, ideal for documents. PNG is a raster format better suited for emails and web use.',
-  },
-  {
-    question: 'Can I use this for official documents?',
-    answer: 'This is best for informal documents, email signatures, and personal use. Official documents may require certified electronic signatures.',
-  },
-  {
-    question: 'Is my signature stored anywhere?',
-    answer: 'No, your signature is generated entirely in your browser and is never sent to any server.',
-  },
-  {
-    question: 'Can I create multiple signatures?',
-    answer: 'Yes! You can create as many signatures as you like with different names and styles.',
-  },
+  { question: 'Er signaturen juridisk gyldig?', answer: 'Den er en bilde-signatur uten sikkerhetsfunksjoner. Til avtaler som krever sikker signering bør du bruke en løsning som BankID.' },
+  { question: 'Hvilket format bør jeg velge?', answer: 'SVG for dokumenter og skalering, PNG for e-post og nett.' },
+  { question: 'Lagres navnet mitt?', answer: 'Nei. Alt skjer i nettleseren.' },
+  { question: 'Kan jeg bruke signaturen i e-post?', answer: 'Ja, last ned som PNG og legg inn som bilde i e-postsignaturen.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/creator/invoice-generator', title: 'Invoice Generator', description: 'Create professional invoices.' },
-  { href: '/calculators/creator/business-name-generator', title: 'Business Name Generator', description: 'Generate business name ideas.' },
+  { href: '/calculators/productivity/lorem-ipsum-generator', title: 'Lorem ipsum-generator', description: 'Lag fylltekst til design og layout' },
+  { href: '/calculators/productivity/password-generator', title: 'Passordgenerator', description: 'Lag sterke passord med styrkeindikator' },
 ];
 
 export default function SignatureGeneratorPage() {
@@ -62,12 +54,11 @@ export default function SignatureGeneratorPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="signature-generator"
-          title="Signature Generator"
-          description="Generate handwriting-style digital signatures for documents, emails, and personal use."
-          colorClass="bg-indigo-100 text-indigo-600"
+          title="Signaturgenerator"
+          description="Lag signaturer i håndskriftstil til dokumenter og e-post, og last dem ned som SVG eller PNG. Gratis og uten registrering."
         />
 
-        <section aria-label="Signature Generator">
+        <section aria-label="Signaturgenerator">
           <SignatureGenerator />
         </section>
 

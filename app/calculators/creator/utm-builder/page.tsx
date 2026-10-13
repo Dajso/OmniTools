@@ -1,57 +1,70 @@
 import { Metadata } from 'next';
 import { UTMBuilder } from '@/components/calculators/creator';
-import { ToolPageHeader } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-    title: 'UTM Builder - Free UTM URL Generator Tool',
-    description: 'Build UTM tracking URLs for marketing campaigns. Generate Google Analytics compatible tracking links with source, medium, campaign, and more.',
-    keywords: ['UTM builder', 'UTM generator', 'campaign tracking', 'Google Analytics', 'marketing URL', 'UTM parameters'],
-    alternates: { canonical: '/calculators/creator/utm-builder' },
+  title: 'UTM-bygger – gratis kalkulator på nett',
+  description: 'Bygg UTM-lenker for sporing av kampanjer i markedsføring og analyse. Gratis og uten registrering.',
+  keywords: ['UTM', 'UTM-generator', 'kampanjesporing', 'analyse', 'markedsføring'],
+  alternates: { canonical: '/calculators/creator/utm-builder' },
+  openGraph: {
+    title: 'UTM-bygger',
+    description: 'Bygg UTM-lenker for sporing av kampanjer i markedsføring og analyse',
+    url: '/calculators/creator/utm-builder',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'UTM-bygger',
+  description: 'Bygg UTM-lenker for sporing av kampanjer i markedsføring og analyse',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
+};
+
+const howToSteps = [
+  { name: 'Skriv inn nettadressen', text: 'Siden kampanjen skal lede til.' },
+  { name: 'Fyll ut kilde og medium', text: 'For eksempel «google» og «cpc».' },
+  { name: 'Gi kampanjen et navn', text: 'For eksempel «sommersalg».' },
+  { name: 'Kopier URL-en', text: 'Bruk den i annonser, e-poster og innlegg.' },
+];
+
 const faqs = [
-    {
-        question: 'What are UTM parameters?',
-        answer: 'UTM parameters are tags added to URLs that help you track where your traffic comes from. They include source, medium, campaign, term, and content.'
-    },
-    {
-        question: 'What is utm_source?',
-        answer: 'utm_source identifies which platform sent the traffic (e.g., google, facebook, newsletter). It answers: where did this visitor come from?'
-    },
-    {
-        question: 'What is utm_medium?',
-        answer: 'utm_medium identifies the marketing channel type (e.g., cpc, organic, email, social). It answers: how did they get here?'
-    },
-    {
-        question: 'Are UTM parameters case sensitive?',
-        answer: 'Yes, in Google Analytics. Use consistent lowercase for all parameters to avoid splitting your data.'
-    },
+  { question: 'Hva er UTM-parametere?', answer: 'Tillegg i URL-en som forteller analyseverktøyet hvor besøket kom fra: kilde, medium, kampanje, og eventuelt ord og innhold.' },
+  { question: 'Hvilke felt er obligatoriske?', answer: 'Kilde, medium og kampanjenavn.' },
+  { question: 'Bør jeg bruke store eller små bokstaver?', answer: 'Bruk små bokstaver konsekvent, siden UTM-verdier skiller mellom store og små bokstaver.' },
+  { question: 'Skal UTM-lenker brukes på egne sider?', answer: 'Nei, ikke internt på nettstedet ditt, da kan de ødelegge sporingen av hvor besøkende kom fra.' },
+];
+
+const relatedTools = [
+  { href: '/calculators/creator/schema-markup-generator', title: 'Schema markup-generator', description: 'Lag JSON-LD strukturerte data for SEO, som FAQ, artikkel og produkt' },
 ];
 
 export default function UTMBuilderPage() {
-    return (
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
-            <ToolPageHeader
-                toolId="utm-builder"
-                title="UTM Builder"
-                description="Create UTM tracking URLs for your marketing campaigns and track them in Google Analytics."
-                colorClass="bg-indigo-100 text-indigo-700"
-            />
-            <section aria-label="UTM Builder Tool">
-                <UTMBuilder />
-            </section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <ToolPageHeader
+          toolId="utm-builder"
+          title="UTM-bygger"
+          description="Bygg UTM-lenker for å spore kampanjer i Google Analytics og andre verktøy. Gratis og uten registrering."
+        />
 
-            <section className="mt-12" aria-labelledby="faq-heading">
-                <h2 id="faq-heading" className="text-2xl font-semibold mb-6">FAQ</h2>
-                <div className="space-y-6">
-                    {faqs.map((faq, i) => (
-                        <div key={i} className="border-b pb-6 last:border-b-0">
-                            <h3 className="font-medium text-lg mb-2">{faq.question}</h3>
-                            <p className="text-muted-foreground">{faq.answer}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+        <section aria-label="UTM-bygger">
+          <UTMBuilder />
+        </section>
+
+        <HowToSection steps={howToSteps} />
+        <FAQSection faqs={faqs} />
+        <RelatedToolsSection tools={relatedTools} />
+      </main>
+    </>
+  );
 }

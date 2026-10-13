@@ -7,6 +7,8 @@
  * @see Requirements 18.10
  */
 
+import { formatCompact, formatNumber as formatNb, formatFixed } from '@/lib/utils/formatting';
+
 /**
  * CPM calculation input
  */
@@ -36,8 +38,8 @@ export interface CPMResult {
 export function calculateCPM(input: CPMInput): CPMResult {
   const { totalCost, impressions } = input;
 
-  if (totalCost < 0) throw new Error('Total cost cannot be negative');
-  if (impressions <= 0) throw new Error('Impressions must be positive');
+  if (totalCost < 0) throw new Error('Totalkostnaden kan ikke være negativ');
+  if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
 
   const cpm = (totalCost / impressions) * 1000;
   const costPerImpression = totalCost / impressions;
@@ -60,8 +62,8 @@ export function calculateCPM(input: CPMInput): CPMResult {
  * @returns Total cost
  */
 export function calculateTotalCost(cpm: number, impressions: number): number {
-  if (cpm < 0) throw new Error('CPM cannot be negative');
-  if (impressions < 0) throw new Error('Impressions cannot be negative');
+  if (cpm < 0) throw new Error('CPM kan ikke være negativ');
+  if (impressions < 0) throw new Error('Antall visninger kan ikke være negativt');
 
   return (cpm * impressions) / 1000;
 }
@@ -76,8 +78,8 @@ export function calculateTotalCost(cpm: number, impressions: number): number {
  * @returns Number of impressions
  */
 export function calculateImpressions(cpm: number, budget: number): number {
-  if (cpm <= 0) throw new Error('CPM must be positive');
-  if (budget < 0) throw new Error('Budget cannot be negative');
+  if (cpm <= 0) throw new Error('CPM må være større enn 0');
+  if (budget < 0) throw new Error('Budsjettet kan ikke være negativt');
 
   return Math.floor((budget * 1000) / cpm);
 }
@@ -104,8 +106,8 @@ export interface AdvertisingMetrics {
  * @returns Cost per click
  */
 export function calculateCPC(totalCost: number, clicks: number): number {
-  if (totalCost < 0) throw new Error('Total cost cannot be negative');
-  if (clicks <= 0) throw new Error('Clicks must be positive');
+  if (totalCost < 0) throw new Error('Totalkostnaden kan ikke være negativ');
+  if (clicks <= 0) throw new Error('Antall klikk må være større enn 0');
 
   return totalCost / clicks;
 }
@@ -120,8 +122,8 @@ export function calculateCPC(totalCost: number, clicks: number): number {
  * @returns Click-through rate percentage
  */
 export function calculateCTR(clicks: number, impressions: number): number {
-  if (clicks < 0) throw new Error('Clicks cannot be negative');
-  if (impressions <= 0) throw new Error('Impressions must be positive');
+  if (clicks < 0) throw new Error('Antall klikk kan ikke være negativt');
+  if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
 
   return (clicks / impressions) * 100;
 }
@@ -139,10 +141,10 @@ export function calculateAllMetrics(
   impressions: number,
   clicks: number
 ): AdvertisingMetrics {
-  if (totalCost < 0) throw new Error('Total cost cannot be negative');
-  if (impressions <= 0) throw new Error('Impressions must be positive');
-  if (clicks < 0) throw new Error('Clicks cannot be negative');
-  if (clicks > impressions) throw new Error('Clicks cannot exceed impressions');
+  if (totalCost < 0) throw new Error('Totalkostnaden kan ikke være negativ');
+  if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
+  if (clicks < 0) throw new Error('Antall klikk kan ikke være negativt');
+  if (clicks > impressions) throw new Error('Antall klikk kan ikke være større enn antall visninger');
 
   const cpm = (totalCost / impressions) * 1000;
   const cpc = clicks > 0 ? totalCost / clicks : 0;
@@ -161,17 +163,18 @@ export function calculateAllMetrics(
 /**
  * Industry average CPM rates by platform
  */
+/** Veiledende gjennomsnittlig CPM i kroner (omregnet fra internasjonale tall, varierer mye) */
 export const PLATFORM_CPM_AVERAGES: Record<string, { low: number; high: number; label: string }> = {
-  facebook: { low: 5.00, high: 15.00, label: 'Facebook' },
-  instagram: { low: 5.00, high: 12.00, label: 'Instagram' },
-  youtube: { low: 4.00, high: 10.00, label: 'YouTube' },
-  tiktok: { low: 1.00, high: 5.00, label: 'TikTok' },
-  twitter: { low: 6.00, high: 12.00, label: 'Twitter/X' },
-  linkedin: { low: 8.00, high: 25.00, label: 'LinkedIn' },
-  google_display: { low: 2.00, high: 5.00, label: 'Google Display' },
-  google_search: { low: 10.00, high: 50.00, label: 'Google Search' },
-  programmatic: { low: 0.50, high: 3.00, label: 'Programmatic' },
-  podcast: { low: 15.00, high: 30.00, label: 'Podcast' },
+  facebook: { low: 50, high: 150, label: 'Facebook' },
+  instagram: { low: 50, high: 120, label: 'Instagram' },
+  youtube: { low: 40, high: 100, label: 'YouTube' },
+  tiktok: { low: 10, high: 50, label: 'TikTok' },
+  twitter: { low: 60, high: 120, label: 'Twitter/X' },
+  linkedin: { low: 80, high: 250, label: 'LinkedIn' },
+  google_display: { low: 20, high: 50, label: 'Google Display' },
+  google_search: { low: 100, high: 500, label: 'Google Search' },
+  programmatic: { low: 5, high: 30, label: 'Programmatic' },
+  podcast: { low: 150, high: 300, label: 'Podcast' },
 };
 
 /**
@@ -218,44 +221,31 @@ export function compareToPlatformAverage(
  * @returns Effective CPM
  */
 export function calculateECPM(revenue: number, impressions: number): number {
-  if (revenue < 0) throw new Error('Revenue cannot be negative');
-  if (impressions <= 0) throw new Error('Impressions must be positive');
+  if (revenue < 0) throw new Error('Inntekten kan ikke være negativ');
+  if (impressions <= 0) throw new Error('Antall visninger må være større enn 0');
 
   return (revenue / impressions) * 1000;
 }
 
 /**
- * Format currency for display
- * 
- * @param amount - Dollar amount
- * @returns Formatted string
+ * Formaterer beløp i kroner til visning (uten valutategn): «1 234,50»
+ *
+ * @param amount - Beløp i kroner
  */
 export function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2)}`;
+  return formatNb(amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 /**
- * Format large numbers for display
- * 
- * @param num - Number to format
- * @returns Formatted string
+ * Formaterer store tall til visning («1,2 mill.»)
  */
 export function formatNumber(num: number): string {
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(2)}M`;
-  }
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-  return num.toLocaleString('nb-NO');
+  return formatCompact(num, num >= 1000000 ? 2 : 1);
 }
 
 /**
- * Format percentage for display
- * 
- * @param percent - Percentage value
- * @returns Formatted string
+ * Formaterer prosent til visning («2,35 %»)
  */
 export function formatPercentage(percent: number): string {
-  return `${percent.toFixed(2)}%`;
+  return `${formatFixed(percent, 2)}\u00A0%`;
 }

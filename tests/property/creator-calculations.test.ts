@@ -315,7 +315,7 @@ describe('WiFi QR Code Generator - Validation Properties', () => {
           };
           const result = validateWifiConfig(config);
           expect(result.isValid).toBe(false);
-          expect(result.errors.some(e => e.includes('8 characters'))).toBe(true);
+          expect(result.errors.some(e => e.includes('8 tegn'))).toBe(true);
           return true;
         }
       ),

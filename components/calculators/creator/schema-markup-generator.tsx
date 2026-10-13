@@ -72,16 +72,16 @@ function TextArea({
 function ArticleForm({ data, onChange }: { data: Record<string, string>; onChange: (d: Record<string, string>) => void }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextInput label="Headline" value={data.headline || ''} onChange={(v) => onChange({ ...data, headline: v })} required />
-            <TextInput label="Author Name" value={data.authorName || ''} onChange={(v) => onChange({ ...data, authorName: v })} required />
-            <TextInput label="Author URL" value={data.authorUrl || ''} onChange={(v) => onChange({ ...data, authorUrl: v })} placeholder="https://..." />
-            <TextInput label="Publisher Name" value={data.publisherName || ''} onChange={(v) => onChange({ ...data, publisherName: v })} required />
-            <TextInput label="Publisher Logo URL" value={data.publisherLogoUrl || ''} onChange={(v) => onChange({ ...data, publisherLogoUrl: v })} required />
-            <TextInput label="Image URL" value={data.imageUrl || ''} onChange={(v) => onChange({ ...data, imageUrl: v })} required />
-            <TextInput label="Date Published" value={data.datePublished || ''} onChange={(v) => onChange({ ...data, datePublished: v })} placeholder="2024-01-15" required />
-            <TextInput label="Date Modified" value={data.dateModified || ''} onChange={(v) => onChange({ ...data, dateModified: v })} placeholder="2024-01-16" />
+            <TextInput label="Overskrift" value={data.headline || ''} onChange={(v) => onChange({ ...data, headline: v })} required />
+            <TextInput label="Forfatterens navn" value={data.authorName || ''} onChange={(v) => onChange({ ...data, authorName: v })} required />
+            <TextInput label="Forfatterens URL" value={data.authorUrl || ''} onChange={(v) => onChange({ ...data, authorUrl: v })} placeholder="https://..." />
+            <TextInput label="Utgiverens navn" value={data.publisherName || ''} onChange={(v) => onChange({ ...data, publisherName: v })} required />
+            <TextInput label="URL til utgiverens logo" value={data.publisherLogoUrl || ''} onChange={(v) => onChange({ ...data, publisherLogoUrl: v })} required />
+            <TextInput label="URL til bilde" value={data.imageUrl || ''} onChange={(v) => onChange({ ...data, imageUrl: v })} required />
+            <TextInput label="Publisert" value={data.datePublished || ''} onChange={(v) => onChange({ ...data, datePublished: v })} placeholder="2024-01-15" required />
+            <TextInput label="Endret" value={data.dateModified || ''} onChange={(v) => onChange({ ...data, dateModified: v })} placeholder="2024-01-16" />
             <div className="md:col-span-2">
-                <TextArea label="Description" value={data.description || ''} onChange={(v) => onChange({ ...data, description: v })} />
+                <TextArea label="Beskrivelse" value={data.description || ''} onChange={(v) => onChange({ ...data, description: v })} />
             </div>
         </div>
     );
@@ -102,17 +102,17 @@ function FAQForm({ items, onChange }: { items: FAQItem[]; onChange: (items: FAQI
             {items.map((item, i) => (
                 <div key={i} className="p-3 border rounded-lg space-y-2">
                     <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">Question {i + 1}</span>
+                        <span className="text-sm font-medium">Spørsmål {i + 1}</span>
                         <Button variant="ghost" size="sm" onClick={() => removeItem(i)}>
                             <Trash2 className="w-4 h-4" />
                         </Button>
                     </div>
-                    <TextInput label="Question" value={item.question} onChange={(v) => updateItem(i, 'question', v)} />
-                    <TextArea label="Answer" value={item.answer} onChange={(v) => updateItem(i, 'answer', v)} rows={2} />
+                    <TextInput label="Spørsmål" value={item.question} onChange={(v) => updateItem(i, 'question', v)} />
+                    <TextArea label="Svar" value={item.answer} onChange={(v) => updateItem(i, 'answer', v)} rows={2} />
                 </div>
             ))}
             <Button variant="outline" onClick={addItem} className="w-full">
-                <Plus className="w-4 h-4 mr-2" /> Add Question
+                <Plus className="w-4 h-4 mr-2" /> Legg til spørsmål
             </Button>
         </div>
     );
@@ -122,27 +122,27 @@ function FAQForm({ items, onChange }: { items: FAQItem[]; onChange: (items: FAQI
 function ProductForm({ data, onChange }: { data: Record<string, unknown>; onChange: (d: Record<string, unknown>) => void }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextInput label="Product Name" value={String(data.name || '')} onChange={(v) => onChange({ ...data, name: v })} required />
-            <TextInput label="Brand" value={String(data.brand || '')} onChange={(v) => onChange({ ...data, brand: v })} required />
-            <TextInput label="SKU" value={String(data.sku || '')} onChange={(v) => onChange({ ...data, sku: v })} required />
-            <TextInput label="Image URL" value={String(data.imageUrl || '')} onChange={(v) => onChange({ ...data, imageUrl: v })} required />
-            <TextInput label="Price" value={String(data.price || '')} onChange={(v) => onChange({ ...data, price: parseFloat(v) || 0 })} placeholder="99.99" required />
-            <TextInput label="Currency" value={String(data.priceCurrency || 'USD')} onChange={(v) => onChange({ ...data, priceCurrency: v })} placeholder="USD" />
+            <TextInput label="Produktnavn" value={String(data.name || '')} onChange={(v) => onChange({ ...data, name: v })} required />
+            <TextInput label="Merke" value={String(data.brand || '')} onChange={(v) => onChange({ ...data, brand: v })} required />
+            <TextInput label="SKU (varenummer)" value={String(data.sku || '')} onChange={(v) => onChange({ ...data, sku: v })} required />
+            <TextInput label="URL til bilde" value={String(data.imageUrl || '')} onChange={(v) => onChange({ ...data, imageUrl: v })} required />
+            <TextInput label="Pris" value={String(data.price || '')} onChange={(v) => onChange({ ...data, price: parseFloat(v) || 0 })} placeholder="99.99" required />
+            <TextInput label="Valuta" value={String(data.priceCurrency || 'NOK')} onChange={(v) => onChange({ ...data, priceCurrency: v })} placeholder="NOK" />
             <div className="space-y-1.5">
-                <Label className="text-sm">Availability</Label>
+                <Label className="text-sm">Tilgjengelighet</Label>
                 <select
                     value={String(data.availability || 'InStock')}
                     onChange={(e) => onChange({ ...data, availability: e.target.value })}
                     className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                    <option value="InStock">In Stock</option>
-                    <option value="OutOfStock">Out of Stock</option>
-                    <option value="PreOrder">Pre-Order</option>
+                    <option value="InStock">På lager</option>
+                    <option value="OutOfStock">Utsolgt</option>
+                    <option value="PreOrder">Forhåndsbestilling</option>
                 </select>
             </div>
-            <TextInput label="Rating (1-5)" value={String(data.ratingValue || '')} onChange={(v) => onChange({ ...data, ratingValue: parseFloat(v) })} placeholder="4.5" />
+            <TextInput label="Vurdering (1–5)" value={String(data.ratingValue || '')} onChange={(v) => onChange({ ...data, ratingValue: parseFloat(v) })} placeholder="4.5" />
             <div className="md:col-span-2">
-                <TextArea label="Description" value={String(data.description || '')} onChange={(v) => onChange({ ...data, description: v })} />
+                <TextArea label="Beskrivelse" value={String(data.description || '')} onChange={(v) => onChange({ ...data, description: v })} />
             </div>
         </div>
     );
@@ -152,12 +152,12 @@ function ProductForm({ data, onChange }: { data: Record<string, unknown>; onChan
 function OrganizationForm({ data, onChange }: { data: Record<string, string>; onChange: (d: Record<string, string>) => void }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextInput label="Organization Name" value={data.name || ''} onChange={(v) => onChange({ ...data, name: v })} required />
-            <TextInput label="Website URL" value={data.url || ''} onChange={(v) => onChange({ ...data, url: v })} required />
-            <TextInput label="Logo URL" value={data.logoUrl || ''} onChange={(v) => onChange({ ...data, logoUrl: v })} required />
-            <TextInput label="Contact Phone" value={data.telephone || ''} onChange={(v) => onChange({ ...data, telephone: v })} />
+            <TextInput label="Navn på organisasjonen" value={data.name || ''} onChange={(v) => onChange({ ...data, name: v })} required />
+            <TextInput label="URL til nettsiden" value={data.url || ''} onChange={(v) => onChange({ ...data, url: v })} required />
+            <TextInput label="URL til logo" value={data.logoUrl || ''} onChange={(v) => onChange({ ...data, logoUrl: v })} required />
+            <TextInput label="Kontakttelefon" value={data.telephone || ''} onChange={(v) => onChange({ ...data, telephone: v })} />
             <div className="md:col-span-2">
-                <TextArea label="Description" value={data.description || ''} onChange={(v) => onChange({ ...data, description: v })} />
+                <TextArea label="Beskrivelse" value={data.description || ''} onChange={(v) => onChange({ ...data, description: v })} />
             </div>
         </div>
     );
@@ -192,7 +192,7 @@ export function SchemaMarkupGenerator() {
                         brand: String(formData.brand || ''),
                         sku: String(formData.sku || ''),
                         price: Number(formData.price) || 0,
-                        priceCurrency: String(formData.priceCurrency || 'USD'),
+                        priceCurrency: String(formData.priceCurrency || 'NOK'),
                         availability: (formData.availability as 'InStock' | 'OutOfStock' | 'PreOrder') || 'InStock',
                         ratingValue: Number(formData.ratingValue) || undefined,
                         reviewCount: Number(formData.reviewCount) || undefined,
@@ -213,12 +213,12 @@ export function SchemaMarkupGenerator() {
                     }
                 });
             } else {
-                result = '// Select a schema type and fill in the form';
+                result = '// Velg en schema-type og fyll ut skjemaet';
             }
 
             setOutput(showScriptTag ? generateScriptTag(result) : result);
         } catch (e) {
-            setOutput(`Error: ${e instanceof Error ? e.message : 'Generation failed'}`);
+            setOutput(`Error: ${e instanceof Error ? e.message : 'Genereringen mislyktes'}`);
         }
     }, [formData, faqItems, schemaType, showScriptTag]);
 
@@ -245,22 +245,22 @@ export function SchemaMarkupGenerator() {
             case 'Organization':
                 return <OrganizationForm data={formData as Record<string, string>} onChange={(d) => setFormData(d)} />;
             default:
-                return <p className="text-muted-foreground text-sm">Form for {schemaType} coming soon...</p>;
+                return <p className="text-muted-foreground text-sm">Skjema for {schemaType} kommer snart …</p>;
         }
     };
 
     return (
         <Card className="w-full max-w-4xl">
             <CardHeader>
-                <CardTitle>Schema Markup Generator</CardTitle>
+                <CardTitle>Schema markup-generator</CardTitle>
                 <CardDescription>
-                    Generate JSON-LD structured data for SEO and rich results
+                    Lag strukturerte data (JSON-LD) for SEO og rike søkeresultater
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 {/* Schema Type Selection */}
                 <div className="space-y-2">
-                    <Label>Schema Type</Label>
+                    <Label>Schema-type</Label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {SCHEMA_TYPES.map((st) => (
                             <button
@@ -280,7 +280,7 @@ export function SchemaMarkupGenerator() {
 
                 {/* Dynamic Form */}
                 <div className="border-t pt-4">
-                    <h3 className="font-medium mb-4">{schemaType} Details</h3>
+                    <h3 className="font-medium mb-4">{schemaType} Detaljer</h3>
                     {renderForm()}
                 </div>
 
@@ -293,21 +293,21 @@ export function SchemaMarkupGenerator() {
                             onChange={(e) => setShowScriptTag(e.target.checked)}
                             className="rounded"
                         />
-                        Include script tag
+                        Ta med script-kode
                     </label>
                 </div>
 
                 {/* Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>Generated JSON-LD</Label>
+                        <Label>Generert JSON-LD</Label>
                         <Button variant="ghost" size="sm" onClick={copyOutput}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <pre className="p-4 bg-muted rounded-lg text-xs overflow-x-auto max-h-80 overflow-y-auto">
-                        <code>{output || '// Fill in the form to generate schema'}</code>
+                        <code>{output || '// Fyll ut skjemaet for å lage schema'}</code>
                     </pre>
                 </div>
             </CardContent>

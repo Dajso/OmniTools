@@ -9,22 +9,22 @@ import { Select } from '@/components/ui/select';
 import { Copy, Check, RefreshCw, Building2 } from 'lucide-react';
 
 const INDUSTRIES = [
-  { value: 'tech', label: 'Technology' },
-  { value: 'creative', label: 'Creative/Design' },
-  { value: 'consulting', label: 'Consulting' },
-  { value: 'retail', label: 'Retail/E-commerce' },
-  { value: 'food', label: 'Food & Beverage' },
-  { value: 'health', label: 'Health & Wellness' },
-  { value: 'finance', label: 'Finance' },
-  { value: 'education', label: 'Education' },
-  { value: 'general', label: 'General' },
+  { value: 'tech', label: 'Teknologi' },
+  { value: 'creative', label: 'Kreativt/design' },
+  { value: 'consulting', label: 'Rådgivning' },
+  { value: 'retail', label: 'Butikk/netthandel' },
+  { value: 'food', label: 'Mat og drikke' },
+  { value: 'health', label: 'Helse og velvære' },
+  { value: 'finance', label: 'Finans' },
+  { value: 'education', label: 'Utdanning' },
+  { value: 'general', label: 'Generelt' },
 ];
 
 const STYLES = [
-  { value: 'modern', label: 'Modern & Trendy' },
-  { value: 'professional', label: 'Professional' },
-  { value: 'creative', label: 'Creative & Fun' },
-  { value: 'classic', label: 'Classic & Traditional' },
+  { value: 'modern', label: 'Moderne og trendy' },
+  { value: 'professional', label: 'Profesjonell' },
+  { value: 'creative', label: 'Kreativ og morsom' },
+  { value: 'classic', label: 'Klassisk og tradisjonell' },
 ];
 
 const PREFIXES: Record<string, string[]> = {
@@ -147,31 +147,31 @@ export function BusinessNameGenerator() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Building2 className="h-5 w-5" />
-          Business Name Generator
+          Firmanavn-generator
         </CardTitle>
         <CardDescription>
-          Generate creative business name ideas for your startup or company
+          Lag kreative forslag til navn på oppstartsbedriften eller firmaet ditt
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Inputs */}
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="keyword">Keyword (Optional)</Label>
+            <Label htmlFor="keyword">Stikkord (valgfritt)</Label>
             <Input
               id="keyword"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              placeholder="e.g., cloud, green, swift"
+              placeholder="f.eks. fjord, grønn, rask"
               maxLength={20}
             />
             <p className="text-xs text-muted-foreground">
-              Enter a word to include in generated names
+              Skriv inn et ord som skal inngå i navnene
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="industry">Industry</Label>
+            <Label htmlFor="industry">Bransje</Label>
             <Select
               id="industry"
               options={INDUSTRIES}
@@ -181,7 +181,7 @@ export function BusinessNameGenerator() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="style">Name Style</Label>
+            <Label htmlFor="style">Navnestil</Label>
             <Select
               id="style"
               options={STYLES}
@@ -194,16 +194,16 @@ export function BusinessNameGenerator() {
         {/* Generate Button */}
         <Button onClick={handleGenerate} className="w-full">
           <RefreshCw className="h-4 w-4 mr-2" />
-          Generate Names
+          Lag navn
         </Button>
 
         {/* Generated Names */}
         {names.length > 0 && (
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold">Generated Names</h3>
+              <h3 className="font-semibold">Foreslåtte navn</h3>
               <span className="text-sm text-muted-foreground">
-                {favorites.size} favorited
+                {favorites.size} favoritter
               </span>
             </div>
 
@@ -247,7 +247,7 @@ export function BusinessNameGenerator() {
         {/* Favorites Section */}
         {favorites.size > 0 && (
           <div className="border-t pt-4">
-            <h3 className="font-semibold mb-3">Your Favorites</h3>
+            <h3 className="font-semibold mb-3">Dine favoritter</h3>
             <div className="flex flex-wrap gap-2">
               {Array.from(favorites).map((name, index) => (
                 <span
@@ -263,13 +263,13 @@ export function BusinessNameGenerator() {
 
         {/* Tips */}
         <div className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md space-y-2">
-          <p className="font-medium">Tips for choosing a business name:</p>
+          <p className="font-medium">Tips til valg av firmanavn:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Check domain availability for your favorite names</li>
-            <li>Search trademark databases to avoid conflicts</li>
-            <li>Consider how the name sounds when spoken</li>
-            <li>Make sure it&apos;s easy to spell and remember</li>
-            <li>Test the name with potential customers</li>
+            <li>Sjekk om domenet er ledig for favorittnavnene dine (for eksempel .no)</li>
+            <li>Søk i varemerkeregistre, for eksempel hos Patentstyret, for å unngå konflikter</li>
+            <li>Tenk på hvordan navnet høres ut når du sier det høyt</li>
+            <li>Sørg for at det er lett å stave og huske</li>
+            <li>Test navnet på mulige kunder</li>
           </ul>
         </div>
       </CardContent>

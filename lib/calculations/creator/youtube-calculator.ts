@@ -7,6 +7,8 @@
  * @see Requirements 18.6
  */
 
+import { formatCompact, formatNumber as formatNb, formatFixed } from '@/lib/utils/formatting';
+
 /**
  * YouTube earnings estimate input
  */
@@ -32,23 +34,23 @@ export interface YouTubeEarnings {
  * Default CPM ranges by content category
  */
 export const CPM_RANGES: Record<string, { low: number; high: number; label: string }> = {
-  general: { low: 0.25, high: 4.00, label: 'General Content' },
-  gaming: { low: 1.00, high: 5.00, label: 'Gaming' },
-  tech: { low: 2.00, high: 8.00, label: 'Technology' },
-  finance: { low: 4.00, high: 12.00, label: 'Finance & Business' },
-  education: { low: 2.00, high: 6.00, label: 'Education' },
-  entertainment: { low: 1.00, high: 4.00, label: 'Entertainment' },
-  lifestyle: { low: 1.50, high: 5.00, label: 'Lifestyle & Vlogs' },
-  music: { low: 0.50, high: 3.00, label: 'Music' },
-  howto: { low: 2.00, high: 7.00, label: 'How-To & DIY' },
-  news: { low: 1.00, high: 4.00, label: 'News & Politics' },
+  general: { low: 2.5, high: 40, label: 'Generelt innhold' },
+  gaming: { low: 10, high: 50, label: 'Gaming' },
+  tech: { low: 20, high: 80, label: 'Teknologi' },
+  finance: { low: 40, high: 120, label: 'Økonomi og business' },
+  education: { low: 20, high: 60, label: 'Utdanning' },
+  entertainment: { low: 10, high: 40, label: 'Underholdning' },
+  lifestyle: { low: 15, high: 50, label: 'Livsstil og vlogg' },
+  music: { low: 5, high: 30, label: 'Musikk' },
+  howto: { low: 20, high: 70, label: 'Veiledninger og gjør-det-selv' },
+  news: { low: 10, high: 40, label: 'Nyheter og politikk' },
 };
 
 /**
  * Default CPM values (industry average)
  */
-export const DEFAULT_CPM_LOW = 0.25;
-export const DEFAULT_CPM_HIGH = 4.00;
+export const DEFAULT_CPM_LOW = 2.5;
+export const DEFAULT_CPM_HIGH = 40;
 
 /**
  * Estimate YouTube earnings based on views and CPM
@@ -64,10 +66,10 @@ export const DEFAULT_CPM_HIGH = 4.00;
 export function estimateYouTubeEarnings(input: YouTubeEstimateInput): YouTubeEarnings {
   const { views, cpmLow = DEFAULT_CPM_LOW, cpmHigh = DEFAULT_CPM_HIGH } = input;
 
-  if (views < 0) throw new Error('Views cannot be negative');
-  if (cpmLow < 0) throw new Error('CPM cannot be negative');
-  if (cpmHigh < 0) throw new Error('CPM cannot be negative');
-  if (cpmLow > cpmHigh) throw new Error('Low CPM cannot be greater than high CPM');
+  if (views < 0) throw new Error('Antall visninger kan ikke være negativt');
+  if (cpmLow < 0) throw new Error('CPM kan ikke være negativ');
+  if (cpmHigh < 0) throw new Error('CPM kan ikke være negativ');
+  if (cpmLow > cpmHigh) throw new Error('Laveste CPM kan ikke være høyere enn høyeste CPM');
 
   // YouTube creator share is approximately 55%
   const creatorShare = 0.55;
@@ -94,8 +96,8 @@ export function estimateYouTubeEarnings(input: YouTubeEstimateInput): YouTubeEar
  * @returns Number of views needed
  */
 export function calculateViewsForEarnings(targetEarnings: number, cpm: number): number {
-  if (targetEarnings < 0) throw new Error('Target earnings cannot be negative');
-  if (cpm <= 0) throw new Error('CPM must be positive');
+  if (targetEarnings < 0) throw new Error('Ønsket inntekt kan ikke være negativ');
+  if (cpm <= 0) throw new Error('CPM må være større enn 0');
 
   const creatorShare = 0.55;
   return Math.ceil((targetEarnings * 1000) / (cpm * creatorShare));
@@ -155,36 +157,23 @@ export function getCPMForCategory(category: string): { low: number; high: number
 }
 
 /**
- * Format earnings for display
- * 
- * @param amount - Dollar amount
- * @returns Formatted string
+ * Formaterer inntekt til visning
+ *
+ * @param amount - Beløp i kroner
+ * @returns For eksempel «1 234 kr» eller «1,23 mill. kr»
  */
 export function formatEarnings(amount: number): string {
   if (amount >= 1000000) {
-    return `$${(amount / 1000000).toFixed(2)}M`;
+    return `${formatFixed(amount / 1000000, 2)}\u00A0mill.\u00A0kr`;
   }
-  if (amount >= 1000) {
-    return `$${(amount / 1000).toFixed(2)}K`;
-  }
-  return `$${amount.toFixed(2)}`;
+  return `${formatNb(amount, { minimumFractionDigits: amount >= 1000 ? 0 : 2, maximumFractionDigits: amount >= 1000 ? 0 : 2 })}\u00A0kr`;
 }
 
 /**
- * Format view count for display
- * 
- * @param views - Number of views
- * @returns Formatted string
+ * Formaterer antall visninger til visning
+ *
+ * @param views - Antall visninger
  */
 export function formatViews(views: number): string {
-  if (views >= 1000000000) {
-    return `${(views / 1000000000).toFixed(2)}B`;
-  }
-  if (views >= 1000000) {
-    return `${(views / 1000000).toFixed(2)}M`;
-  }
-  if (views >= 1000) {
-    return `${(views / 1000).toFixed(1)}K`;
-  }
-  return views.toString();
+  return formatCompact(views, views >= 1000000 ? 2 : 1);
 }

@@ -30,14 +30,14 @@ export const SIGNATURE_FONTS: Record<SignatureStyle, { fontFamily: string; lette
 };
 
 export const SIGNATURE_COLORS = [
-  { value: '#000000', label: 'Black' },
-  { value: '#1a365d', label: 'Navy Blue' },
-  { value: '#2d3748', label: 'Dark Gray' },
-  { value: '#744210', label: 'Brown' },
-  { value: '#1e40af', label: 'Royal Blue' },
-  { value: '#7c3aed', label: 'Purple' },
-  { value: '#dc2626', label: 'Red' },
-  { value: '#059669', label: 'Green' },
+  { value: '#000000', label: 'Svart' },
+  { value: '#1a365d', label: 'Marineblå' },
+  { value: '#2d3748', label: 'Mørkegrå' },
+  { value: '#744210', label: 'Brun' },
+  { value: '#1e40af', label: 'Kongeblå' },
+  { value: '#7c3aed', label: 'Lilla' },
+  { value: '#dc2626', label: 'Rød' },
+  { value: '#059669', label: 'Grønn' },
 ];
 
 /**
@@ -204,7 +204,7 @@ export async function downloadSignatureAsPNG(
       const ctx = canvas.getContext('2d');
       
       if (!ctx) {
-        reject(new Error('Could not get canvas context'));
+        reject(new Error('Kunne ikke hente tegneflaten'));
         return;
       }
       
@@ -227,11 +227,11 @@ export async function downloadSignatureAsPNG(
           URL.revokeObjectURL(url);
           resolve();
         } else {
-          reject(new Error('Could not create blob'));
+          reject(new Error('Kunne ikke lage filen'));
         }
       }, 'image/png');
     };
-    img.onerror = () => reject(new Error('Could not load image'));
+    img.onerror = () => reject(new Error('Kunne ikke laste inn bildet'));
     img.src = svgDataUrl;
   });
 }

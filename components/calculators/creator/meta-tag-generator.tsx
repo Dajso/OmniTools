@@ -70,9 +70,9 @@ export function MetaTagGenerator() {
     return (
         <Card className="w-full max-w-3xl">
             <CardHeader>
-                <CardTitle>Meta Tag Generator</CardTitle>
+                <CardTitle>Metatag-generator</CardTitle>
                 <CardDescription>
-                    Generate HTML meta tags for SEO, Open Graph, and Twitter Cards
+                    Lag HTML-metakoder for SEO, Open Graph og Twitter Cards
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -87,7 +87,7 @@ export function MetaTagGenerator() {
                                     : 'border-transparent text-muted-foreground hover:text-foreground'
                                 }`}
                         >
-                            {tab === 'basic' ? 'Basic SEO' : tab === 'og' ? 'Open Graph' : 'Twitter'}
+                            {tab === 'basic' ? 'Grunnleggende SEO' : tab === 'og' ? 'Open Graph' : 'Twitter'}
                         </button>
                     ))}
                 </div>
@@ -96,39 +96,39 @@ export function MetaTagGenerator() {
                 {activeTab === 'basic' && (
                     <div className="space-y-4">
                         <TextInput
-                            label="Page Title"
+                            label="Sidetittel"
                             value={inputs.title || ''}
                             onChange={(v) => updateInput('title', v)}
-                            placeholder="My Awesome Website"
+                            placeholder="Nettsiden min"
                             helper="Recommended: 50-60 characters"
                         />
                         <div className="space-y-1">
-                            <Label className="text-sm">Meta Description</Label>
+                            <Label className="text-sm">Metabeskrivelse</Label>
                             <textarea
                                 value={inputs.description || ''}
                                 onChange={(e) => updateInput('description', e.target.value)}
-                                placeholder="A brief description of your page..."
+                                placeholder="En kort beskrivelse av siden din …"
                                 rows={3}
                                 className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
                             />
-                            <p className="text-xs text-muted-foreground">Recommended: 150-160 characters</p>
+                            <p className="text-xs text-muted-foreground">Anbefalt: 150–160 tegn</p>
                         </div>
                         <TextInput
-                            label="Keywords"
+                            label="Nøkkelord"
                             value={inputs.keywords || ''}
                             onChange={(v) => updateInput('keywords', v)}
-                            placeholder="keyword1, keyword2, keyword3"
-                            helper="Comma-separated keywords (less important for SEO now)"
+                            placeholder="nøkkelord1, nøkkelord2, nøkkelord3"
+                            helper="Nøkkelord atskilt med komma (mindre viktig for SEO i dag)"
                         />
                         <TextInput
-                            label="Author"
+                            label="Forfatter"
                             value={inputs.author || ''}
                             onChange={(v) => updateInput('author', v)}
-                            placeholder="John Doe"
+                            placeholder="Ola Nordmann"
                         />
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-1">
-                                <Label className="text-sm">Robots</Label>
+                                <Label className="text-sm">Roboter</Label>
                                 <select
                                     value={inputs.robots || 'index, follow'}
                                     onChange={(e) => updateInput('robots', e.target.value)}
@@ -140,7 +140,7 @@ export function MetaTagGenerator() {
                                 </select>
                             </div>
                             <TextInput
-                                label="Canonical URL"
+                                label="Kanonisk URL"
                                 value={inputs.canonical || ''}
                                 onChange={(v) => updateInput('canonical', v)}
                                 placeholder="https://example.com/page"
@@ -148,13 +148,13 @@ export function MetaTagGenerator() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <TextInput
-                                label="Theme Color"
+                                label="Temafarge"
                                 value={inputs.themeColor || ''}
                                 onChange={(v) => updateInput('themeColor', v)}
                                 placeholder="#3b82f6"
                             />
                             <TextInput
-                                label="Favicon URL"
+                                label="URL til favicon"
                                 value={inputs.favicon || ''}
                                 onChange={(v) => updateInput('favicon', v)}
                                 placeholder="/favicon.ico"
@@ -167,23 +167,23 @@ export function MetaTagGenerator() {
                 {activeTab === 'og' && (
                     <div className="space-y-4">
                         <TextInput
-                            label="OG Title"
+                            label="OG-tittel"
                             value={inputs.ogTitle || ''}
                             onChange={(v) => updateInput('ogTitle', v)}
-                            placeholder="Leave empty to use page title"
+                            placeholder="La stå tomt for å bruke sidetittelen"
                         />
                         <div className="space-y-1">
-                            <Label className="text-sm">OG Description</Label>
+                            <Label className="text-sm">OG-beskrivelse</Label>
                             <textarea
                                 value={inputs.ogDescription || ''}
                                 onChange={(e) => updateInput('ogDescription', e.target.value)}
-                                placeholder="Leave empty to use meta description"
+                                placeholder="La stå tomt for å bruke metabeskrivelsen"
                                 rows={2}
                                 className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
                             />
                         </div>
                         <TextInput
-                            label="OG Image URL"
+                            label="URL til OG-bilde"
                             value={inputs.ogImage || ''}
                             onChange={(v) => updateInput('ogImage', v)}
                             placeholder="https://example.com/image.jpg"
@@ -191,13 +191,13 @@ export function MetaTagGenerator() {
                         />
                         <div className="grid grid-cols-2 gap-4">
                             <TextInput
-                                label="OG URL"
+                                label="OG-URL"
                                 value={inputs.ogUrl || ''}
                                 onChange={(v) => updateInput('ogUrl', v)}
                                 placeholder="https://example.com/page"
                             />
                             <div className="space-y-1">
-                                <Label className="text-sm">OG Type</Label>
+                                <Label className="text-sm">OG-type</Label>
                                 <select
                                     value={inputs.ogType || 'website'}
                                     onChange={(e) => updateInput('ogType', e.target.value)}
@@ -210,10 +210,10 @@ export function MetaTagGenerator() {
                             </div>
                         </div>
                         <TextInput
-                            label="Site Name"
+                            label="Navn på nettstedet"
                             value={inputs.ogSiteName || ''}
                             onChange={(v) => updateInput('ogSiteName', v)}
-                            placeholder="My Website"
+                            placeholder="Nettstedet mitt"
                         />
                     </div>
                 )}
@@ -222,49 +222,49 @@ export function MetaTagGenerator() {
                 {activeTab === 'twitter' && (
                     <div className="space-y-4">
                         <div className="space-y-1">
-                            <Label className="text-sm">Card Type</Label>
+                            <Label className="text-sm">Korttype</Label>
                             <select
                                 value={inputs.twitterCard || 'summary_large_image'}
                                 onChange={(e) => updateInput('twitterCard', e.target.value as MetaTagInputs['twitterCard'])}
                                 className="w-full px-3 py-2 border rounded-md text-sm"
                             >
-                                <option value="summary">Summary</option>
-                                <option value="summary_large_image">Summary Large Image</option>
+                                <option value="summary">Oppsummering</option>
+                                <option value="summary_large_image">Oppsummering med stort bilde</option>
                                 <option value="app">App</option>
-                                <option value="player">Player</option>
+                                <option value="player">Spiller</option>
                             </select>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <TextInput
-                                label="Twitter Site (@username)"
+                                label="Twitter-konto for nettstedet (@brukernavn)"
                                 value={inputs.twitterSite || ''}
                                 onChange={(v) => updateInput('twitterSite', v)}
-                                placeholder="@yoursite"
+                                placeholder="@nettstedet"
                             />
                             <TextInput
-                                label="Twitter Creator"
+                                label="Twitter-konto for forfatteren"
                                 value={inputs.twitterCreator || ''}
                                 onChange={(v) => updateInput('twitterCreator', v)}
-                                placeholder="@author"
+                                placeholder="@forfatter"
                             />
                         </div>
                         <TextInput
-                            label="Twitter Title"
+                            label="Twitter-tittel"
                             value={inputs.twitterTitle || ''}
                             onChange={(v) => updateInput('twitterTitle', v)}
-                            placeholder="Leave empty to use OG/page title"
+                            placeholder="La stå tomt for å bruke OG-/sidetittelen"
                         />
                         <TextInput
-                            label="Twitter Description"
+                            label="Twitter-beskrivelse"
                             value={inputs.twitterDescription || ''}
                             onChange={(v) => updateInput('twitterDescription', v)}
-                            placeholder="Leave empty to use OG/meta description"
+                            placeholder="La stå tomt for å bruke OG-/metabeskrivelsen"
                         />
                         <TextInput
-                            label="Twitter Image URL"
+                            label="URL til Twitter-bilde"
                             value={inputs.twitterImage || ''}
                             onChange={(v) => updateInput('twitterImage', v)}
-                            placeholder="Leave empty to use OG image"
+                            placeholder="La stå tomt for å bruke OG-bildet"
                         />
                     </div>
                 )}
@@ -272,14 +272,14 @@ export function MetaTagGenerator() {
                 {/* Output */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <Label>Generated HTML</Label>
+                        <Label>Generert HTML</Label>
                         <Button variant="ghost" size="sm" onClick={copyHtml}>
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            <span className="ml-1">{copied ? 'Copied!' : 'Copy'}</span>
+                            <span className="ml-1">{copied ? 'Kopiert!' : 'Kopier'}</span>
                         </Button>
                     </div>
                     <pre className="p-4 bg-muted rounded-lg text-xs overflow-x-auto max-h-80 overflow-y-auto font-mono">
-                        <code>{result.html || '<!-- Fill in the form to generate meta tags -->'}</code>
+                        <code>{result.html || '<!-- Fyll ut skjemaet for å lage metakoder -->'}</code>
                     </pre>
                 </div>
             </CardContent>
