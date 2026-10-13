@@ -51,7 +51,6 @@ const faqs = [
 
 const relatedTools = [
   { href: '/calculators/academic/pomodoro-timer', title: 'Pomodoro Timer', description: 'Stay focused with timed study sessions.' },
-  { href: '/calculators/academic/gpa-calculator', title: 'GPA Calculator', description: 'Calculate your college GPA.' },
   { href: '/calculators/productivity/date-difference', title: 'Date Calculator', description: 'Calculate days between dates.' },
 ];
 

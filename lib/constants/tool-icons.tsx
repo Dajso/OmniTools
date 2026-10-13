@@ -167,20 +167,16 @@ import {
 export const toolIconMap: Record<string, LucideIcon> = {
   // Finance Tools
   'mortgage-calculator': Home,
-  '401k-calculator': PiggyBank,
   'credit-card-payoff': CreditCard,
   'roi-calculator': TrendingUp,
   'sales-tax-calculator': Receipt,
   'tip-calculator': Utensils,
   'inflation-calculator': TrendingDown,
   'car-lease-vs-buy': Car,
-  'student-loan-payoff': GraduationCap,
   'compound-interest-calculator': LineChart,
   'discount-calculator': Tag,
-  'crypto-profit-loss': Bitcoin,
   'hourly-to-salary': Clock,
   'fire-calculator': Flame,
-  'paypal-fee-calculator': DollarSign,
   'fuel-cost-calculator': Fuel,
   'refinance-calculator': RefreshCw,
   'debt-snowball-calculator': Snowflake,
@@ -229,7 +225,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'lumber-calculator': TreePine,
   'drywall-calculator': SquareStack,
   'solar-panel-calculator': Sun,
-  'moving-cost-estimator': Truck,
 
   // Productivity Tools
   'word-counter': FileText,
@@ -246,8 +241,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'age-calculator': Cake,
   'date-difference-calculator': CalendarDays,
   'timezone-converter': Globe,
-  'gpa-calculator': GraduationCap,
-  'grade-calculator': BookOpen,
   'aspect-ratio-calculator': RectangleHorizontal,
   'image-resolution-calculator': Image,
   'json-formatter': Braces,
@@ -290,11 +283,9 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'sun-shade-mapper': Sun,
   'seed-germination-tracker': Sprout,
   'vegetable-yield-calculator': Carrot,
-  'hardiness-zone-finder': MapPin,
   'compost-calculator': Recycle,
 
   // Construction Tools
-  'board-foot-calculator': TreePine,
   'crown-molding-calculator': Crown,
   'baluster-calculator': Fence,
   'concrete-slab-calculator': Box,
@@ -327,20 +318,10 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'business-name-generator': Building2,
   'instagram-engagement-calculator': Instagram,
   'cpm-calculator': BarChart3,
-  'paycheck-calculator': Wallet,
-  'privacy-policy-generator': Shield,
-  'terms-conditions-generator': FileCheck,
   'schema-markup-generator': Code2,
   'utm-builder': Link2,
   'meta-tag-generator': Tags,
 
-  // Crypto Tools
-  'gas-fee-calculator': Fuel,
-  'eth-unit-converter': Bitcoin,
-  'impermanent-loss-calculator': TrendingDown,
-  'staking-rewards-calculator': PiggyBank,
-  'hash-generator': Hash,
-  'address-shortener': Eraser,
 
   // Gaming Tools
   'mouse-sensitivity-calculator': MousePointer,
@@ -398,7 +379,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'countdown-timer': Timer,
 
   // Travel Tools
-  'schengen-calculator': Plane,
   'timezone-planner': Globe,
 
   'flight-duration-calculator': Plane,
@@ -413,12 +393,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'numerology': Sparkles,
   'lucky-number-generator': Dice5,
 
-  // Betting Tools
-  'odds-converter': RotateCw,
-  'parlay-calculator': LineChart,
-  'arbitrage-calculator': TrendingUp,
-  'kelly-criterion-calculator': BarChart3,
-  'expected-value-calculator': TrendingUp,
 
   // Auto Tools
   'tire-size-calculator': Circle,
@@ -431,8 +405,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'zero-sixty-estimator': Gauge,
 
   // Academic Tools
-
-  'final-grade-calculator': BookOpen,
   'fraction-calculator': Percent,
   'scientific-notation-converter': Hash,
   'study-timer': Timer,
@@ -478,7 +450,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'cake-pan-converter': Cake,
   'yeast-conversion-calculator': FlaskConical,
   'chocolate-tempering-calculator': Candy,
-  'turkey-thawing-calculator': Timer,
   'brine-calculator': FlaskConical,
   'egg-size-converter': Egg,
   'alcohol-dilution-calculator': Beaker,
@@ -491,7 +462,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'brrrr-calculator': Building2,
   'renovation-roi-estimator': Hammer,
   'prorated-rent-calculator': CalendarDays,
-  '1031-exchange-calculator': Calendar,
   'gross-rent-multiplier-calculator': TrendingUp,
   'closing-cost-estimator': Receipt,
   'house-affordability-calculator': Home,
@@ -504,7 +474,6 @@ export const toolIconMap: Record<string, LucideIcon> = {
   'wedding-budget-allocator': DollarSign,
   'flower-stem-calculator': Flower2,
   'save-the-date-calculator': CalendarDays,
-  'catering-quantity-calculator': Beef,
   'tent-size-calculator': Tent,
   'sunset-time-calculator': SunMoon,
 };

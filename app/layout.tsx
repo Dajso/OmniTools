@@ -1,50 +1,51 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Public_Sans, Bricolage_Grotesque } from 'next/font/google';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { CookieConsent } from '@/components/layout/cookie-consent';
 import { SkipLink } from '@/components/ui/skip-link';
 import { ServiceWorkerRegister, InstallPrompt } from '@/components/pwa';
 import './globals.css';
-import { Analytics } from '@vercel/analytics/next';
 
-const inter = Inter({
+// Samme fonter som Hjemmetavla: Public Sans til brødtekst, Bricolage Grotesque til overskrifter
+const publicSans = Public_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap', // Optimize font loading for better LCP
-  preload: true,
+  display: 'swap',
+});
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
 });
 
 /**
- * Viewport configuration for mobile optimization
- * @see Requirements 13.2 - Mobile responsiveness
+ * Viewport-oppsett for mobil
  */
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
+  themeColor: '#1D6C6E',
 };
 
 export const metadata: Metadata = {
   title: {
-    default: 'OmniTools - Free Online Calculators & Converters',
-    template: '%s | OmniTools',
+    default: 'Kalkulator – Hjemmetavla',
+    template: '%s | Hjemmetavla Kalkulator',
   },
-  description: 'Your all-in-one toolkit for everyday calculations. 100+ free online calculators and converters for finance, health, home improvement, and productivity.',
-  keywords: ['calculator', 'converter', 'online tools', 'free calculator', 'unit converter', 'omnitools'],
-  authors: [{ name: 'OmniTools' }],
-  creator: 'OmniTools',
-  publisher: 'OmniTools',
+  description:
+    'Gratis kalkulatorer og omregnere tilpasset Norge: kroner, metriske enheter, bolig, strøm, helse og hverdag.',
+  keywords: ['kalkulator', 'omregner', 'enhetsomregner', 'boliglån', 'strømkostnad', 'hjemmetavla'],
+  authors: [{ name: 'Hjemmetavla' }],
+  creator: 'Hjemmetavla',
+  publisher: 'Hjemmetavla',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://omnitools.devtoolcafe.com/'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kalkulator.hjemmetavla.no/'),
   robots: {
     index: true,
     follow: true,
@@ -58,16 +59,11 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    siteName: 'OmniTools',
+    locale: 'nb_NO',
+    siteName: 'Hjemmetavla Kalkulator',
   },
   twitter: {
     card: 'summary_large_image',
-  },
-  verification: {
-    // Add verification tokens when available
-    // google: 'google-site-verification-token',
-    // yandex: 'yandex-verification-token',
   },
 };
 
@@ -77,49 +73,42 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="nb" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external resources for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
-        {/* DNS prefetch for potential external resources */}
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-
-        {/* PWA Manifest */}
+        {/* PWA-manifest */}
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Favicons */}
+        {/* Favoritt-ikoner */}
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
 
-        {/* Apple Touch Icons for iOS */}
+        {/* Apple Touch-ikoner for iOS */}
         <link rel="apple-touch-icon" href="/icons/icon-180x180.png" />
         <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
         <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="OmniTools" />
+        <meta name="apple-mobile-web-app-title" content="Kalkulator" />
 
-        {/* Microsoft Tiles */}
-        <meta name="msapplication-TileColor" content="#6366f1" />
+        {/* Microsoft-fliser */}
+        <meta name="msapplication-TileColor" content="#1D6C6E" />
         <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <body
+        className={`${publicSans.variable} ${bricolage.variable} font-sans antialiased min-h-screen flex flex-col`}
+      >
         <SkipLink href="#main-content" />
         <Header />
         <main id="main-content" className="flex-1" tabIndex={-1}>
           {children}
         </main>
         <Footer />
-        <CookieConsent />
 
-        {/* PWA Components */}
+        {/* PWA-komponenter */}
         <ServiceWorkerRegister />
         <InstallPrompt />
-        <Analytics />
       </body>
     </html>
   );

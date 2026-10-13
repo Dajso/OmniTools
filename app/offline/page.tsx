@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { OfflineContent } from './offline-content';
 
 export const metadata: Metadata = {
-    title: 'Offline - OmniTools',
-    description: 'You are currently offline. Please check your internet connection.',
+    title: 'Frakoblet',
+    description: 'Du er frakoblet. Sjekk internettforbindelsen din.',
     robots: {
         index: false,
         follow: false,

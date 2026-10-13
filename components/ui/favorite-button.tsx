@@ -47,19 +47,19 @@ export function FavoriteButton({ toolId, className, size = 'md' }: FavoriteButto
       className={cn(
         'inline-flex items-center justify-center rounded-full border transition-all',
         favorited
-          ? 'border-red-200 bg-red-50 hover:bg-red-100'
-          : 'border-gray-200 bg-white hover:border-red-200 hover:bg-red-50',
+          ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+          : 'border-gray-200 bg-white hover:border-blue-200 hover:bg-blue-50',
         sizeClasses[size],
         className
       )}
-      title={favorited ? 'Remove from favorites' : 'Add to favorites'}
-      aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
+      title={favorited ? 'Fjern fra favoritter' : 'Legg til i favoritter'}
+      aria-label={favorited ? 'Fjern fra favoritter' : 'Legg til i favoritter'}
     >
       <Heart
         className={cn(
           iconSizes[size],
           'transition-colors',
-          favorited ? 'fill-red-500 text-red-500' : 'text-gray-400 hover:text-red-400'
+          favorited ? 'fill-blue-600 text-blue-600' : 'text-gray-400 hover:text-blue-500'
         )}
       />
     </button>

@@ -62,9 +62,9 @@ class CalculatorErrorBoundary extends React.Component<
         <Card className="border-destructive">
           <CardContent className="p-6">
             <div className="text-destructive" role="alert">
-              <p className="font-semibold">Something went wrong</p>
+              <p className="font-semibold">Noe gikk galt</p>
               <p className="text-sm text-muted-foreground mt-1">
-                {this.state.error?.message || 'An unexpected error occurred'}
+                {this.state.error?.message || 'Det oppstod en uventet feil'}
               </p>
             </div>
           </CardContent>
@@ -88,7 +88,7 @@ function FormulaDisplay({
 }) {
   return (
     <div className="bg-muted/50 rounded-lg p-4 mt-4">
-      <p className="text-sm font-medium text-muted-foreground mb-2">Formula</p>
+      <p className="text-sm font-medium text-muted-foreground mb-2">Formel</p>
       <code className="text-sm font-mono bg-background px-2 py-1 rounded">
         {formula}
       </code>
@@ -192,7 +192,7 @@ export function CalculatorBase({
           {/* Results section */}
           {results && (
             <div className="border-t pt-4 mt-4">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Results</p>
+              <p className="text-sm font-medium text-muted-foreground mb-3">Resultater</p>
               {results}
             </div>
           )}
@@ -207,7 +207,7 @@ export function CalculatorBase({
                 disabled={isCalculateDisabled}
                 loading={isCalculating}
               >
-                Calculate
+                Beregn
               </Button>
             )}
             {onReset && (
@@ -216,7 +216,7 @@ export function CalculatorBase({
                 onClick={onReset}
                 disabled={isCalculating}
               >
-                Reset
+                Nullstill
               </Button>
             )}
           </CardFooter>

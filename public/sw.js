@@ -1,5 +1,5 @@
 /**
- * OmniTools Service Worker
+ * Kalkulator – Service Worker (Hjemmetavla)
  * 
  * Provides offline support, caching, and background sync for the PWA.
  * Uses a cache-first strategy for static assets and network-first for dynamic content.
@@ -7,9 +7,9 @@
  * @version 1.0.0
  */
 
-const CACHE_NAME = 'omnitools-v1';
-const STATIC_CACHE_NAME = 'omnitools-static-v1';
-const DYNAMIC_CACHE_NAME = 'omnitools-dynamic-v1';
+const CACHE_NAME = 'kalkulator-v2';
+const STATIC_CACHE_NAME = 'kalkulator-static-v2';
+const DYNAMIC_CACHE_NAME = 'kalkulator-dynamic-v2';
 
 // Static assets to cache immediately on install
 const STATIC_ASSETS = [
@@ -26,8 +26,9 @@ const CACHEABLE_ROUTES = [
     '/calculators/finance',
     '/calculators/health',
     '/calculators/home',
-    '/calculators/conversion',
-    '/calculators/coffee',
+    '/calculators/auto',
+    '/calculators/solar',
+    '/convert',
 ];
 
 // Cache duration in milliseconds (24 hours)
@@ -68,7 +69,7 @@ self.addEventListener('activate', (event) => {
                     cacheNames
                         .filter((cacheName) => {
                             // Delete old cache versions
-                            return cacheName.startsWith('omnitools-') &&
+                            return (cacheName.startsWith('omnitools-') || cacheName.startsWith('kalkulator-')) &&
                                 cacheName !== STATIC_CACHE_NAME &&
                                 cacheName !== DYNAMIC_CACHE_NAME;
                         })
@@ -264,7 +265,7 @@ self.addEventListener('push', (event) => {
 
     const data = event.data.json();
     const options = {
-        body: data.body || 'New update available!',
+        body: data.body || 'Ny oppdatering er tilgjengelig!',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-72x72.png',
         vibrate: [100, 50, 100],
@@ -274,7 +275,7 @@ self.addEventListener('push', (event) => {
     };
 
     event.waitUntil(
-        self.registration.showNotification(data.title || 'OmniTools', options)
+        self.registration.showNotification(data.title || 'Kalkulator', options)
     );
 });
 

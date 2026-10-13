@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toolRegistry, ToolDefinition } from '@/lib/constants/tool-registry';
 import { getToolIcon } from '@/lib/constants/tool-icons';
+import { getCategoryConfig } from '@/lib/constants/category-config';
 
 interface SearchDialogProps {
   open: boolean;
@@ -80,7 +81,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
             <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             <Input
               type="text"
-              placeholder="Search tools..."
+              placeholder="Søk i verktøy …"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="border-0 focus-visible:ring-0 text-sm py-2.5 h-10"
@@ -93,6 +94,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               className="flex-shrink-0 h-7 w-7 p-0"
             >
               <X className="h-4 w-4" />
+              <span className="sr-only">Lukk</span>
             </Button>
           </div>
 
@@ -100,7 +102,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           <div className="max-h-[50vh] overflow-y-auto p-1.5">
             {filteredTools.length === 0 ? (
               <div className="py-6 text-center text-sm text-muted-foreground">
-                No tools found for "{query}"
+                Fant ingen verktøy for «{query}»
               </div>
             ) : (
               <div className="space-y-0.5">
@@ -121,8 +123,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                           {tool.description}
                         </div>
                       </div>
-                      <span className="text-[10px] text-muted-foreground capitalize flex-shrink-0">
-                        {tool.category}
+                      <span className="text-[10px] text-muted-foreground flex-shrink-0">
+                        {getCategoryConfig(tool.category)?.name ?? tool.category}
                       </span>
                     </button>
                   );
@@ -133,9 +135,9 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
           {/* Footer */}
           <div className="border-t px-3 py-1.5 text-[10px] text-muted-foreground flex items-center justify-between">
-            <span>{allTools.length} tools</span>
+            <span>{allTools.length} verktøy</span>
             <span className="hidden sm:inline">
-              <kbd className="px-1 py-0.5 bg-muted rounded font-mono">ESC</kbd> to close
+              <kbd className="px-1 py-0.5 bg-muted rounded font-mono">ESC</kbd> for å lukke
             </span>
           </div>
         </div>

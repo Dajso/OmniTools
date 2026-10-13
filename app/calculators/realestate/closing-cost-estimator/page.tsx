@@ -32,7 +32,6 @@ const faqs = [
 
 const relatedTools = [
     { href: '/calculators/realestate/house-affordability-calculator', title: 'Affordability Calculator', description: 'Include closing costs in your budget.' },
-    { href: '/calculators/realestate/1031-exchange-calculator', title: '1031 Exchange', description: 'Defer taxes on property sales.' },
     { href: '/calculators/realestate/cap-rate-calculator', title: 'Cap Rate Calculator', description: 'Evaluate investment properties.' },
 ];
 

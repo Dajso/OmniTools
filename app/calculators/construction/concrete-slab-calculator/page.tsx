@@ -56,7 +56,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/construction/board-foot-calculator', title: 'Board Foot Calculator', description: 'Calculate lumber volume and pricing.' },
   { href: '/calculators/construction/crown-molding-calculator', title: 'Crown Molding Calculator', description: 'Calculate miter and bevel angles.' },
   { href: '/calculators/construction/baluster-calculator', title: 'Baluster Spacing Calculator', description: 'Calculate baluster spacing for code compliance.' },
 ];

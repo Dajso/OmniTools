@@ -17,7 +17,7 @@ export interface SkipLinkProps {
  * **Validates: Requirements 11.3, 11.5**
  */
 const SkipLink = React.forwardRef<HTMLAnchorElement, SkipLinkProps>(
-  ({ href = '#main-content', children = 'Skip to main content', className }, ref) => {
+  ({ href = '#main-content', children = 'Hopp til hovedinnhold', className }, ref) => {
     return (
       <a
         ref={ref}

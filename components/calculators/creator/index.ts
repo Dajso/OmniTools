@@ -1,8 +1,5 @@
 export { InvoiceGenerator } from './invoice-generator';
-export { PrivacyPolicyGenerator } from './privacy-policy-generator';
-export { TermsConditionsGenerator } from './terms-conditions-generator';
 export { WifiQRGenerator } from './wifi-qr-generator';
-export { PaycheckCalculator } from './paycheck-calculator';
 export { YouTubeMoneyCalculator } from './youtube-money-calculator';
 export { InstagramEngagementCalculator } from './instagram-engagement-calculator';
 export { SignatureGenerator } from './signature-generator';

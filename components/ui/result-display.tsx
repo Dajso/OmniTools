@@ -80,7 +80,7 @@ const ResultDisplay = React.forwardRef<HTMLDivElement, ResultDisplayProps>(
                 'hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                 copied && 'text-green-600'
               )}
-              aria-label={copied ? 'Copied!' : `Copy ${label}`}
+              aria-label={copied ? 'Kopiert!' : `Kopier ${label}`}
             >
               {copied ? (
                 <Check className="h-4 w-4" aria-hidden="true" />

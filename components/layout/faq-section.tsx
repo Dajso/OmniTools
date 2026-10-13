@@ -13,9 +13,9 @@ interface FAQSectionProps {
 }
 
 /**
- * Shared FAQ section component for tool detail pages
+ * Delt FAQ-seksjon for verktøysidene
  */
-export function FAQSection({ faqs, title = 'Frequently Asked Questions' }: FAQSectionProps) {
+export function FAQSection({ faqs, title = 'Ofte stilte spørsmål' }: FAQSectionProps) {
   if (faqs.length === 0) return null;
 
   return (

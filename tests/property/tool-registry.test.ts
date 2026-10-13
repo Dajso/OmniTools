@@ -55,11 +55,11 @@ describe('Tool Registry Completeness - Property 5', () => {
           // Check category is valid
           const validCategories: ToolCategory[] = [
             'finance', 'health', 'home', 'converter', 'productivity',
-            // New expanded categories (Requirements 15-32)
             'academic', 'travel', 'gaming', 'creator', 'fun',
-            'audio', 'rpg', 'crypto', 'photo', 'crafts',
-            'garden', 'electronics', 'betting', 'auto', 'stats',
-            'time', 'physics', 'construction', 'coffee'
+            'audio', 'rpg', 'photo', 'crafts',
+            'garden', 'electronics', 'auto', 'stats',
+            'time', 'physics', 'construction', 'coffee',
+            'aquarium', 'solar', 'baking', 'realestate', 'wedding'
           ];
           expect(validCategories).toContain(tool.category);
 
@@ -116,11 +116,11 @@ describe('Tool Registry Completeness - Property 5', () => {
     const homeTools = getToolsByCategory('home');
     const productivityTools = getToolsByCategory('productivity');
 
-    // Core categories should have at least 20 tools each
-    expect(financeTools.length).toBeGreaterThanOrEqual(20);
-    expect(healthTools.length).toBeGreaterThanOrEqual(20);
-    expect(homeTools.length).toBeGreaterThanOrEqual(20);
-    expect(productivityTools.length).toBeGreaterThanOrEqual(20);
+    // Kjernekategoriene skal ha minst 15 verktøy hver (etter norsk tilpasning)
+    expect(financeTools.length).toBeGreaterThanOrEqual(15);
+    expect(healthTools.length).toBeGreaterThanOrEqual(15);
+    expect(homeTools.length).toBeGreaterThanOrEqual(15);
+    expect(productivityTools.length).toBeGreaterThanOrEqual(15);
 
     // Total tools should be at least 100 (original requirement)
     const allTools = getAllTools();

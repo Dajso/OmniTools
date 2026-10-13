@@ -1,30 +1,46 @@
 /**
- * Number formatting utilities for the English Tools Website
- * 
- * Provides locale-aware formatting for numbers, currencies, and percentages.
- * Defaults to US conventions (1,000.00) per Requirements 14.1
+ * Tall-, valuta- og datoformatering for Hjemmetavla Kalkulator.
+ *
+ * Standard er norsk: kroner (NOK), mellomrom som tusenskille, komma som
+ * desimaltegn og datoformatet dd.mm.åååå (nb-NO).
+ * Funksjonene beholder de opprinnelige navnene, så alle kalkulatorene som
+ * allerede bruker formatCurrency, formatNumber osv. blir norske automatisk.
  */
 
-/** Supported locale codes */
-export type Locale = 'en-US' | 'en-GB' | 'en-AU';
+/** Støttede språkkoder */
+export type Locale = 'nb-NO' | 'en-US' | 'en-GB';
 
-/** Supported currency codes */
-export type CurrencyCode = 'USD' | 'GBP' | 'AUD' | 'EUR';
+/** Støttede valutakoder */
+export type CurrencyCode = 'NOK' | 'SEK' | 'DKK' | 'EUR' | 'USD' | 'GBP';
 
-/** Date format patterns */
-export type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY';
+/** Datoformater */
+export type DateFormat = 'DD.MM.YYYY' | 'DD/MM/YYYY' | 'MM/DD/YYYY';
+
+export const DEFAULT_LOCALE: Locale = 'nb-NO';
+export const DEFAULT_CURRENCY: CurrencyCode = 'NOK';
+
+/** Hardt mellomrom, brukes mellom tall og enhet (1 234 kr, 15 %) */
+export const NBSP = ' ';
+
+/**
+ * Intl bruker det typografiske minustegnet (U+2212) for nb-NO. Det kan ikke
+ * limes inn i regneark eller leses av parseFloat, så vi bytter til vanlig bindestrek.
+ */
+function normalizeMinus(text: string): string {
+  return text.replace(/−/g, '-');
+}
 
 /**
  * Options for number formatting
  */
 export interface FormatNumberOptions {
-  /** Locale for formatting (default: 'en-US') */
+  /** Språk for formatering (standard: 'nb-NO') */
   locale?: Locale;
-  /** Minimum fraction digits */
+  /** Minste antall desimaler */
   minimumFractionDigits?: number;
-  /** Maximum fraction digits */
+  /** Største antall desimaler */
   maximumFractionDigits?: number;
-  /** Use grouping separators (thousands) */
+  /** Bruk tusenskille */
   useGrouping?: boolean;
 }
 
@@ -32,140 +48,139 @@ export interface FormatNumberOptions {
  * Options for currency formatting
  */
 export interface FormatCurrencyOptions {
-  /** Locale for formatting (default: 'en-US') */
+  /** Språk for formatering (standard: 'nb-NO') */
   locale?: Locale;
-  /** Currency code (default: 'USD') */
+  /** Valutakode (standard: 'NOK') */
   currency?: CurrencyCode;
-  /** Whether to show currency symbol */
+  /** Vis valutategn eller -kode */
   showSymbol?: boolean;
+  /** Antall desimaler (standard: 2). Bruk 0 for hele kroner. */
+  decimals?: number;
 }
 
 /**
  * Options for percentage formatting
  */
 export interface FormatPercentOptions {
-  /** Locale for formatting (default: 'en-US') */
+  /** Språk for formatering (standard: 'nb-NO') */
   locale?: Locale;
-  /** Number of decimal places (default: 2) */
+  /** Antall desimaler (standard: 2) */
   decimals?: number;
-  /** Whether to include the % symbol (default: true) */
+  /** Ta med %-tegnet (standard: true) */
   showSymbol?: boolean;
 }
 
 /**
- * Formats a number with locale-aware thousand separators and decimal places
- * 
- * @param value - The number to format
- * @param options - Formatting options
- * @returns Formatted number string
- * 
+ * Formaterer et tall med tusenskille og desimaler.
+ *
  * @example
- * formatNumber(1234567.89) // "1,234,567.89"
- * formatNumber(1234567.89, { locale: 'en-GB' }) // "1,234,567.89"
- * formatNumber(1234.5, { maximumFractionDigits: 0 }) // "1,235"
+ * formatNumber(1234567.89) // "1 234 567,89"  (hardt mellomrom som tusenskille)
+ * formatNumber(1234567.89, { locale: 'en-US' }) // "1,234,567.89"
+ * formatNumber(1234.5, { maximumFractionDigits: 0 }) // "1 235"
  */
 export function formatNumber(
   value: number,
   options: FormatNumberOptions = {}
 ): string {
   const {
-    locale = 'en-US',
+    locale = DEFAULT_LOCALE,
     minimumFractionDigits,
     maximumFractionDigits,
     useGrouping = true,
   } = options;
 
-  // Handle special cases
+  // Spesialtilfeller
   if (!Number.isFinite(value)) {
     return String(value);
   }
 
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits,
-    maximumFractionDigits,
-    useGrouping,
-  }).format(value);
+  return normalizeMinus(
+    new Intl.NumberFormat(locale, {
+      minimumFractionDigits,
+      maximumFractionDigits,
+      useGrouping,
+    }).format(value)
+  );
 }
 
 /**
- * Formats a number as currency with appropriate symbol and decimal places
- * 
- * Currency values are formatted with exactly 2 decimal places per Requirement 3.6
- * 
- * @param value - The number to format as currency
- * @param options - Formatting options
- * @returns Formatted currency string
- * 
+ * Formaterer et tall som valuta. Norske kroner skrives "1 234,50 kr".
+ *
  * @example
- * formatCurrency(1234.5) // "$1,234.50"
- * formatCurrency(1234.5, { currency: 'GBP' }) // "£1,234.50"
- * formatCurrency(1234.5, { currency: 'EUR', locale: 'en-GB' }) // "€1,234.50"
+ * formatCurrency(1234.5) // "1 234,50 kr"
+ * formatCurrency(1234.5, { decimals: 0 }) // "1 235 kr"
+ * formatCurrency(1234.5, { currency: 'EUR' }) // "1 234,50 €"
+ * formatCurrency(1234.5, { showSymbol: false }) // "1 234,50"
  */
 export function formatCurrency(
   value: number,
   options: FormatCurrencyOptions = {}
 ): string {
   const {
-    locale = 'en-US',
-    currency = 'USD',
+    locale = DEFAULT_LOCALE,
+    currency = DEFAULT_CURRENCY,
     showSymbol = true,
+    decimals = 2,
   } = options;
 
-  // Handle special cases
+  // Spesialtilfeller
   if (!Number.isFinite(value)) {
     return String(value);
   }
 
+  const amount = formatNumber(value, {
+    locale,
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
   if (!showSymbol) {
-    // Format without currency symbol, just the number with 2 decimals
-    return formatNumber(value, {
-      locale,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+    return amount;
   }
 
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
+  // Norsk skrivemåte: beløpet først, så "kr"
+  if (locale === 'nb-NO' && currency === 'NOK') {
+    return `${amount}${NBSP}kr`;
+  }
+
+  return normalizeMinus(
+    new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(value)
+  );
 }
 
 /**
- * Formats a number as a percentage
- * 
- * @param value - The number to format (0.5 = 50%, 50 = 50% depending on isDecimal)
- * @param options - Formatting options
- * @returns Formatted percentage string
- * 
+ * Formaterer et tall som prosent.
+ *
  * @example
- * formatPercent(0.156) // "15.60%"
- * formatPercent(0.156, { decimals: 1 }) // "15.6%"
- * formatPercent(15.6, { isDecimal: false }) // "15.60%"
+ * formatPercent(0.156) // "15,60 %"
+ * formatPercent(0.156, { decimals: 1 }) // "15,6 %"
+ * formatPercent(15.6, { isDecimal: false }) // "15,60 %"
  */
 export function formatPercent(
   value: number,
   options: FormatPercentOptions & { isDecimal?: boolean } = {}
 ): string {
   const {
-    locale = 'en-US',
+    locale = DEFAULT_LOCALE,
     decimals = 2,
     showSymbol = true,
     isDecimal = true,
   } = options;
 
-  // Handle special cases
+  // Spesialtilfeller
   if (!Number.isFinite(value)) {
     return String(value);
   }
 
-  // Convert to decimal if needed (e.g., 15.6 -> 0.156)
+  // Gjør om til desimaltall om nødvendig (15,6 -> 0,156)
   const decimalValue = isDecimal ? value : value / 100;
 
   if (!showSymbol) {
-    // Return just the number without % symbol
     const percentValue = decimalValue * 100;
     return formatNumber(percentValue, {
       locale,
@@ -174,53 +189,50 @@ export function formatPercent(
     });
   }
 
-  return new Intl.NumberFormat(locale, {
-    style: 'percent',
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(decimalValue);
+  return normalizeMinus(
+    new Intl.NumberFormat(locale, {
+      style: 'percent',
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(decimalValue)
+  );
 }
 
 /**
- * Formats a date according to the specified format
- * 
- * @param date - The date to format
- * @param format - Date format pattern (default: 'MM/DD/YYYY' for US)
- * @param locale - Locale for formatting
- * @returns Formatted date string
- * 
+ * Formaterer en dato. Standard er norsk dd.mm.åååå.
+ *
  * @example
- * formatDate(new Date('2024-03-15')) // "03/15/2024"
- * formatDate(new Date('2024-03-15'), 'DD/MM/YYYY') // "15/03/2024"
+ * formatDate(new Date('2024-03-15')) // "15.03.2024"
+ * formatDate(new Date('2024-03-15'), 'MM/DD/YYYY') // "03/15/2024"
  */
 export function formatDate(
   date: Date,
-  format: DateFormat = 'MM/DD/YYYY',
-  locale: Locale = 'en-US'
+  format: DateFormat = 'DD.MM.YYYY',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _locale: Locale = DEFAULT_LOCALE
 ): string {
   if (!(date instanceof Date) || isNaN(date.getTime())) {
-    return 'Invalid Date';
+    return 'Ugyldig dato';
   }
 
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = String(date.getFullYear());
 
-  if (format === 'DD/MM/YYYY') {
-    return `${day}/${month}/${year}`;
+  switch (format) {
+    case 'MM/DD/YYYY':
+      return `${month}/${day}/${year}`;
+    case 'DD/MM/YYYY':
+      return `${day}/${month}/${year}`;
+    case 'DD.MM.YYYY':
+    default:
+      return `${day}.${month}.${year}`;
   }
-  
-  // Default: MM/DD/YYYY (US format)
-  return `${month}/${day}/${year}`;
 }
 
 /**
- * Rounds a number to a specified number of decimal places
- * 
- * @param value - The number to round
- * @param decimals - Number of decimal places (default: 2)
- * @returns Rounded number
- * 
+ * Runder av til et gitt antall desimaler.
+ *
  * @example
  * roundTo(3.14159, 2) // 3.14
  * roundTo(3.145, 2) // 3.15
@@ -234,33 +246,38 @@ export function roundTo(value: number, decimals: number = 2): number {
 }
 
 /**
- * Parses a formatted number string back to a number
- * 
- * @param value - The formatted string to parse
- * @param locale - Locale used for formatting (to determine separators)
- * @returns Parsed number or NaN if invalid
- * 
+ * Leser et formatert tall tilbake til et tall.
+ *
+ * Norsk: mellomrom (også hardt) er tusenskille og komma er desimaltegn.
+ * Engelsk: komma er tusenskille og punktum er desimaltegn.
+ *
  * @example
- * parseFormattedNumber("1,234.56") // 1234.56
- * parseFormattedNumber("$1,234.56") // 1234.56
+ * parseFormattedNumber("1 234,56") // 1234.56
+ * parseFormattedNumber("1 234,56 kr") // 1234.56
+ * parseFormattedNumber("1,234.56", 'en-US') // 1234.56
  */
 export function parseFormattedNumber(
   value: string,
-  locale: Locale = 'en-US'
+  locale: Locale = DEFAULT_LOCALE
 ): number {
   if (!value || typeof value !== 'string') {
     return NaN;
   }
 
-  // Remove currency symbols and whitespace
-  let cleaned = value.replace(/[£$€\s]/g, '');
-  
-  // Remove thousand separators (commas for en-US/en-GB/en-AU)
-  cleaned = cleaned.replace(/,/g, '');
-  
-  // Remove percent sign
-  cleaned = cleaned.replace(/%/g, '');
+  // Fjern valutategn/-koder, prosent og alle typer mellomrom
+  let cleaned = normalizeMinus(value)
+    .replace(/kr\.?|NOK|SEK|DKK|EUR|USD|GBP|[£$€%]/gi, '')
+    .replace(/[\s  ]/g, '');
 
-  const result = parseFloat(cleaned);
-  return result;
+  if (locale === 'nb-NO') {
+    if (cleaned.includes(',')) {
+      // "1.234,56": punktum er tusenskille, komma er desimaltegn
+      cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+    }
+  } else {
+    // Engelsk: komma er tusenskille
+    cleaned = cleaned.replace(/,/g, '');
+  }
+
+  return parseFloat(cleaned);
 }

@@ -51,7 +51,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/schengen-calculator', title: 'Schengen Visa Calculator', description: 'Calculate your Schengen visa days.' },
   { href: '/calculators/travel/luggage-size', title: 'Luggage Size Checker', description: 'Check airline luggage requirements.' },
   { href: '/calculators/travel/currency-converter', title: 'Currency Converter', description: 'Convert currencies for your trip.' },
 ];

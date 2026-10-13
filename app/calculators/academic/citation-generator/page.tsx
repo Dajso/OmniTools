@@ -53,7 +53,6 @@ const faqs = [
 const relatedTools = [
   { href: '/calculators/academic/plagiarism-checker', title: 'Plagiarism Checker', description: 'Compare texts for similarity.' },
   { href: '/calculators/productivity/word-counter', title: 'Word Counter', description: 'Count words and characters.' },
-  { href: '/calculators/academic/gpa-calculator', title: 'GPA Calculator', description: 'Calculate your college GPA.' },
 ];
 
 export default function CitationGeneratorPage() {

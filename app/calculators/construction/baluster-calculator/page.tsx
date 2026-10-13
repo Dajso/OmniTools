@@ -56,7 +56,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/construction/board-foot-calculator', title: 'Board Foot Calculator', description: 'Calculate lumber volume and pricing.' },
   { href: '/calculators/construction/crown-molding-calculator', title: 'Crown Molding Calculator', description: 'Calculate miter and bevel angles for crown molding.' },
   { href: '/calculators/construction/concrete-slab-calculator', title: 'Concrete Slab Calculator', description: 'Calculate concrete volume and rebar needs.' },
 ];

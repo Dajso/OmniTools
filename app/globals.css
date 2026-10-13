@@ -3,49 +3,58 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Hjemmetavla-design (se hjemmetavla.no).
+   * Lys variant: --ground / --surface / --ink / --accent fra Hjemmetavla.
+   * Verdiene er HSL uten hsl(), slik shadcn/Tailwind forventer.
+   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --background: 160 12% 95.1%;          /* ground  #F1F4F3 */
+    --foreground: 198.3 37.7% 12%;        /* ink     #13232A */
+    --card: 0 0% 100%;                    /* surface #FFFFFF */
+    --card-foreground: 198.3 37.7% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --popover-foreground: 198.3 37.7% 12%;
+    --primary: 181.5 58.3% 27.3%;         /* accent  #1D6C6E */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 150 14.3% 97.3%;         /* surface-2 #F7F9F8 */
+    --secondary-foreground: 198.3 37.7% 12%;
+    --muted: 162 11% 92%;
+    --muted-foreground: 192.5 11.7% 40.4%; /* ink-soft #5B6E73 */
+    --accent: 175 28% 93%;                /* lys turkis vask til hover */
+    --accent-foreground: 182 67% 17.8%;   /* accent-ink #0F4A4C */
+    --destructive: 9.6 63.3% 40.6%;       /* crit    #A93B26 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 162.9 11.1% 87.6%;          /* line    #DCE3E1 */
+    --input: 162.9 11.1% 87.6%;
+    --ring: 181.5 58.3% 27.3%;
+    --radius: 0.625rem;                   /* 10 px, som knapper og felt i Hjemmetavla */
   }
 
+  /*
+   * Mørk variant med Hjemmetavlas mørke verdier. Er ikke slått på ennå:
+   * siden setter aldri klassen "dark". Klar til bruk hvis du vil ha bryter.
+   */
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: 195 27% 8.6%;           /* #0F171A */
+    --foreground: 150 18% 91%;            /* #E7EEEB */
+    --card: 197 20% 12.5%;
+    --card-foreground: 150 18% 91%;
+    --popover: 197 20% 12.5%;
+    --popover-foreground: 150 18% 91%;
+    --primary: 176 42% 61%;               /* #63C2BC */
+    --primary-foreground: 195 27% 8.6%;
+    --secondary: 197 23% 15.5%;           /* #1E2B30 */
+    --secondary-foreground: 150 18% 91%;
+    --muted: 197 23% 15.5%;
+    --muted-foreground: 190 10% 66%;
+    --accent: 197 23% 18%;
+    --accent-foreground: 176 42% 72%;
+    --destructive: 9.6 58% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 197 22% 19%;                /* #27373D */
+    --input: 197 22% 19%;
+    --ring: 176 42% 61%;
   }
 }
 
@@ -55,6 +64,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Overskrifter bruker Bricolage Grotesque, resten Public Sans */
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
   }
 }
 
@@ -137,7 +152,7 @@
 
   .text-accessible-muted {
     /* Adjusted muted color for better contrast */
-    color: hsl(215.4 16.3% 36.9%);
+    color: hsl(192.5 11.7% 36%);
   }
 
   /* Focus visible styles for all interactive elements */

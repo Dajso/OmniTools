@@ -52,7 +52,6 @@ const faqs = [
 
 const relatedTools = [
   { href: '/calculators/productivity/password-generator', title: 'Password Generator', description: 'Generate secure passwords.' },
-  { href: '/calculators/crypto/hash-generator', title: 'Hash Generator', description: 'Generate SHA-256 and other hashes.' },
 ];
 
 export default function WifiQRGeneratorPage() {

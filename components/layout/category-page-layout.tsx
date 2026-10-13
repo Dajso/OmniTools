@@ -55,7 +55,7 @@ export function CategoryPageLayout({ categoryId, title, description }: CategoryP
                                     </h2>
                                     <p className="mt-1 text-sm text-gray-500 line-clamp-2">{tool.description}</p>
                                     <div className={`mt-2 inline-flex items-center text-sm ${category.iconColor}`}>
-                                        Use Calculator <ChevronRight className="h-4 w-4 ml-1" />
+                                        Åpne verktøy <ChevronRight className="h-4 w-4 ml-1" />
                                     </div>
                                 </div>
                             </Link>

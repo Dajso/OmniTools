@@ -28,21 +28,21 @@ export interface UnitToggleProps {
 }
 
 /**
- * Unit toggle component for switching between metric and imperial units
+ * Bryter mellom metriske og imperiale enheter
  */
 export function UnitToggle({ value, onChange, className }: UnitToggleProps) {
   return (
     <div className={`flex items-center justify-end gap-2 ${className || ''}`}>
-      <span className="text-sm text-muted-foreground">Units:</span>
+      <span className="text-sm text-muted-foreground">Enheter:</span>
       <Button
         type="button"
         variant={value === 'metric' ? 'default' : 'outline'}
         size="sm"
         onClick={() => onChange('metric')}
         aria-pressed={value === 'metric'}
-        aria-label="Use metric units"
+        aria-label="Bruk metriske enheter"
       >
-        Metric
+        Metrisk
       </Button>
       <Button
         type="button"
@@ -50,7 +50,7 @@ export function UnitToggle({ value, onChange, className }: UnitToggleProps) {
         size="sm"
         onClick={() => onChange('imperial')}
         aria-pressed={value === 'imperial'}
-        aria-label="Use imperial units"
+        aria-label="Bruk imperiale enheter"
       >
         Imperial
       </Button>

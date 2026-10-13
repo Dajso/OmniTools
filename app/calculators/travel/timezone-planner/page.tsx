@@ -51,7 +51,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/schengen-calculator', title: 'Schengen Visa Calculator', description: 'Calculate your Schengen visa days.' },
   { href: '/calculators/travel/flight-duration', title: 'Flight Duration Calculator', description: 'Estimate flight times between cities.' },
   { href: '/calculators/productivity/timestamp-converter', title: 'Timestamp Converter', description: 'Convert between timestamps and dates.' },
 ];

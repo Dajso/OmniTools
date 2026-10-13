@@ -51,7 +51,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/travel/schengen-calculator', title: 'Schengen Visa Calculator', description: 'Calculate your Schengen visa days.' },
   { href: '/calculators/travel/timezone-planner', title: 'Time Zone Planner', description: 'Plan meetings across time zones.' },
   { href: '/calculators/finance/tip-calculator', title: 'Tip Calculator', description: 'Calculate tips in any currency.' },
 ];

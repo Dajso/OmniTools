@@ -31,7 +31,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-    { href: '/calculators/baking/turkey-thawing-calculator', title: 'Turkey Thawing', description: 'Thaw your turkey on time.' },
     { href: '/calculators/baking/unit-cost-per-serving', title: 'Cost Per Serving', description: 'Calculate ingredient costs.' },
     { href: '/calculators/baking/alcohol-dilution-calculator', title: 'Alcohol Dilution', description: 'Dilute spirits to desired proof.' },
 ];

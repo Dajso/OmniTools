@@ -13,8 +13,6 @@ export { PercentageCalculator } from './percentage-calculator';
 export { AgeCalculator } from './age-calculator';
 export { DateDifferenceCalculator } from './date-difference';
 export { TimezoneConverter } from './timezone-converter';
-export { GPACalculator } from './gpa-calculator';
-export { GradeCalculator } from './grade-calculator';
 export { AspectRatioCalculator } from './aspect-ratio-calculator';
 export { ImageResolutionCalculator } from './image-resolution-calculator';
 export { JSONFormatter } from './json-formatter';

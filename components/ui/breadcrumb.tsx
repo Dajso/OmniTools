@@ -24,7 +24,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Home',
+        name: 'Hjem',
         item: '/',
       },
       ...items.map((item, index) => ({
@@ -42,7 +42,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <nav aria-label="Breadcrumb" className="mb-6">
+      <nav aria-label="Brødsmulesti" className="mb-6">
         <ol className="flex items-center flex-wrap gap-1 text-sm text-muted-foreground">
           <li>
             <Link
@@ -50,7 +50,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
               className="flex items-center hover:text-foreground transition-colors"
             >
               <Home className="h-4 w-4" />
-              <span className="sr-only">Home</span>
+              <span className="sr-only">Hjem</span>
             </Link>
           </li>
           {items.map((item, index) => (

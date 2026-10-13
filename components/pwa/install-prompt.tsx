@@ -24,23 +24,23 @@ declare global {
 const installBenefits = [
     {
         icon: Zap,
-        title: 'Faster Loading',
-        description: 'Local cache for instant startup',
+        title: 'Raskere lasting',
+        description: 'Lokal hurtigbuffer gir rask oppstart',
     },
     {
         icon: WifiOff,
-        title: 'Works Offline',
-        description: 'Use without internet connection',
+        title: 'Virker uten nett',
+        description: 'Bruk den uten internettforbindelse',
     },
     {
         icon: Home,
-        title: 'Home Screen Access',
-        description: 'One-tap access, no browser needed',
+        title: 'Snarvei på startskjermen',
+        description: 'Ett trykk, ingen nettleser nødvendig',
     },
     {
         icon: Sparkles,
-        title: 'Native Experience',
-        description: 'Full-screen immersive interface',
+        title: 'Som en vanlig app',
+        description: 'Fullskjermsvisning uten nettleserlinje',
     },
 ];
 
@@ -176,18 +176,18 @@ export function InstallPrompt() {
                                 <div className="min-w-0 flex-1">
                                     <div className="flex items-center gap-2">
                                         <p className="font-semibold text-primary-foreground truncate">
-                                            Install OmniTools
+                                            Installer Kalkulator
                                         </p>
                                         <span className="hidden sm:inline-flex px-2 py-0.5 text-xs font-medium bg-primary-foreground/20 text-primary-foreground rounded-full">
-                                            Free
+                                            Gratis
                                         </span>
                                     </div>
                                     <p className="text-sm text-primary-foreground/80 hidden sm:block">
-                                        Add 280+ calculator tools to your home screen for quick access anytime
+                                        Legg kalkulatorene på startskjermen for rask tilgang når som helst
                                     </p>
                                     {/* Mobile: Short benefit preview */}
                                     <p className="text-xs text-primary-foreground/70 sm:hidden mt-0.5">
-                                        Offline · Faster · Native
+                                        Uten nett · Raskere · Som en app
                                     </p>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@ export function InstallPrompt() {
                                 <button
                                     onClick={() => setIsExpanded(!isExpanded)}
                                     className="sm:hidden p-2 hover:bg-primary-foreground/10 rounded-lg transition-colors"
-                                    aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                                    aria-label={isExpanded ? "Skjul detaljer" : "Vis detaljer"}
                                 >
                                     {isExpanded ? (
                                         <ChevronDown className="w-5 h-5 text-primary-foreground" />
@@ -213,13 +213,13 @@ export function InstallPrompt() {
                                     className="gap-2 bg-primary-foreground text-primary hover:bg-primary-foreground/90 font-medium shadow-lg"
                                 >
                                     <Download className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Install App</span>
-                                    <span className="sm:hidden">Install</span>
+                                    <span className="hidden sm:inline">Installer app</span>
+                                    <span className="sm:hidden">Installer</span>
                                 </Button>
                                 <button
                                     onClick={handleDismiss}
                                     className="p-2 hover:bg-primary-foreground/10 rounded-lg transition-colors"
-                                    aria-label="Dismiss install prompt"
+                                    aria-label="Lukk installasjonsforslaget"
                                 >
                                     <X className="w-5 h-5 text-primary-foreground" />
                                 </button>
@@ -276,11 +276,11 @@ export function InstallPrompt() {
                         <div className="p-6">
                             {/* Header */}
                             <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-xl font-bold">Install OmniTools</h2>
+                                <h2 className="text-xl font-bold">Installer Kalkulator</h2>
                                 <button
                                     onClick={() => setShowIOSInstructions(false)}
                                     className="p-2 hover:bg-muted rounded-lg transition-colors"
-                                    aria-label="Close"
+                                    aria-label="Lukk"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -288,7 +288,7 @@ export function InstallPrompt() {
 
                             {/* Benefits Summary */}
                             <div className="mb-6 p-4 bg-muted/50 rounded-xl">
-                                <p className="text-sm font-medium mb-3">After installation you will get:</p>
+                                <p className="text-sm font-medium mb-3">Etter installasjon får du:</p>
                                 <div className="grid grid-cols-2 gap-2">
                                     {installBenefits.map((benefit, index) => (
                                         <div key={index} className="flex items-center gap-2">
@@ -302,7 +302,7 @@ export function InstallPrompt() {
                             {/* Instructions */}
                             <div className="space-y-4">
                                 <p className="text-sm text-muted-foreground">
-                                    To install OmniTools on your iOS device:
+                                    Slik installerer du Kalkulator på iPhone eller iPad:
                                 </p>
 
                                 <ol className="space-y-4">
@@ -311,10 +311,10 @@ export function InstallPrompt() {
                                             1
                                         </span>
                                         <div>
-                                            <p className="font-medium">Tap the Share button</p>
+                                            <p className="font-medium">Trykk på Del-knappen</p>
                                             <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                                                 <Share className="w-4 h-4" />
-                                                <span>at the bottom of your screen</span>
+                                                <span>nederst på skjermen</span>
                                             </div>
                                         </div>
                                     </li>
@@ -324,9 +324,9 @@ export function InstallPrompt() {
                                             2
                                         </span>
                                         <div>
-                                            <p className="font-medium">Scroll down and tap</p>
+                                            <p className="font-medium">Bla ned og trykk på</p>
                                             <p className="text-sm text-muted-foreground mt-1">
-                                                "Add to Home Screen"
+                                                «Legg til på Hjem-skjerm»
                                             </p>
                                         </div>
                                     </li>
@@ -336,9 +336,9 @@ export function InstallPrompt() {
                                             3
                                         </span>
                                         <div>
-                                            <p className="font-medium">Tap "Add"</p>
+                                            <p className="font-medium">Trykk «Legg til»</p>
                                             <p className="text-sm text-muted-foreground mt-1">
-                                                OmniTools will appear on your home screen
+                                                Kalkulator dukker opp på startskjermen din
                                             </p>
                                         </div>
                                     </li>
@@ -351,7 +351,7 @@ export function InstallPrompt() {
                                     onClick={() => setShowIOSInstructions(false)}
                                     className="w-full"
                                 >
-                                    Got it!
+                                    Greit!
                                 </Button>
                             </div>
                         </div>

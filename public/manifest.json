@@ -1,15 +1,18 @@
 {
-  "name": "OmniTools - Free Online Calculators & Converters",
-  "short_name": "OmniTools",
-  "description": "Your all-in-one toolkit for everyday calculations. 100+ free online calculators and converters for finance, health, home improvement, and productivity.",
+  "name": "Kalkulator – Hjemmetavla",
+  "short_name": "Kalkulator",
+  "description": "Gratis kalkulatorer og omregnere tilpasset Norge: kroner, metriske enheter, bolig, strøm, helse og hverdag.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#6366f1",
+  "background_color": "#F1F4F3",
+  "theme_color": "#1D6C6E",
   "orientation": "any",
   "scope": "/",
-  "lang": "en",
-  "categories": ["utilities", "productivity"],
+  "lang": "nb",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/icons/icon-48x48.png",
@@ -118,28 +121,48 @@
       "short_name": "Finance",
       "description": "Calculate loans, investments, and more",
       "url": "/calculators/finance",
-      "icons": [{ "src": "/icons/shortcut-finance.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/shortcut-finance.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Health Calculators",
       "short_name": "Health",
       "description": "BMI, calorie calculators, and more",
       "url": "/calculators/health",
-      "icons": [{ "src": "/icons/shortcut-health.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/shortcut-health.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Unit Converters",
       "short_name": "Convert",
       "description": "Convert between different units",
       "url": "/convert",
-      "icons": [{ "src": "/icons/shortcut-convert.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/shortcut-convert.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "Coffee & Barista",
       "short_name": "Coffee",
       "description": "Extraction, brew ratios, and more",
       "url": "/calculators/coffee",
-      "icons": [{ "src": "/icons/shortcut-coffee.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "/icons/shortcut-coffee.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
   "related_applications": [],

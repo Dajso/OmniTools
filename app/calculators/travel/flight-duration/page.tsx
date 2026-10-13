@@ -52,7 +52,6 @@ const faqs = [
 
 const relatedTools = [
   { href: '/calculators/travel/timezone-planner', title: 'Time Zone Planner', description: 'Plan meetings across time zones.' },
-  { href: '/calculators/travel/schengen-calculator', title: 'Schengen Calculator', description: 'Calculate your Schengen visa days.' },
   { href: '/calculators/travel/packing-list', title: 'Packing List Generator', description: 'Generate a packing list for your trip.' },
 ];
 

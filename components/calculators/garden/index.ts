@@ -13,4 +13,3 @@ export { VegetableYieldCalculator } from './vegetable-yield-calculator';
 export { CompostCalculator } from './compost-calculator';
 export { SunShadeMapper } from './sun-shade-mapper';
 export { SeedGerminationTracker } from './seed-germination-tracker';
-export { HardinessZoneFinder } from './hardiness-zone-finder';

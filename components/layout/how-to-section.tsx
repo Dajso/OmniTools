@@ -11,9 +11,9 @@ interface HowToSectionProps {
 }
 
 /**
- * Shared How-To section component for tool detail pages
+ * Delt «slik bruker du»-seksjon for verktøysidene
  */
-export function HowToSection({ steps, title = 'How to Use' }: HowToSectionProps) {
+export function HowToSection({ steps, title = 'Slik bruker du den' }: HowToSectionProps) {
   if (steps.length === 0) return null;
 
   return (

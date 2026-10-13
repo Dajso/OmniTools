@@ -1,5 +1,4 @@
 // Travel calculator components
-export { SchengenCalculator } from './schengen-calculator';
 export { TimezonePlanner } from './timezone-planner';
 export { CurrencyConverter } from './currency-converter';
 export { PackingListGenerator } from './packing-list-generator';

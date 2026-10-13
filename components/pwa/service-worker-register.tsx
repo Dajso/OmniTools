@@ -86,14 +86,14 @@ export function ServiceWorkerRegister() {
             <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-50 animate-in slide-in-from-bottom-4">
                 <div className="bg-primary text-primary-foreground rounded-lg shadow-lg p-4 flex items-center justify-between gap-4">
                     <div className="flex-1">
-                        <p className="font-medium">Update Available</p>
-                        <p className="text-sm opacity-90">A new version of OmniTools is ready.</p>
+                        <p className="font-medium">Ny versjon tilgjengelig</p>
+                        <p className="text-sm opacity-90">En ny versjon av Kalkulator er klar.</p>
                     </div>
                     <button
                         onClick={handleUpdate}
                         className="shrink-0 px-4 py-2 bg-primary-foreground text-primary rounded-md font-medium hover:opacity-90 transition-opacity"
                     >
-                        Refresh
+                        Last inn på nytt
                     </button>
                 </div>
             </div>

@@ -51,8 +51,6 @@ const faqs = [
 ];
 
 const relatedTools = [
-  { href: '/calculators/academic/gpa-calculator', title: 'GPA Calculator', description: 'Calculate your college GPA.' },
-  { href: '/calculators/academic/final-grade-calculator', title: 'Final Grade Calculator', description: 'Calculate the grade needed on your final.' },
   { href: '/calculators/productivity/date-difference', title: 'Date Calculator', description: 'Calculate days between dates.' },
 ];
 

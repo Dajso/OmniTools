@@ -12,12 +12,10 @@ export type ToolCategory =
   | 'fun'           // Category J: Fun & Psychology Tools
   | 'audio'         // Category K: Audio & Music Tools
   | 'rpg'           // Category L: Tabletop RPG Tools
-  | 'crypto'        // Category N: Crypto & Web3 Tools
   | 'photo'         // Category O: Photography & Video Tools
   | 'crafts'        // Category P: Knitting & Sewing Tools
   | 'garden'        // Category Q: Gardening Tools
   | 'electronics'   // Category R: Electronics Tools
-  | 'betting'       // Category S: Sports Betting Tools
   | 'auto'          // Category T: Automotive Tools
   | 'stats'         // Category U: Statistics Tools
   | 'time'          // Category V: Time & Date Tools

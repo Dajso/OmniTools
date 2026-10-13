@@ -87,6 +87,3 @@ export const LazySolarPanelCalculator = lazyCalculator(
   () => import('./solar-panel-calculator').then(mod => ({ default: mod.SolarPanelCalculator }))
 );
 
-export const LazyMovingCostCalculator = lazyCalculator(
-  () => import('./moving-cost-calculator').then(mod => ({ default: mod.MovingCostCalculator }))
-);

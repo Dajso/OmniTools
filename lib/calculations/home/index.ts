@@ -23,4 +23,3 @@ export * from './pool-volume-calculator';
 export * from './lumber-calculator';
 export * from './drywall-calculator';
 export * from './solar-panel-calculator';
-export * from './moving-cost-calculator';

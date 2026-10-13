@@ -52,7 +52,6 @@ const faqs = [
 const relatedTools = [
   { href: '/calculators/academic/scientific-notation-converter', title: 'Scientific Notation Converter', description: 'Convert numbers to scientific notation.' },
   { href: '/calculators/productivity/percentage-calculator', title: 'Percentage Calculator', description: 'Calculate percentages and conversions.' },
-  { href: '/calculators/academic/gpa-calculator', title: 'GPA Calculator', description: 'Calculate your college GPA.' },
 ];
 
 export default function FractionCalculatorPage() {

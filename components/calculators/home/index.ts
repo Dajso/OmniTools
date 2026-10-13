@@ -23,4 +23,3 @@ export { PoolVolumeCalculator } from './pool-volume-calculator';
 export { LumberCalculator } from './lumber-calculator';
 export { DrywallCalculator } from './drywall-calculator';
 export { SolarPanelCalculator } from './solar-panel-calculator';
-export { MovingCostCalculator } from './moving-cost-calculator';

@@ -1,5 +1,3 @@
-export { GPACalculator } from './gpa-calculator';
-export { FinalGradeCalculator } from './final-grade-calculator';
 export { ScientificNotationConverter } from './scientific-notation-converter';
 export { FractionCalculator } from './fraction-calculator';
 export { PlagiarismChecker } from './plagiarism-checker';

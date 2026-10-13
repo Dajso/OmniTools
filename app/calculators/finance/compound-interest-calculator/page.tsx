@@ -37,7 +37,6 @@ const faqs = [
 
 const relatedTools = [
   { href: '/calculators/finance/mortgage-calculator', title: 'Mortgage Calculator', description: 'Calculate monthly mortgage payments.' },
-  { href: '/calculators/finance/401k-calculator', title: '401(k) Calculator', description: 'Plan retirement with employer matching.' },
 ];
 
 export default function CompoundInterestCalculatorPage() {

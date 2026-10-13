@@ -2,6 +2,7 @@
 
 import { getToolIcon } from '@/lib/constants/tool-icons';
 import { getToolById } from '@/lib/constants/tool-registry';
+import { getCategoryConfig } from '@/lib/constants/category-config';
 import { Breadcrumb, BreadcrumbItem } from '@/components/ui/breadcrumb';
 import { FavoriteButton } from '@/components/ui/favorite-button';
 
@@ -14,53 +15,9 @@ interface ToolPageHeaderProps {
   showFavorite?: boolean;
 }
 
-// Category display names and paths
-const categoryConfig: Record<string, { label: string; href: string }> = {
-  // Calculators categories
-  academic: { label: 'Academic', href: '/calculators/academic' },
-  audio: { label: 'Audio', href: '/calculators/audio' },
-  auto: { label: 'Auto', href: '/calculators/auto' },
-  betting: { label: 'Betting', href: '/calculators/betting' },
-  coffee: { label: 'Coffee & Barista', href: '/calculators/coffee' },
-  construction: { label: 'Construction', href: '/calculators/construction' },
-  crafts: { label: 'Crafts', href: '/calculators/crafts' },
-  creator: { label: 'Creator', href: '/calculators/creator' },
-  crypto: { label: 'Crypto', href: '/calculators/crypto' },
-  electronics: { label: 'Electronics', href: '/calculators/electronics' },
-  finance: { label: 'Finance', href: '/calculators/finance' },
-  fun: { label: 'Fun', href: '/calculators/fun' },
-  gaming: { label: 'Gaming', href: '/calculators/gaming' },
-  garden: { label: 'Garden', href: '/calculators/garden' },
-  health: { label: 'Health', href: '/calculators/health' },
-  home: { label: 'Home', href: '/calculators/home' },
-  photo: { label: 'Photo', href: '/calculators/photo' },
-  photography: { label: 'Photography', href: '/calculators/photo' }, // alias for photo
-  physics: { label: 'Physics', href: '/calculators/physics' },
-  productivity: { label: 'Productivity', href: '/calculators/productivity' },
-  rpg: { label: 'RPG', href: '/calculators/rpg' },
-  stats: { label: 'Statistics', href: '/calculators/stats' },
-  statistics: { label: 'Statistics', href: '/calculators/stats' }, // alias for stats
-  time: { label: 'Time', href: '/calculators/time' },
-  'time & date': { label: 'Time & Date', href: '/calculators/time' }, // alias for time
-  travel: { label: 'Travel', href: '/calculators/travel' },
-  aquarium: { label: 'Aquariums & Terrariums', href: '/calculators/aquarium' },
-  'aquariums & terrariums': { label: 'Aquariums & Terrariums', href: '/calculators/aquarium' },
-  solar: { label: 'Solar & Off-Grid', href: '/calculators/solar' },
-  'solar & off-grid': { label: 'Solar & Off-Grid', href: '/calculators/solar' },
-  baking: { label: 'Baking & Food Science', href: '/calculators/baking' },
-  'baking & food science': { label: 'Baking & Food Science', href: '/calculators/baking' },
-  realestate: { label: 'Real Estate Investing', href: '/calculators/realestate' },
-  'real estate investing': { label: 'Real Estate Investing', href: '/calculators/realestate' },
-  wedding: { label: 'Wedding & Events', href: '/calculators/wedding' },
-  'wedding & event planning': { label: 'Wedding & Events', href: '/calculators/wedding' },
-  'wedding & events': { label: 'Wedding & Events', href: '/calculators/wedding' },
-  // Other categories
-  converter: { label: 'Converters', href: '/convert' },
-};
-
 /**
- * Shared header component for tool detail pages
- * Displays breadcrumb, tool icon, title, and description
+ * Felles topptekst for verktøysidene
+ * Viser brødsmulesti, ikon, tittel og beskrivelse
  */
 export function ToolPageHeader({
   toolId,
@@ -72,13 +29,13 @@ export function ToolPageHeader({
 }: ToolPageHeaderProps) {
   const Icon = getToolIcon(toolId);
   const tool = getToolById(toolId);
-  const categoryKey = category?.toLowerCase() || tool?.category || 'tool';
-  const categoryInfo = categoryConfig[categoryKey];
+  // Kategorien hentes fra registeret, slik at navn og lenke alltid er norske og riktige
+  const categoryInfo = tool ? getCategoryConfig(tool.category) : undefined;
 
   // Build breadcrumb items
   const breadcrumbItems: BreadcrumbItem[] = [];
   if (categoryInfo) {
-    breadcrumbItems.push({ label: categoryInfo.label, href: categoryInfo.href });
+    breadcrumbItems.push({ label: categoryInfo.name, href: categoryInfo.href });
   }
   breadcrumbItems.push({ label: title });
 

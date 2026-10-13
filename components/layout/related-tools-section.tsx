@@ -16,9 +16,9 @@ interface RelatedToolsSectionProps {
 }
 
 /**
- * Shared Related Tools section component for tool detail pages
+ * Delt seksjon for relaterte verktøy på verktøysidene
  */
-export function RelatedToolsSection({ tools, title = 'Related Tools' }: RelatedToolsSectionProps) {
+export function RelatedToolsSection({ tools, title = 'Relaterte verktøy' }: RelatedToolsSectionProps) {
   if (tools.length === 0) return null;
 
   return (

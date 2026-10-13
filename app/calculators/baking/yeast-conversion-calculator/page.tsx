@@ -33,7 +33,6 @@ const faqs = [
 const relatedTools = [
     { href: '/calculators/baking/sourdough-hydration-calculator', title: 'Sourdough Hydration', description: 'Calculate dough hydration.' },
     { href: '/calculators/baking/bakers-percentage-calculator', title: "Baker's Percentage", description: 'Scale recipes with baker\'s math.' },
-    { href: '/calculators/baking/turkey-thawing-calculator', title: 'Turkey Thawing', description: 'Thaw time for frozen turkey.' },
 ];
 
 export default function YeastConversionPage() {

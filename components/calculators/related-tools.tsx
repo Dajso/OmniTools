@@ -35,7 +35,7 @@ interface RelatedToolsProps {
  * 
  * @see Requirements 11.5
  */
-export function RelatedTools({ toolIds, title = 'Related Tools' }: RelatedToolsProps) {
+export function RelatedTools({ toolIds, title = 'Relaterte verktøy' }: RelatedToolsProps) {
   // Filter out invalid tool IDs and get tool definitions
   const relatedTools = toolIds
     .map(id => getToolById(id))
@@ -66,7 +66,7 @@ export function RelatedTools({ toolIds, title = 'Related Tools' }: RelatedToolsP
               key={tool.id}
               href={tool.path}
               className={`group flex items-start gap-4 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 hover:shadow-md hover:ring-2 transition-all ${category.hoverColor}`}
-              aria-label={`Navigate to ${tool.name}`}
+              aria-label={`Gå til ${tool.name}`}
             >
               <div className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg ${category.color}`}>
                 <ToolIcon className={`h-6 w-6 ${category.iconColor}`} />
@@ -77,7 +77,7 @@ export function RelatedTools({ toolIds, title = 'Related Tools' }: RelatedToolsP
                 </h3>
                 <p className="mt-1 text-sm text-gray-500 line-clamp-2">{tool.description}</p>
                 <div className={`mt-2 inline-flex items-center text-sm ${category.iconColor}`}>
-                  View Tool <ChevronRight className="h-4 w-4 ml-1" />
+                  Åpne verktøy <ChevronRight className="h-4 w-4 ml-1" />
                 </div>
               </div>
             </Link>

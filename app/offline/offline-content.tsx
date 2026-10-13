@@ -15,12 +15,12 @@ export function OfflineContent() {
                 </div>
 
                 {/* Title */}
-                <h1 className="text-3xl font-bold mb-4">You're Offline</h1>
+                <h1 className="text-3xl font-bold mb-4">Du er frakoblet</h1>
 
                 {/* Description */}
                 <p className="text-muted-foreground mb-8 text-lg">
-                    It looks like you've lost your internet connection.
-                    Don't worry — some pages and calculators may still be available offline.
+                    Det ser ut til at du har mistet internettforbindelsen.
+                    Ta det rolig – noen sider og kalkulatorer kan fortsatt virke uten nett.
                 </p>
 
                 {/* Actions */}
@@ -30,7 +30,7 @@ export function OfflineContent() {
                         className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
                     >
                         <RefreshCw className="w-5 h-5" aria-hidden="true" />
-                        Try Again
+                        Prøv igjen
                     </button>
 
                     <Link
@@ -38,25 +38,25 @@ export function OfflineContent() {
                         className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-border bg-background font-medium hover:bg-muted transition-colors"
                     >
                         <Home className="w-5 h-5" aria-hidden="true" />
-                        Go to Homepage
+                        Gå til forsiden
                     </Link>
                 </div>
 
                 {/* Tips */}
                 <div className="mt-12 text-left bg-muted/30 rounded-lg p-6 border border-border">
-                    <h2 className="font-semibold mb-3">Tips for offline use:</h2>
+                    <h2 className="font-semibold mb-3">Tips for bruk uten nett:</h2>
                     <ul className="text-sm text-muted-foreground space-y-2">
                         <li className="flex items-start gap-2">
                             <span className="text-primary">•</span>
-                            <span>Previously visited calculators are cached for offline access</span>
+                            <span>Kalkulatorer du har besøkt før er lagret for bruk uten nett</span>
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="text-primary">•</span>
-                            <span>Your calculator history is saved locally on your device</span>
+                            <span>Historikken din lagres lokalt på enheten din</span>
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="text-primary">•</span>
-                            <span>Install OmniTools as an app for better offline experience</span>
+                            <span>Installer Kalkulator som app for best opplevelse uten nett</span>
                         </li>
                     </ul>
                 </div>

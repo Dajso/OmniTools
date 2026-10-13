@@ -67,14 +67,6 @@ export const LazyTimezoneConverter = lazyCalculator(
   () => import('./timezone-converter').then(mod => ({ default: mod.TimezoneConverter }))
 );
 
-export const LazyGPACalculator = lazyCalculator(
-  () => import('./gpa-calculator').then(mod => ({ default: mod.GPACalculator }))
-);
-
-export const LazyGradeCalculator = lazyCalculator(
-  () => import('./grade-calculator').then(mod => ({ default: mod.GradeCalculator }))
-);
-
 export const LazyAspectRatioCalculator = lazyCalculator(
   () => import('./aspect-ratio-calculator').then(mod => ({ default: mod.AspectRatioCalculator }))
 );

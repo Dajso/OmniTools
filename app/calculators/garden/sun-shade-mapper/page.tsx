@@ -49,7 +49,6 @@ const faqs = [
 const relatedTools = [
   { href: '/calculators/garden/plant-spacing-calculator', title: 'Plant Spacing Calculator', description: 'Plan your garden layout.' },
   { href: '/calculators/garden/watering-schedule-generator', title: 'Watering Schedule', description: 'Generate watering schedules.' },
-  { href: '/calculators/garden/hardiness-zone-finder', title: 'Hardiness Zone Finder', description: 'Find your planting zone.' },
 ];
 
 export default function SunShadeMapperPage() {
