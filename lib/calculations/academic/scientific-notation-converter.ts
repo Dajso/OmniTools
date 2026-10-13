@@ -34,7 +34,7 @@ export function toScientificNotation(value: number): ScientificNotation {
   }
 
   if (!isFinite(value)) {
-    throw new Error('Value must be a finite number');
+    throw new Error('Verdien må være et endelig tall');
   }
 
   const absValue = Math.abs(value);
@@ -75,7 +75,7 @@ export function formatScientificNotation(coefficient: number, exponent: number):
  */
 export function toEngineeringNotation(value: number): string {
   if (value === 0) return '0';
-  if (!isFinite(value)) throw new Error('Value must be a finite number');
+  if (!isFinite(value)) throw new Error('Verdien må være et endelig tall');
 
   const absValue = Math.abs(value);
   let exponent = Math.floor(Math.log10(absValue));
@@ -139,7 +139,7 @@ export function convertNumber(value: number): ConversionResult {
 export const SI_PREFIXES: Record<number, { name: string; symbol: string }> = {
   24: { name: 'yotta', symbol: 'Y' },
   21: { name: 'zetta', symbol: 'Z' },
-  18: { name: 'exa', symbol: 'E' },
+  18: { name: 'eksa', symbol: 'E' },
   15: { name: 'peta', symbol: 'P' },
   12: { name: 'tera', symbol: 'T' },
   9: { name: 'giga', symbol: 'G' },
@@ -147,9 +147,9 @@ export const SI_PREFIXES: Record<number, { name: string; symbol: string }> = {
   3: { name: 'kilo', symbol: 'k' },
   0: { name: '', symbol: '' },
   [-3]: { name: 'milli', symbol: 'm' },
-  [-6]: { name: 'micro', symbol: 'μ' },
+  [-6]: { name: 'mikro', symbol: 'μ' },
   [-9]: { name: 'nano', symbol: 'n' },
-  [-12]: { name: 'pico', symbol: 'p' },
+  [-12]: { name: 'piko', symbol: 'p' },
   [-15]: { name: 'femto', symbol: 'f' },
   [-18]: { name: 'atto', symbol: 'a' },
   [-21]: { name: 'zepto', symbol: 'z' },

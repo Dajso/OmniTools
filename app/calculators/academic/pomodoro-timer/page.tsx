@@ -1,57 +1,44 @@
 import { Metadata } from 'next';
 import { PomodoroTimer } from '@/components/calculators/academic';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Pomodoro Timer - Focus & Productivity Timer',
-  description: 'Free Pomodoro timer with customizable work and break intervals. Stay focused and boost productivity with the Pomodoro technique.',
-  keywords: ['pomodoro timer', 'focus timer', 'study timer', 'productivity timer', 'work timer', 'break timer'],
+  title: 'Pomodoro-timer – gratis kalkulator på nett',
+  description: 'Studietimer med tilpassbare arbeids- og pauseintervaller. Gratis og uten registrering.',
+  keywords: ['pomodoro', 'studietimer', 'fokus', 'arbeidsøkt'],
   alternates: { canonical: '/calculators/academic/pomodoro-timer' },
+  openGraph: {
+    title: 'Pomodoro-timer',
+    description: 'Studietimer med tilpassbare arbeids- og pauseintervaller',
+    url: '/calculators/academic/pomodoro-timer',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Pomodoro Timer',
-  description: 'Stay focused with the Pomodoro technique - work in focused intervals with regular breaks',
+  name: 'Pomodoro-timer',
+  description: 'Studietimer med tilpassbare arbeids- og pauseintervaller',
   applicationCategory: 'ProductivityApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Set your intervals', text: 'Use the default 25/5 minute intervals or customize work and break durations in settings.' },
-  { name: 'Start the timer', text: 'Click Start to begin your work session. The timer will count down.' },
-  { name: 'Focus on your task', text: 'Work on your task until the timer rings. Avoid distractions during this time.' },
-  { name: 'Take a break', text: 'When the work session ends, take a short break. After 4 sessions, take a longer break.' },
-  { name: 'Repeat', text: 'Continue the cycle to maintain focus and productivity throughout your study or work session.' },
+  { name: 'Velg oppsett', text: 'Klassisk 25 minutter arbeid og 5 minutter pause, eller lag egne tider.' },
+  { name: 'Start timeren', text: 'Jobb konsentrert til lyden varsler om pause.' },
+  { name: 'Ta pause', text: 'Kort pause etter hver økt og lang pause etter flere økter.' },
+  { name: 'Gjenta', text: 'Fortsett til oppgaven er ferdig.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is the Pomodoro Technique?', 
-    answer: 'The Pomodoro Technique is a time management method developed by Francesco Cirillo. It uses a timer to break work into intervals (traditionally 25 minutes) separated by short breaks. After 4 work intervals, you take a longer break.' 
-  },
-  { 
-    question: 'Why is it called Pomodoro?', 
-    answer: 'Pomodoro is Italian for "tomato." The technique was named after the tomato-shaped kitchen timer that Francesco Cirillo used as a university student.' 
-  },
-  { 
-    question: 'What are the best Pomodoro intervals?', 
-    answer: 'The classic intervals are 25 minutes of work followed by 5-minute breaks, with a 15-30 minute break after 4 sessions. However, you can customize these based on your needs - some prefer 50/10 for deep work or 15/3 for tasks requiring frequent context switching.' 
-  },
-  { 
-    question: 'How many Pomodoros should I do per day?', 
-    answer: 'Most people can sustain 8-12 Pomodoros (4-6 hours of focused work) per day. Quality matters more than quantity - it\'s better to complete fewer focused sessions than many distracted ones.' 
-  },
-  { 
-    question: 'What should I do during breaks?', 
-    answer: 'During short breaks, step away from your work - stretch, get water, or rest your eyes. During long breaks, take a walk, have a snack, or do something relaxing. Avoid checking email or social media as these can extend your break.' 
-  },
-];
-
-const relatedTools = [
-  { href: '/calculators/productivity/date-difference', title: 'Date Calculator', description: 'Calculate days between dates.' },
+  { question: 'Hva er pomodoro-teknikken?', answer: 'Du arbeider konsentrert i faste økter, vanligvis 25 minutter, og tar korte pauser mellom. Etter fire økter tar du en lengre pause.' },
+  { question: 'Hvorfor kalles det pomodoro?', answer: 'Pomodoro er italiensk for tomat. Teknikken er oppkalt etter kjøkkenuret i tomatform som oppfinneren brukte.' },
+  { question: 'Bør jeg endre tidene?', answer: 'Ja, om 25 minutter ikke passer. Mange velger 50/10 til dypere arbeid.' },
 ];
 
 export default function PomodoroTimerPage() {
@@ -61,18 +48,16 @@ export default function PomodoroTimerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="pomodoro-timer"
-          title="Pomodoro Timer"
-          description="Boost your productivity with the Pomodoro technique. Work in focused intervals with customizable work and break durations."
-          colorClass="bg-rose-100 text-rose-600"
+          title="Pomodoro-timer"
+          description="Pomodoro-timer med arbeidsøkter og pauser. Velg klassisk 25/5, kort, lang eller egne tider. Gratis og uten registrering."
         />
 
-        <section aria-label="Pomodoro Timer">
+        <section aria-label="Pomodoro-timer">
           <PomodoroTimer />
         </section>
 
         <HowToSection steps={howToSteps} />
         <FAQSection faqs={faqs} />
-        <RelatedToolsSection tools={relatedTools} />
       </main>
     </>
   );

@@ -1,58 +1,48 @@
 import { Metadata } from 'next';
 import { PlagiarismChecker } from '@/components/calculators/academic';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Plagiarism Checker - Text Compare Tool',
-  description: 'Free plagiarism checker to compare two texts and find similarities. Detect matching phrases and calculate similarity percentage.',
-  keywords: ['plagiarism checker', 'text compare', 'similarity checker', 'duplicate content', 'text comparison'],
+  title: 'Tekstsammenligning – gratis kalkulator på nett',
+  description: 'Sammenlign to tekster for å finne likheter og forskjeller. Gratis og uten registrering.',
+  keywords: ['tekstsammenligning', 'plagiat', 'likhet', 'duplikat'],
   alternates: { canonical: '/calculators/academic/plagiarism-checker' },
+  openGraph: {
+    title: 'Tekstsammenligning',
+    description: 'Sammenlign to tekster for å finne likheter og forskjeller',
+    url: '/calculators/academic/plagiarism-checker',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Plagiarism Checker',
-  description: 'Compare two texts to find similarities and potential plagiarism',
+  name: 'Tekstsammenligning',
+  description: 'Sammenlign to tekster for å finne likheter og forskjeller',
   applicationCategory: 'EducationalApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Enter original text', text: 'Paste or type the original text in the first text box.' },
-  { name: 'Enter comparison text', text: 'Paste or type the text you want to compare in the second box.' },
-  { name: 'Click Compare', text: 'Click the Calculate button to analyze both texts.' },
-  { name: 'Review results', text: 'See the similarity percentage, matching phrases, and unique words in each text.' },
+  { name: 'Lim inn originalteksten', text: 'Skriv inn eller lim inn første tekst.' },
+  { name: 'Lim inn teksten du vil sammenligne', text: 'Den andre teksten.' },
+  { name: 'Sammenlign', text: 'Trykk på knappen for å regne ut likheten.' },
+  { name: 'Les av resultatet', text: 'Se likhetsprosent, felles ord og felles fraser.' },
 ];
 
 const faqs = [
-  { 
-    question: 'How does this plagiarism checker work?', 
-    answer: 'This tool compares two texts by analyzing word overlap and matching phrases. It calculates a similarity percentage based on shared words and common phrase patterns (3+ word sequences).' 
-  },
-  { 
-    question: 'Is this a complete plagiarism detection tool?', 
-    answer: 'This is a basic text comparison tool for local comparison between two texts. For comprehensive plagiarism detection against online sources, consider dedicated services like Turnitin or Grammarly.' 
-  },
-  { 
-    question: 'What similarity percentage indicates plagiarism?', 
-    answer: 'There\'s no universal threshold. Generally, 0-20% is low similarity, 20-40% is moderate, 40-60% is high, and above 60% is very high. Context matters - technical documents may naturally share terminology.' 
-  },
-  { 
-    question: 'Does this tool store my text?', 
-    answer: 'No, all text comparison is done locally in your browser. Your text is never sent to any server or stored anywhere.' 
-  },
-  { 
-    question: 'Can I compare documents in different languages?', 
-    answer: 'This tool works best with English text. It may work with other languages using Latin characters, but accuracy may vary.' 
-  },
+  { question: 'Er dette en plagiatkontroll som skolen godtar?', answer: 'Nei. Kalkulatoren sammenligner bare to tekster du selv limer inn. Den søker ikke i databaser, og skoler bruker egne verktøy.' },
+  { question: 'Hvordan regnes likheten ut?', answer: 'Den bygger på felles ord og sammenfallende frasebiter på flere ord. Høy prosent betyr at tekstene ligner mye.' },
+  { question: 'Lagres tekstene mine?', answer: 'Nei. Sammenligningen skjer i nettleseren din.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/productivity/word-counter', title: 'Word Counter', description: 'Count words, characters, and sentences.' },
-  { href: '/calculators/academic/citation-generator', title: 'Citation Generator', description: 'Generate APA and MLA citations.' },
-  { href: '/calculators/productivity/character-counter', title: 'Character Counter', description: 'Count characters with or without spaces.' },
+  { href: '/calculators/productivity/word-counter', title: 'Ordteller', description: 'Tell ord, tegn og setninger i en tekst' },
 ];
 
 export default function PlagiarismCheckerPage() {
@@ -62,12 +52,11 @@ export default function PlagiarismCheckerPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="plagiarism-checker"
-          title="Plagiarism Checker"
-          description="Compare two texts to find similarities and potential plagiarism. See matching phrases, unique words, and get a similarity percentage score."
-          colorClass="bg-red-100 text-red-600"
+          title="Tekstsammenligning"
+          description="Sammenlign to tekster og finn likheter, felles ord og frasene som er like. Støtter norske tegn (æ, ø og å). Gratis og uten registrering."
         />
 
-        <section aria-label="Plagiarism Checker">
+        <section aria-label="Tekstsammenligning">
           <PlagiarismChecker />
         </section>
 

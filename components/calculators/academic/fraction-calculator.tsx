@@ -21,11 +21,11 @@ import { formatFixed } from '@/lib/utils/formatting';
 type Operation = 'add' | 'subtract' | 'multiply' | 'divide' | 'simplify';
 
 const OPERATION_OPTIONS = [
-  { value: 'add', label: 'Add (+)' },
-  { value: 'subtract', label: 'Subtract (−)' },
-  { value: 'multiply', label: 'Multiply (×)' },
-  { value: 'divide', label: 'Divide (÷)' },
-  { value: 'simplify', label: 'Simplify' },
+  { value: 'add', label: 'Addisjon (+)' },
+  { value: 'subtract', label: 'Subtraksjon (−)' },
+  { value: 'multiply', label: 'Multiplikasjon (×)' },
+  { value: 'divide', label: 'Divisjon (÷)' },
+  { value: 'simplify', label: 'Forkort' },
 ];
 
 const OPERATION_SYMBOLS: Record<Operation, string> = {
@@ -60,7 +60,7 @@ export function FractionCalculator() {
       const fraction2: Fraction = { numerator: num2, denominator: den2 };
 
       if (den1 === 0 || (operation !== 'simplify' && den2 === 0)) {
-        setError('Denominator cannot be zero');
+        setError('Nevneren kan ikke være null');
         setResults(null);
         return;
       }
@@ -83,7 +83,7 @@ export function FractionCalculator() {
           break;
         case 'divide':
           if (num2 === 0) {
-            setError('Cannot divide by zero');
+            setError('Du kan ikke dele på null');
             setResults(null);
             return;
           }
@@ -95,7 +95,7 @@ export function FractionCalculator() {
           expression = `Simplify ${formatFraction(fraction1)}`;
           break;
         default:
-          throw new Error('Invalid operation');
+          throw new Error('Ugyldig regneart');
       }
 
       setResults({
@@ -105,7 +105,7 @@ export function FractionCalculator() {
         expression,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Calculation error');
+      setError(err instanceof Error ? err.message : 'Feil i beregningen');
       setResults(null);
     }
   }, [operation, num1, den1, num2, den2]);
@@ -128,9 +128,9 @@ export function FractionCalculator() {
 
   return (
     <CalculatorBase
-      title="Fraction Calculator"
-      description="Add, subtract, multiply, divide, and simplify fractions"
-      formula="Results are automatically simplified to lowest terms"
+      title="Brøkkalkulator"
+      description="Legg sammen, trekk fra, gang, del og forkort brøker"
+      formula="Svaret forkortes automatisk så mye som mulig"
       onCalculate={calculate}
       onReset={reset}
       error={error}
@@ -143,26 +143,26 @@ export function FractionCalculator() {
           
           <div className="grid grid-cols-2 gap-4">
             <ResultDisplay 
-              label="Numerator" 
+              label="Teller" 
               value={results.result.numerator.toString()} 
               copyable 
             />
             <ResultDisplay 
-              label="Denominator" 
+              label="Nevner" 
               value={results.result.denominator.toString()} 
               copyable 
             />
           </div>
           
           <ResultDisplay 
-            label="Decimal Value" 
+            label="Desimaltall" 
             value={formatFixed(results.decimal, 6).replace(/,?0+$/, '')} 
             copyable 
           />
 
           {results.result.denominator !== 1 && Math.abs(results.result.numerator) > results.result.denominator && (
             <ResultDisplay 
-              label="Mixed Number" 
+              label="Blandet tall" 
               value={formatMixedNumber(results.result)} 
               copyable 
             />
@@ -172,19 +172,19 @@ export function FractionCalculator() {
     >
       <SelectInput
         id="operation"
-        label="Operation"
+        label="Regneart"
         value={operation}
         onChange={(v) => setOperation(v as Operation)}
         options={OPERATION_OPTIONS}
       />
 
       <div className="space-y-4">
-        <p className="text-sm font-medium">First Fraction</p>
+        <p className="text-sm font-medium">Første brøk</p>
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <NumberInput
               id="num1"
-              label="Numerator"
+              label="Teller"
               value={num1}
               onChange={setNum1}
               step={1}
@@ -194,7 +194,7 @@ export function FractionCalculator() {
           <div className="flex-1">
             <NumberInput
               id="den1"
-              label="Denominator"
+              label="Nevner"
               value={den1}
               onChange={setDen1}
               step={1}
@@ -213,12 +213,12 @@ export function FractionCalculator() {
           </div>
 
           <div className="space-y-4">
-            <p className="text-sm font-medium">Second Fraction</p>
+            <p className="text-sm font-medium">Andre brøk</p>
             <div className="flex items-center gap-2">
               <div className="flex-1">
                 <NumberInput
                   id="num2"
-                  label="Numerator"
+                  label="Teller"
                   value={num2}
                   onChange={setNum2}
                   step={1}
@@ -228,7 +228,7 @@ export function FractionCalculator() {
               <div className="flex-1">
                 <NumberInput
                   id="den2"
-                  label="Denominator"
+                  label="Nevner"
                   value={den2}
                   onChange={setDen2}
                   step={1}

@@ -25,7 +25,7 @@ export interface TextCompareResult {
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s]/g, ' ')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -120,15 +120,15 @@ export function getSimilarityRating(percentage: number): {
   color: string;
 } {
   if (percentage < 20) {
-    return { rating: 'low', label: 'Low Similarity', color: 'text-green-600' };
+    return { rating: 'low', label: 'Lav likhet', color: 'text-green-600' };
   }
   if (percentage < 40) {
-    return { rating: 'moderate', label: 'Moderate Similarity', color: 'text-yellow-600' };
+    return { rating: 'moderate', label: 'Moderat likhet', color: 'text-yellow-600' };
   }
   if (percentage < 60) {
-    return { rating: 'high', label: 'High Similarity', color: 'text-orange-600' };
+    return { rating: 'high', label: 'Høy likhet', color: 'text-orange-600' };
   }
-  return { rating: 'very-high', label: 'Very High Similarity', color: 'text-red-600' };
+  return { rating: 'very-high', label: 'Svært høy likhet', color: 'text-red-600' };
 }
 
 /**
@@ -138,7 +138,7 @@ export function highlightMatches(text: string, matchingPhrases: string[]): strin
   let result = text;
 
   for (const phrase of matchingPhrases) {
-    const regex = new RegExp(`\\b${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+    const regex = new RegExp(`(?<![\\p{L}\\p{N}])${phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`, 'giu');
     result = result.replace(regex, `**$&**`);
   }
 

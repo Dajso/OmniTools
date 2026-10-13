@@ -15,6 +15,9 @@ import {
 
 type ConversionMode = 'toScientific' | 'fromScientific';
 
+/** Norsk desimaltegn i utdata */
+const toNo = (s: string) => s.replace(/\./g, ',');
+
 export function ScientificNotationConverter() {
   const [mode, setMode] = React.useState<ConversionMode>('toScientific');
   const [decimalInput, setDecimalInput] = React.useState<string>('314159');
@@ -34,9 +37,9 @@ export function ScientificNotationConverter() {
       setError(undefined);
 
       if (mode === 'toScientific') {
-        const value = parseFloat(decimalInput);
+        const value = parseFloat(decimalInput.replace(/\s/g, '').replace(',', '.'));
         if (isNaN(value)) {
-          setError('Please enter a valid number');
+          setError('Skriv inn et gyldig tall');
           setResults(null);
           return;
         }
@@ -49,10 +52,10 @@ export function ScientificNotationConverter() {
         const siPrefix = SI_PREFIXES[engExp];
 
         setResults({
-          decimal: value.toString(),
-          scientific: scientific.formatted,
-          eNotation: `${scientific.coefficient.toPrecision(6).replace(/\.?0+$/, '')}e${scientific.exponent}`,
-          engineering,
+          decimal: value.toLocaleString('nb-NO', { maximumFractionDigits: 20 }),
+          scientific: toNo(scientific.formatted),
+          eNotation: toNo(`${scientific.coefficient.toPrecision(6).replace(/\.?0+$/, '')}e${scientific.exponent}`),
+          engineering: toNo(engineering),
           siPrefix: siPrefix ? `${siPrefix.name} (${siPrefix.symbol})` : undefined,
         });
       } else {
@@ -66,14 +69,14 @@ export function ScientificNotationConverter() {
 
         setResults({
           decimal: value.toLocaleString('nb-NO', { maximumFractionDigits: 20 }),
-          scientific: scientific.formatted,
-          eNotation: `${coefficient}e${exponent}`,
-          engineering,
+          scientific: toNo(scientific.formatted),
+          eNotation: toNo(`${coefficient}e${exponent}`),
+          engineering: toNo(engineering),
           siPrefix: siPrefix ? `${siPrefix.name} (${siPrefix.symbol})` : undefined,
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion error');
+      setError(err instanceof Error ? err.message : 'Feil ved omregning');
       setResults(null);
     }
   }, [mode, decimalInput, coefficient, exponent]);
@@ -92,38 +95,38 @@ export function ScientificNotationConverter() {
 
   return (
     <CalculatorBase
-      title="Scientific Notation Converter"
-      description="Convert numbers to and from scientific notation"
-      formula="N = c × 10^e (where 1 ≤ |c| < 10)"
+      title="Standardform"
+      description="Regn om tall til og fra standardform (vitenskapelig notasjon)"
+      formula="N = c × 10^e (der 1 ≤ |c| < 10)"
       onCalculate={calculate}
       onReset={reset}
       error={error}
       results={results && (
         <div className="space-y-4">
           <ResultDisplay 
-            label="Decimal" 
+            label="Desimaltall" 
             value={results.decimal} 
             highlight 
             copyable 
           />
           <ResultDisplay 
-            label="Scientific Notation" 
+            label="Standardform" 
             value={results.scientific} 
             copyable 
           />
           <ResultDisplay 
-            label="E Notation" 
+            label="E-notasjon" 
             value={results.eNotation} 
             copyable 
           />
           <ResultDisplay 
-            label="Engineering Notation" 
+            label="Ingeniørnotasjon" 
             value={results.engineering} 
             copyable 
           />
           {results.siPrefix && (
             <ResultDisplay 
-              label="SI Prefix" 
+              label="SI-prefiks" 
               value={results.siPrefix} 
             />
           )}
@@ -137,7 +140,7 @@ export function ScientificNotationConverter() {
           onClick={() => setMode('toScientific')}
           className="flex-1"
         >
-          Decimal → Scientific
+          Desimaltall → standardform
         </Button>
         <Button
           type="button"
@@ -145,7 +148,7 @@ export function ScientificNotationConverter() {
           onClick={() => setMode('fromScientific')}
           className="flex-1"
         >
-          Scientific → Decimal
+          Standardform → desimaltall
         </Button>
       </div>
 
@@ -153,18 +156,18 @@ export function ScientificNotationConverter() {
         <div className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="decimalInput" className="block text-sm font-medium">
-              Decimal Number
+              Desimaltall
             </label>
             <input
               id="decimalInput"
               type="text"
               value={decimalInput}
               onChange={(e) => setDecimalInput(e.target.value)}
-              placeholder="Enter a number (e.g., 314159)"
+              placeholder="Skriv inn et tall (for eksempel 314159)"
               className="w-full px-3 py-2 border rounded-md bg-background"
             />
             <p className="text-xs text-muted-foreground">
-              Enter any number (supports very large and very small numbers)
+              Skriv inn et tall (også svært store og svært små tall). Bruk komma som desimaltegn.
             </p>
           </div>
         </div>
@@ -172,20 +175,20 @@ export function ScientificNotationConverter() {
         <div className="space-y-4">
           <NumberInput
             id="coefficient"
-            label="Coefficient (c)"
+            label="Koeffisient (c)"
             value={coefficient}
             onChange={setCoefficient}
             step={0.000001}
           />
           <NumberInput
             id="exponent"
-            label="Exponent (e)"
+            label="Eksponent (e)"
             value={exponent}
             onChange={setExponent}
             step={1}
           />
           <p className="text-xs text-muted-foreground">
-            Format: c × 10^e (e.g., 3.14159 × 10^5 = 314159)
+            Format: c × 10^e (for eksempel 3,14159 × 10^5 = 314159)
           </p>
         </div>
       )}

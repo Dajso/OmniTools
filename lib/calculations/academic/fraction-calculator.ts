@@ -56,7 +56,7 @@ export function lcm(a: number, b: number): number {
  */
 function validateFraction(f: Fraction): void {
   if (f.denominator === 0) {
-    throw new Error('Denominator cannot be zero');
+    throw new Error('Nevneren kan ikke være null');
   }
 }
 
@@ -164,7 +164,7 @@ export function divideFractions(a: Fraction, b: Fraction): Fraction {
   validateFraction(b);
   
   if (b.numerator === 0) {
-    throw new Error('Cannot divide by zero');
+    throw new Error('Du kan ikke dele på null');
   }
   
   const numerator = a.numerator * b.denominator;
@@ -253,18 +253,18 @@ export function parseFraction(str: string): Fraction {
   if (trimmed.includes('/')) {
     const parts = trimmed.split('/');
     if (parts.length !== 2) {
-      throw new Error(`Invalid fraction format: ${str}`);
+      throw new Error(`Ugyldig brøk: ${str}`);
     }
     
     const numerator = parseInt(parts[0], 10);
     const denominator = parseInt(parts[1], 10);
     
     if (isNaN(numerator) || isNaN(denominator)) {
-      throw new Error(`Invalid fraction format: ${str}`);
+      throw new Error(`Ugyldig brøk: ${str}`);
     }
     
     if (denominator === 0) {
-      throw new Error('Denominator cannot be zero');
+      throw new Error('Nevneren kan ikke være null');
     }
     
     return { numerator, denominator };
@@ -272,7 +272,7 @@ export function parseFraction(str: string): Fraction {
   
   const numerator = parseInt(trimmed, 10);
   if (isNaN(numerator)) {
-    throw new Error(`Invalid fraction format: ${str}`);
+    throw new Error(`Ugyldig brøk: ${str}`);
   }
   
   return { numerator, denominator: 1 };

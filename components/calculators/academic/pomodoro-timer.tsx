@@ -15,10 +15,10 @@ const DEFAULT_CONFIG: PomodoroConfig = {
 };
 
 const PRESET_CONFIGS = [
-  { label: 'Classic (25/5)', work: 25, short: 5, long: 15 },
-  { label: 'Short (15/3)', work: 15, short: 3, long: 10 },
-  { label: 'Long (50/10)', work: 50, short: 10, long: 30 },
-  { label: 'Extended (90/20)', work: 90, short: 20, long: 45 },
+  { label: 'Klassisk (25/5)', work: 25, short: 5, long: 15 },
+  { label: 'Kort (15/3)', work: 15, short: 3, long: 10 },
+  { label: 'Lang (50/10)', work: 50, short: 10, long: 30 },
+  { label: 'Ekstra lang (90/20)', work: 90, short: 20, long: 45 },
 ];
 
 export function PomodoroTimer() {
@@ -59,8 +59,8 @@ export function PomodoroTimer() {
     // Play notification sound if available
     if (typeof window !== 'undefined' && 'Notification' in window) {
       if (Notification.permission === 'granted') {
-        new Notification('Pomodoro Timer', {
-          body: 'Time to take a break or get back to work!',
+        new Notification('Pomodoro-timer', {
+          body: 'Tid for pause, eller for å komme i gang igjen!',
           icon: '/favicon.ico',
         });
       }
@@ -86,7 +86,7 @@ export function PomodoroTimer() {
           className="gap-2"
         >
           <Settings className="h-4 w-4" />
-          Settings
+          Innstillinger
         </Button>
       </div>
 
@@ -109,7 +109,7 @@ export function PomodoroTimer() {
             <div className="grid grid-cols-2 gap-4">
               <NumberInput
                 id="workMinutes"
-                label="Work Duration"
+                label="Arbeidsøkt"
                 value={workMinutes}
                 onChange={setWorkMinutes}
                 min={1}
@@ -119,7 +119,7 @@ export function PomodoroTimer() {
               />
               <NumberInput
                 id="shortBreak"
-                label="Short Break"
+                label="Kort pause"
                 value={shortBreakMinutes}
                 onChange={setShortBreakMinutes}
                 min={1}
@@ -129,7 +129,7 @@ export function PomodoroTimer() {
               />
               <NumberInput
                 id="longBreak"
-                label="Long Break"
+                label="Lang pause"
                 value={longBreakMinutes}
                 onChange={setLongBreakMinutes}
                 min={1}
@@ -139,7 +139,7 @@ export function PomodoroTimer() {
               />
               <NumberInput
                 id="sessions"
-                label="Sessions Before Long Break"
+                label="Økter før lang pause"
                 value={sessions}
                 onChange={setSessions}
                 min={1}
@@ -149,7 +149,7 @@ export function PomodoroTimer() {
             </div>
 
             <Button onClick={applySettings} className="w-full">
-              Apply Settings
+              Bruk innstillinger
             </Button>
           </CardContent>
         </Card>
@@ -157,8 +157,8 @@ export function PomodoroTimer() {
 
       <TimerTemplate
         key={key}
-        title="Pomodoro Timer"
-        description="Stay focused with the Pomodoro technique - work in focused intervals with regular breaks"
+        title="Pomodoro-timer"
+        description="Hold fokus med pomodoro-teknikken – arbeid konsentrert i økter med faste pauser"
         mode="pomodoro"
         pomodoroConfig={config}
         showProgress
@@ -167,12 +167,12 @@ export function PomodoroTimer() {
 
       <Card>
         <CardContent className="pt-6">
-          <h3 className="font-medium mb-2">Current Settings</h3>
+          <h3 className="font-medium mb-2">Gjeldende innstillinger</h3>
           <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
-            <div>Work: {config.workDuration / 60} min</div>
-            <div>Short Break: {config.shortBreak / 60} min</div>
-            <div>Long Break: {config.longBreak / 60} min</div>
-            <div>Sessions: {config.sessionsBeforeLongBreak}</div>
+            <div>Arbeid: {config.workDuration / 60} min</div>
+            <div>Kort pause: {config.shortBreak / 60} min</div>
+            <div>Lang pause: {config.longBreak / 60} min</div>
+            <div>Økter: {config.sessionsBeforeLongBreak}</div>
           </div>
         </CardContent>
       </Card>

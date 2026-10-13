@@ -1,54 +1,47 @@
 import { Metadata } from 'next';
 import { ScientificNotationConverter } from '@/components/calculators/academic';
-import { ToolPageHeader, FAQSection, HowToSection, RelatedToolsSection } from '@/components/layout';
+import { ToolPageHeader, HowToSection, FAQSection, RelatedToolsSection } from '@/components/layout';
 
 export const metadata: Metadata = {
-  title: 'Scientific Notation Converter - Convert Numbers',
-  description: 'Convert numbers to and from scientific notation. Supports e notation, engineering notation, and SI prefixes.',
-  keywords: ['scientific notation', 'e notation', 'exponent converter', 'engineering notation', 'SI prefixes'],
+  title: 'Standardform (vitenskapelig notasjon) – gratis kalkulator på nett',
+  description: 'Gjør om tall til og fra standardform. Gratis og uten registrering.',
+  keywords: ['standardform', 'vitenskapelig notasjon', 'eksponent', 'tierpotens'],
   alternates: { canonical: '/calculators/academic/scientific-notation-converter' },
+  openGraph: {
+    title: 'Standardform (vitenskapelig notasjon)',
+    description: 'Gjør om tall til og fra standardform',
+    url: '/calculators/academic/scientific-notation-converter',
+    siteName: 'Kalkulator',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Scientific Notation Converter',
-  description: 'Convert numbers to and from scientific notation',
+  name: 'Standardform (vitenskapelig notasjon)',
+  description: 'Gjør om tall til og fra standardform',
   applicationCategory: 'EducationalApplication',
   operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  inLanguage: 'nb-NO',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'NOK' },
 };
 
 const howToSteps = [
-  { name: 'Choose conversion direction', text: 'Select whether to convert from decimal to scientific notation or vice versa.' },
-  { name: 'Enter your number', text: 'For decimal input, type any number. For scientific notation, enter the coefficient and exponent.' },
-  { name: 'View all formats', text: 'See your number in decimal, scientific notation, e notation, and engineering notation.' },
-  { name: 'Copy results', text: 'Click the copy button to copy any format to your clipboard.' },
+  { name: 'Velg retning', text: 'Fra vanlig tall til standardform, eller omvendt.' },
+  { name: 'Skriv inn tallet', text: 'Bruk komma som desimaltegn, for eksempel 0,000045.' },
+  { name: 'Les av resultatet', text: 'Se standardform, E-notasjon, ingeniørnotasjon og SI-prefiks.' },
 ];
 
 const faqs = [
-  { 
-    question: 'What is scientific notation?', 
-    answer: 'Scientific notation expresses numbers as a coefficient between 1 and 10 multiplied by a power of 10. For example, 314159 becomes 3.14159 × 10^5. It\'s useful for very large or very small numbers.' 
-  },
-  { 
-    question: 'What is the difference between scientific and engineering notation?', 
-    answer: 'Engineering notation is similar to scientific notation, but the exponent is always a multiple of 3 (matching SI prefixes like kilo, mega, milli, micro). For example, 314159 is 314.159 × 10^3 in engineering notation.' 
-  },
-  { 
-    question: 'What is e notation?', 
-    answer: 'E notation is a compact way to write scientific notation used in calculators and programming. Instead of 3.14 × 10^5, you write 3.14e5. The "e" stands for "exponent" or "times 10 to the power of".' 
-  },
-  { 
-    question: 'What are SI prefixes?', 
-    answer: 'SI prefixes are standardized prefixes for powers of 10, like kilo (10^3), mega (10^6), milli (10^-3), and micro (10^-6). They\'re commonly used in science and engineering.' 
-  },
+  { question: 'Hva er standardform?', answer: 'En måte å skrive svært store eller små tall på: et tall mellom 1 og 10 ganger en tierpotens. 314159 skrives 3,14159 × 10^5.' },
+  { question: 'Hva er forskjellen på standardform og ingeniørnotasjon?', answer: 'I ingeniørnotasjon er eksponenten alltid delelig på 3, så den passer med prefikser som kilo, mega og milli.' },
+  { question: 'Hva betyr E i 3,14e5?', answer: 'E står for «ganger ti i» og brukes i kalkulatorer og programmering. 3,14e5 er 3,14 × 10^5.' },
 ];
 
 const relatedTools = [
-  { href: '/calculators/academic/fraction-calculator', title: 'Fraction Calculator', description: 'Add, subtract, multiply, and divide fractions.' },
-  { href: '/calculators/productivity/percentage-calculator', title: 'Percentage Calculator', description: 'Calculate percentages and conversions.' },
-  { href: '/calculators/productivity/number-base-converter', title: 'Number Base Converter', description: 'Convert between binary, decimal, and hex.' },
+  { href: '/calculators/academic/fraction-calculator', title: 'Brøkkalkulator', description: 'Legg til, trekk fra, gang, del og forkort brøker' },
 ];
 
 export default function ScientificNotationConverterPage() {
@@ -58,12 +51,11 @@ export default function ScientificNotationConverterPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <ToolPageHeader
           toolId="scientific-notation-converter"
-          title="Scientific Notation Converter"
-          description="Convert numbers to and from scientific notation. View results in multiple formats including e notation, engineering notation, and SI prefixes."
-          colorClass="bg-indigo-100 text-indigo-600"
+          title="Standardform (vitenskapelig notasjon)"
+          description="Regn om tall til og fra standardform (vitenskapelig notasjon), ingeniørnotasjon og E-notasjon, med SI-prefiks. Bruker norsk desimalkomma. Gratis og uten registrering."
         />
 
-        <section aria-label="Scientific Notation Converter">
+        <section aria-label="Standardform (vitenskapelig notasjon)">
           <ScientificNotationConverter />
         </section>
 

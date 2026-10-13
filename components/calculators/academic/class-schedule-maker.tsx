@@ -18,22 +18,22 @@ interface ClassEntry {
   color: string;
 }
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const DAYS = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
 const DAY_OPTIONS = DAYS.map(d => ({ value: d, label: d }));
 
 const COLORS = [
-  { value: '#3b82f6', label: 'Blue' },
-  { value: '#10b981', label: 'Green' },
-  { value: '#f59e0b', label: 'Orange' },
-  { value: '#ef4444', label: 'Red' },
-  { value: '#8b5cf6', label: 'Purple' },
-  { value: '#ec4899', label: 'Pink' },
-  { value: '#06b6d4', label: 'Cyan' },
+  { value: '#3b82f6', label: 'Blå' },
+  { value: '#10b981', label: 'Grønn' },
+  { value: '#f59e0b', label: 'Oransje' },
+  { value: '#ef4444', label: 'Rød' },
+  { value: '#8b5cf6', label: 'Lilla' },
+  { value: '#ec4899', label: 'Rosa' },
+  { value: '#06b6d4', label: 'Turkis' },
   { value: '#84cc16', label: 'Lime' },
 ];
 
 const TIME_SLOTS = Array.from({ length: 15 }, (_, i) => {
-  const hour = i + 7; // 7 AM to 9 PM
+  const hour = i + 7; // kl. 07 til 21
   return `${hour.toString().padStart(2, '0')}:00`;
 });
 
@@ -42,7 +42,7 @@ const createEmptyClass = (): ClassEntry => ({
   name: '',
   instructor: '',
   location: '',
-  day: 'Monday',
+  day: 'Mandag',
   startTime: '09:00',
   endTime: '10:00',
   color: COLORS[Math.floor(Math.random() * COLORS.length)].value,
@@ -50,7 +50,7 @@ const createEmptyClass = (): ClassEntry => ({
 
 export function ClassScheduleMaker() {
   const [classes, setClasses] = React.useState<ClassEntry[]>([createEmptyClass()]);
-  const [scheduleTitle, setScheduleTitle] = React.useState('My Class Schedule');
+  const [scheduleTitle, setScheduleTitle] = React.useState('Min timeplan');
   const scheduleRef = React.useRef<HTMLDivElement>(null);
 
   const addClass = () => {
@@ -79,7 +79,7 @@ export function ClassScheduleMaker() {
   };
 
   const getClassPosition = (classEntry: ClassEntry) => {
-    const startMinutes = timeToMinutes(classEntry.startTime) - 7 * 60; // Offset from 7 AM
+    const startMinutes = timeToMinutes(classEntry.startTime) - 7 * 60; // Forskyvning fra kl. 07
     const endMinutes = timeToMinutes(classEntry.endTime) - 7 * 60;
     const top = (startMinutes / 60) * 60; // 60px per hour
     const height = ((endMinutes - startMinutes) / 60) * 60;
@@ -99,7 +99,7 @@ export function ClassScheduleMaker() {
     const startY = 25;
     const dayWidth = 35;
     const hourHeight = 10;
-    const hours = 14; // 7 AM to 9 PM
+    const hours = 14; // kl. 07 til 21
     
     doc.setFontSize(10);
     doc.setDrawColor(200);
@@ -116,7 +116,7 @@ export function ClassScheduleMaker() {
       const y = startY + 8 + h * hourHeight;
       const hour = h + 7;
       doc.setFontSize(8);
-      doc.text(`${hour}:00`, startX - 2, y + 3, { align: 'right' });
+      doc.text(`${String(hour).padStart(2, '0')}:00`, startX - 2, y + 3, { align: 'right' });
       doc.line(startX, y, startX + 5 * dayWidth, y);
     }
     
@@ -209,7 +209,7 @@ export function ClassScheduleMaker() {
       ctx.fillStyle = '#666666';
       ctx.font = '12px Arial';
       ctx.textAlign = 'right';
-      ctx.fillText(`${h + 7}:00`, startX - 10, y + 4);
+      ctx.fillText(`${String(h + 7).padStart(2, '0')}:00`, startX - 10, y + 4);
     }
     
     for (let d = 0; d <= 5; d++) {
@@ -254,26 +254,26 @@ export function ClassScheduleMaker() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Class Schedule Maker</CardTitle>
-          <CardDescription>Create your class schedule and export as PDF or image</CardDescription>
+          <CardTitle>Timeplan-lager</CardTitle>
+          <CardDescription>Lag timeplanen din og last den ned som PDF eller bilde</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="scheduleTitle" className="text-sm font-medium">Schedule Title</label>
+            <label htmlFor="scheduleTitle" className="text-sm font-medium">Tittel på timeplanen</label>
             <Input
               id="scheduleTitle"
               value={scheduleTitle}
               onChange={(e) => setScheduleTitle(e.target.value)}
-              placeholder="My Class Schedule"
+              placeholder="Min timeplan"
             />
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Classes</h3>
+              <h3 className="font-medium">Timer</h3>
               <Button type="button" variant="outline" size="sm" onClick={addClass} className="gap-1">
                 <Plus className="h-4 w-4" />
-                Add Class
+                Legg til time
               </Button>
             </div>
 
@@ -284,7 +284,7 @@ export function ClassScheduleMaker() {
                     <Input
                       value={classEntry.name}
                       onChange={(e) => updateClass(classEntry.id, 'name', e.target.value)}
-                      placeholder={`Class ${index + 1} Name`}
+                      placeholder={`Fag ${index + 1}`}
                       className="flex-1"
                     />
                     {classes.length > 1 && (
@@ -303,19 +303,19 @@ export function ClassScheduleMaker() {
                     <Input
                       value={classEntry.instructor}
                       onChange={(e) => updateClass(classEntry.id, 'instructor', e.target.value)}
-                      placeholder="Instructor"
+                      placeholder="Lærer"
                     />
                     <Input
                       value={classEntry.location}
                       onChange={(e) => updateClass(classEntry.id, 'location', e.target.value)}
-                      placeholder="Room/Location"
+                      placeholder="Rom"
                     />
                   </div>
 
                   <div className="grid grid-cols-4 gap-3">
                     <SelectInput
                       id={`day-${classEntry.id}`}
-                      label="Day"
+                      label="Dag"
                       value={classEntry.day}
                       onChange={(v) => updateClass(classEntry.id, 'day', v)}
                       options={DAY_OPTIONS}
@@ -329,7 +329,7 @@ export function ClassScheduleMaker() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">End</label>
+                      <label className="text-sm font-medium">Slutt</label>
                       <Input
                         type="time"
                         value={classEntry.endTime}
@@ -338,7 +338,7 @@ export function ClassScheduleMaker() {
                     </div>
                     <SelectInput
                       id={`color-${classEntry.id}`}
-                      label="Color"
+                      label="Farge"
                       value={classEntry.color}
                       onChange={(v) => updateClass(classEntry.id, 'color', v)}
                       options={COLORS}
@@ -352,11 +352,11 @@ export function ClassScheduleMaker() {
         <CardFooter className="flex gap-2">
           <Button onClick={exportToPDF} className="gap-2">
             <Download className="h-4 w-4" />
-            Export PDF
+            Last ned PDF
           </Button>
           <Button onClick={exportToImage} variant="outline" className="gap-2">
             <FileImage className="h-4 w-4" />
-            Export Image
+            Last ned bilde
           </Button>
         </CardFooter>
       </Card>
@@ -364,7 +364,7 @@ export function ClassScheduleMaker() {
       {/* Schedule Preview */}
       <Card>
         <CardHeader>
-          <CardTitle>Schedule Preview</CardTitle>
+          <CardTitle>Forhåndsvisning</CardTitle>
         </CardHeader>
         <CardContent>
           <div ref={scheduleRef} className="overflow-x-auto">
@@ -372,7 +372,7 @@ export function ClassScheduleMaker() {
               <h3 className="text-lg font-bold text-center mb-4">{scheduleTitle}</h3>
               <div className="grid grid-cols-6 gap-px bg-border">
                 {/* Time column header */}
-                <div className="bg-background p-2 font-medium text-center text-sm">Time</div>
+                <div className="bg-background p-2 font-medium text-center text-sm">Tid</div>
                 {/* Day headers */}
                 {DAYS.slice(0, 5).map(day => (
                   <div key={day} className="bg-muted p-2 font-medium text-center text-sm">

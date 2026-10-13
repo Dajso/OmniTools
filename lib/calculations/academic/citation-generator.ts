@@ -78,7 +78,7 @@ function formatAuthorsAPA(authors: Author[]): string {
     return `${formatAuthorAPA(authors[0])} & ${formatAuthorAPA(authors[1])}`;
   }
   // 3+ authors: First author, et al.
-  return `${formatAuthorAPA(authors[0])}, et al.`;
+  return `${formatAuthorAPA(authors[0])} mfl.`;
 }
 
 /**
@@ -88,23 +88,23 @@ function formatAuthorsMLA(authors: Author[]): string {
   if (authors.length === 0) return '';
   if (authors.length === 1) return formatAuthorMLA(authors[0], true);
   if (authors.length === 2) {
-    return `${formatAuthorMLA(authors[0], true)}, and ${formatAuthorMLA(authors[1], false)}`;
+    return `${formatAuthorMLA(authors[0], true)} og ${formatAuthorMLA(authors[1], false)}`;
   }
   // 3+ authors: First author, et al.
-  return `${formatAuthorMLA(authors[0], true)}, et al.`;
+  return `${formatAuthorMLA(authors[0], true)} mfl.`;
 }
 
 /**
  * Formats a date for APA style (Year, Month Day)
  */
 function formatDateAPA(dateStr: string): string {
-  if (!dateStr) return 'n.d.';
+  if (!dateStr) return 'u.å.';
   try {
     const date = new Date(dateStr);
     const year = date.getFullYear();
     const month = date.toLocaleString('nb-NO', { month: 'long' });
     const day = date.getDate();
-    return `${year}, ${month} ${day}`;
+    return `${year}, ${day}. ${month}`;
   } catch {
     return dateStr;
   }
@@ -120,7 +120,7 @@ function formatDateMLA(dateStr: string): string {
     const year = date.getFullYear();
     const month = date.toLocaleString('nb-NO', { month: 'short' }).replace('.', '');
     const day = date.getDate();
-    return `${day} ${month}. ${year}`;
+    return `${day}. ${month} ${year}`;
   } catch {
     return dateStr;
   }
@@ -131,9 +131,9 @@ function formatDateMLA(dateStr: string): string {
  */
 function generateBookAPA(source: BookSource): string {
   const authors = formatAuthorsAPA(source.authors);
-  const year = source.year || 'n.d.';
+  const year = source.year || 'u.å.';
   const title = source.title;
-  const edition = source.edition ? ` (${source.edition} ed.)` : '';
+  const edition = source.edition ? ` (${source.edition} utg.)` : '';
   const publisher = source.publisher;
   
   return `${authors} (${year}). *${title}*${edition}. ${publisher}.`;
@@ -145,7 +145,7 @@ function generateBookAPA(source: BookSource): string {
 function generateBookMLA(source: BookSource): string {
   const authors = formatAuthorsMLA(source.authors);
   const title = source.title;
-  const edition = source.edition ? `, ${source.edition} ed.` : '';
+  const edition = source.edition ? `, ${source.edition} utg.` : '';
   const publisher = source.publisher;
   const year = source.year;
   
@@ -159,7 +159,7 @@ function generateWebsiteAPA(source: WebsiteSource): string {
   const authors = source.authors.length > 0 
     ? formatAuthorsAPA(source.authors) 
     : source.websiteName;
-  const date = source.publishDate ? `(${formatDateAPA(source.publishDate)})` : '(n.d.)';
+  const date = source.publishDate ? `(${formatDateAPA(source.publishDate)})` : '(u.å.)';
   const title = source.title;
   const siteName = source.authors.length > 0 ? source.websiteName : '';
   const url = source.url;
@@ -187,7 +187,7 @@ function generateWebsiteMLA(source: WebsiteSource): string {
   let citation = authors ? `${authors}. ` : '';
   citation += `"${title}." *${siteName}*`;
   if (publishDate) citation += `, ${publishDate}`;
-  citation += `, ${url}. Accessed ${accessDate}.`;
+  citation += `, ${url}. Hentet ${accessDate}.`;
   
   return citation;
 }
@@ -197,7 +197,7 @@ function generateWebsiteMLA(source: WebsiteSource): string {
  */
 function generateJournalAPA(source: JournalSource): string {
   const authors = formatAuthorsAPA(source.authors);
-  const year = source.year || 'n.d.';
+  const year = source.year || 'u.å.';
   const title = source.title;
   const journal = source.journalName;
   const volume = source.volume;
@@ -216,12 +216,12 @@ function generateJournalMLA(source: JournalSource): string {
   const title = source.title;
   const journal = source.journalName;
   const volume = source.volume;
-  const issue = source.issue ? `, no. ${source.issue}` : '';
+  const issue = source.issue ? `, nr. ${source.issue}` : '';
   const year = source.year;
   const pages = source.pages;
   const doi = source.doi ? ` https://doi.org/${source.doi}` : '';
   
-  return `${authors}. "${title}." *${journal}*, vol. ${volume}${issue}, ${year}, pp. ${pages}.${doi}`;
+  return `${authors}. "${title}." *${journal}*, bd. ${volume}${issue}, ${year}, s. ${pages}.${doi}`;
 }
 
 /**
@@ -236,7 +236,7 @@ export function generateCitation(source: Source, style: CitationStyle): string {
     case 'journal':
       return style === 'apa' ? generateJournalAPA(source) : generateJournalMLA(source);
     default:
-      throw new Error('Unknown source type');
+      throw new Error('Ukjent kildetype');
   }
 }
 

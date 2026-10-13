@@ -18,14 +18,14 @@ import {
 } from '@/lib/calculations/academic/citation-generator';
 
 const STYLE_OPTIONS = [
-  { value: 'apa', label: 'APA (7th Edition)' },
-  { value: 'mla', label: 'MLA (9th Edition)' },
+  { value: 'apa', label: 'APA (7. utgave)' },
+  { value: 'mla', label: 'MLA (9. utgave)' },
 ];
 
 const SOURCE_OPTIONS = [
-  { value: 'book', label: 'Book' },
-  { value: 'website', label: 'Website' },
-  { value: 'journal', label: 'Journal Article' },
+  { value: 'book', label: 'Bok' },
+  { value: 'website', label: 'Nettside' },
+  { value: 'journal', label: 'Tidsskriftartikkel' },
 ];
 
 const createEmptyAuthor = (): Author => ({
@@ -88,7 +88,7 @@ export function CitationGenerator() {
       switch (sourceType) {
         case 'book':
           if (!title.trim()) {
-            setError('Please enter a book title');
+            setError('Skriv inn tittel på boka');
             return;
           }
           source = {
@@ -103,7 +103,7 @@ export function CitationGenerator() {
           
         case 'website':
           if (!title.trim() || !url.trim()) {
-            setError('Please enter a page title and URL');
+            setError('Skriv inn tittel på siden og nettadresse');
             return;
           }
           source = {
@@ -119,7 +119,7 @@ export function CitationGenerator() {
           
         case 'journal':
           if (!title.trim() || !journalName.trim()) {
-            setError('Please enter an article title and journal name');
+            setError('Skriv inn tittel på artikkelen og navn på tidsskriftet');
             return;
           }
           source = {
@@ -136,13 +136,13 @@ export function CitationGenerator() {
           break;
           
         default:
-          throw new Error('Unknown source type');
+          throw new Error('Ukjent kildetype');
       }
       
       const result = generateCitation(source, style);
       setCitation(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error generating citation');
+      setError(err instanceof Error ? err.message : 'Kunne ikke lage kildehenvisning');
       setCitation(null);
     }
   };
@@ -187,21 +187,21 @@ export function CitationGenerator() {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Citation Generator</CardTitle>
-        <CardDescription>Generate APA and MLA citations for books, websites, and journal articles</CardDescription>
+        <CardTitle>Kildehenvisning (APA/MLA)</CardTitle>
+        <CardDescription>Lag kildehenvisninger i APA og MLA for bøker, nettsider og tidsskriftartikler</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <SelectInput
             id="style"
-            label="Citation Style"
+            label="Henvisningsstil"
             value={style}
             onChange={(v) => setStyle(v as CitationStyle)}
             options={STYLE_OPTIONS}
           />
           <SelectInput
             id="sourceType"
-            label="Source Type"
+            label="Type kilde"
             value={sourceType}
             onChange={(v) => {
               setSourceType(v as SourceType);
@@ -214,10 +214,10 @@ export function CitationGenerator() {
         {/* Authors Section */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Authors</label>
+            <label className="text-sm font-medium">Forfattere</label>
             <Button type="button" variant="outline" size="sm" onClick={addAuthor} className="gap-1">
               <Plus className="h-4 w-4" />
-              Add Author
+              Legg til forfatter
             </Button>
           </div>
           {authors.map((author, index) => (
@@ -225,13 +225,13 @@ export function CitationGenerator() {
               <Input
                 value={author.firstName}
                 onChange={(e) => updateAuthor(index, 'firstName', e.target.value)}
-                placeholder="First Name"
+                placeholder="Fornavn"
                 className="flex-1"
               />
               <Input
                 value={author.lastName}
                 onChange={(e) => updateAuthor(index, 'lastName', e.target.value)}
-                placeholder="Last Name"
+                placeholder="Etternavn"
                 className="flex-1"
               />
               {authors.length > 1 && (
@@ -246,13 +246,13 @@ export function CitationGenerator() {
         {/* Common Fields */}
         <div className="space-y-2">
           <label htmlFor="title" className="text-sm font-medium">
-            {sourceType === 'book' ? 'Book Title' : sourceType === 'website' ? 'Page Title' : 'Article Title'}
+            {sourceType === 'book' ? 'Tittel på boka' : sourceType === 'website' ? 'Tittel på siden' : 'Tittel på artikkelen'}
           </label>
           <Input
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder={`Enter ${sourceType === 'book' ? 'book' : sourceType === 'website' ? 'page' : 'article'} title`}
+            placeholder={`Skriv inn ${sourceType === 'book' ? 'tittel på boka' : sourceType === 'website' ? 'tittel på siden' : 'tittel på artikkelen'}`}
           />
         </div>
 
@@ -261,17 +261,17 @@ export function CitationGenerator() {
           <>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="publisher" className="text-sm font-medium">Publisher</label>
-                <Input id="publisher" value={publisher} onChange={(e) => setPublisher(e.target.value)} placeholder="Publisher name" />
+                <label htmlFor="publisher" className="text-sm font-medium">Forlag</label>
+                <Input id="publisher" value={publisher} onChange={(e) => setPublisher(e.target.value)} placeholder="Navn på forlaget" />
               </div>
               <div className="space-y-2">
-                <label htmlFor="year" className="text-sm font-medium">Year</label>
+                <label htmlFor="year" className="text-sm font-medium">År</label>
                 <Input id="year" value={year} onChange={(e) => setYear(e.target.value)} placeholder="2024" />
               </div>
             </div>
             <div className="space-y-2">
-              <label htmlFor="edition" className="text-sm font-medium">Edition (optional)</label>
-              <Input id="edition" value={edition} onChange={(e) => setEdition(e.target.value)} placeholder="e.g., 2nd" />
+              <label htmlFor="edition" className="text-sm font-medium">Utgave (valgfritt)</label>
+              <Input id="edition" value={edition} onChange={(e) => setEdition(e.target.value)} placeholder="for eksempel 2." />
             </div>
           </>
         )}
@@ -280,20 +280,20 @@ export function CitationGenerator() {
         {sourceType === 'website' && (
           <>
             <div className="space-y-2">
-              <label htmlFor="websiteName" className="text-sm font-medium">Website Name</label>
-              <Input id="websiteName" value={websiteName} onChange={(e) => setWebsiteName(e.target.value)} placeholder="e.g., Wikipedia" />
+              <label htmlFor="websiteName" className="text-sm font-medium">Navn på nettstedet</label>
+              <Input id="websiteName" value={websiteName} onChange={(e) => setWebsiteName(e.target.value)} placeholder="for eksempel Store norske leksikon" />
             </div>
             <div className="space-y-2">
-              <label htmlFor="url" className="text-sm font-medium">URL</label>
+              <label htmlFor="url" className="text-sm font-medium">Nettadresse</label>
               <Input id="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://..." />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="publishDate" className="text-sm font-medium">Publish Date (optional)</label>
+                <label htmlFor="publishDate" className="text-sm font-medium">Publiseringsdato (valgfritt)</label>
                 <Input id="publishDate" type="date" value={publishDate} onChange={(e) => setPublishDate(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <label htmlFor="accessDate" className="text-sm font-medium">Access Date</label>
+                <label htmlFor="accessDate" className="text-sm font-medium">Dato hentet</label>
                 <Input id="accessDate" type="date" value={accessDate} onChange={(e) => setAccessDate(e.target.value)} />
               </div>
             </div>
@@ -304,30 +304,30 @@ export function CitationGenerator() {
         {sourceType === 'journal' && (
           <>
             <div className="space-y-2">
-              <label htmlFor="journalName" className="text-sm font-medium">Journal Name</label>
-              <Input id="journalName" value={journalName} onChange={(e) => setJournalName(e.target.value)} placeholder="Journal name" />
+              <label htmlFor="journalName" className="text-sm font-medium">Navn på tidsskriftet</label>
+              <Input id="journalName" value={journalName} onChange={(e) => setJournalName(e.target.value)} placeholder="Navn på tidsskriftet" />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
-                <label htmlFor="volume" className="text-sm font-medium">Volume</label>
+                <label htmlFor="volume" className="text-sm font-medium">Årgang/bind</label>
                 <Input id="volume" value={volume} onChange={(e) => setVolume(e.target.value)} placeholder="12" />
               </div>
               <div className="space-y-2">
-                <label htmlFor="issue" className="text-sm font-medium">Issue (optional)</label>
+                <label htmlFor="issue" className="text-sm font-medium">Nummer (valgfritt)</label>
                 <Input id="issue" value={issue} onChange={(e) => setIssue(e.target.value)} placeholder="3" />
               </div>
               <div className="space-y-2">
-                <label htmlFor="journalYear" className="text-sm font-medium">Year</label>
+                <label htmlFor="journalYear" className="text-sm font-medium">År</label>
                 <Input id="journalYear" value={year} onChange={(e) => setYear(e.target.value)} placeholder="2024" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="pages" className="text-sm font-medium">Pages</label>
+                <label htmlFor="pages" className="text-sm font-medium">Sider</label>
                 <Input id="pages" value={pages} onChange={(e) => setPages(e.target.value)} placeholder="45-67" />
               </div>
               <div className="space-y-2">
-                <label htmlFor="doi" className="text-sm font-medium">DOI (optional)</label>
+                <label htmlFor="doi" className="text-sm font-medium">DOI (valgfritt)</label>
                 <Input id="doi" value={doi} onChange={(e) => setDoi(e.target.value)} placeholder="10.1000/xyz123" />
               </div>
             </div>
@@ -344,10 +344,10 @@ export function CitationGenerator() {
         {citation && (
           <div className="border-t pt-4 mt-4">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium text-muted-foreground">Generated Citation ({style.toUpperCase()})</p>
+              <p className="text-sm font-medium text-muted-foreground">Kildehenvisning ({style.toUpperCase()})</p>
               <Button variant="outline" size="sm" onClick={copyToClipboard} className="gap-1">
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                {copied ? 'Copied!' : 'Copy'}
+                {copied ? 'Kopiert!' : 'Kopier'}
               </Button>
             </div>
             <div 
@@ -358,8 +358,8 @@ export function CitationGenerator() {
         )}
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button onClick={generateCitationText}>Generate Citation</Button>
-        <Button variant="outline" onClick={reset}>Reset</Button>
+        <Button onClick={generateCitationText}>Lag kildehenvisning</Button>
+        <Button variant="outline" onClick={reset}>Nullstill</Button>
       </CardFooter>
     </Card>
   );
